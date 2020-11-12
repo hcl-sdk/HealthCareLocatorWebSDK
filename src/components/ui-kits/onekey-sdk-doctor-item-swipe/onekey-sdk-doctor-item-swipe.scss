@@ -1,0 +1,23 @@
+:host {
+  display: block;
+
+  .doctor-item-swipe {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-left: 1rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 8rem;
+    width: 16rem;
+
+    .name {
+      color: rgb(0, 163, 224);
+    }
+
+    .address {
+      color: #666;
+    }
+  }
+}

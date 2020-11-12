@@ -1,0 +1,34 @@
+:host {
+
+  .icon {
+    margin: 0 1rem;
+  }
+
+  .btn-back a {
+    color: #666;
+    margin-right: 0.5rem;
+  }
+
+  .search-hpc {
+    display: flex;
+  }
+
+  .search-btn {
+    align-self: center;
+  }
+
+  .search-form {
+    display: flex;
+  }
+
+  .search-address-item {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+
+    &.active {
+      border-bottom: 1px solid green;
+      color: green;
+    }
+  }
+}

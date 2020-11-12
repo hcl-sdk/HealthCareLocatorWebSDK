@@ -1,0 +1,1 @@
+import{h as e}from"./index-675d59a8.js";import{c as t}from"./state-tunnel-04c0b67a.js";const r=t({activatedRoute:"/"},((t,r)=>e("context-consumer",{subscribe:t,renderer:r})));export{r as R}

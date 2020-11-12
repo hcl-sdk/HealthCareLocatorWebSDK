@@ -1,0 +1,1 @@
+System.register(["./index-677279ea.system.js"],(function(t){"use strict";var e,n,r;return{setters:[function(t){e=t.r;n=t.h;r=t.H}],execute:function(){var u=t("onekey_sdk_about_us",function(){function t(t){e(this,t)}t.prototype.render=function(){return n(r,null,"About us")};return t}())}}}));

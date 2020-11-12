@@ -1,0 +1,48 @@
+:host {
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .title {
+    color: #00a3e0;
+    display: block;
+    font-size: 1.5rem;
+  }
+
+  .item {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__icon {
+      margin-right: 1rem;
+      padding: 10px 12px;
+      background-color: rgb(227, 243, 223);
+      border-radius: 50%;
+      color: #43B029;
+    }
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .content {
+    margin-bottom: 1rem;
+  }
+
+  .sub-text {
+    display: block;
+  }
+
+  .search-hpc {
+    display: flex;
+    width: 100%;
+  }
+}

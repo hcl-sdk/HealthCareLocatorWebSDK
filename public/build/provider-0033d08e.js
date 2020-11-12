@@ -1,0 +1,1 @@
+import{h as e}from"./index-675d59a8.js";import{c as r}from"./state-tunnel-04c0b67a.js";const s=r({store:{config:{},hcpNearMe:[],hcpLastSearch:[],hcpConsulted:[]}},((r,s)=>e("context-consumer",{subscribe:r,renderer:s})));export{s as S}

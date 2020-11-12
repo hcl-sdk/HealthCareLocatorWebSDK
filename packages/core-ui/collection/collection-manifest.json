@@ -1,0 +1,37 @@
+{
+  "entries": [
+    "./components/onekey-sdk-router/onekey-sdk-router.js",
+    "./components/onekey-sdk-router/onekey-sdk-route/onekey-sdk-route.js",
+    "./components/onekey-sdk-router/onekey-sdk-router-link/onekey-sdk-router-link.js",
+    "./components/onekey-sdk-router/onekey-sdk-router-store/index.js",
+    "./components/onekey-sdk-store/index.js",
+    "./components/screens/onekey-sdk/onekey-sdk.js",
+    "./components/screens/onekey-sdk-about-us/onekey-sdk-about-us.js",
+    "./components/screens/onekey-sdk-home/onekey-sdk-home.js",
+    "./components/screens/onekey-sdk-search/onekey-sdk-search.js",
+    "./components/screens/onekey-sdk-search-result/onekey-sdk-search-result.js",
+    "./components/ui-kits/onekey-sdk-doctor-item-swipe/onekey-sdk-doctor-item-swipe.js",
+    "./components/ui-kits/onekey-sdk-map/onekey-sdk-map.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "2.2.0",
+    "typescriptVersion": "4.0.5"
+  },
+  "collections": [
+    {
+      "name": "@stencil/state-tunnel",
+      "tags": [
+        "context-consumer"
+      ]
+    },
+    {
+      "name": "ionicons",
+      "tags": [
+        "ion-icon"
+      ]
+    }
+  ],
+  "bundles": [],
+  "global": "./global/app.js"
+}

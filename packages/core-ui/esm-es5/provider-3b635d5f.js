@@ -1,0 +1,1 @@
+import{h}from"./index-675d59a8.js";import{c as createProviderConsumer}from"./state-tunnel-04c0b67a.js";var initState={activatedRoute:"/"};var RouterStore=createProviderConsumer(initState,(function(e,r){return h("context-consumer",{subscribe:e,renderer:r})}));export{RouterStore as R};

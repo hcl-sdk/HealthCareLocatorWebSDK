@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <script src="index.js"></script>
+  <script src='node_modules/onekey-sdk/packages/core-ui/index.js'></script>
+
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/" class="active">Home</a>
+    <a href="/findDoctor.html">New Search</a>
+  </div>
+
+  <div id="main">
+    <div class="menu" onclick="openNav()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <div class="main-content">
+      <img src="./logo_iqvia.png"></img>
+    </div>
+  </div>
+</body>
+</html>
