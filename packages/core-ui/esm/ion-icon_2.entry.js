@@ -1,6 +1,5 @@
-import { a as getAssetPath, r as registerInstance, h, H as Host, g as getElement } from './index-675d59a8.js';
-import './state-tunnel-04c0b67a.js';
-import { R as RouterStore } from './provider-3b635d5f.js';
+import { a as getAssetPath, r as registerInstance, h, H as Host, c as getElement } from './index-20b60922.js';
+import { r as routerStore } from './index-d55f2b69.js';
 
 let CACHED_MAP;
 const getIconMap = () => {
@@ -268,24 +267,18 @@ Icon.style = iconCss;
 const OneKeySDKRouterLink = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.activatedRoute = '/';
     this.activeClass = 'link-active';
     this.custom = 'a';
   }
-  computeMatch() {
-    if (this.activatedRoute) {
-      this.match = this.activatedRoute === this.url;
-    }
-  }
   handleClick(e) {
     e.preventDefault();
-    console.log("this.url", this.url);
-    return this.setActivatedRoute(this.url);
+    return routerStore.push(this.url);
   }
   render() {
+    const isMatch = routerStore.state.currentRoutePath === this.url;
     let anchorAttributes = {
       class: {
-        [this.activeClass]: this.match,
+        [this.activeClass]: isMatch,
       },
       onClick: this.handleClick.bind(this)
     };
@@ -298,10 +291,6 @@ const OneKeySDKRouterLink = class {
     return (h(this.custom, Object.assign({}, anchorAttributes), h("slot", null)));
   }
   get el() { return getElement(this); }
-  static get watchers() { return {
-    "activatedRoute": ["computeMatch"]
-  }; }
 };
-RouterStore.injectProps(OneKeySDKRouterLink, ['setActivatedRoute', 'activatedRoute']);
 
 export { Icon as ion_icon, OneKeySDKRouterLink as onekey_sdk_router_link };

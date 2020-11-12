@@ -1,8 +1,7 @@
-import { Component, Host, h, State, Prop } from '@stencil/core';
+import { Component, Host, h, State } from '@stencil/core';
 import 'ionicons'
-import { RouterStore } from '../../onekey-sdk-router/onekey-sdk-router-store/provider';
-import { Store } from '../../onekey-sdk-store/provider';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { searchMapStore, routerStore } from '../../../core/stores'
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -10,10 +9,6 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
   shadow: false,
 })
 export class OnekeySdkSearch {
-
-  @Prop() setStore;
-  @Prop() store;
-  @Prop() setActivatedRoute;
   @State() formData = {
     name: '',
     address: ''
@@ -25,14 +20,13 @@ export class OnekeySdkSearch {
   private onSearch = (e) => {
     e.preventDefault()
 
-    this.setStore({ 
+    searchMapStore.setState({
       search: {
-        ...this.store.search,
         ...this.formData,
         selectedItem: this.selectedAddress
       }
     })
-    this.setActivatedRoute('/search-result')
+    routerStore.push('/search-result')
   }
 
   private onChange = async (e) => {
@@ -77,6 +71,3 @@ export class OnekeySdkSearch {
     );
   }
 }
-
-Store.injectProps(OnekeySdkSearch, ['store', 'setStore']);
-RouterStore.injectProps(OnekeySdkSearch, ['setActivatedRoute'])

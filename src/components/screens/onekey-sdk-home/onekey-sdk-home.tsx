@@ -1,5 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import 'ionicons'
+import { routerStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-home',
@@ -7,6 +8,11 @@ import 'ionicons'
   shadow: false,
 })
 export class OnekeySdkHome {
+
+  onGoSearchScreen = () => {
+    routerStore.push("/search")
+  }
+
   render() {
     return (
       <Host>
@@ -52,9 +58,7 @@ export class OnekeySdkHome {
               </div>
 
               <div>
-                <onekey-sdk-router-link url="/search">
-                  <button class="btn">Start a New Search</button>
-                </onekey-sdk-router-link>
+                <button class="btn" onClick={this.onGoSearchScreen}>Start a New Search</button>
               </div>
             </div>
           </div>

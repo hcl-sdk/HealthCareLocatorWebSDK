@@ -5,22 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
-import { OneKeySDKConfigData, SetStore, StoreProps } from "./components/onekey-sdk-store/provider";
+import { OneKeySDKConfigData } from "./core/stores/ConfigStore";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
     }
-    interface OnekeySdkAboutUs {
-    }
-    interface OnekeySdkDoctorItemSwipe {
+    interface OnekeySdkDoctorCard {
         "address": string;
         "distance": string;
         "gp": string;
         "name": string;
-    }
-    interface OnekeySdkGlobalStore {
-        "renderer": Function;
-        "store": StoreProps;
     }
     interface OnekeySdkHome {
     }
@@ -39,15 +33,12 @@ export namespace Components {
         "selectedLocationIdx": number;
     }
     interface OnekeySdkRoute {
-        "activatedRoute": string;
         "component": string;
         "path": string;
-        "store": StoreProps;
     }
     interface OnekeySdkRouter {
     }
     interface OnekeySdkRouterLink {
-        "activatedRoute": string;
         "activeClass": string;
         "anchorClass"?: string;
         "anchorId"?: string;
@@ -59,21 +50,11 @@ export namespace Components {
         "ariaPosinset"?: string;
         "ariaSetsize"?: number;
         "custom": string;
-        "match": boolean;
-        "setActivatedRoute": Function;
         "url": string;
     }
-    interface OnekeySdkRouterStore {
-        "renderer": Function;
-    }
     interface OnekeySdkSearch {
-        "setActivatedRoute": any;
-        "setStore": any;
-        "store": any;
     }
     interface OnekeySdkSearchResult {
-        "setStore": SetStore;
-        "store": StoreProps;
     }
 }
 declare global {
@@ -83,23 +64,11 @@ declare global {
         prototype: HTMLOnekeySdkElement;
         new (): HTMLOnekeySdkElement;
     };
-    interface HTMLOnekeySdkAboutUsElement extends Components.OnekeySdkAboutUs, HTMLStencilElement {
+    interface HTMLOnekeySdkDoctorCardElement extends Components.OnekeySdkDoctorCard, HTMLStencilElement {
     }
-    var HTMLOnekeySdkAboutUsElement: {
-        prototype: HTMLOnekeySdkAboutUsElement;
-        new (): HTMLOnekeySdkAboutUsElement;
-    };
-    interface HTMLOnekeySdkDoctorItemSwipeElement extends Components.OnekeySdkDoctorItemSwipe, HTMLStencilElement {
-    }
-    var HTMLOnekeySdkDoctorItemSwipeElement: {
-        prototype: HTMLOnekeySdkDoctorItemSwipeElement;
-        new (): HTMLOnekeySdkDoctorItemSwipeElement;
-    };
-    interface HTMLOnekeySdkGlobalStoreElement extends Components.OnekeySdkGlobalStore, HTMLStencilElement {
-    }
-    var HTMLOnekeySdkGlobalStoreElement: {
-        prototype: HTMLOnekeySdkGlobalStoreElement;
-        new (): HTMLOnekeySdkGlobalStoreElement;
+    var HTMLOnekeySdkDoctorCardElement: {
+        prototype: HTMLOnekeySdkDoctorCardElement;
+        new (): HTMLOnekeySdkDoctorCardElement;
     };
     interface HTMLOnekeySdkHomeElement extends Components.OnekeySdkHome, HTMLStencilElement {
     }
@@ -131,12 +100,6 @@ declare global {
         prototype: HTMLOnekeySdkRouterLinkElement;
         new (): HTMLOnekeySdkRouterLinkElement;
     };
-    interface HTMLOnekeySdkRouterStoreElement extends Components.OnekeySdkRouterStore, HTMLStencilElement {
-    }
-    var HTMLOnekeySdkRouterStoreElement: {
-        prototype: HTMLOnekeySdkRouterStoreElement;
-        new (): HTMLOnekeySdkRouterStoreElement;
-    };
     interface HTMLOnekeySdkSearchElement extends Components.OnekeySdkSearch, HTMLStencilElement {
     }
     var HTMLOnekeySdkSearchElement: {
@@ -151,15 +114,12 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "onekey-sdk": HTMLOnekeySdkElement;
-        "onekey-sdk-about-us": HTMLOnekeySdkAboutUsElement;
-        "onekey-sdk-doctor-item-swipe": HTMLOnekeySdkDoctorItemSwipeElement;
-        "onekey-sdk-global-store": HTMLOnekeySdkGlobalStoreElement;
+        "onekey-sdk-doctor-card": HTMLOnekeySdkDoctorCardElement;
         "onekey-sdk-home": HTMLOnekeySdkHomeElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
         "onekey-sdk-route": HTMLOnekeySdkRouteElement;
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
         "onekey-sdk-router-link": HTMLOnekeySdkRouterLinkElement;
-        "onekey-sdk-router-store": HTMLOnekeySdkRouterStoreElement;
         "onekey-sdk-search": HTMLOnekeySdkSearchElement;
         "onekey-sdk-search-result": HTMLOnekeySdkSearchResultElement;
     }
@@ -168,17 +128,11 @@ declare namespace LocalJSX {
     interface OnekeySdk {
         "config"?: OneKeySDKConfigData;
     }
-    interface OnekeySdkAboutUs {
-    }
-    interface OnekeySdkDoctorItemSwipe {
+    interface OnekeySdkDoctorCard {
         "address"?: string;
         "distance"?: string;
         "gp"?: string;
         "name"?: string;
-    }
-    interface OnekeySdkGlobalStore {
-        "renderer"?: Function;
-        "store"?: StoreProps;
     }
     interface OnekeySdkHome {
     }
@@ -197,15 +151,12 @@ declare namespace LocalJSX {
         "selectedLocationIdx"?: number;
     }
     interface OnekeySdkRoute {
-        "activatedRoute"?: string;
         "component"?: string;
         "path"?: string;
-        "store"?: StoreProps;
     }
     interface OnekeySdkRouter {
     }
     interface OnekeySdkRouterLink {
-        "activatedRoute"?: string;
         "activeClass"?: string;
         "anchorClass"?: string;
         "anchorId"?: string;
@@ -217,33 +168,20 @@ declare namespace LocalJSX {
         "ariaPosinset"?: string;
         "ariaSetsize"?: number;
         "custom"?: string;
-        "match"?: boolean;
-        "setActivatedRoute"?: Function;
         "url"?: string;
     }
-    interface OnekeySdkRouterStore {
-        "renderer"?: Function;
-    }
     interface OnekeySdkSearch {
-        "setActivatedRoute"?: any;
-        "setStore"?: any;
-        "store"?: any;
     }
     interface OnekeySdkSearchResult {
-        "setStore"?: SetStore;
-        "store"?: StoreProps;
     }
     interface IntrinsicElements {
         "onekey-sdk": OnekeySdk;
-        "onekey-sdk-about-us": OnekeySdkAboutUs;
-        "onekey-sdk-doctor-item-swipe": OnekeySdkDoctorItemSwipe;
-        "onekey-sdk-global-store": OnekeySdkGlobalStore;
+        "onekey-sdk-doctor-card": OnekeySdkDoctorCard;
         "onekey-sdk-home": OnekeySdkHome;
         "onekey-sdk-map": OnekeySdkMap;
         "onekey-sdk-route": OnekeySdkRoute;
         "onekey-sdk-router": OnekeySdkRouter;
         "onekey-sdk-router-link": OnekeySdkRouterLink;
-        "onekey-sdk-router-store": OnekeySdkRouterStore;
         "onekey-sdk-search": OnekeySdkSearch;
         "onekey-sdk-search-result": OnekeySdkSearchResult;
     }
@@ -253,15 +191,12 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "onekey-sdk": LocalJSX.OnekeySdk & JSXBase.HTMLAttributes<HTMLOnekeySdkElement>;
-            "onekey-sdk-about-us": LocalJSX.OnekeySdkAboutUs & JSXBase.HTMLAttributes<HTMLOnekeySdkAboutUsElement>;
-            "onekey-sdk-doctor-item-swipe": LocalJSX.OnekeySdkDoctorItemSwipe & JSXBase.HTMLAttributes<HTMLOnekeySdkDoctorItemSwipeElement>;
-            "onekey-sdk-global-store": LocalJSX.OnekeySdkGlobalStore & JSXBase.HTMLAttributes<HTMLOnekeySdkGlobalStoreElement>;
+            "onekey-sdk-doctor-card": LocalJSX.OnekeySdkDoctorCard & JSXBase.HTMLAttributes<HTMLOnekeySdkDoctorCardElement>;
             "onekey-sdk-home": LocalJSX.OnekeySdkHome & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
             "onekey-sdk-route": LocalJSX.OnekeySdkRoute & JSXBase.HTMLAttributes<HTMLOnekeySdkRouteElement>;
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;
             "onekey-sdk-router-link": LocalJSX.OnekeySdkRouterLink & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterLinkElement>;
-            "onekey-sdk-router-store": LocalJSX.OnekeySdkRouterStore & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterStoreElement>;
             "onekey-sdk-search": LocalJSX.OnekeySdkSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchElement>;
             "onekey-sdk-search-result": LocalJSX.OnekeySdkSearchResult & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchResultElement>;
         }

@@ -1,13 +1,11 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import { Store } from '../../onekey-sdk-store/provider';
-import { RouterStore } from '../onekey-sdk-router-store/provider';
+import { routerStore, configStore } from '../../../core/stores';
 export class OneKeySDKRoute {
   render() {
-    var _a;
-    if (this.activatedRoute !== this.path) {
+    if (routerStore.state.currentRoutePath !== this.path) {
       return null;
     }
-    const styles = (_a = this.store.config) === null || _a === void 0 ? void 0 : _a.styles;
+    const styles = configStore.state.styles;
     return (h(Host, { style: styles },
       h(this.component, null)));
   }
@@ -52,45 +50,6 @@ export class OneKeySDKRoute {
       },
       "attribute": "path",
       "reflect": true
-    },
-    "activatedRoute": {
-      "type": "string",
-      "mutable": false,
-      "complexType": {
-        "original": "string",
-        "resolved": "string",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "activated-route",
-      "reflect": false
-    },
-    "store": {
-      "type": "unknown",
-      "mutable": false,
-      "complexType": {
-        "original": "StoreProps",
-        "resolved": "StoreProps",
-        "references": {
-          "StoreProps": {
-            "location": "import",
-            "path": "../../onekey-sdk-store/provider"
-          }
-        }
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      }
     }
   }; }
 }
-RouterStore.injectProps(OneKeySDKRoute, ['activatedRoute']);
-Store.injectProps(OneKeySDKRoute, ['store']);

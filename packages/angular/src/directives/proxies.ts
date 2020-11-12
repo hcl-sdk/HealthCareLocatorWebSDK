@@ -6,25 +6,6 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 import { Components } from 'onekey-sdk';
 
 
-export declare interface ContextConsumer extends Components.ContextConsumer {}
-@ProxyCmp({
-  inputs: ['context', 'renderer', 'subscribe']
-})
-@Component({
-  selector: 'context-consumer',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['context', 'renderer', 'subscribe']
-})
-export class ContextConsumer {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
 export declare interface IonIcon extends Components.IonIcon {}
 @ProxyCmp({
   inputs: ['ariaHidden', 'ariaLabel', 'color', 'flipRtl', 'icon', 'ios', 'lazy', 'md', 'mode', 'name', 'sanitize', 'size', 'src']
@@ -63,52 +44,17 @@ export class OnekeySdk {
 }
 
 
-export declare interface OnekeySdkAboutUs extends Components.OnekeySdkAboutUs {}
-
-@Component({
-  selector: 'onekey-sdk-about-us',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>'
-})
-export class OnekeySdkAboutUs {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
-export declare interface OnekeySdkDoctorItemSwipe extends Components.OnekeySdkDoctorItemSwipe {}
+export declare interface OnekeySdkDoctorCard extends Components.OnekeySdkDoctorCard {}
 @ProxyCmp({
   inputs: ['address', 'distance', 'gp', 'name']
 })
 @Component({
-  selector: 'onekey-sdk-doctor-item-swipe',
+  selector: 'onekey-sdk-doctor-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   inputs: ['address', 'distance', 'gp', 'name']
 })
-export class OnekeySdkDoctorItemSwipe {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
-export declare interface OnekeySdkGlobalStore extends Components.OnekeySdkGlobalStore {}
-@ProxyCmp({
-  inputs: ['renderer', 'store']
-})
-@Component({
-  selector: 'onekey-sdk-global-store',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['renderer', 'store']
-})
-export class OnekeySdkGlobalStore {
+export class OnekeySdkDoctorCard {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -154,13 +100,13 @@ export class OnekeySdkMap {
 
 export declare interface OnekeySdkRoute extends Components.OnekeySdkRoute {}
 @ProxyCmp({
-  inputs: ['activatedRoute', 'component', 'path', 'store']
+  inputs: ['component', 'path']
 })
 @Component({
   selector: 'onekey-sdk-route',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['activatedRoute', 'component', 'path', 'store']
+  inputs: ['component', 'path']
 })
 export class OnekeySdkRoute {
   protected el: HTMLElement;
@@ -189,13 +135,13 @@ export class OnekeySdkRouter {
 
 export declare interface OnekeySdkRouterLink extends Components.OnekeySdkRouterLink {}
 @ProxyCmp({
-  inputs: ['activatedRoute', 'activeClass', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaLabel', 'ariaPosinset', 'ariaSetsize', 'custom', 'match', 'setActivatedRoute', 'url']
+  inputs: ['activeClass', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaLabel', 'ariaPosinset', 'ariaSetsize', 'custom', 'url']
 })
 @Component({
   selector: 'onekey-sdk-router-link',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['activatedRoute', 'activeClass', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaLabel', 'ariaPosinset', 'ariaSetsize', 'custom', 'match', 'setActivatedRoute', 'url']
+  inputs: ['activeClass', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaLabel', 'ariaPosinset', 'ariaSetsize', 'custom', 'url']
 })
 export class OnekeySdkRouterLink {
   protected el: HTMLElement;
@@ -206,34 +152,12 @@ export class OnekeySdkRouterLink {
 }
 
 
-export declare interface OnekeySdkRouterStore extends Components.OnekeySdkRouterStore {}
-@ProxyCmp({
-  inputs: ['renderer']
-})
-@Component({
-  selector: 'onekey-sdk-router-store',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['renderer']
-})
-export class OnekeySdkRouterStore {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
 export declare interface OnekeySdkSearch extends Components.OnekeySdkSearch {}
-@ProxyCmp({
-  inputs: ['setActivatedRoute', 'setStore', 'store']
-})
+
 @Component({
   selector: 'onekey-sdk-search',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['setActivatedRoute', 'setStore', 'store']
+  template: '<ng-content></ng-content>'
 })
 export class OnekeySdkSearch {
   protected el: HTMLElement;
@@ -245,14 +169,11 @@ export class OnekeySdkSearch {
 
 
 export declare interface OnekeySdkSearchResult extends Components.OnekeySdkSearchResult {}
-@ProxyCmp({
-  inputs: ['setStore', 'store']
-})
+
 @Component({
   selector: 'onekey-sdk-search-result',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['setStore', 'store']
+  template: '<ng-content></ng-content>'
 })
 export class OnekeySdkSearchResult {
   protected el: HTMLElement;

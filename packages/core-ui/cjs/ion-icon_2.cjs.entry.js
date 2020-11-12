@@ -2,9 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-a9a27258.js');
-require('./state-tunnel-786a62ce.js');
-const provider = require('./provider-a98f4ad7.js');
+const index = require('./index-7beb5087.js');
+const index$1 = require('./index-5625a1c6.js');
 
 let CACHED_MAP;
 const getIconMap = () => {
@@ -272,24 +271,18 @@ Icon.style = iconCss;
 const OneKeySDKRouterLink = class {
   constructor(hostRef) {
     index.registerInstance(this, hostRef);
-    this.activatedRoute = '/';
     this.activeClass = 'link-active';
     this.custom = 'a';
   }
-  computeMatch() {
-    if (this.activatedRoute) {
-      this.match = this.activatedRoute === this.url;
-    }
-  }
   handleClick(e) {
     e.preventDefault();
-    console.log("this.url", this.url);
-    return this.setActivatedRoute(this.url);
+    return index$1.routerStore.push(this.url);
   }
   render() {
+    const isMatch = index$1.routerStore.state.currentRoutePath === this.url;
     let anchorAttributes = {
       class: {
-        [this.activeClass]: this.match,
+        [this.activeClass]: isMatch,
       },
       onClick: this.handleClick.bind(this)
     };
@@ -302,11 +295,7 @@ const OneKeySDKRouterLink = class {
     return (index.h(this.custom, Object.assign({}, anchorAttributes), index.h("slot", null)));
   }
   get el() { return index.getElement(this); }
-  static get watchers() { return {
-    "activatedRoute": ["computeMatch"]
-  }; }
 };
-provider.RouterStore.injectProps(OneKeySDKRouterLink, ['setActivatedRoute', 'activatedRoute']);
 
 exports.ion_icon = Icon;
 exports.onekey_sdk_router_link = OneKeySDKRouterLink;

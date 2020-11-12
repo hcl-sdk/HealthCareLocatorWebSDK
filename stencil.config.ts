@@ -43,7 +43,6 @@ export const config: Config = {
     sass({
       injectGlobalPaths: [
         'src/global/scss/variables.scss',
-        'src/global/scss/materialize.scss'
       ]
     })
   ],

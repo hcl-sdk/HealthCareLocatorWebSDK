@@ -1,28 +1,18 @@
-import { Component, Host, h, Prop, State, Watch } from '@stencil/core';
+import { Component, Host, h } from '@stencil/core';
 import { getHCPNearMe } from '../../../core/api/hcp';
-import { SetStore, Store, StoreProps } from '../../onekey-sdk-store/provider';
+import { configStore, searchMapStore } from '../../../core/stores'
 
 @Component({
   tag: 'onekey-sdk-search-result',
   styleUrl: 'onekey-sdk-search-result.scss',
-  shadow: true,
+  shadow: false,
 })
 export class OnekeySdkSearchResult {
-  @Prop() store: StoreProps;
-  @Prop() setStore: SetStore;
-  @State() hcpNearMeLocations = [];
-
-  componentDidLoad() {
-    getHCPNearMe(this.setStore);
-
-    console.log(this.store)
-  }
-
-  @Watch('store')
-  watchHandler(newValue: StoreProps) {
-    if (newValue.hcpNearMe?.length) {
-      this.hcpNearMeLocations = [...newValue.hcpNearMe];
-    }
+  componentWillLoad() {
+    const data = getHCPNearMe();
+    searchMapStore.setState({
+      hcpNearMe: data
+    })
   }
 
   onItemCardClick = () => {
@@ -30,9 +20,15 @@ export class OnekeySdkSearchResult {
   }
 
   render() {
+    if(!searchMapStore.state.search) {
+      return null
+    }
+
+    const { hcpNearMe } = searchMapStore.state;
+
     return (
       <Host>
-        <div class="search-result" style={{ height: this.store.config.appHeight }}>
+        <div class="search-result" style={{ height: configStore.state.appHeight }}>
           <div class="search-header search-section">
             <div>
               <onekey-sdk-router-link url="/" class="btn-back">
@@ -40,34 +36,34 @@ export class OnekeySdkSearchResult {
               </onekey-sdk-router-link>
             </div>
             <div>
-              <strong>{this.store.search.name}</strong>
-              <div>{this.store.search.selectedItem.label}</div>
+              <strong>{searchMapStore.state.search.name}</strong>
+              <div>{searchMapStore.state.search.selectedItem.label}</div>
             </div>
           </div>
           <div class="search-toolbar search-section">
-            <div>Results: {this.hcpNearMeLocations.length}</div>
+            <div>Results: {hcpNearMe.length}</div>
             <div>List View</div>
           </div>
           <div class="search-map search-section">
             <div class="search-data">
               {
-                this.hcpNearMeLocations.map(elm => (
-                  <onekey-sdk-doctor-item-swipe {...elm} onClick={this.onItemCardClick} />
+                hcpNearMe.map(elm => (
+                  <onekey-sdk-doctor-card {...elm} onClick={this.onItemCardClick} />
                 ))
               }
             </div>
 
             {
-            !!this.hcpNearMeLocations.length && 
+            !!hcpNearMe.length && 
               <onekey-sdk-map
                 class="search-map__content"
-                locations={this.hcpNearMeLocations}
+                locations={hcpNearMe}
                 selectedLocationIdx={0}
-                defaultZoom={5}
-                mapTileLayer={this.store.config.mapTileLayer}
-                mapLink={this.store.config.mapLink}
-                markerIcon={this.store.config.markerIcon}
-                markerIconCurrentLocation={this.store.config.markerIconCurrentLocation}
+                defaultZoom={configStore.state.mapDefaultZoom}
+                mapTileLayer={configStore.state.mapTileLayer}
+                mapLink={configStore.state.mapLink}
+                markerIcon={configStore.state.markerIcon}
+                markerIconCurrentLocation={configStore.state.markerIconCurrentLocation}
               />
             }
           </div>
@@ -76,5 +72,3 @@ export class OnekeySdkSearchResult {
     );
   }
 }
-
-Store.injectProps(OnekeySdkSearchResult, ['store', 'setStore']);

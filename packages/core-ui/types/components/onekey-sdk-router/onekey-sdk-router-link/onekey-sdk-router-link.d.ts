@@ -1,8 +1,5 @@
 export declare class OneKeySDKRouterLink {
-  activatedRoute: string;
-  setActivatedRoute: Function;
   el: HTMLElement;
-  match: boolean;
   url: string;
   activeClass: string;
   custom: string;
@@ -15,7 +12,6 @@ export declare class OneKeySDKRouterLink {
   ariaPosinset?: string;
   ariaSetsize?: number;
   ariaLabel?: string;
-  computeMatch(): void;
-  handleClick(e: MouseEvent): any;
+  handleClick(e: MouseEvent): void;
   render(): any;
 }

@@ -1,8 +1,7 @@
-import { Component, Host, h, State, Prop } from '@stencil/core';
+import { Component, Host, h, State } from '@stencil/core';
 import 'ionicons';
-import { RouterStore } from '../../onekey-sdk-router/onekey-sdk-router-store/provider';
-import { Store } from '../../onekey-sdk-store/provider';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { searchMapStore, routerStore } from '../../../core/stores';
 export class OnekeySdkSearch {
   constructor() {
     this.formData = {
@@ -14,10 +13,10 @@ export class OnekeySdkSearch {
     this.provider = new OpenStreetMapProvider();
     this.onSearch = (e) => {
       e.preventDefault();
-      this.setStore({
-        search: Object.assign(Object.assign(Object.assign({}, this.store.search), this.formData), { selectedItem: this.selectedAddress })
+      searchMapStore.setState({
+        search: Object.assign(Object.assign({}, this.formData), { selectedItem: this.selectedAddress })
       });
-      this.setActivatedRoute('/search-result');
+      routerStore.push('/search-result');
     };
     this.onChange = async (e) => {
       this.formData = Object.assign(Object.assign({}, this.formData), { [e.target.id]: e.target.value });
@@ -55,64 +54,9 @@ export class OnekeySdkSearch {
   static get styleUrls() { return {
     "$": ["onekey-sdk-search.css"]
   }; }
-  static get properties() { return {
-    "setStore": {
-      "type": "any",
-      "mutable": false,
-      "complexType": {
-        "original": "any",
-        "resolved": "any",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "set-store",
-      "reflect": false
-    },
-    "store": {
-      "type": "any",
-      "mutable": false,
-      "complexType": {
-        "original": "any",
-        "resolved": "any",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "store",
-      "reflect": false
-    },
-    "setActivatedRoute": {
-      "type": "any",
-      "mutable": false,
-      "complexType": {
-        "original": "any",
-        "resolved": "any",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "set-activated-route",
-      "reflect": false
-    }
-  }; }
   static get states() { return {
     "formData": {},
     "searchResult": {},
     "selectedAddress": {}
   }; }
 }
-Store.injectProps(OnekeySdkSearch, ['store', 'setStore']);
-RouterStore.injectProps(OnekeySdkSearch, ['setActivatedRoute']);

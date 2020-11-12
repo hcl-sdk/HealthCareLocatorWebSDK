@@ -1,26 +1,20 @@
-import { h, Element, Watch, Listen } from '@stencil/core';
+import { h, Element, Listen } from '@stencil/core';
 import { Component, Prop } from '@stencil/core';
-import { RouterStore } from '../onekey-sdk-router-store/provider';
+import { routerStore } from "../../../core/stores";
 export class OneKeySDKRouterLink {
   constructor() {
-    this.activatedRoute = '/';
     this.activeClass = 'link-active';
     this.custom = 'a';
   }
-  computeMatch() {
-    if (this.activatedRoute) {
-      this.match = this.activatedRoute === this.url;
-    }
-  }
   handleClick(e) {
     e.preventDefault();
-    console.log("this.url", this.url);
-    return this.setActivatedRoute(this.url);
+    return routerStore.push(this.url);
   }
   render() {
+    const isMatch = routerStore.state.currentRoutePath === this.url;
     let anchorAttributes = {
       class: {
-        [this.activeClass]: this.match,
+        [this.activeClass]: isMatch,
       },
       onClick: this.handleClick.bind(this)
     };
@@ -35,60 +29,6 @@ export class OneKeySDKRouterLink {
   }
   static get is() { return "onekey-sdk-router-link"; }
   static get properties() { return {
-    "activatedRoute": {
-      "type": "string",
-      "mutable": false,
-      "complexType": {
-        "original": "string",
-        "resolved": "string",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "activated-route",
-      "reflect": false,
-      "defaultValue": "'/'"
-    },
-    "setActivatedRoute": {
-      "type": "unknown",
-      "mutable": false,
-      "complexType": {
-        "original": "Function",
-        "resolved": "Function",
-        "references": {
-          "Function": {
-            "location": "global"
-          }
-        }
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      }
-    },
-    "match": {
-      "type": "boolean",
-      "mutable": false,
-      "complexType": {
-        "original": "boolean",
-        "resolved": "boolean",
-        "references": {}
-      },
-      "required": false,
-      "optional": false,
-      "docs": {
-        "tags": [],
-        "text": ""
-      },
-      "attribute": "match",
-      "reflect": false
-    },
     "url": {
       "type": "string",
       "mutable": false,
@@ -297,10 +237,6 @@ export class OneKeySDKRouterLink {
     }
   }; }
   static get elementRef() { return "el"; }
-  static get watchers() { return [{
-      "propName": "activatedRoute",
-      "methodName": "computeMatch"
-    }]; }
   static get listeners() { return [{
       "name": "click",
       "method": "handleClick",
@@ -309,4 +245,3 @@ export class OneKeySDKRouterLink {
       "passive": false
     }]; }
 }
-RouterStore.injectProps(OneKeySDKRouterLink, ['setActivatedRoute', 'activatedRoute']);

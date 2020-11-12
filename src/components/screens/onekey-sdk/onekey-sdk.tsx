@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import { OneKeySDKConfigData } from '../../onekey-sdk-store/provider';
+import { configStore } from '../../../core/stores';
+import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 
 @Component({
   tag: 'onekey-sdk',
@@ -9,16 +10,19 @@ import { OneKeySDKConfigData } from '../../onekey-sdk-store/provider';
 export class OneKeySDK {
   @Prop() config: OneKeySDKConfigData;
 
+  componentDidLoad() {
+    configStore.setState(this.config)
+  }
+
   render() {
+    console.log(configStore)
     return (
       <Host>
-        <onekey-sdk-global-store store={{ config: this.config }}>
-          <onekey-sdk-router>
-            <onekey-sdk-route component="onekey-sdk-home" path="/" />
-            <onekey-sdk-route component="onekey-sdk-search-result" path="/search-result" />
-            <onekey-sdk-route component="onekey-sdk-search" path="/search" />
-          </onekey-sdk-router>
-        </onekey-sdk-global-store>
+        <onekey-sdk-router>
+          <onekey-sdk-route component="onekey-sdk-home" path="/" />
+          <onekey-sdk-route component="onekey-sdk-search-result" path="/search-result" />
+          <onekey-sdk-route component="onekey-sdk-search" path="/search" />
+        </onekey-sdk-router>
       </Host>
     );
   }

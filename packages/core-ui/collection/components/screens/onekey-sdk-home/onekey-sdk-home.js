@@ -1,6 +1,12 @@
 import { Component, Host, h } from '@stencil/core';
 import 'ionicons';
+import { routerStore } from '../../../core/stores';
 export class OnekeySdkHome {
+  constructor() {
+    this.onGoSearchScreen = () => {
+      routerStore.push("/search");
+    };
+  }
   render() {
     return (h(Host, null,
       h("div", { class: "main-contain" },
@@ -34,8 +40,7 @@ export class OnekeySdkHome {
                   h("strong", null, "Request my Information update"),
                   h("span", { class: "sub-text" }, "Lorem ipsum dolor sit amet, consect adipiscing elit")))),
             h("div", null,
-              h("onekey-sdk-router-link", { url: "/search" },
-                h("button", { class: "btn" }, "Start a New Search"))))))));
+              h("button", { class: "btn", onClick: this.onGoSearchScreen }, "Start a New Search")))))));
   }
   static get is() { return "onekey-sdk-home"; }
   static get originalStyleUrls() { return {

@@ -14,11 +14,11 @@ export declare class OnekeySdkMap {
   markerIcon: string;
   mapElm: HTMLInputElement;
   map: any;
+  componentDidLoad(): void;
   handleChange(): void;
   currentLocation: () => void;
   private setMap;
   getIcon: (iconURL?: string) => any;
   private setMarkers;
-  componentDidLoad(): void;
   render(): any;
 }

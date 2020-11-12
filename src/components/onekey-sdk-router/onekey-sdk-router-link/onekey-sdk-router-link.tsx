@@ -1,17 +1,13 @@
-import { h, Element, Watch, Listen } from '@stencil/core'
+import { h, Element, Listen } from '@stencil/core'
 import { Component, Prop } from '@stencil/core';
-import { RouterStore } from '../onekey-sdk-router-store/provider';
-
+import { routerStore } from "../../../core/stores";
 
 @Component({
   tag: 'onekey-sdk-router-link'
 })
 export class OneKeySDKRouterLink {
-  @Prop() activatedRoute: string = '/';
-  @Prop() setActivatedRoute: Function;
   @Element() el!: HTMLElement;
 
-  @Prop() match: boolean;
   @Prop() url: string;
   @Prop() activeClass: string = 'link-active';
 
@@ -29,25 +25,18 @@ export class OneKeySDKRouterLink {
   @Prop() ariaLabel?: string;
 
 
-  @Watch('activatedRoute')
-  computeMatch() {
-    if (this.activatedRoute) {
-      this.match = this.activatedRoute === this.url;
-    }
-  }
-
   @Listen('click', { capture: true })
   handleClick(e: MouseEvent) {
     e.preventDefault();
-    console.log("this.url", this.url)
-    return this.setActivatedRoute(this.url)
+    return routerStore.push(this.url)
   }
 
-
   render() {
+     const isMatch = routerStore.state.currentRoutePath === this.url;
+
     let anchorAttributes: { [key: string]: any} = {
       class: {
-        [this.activeClass]: this.match,
+        [this.activeClass]: isMatch,
       },
       onClick: this.handleClick.bind(this)
     }
@@ -77,7 +66,4 @@ export class OneKeySDKRouterLink {
     );
   }
 }
-
-
-RouterStore.injectProps(OneKeySDKRouterLink, ['setActivatedRoute', 'activatedRoute'])
 

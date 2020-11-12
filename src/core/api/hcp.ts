@@ -1,6 +1,4 @@
-import { SetStore } from "../../components/onekey-sdk-store/provider"
-
-export function getHCPNearMe(setStore: SetStore) {
+export function getHCPNearMe() {
   const data = [
     {
       name: "Dr Hababou Danielle",
@@ -85,5 +83,5 @@ export function getHCPNearMe(setStore: SetStore) {
     }
   ]
 
-  setStore({ hcpNearMe: data })
+  return data
 }

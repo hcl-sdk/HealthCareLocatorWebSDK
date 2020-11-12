@@ -1,1 +1,0 @@
-import{r as registerInstance,h,H as Host}from"./index-675d59a8.js";var OnekeySdkAboutUs=function(){function t(t){registerInstance(this,t)}t.prototype.render=function(){return h(Host,null,"About us")};return t}();export{OnekeySdkAboutUs as onekey_sdk_about_us};

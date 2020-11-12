@@ -9,9 +9,7 @@ export class OneKeySDKRouter {
   render() {
     return (
       <Host>
-        <onekey-sdk-router-store>
-          <slot />
-        </onekey-sdk-router-store>
+        <slot />
       </Host>
     );
   }

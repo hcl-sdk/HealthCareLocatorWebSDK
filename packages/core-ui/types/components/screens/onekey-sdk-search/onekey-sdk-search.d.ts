@@ -1,8 +1,5 @@
 import 'ionicons';
 export declare class OnekeySdkSearch {
-  setStore: any;
-  store: any;
-  setActivatedRoute: any;
   formData: {
     name: string;
     address: string;

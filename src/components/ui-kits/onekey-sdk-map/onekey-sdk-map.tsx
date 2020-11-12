@@ -13,17 +13,25 @@ export class OnekeySdkMap {
   /**
    * An array of locations
    */
-  @Prop() mapHeight = '100%';
-  @Prop() mapWidth = '100%';
+  @Prop() mapHeight: string = '100%';
+  @Prop() mapWidth: string = '100%';
   @Prop() locations = [];
-  @Prop() defaultZoom: number = 10;
-  @Prop() selectedLocationIdx: number = 0;
-  @Prop() mapTileLayer: string = 'http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
-  @Prop() mapLink: string = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+  @Prop() defaultZoom: number;
+  @Prop() selectedLocationIdx: number;
+  @Prop() mapTileLayer: string;
+  @Prop() mapLink: string;
   @Prop() markerIconCurrentLocation: string;
   @Prop() markerIcon: string;
   mapElm: HTMLInputElement;
   map;
+
+  componentDidLoad() {
+    this.setMap();
+    this.currentLocation()
+    this.mapHeight = String(document.querySelector('onekey-sdk').offsetHeight) + 'px'
+
+    console.log(this.mapHeight, "this.mapHeight")
+  }
 
   @Watch('locations')
   handleChange() {
@@ -33,13 +41,11 @@ export class OnekeySdkMap {
   currentLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const { coords: { latitude, longitude }} = position;
-      var marker = new L.marker([latitude, longitude], {
+      new L.marker([latitude, longitude], {
         draggable: true,
         autoPan: true,
         icon: this.getIcon(this.markerIconCurrentLocation)
       }).addTo(this.map);
-    
-      console.log(marker);
     })
   }
 
@@ -80,18 +86,11 @@ export class OnekeySdkMap {
       showCoverageOnHover: false,
     });
     if (this.locations) {
-      
-
       for (let i = 0; i < this.locations.length; i++) {
         markers.addLayer(L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() }).bindPopup(this.locations[i].name)).addTo(this.map);
       }
     }
   };
-
-  componentDidLoad() {
-    this.setMap();
-    this.currentLocation()
-  }
 
   render() {
     return (

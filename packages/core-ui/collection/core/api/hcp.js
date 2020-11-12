@@ -1,4 +1,4 @@
-export function getHCPNearMe(setStore) {
+export function getHCPNearMe() {
   const data = [
     {
       name: "Dr Hababou Danielle",
@@ -82,5 +82,5 @@ export function getHCPNearMe(setStore) {
       distance: '822m'
     }
   ];
-  setStore({ hcpNearMe: data });
+  return data;
 }

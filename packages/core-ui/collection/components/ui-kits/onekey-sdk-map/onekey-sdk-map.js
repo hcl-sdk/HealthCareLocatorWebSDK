@@ -10,19 +10,14 @@ export class OnekeySdkMap {
     this.mapHeight = '100%';
     this.mapWidth = '100%';
     this.locations = [];
-    this.defaultZoom = 10;
-    this.selectedLocationIdx = 0;
-    this.mapTileLayer = 'http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
-    this.mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
     this.currentLocation = () => {
       navigator.geolocation.getCurrentPosition(position => {
         const { coords: { latitude, longitude } } = position;
-        var marker = new L.marker([latitude, longitude], {
+        new L.marker([latitude, longitude], {
           draggable: true,
           autoPan: true,
           icon: this.getIcon(this.markerIconCurrentLocation)
         }).addTo(this.map);
-        console.log(marker);
       });
     };
     this.setMap = () => {
@@ -56,12 +51,14 @@ export class OnekeySdkMap {
       }
     };
   }
-  handleChange() {
-    this.setMarkers();
-  }
   componentDidLoad() {
     this.setMap();
     this.currentLocation();
+    this.mapHeight = String(document.querySelector('onekey-sdk').offsetHeight) + 'px';
+    console.log(this.mapHeight, "this.mapHeight");
+  }
+  handleChange() {
+    this.setMarkers();
   }
   render() {
     return (h(Host, null,
@@ -143,8 +140,7 @@ export class OnekeySdkMap {
         "text": ""
       },
       "attribute": "default-zoom",
-      "reflect": false,
-      "defaultValue": "10"
+      "reflect": false
     },
     "selectedLocationIdx": {
       "type": "number",
@@ -161,8 +157,7 @@ export class OnekeySdkMap {
         "text": ""
       },
       "attribute": "selected-location-idx",
-      "reflect": false,
-      "defaultValue": "0"
+      "reflect": false
     },
     "mapTileLayer": {
       "type": "string",
@@ -179,8 +174,7 @@ export class OnekeySdkMap {
         "text": ""
       },
       "attribute": "map-tile-layer",
-      "reflect": false,
-      "defaultValue": "'http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'"
+      "reflect": false
     },
     "mapLink": {
       "type": "string",
@@ -197,8 +191,7 @@ export class OnekeySdkMap {
         "text": ""
       },
       "attribute": "map-link",
-      "reflect": false,
-      "defaultValue": "'<a href=\"http://openstreetmap.org\">OpenStreetMap</a>'"
+      "reflect": false
     },
     "markerIconCurrentLocation": {
       "type": "string",
