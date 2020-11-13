@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_padding_tiny">5dp</dimen>
+    <dimen name="default_padding_smaller">10dp</dimen>
+    <dimen name="default_padding_small">12dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="default_padding_big">18dp</dimen>
+    <dimen name="default_padding_bigger">20dp</dimen>
+    <dimen name="default_padding_large">24dp</dimen>
+    <dimen name="default_padding_larger">28dp</dimen>
+    <dimen name="default_padding_x_large">32dp</dimen>
+    <dimen name="default_padding_x_larger">36dp</dimen>
+    <dimen name="default_padding_x_largest">38dp</dimen>
+    <dimen name="default_padding_xx_larger">48dp</dimen>
+    <dimen name="default_padding_xxx_large">54dp</dimen>
+    <dimen name="default_padding_xxx_larger">58dp</dimen>
+    <dimen name="default_padding_xxxx_large">62dp</dimen>
+    <dimen name="default_padding_xxxx_larger">66dp</dimen>
+    <dimen name="default_padding_xxxx_largest">100dp</dimen>
+    <dimen name="default_padding_xxxxx_large">120dp</dimen>
+
+
+    <dimen name="default_text_smaller">10sp</dimen>
+    <dimen name="default_text_small">12sp</dimen>
+    <dimen name="default_text">16sp</dimen>
+    <dimen name="default_text_big">18sp</dimen>
+    <dimen name="default_text_bigger">20sp</dimen>
+    <dimen name="default_text_large">24sp</dimen>
+    <dimen name="default_text_larger">28sp</dimen>
+    <dimen name="default_text_x_large">32sp</dimen>
+    <dimen name="default_text_x_larger">36sp</dimen>
+    <dimen name="default_text_xx_large">40sp</dimen>
+    <dimen name="default_text_xx_larger">44sp</dimen>
+    <dimen name="default_text_xxx_large">48sp</dimen>
+    <dimen name="default_text_xxx_larger">52sp</dimen>
+    <dimen name="default_text_xxxx_large">60sp</dimen>
+    <dimen name="default_text_xxxx_larger">66sp</dimen>
+    <dimen name="default_text_xxxx_largest">72sp</dimen>
+
+    <dimen name="default_frame_size">50dp</dimen>
+    <dimen name="default_icon_size_x_tiny">12dp</dimen>
+    <dimen name="default_icon_size_tiny">16dp</dimen>
+    <dimen name="default_icon_size_smaller">24dp</dimen>
+    <dimen name="default_icon_size_small">32dp</dimen>
+    <dimen name="default_icon_size">40dp</dimen>
+    <dimen name="default_icon_size_big">50dp</dimen>
+    <dimen name="default_icon_size_bigger">60dp</dimen>
+    <dimen name="default_icon_size_large">70dp</dimen>
+    <dimen name="default_icon_size_larger">100dp</dimen>
+    <dimen name="default_icon_size_largest">120dp</dimen>
+
+    <dimen name="default_image_size">48dp</dimen>
+    <dimen name="default_avatar_size_small">100dp</dimen>
+    <dimen name="default_avatar_size">150dp</dimen>
+
+    <dimen name="default_rounded_radius_smaller">6dp</dimen>
+    <dimen name="default_rounded_radius_small">12dp</dimen>
+    <dimen name="default_rounded_radius">50dp</dimen>
+    <dimen name="default_rounded_radius_30">30dp</dimen>
+    <dimen name="default_rounded_radius_20">20dp</dimen>
+
+    <dimen name="default_elevation_small">3dp</dimen>
+    <dimen name="default_elevation">6dp</dimen>
+
+    <!--  elevation  -->
+    <dimen name="elevation">10dp</dimen>
+
+    <!--  line spacing multiplier  -->
+    <dimen name="line_spacing_multiplier">0.80</dimen>
+    <dimen name="actionBarSize">44dp</dimen>
+</resources>

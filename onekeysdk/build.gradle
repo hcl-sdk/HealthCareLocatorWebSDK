@@ -1,0 +1,89 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.dokka-android'
+
+android {
+    compileSdkVersion build_versions.compile_sdk_version
+    buildToolsVersion build_versions.build_tool_version
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        def base = "base"
+        def customization = "customization"
+        def categories = [base, customization]
+        main {
+            for (category in categories) {
+                res.srcDirs += "src/components/$category/res"
+                java.srcDirs += "src/components/$category/java"
+            }
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    lintOptions {
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+    }
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "documentation"
+        packageOptions {
+            prefix = "com.ekino.onekeysdk"
+            suppress = true
+        }
+        packageOptions {
+            prefix = "com.ekino.onekeysdk.model"
+            suppress = false
+        }
+        packageOptions {
+            prefix = "base"
+            suppress = true
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "org.osmdroid:osmdroid-android:6.1.8"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.16"
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+}

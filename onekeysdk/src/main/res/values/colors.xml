@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorOneKeyGreen">#35b137</color>
+    <color name="colorOneKeyGreenAlpha30">#3035b137</color>
+    <color name="colorOneKeyGreenAlpha50">#5035b137</color>
+    <color name="colorOneKeyGreenDark">#269128</color>
+    <color name="colorOneKeyBlue">#00a3de</color>
+    <color name="colorOneKeyBlueDark">#005f6b</color>
+    <color name="colorOneKeyText">#2d3c4d</color>
+    <color name="colorOneKeyMarker">#ff8b28</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#757575</color>
+    <color name="grayLight">#55757575</color>
+    <color name="grayLighter">#f8f9fa</color>
+</resources>

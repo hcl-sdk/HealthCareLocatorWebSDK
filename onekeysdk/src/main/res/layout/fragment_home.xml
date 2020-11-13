@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayLighter"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_padding">
+
+        <LinearLayout
+            android:id="@+id/newSearchWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_border_corner"
+                android:hint="Find Healthcare Professional"
+                android:padding="@dimen/default_padding" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-10dp"
+                android:background="@drawable/bg_main_button_corner"
+                android:paddingStart="@dimen/default_padding"
+                android:paddingEnd="@dimen/default_padding"
+                android:src="@drawable/baseline_search_white_24dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grayLight" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_padding"
+        android:background="@drawable/bg_white_border_corner"
+        android:minHeight="300dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvHomeHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Find and Locate\nHealthcare Professional"
+            android:textColor="@color/colorOneKeyBlue"
+            android:textSize="@dimen/default_text_large" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_large"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:background="@drawable/bg_green_circle"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_search_white_24dp"
+                    app:tint="@color/colorOneKeyGreen"
+                    tools:tint="@color/colorOneKeyGreen" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Find and Locate other HCP"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_padding"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_padding" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_bigger"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:background="@drawable/bg_green_circle"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_search_white_24dp"
+                    app:tint="@color/colorOneKeyGreen"
+                    tools:tint="@color/colorOneKeyGreen" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Consult Profile"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_padding"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_padding" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_bigger"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:background="@drawable/bg_green_circle"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_edit_white_36dp"
+                    app:tint="@color/colorOneKeyGreen"
+                    tools:tint="@color/colorOneKeyGreen" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Request my Information update"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_padding"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_padding" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnStartSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_large"
+            android:background="@drawable/bg_main_button_corner"
+            android:gravity="center"
+            android:padding="@dimen/default_padding_small"
+            android:text="Start a New Search"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_text_big" />
+    </LinearLayout>
+</LinearLayout>

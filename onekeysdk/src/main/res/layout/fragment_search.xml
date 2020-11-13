@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/default_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/default_padding_smaller"
+            android:src="@drawable/baseline_arrow_back_black_36dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_border_corner"
+                android:hint="Name, Speciality, Establishment,..."
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/default_padding_smaller" />
+
+            <EditText
+                android:id="@+id/edtWhere"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_smaller"
+                android:background="@drawable/bg_white_border_corner"
+                android:hint="Where? (address, city,...)"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/default_padding_smaller" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnSearch"
+            android:layout_width="@dimen/default_icon_size_big"
+            android:layout_height="@dimen/default_icon_size_big"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/default_padding_smaller"
+            android:layout_marginEnd="@dimen/default_padding_smaller"
+            android:background="@drawable/bg_main_button_corner"
+            android:padding="@dimen/default_padding_smaller"
+            android:src="@drawable/baseline_search_white_24dp" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/default_padding"
+        android:background="@color/grayLight" />
+</LinearLayout>
