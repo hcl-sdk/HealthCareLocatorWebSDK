@@ -19,6 +19,10 @@
 
   .search-form {
     display: flex;
+
+    input {
+      padding: 0.5rem 1rem;
+    }
   }
 
   .search-address-item {

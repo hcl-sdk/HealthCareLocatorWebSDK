@@ -1,3 +1,5 @@
+import { searchMapStore } from "../stores"
+
 export function getHCPNearMe() {
   const data = [
     {
@@ -83,5 +85,11 @@ export function getHCPNearMe() {
     }
   ]
 
-  return data
+  searchMapStore.setState({ loading: true })
+
+  setTimeout(() => {
+    searchMapStore.setState({ hcpNearMe: data })
+
+    searchMapStore.setState({ loading: false })
+  }, 3000)
 }

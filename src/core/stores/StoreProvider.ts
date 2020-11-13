@@ -9,8 +9,9 @@ class StoreProvider<T extends {}> {
     this.storeInstance = createStore<T>(initState);
   }
 
-  setState = (states) => {
-    Object.keys(states).forEach((k: keyof T | string) => {
+  setState = (states: T) => {
+    const statesKeys: string[] = Object.keys(states)
+    statesKeys.forEach((k) => {
       this.storeInstance.set(k, states[k])
     })
   }

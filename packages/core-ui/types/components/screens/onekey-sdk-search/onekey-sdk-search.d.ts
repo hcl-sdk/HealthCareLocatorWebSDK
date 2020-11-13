@@ -6,7 +6,6 @@ export declare class OnekeySdkSearch {
   };
   searchResult: any[];
   selectedAddress: any;
-  provider: any;
   private onSearch;
   private onChange;
   onSelectAddress: (addr: any) => void;

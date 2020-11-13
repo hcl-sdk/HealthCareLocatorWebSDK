@@ -9,10 +9,7 @@ import { configStore, searchMapStore } from '../../../core/stores'
 })
 export class OnekeySdkSearchResult {
   componentWillLoad() {
-    const data = getHCPNearMe();
-    searchMapStore.setState({
-      hcpNearMe: data
-    })
+    getHCPNearMe();
   }
 
   onItemCardClick = () => {
@@ -28,6 +25,9 @@ export class OnekeySdkSearchResult {
 
     return (
       <Host>
+        {
+          searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>
+        }
         <div class="search-result" style={{ height: configStore.state.appHeight }}>
           <div class="search-header search-section">
             <div>

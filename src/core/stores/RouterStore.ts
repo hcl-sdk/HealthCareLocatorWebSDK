@@ -32,10 +32,13 @@ class RouterStore extends StoreProvider<RouterState> implements RouterStoreState
   push = (routePath: string, state?: any) => {
     this.setState({
       currentRoutePath: routePath,
-      routes: [...this.state.routes, {
-        name: routePath,
-        state
-      }]
+      routes: [
+        ...this.state.routes, 
+        {
+          routePath,
+          state
+        }
+      ]
     })
   }
 }

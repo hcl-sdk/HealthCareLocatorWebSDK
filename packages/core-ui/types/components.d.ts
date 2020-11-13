@@ -18,6 +18,8 @@ export namespace Components {
     }
     interface OnekeySdkHome {
     }
+    interface OnekeySdkLoading {
+    }
     interface OnekeySdkMap {
         "defaultZoom": number;
         "locations": any[];
@@ -76,6 +78,12 @@ declare global {
         prototype: HTMLOnekeySdkHomeElement;
         new (): HTMLOnekeySdkHomeElement;
     };
+    interface HTMLOnekeySdkLoadingElement extends Components.OnekeySdkLoading, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkLoadingElement: {
+        prototype: HTMLOnekeySdkLoadingElement;
+        new (): HTMLOnekeySdkLoadingElement;
+    };
     interface HTMLOnekeySdkMapElement extends Components.OnekeySdkMap, HTMLStencilElement {
     }
     var HTMLOnekeySdkMapElement: {
@@ -116,6 +124,7 @@ declare global {
         "onekey-sdk": HTMLOnekeySdkElement;
         "onekey-sdk-doctor-card": HTMLOnekeySdkDoctorCardElement;
         "onekey-sdk-home": HTMLOnekeySdkHomeElement;
+        "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
         "onekey-sdk-route": HTMLOnekeySdkRouteElement;
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
@@ -135,6 +144,8 @@ declare namespace LocalJSX {
         "name"?: string;
     }
     interface OnekeySdkHome {
+    }
+    interface OnekeySdkLoading {
     }
     interface OnekeySdkMap {
         "defaultZoom"?: number;
@@ -178,6 +189,7 @@ declare namespace LocalJSX {
         "onekey-sdk": OnekeySdk;
         "onekey-sdk-doctor-card": OnekeySdkDoctorCard;
         "onekey-sdk-home": OnekeySdkHome;
+        "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
         "onekey-sdk-route": OnekeySdkRoute;
         "onekey-sdk-router": OnekeySdkRouter;
@@ -193,6 +205,7 @@ declare module "@stencil/core" {
             "onekey-sdk": LocalJSX.OnekeySdk & JSXBase.HTMLAttributes<HTMLOnekeySdkElement>;
             "onekey-sdk-doctor-card": LocalJSX.OnekeySdkDoctorCard & JSXBase.HTMLAttributes<HTMLOnekeySdkDoctorCardElement>;
             "onekey-sdk-home": LocalJSX.OnekeySdkHome & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeElement>;
+            "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
             "onekey-sdk-route": LocalJSX.OnekeySdkRoute & JSXBase.HTMLAttributes<HTMLOnekeySdkRouteElement>;
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;

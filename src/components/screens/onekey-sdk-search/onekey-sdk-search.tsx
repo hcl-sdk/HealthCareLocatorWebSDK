@@ -1,6 +1,6 @@
 import { Component, Host, h, State } from '@stencil/core';
 import 'ionicons'
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import searchGeoMap from '../../../core/api/searchGeo';
 import { searchMapStore, routerStore } from '../../../core/stores'
 
 @Component({
@@ -15,7 +15,7 @@ export class OnekeySdkSearch {
   };
   @State() searchResult = [];
   @State() selectedAddress: any = {};
-  provider = new OpenStreetMapProvider();
+  
 
   private onSearch = (e) => {
     e.preventDefault()
@@ -32,8 +32,7 @@ export class OnekeySdkSearch {
   private onChange = async (e) => {
     this.formData = {...this.formData, [e.target.id]: e.target.value }
     if(e.target.id === 'address') {
-      const results = await this.provider.search({ query: e.target.value });
-      this.searchResult = [...results]
+      await searchGeoMap(e.target.value)
     }
   }
 
@@ -44,6 +43,9 @@ export class OnekeySdkSearch {
   render() {
     return (
       <Host>
+        {
+          searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>
+        }
         <div class="main-block-full main-block--full">
           <div class="search-hpc">
             <onekey-sdk-router-link url="/" class="btn-back">
@@ -61,7 +63,7 @@ export class OnekeySdkSearch {
         <div class="main-contain">
           <ul>
             {
-              this.searchResult.map(elm => (
+              searchMapStore.state?.searchGeo?.map(elm => (
               <li class={`search-address-item ${this.selectedAddress?.raw?.place_id === elm.raw.place_id ? 'active': ''}`} onClick={() => this.onSelectAddress(elm)}>{elm.label}</li>
               ))
             }

@@ -1,6 +1,6 @@
 import { Component, Prop, h, Host, Watch, getAssetPath } from '@stencil/core';
 import * as L from 'leaflet';
-import { GestureHandling } from 'leaflet-gesture-handling';
+// import { GestureHandling } from 'leaflet-gesture-handling';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
 
 @Component({
@@ -50,7 +50,7 @@ export class OnekeySdkMap {
   }
 
   private setMap = () => {
-    L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
+    // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
     this.map = L.map(this.mapElm, {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
