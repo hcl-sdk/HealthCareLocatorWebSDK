@@ -25,6 +25,10 @@ class DrawerMenuFragment : IFragment() {
             closeDrawer()
             (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK()
         }
+        btnSettings.setOnClickListener {
+            closeDrawer()
+            (activity as? SampleOneKeySDKActivity)?.openSettingsPage()
+        }
     }
 
     private fun closeDrawer() {

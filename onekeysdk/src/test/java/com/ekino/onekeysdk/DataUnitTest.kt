@@ -8,10 +8,10 @@ class DataUnitTest {
 
     @Test
     fun buildCustomViewObject() {
-        val builder = OneKeyViewCustomObject.Builder().markerIcon(1)
-        val builder2 = OneKeyViewCustomObject.Builder(markerIcon = 0)
-        println("buildCustomViewObject: ${builder.build()}")
-        println("buildCustomViewObject: ${builder2.build()}")
+//        val builder = OneKeyViewCustomObject.Builder().markerIcon(1)
+//        val builder2 = OneKeyViewCustomObject.Builder(markerIcon = 0)
+//        println("buildCustomViewObject: ${builder.build()}")
+//        println("buildCustomViewObject: ${builder2.build()}")
     }
 
     @Test

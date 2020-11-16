@@ -87,3 +87,17 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
 }
+
+afterEvaluate {
+//    publishing {
+//        //TODO: implement release later
+//        publications {
+//            debug(MavenPublication) {
+//                from components.debug
+//                groupId = 'com.iqvia.onekey'
+//                artifactId = 'onekeysdk'
+//                version = '1.0.0'
+//            }
+//        }
+//    }
+}
