@@ -9,13 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLocations"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="@dimen/default_padding"
-        android:background="@color/white"
-        android:clickable="true"
-        android:elevation="3dp"
-        android:visibility="gone" />
+        android:clipToPadding="true"
+        android:elevation="3dp" />
 </FrameLayout>

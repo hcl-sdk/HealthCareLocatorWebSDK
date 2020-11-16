@@ -29,6 +29,25 @@
             android:gravity="center"
             android:padding="@dimen/default_padding"
             android:text="New Search"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_text_bigger" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.3"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+            android:text="Settings"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/default_text_bigger" />
 

@@ -5,7 +5,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.ekino.onekeysdk.extensions.isValidPosition
 
-abstract class OneKeyAdapter<DATA, BINDING : ViewDataBinding, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
+abstract class OneKeyAdapter<DATA, VH : RecyclerView.ViewHolder>
+(protected val layoutIds: ArrayList<Int>) : RecyclerView.Adapter<VH>() {
     abstract fun initViewHolder(parent: ViewGroup, viewType: Int): VH
 
     private val dataSource by lazy { arrayListOf<DATA>() }

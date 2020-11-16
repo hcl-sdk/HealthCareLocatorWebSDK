@@ -10,6 +10,7 @@ import android.view.View.OnGenericMotionListener
 import androidx.core.content.edit
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
@@ -95,7 +96,7 @@ class MapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject,
                 position = GeoPoint(location.latitude, location.longitude)
                 setAnchor(Marker.ANCHOR_CENTER, 1f)
                 icon = context!!.getDrawableFilledIcon(R.drawable.baseline_location_on_black_36dp,
-                        oneKeyViewCustomObject.markerColor)
+                        oneKeyViewCustomObject.markerColor.getColor())
                 title = location.address
             }
             mMapView?.overlays?.add(marker)

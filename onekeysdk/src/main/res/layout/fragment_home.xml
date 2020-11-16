@@ -21,7 +21,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
 
-            <TextView
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/edtSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,6 +31,7 @@
                 android:padding="@dimen/default_padding" />
 
             <ImageView
+                android:id="@+id/ivSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="-10dp"
@@ -55,14 +56,15 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
             android:id="@+id/tvHomeHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Find and Locate\nHealthcare Professional"
             android:textColor="@color/colorOneKeyBlue"
-            android:textSize="@dimen/default_text_large" />
+            android:textSize="@dimen/default_text_large"
+            app:primaryText="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,6 +78,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivFind"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:background="@drawable/bg_green_circle"
@@ -90,7 +93,7 @@
                     android:layout_marginStart="@dimen/default_padding"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Find and Locate other HCP"
@@ -98,7 +101,7 @@
                         android:textSize="@dimen/default_padding"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
@@ -114,6 +117,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivProfile"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:background="@drawable/bg_green_circle"
@@ -128,7 +132,7 @@
                     android:layout_marginStart="@dimen/default_padding"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Consult Profile"
@@ -136,7 +140,7 @@
                         android:textSize="@dimen/default_padding"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
@@ -152,6 +156,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivEdit"
                     android:layout_width="@dimen/default_icon_size"
                     android:layout_height="@dimen/default_icon_size"
                     android:background="@drawable/bg_green_circle"
@@ -166,7 +171,7 @@
                     android:layout_marginStart="@dimen/default_padding"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Request my Information update"
@@ -174,7 +179,7 @@
                         android:textSize="@dimen/default_padding"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
@@ -184,7 +189,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
             android:id="@+id/btnStartSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
