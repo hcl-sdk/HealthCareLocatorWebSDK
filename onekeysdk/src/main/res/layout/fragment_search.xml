@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <EditText
+            <com.ekino.onekeysdk.custom.text.OneKeyEditText
                 android:id="@+id/edtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                 android:maxLines="1"
                 android:padding="@dimen/default_padding_smaller" />
 
-            <EditText
+            <com.ekino.onekeysdk.custom.text.OneKeyEditText
                 android:id="@+id/edtWhere"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

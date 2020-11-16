@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
+import com.ekino.onekeysdk.custom.LinearLayoutManagerWithSmoothScroller
 import com.ekino.onekeysdk.extensions.getDummyHCP
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
@@ -39,10 +40,16 @@ class FullMapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject
         }
 
         rvLocations.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManagerWithSmoothScroller(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter
             searchAdapter.setData(locations)
         }
+        mapFragment.onMarkerSelectionChanged = { id ->
+            val selectedPosition = locations.indexOfFirst { it.id == id }
+            if (selectedPosition >= 0)
+                rvLocations.smoothScrollToPosition(selectedPosition)
+        }
+        btnCurrentLocation.setOnClickListener { }
     }
 
     override val onPassingEventListener: (data: Any) -> Unit = {

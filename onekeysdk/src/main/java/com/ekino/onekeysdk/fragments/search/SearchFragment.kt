@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import base.extensions.addFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
+import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -20,6 +21,7 @@ class SearchFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject)
 
     override fun initView(view: View) {
         btnBack.setOnClickListener { activity?.onBackPressed() }
+        btnSearch.setRippleBackground(oneKeyViewCustomObject.primaryColor)
         btnSearch.setOnClickListener {
             (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                     FullMapFragment.newInstance(oneKeyViewCustomObject), true)

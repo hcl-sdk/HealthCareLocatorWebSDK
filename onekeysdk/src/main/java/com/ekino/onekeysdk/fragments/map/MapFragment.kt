@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.fragments.map
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -14,14 +15,13 @@ import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.map.OneKeyMarker
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.ScaleBarOverlay
-import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
@@ -30,12 +30,14 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 class MapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject,
                   private val locations: ArrayList<OneKeyLocation>) :
-        IFragment(), IMyLocationConsumer {
+        IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener {
 
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, locations: ArrayList<OneKeyLocation>) =
                 MapFragment(oneKeyViewCustomObject, locations)
     }
+
+    var onMarkerSelectionChanged: (id: String) -> Unit = {}
 
     // ===========================================================
     // Constants
@@ -55,12 +57,12 @@ class MapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject,
     // ===========================================================
     private var mPrefs: SharedPreferences? = null
     private var mMapView: MapView? = null
+    private val oneKeyMarkers by lazy { arrayListOf<OneKeyMarker>() }
     private var mLocationOverlay: MyLocationNewOverlay? = null
     private var lastCurrentLocation: Location? = null
-    private val mCompassOverlay: CompassOverlay? = null
-    private val mScaleBarOverlay: ScaleBarOverlay? = null
     private var mRotationGestureOverlay: RotationGestureOverlay? = null
     private var mCopyrightOverlay: CopyrightOverlay? = null
+    private lateinit var selectedIcon: Drawable
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -91,17 +93,21 @@ class MapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        selectedIcon = context!!.getDrawableFilledIcon(R.drawable.ic_location_on_white_36dp,
+                oneKeyViewCustomObject.markerSelectedColor.getColor())!!
         locations.forEach { location ->
-            val marker = Marker(mMapView).apply {
+            val marker = OneKeyMarker(mMapView).apply {
+                id = location.id
+                setOnMarkerClickListener(this@MapFragment)
                 position = GeoPoint(location.latitude, location.longitude)
                 setAnchor(Marker.ANCHOR_CENTER, 1f)
                 icon = context!!.getDrawableFilledIcon(R.drawable.baseline_location_on_black_36dp,
                         oneKeyViewCustomObject.markerColor.getColor())
                 title = location.address
             }
-            mMapView?.overlays?.add(marker)
+            oneKeyMarkers.add(marker)
         }
-        mMapView?.overlays
+        mMapView?.overlays?.addAll(oneKeyMarkers)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -192,5 +198,37 @@ class MapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject,
     // }
     fun invalidateMapView() {
         mMapView!!.invalidate()
+    }
+
+    override fun onMarkerClick(marker: Marker?, mapView: MapView?): Boolean {
+        if (mapView == null || mapView.overlays.isNullOrEmpty())
+            return true
+        marker?.let {
+            oneKeyMarkers.filter { oneKeyMarker -> oneKeyMarker.selected }
+                    .mapIndexed { _, oneKeyMarker ->
+                        val lastIndexOfOverLay = mapView.overlays.indexOf(oneKeyMarker)
+                        oneKeyMarker.icon = context!!.getDrawableFilledIcon(R.drawable.baseline_location_on_black_36dp,
+                                oneKeyViewCustomObject.markerColor.getColor())
+                        oneKeyMarker.selected = false
+                        if (lastIndexOfOverLay >= 0) {
+                            mapView.overlays[lastIndexOfOverLay] = oneKeyMarker
+                        }
+                    }
+            val indexOfOverLay = mapView.overlays.indexOf(marker)
+            val index = oneKeyMarkers.indexOf(marker)
+            if (indexOfOverLay in 0 until mapView.overlays.size) {
+                if (index >= 0) {
+                    (marker as? OneKeyMarker)?.apply {
+                        marker.icon = selectedIcon
+                        selected = true
+                        oneKeyMarkers[index] = this
+                    }
+                    mapView.overlays.removeAt(indexOfOverLay)
+                    mapView.overlays.add(oneKeyMarkers[index])
+                }
+            }
+            onMarkerSelectionChanged(marker.id)
+        }
+        return true
     }
 }

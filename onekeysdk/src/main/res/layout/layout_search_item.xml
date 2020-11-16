@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/default_padding"
-    android:layout_marginEnd="@dimen/default_padding"
     android:layout_marginBottom="@dimen/default_padding"
     android:background="@drawable/bg_white_border_corner"
     android:orientation="horizontal"
@@ -13,14 +13,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorOneKeyBlue"
             android:textSize="@dimen/default_text"
             tools:text="Dr." />
+
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            android:id="@+id/tvSpeciality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text"
+            tools:text="Dr." />
+
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/default_text"
+            tools:text="Dr." />
+
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            android:id="@+id/tvDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text"
+            tools:text="Distance" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/baseline_keyboard_arrow_right_black_24dp"
+        app:tint="@color/gray" />
 </LinearLayout>
