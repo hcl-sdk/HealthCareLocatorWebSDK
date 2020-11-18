@@ -9,6 +9,7 @@
     <color name="colorOneKeyText">#2d3c4d</color>
     <color name="colorOneKeyMarker">#ff8b28</color>
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
     <color name="gray">#757575</color>
     <color name="grayLight">#55757575</color>
     <color name="grayLighter">#f8f9fa</color>

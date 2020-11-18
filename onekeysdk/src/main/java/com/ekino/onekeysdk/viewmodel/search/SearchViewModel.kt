@@ -17,6 +17,8 @@ class SearchViewModel : AppViewModel<SearchFragment>() {
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<OneKeyPlace>>() }
+    val specialityEvent by lazy { MutableLiveData<Boolean>() }
+    val addressEvent by lazy { MutableLiveData<Boolean>() }
     private val executor: LocationAPI by lazy {
         OneKeyMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
     }
@@ -41,32 +43,43 @@ class SearchViewModel : AppViewModel<SearchFragment>() {
         }
     }
 
+    fun onSpecialityChanged(view: EditText) {
+        disposable?.add(
+            RxTextView.afterTextChangeEvents(view).map {
+                it.view().text.toString()
+            }.subscribe({
+                specialityEvent.postValue(it.isNotEmpty())
+            }, {})
+        )
+    }
+
     fun onAddressChanged(view: EditText) {
         disposable?.add(
-                RxTextView.afterTextChangeEvents(view).debounce(300, TimeUnit.MILLISECONDS)
-                        .map { event -> event.view().text.toString() }
-                        .subscribe({ key ->
-                            if (key.isEmpty()) {
-                                places.postValue(arrayListOf())
-                            } else {
-                                searchParameters["q"] = URLEncoder.encode(key, "UTF-8")
-                                searchAddress()
-                            }
-                        }, {
-                            //Do nothing
-                        })
+            RxTextView.afterTextChangeEvents(view)
+                .map { event -> event.view().text.toString() }
+                .subscribe({ key ->
+                    addressEvent.postValue(key.isNotEmpty())
+                    if (key.isEmpty()) {
+                        places.postValue(arrayListOf())
+                    } else {
+                        searchParameters["q"] = URLEncoder.encode(key, "UTF-8")
+                        searchAddress()
+                    }
+                }, {
+                    //Do nothing
+                })
         )
     }
 
     private fun searchAddress() {
         searchDisposable?.clear()
         searchDisposable?.add(
-                executor.searchAddress(searchParameters)
-                        .compose(compose()).subscribe({
-                            places.postValue(it)
-                        }, {
-                            places.postValue(arrayListOf())
-                        })
+            executor.searchAddress(searchParameters).delay(300, TimeUnit.MILLISECONDS)
+                .compose(compose()).subscribe({
+                    places.postValue(it)
+                }, {
+                    places.postValue(arrayListOf())
+                })
         )
     }
 }
