@@ -17,6 +17,12 @@ build_versions.build_tool_version = "30.0.2"
 build_versions.compile_sdk_version = 30
 build_versions.min_sdk = 24
 build_versions.target_sdk = 30
+versions.retrofit = "2.6.0"
+versions.okHttp = "3.11.0"
+versions.okHttpIntercepter = "3.4.1"
+versions.rxJavaAdapter = "1.0.0"
+versions.rxAndroidVersion = '2.1.1'
+versions.rxBinding = "2.2.0"
 
 /**
  * Define app dependencies versions here

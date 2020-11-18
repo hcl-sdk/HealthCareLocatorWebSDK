@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_border_corner"
+                android:focusable="true"
                 android:hint="Name, Speciality, Establishment,..."
                 android:inputType="text"
                 android:maxLines="1"
@@ -65,4 +66,10 @@
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/default_padding"
         android:background="@color/grayLight" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false" />
 </LinearLayout>
