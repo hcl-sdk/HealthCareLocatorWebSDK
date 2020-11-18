@@ -1,1 +1,0 @@
-import{r as s,h as r,H as o}from"./index-675d59a8.js";const t=class{constructor(r){s(this,r)}render(){return r(o,null,"About us")}};export{t as onekey_sdk_about_us}

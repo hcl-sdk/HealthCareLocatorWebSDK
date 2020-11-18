@@ -1,42 +1,22 @@
 {
   "name": "onekey-sdk",
+  "version": "1.0.0",
+  "description": "",
   "private": true,
-  "version": "0.0.1",
-  "description": "Stencil App Starter",
-  "main": "./packages/core-ui/index.cjs.js",
-  "module": "./packages/core-ui/index.js",
-  "es2015": "./packages/core-ui/esm/index.js",
-  "es2017": "./packages/core-ui/esm/index.js",
-  "collection": "./packages/core-ui/collection/collection-manifest.json",
-  "types": "./packages/core-ui/types/components.d.ts",
-  "files": [
-    "./packages/core-ui/"
+  "workspaces": [
+    "packages/*"
   ],
   "scripts": {
-    "build": "stencil build --docs",
-    "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll",
-    "generate": "stencil generate"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-web": "",
+    "build-angular": "echo \"Build SDK for angular\"",
+    "build-reactjs": "echo \"Build SDK for reactjs\"",
+    "build-vuejs": "echo \"Build SDK for vuejs\""
   },
-  "devDependencies": {
-    "@stencil/core": "^2.0.0",
-    "@stencil/react-output-target": "0.0.9",
-    "@stencil/router": "^1.0.1",
-    "@stencil/sass": "^1.3.2",
-    "workbox-build": "4.3.1"
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.ekino.com:iqvia/onekeysdkweb.git"
   },
-  "license": "MIT",
-  "dependencies": {
-    "@stencil/angular-output-target": "^0.0.5",
-    "@stencil/store": "^1.3.0",
-    "@stencil/vue-output-target": "^0.1.8",
-    "graphql-request": "^3.3.0",
-    "ionicons": "^5.2.3",
-    "leaflet": "^1.7.1",
-    "leaflet-geosearch": "^3.1.0",
-    "leaflet-gesture-handling": "^1.2.1",
-    "leaflet.markercluster": "^1.4.1",
-    "npm": "^6.14.8"
-  }
+  "author": "",
+  "license": "ISC"
 }
