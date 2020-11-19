@@ -1,5 +1,5 @@
 @import '../../../global/scss/variables.scss';
-@import '../../../global/scss/materialize.scss';
+// @import '../../../global/scss/materialize.scss';
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
 
 :host {
@@ -29,5 +29,36 @@
       border-radius: 0;
       padding: 1rem 0.5rem;
     }
+  }
+
+  .btn {
+    opacity: 1;
+    mix-blend-mode: normal;
+    border-radius: 5px;
+    border-color: rgb(67, 176, 42);
+    background-color: rgb(67, 176, 42);
+    color: rgb(255, 255, 255);
+    font-weight: normal;
+    padding: 5px 10px 6px;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    background-position: center center;
+    background-repeat: repeat;
+    background-size: auto;
+    border-width: 1px;
+    border-style: solid;
+    height: 33px;
+
+    &.block {
+      width: 100%;
+    }
+  }
+
+  input {
+    border: 1px solid #ddd;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 5px;
   }
 }

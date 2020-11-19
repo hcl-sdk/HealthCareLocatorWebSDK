@@ -15,6 +15,13 @@ export class OnekeySdkSearch {
   };
   @State() searchResult = [];
   @State() selectedAddress: any = {};
+
+  componentDidLoad() {
+    this.formData = {
+      ...this.formData,
+      name: searchMapStore.state.search.name
+    }
+  }
   
 
   private onSearch = (e) => {
@@ -53,7 +60,7 @@ export class OnekeySdkSearch {
             </onekey-sdk-router-link>
             <form onSubmit={this.onSearch} class="search-form">
               <div>
-                <input id="name" placeholder="Name, Speciality, Establishment..." onChange={this.onChange}/>
+                <input value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onChange={this.onChange}/>
                 <input value={this.selectedAddress.label} id="address" placeholder="Near me" onChange={this.onChange} />
               </div>
               <button class="icon btn search-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>

@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Watch, getAssetPath } from '@stencil/core';
+import { Component, Prop, h, Host, Watch, getAssetPath, State } from '@stencil/core';
 import * as L from 'leaflet';
 // import { GestureHandling } from 'leaflet-gesture-handling';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
@@ -22,15 +22,14 @@ export class OnekeySdkMap {
   @Prop() mapLink: string;
   @Prop() markerIconCurrentLocation: string;
   @Prop() markerIcon: string;
+  @Prop() onMarkerClick: Function
+  @State() currentLocation;
   mapElm: HTMLInputElement;
   map;
 
   componentDidLoad() {
     this.setMap();
-    this.currentLocation()
-    this.mapHeight = String(document.querySelector('onekey-sdk').offsetHeight) + 'px'
-
-    console.log(this.mapHeight, "this.mapHeight")
+    this.getCurrentLocation()
   }
 
   @Watch('locations')
@@ -38,9 +37,10 @@ export class OnekeySdkMap {
     this.setMarkers();
   }
 
-  currentLocation = () => {
+  getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const { coords: { latitude, longitude }} = position;
+      this.currentLocation = { lat:latitude, lng: longitude }
       new L.marker([latitude, longitude], {
         draggable: true,
         autoPan: true,
@@ -87,14 +87,20 @@ export class OnekeySdkMap {
     });
     if (this.locations) {
       for (let i = 0; i < this.locations.length; i++) {
-        markers.addLayer(L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() }).bindPopup(this.locations[i].name)).addTo(this.map);
+        markers.addLayer(L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() }).bindPopup(this.locations[i].name)).addTo(this.map).on("click", this.onMarkerClick);
       }
     }
   };
 
+  moveToCurrentLocation = () => {
+    console.log("moveBy")
+    this.map.panTo(this.currentLocation, 10);
+  }
+
   render() {
     return (
       <Host>
+        <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="large"></ion-icon></div>
         <div style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );

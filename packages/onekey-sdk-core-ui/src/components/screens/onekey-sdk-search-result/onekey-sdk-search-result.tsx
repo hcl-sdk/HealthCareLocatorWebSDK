@@ -1,6 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import { getHCPNearMe } from '../../../core/api/hcp';
-import { configStore, searchMapStore } from '../../../core/stores'
+import { configStore, searchMapStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-search-result',
@@ -11,23 +11,25 @@ export class OnekeySdkSearchResult {
   componentWillLoad() {
     getHCPNearMe();
   }
+  searchDataCardList;
 
-  onItemCardClick = () => {
+  onItemCardClick = () => {};
 
-  }
+  onMarkerClick = e => {
+    const selectedMarkerIdx = searchMapStore.state.hcpNearMe.findIndex(item => item.lat === e.latlng.lat && item.lng === e.latlng.lng);
+    this.searchDataCardList.scrollLeft = 306*selectedMarkerIdx;
+  };
 
   render() {
-    if(!searchMapStore.state.search) {
-      return null
+    if (!searchMapStore.state.search) {
+      return null;
     }
 
     const { hcpNearMe } = searchMapStore.state;
 
     return (
       <Host>
-        {
-          searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>
-        }
+        {searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>}
         <div class="search-result" style={{ height: configStore.state.appHeight }}>
           <div class="search-header search-section">
             <div>
@@ -45,16 +47,13 @@ export class OnekeySdkSearchResult {
             <div>List View</div>
           </div>
           <div class="search-map search-section">
-            <div class="search-data">
-              {
-                hcpNearMe.map(elm => (
-                  <onekey-sdk-doctor-card {...elm} onClick={this.onItemCardClick} />
-                ))
-              }
+            <div class="search-data" ref={el => this.searchDataCardList = el as HTMLInputElement}>
+              {hcpNearMe.map(elm => (
+                <onekey-sdk-doctor-card {...elm} onClick={this.onItemCardClick} />
+              ))}
             </div>
 
-            {
-            !!hcpNearMe.length && 
+            {!!hcpNearMe.length && (
               <onekey-sdk-map
                 class="search-map__content"
                 locations={hcpNearMe}
@@ -64,8 +63,9 @@ export class OnekeySdkSearchResult {
                 mapLink={configStore.state.mapLink}
                 markerIcon={configStore.state.markerIcon}
                 markerIconCurrentLocation={configStore.state.markerIconCurrentLocation}
+                onMarkerClick={this.onMarkerClick}
               />
-            }
+            )}
           </div>
         </div>
       </Host>

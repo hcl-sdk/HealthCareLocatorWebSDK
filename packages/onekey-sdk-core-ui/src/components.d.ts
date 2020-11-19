@@ -32,6 +32,7 @@ export namespace Components {
         "mapWidth": string;
         "markerIcon": string;
         "markerIconCurrentLocation": string;
+        "onMarkerClick": Function;
         "selectedLocationIdx": number;
     }
     interface OnekeySdkRoute {
@@ -159,6 +160,7 @@ declare namespace LocalJSX {
         "mapWidth"?: string;
         "markerIcon"?: string;
         "markerIconCurrentLocation"?: string;
+        "onMarkerClick"?: Function;
         "selectedLocationIdx"?: number;
     }
     interface OnekeySdkRoute {

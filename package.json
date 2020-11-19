@@ -8,10 +8,12 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-web": "",
+    "build-web": "npm run build --prefix packages/onekey-sdk-core-ui",
+    "start-web": "npm run start --prefix packages/onekey-sdk-core-ui",
     "build-angular": "echo \"Build SDK for angular\"",
     "build-reactjs": "echo \"Build SDK for reactjs\"",
-    "build-vuejs": "echo \"Build SDK for vuejs\""
+    "build-vuejs": "echo \"Build SDK for vuejs\"",
+    "start-example-web": "npm run build-web && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && npx serve ./examples/web/cdn"
   },
   "repository": {
     "type": "git",
