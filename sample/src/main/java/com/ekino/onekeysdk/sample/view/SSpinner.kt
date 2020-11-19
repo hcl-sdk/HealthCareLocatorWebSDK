@@ -22,8 +22,9 @@ class SSpinner : AppCompatSpinner {
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        lastSelected = this.selectedItemPosition
         if (this.lastSelected === this.selectedItemPosition && onItemSelectedListener != null) onItemSelectedListener!!.onItemSelected(this, selectedView, this.selectedItemPosition, selectedItemId)
-        if (!changed) lastSelected = this.selectedItemPosition
+//        if (!changed) lastSelected = this.selectedItemPosition
         super.onLayout(changed, l, t, r, b)
     }
 }
