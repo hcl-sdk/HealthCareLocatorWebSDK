@@ -26,7 +26,7 @@ class SearchAdapter : OneKeyAdapter<OneKeyLocation, SearchAdapter.SearchVH>(arra
                     itemView.layoutParams = lp
                 }
                 tvName.text = data.name
-                tvName.setTextColor(themeConfig.primaryColor.getColor())
+                tvName.setTextColor(themeConfig.secondaryColor.getColor())
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvDistance.text = "${data.distance}m"

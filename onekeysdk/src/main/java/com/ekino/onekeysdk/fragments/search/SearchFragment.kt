@@ -8,6 +8,7 @@ import base.extensions.addFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
+import com.ekino.onekeysdk.extensions.getDummyHCP
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
@@ -27,6 +28,7 @@ class SearchFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject)
     }
 
     private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyViewCustomObject, this) }
+    private var selectedPlace: OneKeyPlace? = null
 
     override val viewModel: SearchViewModel = SearchViewModel()
 
@@ -71,13 +73,15 @@ class SearchFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject)
             }
             R.id.btnSearch -> {
                 (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                        FullMapFragment.newInstance(oneKeyViewCustomObject), true)
+                        FullMapFragment.newInstance(oneKeyViewCustomObject, edtName.text.toString(),
+                                selectedPlace, getDummyHCP()), true)
             }
         }
     }
 
     override fun onPlaceClickedListener(place: OneKeyPlace) {
         edtWhere.setText(place.displayName)
+        this.selectedPlace = place
     }
 
     private fun setSpecialityClearState(state: Boolean) {

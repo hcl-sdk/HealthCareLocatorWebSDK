@@ -1,28 +1,41 @@
 package com.ekino.onekeysdk.fragments
 
+import android.content.res.Configuration
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import base.extensions.addFragment
 import base.fragments.AppFragment
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
+import com.ekino.onekeysdk.extensions.getHomeDummy
 import com.ekino.onekeysdk.extensions.setRippleBackground
-import com.ekino.onekeysdk.extensions.setRippleCircleBackground
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.home.HomeViewModel
+import com.iqvia.onekey.GetProfileQuery
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class OneKeyHomeFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject) :
-        AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
+    AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject =
-                                OneKeyViewCustomObject.Builder().build()): OneKeyHomeFragment {
+        fun newInstance(
+            oneKeyViewCustomObject: OneKeyViewCustomObject =
+                OneKeyViewCustomObject.Builder().build()
+        ): OneKeyHomeFragment {
             ThemeExtension.getInstance().setThemeConfiguration(oneKeyViewCustomObject)
             return OneKeyHomeFragment(oneKeyViewCustomObject)
         }
     }
+
+    private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyViewCustomObject) }
 
     override val viewModel: HomeViewModel = HomeViewModel()
 
@@ -32,16 +45,34 @@ class OneKeyHomeFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObj
         tvHomeHeader.setTextColor(oneKeyViewCustomObject.primaryColor.getColor())
         ivSearch.setRippleBackground(oneKeyViewCustomObject.primaryColor)
         btnStartSearch.setRippleBackground(oneKeyViewCustomObject.primaryColor)
-        ivFind.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
-        ivFind.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
-        ivProfile.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
-        ivProfile.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
-        ivEdit.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
-        ivEdit.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
+        rvHome.apply {
+            layoutManager = GridLayoutManager(
+                context,
+                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3
+            )
+            adapter = homeAdapter
+        }
+        homeAdapter.setData(getHomeDummy())
+
+        val apolloClient = ApolloClient.builder()
+            .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()
+        apolloClient.query(GetProfileQuery.builder().apiKey("1").id("1").build())
+            .enqueue(object : ApolloCall.Callback<GetProfileQuery.Data>() {
+                override fun onFailure(e: ApolloException) {
+                    OneKeyLog.e("${e.localizedMessage}")
+                }
+
+                override fun onResponse(response: Response<GetProfileQuery.Data>) {
+                    OneKeyLog.d("${response.data?.individualByID()?.firstName()}")
+                }
+
+            })
     }
 
     private fun startNewSearch() {
-        (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                SearchFragment.newInstance(oneKeyViewCustomObject), true)
+        (activity as? AppCompatActivity)?.addFragment(
+            R.id.fragmentContainer,
+            SearchFragment.newInstance(oneKeyViewCustomObject), true
+        )
     }
 }

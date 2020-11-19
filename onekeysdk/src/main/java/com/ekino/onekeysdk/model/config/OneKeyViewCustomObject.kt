@@ -33,6 +33,7 @@ data class OneKeyViewCustomObject private constructor(
         val fontBaseSize: Int = 20,
         val fontTitleSize: Int = 16,
         val font: String = "fonts/Roboto-Regular.ttf",
+        val fontBold: String = "fonts/Roboto-Bold.ttf",
         val textSize: Int = 16,
         val searchIcon: Int = R.drawable.baseline_search_white_24dp,
         val editIcon: Int = R.drawable.baseline_edit_white_36dp,
@@ -48,6 +49,7 @@ data class OneKeyViewCustomObject private constructor(
             var fontBaseSize: Int = 20,
             var fontTitleSize: Int = 16,
             var font: String = "fonts/Roboto-Regular.ttf",
+            val fontBold: String = "fonts/Roboto-Bold.ttf",
             var textSize: Int = 16,
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
@@ -69,7 +71,7 @@ data class OneKeyViewCustomObject private constructor(
         fun markerSelectedColor(markerSelectedColor: String) = apply { this.markerSelectedColor = markerSelectedColor }
 
         fun build() = OneKeyViewCustomObject(primaryColor, secondaryColor, textColor, markerColor,
-                markerSelectedColor, fontBaseSize, fontTitleSize, font, textSize, searchIcon,
+                markerSelectedColor, fontBaseSize, fontTitleSize, font, fontBold, textSize, searchIcon,
                 editIcon, markerIcon)
     }
 }
