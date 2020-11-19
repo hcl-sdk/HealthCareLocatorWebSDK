@@ -1,5 +1,8 @@
 $dokka.format:html
 $dokka.linkExtension:html
 
-com.ekino.onekeysdk.extends.model.config
+com.ekino.onekeysdk.model
+com.ekino.onekeysdk.model.config
+com.ekino.onekeysdk.model.home
+com.ekino.onekeysdk.model.map
 customization.map
