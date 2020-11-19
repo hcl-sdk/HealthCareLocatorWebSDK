@@ -15,7 +15,6 @@ export class OneKeySDK {
   }
 
   render() {
-    console.log(configStore)
     return (
       <Host>
         <onekey-sdk-router>

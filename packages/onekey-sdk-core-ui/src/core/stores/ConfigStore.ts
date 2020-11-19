@@ -16,12 +16,11 @@ export interface OneKeySDKConfigData {
   styles?: AppConfigStyles | any;
 }
 
-console.log(document.querySelector('onekey-sdk').offsetHeight)
 export const initStateConfigStore = {
   appWidth: '300px',
   appHeight: '700px',
   styles: {
-    fontFamily: 'Roboto',
+    fontFamily: `'Roboto', sans-serif`,
     color: 'black'
   },
   mapTileLayer: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',

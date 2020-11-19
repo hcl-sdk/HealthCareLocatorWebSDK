@@ -1,5 +1,5 @@
 @import '../../../global/scss/variables.scss';
-// @import '../../../global/scss/materialize.scss';
+@import '../../../global/scss/materialize.scss';
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
 
 :host {
@@ -8,27 +8,36 @@
   height: 100%;
   overflow: auto;
   font-family: 'Roboto', sans-serif;
+  position: relative;
+  background-color: #f3f3f3;
 
   .main-contain {
-    background-color: #f3f3f3;
-    height: 100%;
     display: block;
     position: relative;
-    height: 100vh;
-    padding: 1rem;
+    height: 100%;
+    overflow-y: scroll;
   }
 
   .main-block {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #ddd;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem 0.5rem;
+
+    &--header {
+      border-radius: 0;
+      margin: 0;
+      padding: 1rem;
+      margin-left: 0;
+    }
 
     &--full {
       border-radius: 0;
-      padding: 1rem 0.5rem;
     }
+  }
+
+  .full-block {
+    width: 100%;
   }
 
   .btn {
@@ -48,11 +57,7 @@
     background-size: auto;
     border-width: 1px;
     border-style: solid;
-    height: 33px;
-
-    &.block {
-      width: 100%;
-    }
+    min-height: 33px;
   }
 
   input {
@@ -60,5 +65,28 @@
     padding-right: 1rem;
     padding-left: 1rem;
     border-radius: 5px;
+    height: 38px;
+
+    &:placeholder {
+      color: #b8b8b8
+    }
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  strong {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .text-primary {
+    color:  rgb(67, 176, 42);
+  }
+
+  .text-bold {
+    font-weight: 700;
   }
 }

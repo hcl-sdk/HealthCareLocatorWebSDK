@@ -20,13 +20,15 @@ export interface SearchMapState {
   hcpNearMe?: HCPItem[];
   search?: SearchResult;
   searchGeo?: any[]
+  currentLocation?: any;
 }
 
 export const initStateSearchMapStore: SearchMapState = {
   loading: false,
   hcpNearMe: [],
   search: {},
-  searchGeo: []
+  searchGeo: [],
+  currentLocation: {}
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {

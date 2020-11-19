@@ -1,17 +1,32 @@
 :host {
   display: block;
 
+  .btn-back {
+    font-size: 25px;
+    margin-right: 0.5rem;
+  }
+
   .search-result {
     height: 100%;
     display: flex;
     flex: 1;
     flex-direction: column;
+
+    &-title {
+      font-size: 16px;
+    }
+
+    &-address {
+      font-size: 12px;
+      color: #7d7d7d;
+    }
   }
 
   .search-section {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
     border-bottom: 1px solid #ddd;
     align-items: center;
+    background: white;
   }
 
   .search-header {
@@ -21,11 +36,12 @@
   .search-toolbar {
     display: flex;
     justify-content: space-around;
+    padding: 0.5rem 0.2rem;
   }
 
   .search-map {
     padding: 0;
-    height: calc(100% - 121px);
+    height: calc(100% - 112px);
     position: relative;
 
     &__content {
@@ -35,7 +51,7 @@
     .search-data {
       position: absolute;
       width: 100%;
-      bottom: 1rem;
+      bottom: 0;
       height: 8rem;
       display: flex;
       flex-direction: row;
@@ -43,5 +59,14 @@
       z-index: 1000;
       overflow-y: hidden;
     }
+  }
+
+  .search-filter {
+    color: #00a4e0;
+    font-size: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    width: 24px;
+    height: 24px;
   }
 }

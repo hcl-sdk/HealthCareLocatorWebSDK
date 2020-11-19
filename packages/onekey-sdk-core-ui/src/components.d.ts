@@ -15,6 +15,7 @@ export namespace Components {
         "distance": string;
         "gp": string;
         "name": string;
+        "selected": boolean;
     }
     interface OnekeySdkHome {
     }
@@ -32,7 +33,6 @@ export namespace Components {
         "mapWidth": string;
         "markerIcon": string;
         "markerIconCurrentLocation": string;
-        "onMarkerClick": Function;
         "selectedLocationIdx": number;
     }
     interface OnekeySdkRoute {
@@ -57,7 +57,14 @@ export namespace Components {
     }
     interface OnekeySdkSearch {
     }
+    interface OnekeySdkSearchAddressItem {
+        "activated": boolean;
+        "item": any;
+        "type": string;
+    }
     interface OnekeySdkSearchResult {
+    }
+    interface OnekeySdkSwitchViewMode {
     }
 }
 declare global {
@@ -115,11 +122,23 @@ declare global {
         prototype: HTMLOnekeySdkSearchElement;
         new (): HTMLOnekeySdkSearchElement;
     };
+    interface HTMLOnekeySdkSearchAddressItemElement extends Components.OnekeySdkSearchAddressItem, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkSearchAddressItemElement: {
+        prototype: HTMLOnekeySdkSearchAddressItemElement;
+        new (): HTMLOnekeySdkSearchAddressItemElement;
+    };
     interface HTMLOnekeySdkSearchResultElement extends Components.OnekeySdkSearchResult, HTMLStencilElement {
     }
     var HTMLOnekeySdkSearchResultElement: {
         prototype: HTMLOnekeySdkSearchResultElement;
         new (): HTMLOnekeySdkSearchResultElement;
+    };
+    interface HTMLOnekeySdkSwitchViewModeElement extends Components.OnekeySdkSwitchViewMode, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkSwitchViewModeElement: {
+        prototype: HTMLOnekeySdkSwitchViewModeElement;
+        new (): HTMLOnekeySdkSwitchViewModeElement;
     };
     interface HTMLElementTagNameMap {
         "onekey-sdk": HTMLOnekeySdkElement;
@@ -131,7 +150,9 @@ declare global {
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
         "onekey-sdk-router-link": HTMLOnekeySdkRouterLinkElement;
         "onekey-sdk-search": HTMLOnekeySdkSearchElement;
+        "onekey-sdk-search-address-item": HTMLOnekeySdkSearchAddressItemElement;
         "onekey-sdk-search-result": HTMLOnekeySdkSearchResultElement;
+        "onekey-sdk-switch-view-mode": HTMLOnekeySdkSwitchViewModeElement;
     }
 }
 declare namespace LocalJSX {
@@ -143,6 +164,7 @@ declare namespace LocalJSX {
         "distance"?: string;
         "gp"?: string;
         "name"?: string;
+        "selected"?: boolean;
     }
     interface OnekeySdkHome {
     }
@@ -160,7 +182,8 @@ declare namespace LocalJSX {
         "mapWidth"?: string;
         "markerIcon"?: string;
         "markerIconCurrentLocation"?: string;
-        "onMarkerClick"?: Function;
+        "onMarkerClick"?: (event: CustomEvent<any>) => void;
+        "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;
     }
     interface OnekeySdkRoute {
@@ -185,7 +208,15 @@ declare namespace LocalJSX {
     }
     interface OnekeySdkSearch {
     }
+    interface OnekeySdkSearchAddressItem {
+        "activated"?: boolean;
+        "item"?: any;
+        "onSelectAddress"?: (event: CustomEvent<any>) => void;
+        "type"?: string;
+    }
     interface OnekeySdkSearchResult {
+    }
+    interface OnekeySdkSwitchViewMode {
     }
     interface IntrinsicElements {
         "onekey-sdk": OnekeySdk;
@@ -197,7 +228,9 @@ declare namespace LocalJSX {
         "onekey-sdk-router": OnekeySdkRouter;
         "onekey-sdk-router-link": OnekeySdkRouterLink;
         "onekey-sdk-search": OnekeySdkSearch;
+        "onekey-sdk-search-address-item": OnekeySdkSearchAddressItem;
         "onekey-sdk-search-result": OnekeySdkSearchResult;
+        "onekey-sdk-switch-view-mode": OnekeySdkSwitchViewMode;
     }
 }
 export { LocalJSX as JSX };
@@ -213,7 +246,9 @@ declare module "@stencil/core" {
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;
             "onekey-sdk-router-link": LocalJSX.OnekeySdkRouterLink & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterLinkElement>;
             "onekey-sdk-search": LocalJSX.OnekeySdkSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchElement>;
+            "onekey-sdk-search-address-item": LocalJSX.OnekeySdkSearchAddressItem & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchAddressItemElement>;
             "onekey-sdk-search-result": LocalJSX.OnekeySdkSearchResult & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchResultElement>;
+            "onekey-sdk-switch-view-mode": LocalJSX.OnekeySdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLOnekeySdkSwitchViewModeElement>;
         }
     }
 }

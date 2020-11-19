@@ -4,17 +4,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    padding: 1rem;
   }
 
   .title {
     color: #00a3e0;
     display: block;
-    font-size: 1.5rem;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 26px;
   }
 
   .item {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,6 +33,7 @@
   .header {
     text-align: center;
     margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 
   .content {
@@ -41,8 +44,28 @@
     display: block;
   }
 
-  .search-hpc {
-    display: flex;
+  .search-home-hpc {
+    form {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      position: relative;
+    }
+  }
+  
+  .search-input {
     width: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .search-btn {
+    position: absolute;
+    font-size: 1.2rem !important;
+    right: 0;
+    top: 0;
+    display: flex;
+    height: 100%;
+    align-items: center;
   }
 }

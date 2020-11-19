@@ -7,10 +7,25 @@
     padding: 1rem;
     margin-left: 1rem;
     background-color: white;
+    max-height: 70px;
+    width: 250px;
+    line-height: 1.3rem;
     display: flex;
-    flex-direction: column;
-    height: 8rem;
-    width: 16rem;
+    align-items: center;
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    &-arrow-icon {
+      justify-self: flex-end;
+    }
+
+    &.selected {
+      border: 1px solid #43b02a;
+    }
 
     .name {
       color: rgb(0, 163, 224);

@@ -1,6 +1,6 @@
-import { Component, Host, h, State } from '@stencil/core';
+import { Component, Host, h, State, Listen } from '@stencil/core';
 import 'ionicons'
-import searchGeoMap from '../../../core/api/searchGeo';
+import {searchGeoMap} from '../../../core/api/searchGeo';
 import { searchMapStore, routerStore } from '../../../core/stores'
 
 @Component({
@@ -43,8 +43,9 @@ export class OnekeySdkSearch {
     }
   }
 
-  onSelectAddress = (addr) => {
-    this.selectedAddress = {...addr }
+  @Listen("selectAddress")
+  onSelectAddress(e) {
+    this.selectedAddress = {...e.detail }
   }
 
   render() {
@@ -53,28 +54,29 @@ export class OnekeySdkSearch {
         {
           searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>
         }
-        <div class="main-block-full main-block--full">
+        <div class="main-block search-block">
           <div class="search-hpc">
-            <onekey-sdk-router-link url="/" class="btn-back">
+            <onekey-sdk-router-link url="/" class="search-back">
               <ion-icon name="arrow-back-outline" size="large"></ion-icon>
             </onekey-sdk-router-link>
             <form onSubmit={this.onSearch} class="search-form">
-              <div>
+              <div class="search-form-content">
                 <input value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onChange={this.onChange}/>
                 <input value={this.selectedAddress.label} id="address" placeholder="Near me" onChange={this.onChange} />
               </div>
-              <button class="icon btn search-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
+              <button class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
             </form>
           </div>
         </div>
-        <div class="main-contain">
-          <ul>
-            {
-              searchMapStore.state?.searchGeo?.map(elm => (
-              <li class={`search-address-item ${this.selectedAddress?.raw?.place_id === elm.raw.place_id ? 'active': ''}`} onClick={() => this.onSelectAddress(elm)}>{elm.label}</li>
-              ))
-            }
-          </ul>
+        <div class="main-contain search-content">
+          {
+            searchMapStore.state?.searchGeo?.map(
+              item => <onekey-sdk-search-address-item 
+                item={item}
+                activated={this.selectedAddress?.raw?.place_id === item.raw.place_id}
+              />
+            )
+          }
         </div>
       </Host>
     );

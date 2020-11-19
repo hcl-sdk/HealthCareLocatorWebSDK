@@ -16,19 +16,31 @@
   <link rel="apple-touch-icon" href="/assets/icon/icon.png">
   <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico">
   <link rel="manifest" href="/manifest.json">
+  <style>
+    .onekey-sdk {
+      display: block;
+      height: 700px;
+      width: 400px;
+      margin: 0 auto;
+      margin-top: 5rem;
+      border: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
 
-  <onekey-sdk></onekey-sdk>
+  <div class="onekey-sdk">
+    <onekey-sdk></onekey-sdk>
+  </div>
 
   <script>
     const oneKeySDK = document.querySelector('onekey-sdk');
     oneKeySDK.config = {
-      appWidth: '300px',
-      appHeight: '100vh',
+      appWidth: '400px',
+      appHeight: '700px',
       styles: {
-        fontFamily: 'Open Sans, sans-serif',
-        color: 'red'
+        fontFamily: 'Roboto, sans-serif',
+        // color: 'red'
       }
       // mapTileLayer: 'http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
       // mapLink: '<a>Ekino</a>',
