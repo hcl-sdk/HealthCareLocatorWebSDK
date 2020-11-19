@@ -1,10 +1,10 @@
 package base.fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import base.activity.AppActivity
 import base.viewmodel.IViewModel
@@ -28,6 +28,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
      */
     abstract fun initView(view: View)
     open val onPassingEventListener: (data: Any) -> Unit = {}
+    open val onConfigurationChanged: (newConfig: Configuration) -> Unit = {}
     private val screenId: String by lazy { "${System.currentTimeMillis()}" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +45,13 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getAppActivity()?.registerPassingEventListener(screenId, onPassingEventListener)
+        getAppActivity()?.registerConfigurationChanged(screenId, onConfigurationChanged)
         initView(view)
     }
 
     override fun onDestroyView() {
         getAppActivity()?.unregisterPassingEventListener(screenId)
+        getAppActivity()?.unregisterConfigurationChanged(screenId)
         super.onDestroyView()
         viewModel.unbindView()
     }

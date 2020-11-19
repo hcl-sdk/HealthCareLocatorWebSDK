@@ -1,16 +1,29 @@
 package com.ekino.onekeysdk.extensions
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.view.View
+import androidx.core.content.ContextCompat
 import java.util.*
 
 fun View.setRippleBackground(color: Int) {
     val outerRadii = FloatArray(8)
     Arrays.fill(outerRadii, 10f)
+    val round = RoundRectShape(outerRadii, null, null)
+    val shapeDrawable = ShapeDrawable(round)
+    shapeDrawable.paint.color = color
+    this.background = RippleDrawable(ColorStateList.valueOf(Color.parseColor("#55000000")),
+            shapeDrawable, null)
+}
+
+fun View.setRippleBackground(color: Int, radius: Float) {
+    val outerRadii = FloatArray(8)
+    Arrays.fill(outerRadii, radius)
     val round = RoundRectShape(outerRadii, null, null)
     val shapeDrawable = ShapeDrawable(round)
     shapeDrawable.paint.color = color
@@ -28,10 +41,27 @@ fun View.setRippleCircleBackground(color: Int) {
             shapeDrawable, null)
 }
 
+fun View.setRippleCircleBackground(color: Int, alpha: Int = 255) {
+    val round = RoundRectShape(floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f),
+            null, floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f))
+    val shapeDrawable = ShapeDrawable(round)
+    shapeDrawable.paint.color = color
+    shapeDrawable.paint.alpha = alpha
+    this.background = RippleDrawable(ColorStateList.valueOf(Color.parseColor("#55000000")),
+            shapeDrawable, null)
+}
+
 fun View.setRippleBackground(hexColor: String) {
     this.setRippleBackground(hexColor.getColor())
+}
+
+fun View.setRippleBackground(hexColor: String, radius: Float) {
+    this.setRippleBackground(hexColor.getColor(), radius)
 }
 
 fun View.setRippleCircleBackground(hexColor: String) {
     this.setRippleCircleBackground(hexColor.getColor())
 }
+
+fun Context.getDrawableById(drawableId: Int): Drawable? =
+        ContextCompat.getDrawable(this, drawableId)

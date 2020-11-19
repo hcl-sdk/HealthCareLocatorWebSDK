@@ -30,21 +30,24 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
     override fun init(attributeSet: AttributeSet?) {
         var font: String? = ""
         var primaryText: Boolean = false
+        var boldText: Boolean = false
         if (attributeSet != null) {
             var typeArray: TypedArray =
                     context.obtainStyledAttributes(attributeSet, R.styleable.OneKeyTextView)
             font = typeArray.getString(R.styleable.OneKeyTextView_setFont)
             primaryText = typeArray.getBoolean(R.styleable.OneKeyTextView_primaryText, false)
+            boldText = typeArray.getBoolean(R.styleable.OneKeyTextView_boldText, false)
             typeArray.recycle()
         }
-        setFont(font)
+        setFont(font, boldText)
         setFontSize(primaryText)
         includeFontPadding = false
     }
 
-    fun setFont(font: String?) {
+    private fun setFont(font: String?, boldText: Boolean) {
         try {
-            var f = ThemeExtension.getInstance().getThemeConfiguration().font
+            var f = if (boldText) ThemeExtension.getInstance().getThemeConfiguration().fontBold
+            else ThemeExtension.getInstance().getThemeConfiguration().font
             if (TextUtils.isEmpty(f)) {
                 f = context.getString(R.string.roboto_regular)
             }

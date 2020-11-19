@@ -1,5 +1,6 @@
 package base.activity
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ abstract class AppActivity<BINDING : ViewDataBinding>(private val layoutId: Int)
     abstract val stackFragment: ArrayList<IFragment>
     abstract val activeStack: Int
     private val passingEventListenerMap by lazy { hashMapOf<String, (data: Any) -> Unit>() }
+    private val configurationEventMap by lazy { hashMapOf<String, (newConfig: Configuration) -> Unit>() }
 
     private val fragmentState: IFragmentState by lazy {
         FragmentState(this.supportFragmentManager, R.id.fragmentContainer)
@@ -87,6 +89,20 @@ abstract class AppActivity<BINDING : ViewDataBinding>(private val layoutId: Int)
 
     fun unregisterPassingEventListener(key: String) {
         passingEventListenerMap.remove(key)
+    }
+
+    fun registerConfigurationChanged(key: String, event: (newConfig: Configuration) -> Unit) {
+        configurationEventMap[key] = event
+    }
+
+    fun unregisterConfigurationChanged(key: String) {
+        configurationEventMap.remove(key)
+    }
+
+    fun notifyConfigurationChanged(data: Configuration) {
+        configurationEventMap.map { entry: Map.Entry<String, (data: Configuration) -> Unit> ->
+            entry.value(data)
+        }
     }
 
     private fun notifyPassingEventListener(data: Any) {

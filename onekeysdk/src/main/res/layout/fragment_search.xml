@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -16,7 +18,7 @@
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/default_padding_smaller"
+            android:padding="@dimen/default_padding_small"
             android:src="@drawable/baseline_arrow_back_black_36dp" />
 
         <LinearLayout
@@ -25,26 +27,65 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edtName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_border_corner"
-                android:hint="Name, Speciality, Establishment,..."
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="@dimen/default_padding_smaller" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edtWhere"
+                <com.ekino.onekeysdk.custom.text.OneKeyEditText
+                    android:id="@+id/edtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:focusable="true"
+                    android:hint="Name, Speciality, Establishment,..."
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="@dimen/default_padding_smaller" />
+
+                <ImageView
+                    android:id="@+id/ivSpecialityClear"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/default_padding_smaller"
+                    android:src="@drawable/baseline_close_black_24dp"
+                    app:tint="@color/gray" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_padding_smaller"
                 android:background="@drawable/bg_white_border_corner"
-                android:hint="Where? (address, city,...)"
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="@dimen/default_padding_smaller" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.ekino.onekeysdk.custom.text.OneKeyEditText
+                    android:id="@+id/edtWhere"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:hint="Where? (address, city,...)"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="@dimen/default_padding_smaller" />
+
+                <ImageView
+                    android:id="@+id/ivAddressClear"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/default_padding_smaller"
+                    android:src="@drawable/baseline_close_black_24dp"
+                    app:tint="@color/gray" />
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView
@@ -64,5 +105,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/default_padding"
+        android:alpha="0.1"
         android:background="@color/grayLight" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false" />
 </LinearLayout>

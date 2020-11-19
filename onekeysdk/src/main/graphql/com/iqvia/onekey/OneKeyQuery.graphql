@@ -1,0 +1,26 @@
+query getProfile($apiKey: String!, $id: ID!) {
+    individualByID(apiKey: $apiKey, id:$id) {
+        id
+        title
+        firstName
+        lastName
+        mailingName
+        maidenName
+        nickname
+        suffixName
+        professionalType{
+            label
+            key
+        }
+        specialties{
+            label
+            key
+        }
+        lastUpdateDate
+        webAddress
+        mainActivity{
+            id
+            phone
+        }
+    }
+}

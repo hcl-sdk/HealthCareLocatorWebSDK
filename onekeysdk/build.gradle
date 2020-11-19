@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'com.apollographql.apollo'
 
 android {
     compileSdkVersion build_versions.compile_sdk_version
@@ -85,6 +86,17 @@ dependencies {
     implementation "org.osmdroid:osmdroid-android:6.1.8"
     implementation "io.reactivex.rxjava2:rxjava:2.2.16"
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$versions.rxJavaAdapter"
+    implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttpIntercepter"
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.rxAndroidVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding"
+    implementation "com.apollographql.apollo:apollo-runtime:2.4.4"
+    implementation "com.apollographql.apollo:apollo-android-support:2.4.4"
+    compileOnly "org.jetbrains:annotations:13.0"
 
 }
 
