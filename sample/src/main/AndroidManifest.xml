@@ -11,8 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".sample.SampleOneKeySDKActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:name=".sample.SampleOneKeySDKActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -23,17 +23,19 @@ import com.ekino.onekeysdk.viewmodel.home.HomeViewModel
 import com.iqvia.onekey.GetProfileQuery
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class OneKeyHomeFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject) :
-    AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
+class OneKeyHomeFragment :
+        AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
     companion object {
-        fun newInstance(
-            oneKeyViewCustomObject: OneKeyViewCustomObject =
-                OneKeyViewCustomObject.Builder().build()
-        ): OneKeyHomeFragment {
+        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject =
+                                OneKeyViewCustomObject.Builder().build()): OneKeyHomeFragment {
             ThemeExtension.getInstance().setThemeConfiguration(oneKeyViewCustomObject)
-            return OneKeyHomeFragment(oneKeyViewCustomObject)
+            return OneKeyHomeFragment().apply {
+                this.oneKeyViewCustomObject = oneKeyViewCustomObject
+            }
         }
     }
+
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
 
     private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyViewCustomObject) }
 
@@ -42,37 +44,39 @@ class OneKeyHomeFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObj
     override fun initView(view: View) {
         newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
-        tvHomeHeader.setTextColor(oneKeyViewCustomObject.primaryColor.getColor())
-        ivSearch.setRippleBackground(oneKeyViewCustomObject.primaryColor)
-        btnStartSearch.setRippleBackground(oneKeyViewCustomObject.primaryColor)
+        oneKeyViewCustomObject?.also {
+            tvHomeHeader.setTextColor(it.primaryColor.getColor())
+            ivSearch.setRippleBackground(it.primaryColor)
+            btnStartSearch.setRippleBackground(it.primaryColor)
+        }
         rvHome.apply {
             layoutManager = GridLayoutManager(
-                context,
-                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3
+                    context,
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3
             )
             adapter = homeAdapter
         }
         homeAdapter.setData(getHomeDummy())
 
         val apolloClient = ApolloClient.builder()
-            .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()
+                .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()
         apolloClient.query(GetProfileQuery.builder().apiKey("1").id("1").build())
-            .enqueue(object : ApolloCall.Callback<GetProfileQuery.Data>() {
-                override fun onFailure(e: ApolloException) {
-                    OneKeyLog.e("${e.localizedMessage}")
-                }
+                .enqueue(object : ApolloCall.Callback<GetProfileQuery.Data>() {
+                    override fun onFailure(e: ApolloException) {
+                        OneKeyLog.e("${e.localizedMessage}")
+                    }
 
-                override fun onResponse(response: Response<GetProfileQuery.Data>) {
-                    OneKeyLog.d("${response.data?.individualByID()?.firstName()}")
-                }
+                    override fun onResponse(response: Response<GetProfileQuery.Data>) {
+                        OneKeyLog.d("${response.data?.individualByID()?.firstName()}")
+                    }
 
-            })
+                })
     }
 
     private fun startNewSearch() {
-        (activity as? AppCompatActivity)?.addFragment(
-            R.id.fragmentContainer,
-            SearchFragment.newInstance(oneKeyViewCustomObject), true
-        )
+        oneKeyViewCustomObject?.also {
+            (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                    SearchFragment.newInstance(it), true)
+        }
     }
 }

@@ -24,8 +24,10 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
-        this.addFragment(R.id.drawerMenuContainer, DrawerMenuFragment.newInstance())
-        this.addFragment(R.id.fragmentContainer, LandingPageFragment.newInstance(), true)
+        if (savedInstanceState == null) {
+            this.addFragment(R.id.drawerMenuContainer, DrawerMenuFragment.newInstance())
+            this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(), true)
+        }
         btnMenu.setOnClickListener {
             if (drawer.isDrawerOpen(GravityCompat.START))
                 drawer.closeDrawer(GravityCompat.START)

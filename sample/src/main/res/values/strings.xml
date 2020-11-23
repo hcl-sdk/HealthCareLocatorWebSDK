@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sample</string>
+    <string name="app_name">OneKey Sample</string>
     <string-array name="themes">
         <item>Green</item>
         <item>Blue</item>
