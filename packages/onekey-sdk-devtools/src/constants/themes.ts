@@ -2,7 +2,7 @@ export const THEMES = {
   green: {
     font: 'Roboto',
     colorPrimary: '#43B12B',
-    colorSecondary: '#E4F3DF',
+    colorSecondary: '#00a3e0',
     colorMarker: '#FE8A12',
     colorMarkerSelected: '#CD0800',
     fontSizeBase: '14',
@@ -11,7 +11,7 @@ export const THEMES = {
   blue: {
     font: 'Roboto',
     colorPrimary: '#0433CC',
-    colorSecondary: '#B3C6FF',
+    colorSecondary: '#00a3e0',
     colorMarker: '#1A53FF',
     colorMarkerSelected: '#000D33',
     fontSizeBase: '14',
@@ -20,7 +20,7 @@ export const THEMES = {
   red: {
     font: 'Roboto',
     colorPrimary: '#FD0D00',
-    colorSecondary: '#FECCCC',
+    colorSecondary: '#00a3e0',
     colorMarker: '#FD3334',
     colorMarkerSelected: '#4D0100',
     fontSizeBase: '14',
@@ -29,7 +29,7 @@ export const THEMES = {
   purple: {
     font: 'Roboto',
     colorPrimary: '#771d5f',
-    colorSecondary: '#e5cee4',
+    colorSecondary: '#00a3e0',
     colorMarker: '#a33c9f',
     colorMarkerSelected: '#690f65',
     fontSizeBase: '14',

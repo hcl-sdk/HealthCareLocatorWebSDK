@@ -1,0 +1,10 @@
+image: ekino/docker-buildbox:latest-node15
+
+stages:
+  - build_n_deploy
+
+build_n_deploy:
+  stage: build_n_deploy
+  script:
+    - npm i
+    - npm run build-example-web
