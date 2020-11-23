@@ -18,15 +18,16 @@ import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject) :
+class SearchFragment :
         AppFragment<SearchFragment, SearchViewModel>(R.layout.fragment_search),
         View.OnClickListener, OneKeyPlaceAdapter.OnOneKeyPlaceClickedListener {
 
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject) =
-                SearchFragment(oneKeyViewCustomObject)
+                SearchFragment().apply { this.oneKeyViewCustomObject = oneKeyViewCustomObject }
     }
 
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject? = null
     private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyViewCustomObject, this) }
     private var selectedPlace: OneKeyPlace? = null
 
@@ -34,8 +35,10 @@ class SearchFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject)
 
     override fun initView(view: View) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
+        oneKeyViewCustomObject?.also {
+            btnSearch.setRippleBackground(it.primaryColor)
+        }
         btnBack.setOnClickListener(this)
-        btnSearch.setRippleBackground(oneKeyViewCustomObject.primaryColor)
         ivSpecialityClear.setOnClickListener(this)
         ivAddressClear.setOnClickListener(this)
         btnSearch.setOnClickListener(this)
@@ -72,9 +75,11 @@ class SearchFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject)
                 setAddressClearState(false)
             }
             R.id.btnSearch -> {
-                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                        FullMapFragment.newInstance(oneKeyViewCustomObject, edtName.text.toString(),
-                                selectedPlace, getDummyHCP()), true)
+                oneKeyViewCustomObject?.also {
+                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                            FullMapFragment.newInstance(it, edtName.text.toString(),
+                                    selectedPlace, getDummyHCP()), true)
+                }
             }
         }
     }

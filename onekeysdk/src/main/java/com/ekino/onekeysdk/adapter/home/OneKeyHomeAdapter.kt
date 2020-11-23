@@ -13,7 +13,7 @@ import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
 import kotlinx.android.synthetic.main.layout_one_key_home.view.*
 
-class OneKeyHomeAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObject) : OneKeyAdapter<OneKeyHomeObject,
+class OneKeyHomeAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObject?) : OneKeyAdapter<OneKeyHomeObject,
         OneKeyHomeAdapter.OneKeyHomeVH>(arrayListOf(R.layout.layout_one_key_home)) {
 
 
@@ -23,12 +23,14 @@ class OneKeyHomeAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObje
 
     inner class OneKeyHomeVH(itemView: View) : OneKeyViewHolder<OneKeyHomeObject>(itemView) {
         override fun bind(position: Int, data: OneKeyHomeObject) {
-            itemView.apply {
-                ivFind.setImageDrawable(context.getDrawableById(data.drawableId))
-                ivFind.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
-                ivFind.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
-                tvTitle.text = data.title
-                tvDescription.text = data.description
+            oneKeyViewCustomObject?.also {
+                itemView.apply {
+                    ivFind.setImageDrawable(context.getDrawableById(data.drawableId))
+                    ivFind.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
+                    ivFind.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
+                    tvTitle.text = data.title
+                    tvDescription.text = data.description
+                }
             }
         }
     }
