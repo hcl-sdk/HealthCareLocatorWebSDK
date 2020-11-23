@@ -25,6 +25,11 @@
       margin-top: 5rem;
       border: 1px solid #ddd;
     }
+
+    onekey-sdk {
+      --onekeysdk-color-primary: #001f3f;
+      --onekeysdk-color-secondary: #39CCCC;
+    }
   </style>
 </head>
 <body>
@@ -36,8 +41,6 @@
   <script>
     const oneKeySDK = document.querySelector('onekey-sdk');
     oneKeySDK.config = {
-      appWidth: '400px',
-      appHeight: '700px',
       styles: {
         fontFamily: 'Roboto, sans-serif',
         // color: 'red'

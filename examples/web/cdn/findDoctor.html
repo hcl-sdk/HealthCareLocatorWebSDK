@@ -9,11 +9,18 @@
 <body>
   <script src="index.js"></script>
   <script src='./onekey-sdk/onekey-sdk.js'></script>
+  <script src='./devtools/devtools.js'></script>
 
   <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="/">Home</a>
-    <a href="/findDoctor.html" class="active">New Search</a>
+    <div class="sidenav-items">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="/">Home</a>
+      <a href="/findDoctor.html" class="active">New Search</a>
+      <a href="javascript:void(0)" onclick="openSettings()">Settings</a>
+    </div>
+    <div class="sidenav-settings">
+      <settings-panel></settings-panel>
+    </div>
   </div>
 
   <div id="main">
@@ -30,10 +37,8 @@
 
   <script>
     const oneKeySDK = document.querySelector('onekey-sdk');
-    oneKeySDK.config = {
-      appHeight: "700px",
-      appWidth: "400px"
-    };
+    oneKeySDK.apiKey = 'ABCDEF123456';
+    oneKeySDK.theme = {};
   </script>
 </body>
 </html>

@@ -9,6 +9,9 @@ import { searchMapStore, routerStore } from '../../../core/stores'
   shadow: false,
 })
 export class OnekeySdkSearch {
+
+  nameInput!: HTMLInputElement;
+
   @State() formData = {
     name: '',
     address: ''
@@ -16,13 +19,17 @@ export class OnekeySdkSearch {
   @State() searchResult = [];
   @State() selectedAddress: any = {};
 
-  componentDidLoad() {
+  componentWillLoad() {
     this.formData = {
       ...this.formData,
       name: searchMapStore.state.search.name
-    }
+    };
   }
-  
+
+  componentDidLoad() {
+    this.nameInput.focus();
+  }
+
 
   private onSearch = (e) => {
     e.preventDefault()
@@ -61,8 +68,8 @@ export class OnekeySdkSearch {
             </onekey-sdk-router-link>
             <form onSubmit={this.onSearch} class="search-form">
               <div class="search-form-content">
-                <input value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onChange={this.onChange}/>
-                <input value={this.selectedAddress.label} id="address" placeholder="Near me" onChange={this.onChange} />
+                <input ref={el => this.nameInput = el} value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onChange={this.onChange} autoComplete="off" />
+                <input value={this.selectedAddress.label} id="address" placeholder="Near me" onChange={this.onChange} autoComplete="off" />
               </div>
               <button class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
             </form>
@@ -71,7 +78,7 @@ export class OnekeySdkSearch {
         <div class="main-contain search-content">
           {
             searchMapStore.state?.searchGeo?.map(
-              item => <onekey-sdk-search-address-item 
+              item => <onekey-sdk-search-address-item
                 item={item}
                 activated={this.selectedAddress?.raw?.place_id === item.raw.place_id}
               />

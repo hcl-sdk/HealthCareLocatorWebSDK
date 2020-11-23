@@ -10,7 +10,7 @@ import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 export class OneKeySDK {
   @Prop() config: OneKeySDKConfigData;
 
-  componentDidLoad() {
+  componentWillLoad() {
     configStore.setState(this.config)
   }
 

@@ -24,4 +24,10 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
+
 examples/web/cdn/onekey-sdk
+examples/web/cdn/devtools
+
+packages/*/onekey-sdk-core
+packages/*/onekey-sdk-core-ui
+packages/*/onekey-sdk-devtools

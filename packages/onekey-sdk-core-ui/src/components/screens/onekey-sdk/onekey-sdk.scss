@@ -3,6 +3,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
 
 :host {
+  /* defaults */
+  --onekeysdk-color-primary: #43b02a;
+  --onekeysdk-color-secondary: #00a3e0;
+  --onekeysdk-font-size: 14px;
+  --onekeysdk-font-size-title: 20px;
+
   display: block;
   width: 100%;
   height: 100%;
@@ -44,13 +50,13 @@
     opacity: 1;
     mix-blend-mode: normal;
     border-radius: 5px;
-    border-color: rgb(67, 176, 42);
-    background-color: rgb(67, 176, 42);
+    border-color: var(--onekeysdk-color-primary);
+    background-color: var(--onekeysdk-color-primary);
     color: rgb(255, 255, 255);
     font-weight: normal;
     padding: 5px 10px 6px;
     text-align: center;
-    font-size: 14px;
+    font-size: var(--onekeysdk-font-size);
     font-style: normal;
     background-position: center center;
     background-repeat: repeat;
@@ -73,17 +79,15 @@
   }
 
   span {
-    font-size: 14px;
     font-weight: 300;
   }
 
   strong {
-    font-size: 14px;
     font-weight: 400;
   }
 
   .text-primary {
-    color:  rgb(67, 176, 42);
+    color:  var(--onekeysdk-color-primary);
   }
 
   .text-bold {

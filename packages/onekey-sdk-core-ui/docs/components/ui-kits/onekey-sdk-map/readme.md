@@ -12,8 +12,6 @@
 | `defaultZoom`               | `default-zoom`                 |                       | `number` | `undefined` |
 | `locations`                 | --                             |                       | `any[]`  | `[]`        |
 | `mapHeight`                 | `map-height`                   | An array of locations | `string` | `'100%'`    |
-| `mapLink`                   | `map-link`                     |                       | `string` | `undefined` |
-| `mapTileLayer`              | `map-tile-layer`               |                       | `string` | `undefined` |
 | `mapWidth`                  | `map-width`                    |                       | `string` | `'100%'`    |
 | `markerIcon`                | `marker-icon`                  |                       | `string` | `undefined` |
 | `markerIconCurrentLocation` | `marker-icon-current-location` |                       | `string` | `undefined` |
@@ -22,9 +20,10 @@
 
 ## Events
 
-| Event         | Description | Type               |
-| ------------- | ----------- | ------------------ |
-| `markerClick` |             | `CustomEvent<any>` |
+| Event                | Description | Type               |
+| -------------------- | ----------- | ------------------ |
+| `markerClick`        |             | `CustomEvent<any>` |
+| `setCurrentLocation` |             | `CustomEvent<any>` |
 
 
 ## Dependencies

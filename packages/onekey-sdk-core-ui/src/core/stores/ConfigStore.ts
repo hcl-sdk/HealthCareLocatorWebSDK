@@ -1,4 +1,5 @@
-import StoreProvider from "./StoreProvider";
+import StoreProvider from './StoreProvider';
+import { getFullConfiguration, DEFAULT_CONFIGURATION, OnekeySDKConfig, OnekeySDKConfigInput } from 'onekey-sdk-core';
 
 export interface AppConfigStyles {
   fontFamily?: string;
@@ -6,28 +7,19 @@ export interface AppConfigStyles {
 }
 
 export interface OneKeySDKConfigData {
-  appHeight?: string;
-  appWidth?: string;
-  mapTileLayer?: string;
-  mapLink?: string;
-  mapDefaultZoom?: number;
   markerIcon?: string;
   markerIconCurrentLocation?: string;
   styles?: AppConfigStyles | any;
+  input: OnekeySDKConfig;
 }
 
 export const initStateConfigStore = {
-  appWidth: '300px',
-  appHeight: '700px',
   styles: {
-    fontFamily: `'Roboto', sans-serif`,
+    fontFamily: '\'Roboto\', sans-serif',
     color: 'black'
   },
-  mapTileLayer: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
-  mapLink: '<a href="http://openstreetmap.org">OpenStreetMap</a>',
-  mapDefaultZoom: 5,
-  markerIcon: '',
-  markerIconCurrentLocation: ''
+  // User input config
+  input: DEFAULT_CONFIGURATION,
 };
 
 class ConfigStore extends StoreProvider<OneKeySDKConfigData> {
@@ -35,7 +27,13 @@ class ConfigStore extends StoreProvider<OneKeySDKConfigData> {
     super(state);
     this.state = state;
   }
+
+  public setInputConfig(inputConfig: OnekeySDKConfigInput) {
+    this.state = {
+      ...this.state,
+      input: getFullConfiguration(inputConfig),
+    };
+  }
 }
 
-
-export default ConfigStore
+export default ConfigStore;

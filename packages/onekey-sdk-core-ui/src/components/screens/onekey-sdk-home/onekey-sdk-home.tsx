@@ -1,6 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import 'ionicons'
-import { routerStore } from '../../../core/stores';
+import { routerStore, searchMapStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-home',
@@ -11,6 +11,14 @@ export class OnekeySdkHome {
 
   onGoSearchScreen = () => {
     routerStore.push("/search")
+  }
+
+  inputOnChange = (e: any) => {
+    searchMapStore.setState({
+      search: {
+        name: e.target.value
+      }
+    })
   }
 
   onSearch = () => {
@@ -28,7 +36,7 @@ export class OnekeySdkHome {
           <div class="main-block main-block--header">
             <div class="search-home-hpc">
               <form onSubmit={this.onSubmit}>
-                <input class="search-input" placeholder="Find Healthcare Professional" onInput={this.onSearch} />
+                <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
                 <button class="btn search-btn" type="submit" onClick={this.onSearch}><ion-icon name="search-outline"></ion-icon></button>
               </form>
             </div>
@@ -55,7 +63,7 @@ export class OnekeySdkHome {
                     <strong>Consult Profile</strong>
                     <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                   </div>
-                  
+
                 </div>
 
                 <div class="item">

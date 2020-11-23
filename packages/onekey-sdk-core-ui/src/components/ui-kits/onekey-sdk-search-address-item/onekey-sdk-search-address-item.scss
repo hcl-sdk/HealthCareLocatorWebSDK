@@ -7,7 +7,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
   }
 
   .search-address-item-icon-wrapper {
@@ -20,15 +19,23 @@
   }
 
   .search-address-item-icon {
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--onekeysdk-color-primary);
+      opacity: 0.1;
+    }
     font-size: 20px;
-    padding: 7px;
-    color: #43b02a;
-    background: #e3f3df;
-    border-radius: 50%;
+    position: relative;
+    color: var(--onekeysdk-color-primary);
+    width: 28px;
+    height: 28px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20px;
     margin-bottom: 2px;
   }
 
@@ -37,8 +44,8 @@
     border-bottom: 1px solid white;
 
     &.active {
-      border-bottom: 1px solid green;
-      color: green;
+      border-bottom: 1px solid var(--onekeysdk-color-primary);
+      color: var(--onekeysdk-color-primary);
     }
   }
 }

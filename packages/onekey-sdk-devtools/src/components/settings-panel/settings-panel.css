@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h2 {
+  margin: 0 0 0 10px;
+}
+
+.title-wrapper {
+  display: flex;
+}
+
+.wrapper {
+  padding: 20px;
+}
+
+.row {
+  margin-top: 15px;
+}
+
+.row label {
+  display: block;
+}
+
+input,
+select {
+  margin-top: 5px;
+  width: 100%;
+  padding: 5px;
+}
+
+.edit-link {
+  display: block;
+  margin-top: 4px;
+}
+
+.subrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.subrow label {
+  font-size: 13px;
+}
+
+.subrow label:not(:first-child) {
+  margin-left: 10px;
+}
+
+.font-size {
+  width: 50px;
+  margin-left: 5px;
+}
+
+.color-field-wrapper {
+  position: relative;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  margin: 7px 0;
+}
+
+.color-field-wrapper label {
+  flex: 1;
+}
+.color-field-wrapper button {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid grey;
+}
+
+.btn-full {
+  color: white;
+  background-color: black;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1px solid grey;
+  width: 100%;
+  padding: 5px;
+  margin-top: 20px;
+}

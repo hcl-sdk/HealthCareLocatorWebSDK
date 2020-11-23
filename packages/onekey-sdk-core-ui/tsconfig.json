@@ -17,7 +17,8 @@
     "jsxFactory": "h"
   },
   "include": [
-    "src"
+    "src",
+    "../onekey-sdk-core"
   ],
   "exclude": [
     "node_modules"

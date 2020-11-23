@@ -28,8 +28,6 @@ export namespace Components {
           * An array of locations
          */
         "mapHeight": string;
-        "mapLink": string;
-        "mapTileLayer": string;
         "mapWidth": string;
         "markerIcon": string;
         "markerIconCurrentLocation": string;
@@ -177,8 +175,6 @@ declare namespace LocalJSX {
           * An array of locations
          */
         "mapHeight"?: string;
-        "mapLink"?: string;
-        "mapTileLayer"?: string;
         "mapWidth"?: string;
         "markerIcon"?: string;
         "markerIconCurrentLocation"?: string;

@@ -19,8 +19,6 @@ export class OnekeySdkMap {
   @Prop() locations = [];
   @Prop() defaultZoom: number;
   @Prop() selectedLocationIdx: number;
-  @Prop() mapTileLayer: string;
-  @Prop() mapLink: string;
   @Prop() markerIconCurrentLocation: string;
   @Prop() markerIcon: string;
   @Event() markerClick: EventEmitter;
@@ -31,7 +29,7 @@ export class OnekeySdkMap {
 
   componentDidLoad() {
     this.setMap();
-    this.getCurrentLocation()
+    this.getCurrentLocation();
   }
 
   @Watch('locations')
@@ -53,10 +51,14 @@ export class OnekeySdkMap {
   }
 
   private setMap = () => {
+    const mapTileLayer = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
+    const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+
     // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
     this.map = L.map(this.mapElm, {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
+      maxZoom: 20
       // gestureHandling: true,
       // gestureHandlingOptions: {
       //   text: {
@@ -67,8 +69,7 @@ export class OnekeySdkMap {
       // },
     });
 
-    const mapLink = this.mapLink;
-    L.tileLayer(this.mapTileLayer, {
+    L.tileLayer(mapTileLayer, {
       attribution: '&copy; ' + mapLink + ' Contributors',
       maxZoom: 20,
     }).addTo(this.map);

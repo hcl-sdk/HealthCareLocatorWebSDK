@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>OneKey SDK devtools</title>
+    <script type="module" src="/build/devtools.esm.js"></script>
+    <script nomodule src="/build/devtools.js"></script>
+  </head>
+  <body style="font-family: Arial, Helvetica, sans-serif;">
+    <div style="width: 300px; max-width: 100%; position: absolute; left: 0; top: 0; bottom: 0; background: rgba(0, 0, 0, 0.1)">
+      <settings-panel></settings-panel>
+    </div>
+    <script>
+      const settingsPanel = document.querySelector('settings-panel');
+      settingsPanel.addEventListener('applyChanges', (evt) => {
+        console.log('event listener applyChanges triggered', evt);
+      });
+    </script>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 import { Component, Host, h, State, Listen } from '@stencil/core';
 import { getHCPNearMe } from '../../../core/api/hcp';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
-import { configStore, searchMapStore } from '../../../core/stores';
+import { searchMapStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-search-result',
@@ -41,7 +41,7 @@ export class OnekeySdkSearchResult {
     return (
       <Host>
         {searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>}
-        <div class="search-result" style={{ height: configStore.state.appHeight }}>
+        <div class="search-result" style={{ height: '700px' }}>
           <div class="search-header search-section">
             <div>
               <onekey-sdk-router-link url="/" class="btn-back">
@@ -75,11 +75,7 @@ export class OnekeySdkSearchResult {
                 class="search-map__content"
                 locations={hcpNearMe}
                 selectedLocationIdx={0}
-                defaultZoom={configStore.state.mapDefaultZoom}
-                mapTileLayer={configStore.state.mapTileLayer}
-                mapLink={configStore.state.mapLink}
-                markerIcon={configStore.state.markerIcon}
-                markerIconCurrentLocation={configStore.state.markerIconCurrentLocation}
+                defaultZoom={5}
               />
             )}
           </div>
