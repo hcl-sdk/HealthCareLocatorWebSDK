@@ -17,27 +17,35 @@
             android:id="@+id/ivLocation"
             android:layout_width="@dimen/default_icon_size"
             android:layout_height="@dimen/default_icon_size"
-            android:layout_marginStart="@dimen/default_padding_smaller"
-            android:layout_marginEnd="@dimen/default_padding_smaller"
+            android:layout_marginStart="@dimen/default_padding"
+            android:layout_marginEnd="@dimen/default_padding"
             android:background="@drawable/bg_green_circle"
             android:padding="8dp"
             android:src="@drawable/outline_location_on_black_24dp"
             app:tint="@color/colorOneKeyGreen"
             tools:tint="@color/colorOneKeyGreen" />
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/tvAddress"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_padding"
-            android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_text" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="@dimen/default_padding_xxxx_large"
-        android:alpha="0.1"
-        android:background="@color/gray" />
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/default_padding"
+                android:paddingEnd="@dimen/default_padding"
+                android:paddingBottom="@dimen/default_padding"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.1"
+                android:background="@color/gray" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

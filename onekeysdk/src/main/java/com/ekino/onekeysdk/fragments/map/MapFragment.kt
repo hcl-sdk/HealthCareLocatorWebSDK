@@ -18,6 +18,7 @@ import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyMarker
+import com.ekino.onekeysdk.utils.OneKeyConstant
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -70,14 +71,9 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private var mRotationGestureOverlay: RotationGestureOverlay? = null
     private var mCopyrightOverlay: CopyrightOverlay? = null
     private lateinit var selectedIcon: Drawable
+    private var locationProvider: GpsMyLocationProvider? = null
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = MapView(inflater.context)
@@ -105,7 +101,11 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if (savedInstanceState != null) {
+            val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
+            if (!list.isNullOrEmpty())
+                locations = list
+        }
         val clusters = RadiusMarkerClusterer(context!!)
         clusters.getTextPaint().setTextSize(14 * resources.displayMetrics.density)
         clusters.mAnchorV = Marker.ANCHOR_BOTTOM
@@ -132,6 +132,11 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 //        mMapView?.overlays?.addAll(oneKeyMarkers)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(OneKeyConstant.locations, locations)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val context: Context? = this.activity
@@ -141,15 +146,14 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
         //My Location
         //note you have handle the permissions yourself, the overlay did not do it for you
-        val locationProvider = GpsMyLocationProvider(context)
-        locationProvider.startLocationProvider(this)
+        locationProvider = GpsMyLocationProvider(context)
+        locationProvider!!.startLocationProvider(this)
         mLocationOverlay =
-                CustomCurrentLocationOverlay(locationProvider, mMapView, R.drawable.ic_current_location)
+                CustomCurrentLocationOverlay(locationProvider!!, mMapView, R.drawable.ic_current_location)
         mLocationOverlay!!.enableMyLocation()
         mMapView!!.overlays.add(mLocationOverlay)
-
-        mCopyrightOverlay = CopyrightOverlay(context)
-        mMapView!!.overlays.add(mCopyrightOverlay)
+//        mCopyrightOverlay = CopyrightOverlay(context)
+//        mMapView!!.overlays.add(mCopyrightOverlay)
 
 
         //support for map rotation
@@ -266,6 +270,16 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 }
                 cluster.removeAt(indexOfOverLay)
                 cluster.add(oneKeyMarkers[index])
+            }
+        }
+    }
+
+    fun getLastLocation() {
+        locationProvider?.lastKnownLocation?.also { location ->
+            mMapView?.apply {
+                val position = GeoPoint(location.latitude, location.longitude)
+                controller.setCenter(position)
+                controller.animateTo(position, 16.0, 2000)
             }
         }
     }

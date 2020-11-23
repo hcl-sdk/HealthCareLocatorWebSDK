@@ -65,3 +65,10 @@ fun View.setRippleCircleBackground(hexColor: String) {
 
 fun Context.getDrawableById(drawableId: Int): Drawable? =
         ContextCompat.getDrawable(this, drawableId)
+
+fun <T : View> T.postDelay(run: (view: T) -> Unit, time: Long = 0L) {
+    this.postDelayed({
+        if (this == null) return@postDelayed
+        run(this)
+    }, time)
+}
