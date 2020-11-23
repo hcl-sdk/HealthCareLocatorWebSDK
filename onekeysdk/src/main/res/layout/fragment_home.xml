@@ -46,43 +46,51 @@
         android:layout_height="1dp"
         android:background="@color/grayLight" />
 
-    <LinearLayout
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_padding"
-        android:background="@drawable/bg_white_border_corner"
-        android:minHeight="300dp"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/tvHomeHeader"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Find and Locate\nHealthcare Professional"
-            android:textColor="@color/colorOneKeyBlue"
-            android:textSize="@dimen/default_text_large"
-            app:primaryText="true" />
+            android:layout_margin="@dimen/default_padding"
+            android:background="@drawable/bg_white_border_corner"
+            android:minHeight="300dp"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_padding"
-            android:clipToPadding="false" />
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvHomeHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Find and Locate\nHealthcare Professional"
+                android:textColor="@color/colorOneKeyBlue"
+                android:textSize="@dimen/default_text_large"
+                app:primaryText="true" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false" />
 
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/btnStartSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_padding_x_large"
-            android:background="@drawable/bg_main_button_corner"
-            android:gravity="center"
-            android:padding="@dimen/default_padding_small"
-            android:text="Start a New Search"
-            android:textColor="@color/white"
-            android:textSize="@dimen/default_text_big" />
-    </LinearLayout>
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/btnStartSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_x_large"
+                android:background="@drawable/bg_main_button_corner"
+                android:gravity="center"
+                android:padding="@dimen/default_padding_small"
+                android:text="Start a New Search"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_text_big" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -8,6 +8,7 @@ import base.extensions.addFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
+import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getDummyHCP
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.extensions.setRippleBackground
@@ -27,7 +28,7 @@ class SearchFragment :
                 SearchFragment().apply { this.oneKeyViewCustomObject = oneKeyViewCustomObject }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject? = null
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyViewCustomObject, this) }
     private var selectedPlace: OneKeyPlace? = null
 

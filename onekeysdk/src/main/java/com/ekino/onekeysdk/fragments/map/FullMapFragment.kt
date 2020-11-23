@@ -9,6 +9,7 @@ import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.custom.LinearLayoutManagerWithSmoothScroller
+import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.extensions.setRippleCircleBackground
@@ -18,16 +19,24 @@ import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
-class FullMapFragment(private val oneKeyViewCustomObject: OneKeyViewCustomObject,
-                      private val speciality: String = "", private val place: OneKeyPlace? = null,
-                      private val locations: ArrayList<OneKeyLocation>) :
+class FullMapFragment :
         AppFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, speciality: String,
                         place: OneKeyPlace?, locations: ArrayList<OneKeyLocation>) =
-                FullMapFragment(oneKeyViewCustomObject, speciality, place, locations)
+                FullMapFragment().apply {
+                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                    this.speciality = speciality
+                    this.place = place
+                    this.locations = locations
+                }
     }
+
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var speciality: String = ""
+    private var place: OneKeyPlace? = null
+    private var locations: ArrayList<OneKeyLocation> = arrayListOf()
 
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, locations) }

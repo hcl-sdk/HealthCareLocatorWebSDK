@@ -32,8 +32,8 @@ fun View.setRippleBackground(color: Int, radius: Float) {
 }
 
 fun View.setRippleCircleBackground(color: Int) {
-    val round = RoundRectShape(floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f),
-            null, floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f))
+    val round = RoundRectShape(floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f),
+            null, floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f))
     val shapeDrawable = ShapeDrawable(round)
     shapeDrawable.paint.color = color
     shapeDrawable.paint.alpha = 50
@@ -42,8 +42,8 @@ fun View.setRippleCircleBackground(color: Int) {
 }
 
 fun View.setRippleCircleBackground(color: Int, alpha: Int = 255) {
-    val round = RoundRectShape(floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f),
-            null, floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f))
+    val round = RoundRectShape(floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f),
+            null, floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f))
     val shapeDrawable = ShapeDrawable(round)
     shapeDrawable.paint.color = color
     shapeDrawable.paint.alpha = alpha
