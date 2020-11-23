@@ -1,10 +1,25 @@
-image: ekino/docker-buildbox:latest-node15
+image: node:15.2.1-alpine3.10
 
 stages:
   - build_n_deploy
 
 build_n_deploy:
+  tags: [baremetal]
   stage: build_n_deploy
   script:
+    - apk --update add openssh-client
     - npm i
     - npm run build-example-web
+    - tar czf ./onekey-sdk-web_build.tar.gz ./examples/web/cdn
+    - mkdir -p ~/.ssh/
+    - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval `ssh-agent -s`
+    - cp $SSH_CONFIG_FILE ~/.ssh/config
+    - chmod 0600 ~/.ssh/config
+    - ssh-add ~/.ssh/id_rsa
+    - touch ~/.ssh/known_hosts
+    - ssh-keyscan -p 2233 -t rsa dev.ekinoffy.com >> ~/.ssh/known_hosts
+    - ssh -p 2233 webadmin@dev.ekinoffy.com ssh-keyscan -t rsa 10.161.207.90 >> ~/.ssh/known_hosts
+    - scp ./onekey-sdk-web_build.tar.gz webadmin@10.161.207.90:/tmp/onekey-sdk-web_build.tar.gz
+    - ssh webadmin@10.161.207.90 "./web/onekey/deploy_sdk.sh"
