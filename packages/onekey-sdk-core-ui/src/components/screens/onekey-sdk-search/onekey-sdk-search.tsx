@@ -2,6 +2,7 @@ import { Component, Host, h, State, Listen } from '@stencil/core';
 import 'ionicons'
 import {searchGeoMap} from '../../../core/api/searchGeo';
 import { searchMapStore, routerStore } from '../../../core/stores'
+import debounce from 'lodash.debounce'
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -11,6 +12,7 @@ import { searchMapStore, routerStore } from '../../../core/stores'
 export class OnekeySdkSearch {
 
   nameInput!: HTMLInputElement;
+  addressInput!: HTMLInputElement;
 
   @State() formData = {
     name: '',
@@ -43,12 +45,16 @@ export class OnekeySdkSearch {
     routerStore.push('/search-result')
   }
 
-  private onChange = async (e) => {
-    this.formData = {...this.formData, [e.target.id]: e.target.value }
-    if(e.target.id === 'address') {
-      await searchGeoMap(e.target.value)
+  onChange = debounce(async () => {
+    if (this.addressInput.id === 'address' && this.addressInput.value) {
+      this.formData = {...this.formData, [this.addressInput.id]: this.addressInput.value }
+      await searchGeoMap(this.addressInput.value)
     }
-  }
+
+    if (this.nameInput.id === 'name' && this.nameInput.value) {
+      this.formData = {...this.formData, [this.nameInput.id]: this.nameInput.value }
+    }
+  }, 500)
 
   @Listen("selectAddress")
   onSelectAddress(e) {
@@ -58,9 +64,6 @@ export class OnekeySdkSearch {
   render() {
     return (
       <Host>
-        {
-          searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>
-        }
         <div class="main-block search-block">
           <div class="search-hpc">
             <onekey-sdk-router-link url="/" class="search-back">
@@ -68,14 +71,17 @@ export class OnekeySdkSearch {
             </onekey-sdk-router-link>
             <form onSubmit={this.onSearch} class="search-form">
               <div class="search-form-content">
-                <input ref={el => this.nameInput = el} value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onChange={this.onChange} autoComplete="off" />
-                <input value={this.selectedAddress.label} id="address" placeholder="Near me" onChange={this.onChange} autoComplete="off" />
+                <input ref={el => this.nameInput = el} value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onInput={this.onChange} autoComplete="off" />
+                <input ref={el => this.addressInput = el} value={this.selectedAddress.label} id="address" placeholder="Near me" onInput={this.onChange} autoComplete="off" />
               </div>
-              <button class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
+              <button disabled={!this.selectedAddress?.raw?.place_id || !this.formData.name} class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
             </form>
           </div>
         </div>
         <div class="main-contain search-content">
+          {
+            searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>
+          }
           {
             searchMapStore.state?.searchGeo?.map(
               item => <onekey-sdk-search-address-item

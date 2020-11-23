@@ -29,10 +29,10 @@ class ConfigStore extends StoreProvider<OneKeySDKConfigData> {
   }
 
   public setInputConfig(inputConfig: OnekeySDKConfigInput) {
-    this.state = {
+    this.setState({
       ...this.state,
       input: getFullConfiguration(inputConfig),
-    };
+    })
   }
 }
 

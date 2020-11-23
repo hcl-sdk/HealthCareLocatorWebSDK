@@ -9,11 +9,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-web": "npm run build --prefix packages/onekey-sdk-core-ui",
-    "start-web": "npm run start --prefix packages/onekey-sdk-core-ui",
     "build-devtools": "npm run build --prefix packages/onekey-sdk-devtools",
     "build-angular": "echo \"Build SDK for angular\"",
     "build-reactjs": "echo \"Build SDK for reactjs\"",
     "build-vuejs": "echo \"Build SDK for vuejs\"",
+    "start-web": "npm run start --prefix packages/onekey-sdk-core-ui",
     "start-example-web": "npm run build-web && npm run build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn"
   },
   "repository": {

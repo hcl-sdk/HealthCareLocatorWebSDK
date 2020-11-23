@@ -30,7 +30,6 @@ export namespace Components {
         "mapHeight": string;
         "mapWidth": string;
         "markerIcon": string;
-        "markerIconCurrentLocation": string;
         "selectedLocationIdx": number;
     }
     interface OnekeySdkRoute {
@@ -177,7 +176,6 @@ declare namespace LocalJSX {
         "mapHeight"?: string;
         "mapWidth"?: string;
         "markerIcon"?: string;
-        "markerIconCurrentLocation"?: string;
         "onMarkerClick"?: (event: CustomEvent<any>) => void;
         "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;

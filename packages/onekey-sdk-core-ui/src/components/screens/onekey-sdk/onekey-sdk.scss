@@ -6,8 +6,10 @@
   /* defaults */
   --onekeysdk-color-primary: #43b02a;
   --onekeysdk-color-secondary: #00a3e0;
+  --onekeysdk-color-marker: red;
   --onekeysdk-font-size: 14px;
   --onekeysdk-font-size-title: 20px;
+
 
   display: block;
   width: 100%;
@@ -64,6 +66,14 @@
     border-width: 1px;
     border-style: solid;
     min-height: 33px;
+
+    &.disabled, &[disabled], fieldset[disabled] {
+      cursor: not-allowed;
+      filter: alpha(opacity=65);
+      opacity: .65;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
   }
 
   input {
