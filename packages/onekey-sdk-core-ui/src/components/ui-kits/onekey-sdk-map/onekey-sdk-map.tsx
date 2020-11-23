@@ -96,7 +96,7 @@ export class OnekeySdkMap {
   };
 
   moveToCurrentLocation = () => {
-    this.setCurrentLocation.emit(this.currentLocation)
+    // this.setCurrentLocation.emit(this.currentLocation) // change label on the top
     this.map.panTo(this.currentLocation, 16);
   }
 
