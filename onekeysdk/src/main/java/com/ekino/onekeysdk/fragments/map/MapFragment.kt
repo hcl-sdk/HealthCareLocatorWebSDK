@@ -12,11 +12,13 @@ import androidx.core.content.edit
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
+import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyMarker
+import com.ekino.onekeysdk.utils.OneKeyConstant
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -29,19 +31,19 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
-class MapFragment(
-    private val oneKeyViewCustomObject: OneKeyViewCustomObject,
-    private val locations: ArrayList<OneKeyLocation>
-) :
-    IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener {
+class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener {
 
     companion object {
         fun newInstance(
-            oneKeyViewCustomObject: OneKeyViewCustomObject,
-            locations: ArrayList<OneKeyLocation>
-        ) =
-            MapFragment(oneKeyViewCustomObject, locations)
+                oneKeyViewCustomObject: OneKeyViewCustomObject,
+                locations: ArrayList<OneKeyLocation>) = MapFragment().apply {
+            this.oneKeyViewCustomObject = oneKeyViewCustomObject
+            this.locations = locations
+        }
     }
+
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var locations: ArrayList<OneKeyLocation> = arrayListOf()
 
     var onMarkerSelectionChanged: (id: String) -> Unit = {}
 
@@ -69,14 +71,9 @@ class MapFragment(
     private var mRotationGestureOverlay: RotationGestureOverlay? = null
     private var mCopyrightOverlay: CopyrightOverlay? = null
     private lateinit var selectedIcon: Drawable
+    private var locationProvider: GpsMyLocationProvider? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = MapView(inflater.context)
@@ -89,7 +86,7 @@ class MapFragment(
                         if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) mMapView!!.controller.zoomOut() else {
                             //this part just centers the map on the current mouse location before the zoom action occurs
                             val iGeoPoint =
-                                mMapView!!.projection.fromPixels(event.x.toInt(), event.y.toInt())
+                                    mMapView!!.projection.fromPixels(event.x.toInt(), event.y.toInt())
                             mMapView!!.controller.animateTo(iGeoPoint)
                             mMapView!!.controller.zoomIn()
                         }
@@ -104,14 +101,18 @@ class MapFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if (savedInstanceState != null) {
+            val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
+            if (!list.isNullOrEmpty())
+                locations = list
+        }
         val clusters = RadiusMarkerClusterer(context!!)
         clusters.getTextPaint().setTextSize(14 * resources.displayMetrics.density)
         clusters.mAnchorV = Marker.ANCHOR_BOTTOM
         mMapView?.overlays?.add(clusters)
         selectedIcon = context!!.getDrawableFilledIcon(
-            R.drawable.ic_location_on_white_36dp,
-            oneKeyViewCustomObject.markerSelectedColor.getColor()
+                R.drawable.ic_location_on_white_36dp,
+                oneKeyViewCustomObject.markerSelectedColor.getColor()
         )!!
         locations.forEach { location ->
             val marker = OneKeyMarker(mMapView).apply {
@@ -120,8 +121,8 @@ class MapFragment(
                 position = GeoPoint(location.latitude, location.longitude)
                 setAnchor(Marker.ANCHOR_CENTER, 1f)
                 icon = context!!.getDrawableFilledIcon(
-                    R.drawable.baseline_location_on_black_36dp,
-                    oneKeyViewCustomObject.markerColor.getColor()
+                        R.drawable.baseline_location_on_black_36dp,
+                        oneKeyViewCustomObject.markerColor.getColor()
                 )
                 title = location.address
             }
@@ -129,6 +130,11 @@ class MapFragment(
             oneKeyMarkers.add(marker)
         }
 //        mMapView?.overlays?.addAll(oneKeyMarkers)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(OneKeyConstant.locations, locations)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -140,15 +146,14 @@ class MapFragment(
 
         //My Location
         //note you have handle the permissions yourself, the overlay did not do it for you
-        val locationProvider = GpsMyLocationProvider(context)
-        locationProvider.startLocationProvider(this)
+        locationProvider = GpsMyLocationProvider(context)
+        locationProvider!!.startLocationProvider(this)
         mLocationOverlay =
-            CustomCurrentLocationOverlay(locationProvider, mMapView, R.drawable.ic_current_location)
+                CustomCurrentLocationOverlay(locationProvider!!, mMapView, R.drawable.ic_current_location)
         mLocationOverlay!!.enableMyLocation()
         mMapView!!.overlays.add(mLocationOverlay)
-
-        mCopyrightOverlay = CopyrightOverlay(context)
-        mMapView!!.overlays.add(mCopyrightOverlay)
+//        mCopyrightOverlay = CopyrightOverlay(context)
+//        mMapView!!.overlays.add(mCopyrightOverlay)
 
 
         //support for map rotation
@@ -240,17 +245,17 @@ class MapFragment(
             animateTo(marker.position, 16.5, 2000)
         }
         oneKeyMarkers.filter { oneKeyMarker -> oneKeyMarker.selected }
-            .mapIndexed { _, oneKeyMarker ->
-                val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
-                oneKeyMarker.icon = context!!.getDrawableFilledIcon(
-                    R.drawable.baseline_location_on_black_36dp,
-                    oneKeyViewCustomObject.markerColor.getColor()
-                )
-                oneKeyMarker.selected = false
-                if (lastIndexOfOverLay >= 0) {
-                    mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
+                .mapIndexed { _, oneKeyMarker ->
+                    val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
+                    oneKeyMarker.icon = context!!.getDrawableFilledIcon(
+                            R.drawable.baseline_location_on_black_36dp,
+                            oneKeyViewCustomObject.markerColor.getColor()
+                    )
+                    oneKeyMarker.selected = false
+                    if (lastIndexOfOverLay >= 0) {
+                        mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
+                    }
                 }
-            }
         val cluster = (mMapView?.overlays?.firstOrNull { o -> o is RadiusMarkerClusterer }
                 as? RadiusMarkerClusterer)?.items ?: return
 
@@ -265,6 +270,16 @@ class MapFragment(
                 }
                 cluster.removeAt(indexOfOverLay)
                 cluster.add(oneKeyMarkers[index])
+            }
+        }
+    }
+
+    fun getLastLocation() {
+        locationProvider?.lastKnownLocation?.also { location ->
+            mMapView?.apply {
+                val position = GeoPoint(location.latitude, location.longitude)
+                controller.setCenter(position)
+                controller.animateTo(position, 16.0, 2000)
             }
         }
     }

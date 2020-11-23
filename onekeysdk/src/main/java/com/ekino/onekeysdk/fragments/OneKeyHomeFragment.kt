@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.fragments
 
 import android.content.res.Configuration
+import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,10 +13,7 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
-import com.ekino.onekeysdk.extensions.ThemeExtension
-import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.extensions.getHomeDummy
-import com.ekino.onekeysdk.extensions.setRippleBackground
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.utils.OneKeyLog
@@ -41,7 +39,7 @@ class OneKeyHomeFragment :
 
     override val viewModel: HomeViewModel = HomeViewModel()
 
-    override fun initView(view: View) {
+    override fun initView(view: View, savedInstanceState: Bundle?) {
         newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
         oneKeyViewCustomObject?.also {
@@ -49,13 +47,17 @@ class OneKeyHomeFragment :
             ivSearch.setRippleBackground(it.primaryColor)
             btnStartSearch.setRippleBackground(it.primaryColor)
         }
-        rvHome.apply {
-            layoutManager = GridLayoutManager(
-                    context,
-                    if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3
-            )
-            adapter = homeAdapter
-        }
+        rvHome.postDelay({
+            rvHome.apply {
+                val orientation = resources.configuration.orientation
+                layoutManager = GridLayoutManager(context,
+                        if (orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3)
+                val padding = paddingStart
+                setPadding(padding, paddingTop, if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+                    0 else padding, paddingBottom)
+                adapter = homeAdapter
+            }
+        })
         homeAdapter.setData(getHomeDummy())
 
         val apolloClient = ApolloClient.builder()

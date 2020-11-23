@@ -4,6 +4,9 @@ import android.util.Log
 
 object OneKeyConstant {
     const val userAgent = "OsmNavigator/2.2"
+    const val locations = "locations"
+    const val place = "place"
+    const val speciality = "speciality"
 }
 
 object OneKeyLog {

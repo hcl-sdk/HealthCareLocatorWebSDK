@@ -32,8 +32,8 @@ fun View.setRippleBackground(color: Int, radius: Float) {
 }
 
 fun View.setRippleCircleBackground(color: Int) {
-    val round = RoundRectShape(floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f),
-            null, floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f))
+    val round = RoundRectShape(floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f),
+            null, floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f))
     val shapeDrawable = ShapeDrawable(round)
     shapeDrawable.paint.color = color
     shapeDrawable.paint.alpha = 50
@@ -42,8 +42,8 @@ fun View.setRippleCircleBackground(color: Int) {
 }
 
 fun View.setRippleCircleBackground(color: Int, alpha: Int = 255) {
-    val round = RoundRectShape(floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f),
-            null, floatArrayOf(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f))
+    val round = RoundRectShape(floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f),
+            null, floatArrayOf(70f, 70f, 70f, 70f, 70f, 70f, 70f, 70f))
     val shapeDrawable = ShapeDrawable(round)
     shapeDrawable.paint.color = color
     shapeDrawable.paint.alpha = alpha
@@ -65,3 +65,10 @@ fun View.setRippleCircleBackground(hexColor: String) {
 
 fun Context.getDrawableById(drawableId: Int): Drawable? =
         ContextCompat.getDrawable(this, drawableId)
+
+fun <T : View> T.postDelay(run: (view: T) -> Unit, time: Long = 0L) {
+    this.postDelayed({
+        if (this == null) return@postDelayed
+        run(this)
+    }, time)
+}

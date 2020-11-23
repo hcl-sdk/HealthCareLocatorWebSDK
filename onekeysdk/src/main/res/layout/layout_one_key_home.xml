@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/default_padding">
+    android:paddingTop="@dimen/default_padding_big"
+    android:paddingBottom="@dimen/default_padding_big">
 
     <ImageView
         android:id="@+id/ivFind"

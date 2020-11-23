@@ -26,7 +26,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
     /**
      * This method will call when the view created and returned a view for using.
      */
-    abstract fun initView(view: View)
+    abstract fun initView(view: View, savedInstanceState: Bundle?)
     open val onPassingEventListener: (data: Any) -> Unit = {}
     open val onConfigurationChanged: (newConfig: Configuration) -> Unit = {}
     private val screenId: String by lazy { "${System.currentTimeMillis()}" }
@@ -46,7 +46,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
         super.onViewCreated(view, savedInstanceState)
         getAppActivity()?.registerPassingEventListener(screenId, onPassingEventListener)
         getAppActivity()?.registerConfigurationChanged(screenId, onConfigurationChanged)
-        initView(view)
+        initView(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/default_padding"
+    android:background="@drawable/bg_white_border_corner"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/default_padding">
@@ -16,12 +18,11 @@
         android:padding="8dp"
         android:src="@drawable/baseline_search_white_24dp"
         app:tint="@color/colorOneKeyGreen"
-        tools:tint="@color/colorOneKeyGreen" />lay
+        tools:tint="@color/colorOneKeyGreen" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_padding"
         android:layout_marginTop="@dimen/default_padding"
         android:orientation="vertical">
 

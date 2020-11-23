@@ -64,10 +64,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_padding_bigger"
-                android:layout_marginTop="@dimen/default_padding_bigger"
+                android:layout_marginTop="@dimen/default_padding_x_larger"
                 android:layout_marginEnd="@dimen/default_padding_bigger"
                 android:gravity="center"
-                android:text="Find and Locate\nHealthcare Professional"
+                android:text="Find and Locate Healthcare Professional"
                 android:textColor="@color/colorOneKeyBlue"
                 android:textSize="@dimen/default_text_large"
                 app:primaryText="true" />
@@ -85,7 +85,7 @@
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/btnStartSearch"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/default_padding_bigger"
@@ -94,7 +94,10 @@
                 android:layout_marginBottom="@dimen/default_padding_x_large"
                 android:background="@drawable/bg_main_button_corner"
                 android:gravity="center"
+                android:maxWidth="400dp"
                 android:padding="@dimen/default_padding_small"
+                android:paddingStart="85dp"
+                android:paddingEnd="85dp"
                 android:text="Start a New Search"
                 android:textColor="@color/white"
                 android:textSize="@dimen/default_text_big" />
