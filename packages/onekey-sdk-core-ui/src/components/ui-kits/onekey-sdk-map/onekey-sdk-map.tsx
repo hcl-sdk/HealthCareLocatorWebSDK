@@ -3,7 +3,6 @@ import * as L from 'leaflet';
 import { Event, EventEmitter } from '@stencil/core';
 // import { GestureHandling } from 'leaflet-gesture-handling';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
-import { configStore } from 'onekey-sdk-core-ui/src/core/stores';
 
 @Component({
   tag: 'onekey-sdk-map',
