@@ -6,6 +6,7 @@ stages:
 build_n_deploy:
   tags: [baremetal]
   stage: build_n_deploy
+  only: [master]
   script:
     - apk --update add openssh-client
     - npm i
