@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.fragments
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -39,11 +40,17 @@ class OneKeyHomeFragment :
 
     override val viewModel: HomeViewModel = HomeViewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        org.osmdroid.config.Configuration.getInstance().load(
+                context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
+    }
+
     override fun initView(view: View, savedInstanceState: Bundle?) {
         newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
         oneKeyViewCustomObject?.also {
-            tvHomeHeader.setTextColor(it.primaryColor.getColor())
+            tvHomeHeader.setTextColor(it.secondaryColor.getColor())
             ivSearch.setRippleBackground(it.primaryColor)
             btnStartSearch.setRippleBackground(it.primaryColor)
         }

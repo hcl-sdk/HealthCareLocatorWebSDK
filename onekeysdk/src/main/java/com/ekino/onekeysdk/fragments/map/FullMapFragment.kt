@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
-import com.ekino.onekeysdk.custom.LinearLayoutManagerWithSmoothScroller
+import com.ekino.onekeysdk.custom.CenterLayoutManager
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
@@ -52,6 +52,12 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
         btnBack.setOnClickListener(this)
         initHeader()
+
+        rvLocations.apply {
+            layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = searchAdapter
+            searchAdapter.setData(locations)
+        }
         viewModel.apply {
             requestPermissions(this@FullMapFragment)
             permissionRequested.observe(this@FullMapFragment, Observer { granted ->
@@ -61,25 +67,17 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     fm.beginTransaction().add(R.id.mapContainer, mapFragment, mapFragmentTag)
                             .commit()
                 }
+                rvLocations.postDelay({
+                    getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
+                        val selectedPosition = locations.indexOfFirst { it.id == id }
+                        if (selectedPosition >= 0) {
+                            rvLocations.smoothScrollToPosition(selectedPosition)
+                            searchAdapter.setSelectedPosition(selectedPosition)
+                        }
+                    }
+                }, 1000L)
             })
         }
-
-        rvLocations.apply {
-            layoutManager = LinearLayoutManagerWithSmoothScroller(
-                    context,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-            )
-            adapter = searchAdapter
-            searchAdapter.setData(locations)
-        }
-        rvLocations.postDelay({
-            getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
-                val selectedPosition = locations.indexOfFirst { it.id == id }
-                if (selectedPosition >= 0)
-                    rvLocations.smoothScrollToPosition(selectedPosition)
-            }
-        }, 1000L)
         btnCurrentLocation.setOnClickListener(this)
     }
 

@@ -77,6 +77,14 @@ class SearchFragment :
                 setAddressClearState(false)
             }
             R.id.btnSearch -> {
+                if (edtName.text.toString().isEmpty()) {
+                    edtName.error = "This field can NOT be empty"
+                    return
+                }
+                if (edtWhere.text.toString().isEmpty()) {
+                    edtWhere.error = "This field can NOT be empty"
+                    return
+                }
                 oneKeyViewCustomObject?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                             FullMapFragment.newInstance(it, edtName.text.toString(),
