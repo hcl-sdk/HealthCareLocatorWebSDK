@@ -24,9 +24,6 @@ export namespace Components {
     interface OnekeySdkMap {
         "defaultZoom": number;
         "locations": any[];
-        /**
-          * An array of locations
-         */
         "mapHeight": string;
         "mapWidth": string;
         "markerIcon": string;
@@ -170,9 +167,6 @@ declare namespace LocalJSX {
     interface OnekeySdkMap {
         "defaultZoom"?: number;
         "locations"?: any[];
-        /**
-          * An array of locations
-         */
         "mapHeight"?: string;
         "mapWidth"?: string;
         "markerIcon"?: string;

@@ -93,6 +93,8 @@ export class SettingsPanel {
     const theme = this.fields.theme === 'custom' ? this.fields.customTheme : THEMES[this.fields.theme];
     el.style.setProperty('--onekeysdk-color-primary', theme.colorPrimary);
     el.style.setProperty('--onekeysdk-color-secondary', theme.colorSecondary);
+    el.style.setProperty('--onekeysdk-color-marker', theme.colorMarker);
+    el.style.setProperty('--onekeysdk-color-marker-selected', theme.colorMarkerSelected);
     el.style.setProperty('--onekeysdk-font-size', theme.fontSizeBase + 'px');
     el.style.setProperty('--onekeysdk-font-size-title', theme.fontSizeTitle + 'px');
   }

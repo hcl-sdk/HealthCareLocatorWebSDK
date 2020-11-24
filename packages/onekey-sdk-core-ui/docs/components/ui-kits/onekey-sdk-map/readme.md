@@ -7,14 +7,14 @@
 
 ## Properties
 
-| Property              | Attribute               | Description           | Type     | Default     |
-| --------------------- | ----------------------- | --------------------- | -------- | ----------- |
-| `defaultZoom`         | `default-zoom`          |                       | `number` | `undefined` |
-| `locations`           | --                      |                       | `any[]`  | `[]`        |
-| `mapHeight`           | `map-height`            | An array of locations | `string` | `'100%'`    |
-| `mapWidth`            | `map-width`             |                       | `string` | `'100%'`    |
-| `markerIcon`          | `marker-icon`           |                       | `string` | `undefined` |
-| `selectedLocationIdx` | `selected-location-idx` |                       | `number` | `undefined` |
+| Property              | Attribute               | Description | Type     | Default     |
+| --------------------- | ----------------------- | ----------- | -------- | ----------- |
+| `defaultZoom`         | `default-zoom`          |             | `number` | `undefined` |
+| `locations`           | --                      |             | `any[]`  | `[]`        |
+| `mapHeight`           | `map-height`            |             | `string` | `'100%'`    |
+| `mapWidth`            | `map-width`             |             | `string` | `'100%'`    |
+| `markerIcon`          | `marker-icon`           |             | `string` | `undefined` |
+| `selectedLocationIdx` | `selected-location-idx` |             | `number` | `undefined` |
 
 
 ## Events
