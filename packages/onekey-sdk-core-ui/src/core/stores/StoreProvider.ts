@@ -10,10 +10,12 @@ class StoreProvider<T extends {}> {
   }
 
   setState = (states: T) => {
-    const statesKeys: string[] = Object.keys(states)
-    statesKeys.forEach((k) => {
-      this.storeInstance.set(k, states[k])
-    })
+    if (states) {
+      const statesKeys: string[] = Object.keys(states)
+      statesKeys.forEach((k) => {
+        this.storeInstance.set(k, states[k])
+      })
+    }
   }
 
   get state(): T {

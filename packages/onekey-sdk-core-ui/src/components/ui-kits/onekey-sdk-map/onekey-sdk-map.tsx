@@ -50,13 +50,14 @@ export class OnekeySdkMap {
   }
 
   private setMap = () => {
-    const mapTileLayer = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
+    const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
     // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
     this.map = L.map(this.mapElm, {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
+      minZoom: 15,
       maxZoom: 20
       // gestureHandling: true,
       // gestureHandlingOptions: {
@@ -100,7 +101,7 @@ export class OnekeySdkMap {
     });
     if (this.locations) {
       for (let i = 0; i < this.locations.length; i++) {
-        markers.addLayer(L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() }).bindPopup(this.locations[i].name)).addTo(this.map).on("click", this.markerClick.emit);
+        markers.addLayer(L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() })).addTo(this.map).on("click", this.markerClick.emit);
       }
     }
   };
