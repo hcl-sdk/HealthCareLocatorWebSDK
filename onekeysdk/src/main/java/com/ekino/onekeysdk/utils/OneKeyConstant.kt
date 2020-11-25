@@ -7,6 +7,7 @@ object OneKeyConstant {
     const val locations = "locations"
     const val place = "place"
     const val speciality = "speciality"
+    const val activeResultScreen = "activeResultScreen"
 }
 
 object OneKeyLog {

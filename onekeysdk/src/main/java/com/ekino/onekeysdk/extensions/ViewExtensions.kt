@@ -3,8 +3,6 @@ package com.ekino.onekeysdk.extensions
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.CornerPathEffect
-import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -31,24 +29,6 @@ fun View.setRippleBackground(color: Int, radius: Float) {
     shapeDrawable.paint.color = color
     this.background = RippleDrawable(ColorStateList.valueOf(Color.parseColor("#55000000")),
             shapeDrawable, null)
-}
-
-fun View.setRippleBackgroundWithBorder(borderColor: Int, radius: Float) {
-    val outerRadii = FloatArray(8)
-    Arrays.fill(outerRadii, radius)
-    val round = RoundRectShape(outerRadii, null, null)
-    val shapeDrawable = ShapeDrawable()
-    shapeDrawable.paint.also { paint ->
-        paint.style = Paint.Style.STROKE
-        paint.strokeJoin = Paint.Join.ROUND
-        paint.strokeCap = Paint.Cap.ROUND
-        paint.color = borderColor
-        paint.strokeWidth = 10f
-        paint.isDither = true
-        paint.pathEffect = CornerPathEffect(radius * 2f)
-        paint.isAntiAlias = true
-    }
-    this.background = shapeDrawable
 }
 
 fun View.setRippleCircleBackground(color: Int) {
