@@ -7,11 +7,11 @@ import cls from 'classnames'
 })
 export class OnekeySdkSwitchViewMode {
   @State() selectedViewMode: string  = 'LIST'
-  @Event() onSwitchViewMode: EventEmitter;
+  @Event() switchViewMode: EventEmitter;
 
   onSwitch = (mode) => {
     this.selectedViewMode = mode
-    this.onSwitchViewMode.emit(mode)
+    this.switchViewMode.emit(mode)
   }
 
   render() {

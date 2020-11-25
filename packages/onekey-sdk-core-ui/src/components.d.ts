@@ -207,7 +207,7 @@ declare namespace LocalJSX {
     interface OnekeySdkSearchResult {
     }
     interface OnekeySdkSwitchViewMode {
-        "onOnSwitchViewMode"?: (event: CustomEvent<any>) => void;
+        "onSwitchViewMode"?: (event: CustomEvent<any>) => void;
     }
     interface IntrinsicElements {
         "onekey-sdk": OnekeySdk;

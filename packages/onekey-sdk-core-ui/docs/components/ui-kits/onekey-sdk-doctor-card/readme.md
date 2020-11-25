@@ -7,13 +7,14 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type      | Default     |
-| ---------- | ---------- | ----------- | --------- | ----------- |
-| `address`  | `address`  |             | `string`  | `undefined` |
-| `distance` | `distance` |             | `string`  | `undefined` |
-| `gp`       | `gp`       |             | `string`  | `undefined` |
-| `name`     | `name`     |             | `string`  | `undefined` |
-| `selected` | `selected` |             | `boolean` | `undefined` |
+| Property   | Attribute   | Description | Type      | Default     |
+| ---------- | ----------- | ----------- | --------- | ----------- |
+| `address`  | `address`   |             | `string`  | `undefined` |
+| `distance` | `distance`  |             | `string`  | `undefined` |
+| `gp`       | `gp`        |             | `string`  | `undefined` |
+| `name`     | `name`      |             | `string`  | `undefined` |
+| `selected` | `selected`  |             | `boolean` | `undefined` |
+| `viewMode` | `view-mode` |             | `string`  | `undefined` |
 
 
 ## Dependencies

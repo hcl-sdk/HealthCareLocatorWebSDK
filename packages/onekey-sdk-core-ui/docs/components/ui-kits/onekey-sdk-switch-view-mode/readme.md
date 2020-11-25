@@ -5,6 +5,13 @@
 <!-- Auto Generated Below -->
 
 
+## Events
+
+| Event            | Description | Type               |
+| ---------------- | ----------- | ------------------ |
+| `switchViewMode` |             | `CustomEvent<any>` |
+
+
 ## Dependencies
 
 ### Used by

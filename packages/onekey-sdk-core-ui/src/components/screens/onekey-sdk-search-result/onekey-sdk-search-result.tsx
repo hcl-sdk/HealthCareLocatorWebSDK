@@ -35,7 +35,7 @@ export class OnekeySdkSearchResult {
     getAddressFromGeo(e.detail.lat, e.detail.lng)
   }
 
-  @Listen('onSwitchViewMode')
+  @Listen('switchViewMode')
   onSwitchViewMode(e) {
     if(e.detail === 'LIST') {
       this.isListViewMode = true
