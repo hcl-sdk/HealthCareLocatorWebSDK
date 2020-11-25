@@ -62,6 +62,28 @@
       overflow-x: scroll;
       z-index: 1000;
       overflow-y: hidden;
+
+      &.list-view {
+        position: relative;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 10px 10px 0 10px;
+        margin-left: 0;
+        flex: 1;
+        width: auto;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        background-color: #f8f9fa;
+
+        .doctor-card {
+          margin-left: 0;
+          margin-bottom: 10px;
+          flex: 1;
+          width: auto;
+        }
+      }
     }
   }
 

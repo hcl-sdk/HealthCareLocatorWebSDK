@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop } from '@stencil/core';
+import { initAppCSSWidthHeight } from 'onekey-sdk-core-ui/src/utils/helper';
 import { configStore } from '../../../core/stores';
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 
@@ -12,6 +13,10 @@ export class OneKeySDK {
 
   componentWillLoad() {
     configStore.setState(this.config)
+  }
+
+  componentDidLoad() {
+    initAppCSSWidthHeight()
   }
 
   render() {

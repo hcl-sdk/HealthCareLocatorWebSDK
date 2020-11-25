@@ -1,14 +1,17 @@
 import { Component, Host, h, State, Listen } from '@stencil/core';
+import { getContainerHeightWidthOffset, getDoctorCardOffset } from 'onekey-sdk-core-ui/src/utils/helper';
 import { getHCPNearMe } from '../../../core/api/hcp';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import { searchMapStore } from '../../../core/stores';
-
+import animateScrollTo from '../../../utils/animatedScrollTo'
+import cls from 'classnames'
 @Component({
   tag: 'onekey-sdk-search-result',
   styleUrl: 'onekey-sdk-search-result.scss',
   shadow: false,
 })
 export class OnekeySdkSearchResult {
+  @State() isListViewMode: boolean  = true;
   @State() selectedMarkerIdx: number;
 
   componentWillLoad() {
@@ -21,13 +24,24 @@ export class OnekeySdkSearchResult {
   @Listen('markerClick')
   onMarkerClick(e) {
     const selectedMarkerIdx = searchMapStore.state.hcpNearMe.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
-    this.searchDataCardList.scrollLeft = 300*selectedMarkerIdx;
+    const doctorCardOffset = getDoctorCardOffset(this.searchDataCardList, selectedMarkerIdx)
+
+    animateScrollTo(this.searchDataCardList, 'scrollLeft', doctorCardOffset, 1000)
     this.selectedMarkerIdx = selectedMarkerIdx
   };
-
+  
   @Listen('setCurrentLocation')
   setCurrentLocation(e) {
     getAddressFromGeo(e.detail.lat, e.detail.lng)
+  }
+
+  @Listen('onSwitchViewMode')
+  onSwitchViewMode(e) {
+    if(e.detail === 'LIST') {
+      this.isListViewMode = true
+    } else {
+      this.isListViewMode = false
+    }
   }
 
   render() {
@@ -37,6 +51,12 @@ export class OnekeySdkSearchResult {
 
     const { hcpNearMe, currentLocation, search } = searchMapStore.state;
     const address = currentLocation?.display_name || search.selectedItem.label
+
+    const searchDataClass = cls('search-data', {
+      'list-view': this.isListViewMode
+    })
+
+    const { offsetHeight } = getContainerHeightWidthOffset()
 
     return (
       <Host>
@@ -63,14 +83,14 @@ export class OnekeySdkSearchResult {
             </div>
             <div class="search-filter"><ion-icon name="filter-circle-sharp"></ion-icon></div>
           </div>
-          <div class="search-map search-section">
-            <div class="search-data" ref={el => this.searchDataCardList = el as HTMLInputElement}>
+          <div class="search-map search-section" style={{ height: `${offsetHeight - 800}px` }}>
+            <div class={searchDataClass} ref={el => this.searchDataCardList = el as HTMLInputElement}>
               {hcpNearMe.map((elm, idx) => (
                 <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={this.onItemCardClick} />
               ))}
             </div>
 
-            {!!hcpNearMe.length && (
+            {!!hcpNearMe.length && !this.isListViewMode && (
               <onekey-sdk-map
                 class="search-map__content"
                 locations={hcpNearMe}

@@ -16,6 +16,7 @@ export namespace Components {
         "gp": string;
         "name": string;
         "selected": boolean;
+        "viewMode": string;
     }
     interface OnekeySdkHome {
     }
@@ -159,6 +160,7 @@ declare namespace LocalJSX {
         "gp"?: string;
         "name"?: string;
         "selected"?: boolean;
+        "viewMode"?: string;
     }
     interface OnekeySdkHome {
     }
@@ -205,6 +207,7 @@ declare namespace LocalJSX {
     interface OnekeySdkSearchResult {
     }
     interface OnekeySdkSwitchViewMode {
+        "onOnSwitchViewMode"?: (event: CustomEvent<any>) => void;
     }
     interface IntrinsicElements {
         "onekey-sdk": OnekeySdk;

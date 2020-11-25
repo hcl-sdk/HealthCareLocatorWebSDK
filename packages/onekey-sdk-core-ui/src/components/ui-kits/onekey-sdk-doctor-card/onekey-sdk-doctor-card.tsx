@@ -13,10 +13,12 @@ export class OnekeySdkDoctorCard {
   @Prop() address: string;
   @Prop() distance: string;
   @Prop() selected: boolean;
+  @Prop() viewMode: string;
   
   render() {
     const doctorClass = cn("doctor-card", {
-      selected: this.selected
+      selected: this.selected,
+      'list-view': this.viewMode === 'LIST'
     })
     return (
       <Host>
