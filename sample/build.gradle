@@ -46,6 +46,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    sourceSets {
+        def colorpicker = "colorpicker"
+        def categories = [colorpicker]
+        main {
+            for (category in categories) {
+                res.srcDirs += "src/components/$category/res"
+                java.srcDirs += "src/components/$category/java"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -62,5 +72,6 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$versions.glideVersion"
     implementation 'com.github.dhaval2404:colorpicker:1.2.1'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.preference:preference:1.1.1'
 
 }
