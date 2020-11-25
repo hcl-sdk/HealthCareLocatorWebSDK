@@ -95,6 +95,43 @@ export function getHCPNearMe() {
   }, 3000);
 }
 
+export async function searchDoctor() {
+  const data = [
+    {
+      gp: "General Practitioner",
+      label: 'Henry Lacan',
+      id: "1",
+    },
+    {
+      gp: "General Doctor",
+      label: 'Alex Biane',
+      id: "2",
+    },
+    {
+      gp: "General Skin",
+      label: 'Pansher Jane',
+      id: "3"
+    },
+    {
+      gp: "General Lung",
+      label: 'Miasna Jahne',
+      id: "4"
+    }
+  ]
+
+  searchMapStore.setState({ loading: true, searchGeo: null });
+  
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      searchMapStore.setState({ searchGeo: data });
+  
+      searchMapStore.setState({ loading: false });
+      resolve()
+    }, 1000);
+  })
+}
+
 export const test = (variables = {}) => {
   const query = gql`
     query {

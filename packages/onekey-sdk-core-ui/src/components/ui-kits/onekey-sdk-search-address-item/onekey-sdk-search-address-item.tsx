@@ -7,7 +7,6 @@ import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
 })
 export class OnekeySdkSearchItem {
   @Prop() item: any
-  @Prop() type: string
   @Prop() activated: boolean = false
   @Event() selectAddress: EventEmitter
 

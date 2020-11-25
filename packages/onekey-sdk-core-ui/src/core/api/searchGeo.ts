@@ -3,7 +3,7 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { searchMapStore } from '../stores';
 
 export async function searchGeoMap(value: string) {
-  searchMapStore.setState({ loading: true })
+  searchMapStore.setState({ loading: true, searchGeo: null })
   const provider = new OpenStreetMapProvider();
 
   const results = await provider.search({ query: value });

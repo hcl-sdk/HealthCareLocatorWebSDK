@@ -1,6 +1,7 @@
 import { Component, Host, h, State, Listen } from '@stencil/core';
 import 'ionicons'
 import {searchGeoMap} from '../../../core/api/searchGeo';
+import { searchDoctor } from '../../../core/api/hcp';
 import { searchMapStore, routerStore } from '../../../core/stores'
 import debounce from 'lodash.debounce'
 
@@ -20,6 +21,8 @@ export class OnekeySdkSearch {
   };
   @State() searchResult = [];
   @State() selectedAddress: any = {};
+  @State() selectedDoctor: any = {}
+  @State() currentSelectedInput: string;
 
   componentWillLoad() {
     this.formData = {
@@ -36,32 +39,71 @@ export class OnekeySdkSearch {
   private onSearch = (e) => {
     e.preventDefault()
 
-    searchMapStore.setState({
-      search: {
-        ...this.formData,
-        selectedItem: this.selectedAddress
-      }
-    })
-    routerStore.push('/search-result')
+    console.dir(e.target)
+
+    const { name, address } = e.target
+
+    console.log({ name, address })
+
+    if (name.value && address.value) {
+      searchMapStore.setState({
+        search: {
+          name: this.selectedDoctor.label,
+          selectedItem: this.selectedAddress
+        }
+      })
+      routerStore.push('/search-result')
+    } else {
+      this.checkValidElm(name)
+      this.checkValidElm(address)
+    }
+
+   
   }
 
-  onChange = debounce(async () => {
-    if (this.addressInput.id === 'address' && this.addressInput.value) {
-      this.formData = {...this.formData, [this.addressInput.id]: this.addressInput.value }
+  checkValidElm = (elm) => {
+    if(!elm.value) {
+      elm.classList.add('error');
+    } else {
+      elm.classList.remove('error');
+    }
+  }
+
+  onChange = debounce(async (e) => {
+    const inputName = e.path[0].name
+    this.checkValidElm(e.path[0])
+    if (inputName === 'address' && this.addressInput.value) {
+      this.formData = {...this.formData, [inputName]: this.addressInput.value }
       await searchGeoMap(this.addressInput.value)
     }
 
-    if (this.nameInput.id === 'name' && this.nameInput.value) {
-      this.formData = {...this.formData, [this.nameInput.id]: this.nameInput.value }
+    if (inputName === 'name' && this.nameInput.value) {
+      this.formData = {...this.formData, [inputName]: this.nameInput.value }
+      await searchDoctor()
     }
-  }, 500)
+
+    this.currentSelectedInput = e.path[0].name
+  }, 1000)
 
   @Listen("selectAddress")
   onSelectAddress(e) {
-    this.selectedAddress = {...e.detail }
+    if(this.currentSelectedInput === "address") {
+      this.selectedAddress = {...e.detail }
+    } else {
+      this.selectedDoctor = {...e.detail }
+    }
+  }
+
+  getActivation = (item: any): boolean => {
+    if(this.currentSelectedInput === "address") {
+      return this.selectedAddress?.raw?.place_id === item?.raw?.place_id
+    } else {
+      return this.selectedDoctor.id === item.id
+    }
   }
 
   render() {
+    console.log(searchMapStore.state.searchGeo)
     return (
       <Host>
         <div class="main-block search-block">
@@ -71,10 +113,10 @@ export class OnekeySdkSearch {
             </onekey-sdk-router-link>
             <form onSubmit={this.onSearch} class="search-form">
               <div class="search-form-content">
-                <input ref={el => this.nameInput = el} value={this.formData.name} id="name" placeholder="Name, Speciality, Establishment..." onInput={this.onChange} autoComplete="off" />
-                <input ref={el => this.addressInput = el} value={this.selectedAddress.label} id="address" placeholder="Near me" onInput={this.onChange} autoComplete="off" />
+                <input name="name" ref={el => this.nameInput = el} value={this.selectedDoctor.label} id="name" placeholder="Name, Speciality, Establishment..." onInput={this.onChange} autoComplete="off" />
+                <input name="address" ref={el => this.addressInput = el} value={this.selectedAddress.label} id="address" placeholder="Near me" onInput={this.onChange} autoComplete="off" />
               </div>
-              <button disabled={!this.selectedAddress?.raw?.place_id || !this.formData.name} class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
+              <button disabled={!this.selectedAddress?.raw?.place_id || !this.selectedDoctor.label} class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
             </form>
           </div>
         </div>
@@ -86,7 +128,7 @@ export class OnekeySdkSearch {
             searchMapStore.state?.searchGeo?.map(
               item => <onekey-sdk-search-address-item
                 item={item}
-                activated={this.selectedAddress?.raw?.place_id === item.raw.place_id}
+                activated={this.getActivation(item)}
               />
             )
           }

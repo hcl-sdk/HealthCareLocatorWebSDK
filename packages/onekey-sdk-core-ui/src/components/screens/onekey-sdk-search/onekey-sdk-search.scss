@@ -55,6 +55,10 @@
       margin-bottom: 8px;
     }
 
+    .error {
+      border: 1px solid red;
+    }    
+
     &-content {
       width: 100%;
       position: relative;

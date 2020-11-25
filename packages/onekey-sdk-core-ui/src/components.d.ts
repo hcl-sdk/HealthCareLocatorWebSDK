@@ -55,7 +55,6 @@ export namespace Components {
     interface OnekeySdkSearchAddressItem {
         "activated": boolean;
         "item": any;
-        "type": string;
     }
     interface OnekeySdkSearchResult {
     }
@@ -202,7 +201,6 @@ declare namespace LocalJSX {
         "activated"?: boolean;
         "item"?: any;
         "onSelectAddress"?: (event: CustomEvent<any>) => void;
-        "type"?: string;
     }
     interface OnekeySdkSearchResult {
     }

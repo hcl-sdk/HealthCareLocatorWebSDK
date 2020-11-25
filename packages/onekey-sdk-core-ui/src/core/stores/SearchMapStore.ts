@@ -9,6 +9,13 @@ export interface HCPItem {
   lng: number;
 }
 
+
+export interface HCPName {
+  id: string
+  label: string
+  gp: string
+}
+
 export interface SearchResult {
   selectedItem?: any;
   name?: string;
@@ -18,6 +25,7 @@ export interface SearchResult {
 export interface SearchMapState {
   loading?: boolean;
   hcpNearMe?: HCPItem[];
+  doctors?: HCPName[];
   search?: SearchResult;
   searchGeo?: any[]
   currentLocation?: any;
