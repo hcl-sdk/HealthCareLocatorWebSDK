@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,52 +8,67 @@
     android:layout_marginBottom="@dimen/default_padding"
     android:background="@drawable/bg_white_border_corner"
     android:orientation="horizontal"
-    android:padding="@dimen/default_padding_smaller">
+    android:padding="1dp">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/borderContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:padding="3dp">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/tvName"
+        <LinearLayout
+            android:background="@drawable/bg_white_border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorOneKeyBlue"
-            android:textSize="@dimen/default_text"
-            tools:text="Dr." />
+            android:orientation="horizontal"
+            android:padding="@dimen/default_padding_smaller">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/tvSpeciality"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_text"
-            tools:text="Dr." />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/tvAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/default_text"
-            tools:text="Dr." />
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorOneKeyBlue"
+                    android:textSize="@dimen/default_text"
+                    tools:text="Dr." />
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-            android:id="@+id/tvDistance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_text"
-            tools:text="Distance" />
-    </LinearLayout>
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/tvSpeciality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorOneKeyText"
+                    android:textSize="@dimen/default_text"
+                    tools:text="Dr." />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/baseline_keyboard_arrow_right_black_24dp"
-        app:tint="@color/gray" />
-</LinearLayout>
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/default_text"
+                    tools:text="Dr." />
+
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorOneKeyText"
+                    android:textSize="@dimen/default_text"
+                    tools:text="Distance" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                app:tint="@color/gray" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

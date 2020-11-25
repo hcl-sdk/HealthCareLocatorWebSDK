@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.AppFragment
+import base.fragments.FragmentState
+import base.fragments.IFragment
+import base.fragments.IFragmentState
 import com.ekino.onekeysdk.R
-import com.ekino.onekeysdk.adapter.search.SearchAdapter
-import com.ekino.onekeysdk.custom.LinearLayoutManagerWithSmoothScroller
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
@@ -36,51 +38,49 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     private var place: OneKeyPlace? = null
     private var locations: ArrayList<OneKeyLocation> = arrayListOf()
 
-    private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, locations) }
-    private val searchAdapter by lazy { SearchAdapter() }
-
+    private val fragmentState: IFragmentState by lazy { FragmentState(childFragmentManager, R.id.resultContainer) }
+    private var resultFragments: ArrayList<IFragment> = arrayListOf()
     override val viewModel: FullMapViewModel = FullMapViewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initView(view: View, savedInstanceState: Bundle?) {
+        childFragmentManager.fragments.filter {
+            it::class.java.name == OneKeyMapResultFragment::class.java.name
+                    || it::class.java.name == OneKeyListResultFragment::class.java.name
+        }.map { childFragmentManager.beginTransaction().remove(it).commit() }
+
+        var activeScreen = 0
         if (savedInstanceState != null) {
             val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
             if (!list.isNullOrEmpty())
                 locations = list
             speciality = savedInstanceState.getString(OneKeyConstant.speciality, "")
             place = savedInstanceState.getParcelable(OneKeyConstant.place)
+            activeScreen = savedInstanceState.getInt(OneKeyConstant.activeResultScreen)
         }
         btnBack.setOnClickListener(this)
         initHeader()
+        setModeButtons(activeScreen)
+        resultFragments = arrayListOf<IFragment>(OneKeyListResultFragment.newInstance(oneKeyViewCustomObject, locations),
+                OneKeyMapResultFragment.newInstance(oneKeyViewCustomObject, locations))
         viewModel.apply {
             requestPermissions(this@FullMapFragment)
             permissionRequested.observe(this@FullMapFragment, Observer { granted ->
                 if (!granted) return@Observer
-                val fm = this@FullMapFragment.childFragmentManager
-                if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
-                    fm.beginTransaction().add(R.id.mapContainer, mapFragment, mapFragmentTag)
-                            .commit()
+                fragmentState.apply {
+                    enableAnim(false)
+                    setStacksRootFragment(resultFragments)
+                    if (resultFragments.isNotEmpty() && activeScreen < resultFragments.size)
+                        showStack(activeScreen)
                 }
+
             })
         }
-
-        rvLocations.apply {
-            layoutManager = LinearLayoutManagerWithSmoothScroller(
-                    context,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-            )
-            adapter = searchAdapter
-            searchAdapter.setData(locations)
-        }
-        rvLocations.postDelay({
-            getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
-                val selectedPosition = locations.indexOfFirst { it.id == id }
-                if (selectedPosition >= 0)
-                    rvLocations.smoothScrollToPosition(selectedPosition)
-            }
-        }, 1000L)
-        btnCurrentLocation.setOnClickListener(this)
+        listViewMode.setOnClickListener(this)
+        mapViewMode.setOnClickListener(this)
     }
 
     override val onPassingEventListener: (data: Any) -> Unit = {
@@ -92,18 +92,22 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         outState.putParcelableArrayList(OneKeyConstant.locations, locations)
         outState.putParcelable(OneKeyConstant.place, place)
         outState.putString(OneKeyConstant.speciality, speciality)
+        outState.putInt(OneKeyConstant.activeResultScreen, fragmentState.currentStack())
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnBack -> activity?.onBackPressed()
-            R.id.btnCurrentLocation -> getRunningMapFragment()?.getLastLocation()
+            R.id.listViewMode -> {
+                setModeButtons(0)
+                fragmentState.showStack(0)
+            }
+            R.id.mapViewMode -> {
+                setModeButtons(1)
+                fragmentState.showStack(1)
+            }
         }
     }
-
-    private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.getFragmentBy {
-        it::class.java.simpleName == MapFragment::class.java.simpleName
-    } as? MapFragment
 
     private fun initHeader() {
         tvSpeciality.text = speciality
@@ -115,5 +119,35 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
         mapViewMode.setRippleBackground(oneKeyViewCustomObject.primaryColor.getColor(), 50f)
         ivSort.setRippleCircleBackground(oneKeyViewCustomObject.secondaryColor.getColor(), 255)
+    }
+
+    private fun setModeButtons(active: Int) {
+        if (active == 0) {
+            listViewMode.postDelay({
+                val color = context!!.getColor(R.color.white)
+                it.background = context!!.getDrawableById(R.drawable.bg_green_corner)
+                it.setTextColor(color)
+                it.compoundDrawables.firstOrNull()?.setTint(color)
+            })
+            mapViewMode.postDelay({
+                val color = context!!.getColor(R.color.colorOneKeyText)
+                it.background = null
+                it.setTextColor(color)
+                it.compoundDrawables.firstOrNull()?.setTint(color)
+            })
+        } else {
+            mapViewMode.postDelay({
+                val color = context!!.getColor(R.color.white)
+                it.background = context!!.getDrawableById(R.drawable.bg_green_corner)
+                it.setTextColor(color)
+                it.compoundDrawables.firstOrNull()?.setTint(color)
+            })
+            listViewMode.postDelay({
+                val color = context!!.getColor(R.color.colorOneKeyText)
+                it.background = null
+                it.setTextColor(color)
+                it.compoundDrawables.firstOrNull()?.setTint(color)
+            })
+        }
     }
 }

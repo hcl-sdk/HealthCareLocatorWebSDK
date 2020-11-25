@@ -3,6 +3,7 @@ package com.ekino.onekeysdk.fragments.search
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
@@ -52,9 +53,11 @@ class SearchFragment :
             })
             specialityEvent.observe(this@SearchFragment, Observer {
                 setSpecialityClearState(it)
+                setError(specialityWrapper)
             })
             addressEvent.observe(this@SearchFragment, Observer {
                 setAddressClearState(it)
+                setError(addressWrapper)
             })
         }
         rvAddress.apply {
@@ -77,10 +80,20 @@ class SearchFragment :
                 setAddressClearState(false)
             }
             R.id.btnSearch -> {
+                if (edtName.text.toString().isEmpty()) {
+                    setError(specialityWrapper, R.color.colorOneKeyRed)
+                    return
+                }
+                if (edtWhere.text.toString().isEmpty()) {
+                    setError(addressWrapper, R.color.colorOneKeyRed)
+                    return
+                }
                 oneKeyViewCustomObject?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                             FullMapFragment.newInstance(it, edtName.text.toString(),
-                                    selectedPlace, getDummyHCP()), true)
+                                    selectedPlace ?: OneKeyPlace().apply {
+                                        displayName = edtWhere.text.toString()
+                                    }, getDummyHCP()), true)
                 }
             }
         }
@@ -97,5 +110,9 @@ class SearchFragment :
 
     private fun setAddressClearState(state: Boolean) {
         ivAddressClear.visibility = state.getVisibility()
+    }
+
+    private fun setError(view: View, color: Int = R.color.grayLight) {
+        view.setRippleBackground(ContextCompat.getColor(context!!, color), 20f)
     }
 }

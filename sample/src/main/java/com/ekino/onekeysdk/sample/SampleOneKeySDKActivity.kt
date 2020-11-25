@@ -56,6 +56,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 
     fun launchOneKeySDK() {
         resetStack()
+        /**
+         * Customize the theme attributes
+         */
         val selectedTheme = (SampleApplication.sharedPreferences.getString(Pref.theme,
                 "G") ?: "G").run {
             themes.firstOrNull { it.id == this }
@@ -72,6 +75,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 ?: selectedTheme.markerSelectedHexColor
         val fontBase = SampleApplication.sharedPreferences.getInt(Pref.fontBase, 16)
         val fontTitle = SampleApplication.sharedPreferences.getInt(Pref.fontTitle, 20)
+        /**
+         * Add OneKey screen into parent application
+         */
         this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
                 OneKeyViewCustomObject.Builder().font(font)
                         .primaryColor(primary)

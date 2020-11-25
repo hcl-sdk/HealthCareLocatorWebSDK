@@ -100,28 +100,12 @@
                 android:weightSum="2">
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableStart="@drawable/baseline_list_white_24dp"
-                    android:drawableTint="@color/colorOneKeyText"
-                    android:gravity="center"
-                    android:maxWidth="60dp"
-                    android:paddingStart="@dimen/default_padding_small"
-                    android:paddingTop="@dimen/default_padding_tiny"
-                    android:paddingEnd="@dimen/default_padding_small"
-                    android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="List view"
-                    android:textColor="@color/colorOneKeyText" />
-
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/mapViewMode"
+                    android:id="@+id/listViewMode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/bg_green_corner"
-                    android:drawableStart="@drawable/baseline_map_white_24dp"
+                    android:drawableStart="@drawable/baseline_list_white_24dp"
                     android:drawableTint="@color/white"
                     android:gravity="center"
                     android:maxWidth="60dp"
@@ -129,8 +113,25 @@
                     android:paddingTop="@dimen/default_padding_tiny"
                     android:paddingEnd="@dimen/default_padding_small"
                     android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="Map view"
+                    android:text="List view"
                     android:textColor="@color/white" />
+
+
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/mapViewMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/baseline_map_white_24dp"
+                    android:drawableTint="@color/colorOneKeyText"
+                    android:gravity="center"
+                    android:maxWidth="60dp"
+                    android:paddingStart="@dimen/default_padding_small"
+                    android:paddingTop="@dimen/default_padding_tiny"
+                    android:paddingEnd="@dimen/default_padding_small"
+                    android:paddingBottom="@dimen/default_padding_tiny"
+                    android:text="Map view"
+                    android:textColor="@color/colorOneKeyText" />
             </LinearLayout>
 
             <FrameLayout
@@ -153,31 +154,9 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/mapContainer"
+        android:id="@+id/resultContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/resultWrapper" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLocations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:clipToPadding="false"
-        android:elevation="3dp"
-        android:paddingEnd="@dimen/default_padding" />
-
-    <ImageView
-        android:id="@+id/btnCurrentLocation"
-        android:layout_width="@dimen/default_icon_size_big"
-        android:layout_height="@dimen/default_icon_size_big"
-        android:layout_above="@+id/rvLocations"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/default_padding"
-        android:layout_marginBottom="@dimen/default_padding"
-        android:background="@drawable/bg_white_circle_border"
-        android:elevation="6dp"
-        android:padding="@dimen/default_padding_small"
-        android:src="@drawable/baseline_my_location_black_24dp"
-        app:tint="@color/colorOneKeyText" />
 </RelativeLayout>
