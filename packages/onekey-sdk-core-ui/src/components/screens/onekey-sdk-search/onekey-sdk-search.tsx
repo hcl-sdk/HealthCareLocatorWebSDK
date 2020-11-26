@@ -103,7 +103,6 @@ export class OnekeySdkSearch {
   }
 
   render() {
-    console.log(searchMapStore.state.searchGeo)
     return (
       <Host>
         <div class="main-block search-block">
@@ -116,7 +115,7 @@ export class OnekeySdkSearch {
                 <input name="name" ref={el => this.nameInput = el} value={this.selectedDoctor.label} id="name" placeholder="Name, Speciality, Establishment..." onInput={this.onChange} autoComplete="off" />
                 <input name="address" ref={el => this.addressInput = el} value={this.selectedAddress.label} id="address" placeholder="Near me" onInput={this.onChange} autoComplete="off" />
               </div>
-              <button disabled={!this.selectedAddress?.raw?.place_id || !this.selectedDoctor.label} class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
+              <button class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
             </form>
           </div>
         </div>
