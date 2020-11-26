@@ -33,6 +33,7 @@ class SearchAdapter(private val screenWidth: Int = -1) : OneKeyAdapter<OneKeyLoc
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvDistance.text = "${data.distance}m"
+                ivArrow.setColorFilter(themeConfig.secondaryColor.getColor())
                 if (selectedPosition == position)
                     borderContainer.setRippleBackground(themeConfig.markerSelectedColor.getColor(), 15f)
                 else borderContainer.background = null
