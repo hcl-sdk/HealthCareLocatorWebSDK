@@ -15,8 +15,8 @@ import com.ekino.onekeysdk.sample.model.FontObject
 import com.ekino.onekeysdk.sample.model.ThemeObject
 import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
-import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
-import com.github.dhaval2404.colorpicker.model.ColorShape
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import kotlinx.android.synthetic.main.fragment_custom_theme.*
 
 class CustomThemeFragment(val themeObject: ThemeObject, val callback: (theme: ThemeObject) -> Unit) :
@@ -29,7 +29,11 @@ class CustomThemeFragment(val themeObject: ThemeObject, val callback: (theme: Th
 
     private val fonts by lazy { getFonts() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_custom_theme, container, false)
     }
 
@@ -90,7 +94,12 @@ class CustomThemeFragment(val themeObject: ThemeObject, val callback: (theme: Th
 
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+            ) {
                 themeObject.fontBase = (parent?.selectedItem as? String)?.toInt() ?: 16
             }
 
@@ -100,7 +109,12 @@ class CustomThemeFragment(val themeObject: ThemeObject, val callback: (theme: Th
 
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+            ) {
                 themeObject.fontTitle = (parent?.selectedItem as? String)?.toInt() ?: 20
             }
 
@@ -117,44 +131,64 @@ class CustomThemeFragment(val themeObject: ThemeObject, val callback: (theme: Th
         viewMarker.setBackgroundColor(themeObject.markerHexColor.getColor())
         viewSelectedMarker.setBackgroundColor(themeObject.markerSelectedHexColor.getColor())
         viewPrimary.setOnClickListener {
-            MaterialColorPickerDialog.Builder(activity!!)
-                    .setColorShape(ColorShape.CIRCLE)
-                    .setDefaultColor(themeObject.primaryHexColor)
-                    .setColorListener { _, hexColor ->
-                        themeObject.primaryHexColor = hexColor
-                        viewPrimary.setBackgroundColor(hexColor.getColor())
-                    }
-                    .show()
+            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                    .setAllowPresets(false).setDialogId(0).setColor(themeObject.primaryHexColor.getColor())
+                    .setShowAlphaSlider(true).setColorPickerDialogListener(object : ColorPickerDialogListener {
+                        override fun onDialogDismissed(dialogId: Int) {
+                        }
+
+                        override fun onColorSelected(dialogId: Int, color: Int) {
+                            val hexColor = "#${Integer.toHexString(color)}"
+                            themeObject.primaryHexColor = hexColor
+                            viewPrimary.setBackgroundColor(color)
+                        }
+
+                    }).show(activity)
         }
         viewSecondary.setOnClickListener {
-            MaterialColorPickerDialog.Builder(activity!!)
-                    .setColorShape(ColorShape.CIRCLE)
-                    .setDefaultColor(themeObject.secondaryHexColor)
-                    .setColorListener { _, hexColor ->
-                        themeObject.secondaryHexColor = hexColor
-                        viewSecondary.setBackgroundColor(hexColor.getColor())
-                    }
-                    .show()
+            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                    .setAllowPresets(false).setDialogId(0).setColor(themeObject.secondaryHexColor.getColor())
+                    .setShowAlphaSlider(true).setColorPickerDialogListener(object : ColorPickerDialogListener {
+                        override fun onDialogDismissed(dialogId: Int) {
+                        }
+
+                        override fun onColorSelected(dialogId: Int, color: Int) {
+                            val hexColor = "#${Integer.toHexString(color)}"
+                            themeObject.secondaryHexColor = hexColor
+                            viewSecondary.setBackgroundColor(color)
+                        }
+
+                    }).show(activity)
         }
         viewMarker.setOnClickListener {
-            MaterialColorPickerDialog.Builder(activity!!)
-                    .setColorShape(ColorShape.CIRCLE)
-                    .setDefaultColor(themeObject.markerHexColor)
-                    .setColorListener { _, hexColor ->
-                        themeObject.markerHexColor = hexColor
-                        viewMarker.setBackgroundColor(hexColor.getColor())
-                    }
-                    .show()
+            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                    .setAllowPresets(false).setDialogId(0).setColor(themeObject.markerHexColor.getColor())
+                    .setShowAlphaSlider(true).setColorPickerDialogListener(object : ColorPickerDialogListener {
+                        override fun onDialogDismissed(dialogId: Int) {
+                        }
+
+                        override fun onColorSelected(dialogId: Int, color: Int) {
+                            val hexColor = "#${Integer.toHexString(color)}"
+                            themeObject.markerHexColor = hexColor
+                            viewMarker.setBackgroundColor(color)
+                        }
+
+                    }).show(activity)
         }
         viewSelectedMarker.setOnClickListener {
-            MaterialColorPickerDialog.Builder(activity!!)
-                    .setColorShape(ColorShape.CIRCLE)
-                    .setDefaultColor(themeObject.markerSelectedHexColor)
-                    .setColorListener { _, hexColor ->
-                        themeObject.markerSelectedHexColor = hexColor
-                        viewSelectedMarker.setBackgroundColor(hexColor.getColor())
-                    }
-                    .show()
+            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                    .setAllowPresets(false).setDialogId(0).setColor(themeObject.markerSelectedHexColor.getColor())
+                    .setShowAlphaSlider(true).setColorPickerDialogListener(object : ColorPickerDialogListener {
+                        override fun onDialogDismissed(dialogId: Int) {
+                        }
+
+                        override fun onColorSelected(dialogId: Int, color: Int) {
+                            val hexColor = "#${Integer.toHexString(color)}"
+                            themeObject.markerSelectedHexColor = hexColor
+                            viewSelectedMarker.setBackgroundColor(color)
+                        }
+
+                    }).show(activity)
         }
     }
 }
