@@ -11,6 +11,7 @@ import android.view.View.OnGenericMotionListener
 import androidx.core.content.edit
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.custom.map.OneKeyMapView
 import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
@@ -64,7 +65,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     // Fields
     // ===========================================================
     private var mPrefs: SharedPreferences? = null
-    private var mMapView: MapView? = null
+    private var mMapView: OneKeyMapView? = null
     private val oneKeyMarkers by lazy { arrayListOf<OneKeyMarker>() }
     private var mLocationOverlay: MyLocationNewOverlay? = null
     private var lastCurrentLocation: Location? = null
@@ -76,7 +77,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
-        mMapView = MapView(inflater.context)
+        mMapView = OneKeyMapView(inflater.context)
         mMapView!!.setDestroyMode(false)
         mMapView!!.tag = "mapView" // needed for OpenStreetMapViewTest
         mMapView!!.setOnGenericMotionListener(OnGenericMotionListener { v, event ->
@@ -143,7 +144,6 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         val dm = context!!.resources.displayMetrics
 
         mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
         //My Location
         //note you have handle the permissions yourself, the overlay did not do it for you
         locationProvider = GpsMyLocationProvider(context)

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_padding">
+
+        <LinearLayout
+            android:id="@+id/newSearchWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_border_corner"
+                android:hint="Find Healthcare Professional"
+                android:padding="@dimen/default_padding"
+                app:boldText="true" />
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-10dp"
+                android:background="@drawable/bg_main_button_corner"
+                android:paddingStart="@dimen/default_padding"
+                android:paddingEnd="@dimen/default_padding"
+                android:src="@drawable/baseline_search_white_24dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grayLight" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f8f9fa"
+        android:clipToPadding="false"
+        android:padding="@dimen/default_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_border_corner"
+                android:orientation="vertical">
+
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/default_padding"
+                    android:text="HCP near me"
+                    android:textColor="@color/colorOneKeyText"
+                    app:boldText="true"
+                    app:primaryText="true" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayLight" />
+
+                <FrameLayout
+                    android:id="@+id/nearMeMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:padding="@dimen/default_padding" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:background="@drawable/bg_white_border_corner"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/default_padding"
+                        android:text="Last searches"
+                        android:textColor="@color/colorOneKeyText"
+                        app:boldText="true"
+                        app:primaryText="true" />
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/viewMoreSearches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/default_padding"
+                        android:text="View more"
+                        android:textColor="@color/colorOneKeyGreen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayLight" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLastSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:background="@drawable/bg_white_border_corner"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/default_padding"
+                        android:text="Last HCP Consulted"
+                        android:textColor="@color/colorOneKeyText"
+                        app:boldText="true"
+                        app:primaryText="true" />
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/viewMoreConsulted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/default_padding"
+                        android:text="View more"
+                        android:textColor="@color/colorOneKeyGreen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grayLight" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLastConsulted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

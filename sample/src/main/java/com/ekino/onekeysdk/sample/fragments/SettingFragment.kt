@@ -121,7 +121,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             val fontTitle = SampleApplication.sharedPreferences.getInt(Pref.fontTitle, 20)
             themeObject.font = selectedFont.font
             themeObject.fontId = selectedFont.id
-            themeObject.primaryHexColor = primaryselectedPosition
+            themeObject.primaryHexColor = primary
             themeObject.secondaryHexColor = secondary
             themeObject.markerHexColor = marker
             themeObject.markerSelectedHexColor = selectedMarker

@@ -1,7 +1,6 @@
 package com.ekino.onekeysdk.adapter
 
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.ekino.onekeysdk.extensions.isValidPosition
 
@@ -44,11 +43,18 @@ abstract class OneKeyAdapter<DATA, VH : RecyclerView.ViewHolder>
         if (!position.isValidPosition(dataSource.size)) return
         dataSource.add(position, item)
         notifyDataSetChanged()
-
     }
 
     fun clear() {
         dataSource.clear()
         notifyDataSetChanged()
+    }
+
+    fun remove(position: Int) {
+        if (position.isValidPosition(dataSource.size)) {
+            dataSource.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, dataSource.size)
+        }
     }
 }
