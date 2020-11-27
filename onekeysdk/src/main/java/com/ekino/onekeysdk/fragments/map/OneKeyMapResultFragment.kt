@@ -59,6 +59,9 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             }
         }, 1000L)
 
+        searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
+            (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
+        }
         btnCurrentLocation.setOnClickListener(this)
     }
 

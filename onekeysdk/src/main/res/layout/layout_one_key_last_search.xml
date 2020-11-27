@@ -45,8 +45,9 @@
             android:id="@+id/ivClear"
             android:layout_width="@dimen/default_icon_size"
             android:layout_height="@dimen/default_icon_size"
+            android:layout_marginTop="-10dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:padding="@dimen/default_padding_small"
             android:src="@drawable/baseline_close_black_24dp"
             app:tint="@color/gray" />
     </LinearLayout>

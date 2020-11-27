@@ -36,4 +36,9 @@ data class OneKeyLocation(var id: String = "", var name: String = "", var specia
             return arrayOfNulls(size)
         }
     }
+
+    fun getLocationByString():String = "$latitude,$longitude"
+    override fun toString(): String {
+        return address
+    }
 }

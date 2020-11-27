@@ -4,5 +4,6 @@
         <attr name="setFont" format="string" />
         <attr name="boldText" format="boolean" />
         <attr name="primaryText" format="boolean" />
+        <attr name="forceTextSize" format="boolean" />
     </declare-styleable>
 </resources>

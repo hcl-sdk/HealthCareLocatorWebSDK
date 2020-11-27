@@ -12,9 +12,11 @@ import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.model.OneKeyLocation
 import kotlinx.android.synthetic.main.layout_search_item.view.*
 
-class SearchAdapter(private val screenWidth: Int = -1) : OneKeyAdapter<OneKeyLocation, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
+class SearchAdapter(private val screenWidth: Int = -1) :
+        OneKeyAdapter<OneKeyLocation, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
     private var selectedPosition = -1
     private val themeConfig by lazy { ThemeExtension.getInstance().getThemeConfiguration() }
+    var onHCPCardClickedListener: (data: OneKeyLocation) -> Unit = {}
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): SearchVH =
             SearchVH(LayoutInflater.from(parent.context).inflate(layoutIds[0], parent, false))
@@ -34,6 +36,9 @@ class SearchAdapter(private val screenWidth: Int = -1) : OneKeyAdapter<OneKeyLoc
                 tvAddress.text = data.address
                 tvDistance.text = "${data.distance}m"
                 ivArrow.setColorFilter(themeConfig.secondaryColor.getColor())
+                setOnClickListener {
+                    onHCPCardClickedListener(data)
+                }
                 if (selectedPosition == position)
                     borderContainer.setRippleBackground(themeConfig.markerSelectedColor.getColor(), 15f)
                 else borderContainer.background = null

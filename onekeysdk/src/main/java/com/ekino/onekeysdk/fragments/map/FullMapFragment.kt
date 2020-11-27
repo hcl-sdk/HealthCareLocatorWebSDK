@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.widget.EditText
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import base.extensions.addFragment
 import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
+import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -37,6 +38,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     private var speciality: String = ""
     private var place: OneKeyPlace? = null
     private var locations: ArrayList<OneKeyLocation> = arrayListOf()
+    private var navigateToProfile = false
 
     private val fragmentState: IFragmentState by lazy { FragmentState(childFragmentManager, R.id.resultContainer) }
     private var resultFragments: ArrayList<IFragment> = arrayListOf()
@@ -47,11 +49,6 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        childFragmentManager.fragments.filter {
-            it::class.java.name == OneKeyMapResultFragment::class.java.name
-                    || it::class.java.name == OneKeyListResultFragment::class.java.name
-        }.map { childFragmentManager.beginTransaction().remove(it).commit() }
-
         var activeScreen = 0
         if (savedInstanceState != null) {
             val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
@@ -59,8 +56,16 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 locations = list
             speciality = savedInstanceState.getString(OneKeyConstant.speciality, "")
             place = savedInstanceState.getParcelable(OneKeyConstant.place)
-            activeScreen = savedInstanceState.getInt(OneKeyConstant.activeResultScreen)
+            activeScreen = savedInstanceState.getInt(OneKeyConstant.activeResultScreen, 0)
+            navigateToProfile = savedInstanceState.getBoolean(OneKeyConstant.navigateToProfile)
         }
+        if (!navigateToProfile)
+            childFragmentManager.fragments.filter {
+                it::class.java.name == OneKeyMapResultFragment::class.java.name
+                        || it::class.java.name == OneKeyListResultFragment::class.java.name
+            }.map { childFragmentManager.beginTransaction().remove(it).commit() }
+        else navigateToProfile = false
+
         btnBack.setOnClickListener(this)
         initHeader()
         setModeButtons(activeScreen)
@@ -93,6 +98,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         outState.putParcelable(OneKeyConstant.place, place)
         outState.putString(OneKeyConstant.speciality, speciality)
         outState.putInt(OneKeyConstant.activeResultScreen, fragmentState.currentStack())
+        outState.putBoolean(OneKeyConstant.navigateToProfile, navigateToProfile)
     }
 
     override fun onClick(v: View?) {
@@ -148,6 +154,14 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 it.setTextColor(color)
                 it.compoundDrawables.firstOrNull()?.setTint(color)
             })
+        }
+    }
+
+    fun navigateToHCPProfile(location: OneKeyLocation) {
+        navigateToProfile = true
+        oneKeyViewCustomObject.also {
+            (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                    OneKeyProfileFragment.newInstance(it, location), true)
         }
     }
 }
