@@ -1,8 +1,5 @@
 :host {
   border-bottom: 1px solid #ddd;
-  .icon {
-    margin: 0 0.5rem;
-  }
 
   .search-back {
     align-self: flex-start;
@@ -45,6 +42,7 @@
     align-self: center;
     position: relative;
     margin: 0 0 0 8px;
+    padding: 5px 10px;
   }
 
   .search-form {

@@ -1,5 +1,6 @@
 :host {
   display: block;
+  cursor: pointer;
 
   .doctor-card {
     border: 1px solid #ddd;
@@ -14,7 +15,7 @@
     align-items: center;
 
     &.selected {
-      border: 1px solid var(--onekeysdk-color-marker-selected);
+      border: 2px solid var(--onekeysdk-color-marker-selected);
     }
 
     &-content {
@@ -25,7 +26,7 @@
 
     &-arrow-icon {
       justify-self: flex-end;
-      color: rgb(43, 60, 77);
+      color: var(--onekeysdk-color-secondary);
     }
 
     .name {

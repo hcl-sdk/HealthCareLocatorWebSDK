@@ -37,7 +37,7 @@ export class OnekeySdkHome {
             <div class="search-home-hpc">
               <form onSubmit={this.onSubmit}>
                 <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
-                <button class="btn search-btn" type="submit" onClick={this.onSearch}><ion-icon name="search-outline"></ion-icon></button>
+                <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-home-hpc"/>
               </form>
             </div>
           </div>
@@ -76,7 +76,7 @@ export class OnekeySdkHome {
               </div>
 
               <div class="full-block">
-                <button class="btn full-block" onClick={this.onGoSearchScreen}>Start a New Search</button>
+                <onekey-sdk-button isFull primary onClick={this.onGoSearchScreen} class="search-btn">Start a New Search</onekey-sdk-button>
               </div>
             </div>
           </div>

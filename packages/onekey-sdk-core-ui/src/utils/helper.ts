@@ -1,5 +1,11 @@
 const CONTAINER_ELEMENT = 'onekey-sdk'
 
+export function getCssColor(colorStyle) {
+  return getComputedStyle(
+    document.querySelector(CONTAINER_ELEMENT).shadowRoot.host
+  ).getPropertyValue(colorStyle);
+}
+
 export function initAppCSSWidthHeight() {
   const elm = document.querySelector(CONTAINER_ELEMENT);
   const { offsetWidth, offsetHeight } = getContainerHeightWidthOffset()

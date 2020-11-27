@@ -6,7 +6,7 @@ import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 @Component({
   tag: 'onekey-sdk',
   styleUrl: 'onekey-sdk.scss',
-  shadow: true,
+  shadow: true
 })
 export class OneKeySDK {
   @Prop() config: OneKeySDKConfigData;
@@ -24,6 +24,7 @@ export class OneKeySDK {
       <Host>
         <onekey-sdk-router>
           <onekey-sdk-route component="onekey-sdk-home" path="/" />
+          <onekey-sdk-route component="onekey-sdk-hcp-full-card" path="/hcp-full-card" />
           <onekey-sdk-route component="onekey-sdk-search-result" path="/search-result" />
           <onekey-sdk-route component="onekey-sdk-search" path="/search" />
         </onekey-sdk-router>

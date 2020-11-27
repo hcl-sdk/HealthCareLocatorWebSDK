@@ -1,0 +1,12 @@
+:host {  
+  .icon {
+    fill: #b8b8b8;
+  }
+  
+  .primary {
+    .icon {
+      fill: var(--onekeysdk-color-secondary);
+    }
+  }
+}
+

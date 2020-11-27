@@ -21,6 +21,8 @@ export class OnekeySdkMap {
   @Prop() defaultZoom: number;
   @Prop() selectedLocationIdx: number;
   @Prop() markerIcon: string;
+  @Prop() noCurrentLocation: boolean = false;
+  @Prop() zoomControl: boolean = true;
   @Event() markerClick: EventEmitter;
   @State() currentLocation: any;
   @Event() setCurrentLocation: EventEmitter;
@@ -57,7 +59,8 @@ export class OnekeySdkMap {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
       minZoom: 15,
-      maxZoom: 20
+      maxZoom: 20,
+      zoomControl: this.zoomControl
     });
 
     L.tileLayer(mapTileLayer, {
@@ -149,7 +152,7 @@ export class OnekeySdkMap {
   render() {
     return (
       <Host>
-        <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div>
+        { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
         <div style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );

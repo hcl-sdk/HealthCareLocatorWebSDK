@@ -2,7 +2,7 @@ import { Component, Host, h, State, Listen } from '@stencil/core';
 import { getContainerHeightWidthOffset, getDoctorCardOffset } from 'onekey-sdk-core-ui/src/utils/helper';
 import { getHCPNearMe } from '../../../core/api/hcp';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
-import { searchMapStore } from '../../../core/stores';
+import { routerStore, searchMapStore } from '../../../core/stores';
 import animateScrollTo from '../../../utils/animatedScrollTo'
 import cls from 'classnames'
 @Component({
@@ -19,7 +19,9 @@ export class OnekeySdkSearchResult {
   }
   searchDataCardList;
 
-  onItemCardClick = () => {};
+  onItemCardClick = () => {
+    routerStore.push("/hcp-full-card")
+  };
 
   @Listen('markerClick')
   onMarkerClick(e) {

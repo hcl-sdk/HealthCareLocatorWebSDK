@@ -62,10 +62,14 @@
 
   .search-home-hpc {
     form {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
       position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      .btn {
+        width: 50px;
+        height: 100%;
+      }
     }
   }
 
@@ -76,12 +80,6 @@
   }
 
   .search-btn {
-    position: absolute;
-    font-size: 1.2rem !important;
-    right: 0;
-    top: 0;
-    display: flex;
-    height: 100%;
-    align-items: center;
+    padding: 5px 10px;
   }
 }

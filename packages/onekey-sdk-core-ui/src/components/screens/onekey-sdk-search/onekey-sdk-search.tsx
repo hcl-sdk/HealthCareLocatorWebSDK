@@ -108,14 +108,14 @@ export class OnekeySdkSearch {
         <div class="main-block search-block">
           <div class="search-hpc">
             <onekey-sdk-router-link url="/" class="search-back">
-              <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+              <onekey-sdk-icon name="arrow" width={25} height={25} color="black" />
             </onekey-sdk-router-link>
             <form onSubmit={this.onSearch} class="search-form">
               <div class="search-form-content">
                 <input name="name" ref={el => this.nameInput = el} value={this.selectedDoctor.label} id="name" placeholder="Name, Speciality, Establishment..." onInput={this.onChange} autoComplete="off" />
                 <input name="address" ref={el => this.addressInput = el} value={this.selectedAddress.label} id="address" placeholder="Near me" onInput={this.onChange} autoComplete="off" />
               </div>
-              <button class="icon btn search-address-btn" type="submit"><ion-icon name="search-outline"></ion-icon></button>
+              <onekey-sdk-button primary icon="search" onSubmit={this.onSearch} class="search-address-btn"/>
             </form>
           </div>
         </div>

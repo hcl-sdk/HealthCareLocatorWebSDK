@@ -1,0 +1,120 @@
+:host {
+  .main-info {
+    padding: 10px;
+    display: grid;
+    grid-gap: 10px;
+
+    &__name {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      justify-content: center;
+      align-items: center;
+      grid-gap: 10px;
+    }
+
+    &__avatar {
+      background-color: #ddd;
+      width: 50px;
+      height: 50px;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__profile {
+      display: grid;
+      &-name {
+        color: var(--onekeysdk-color-secondary);
+        font-size: 18px;
+      }
+
+      &-dep {
+
+      }
+    }
+  }
+
+  .info-section  {
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+    display: grid;
+    grid-gap: 10px;
+
+    &:nth-child(2) {
+      border-top: none;
+    }
+  }
+
+  .info-section-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 10px;
+    align-items: center;
+
+    &__title {
+      color: var(--onekeysdk-color-secondary);
+      font-size: 16px;
+    }
+
+    &__postfix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+    }
+  }
+
+  .info-contact {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 10px;
+    justify-content: center;
+
+    &-item {
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: auto 1fr;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .info-section-body {
+    display: grid;
+    grid-gap: 20px;
+
+    &__map {
+      height: 100px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    &__address {
+      select {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ddd;
+        font-size: 13px;
+      }
+    } 
+
+    &__location {
+      
+    }
+
+    &__contact {
+      grid-gap: 30px;
+    }
+
+    &__website {
+
+    }
+
+    &__correct {
+      grid-gap: 20px;
+
+      .btn.icon {
+        padding: 5px;
+      }
+    }
+  }
+}
