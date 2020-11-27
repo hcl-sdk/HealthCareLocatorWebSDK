@@ -44,6 +44,12 @@ class OneKeyHomeFragment :
         super.onCreate(savedInstanceState)
         org.osmdroid.config.Configuration.getInstance().load(
                 context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
+        if (oneKeyViewCustomObject.homeMode == 1) {
+            (activity as? AppCompatActivity)?.apply {
+                supportFragmentManager.popBackStack()
+                addFragment(R.id.fragmentContainer, OneKeyHomeFullFragment.newInstance(oneKeyViewCustomObject), true)
+            }
+        }
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
@@ -55,6 +61,7 @@ class OneKeyHomeFragment :
             btnStartSearch.setRippleBackground(it.primaryColor)
         }
         rvHome.postDelay({
+            if (rvHome == null) return@postDelay
             rvHome.apply {
                 val orientation = resources.configuration.orientation
                 layoutManager = GridLayoutManager(context,

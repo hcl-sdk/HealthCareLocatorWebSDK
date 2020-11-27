@@ -14,6 +14,7 @@ object Pref {
     const val selectedMarkerColorPref = "Pref.selectedMarkerColorPref"
     const val fontBase = "Pref.fontBase"
     const val fontTitle = "Pref.fontTitle"
+    const val home = "Pref.home"
 }
 
 fun getThemes(): ArrayList<ThemeObject> = arrayListOf<ThemeObject>().apply {

@@ -75,6 +75,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 ?: selectedTheme.markerSelectedHexColor
         val fontBase = SampleApplication.sharedPreferences.getInt(Pref.fontBase, 16)
         val fontTitle = SampleApplication.sharedPreferences.getInt(Pref.fontTitle, 20)
+        val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 0)
         /**
          * Add OneKey screen into parent application
          */
@@ -86,6 +87,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                         .markerSelectedColor(selectedMarker)
                         .fontBaseSize(fontBase)
                         .fontTitleSize(fontTitle)
+                        .homeMode(homeMode)
                         .build()), true)
     }
 

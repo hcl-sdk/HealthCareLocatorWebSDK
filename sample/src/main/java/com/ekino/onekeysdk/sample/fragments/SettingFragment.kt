@@ -17,6 +17,7 @@ import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.SpinnerInteractionListener
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
+import com.ekino.onekeysdk.utils.OneKeyLog
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener {
@@ -51,6 +52,25 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         themeSpinner.onItemSelectedListener = listener
         themeSpinner.setOnTouchListener(listener)
         themeSpinner.setSelection(selectedTheme)
+        initHomeSpinner()
+    }
+
+    private fun initHomeSpinner() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.home, 0)
+        ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item,
+                context!!.resources.getStringArray(R.array.home)).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            homeSpinner.adapter = it
+        }
+        homeSpinner.setSelection(selectedPosition)
+        homeSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                OneKeyLog.d("onItemSelected: $position")
+            }
+        })
     }
 
     override fun onSpinnerItemSelectedListener(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -77,6 +97,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.selectedMarkerColorPref, themeObject.markerSelectedHexColor)
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
+            putInt(Pref.home, homeSpinner.selectedItemPosition)
         }
         super.onPause()
     }

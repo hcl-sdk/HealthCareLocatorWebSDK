@@ -37,7 +37,8 @@ data class OneKeyViewCustomObject private constructor(
         val textSize: Int = 16,
         val searchIcon: Int = R.drawable.baseline_search_white_24dp,
         val editIcon: Int = R.drawable.baseline_edit_white_36dp,
-        val markerIcon: Int = R.drawable.baseline_location_on_white_36dp) {
+        val markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
+        val homeMode: Int = 0) {
 
     @Suppress
     data class Builder(
@@ -53,7 +54,8 @@ data class OneKeyViewCustomObject private constructor(
             var textSize: Int = 16,
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
-            var markerIcon: Int = R.drawable.baseline_location_on_white_36dp) {
+            var markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
+            var homeMode: Int = 0) {
 
         fun primaryColor(primaryColor: String) = apply { this.primaryColor = primaryColor }
         fun secondaryColor(secondaryColor: String) = apply { this.secondaryColor = secondaryColor }
@@ -69,9 +71,10 @@ data class OneKeyViewCustomObject private constructor(
         fun markerIcon(markerIcon: Int) = apply { this.markerIcon = markerIcon }
         fun font(font: String) = apply { this.font = font }
         fun markerSelectedColor(markerSelectedColor: String) = apply { this.markerSelectedColor = markerSelectedColor }
+        fun homeMode(homeMode: Int) = apply { this.homeMode = homeMode }
 
         fun build() = OneKeyViewCustomObject(primaryColor, secondaryColor, textColor, markerColor,
                 markerSelectedColor, fontBaseSize, fontTitleSize, font, fontBold, textSize, searchIcon,
-                editIcon, markerIcon)
+                editIcon, markerIcon, homeMode)
     }
 }
