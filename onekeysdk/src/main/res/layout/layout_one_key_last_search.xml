@@ -22,15 +22,16 @@
                 android:id="@+id/tvSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="General" />
+                android:text="General"
+                app:defaultTextSize="true" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_padding_tiny"
                 android:text="General"
-                android:textColor="@color/gray" />
+                android:textColor="@color/gray"
+                app:defaultTextSize="true" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvCreateAt"
@@ -38,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_padding_tiny"
                 android:text="General"
-                android:textColor="@color/colorOneKeyText" />
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text_small" />
         </LinearLayout>
 
         <ImageView

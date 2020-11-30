@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_padding_tiny"
+                    android:textSize="@dimen/default_text_small"
                     tools:text="Speciality" />
             </LinearLayout>
         </LinearLayout>

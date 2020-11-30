@@ -27,7 +27,7 @@
                 android:background="@drawable/bg_white_border_corner"
                 android:hint="Find Healthcare Professional"
                 android:padding="@dimen/default_padding"
-                app:boldText="true" />
+                app:primaryText="true" />
 
             <ImageView
                 android:id="@+id/ivSearch"
@@ -70,8 +70,7 @@
                     android:padding="@dimen/default_padding"
                     android:text="HCP near me"
                     android:textColor="@color/colorOneKeyText"
-                    app:boldText="true"
-                    app:primaryText="true" />
+                    app:boldText="true" />
 
                 <View
                     android:layout_width="match_parent"
@@ -105,17 +104,17 @@
                         android:padding="@dimen/default_padding"
                         android:text="Last searches"
                         android:textColor="@color/colorOneKeyText"
-                        app:boldText="true"
-                        app:primaryText="true" />
+                        app:boldText="true" />
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreSearches"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/default_padding"
+                        android:padding="@dimen/default_padding_small"
                         android:text="View more"
-                        android:textColor="@color/colorOneKeyGreen" />
+                        android:textColor="@color/colorOneKeyGreen"
+                        app:forceTextSize="true" />
                 </LinearLayout>
 
                 <View
@@ -148,17 +147,17 @@
                         android:padding="@dimen/default_padding"
                         android:text="Last HCP Consulted"
                         android:textColor="@color/colorOneKeyText"
-                        app:boldText="true"
-                        app:primaryText="true" />
+                        app:boldText="true" />
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreConsulted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/default_padding"
+                        android:padding="@dimen/default_padding_small"
                         android:text="View more"
-                        android:textColor="@color/colorOneKeyGreen" />
+                        android:textColor="@color/colorOneKeyGreen"
+                        app:forceTextSize="true" />
                 </LinearLayout>
 
                 <View

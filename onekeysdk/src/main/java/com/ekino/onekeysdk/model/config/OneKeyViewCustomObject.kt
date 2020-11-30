@@ -40,7 +40,9 @@ data class OneKeyViewCustomObject private constructor(
         val editIcon: Int = R.drawable.baseline_edit_white_36dp,
         val markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
         val homeMode: Int = 0,
-        val fontSearchInputSize: Int = 16) {
+        val fontSearchInputSize: Int = 16,
+        val fontSmallSize: Int = 12,
+        val colorListBackground: String = "#f8f9fa") {
 
     @Suppress
     data class Builder(
@@ -58,7 +60,9 @@ data class OneKeyViewCustomObject private constructor(
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
             var markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
             var homeMode: Int = 0,
-            var fontSearchInputSize: Int = 16) {
+            var fontSearchInputSize: Int = 16,
+            var fontSmallSize: Int = 12,
+            var colorListBackground: String = "#f8f9fa") {
 
         fun colorPrimary(primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -75,9 +79,11 @@ data class OneKeyViewCustomObject private constructor(
         fun fontName(font: String) = apply { this.fontName = font }
         fun homeMode(homeMode: Int) = apply { this.homeMode = homeMode }
         fun fontSearchInputSize(fontSearchInputSize: Int) = apply { this.fontSearchInputSize = fontSearchInputSize }
+        fun fontSmallSize(fontSmallSize: Int) = apply { this.fontSmallSize = fontSmallSize }
+        fun colorListBackground(colorListBackground: String) = apply { this.colorListBackground = colorListBackground }
 
         fun build() = OneKeyViewCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontTitle1Size, fontTitle2Size, fontName, fontBold, fontDefaultSize, searchIcon,
-                editIcon, markerIcon, homeMode, fontSearchInputSize)
+                editIcon, markerIcon, homeMode, fontSearchInputSize, fontSmallSize, colorListBackground)
     }
 }

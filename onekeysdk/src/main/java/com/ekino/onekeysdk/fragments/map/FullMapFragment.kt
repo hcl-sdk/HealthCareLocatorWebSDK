@@ -137,13 +137,14 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
         mapViewMode.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 50f)
         ivSort.setRippleCircleBackground(oneKeyViewCustomObject.colorSecondary.getColor(), 255)
+        tvAddress.textSize = oneKeyViewCustomObject.fontSmallSize.toFloat()
     }
 
     private fun setModeButtons(active: Int) {
         if (active == 0) {
             listViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
-                it.background = context!!.getDrawableById(R.drawable.bg_green_corner)
+                it.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 255)
                 it.setTextColor(color)
                 it.compoundDrawables.firstOrNull()?.setTint(color)
             })
@@ -156,7 +157,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         } else {
             mapViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
-                it.background = context!!.getDrawableById(R.drawable.bg_green_corner)
+                it.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 255)
                 it.setTextColor(color)
                 it.compoundDrawables.firstOrNull()?.setTint(color)
             })

@@ -40,6 +40,8 @@ class SearchFragment :
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
         oneKeyViewCustomObject?.also {
             btnSearch.setRippleBackground(it.colorPrimary)
+            edtName.textSize = it.fontSearchInputSize.toFloat()
+            edtWhere.textSize = it.fontSearchInputSize.toFloat()
         }
         btnBack.setOnClickListener(this)
         ivSpecialityClear.setOnClickListener(this)

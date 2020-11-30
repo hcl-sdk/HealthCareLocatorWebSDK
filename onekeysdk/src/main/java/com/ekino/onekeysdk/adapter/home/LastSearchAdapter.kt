@@ -25,6 +25,7 @@ class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvCreateAt.text = data.createdDate
+                tvCreateAt.textSize = theme.fontSmallSize.toFloat()
                 tvSpeciality.setTextColor(theme.colorSecondary.getColor())
                 ivClear.setOnClickListener {
                     remove(position)
