@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import base.extensions.addFragment
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
@@ -37,6 +40,9 @@ class OneKeyListResultFragment : IFragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter
             searchAdapter.setData(locations)
+        }
+        searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
+           (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
         }
     }
 }

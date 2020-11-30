@@ -68,6 +68,7 @@
                 android:id="@+id/ivArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/baseline_keyboard_arrow_right_black_24dp"
                 app:tint="@color/gray" />
         </LinearLayout>

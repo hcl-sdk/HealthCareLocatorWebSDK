@@ -8,6 +8,7 @@ object OneKeyConstant {
     const val place = "place"
     const val speciality = "speciality"
     const val activeResultScreen = "activeResultScreen"
+    const val navigateToProfile = "navigateToProfile"
 }
 
 object OneKeyLog {

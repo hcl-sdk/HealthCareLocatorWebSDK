@@ -4,13 +4,15 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.widget.CheckBox
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.IOneKeyView
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.utils.FontUtil
 
-class OneKeyTextView : AppCompatTextView, IOneKeyView {
+class OneKeyCheckBox : CheckBox, IOneKeyView {
     constructor(context: Context) : super(context) {
         init(null)
     }
