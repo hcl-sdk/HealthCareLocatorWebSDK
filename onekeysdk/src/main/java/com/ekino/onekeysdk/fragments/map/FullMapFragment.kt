@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.fragments.map
 
+import android.content.Context
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -18,6 +19,7 @@ import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.OneKeyConstant
+import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
@@ -39,6 +41,14 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         private var locations: ArrayList<OneKeyLocation> = arrayListOf()
         private var navigateToProfile = false
         private var activeScreen = 0
+
+        fun clear() {
+            speciality = ""
+            place = null
+            locations.clear()
+            navigateToProfile = false
+            activeScreen = 0
+        }
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
@@ -165,5 +175,15 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                     OneKeyProfileFragment.newInstance(it, location), true)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        OneKeyLog.d("LifeCycle: onAttach")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        OneKeyLog.d("LifeCycle: onDetach")
     }
 }
