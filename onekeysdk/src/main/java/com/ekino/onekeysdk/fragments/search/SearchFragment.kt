@@ -68,6 +68,11 @@ class SearchFragment :
         KeyboardUtils.showSoftKeyboard(activity)
     }
 
+    override fun onResume() {
+        super.onResume()
+        FullMapFragment.clear()
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnBack -> activity?.onBackPressed()
