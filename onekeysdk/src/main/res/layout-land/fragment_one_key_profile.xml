@@ -445,7 +445,6 @@
                         android:id="@+id/tvModification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/default_padding_smaller"
                         android:layout_weight="1"
                         android:textColor="@color/colorOneKeyText"
                         android:textSize="@dimen/default_text"

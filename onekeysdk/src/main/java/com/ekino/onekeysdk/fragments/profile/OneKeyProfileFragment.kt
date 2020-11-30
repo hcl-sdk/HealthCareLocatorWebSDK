@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import base.fragments.AppFragment
@@ -21,7 +22,7 @@ import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile.*
 
 
-class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile), View.OnClickListener, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(theme: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build(),
                         oneKeyLocation: OneKeyLocation) =
@@ -36,7 +37,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
     private var oneKeyLocation: OneKeyLocation? = null
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, locations) }
+    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, ArrayList(locations.take(1))) }
     override val viewModel = OneKeyProfileViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
@@ -90,7 +91,10 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             addressSpinner.adapter = it
         }
         addressSpinner.setSelection(selectedAddress)
+        addressSpinner.onItemSelectedListener = this
 
+        btnBack.setOnClickListener(this)
+        tvWebsite.setOnClickListener(this)
         ivDirection.setOnClickListener(this)
         ivCall.setOnClickListener(this)
         btnSuggestModification.setOnClickListener(this)
@@ -102,7 +106,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
         when (v?.id) {
             R.id.ivCall -> {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:0123456789")
+                intent.data = Uri.parse("tel:01 44 58 56 58")
                 startActivity(intent)
             }
             R.id.ivDirection -> {
@@ -114,6 +118,11 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             }
             R.id.btnSuggestModification -> {
             }
+            R.id.tvWebsite -> {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+                startActivity(browserIntent)
+            }
+            R.id.btnBack -> activity?.onBackPressed()
         }
     }
 
@@ -126,4 +135,18 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
                 cbxYes.isChecked = false
         }
     }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        //Do nothing
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        locations.getOrNull(position)?.also {
+            getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(it), true)
+        }
+    }
+
+    private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.firstOrNull {
+        it::class.java.name == MapFragment::class.java.name
+    } as? MapFragment
 }

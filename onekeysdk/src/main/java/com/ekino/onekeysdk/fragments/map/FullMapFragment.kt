@@ -24,22 +24,24 @@ import kotlinx.android.synthetic.main.fragment_full_map.*
 class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, speciality: String,
-                        place: OneKeyPlace?, locations: ArrayList<OneKeyLocation>) =
+        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, s: String,
+                        p: OneKeyPlace?, l: ArrayList<OneKeyLocation>) =
                 FullMapFragment().apply {
                     this.oneKeyViewCustomObject = oneKeyViewCustomObject
-                    this.speciality = speciality
-                    this.place = place
-                    this.locations = locations
+                    speciality = s
+                    place = p
+                    locations.clear()
+                    locations.addAll(l)
                 }
+
+        private var speciality: String = ""
+        private var place: OneKeyPlace? = null
+        private var locations: ArrayList<OneKeyLocation> = arrayListOf()
+        private var navigateToProfile = false
+        private var activeScreen = 0
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
-    private var speciality: String = ""
-    private var place: OneKeyPlace? = null
-    private var locations: ArrayList<OneKeyLocation> = arrayListOf()
-    private var navigateToProfile = false
-
     private val fragmentState: IFragmentState by lazy { FragmentState(childFragmentManager, R.id.resultContainer) }
     private var resultFragments: ArrayList<IFragment> = arrayListOf()
     override val viewModel: FullMapViewModel = FullMapViewModel()
@@ -49,14 +51,12 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        var activeScreen = 0
         if (savedInstanceState != null) {
             val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
             if (!list.isNullOrEmpty())
                 locations = list
             speciality = savedInstanceState.getString(OneKeyConstant.speciality, "")
             place = savedInstanceState.getParcelable(OneKeyConstant.place)
-            activeScreen = savedInstanceState.getInt(OneKeyConstant.activeResultScreen, 0)
             navigateToProfile = savedInstanceState.getBoolean(OneKeyConstant.navigateToProfile)
         }
         if (!navigateToProfile)
@@ -94,10 +94,10 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        if (!isVisible) return
         outState.putParcelableArrayList(OneKeyConstant.locations, locations)
         outState.putParcelable(OneKeyConstant.place, place)
         outState.putString(OneKeyConstant.speciality, speciality)
-        outState.putInt(OneKeyConstant.activeResultScreen, fragmentState.currentStack())
         outState.putBoolean(OneKeyConstant.navigateToProfile, navigateToProfile)
     }
 
@@ -106,10 +106,12 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             R.id.btnBack -> activity?.onBackPressed()
             R.id.listViewMode -> {
                 setModeButtons(0)
+                activeScreen = 0
                 fragmentState.showStack(0)
             }
             R.id.mapViewMode -> {
                 setModeButtons(1)
+                activeScreen = 1
                 fragmentState.showStack(1)
             }
         }

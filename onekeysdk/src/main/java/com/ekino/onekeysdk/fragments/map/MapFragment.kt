@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.View.OnGenericMotionListener
 import androidx.core.content.edit
@@ -107,30 +106,44 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             if (!list.isNullOrEmpty())
                 locations = list
         }
-        val clusters = RadiusMarkerClusterer(context!!)
-        clusters.getTextPaint().setTextSize(14 * resources.displayMetrics.density)
-        clusters.mAnchorV = Marker.ANCHOR_BOTTOM
-        mMapView?.overlays?.add(clusters)
-        selectedIcon = context!!.getDrawableFilledIcon(
-                R.drawable.ic_location_on_white_36dp,
-                oneKeyViewCustomObject.markerSelectedColor.getColor()
-        )!!
-        locations.forEach { location ->
-            val marker = OneKeyMarker(mMapView).apply {
-                id = location.id
-                setOnMarkerClickListener(this@MapFragment)
-                position = GeoPoint(location.latitude, location.longitude)
-                setAnchor(Marker.ANCHOR_CENTER, 1f)
-                icon = context!!.getDrawableFilledIcon(
-                        R.drawable.baseline_location_on_black_36dp,
-                        oneKeyViewCustomObject.markerColor.getColor()
-                )
-                title = location.address
-            }
-            clusters.add(marker)
-            oneKeyMarkers.add(marker)
-        }
+        drawMarkerOnMap(locations)
+
 //        mMapView?.overlays?.addAll(oneKeyMarkers)
+    }
+
+    fun drawMarkerOnMap(locations: ArrayList<OneKeyLocation>, moveCamera: Boolean = false) {
+        mMapView?.apply {
+            val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>() ?: listOf()
+            overlays.removeAll(clustersFiltered)
+            val clusters = RadiusMarkerClusterer(context!!)
+            clusters.textPaint.textSize = 14 * resources.displayMetrics.density
+            clusters.mAnchorV = Marker.ANCHOR_BOTTOM
+            mMapView?.overlays?.add(clusters)
+            selectedIcon = context!!.getDrawableFilledIcon(
+                    R.drawable.ic_location_on_white_36dp,
+                    oneKeyViewCustomObject.markerSelectedColor.getColor()
+            )!!
+            locations.forEach { location ->
+                val marker = OneKeyMarker(mMapView).apply {
+                    id = location.id
+                    setOnMarkerClickListener(this@MapFragment)
+                    position = GeoPoint(location.latitude, location.longitude)
+                    setAnchor(Marker.ANCHOR_CENTER, 1f)
+                    icon = context!!.getDrawableFilledIcon(
+                            R.drawable.baseline_location_on_black_36dp,
+                            oneKeyViewCustomObject.markerColor.getColor()
+                    )
+                    title = location.address
+                }
+                clusters.add(marker)
+                oneKeyMarkers.add(marker)
+            }
+            if (moveCamera && locations.size == 1) {
+                val position = locations[0].getLocation()
+                controller.setCenter(position)
+                controller.animateTo(position, 16.5, 2000)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -209,21 +222,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
         this.lastCurrentLocation = location
-        Log.d("onLocationChanged", "lat: ${location?.latitude} -- lng: ${location?.longitude}")
     }
 
-    fun zoomIn() {
-        mMapView?.controller?.zoomIn()
-    }
-
-    fun zoomOut() {
-        mMapView?.controller?.zoomOut()
-    }
-
-    // @Override
-    // public boolean onTrackballEvent(final MotionEvent event) {
-    // return this.mMapView.onTrackballEvent(event);
-    // }
     fun invalidateMapView() {
         mMapView!!.invalidate()
     }

@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import org.osmdroid.util.GeoPoint
 
 data class OneKeyLocation(var id: String = "", var name: String = "", var speciality: String = "",
                           var address: String = "", var distance: Int = 0,
@@ -37,7 +38,9 @@ data class OneKeyLocation(var id: String = "", var name: String = "", var specia
         }
     }
 
-    fun getLocationByString():String = "$latitude,$longitude"
+    fun getLocationByString(): String = "$latitude,$longitude"
+    fun getLocation(): GeoPoint = GeoPoint(latitude, longitude)
+
     override fun toString(): String {
         return address
     }

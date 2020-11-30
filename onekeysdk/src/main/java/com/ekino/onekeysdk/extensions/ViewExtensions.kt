@@ -11,6 +11,16 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import java.util.*
 
+/**
+ * Shared Preferences
+ *
+ */
+fun Context?.getSharedPreferences() =
+        this?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)
+
+/**
+ * View
+ */
 fun View.setRippleBackground(color: Int) {
     val outerRadii = FloatArray(8)
     Arrays.fill(outerRadii, 10f)
