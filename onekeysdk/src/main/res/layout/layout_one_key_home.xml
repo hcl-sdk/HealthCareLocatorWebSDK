@@ -30,7 +30,9 @@
             android:text="Find and Locate other HCP"
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_padding"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:boldText="true"
+            app:forceTextSize="true" />
 
         <com.ekino.onekeysdk.custom.text.OneKeyTextView
             android:id="@+id/tvDescription"
@@ -38,6 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
             android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_padding" />
+            android:textSize="@dimen/default_padding"
+            app:defaultTextSize="true" />
     </LinearLayout>
 </LinearLayout>

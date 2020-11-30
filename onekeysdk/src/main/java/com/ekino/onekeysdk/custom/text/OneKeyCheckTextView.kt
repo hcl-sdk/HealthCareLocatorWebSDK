@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.widget.CheckedTextView
 import androidx.appcompat.widget.AppCompatCheckedTextView
-import androidx.appcompat.widget.AppCompatTextView
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.IOneKeyView
 import com.ekino.onekeysdk.extensions.ThemeExtension
@@ -51,7 +49,7 @@ class OneKeyCheckTextView : AppCompatCheckedTextView, IOneKeyView {
     private fun setFont(font: String?, boldText: Boolean) {
         try {
             var f = if (boldText) ThemeExtension.getInstance().getThemeConfiguration().fontBold
-            else ThemeExtension.getInstance().getThemeConfiguration().font
+            else ThemeExtension.getInstance().getThemeConfiguration().fontName
             if (TextUtils.isEmpty(f)) {
                 f = context.getString(R.string.roboto_regular)
             }
@@ -64,9 +62,9 @@ class OneKeyCheckTextView : AppCompatCheckedTextView, IOneKeyView {
     private fun setFontSize(isPrimary: Boolean, forceTextSize: Boolean = false) {
         if (forceTextSize) return
         textSize = if (isPrimary) {
-            ThemeExtension.getInstance().getThemeConfiguration().fontTitleSize.toFloat()
+            ThemeExtension.getInstance().getThemeConfiguration().fontTitle1Size.toFloat()
         } else
-            ThemeExtension.getInstance().getThemeConfiguration().fontBaseSize.toFloat()
+            ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.toFloat()
     }
 
 }

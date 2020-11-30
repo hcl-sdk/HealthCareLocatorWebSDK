@@ -56,9 +56,10 @@ class OneKeyHomeFragment :
         newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
         oneKeyViewCustomObject?.also {
-            tvHomeHeader.setTextColor(it.secondaryColor.getColor())
-            ivSearch.setRippleBackground(it.primaryColor)
-            btnStartSearch.setRippleBackground(it.primaryColor)
+            tvHomeHeader.setTextColor(it.colorSecondary.getColor())
+            ivSearch.setRippleBackground(it.colorPrimary)
+            btnStartSearch.setRippleBackground(it.colorPrimary)
+            edtSearch.textSize = it.fontSearchInputSize.toFloat()
         }
         rvHome.postDelay({
             if (rvHome == null) return@postDelay

@@ -46,9 +46,9 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                     .commit()
         }
         oneKeyViewCustomObject.also {
-            ivSearch.setRippleBackground(it.primaryColor)
-            viewMoreSearches.setTextColor(it.primaryColor.getColor())
-            viewMoreConsulted.setTextColor(it.primaryColor.getColor())
+            ivSearch.setRippleBackground(it.colorPrimary)
+            viewMoreSearches.setTextColor(it.colorPrimary.getColor())
+            viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
         }
 
         newSearchWrapper.setOnClickListener(this)

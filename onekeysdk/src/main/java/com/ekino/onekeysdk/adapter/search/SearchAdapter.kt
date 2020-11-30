@@ -31,16 +31,16 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         itemView.layoutParams = lp
                     }
                 tvName.text = data.name
-                tvName.setTextColor(themeConfig.secondaryColor.getColor())
+                tvName.setTextColor(themeConfig.colorSecondary.getColor())
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvDistance.text = "${data.distance}m"
-                ivArrow.setColorFilter(themeConfig.secondaryColor.getColor())
+                ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {
                     onHCPCardClickedListener(data)
                 }
                 if (selectedPosition == position)
-                    borderContainer.setRippleBackground(themeConfig.markerSelectedColor.getColor(), 15f)
+                    borderContainer.setRippleBackground(themeConfig.colorMarkerSelected.getColor(), 15f)
                 else borderContainer.background = null
             }
         }

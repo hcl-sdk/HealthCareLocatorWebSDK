@@ -39,7 +39,7 @@ class SearchFragment :
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
         oneKeyViewCustomObject?.also {
-            btnSearch.setRippleBackground(it.primaryColor)
+            btnSearch.setRippleBackground(it.colorPrimary)
         }
         btnBack.setOnClickListener(this)
         ivSpecialityClear.setOnClickListener(this)

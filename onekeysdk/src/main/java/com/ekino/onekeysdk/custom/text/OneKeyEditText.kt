@@ -44,7 +44,7 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
 
     fun setFont(font: String?) {
         try {
-            var f = ThemeExtension.getInstance().getThemeConfiguration().font
+            var f = ThemeExtension.getInstance().getThemeConfiguration().fontName
             if (TextUtils.isEmpty(f)) {
                 f = context.getString(R.string.roboto_regular)
             }
@@ -56,9 +56,9 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
 
     private fun setFontSize(isPrimary: Boolean) {
         textSize = if (isPrimary) {
-            ThemeExtension.getInstance().getThemeConfiguration().fontTitleSize.toFloat()
+            ThemeExtension.getInstance().getThemeConfiguration().fontTitle1Size.toFloat()
         } else
-            ThemeExtension.getInstance().getThemeConfiguration().fontBaseSize.toFloat()
+            ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.toFloat()
     }
 
 }

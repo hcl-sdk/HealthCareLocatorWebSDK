@@ -73,20 +73,24 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 ?: selectedTheme.markerHexColor
         val selectedMarker = SampleApplication.sharedPreferences.getString(Pref.selectedMarkerColorPref, selectedTheme.markerSelectedHexColor)
                 ?: selectedTheme.markerSelectedHexColor
-        val fontBase = SampleApplication.sharedPreferences.getInt(Pref.fontBase, 16)
-        val fontTitle = SampleApplication.sharedPreferences.getInt(Pref.fontTitle, 20)
+        val fontDefaultSize = SampleApplication.sharedPreferences.getInt(Pref.fontDefaultSize, 16)
+        val fontSearchInputSize = SampleApplication.sharedPreferences.getInt(Pref.fontSearchInputSize, 16)
+        val fontTitle2Size = SampleApplication.sharedPreferences.getInt(Pref.fontBase, 16)
+        val fontTitle1Size = SampleApplication.sharedPreferences.getInt(Pref.fontTitle, 20)
         val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 0)
         /**
          * Add OneKey screen into parent application
          */
         this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
-                OneKeyViewCustomObject.Builder().font(font)
-                        .primaryColor(primary)
-                        .secondaryColor(secondary)
-                        .markerColor(marker)
-                        .markerSelectedColor(selectedMarker)
-                        .fontBaseSize(fontBase)
-                        .fontTitleSize(fontTitle)
+                OneKeyViewCustomObject.Builder().fontName(font)
+                        .colorPrimary(primary)
+                        .colorSecondary(secondary)
+                        .colorMarker(marker)
+                        .colorMarkerSelected(selectedMarker)
+                        .fontTitle1Size(fontTitle1Size)
+                        .fontTitle2Size(fontTitle2Size)
+                        .fontDefaultSize(fontDefaultSize)
+                        .fontSearchInputSize(fontSearchInputSize)
                         .homeMode(homeMode)
                         .build()), true)
     }

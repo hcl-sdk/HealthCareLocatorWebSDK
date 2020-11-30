@@ -61,7 +61,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             selectedAddress = savedInstanceState.getInt("selectedAddress", 0)
             oneKeyLocation = savedInstanceState.getParcelable("selectedLocation")
         }
-        val secondaryColor = oneKeyViewCustomObject.secondaryColor.getColor()
+        val secondaryColor = oneKeyViewCustomObject.colorSecondary.getColor()
         tvDoctorName.setTextColor(secondaryColor)
         tvMainInformation.setTextColor(secondaryColor)
         tvSpecialitiesLabel.setTextColor(secondaryColor)
@@ -71,7 +71,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
         ivDirection.setColorFilter(secondaryColor)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
-        ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.markerColor.getColor())
+        ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.colorMarker.getColor())
 
         tvDoctorName.text = oneKeyLocation?.name ?: ""
         tvSpeciality.text = oneKeyLocation?.speciality ?: ""

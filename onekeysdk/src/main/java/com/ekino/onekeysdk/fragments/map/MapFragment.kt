@@ -121,7 +121,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             mMapView?.overlays?.add(clusters)
             selectedIcon = context!!.getDrawableFilledIcon(
                     R.drawable.ic_location_on_white_36dp,
-                    oneKeyViewCustomObject.markerSelectedColor.getColor()
+                    oneKeyViewCustomObject.colorMarkerSelected.getColor()
             )!!
             locations.forEach { location ->
                 val marker = OneKeyMarker(mMapView).apply {
@@ -131,7 +131,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     setAnchor(Marker.ANCHOR_CENTER, 1f)
                     icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
-                            oneKeyViewCustomObject.markerColor.getColor()
+                            oneKeyViewCustomObject.colorMarker.getColor()
                     )
                     title = location.address
                 }
@@ -249,7 +249,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
                     oneKeyMarker.icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
-                            oneKeyViewCustomObject.markerColor.getColor()
+                            oneKeyViewCustomObject.colorMarker.getColor()
                     )
                     oneKeyMarker.selected = false
                     if (lastIndexOfOverLay >= 0) {

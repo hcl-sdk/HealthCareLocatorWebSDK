@@ -12,6 +12,8 @@ object Pref {
     const val secondaryColorPref = "Pref.secondaryColorPref"
     const val markerColorPref = "Pref.markerColorPref"
     const val selectedMarkerColorPref = "Pref.selectedMarkerColorPref"
+    const val fontDefaultSize = "Pref.fontDefaultSize"
+    const val fontSearchInputSize = "Pref.fontSearchInputSize"
     const val fontBase = "Pref.fontBase"
     const val fontTitle = "Pref.fontTitle"
     const val home = "Pref.home"

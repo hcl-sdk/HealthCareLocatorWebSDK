@@ -31,6 +31,7 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         var font: String? = ""
         var primaryText: Boolean = false
         var boldText: Boolean = false
+        var defaultTextSize: Boolean = false
         var forceTextSize = false
         if (attributeSet != null) {
             var typeArray: TypedArray =
@@ -39,17 +40,18 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
             primaryText = typeArray.getBoolean(R.styleable.OneKeyTextView_primaryText, false)
             boldText = typeArray.getBoolean(R.styleable.OneKeyTextView_boldText, false)
             forceTextSize = typeArray.getBoolean(R.styleable.OneKeyTextView_forceTextSize, false)
+            defaultTextSize = typeArray.getBoolean(R.styleable.OneKeyTextView_defaultTextSize, false)
             typeArray.recycle()
         }
         setFont(font, boldText)
-        setFontSize(primaryText, forceTextSize)
+        setFontSize(primaryText, forceTextSize, defaultTextSize)
         includeFontPadding = false
     }
 
     private fun setFont(font: String?, boldText: Boolean) {
         try {
             var f = if (boldText) ThemeExtension.getInstance().getThemeConfiguration().fontBold
-            else ThemeExtension.getInstance().getThemeConfiguration().font
+            else ThemeExtension.getInstance().getThemeConfiguration().fontName
             if (TextUtils.isEmpty(f)) {
                 f = context.getString(R.string.roboto_regular)
             }
@@ -59,12 +61,13 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         }
     }
 
-    private fun setFontSize(isPrimary: Boolean, forceTextSize: Boolean = false) {
+    fun setFontSize(isPrimary: Boolean, forceTextSize: Boolean = false, defaultTextSize: Boolean = false) {
         if (forceTextSize) return
-        textSize = if (isPrimary) {
-            ThemeExtension.getInstance().getThemeConfiguration().fontTitleSize.toFloat()
-        } else
-            ThemeExtension.getInstance().getThemeConfiguration().fontBaseSize.toFloat()
+        textSize = when {
+            isPrimary -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle1Size.toFloat()
+            defaultTextSize -> ThemeExtension.getInstance().getThemeConfiguration().fontDefaultSize.toFloat()
+            else -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.toFloat()
+        }
     }
 
 }

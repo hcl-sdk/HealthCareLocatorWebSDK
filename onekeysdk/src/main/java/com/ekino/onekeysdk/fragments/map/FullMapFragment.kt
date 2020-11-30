@@ -132,11 +132,11 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         tvAddress.text = place?.displayName ?: ""
         val result = "${locations.size}"
         tvResult.text = SpannableStringBuilder(result).apply {
-            setSpan(ForegroundColorSpan(oneKeyViewCustomObject.primaryColor.getColor()),
+            setSpan(ForegroundColorSpan(oneKeyViewCustomObject.colorPrimary.getColor()),
                     0, result.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        mapViewMode.setRippleBackground(oneKeyViewCustomObject.primaryColor.getColor(), 50f)
-        ivSort.setRippleCircleBackground(oneKeyViewCustomObject.secondaryColor.getColor(), 255)
+        mapViewMode.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 50f)
+        ivSort.setRippleCircleBackground(oneKeyViewCustomObject.colorSecondary.getColor(), 255)
     }
 
     private fun setModeButtons(active: Int) {

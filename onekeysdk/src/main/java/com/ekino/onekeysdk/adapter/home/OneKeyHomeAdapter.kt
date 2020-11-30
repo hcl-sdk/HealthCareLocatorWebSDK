@@ -26,8 +26,8 @@ class OneKeyHomeAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObje
             oneKeyViewCustomObject?.also {
                 itemView.apply {
                     ivFind.setImageDrawable(context.getDrawableById(data.drawableId))
-                    ivFind.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
-                    ivFind.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
+                    ivFind.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 26)
+                    ivFind.setColorFilter(oneKeyViewCustomObject.colorPrimary.getColor())
                     tvTitle.text = data.title
                     tvDescription.text = data.description
                 }

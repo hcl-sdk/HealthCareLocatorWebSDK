@@ -17,7 +17,7 @@ fun Boolean.getVisibility() = if (this) View.VISIBLE else View.GONE
  */
 fun getHomeDummy(): ArrayList<OneKeyHomeObject> = arrayListOf<OneKeyHomeObject>().apply {
     add(OneKeyHomeObject("0", "Find and Locate other HCP", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.baseline_search_white_24dp))
-    add(OneKeyHomeObject("1", "Consult Profile", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.baseline_search_white_24dp))
+    add(OneKeyHomeObject("1", "Consult Profile", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.ic_profile))
     add(OneKeyHomeObject("0", "Request my Information update", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.baseline_edit_white_36dp))
 }
 
