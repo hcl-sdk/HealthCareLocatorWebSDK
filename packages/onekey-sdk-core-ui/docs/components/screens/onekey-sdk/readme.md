@@ -16,12 +16,14 @@
 
 ### Depends on
 
+- [onekey-sdk-viewport](../../ui-kits/onekey-sdk-viewport)
 - [onekey-sdk-router](../../onekey-sdk-router)
 - [onekey-sdk-route](../../onekey-sdk-router/onekey-sdk-route)
 
 ### Graph
 ```mermaid
 graph TD;
+  onekey-sdk --> onekey-sdk-viewport
   onekey-sdk --> onekey-sdk-router
   onekey-sdk --> onekey-sdk-route
   style onekey-sdk fill:#f9f,stroke:#333,stroke-width:4px

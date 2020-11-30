@@ -7,14 +7,16 @@
 
 ## Properties
 
-| Property              | Attribute               | Description | Type     | Default     |
-| --------------------- | ----------------------- | ----------- | -------- | ----------- |
-| `defaultZoom`         | `default-zoom`          |             | `number` | `undefined` |
-| `locations`           | --                      |             | `any[]`  | `[]`        |
-| `mapHeight`           | `map-height`            |             | `string` | `'100%'`    |
-| `mapWidth`            | `map-width`             |             | `string` | `'100%'`    |
-| `markerIcon`          | `marker-icon`           |             | `string` | `undefined` |
-| `selectedLocationIdx` | `selected-location-idx` |             | `number` | `undefined` |
+| Property              | Attribute               | Description | Type      | Default     |
+| --------------------- | ----------------------- | ----------- | --------- | ----------- |
+| `defaultZoom`         | `default-zoom`          |             | `number`  | `undefined` |
+| `locations`           | --                      |             | `any[]`   | `[]`        |
+| `mapHeight`           | `map-height`            |             | `string`  | `'100%'`    |
+| `mapWidth`            | `map-width`             |             | `string`  | `'100%'`    |
+| `markerIcon`          | `marker-icon`           |             | `string`  | `undefined` |
+| `noCurrentLocation`   | `no-current-location`   |             | `boolean` | `false`     |
+| `selectedLocationIdx` | `selected-location-idx` |             | `number`  | `undefined` |
+| `zoomControl`         | `zoom-control`          |             | `boolean` | `true`      |
 
 
 ## Events
@@ -29,6 +31,7 @@
 
 ### Used by
 
+ - [onekey-sdk-hcp-full-card](../../screens/onekey-sdk-hcp-full-card)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Depends on
@@ -39,6 +42,7 @@
 ```mermaid
 graph TD;
   onekey-sdk-map --> ion-icon
+  onekey-sdk-hcp-full-card --> onekey-sdk-map
   onekey-sdk-search-result --> onekey-sdk-map
   style onekey-sdk-map fill:#f9f,stroke:#333,stroke-width:4px
 ```

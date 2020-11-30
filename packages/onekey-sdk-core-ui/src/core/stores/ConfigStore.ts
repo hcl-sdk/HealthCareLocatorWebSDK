@@ -1,16 +1,23 @@
 import StoreProvider from './StoreProvider';
 import { getFullConfiguration, DEFAULT_CONFIGURATION, OnekeySDKConfig, OnekeySDKConfigInput } from 'onekey-sdk-core';
-
+import { ViewportSize } from 'onekey-sdk-core-ui/src/components/ui-kits/onekey-sdk-viewport/types';
 export interface AppConfigStyles {
   fontFamily?: string;
   fontColor?: string;
+}
+
+export interface ViewSDKDimension {
+  width: number;
+  height: number;
 }
 
 export interface OneKeySDKConfigData {
   markerIcon?: string;
   markerIconCurrentLocation?: string;
   styles?: AppConfigStyles | any;
-  input: OnekeySDKConfig;
+  input?: OnekeySDKConfig;
+  viewPortSize?: ViewportSize;
+  viewSDKDimension?: ViewSDKDimension;
 }
 
 export const initStateConfigStore = {

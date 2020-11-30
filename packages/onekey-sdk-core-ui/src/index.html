@@ -17,15 +17,6 @@
   <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico">
   <link rel="manifest" href="/manifest.json">
   <style>
-    .onekey-sdk {
-      display: block;
-      height: 700px;
-      width: 400px;
-      margin: 0 auto;
-      margin-top: 5rem;
-      border: 1px solid #ddd;
-    }
-
     onekey-sdk {
       --onekeysdk-color-primary: #001f3f;
       --onekeysdk-color-secondary: #39CCCC;
@@ -35,7 +26,9 @@
 <body>
 
   <div class="onekey-sdk">
-    <onekey-sdk></onekey-sdk>
+    <onekey-sdk-resizable>
+      <onekey-sdk />
+    </onekey-sdk-resizable>
   </div>
 
   <script>

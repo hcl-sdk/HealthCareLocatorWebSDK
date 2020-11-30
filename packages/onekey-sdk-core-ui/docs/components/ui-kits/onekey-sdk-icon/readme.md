@@ -1,0 +1,40 @@
+# onekey-sdk-icon
+
+
+
+<!-- Auto Generated Below -->
+
+
+## Properties
+
+| Property  | Attribute | Description | Type      | Default     |
+| --------- | --------- | ----------- | --------- | ----------- |
+| `color`   | `color`   |             | `string`  | `undefined` |
+| `height`  | `height`  |             | `number`  | `undefined` |
+| `name`    | `name`    |             | `string`  | `undefined` |
+| `primary` | `primary` |             | `boolean` | `false`     |
+| `width`   | `width`   |             | `number`  | `undefined` |
+
+
+## Dependencies
+
+### Used by
+
+ - [onekey-sdk-button](../onekey-sdk-button)
+ - [onekey-sdk-hcp-full-card](../../screens/onekey-sdk-hcp-full-card)
+ - [onekey-sdk-home](../../screens/onekey-sdk-home)
+ - [onekey-sdk-search](../../screens/onekey-sdk-search)
+
+### Graph
+```mermaid
+graph TD;
+  onekey-sdk-button --> onekey-sdk-icon
+  onekey-sdk-hcp-full-card --> onekey-sdk-icon
+  onekey-sdk-home --> onekey-sdk-icon
+  onekey-sdk-search --> onekey-sdk-icon
+  style onekey-sdk-icon fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

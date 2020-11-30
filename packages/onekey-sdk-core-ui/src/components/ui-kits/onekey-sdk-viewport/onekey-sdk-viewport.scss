@@ -1,0 +1,24 @@
+
+
+$sizes: xs, sm, md, lg, xl;
+
+@each $size in $sizes {
+  .size-#{$size} {
+    .hidden-#{$size} {
+      display: none;
+    }
+    .show-#{$size} {
+      display: block;
+    }
+  }
+}
+
+.view-port-info {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  background: #020202a3;
+  color: white !important;
+  z-index: 0;
+}

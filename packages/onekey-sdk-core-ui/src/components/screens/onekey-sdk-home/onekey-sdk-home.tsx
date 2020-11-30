@@ -1,6 +1,5 @@
-import { Component, Host, h } from '@stencil/core';
-import 'ionicons'
-import { routerStore, searchMapStore } from '../../../core/stores';
+import { Component, h, Host } from '@stencil/core';
+import { configStore, routerStore, searchMapStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-home',
@@ -31,12 +30,13 @@ export class OnekeySdkHome {
 
   render() {
     return (
-      <Host>
+      <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-contain">
           <div class="main-block main-block--header">
             <div class="search-home-hpc">
               <form onSubmit={this.onSubmit}>
                 <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
+                <input class="search-input hidden-sm hidden-md" placeholder="Where? (near me, address, city)" onFocus={this.onSearch} />
                 <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-home-hpc"/>
               </form>
             </div>
@@ -50,16 +50,20 @@ export class OnekeySdkHome {
 
               <div class="content">
                 <div class="item">
-                  <div class="item__icon"><ion-icon name="search-outline"></ion-icon></div>
-                  <div>
+                  <div class="item__icon">
+                    <onekey-sdk-icon name="search" />
+                  </div>
+                  <div class="item__message">
                     <strong>Find and Locate other HCP</strong>
                     <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                   </div>
                 </div>
 
                 <div class="item">
-                  <div class="item__icon"><ion-icon name="person-outline"></ion-icon></div>
-                  <div>
+                  <div class="item__icon">
+                    <onekey-sdk-icon name="personal" />
+                  </div>
+                  <div class="item__message">
                     <strong>Consult Profile</strong>
                     <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                   </div>
@@ -67,15 +71,17 @@ export class OnekeySdkHome {
                 </div>
 
                 <div class="item">
-                  <div class="item__icon"><ion-icon name="pencil-outline"></ion-icon></div>
-                  <div>
+                  <div class="item__icon">
+                    <onekey-sdk-icon name="edit" />
+                  </div>
+                  <div class="item__message">
                     <strong>Request my Information update</strong>
                     <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                   </div>
                 </div>
               </div>
 
-              <div class="full-block">
+              <div class="full-block hidden-lg hidden-xl">
                 <onekey-sdk-button isFull primary onClick={this.onGoSearchScreen} class="search-btn">Start a New Search</onekey-sdk-button>
               </div>
             </div>

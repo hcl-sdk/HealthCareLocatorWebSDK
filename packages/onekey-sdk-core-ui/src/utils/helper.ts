@@ -1,5 +1,9 @@
 const CONTAINER_ELEMENT = 'onekey-sdk'
 
+export function selectSDKElement() {
+  return document.querySelector(CONTAINER_ELEMENT)
+}
+
 export function getCssColor(colorStyle) {
   return getComputedStyle(
     document.querySelector(CONTAINER_ELEMENT).shadowRoot.host

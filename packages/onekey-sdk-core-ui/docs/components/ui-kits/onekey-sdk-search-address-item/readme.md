@@ -11,7 +11,6 @@
 | ----------- | ----------- | ----------- | --------- | ----------- |
 | `activated` | `activated` |             | `boolean` | `false`     |
 | `item`      | `item`      |             | `any`     | `undefined` |
-| `type`      | `type`      |             | `string`  | `undefined` |
 
 
 ## Events

@@ -82,4 +82,78 @@
   .search-btn {
     padding: 5px 10px;
   }
+
+
+  // Responsive base on container
+  .size-lg, .size-xl {
+    .search-home-hpc {
+      form {
+        position: relative;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-gap: 50px;
+        justify-content: center;
+      }
+    }
+
+    .main-block {
+      display: grid;
+      grid-gap: 31px;
+      grid-auto-flow: row;
+    }
+
+    .home {
+      span {
+        font-size: 16px;
+      }
+      
+      .content {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(auto, 350px));
+        grid-gap: 5%;
+      }
+
+      .header {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(2, minmax(auto, max-content));
+        justify-content: center;
+
+        .title {
+          font-size: 24px;
+          display: inline-block;
+        }
+      }
+
+      .item {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        grid-gap: 15px;
+        border: 1px solid #ddd;
+        padding: 25px 10px;
+        border-radius: 10px;
+
+        &__icon {
+          margin-right: 0;
+          justify-self: center;
+          width: 54px;
+          height: 54px;
+          background-color: var(--onekeysdk-color-primary);
+          color: white;
+        }
+
+        &__message {
+          display: grid;
+          grid-gap: 15px;
+
+          strong {
+            font-size: 18px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
 }

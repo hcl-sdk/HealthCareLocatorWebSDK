@@ -92,6 +92,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkIconPersonal {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface OnekeySdkIconPhone {
         "color": string;
         "height": number;
@@ -124,6 +129,8 @@ export namespace Components {
         "selectedLocationIdx": number;
         "zoomControl": boolean;
     }
+    interface OnekeySdkResizable {
+    }
     interface OnekeySdkRoute {
         "component": string;
         "path": string;
@@ -153,6 +160,9 @@ export namespace Components {
     interface OnekeySdkSearchResult {
     }
     interface OnekeySdkSwitchViewMode {
+    }
+    interface OnekeySdkViewport {
+        "sizes": Object[];
     }
 }
 declare global {
@@ -252,6 +262,12 @@ declare global {
         prototype: HTMLOnekeySdkIconMapElement;
         new (): HTMLOnekeySdkIconMapElement;
     };
+    interface HTMLOnekeySdkIconPersonalElement extends Components.OnekeySdkIconPersonal, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconPersonalElement: {
+        prototype: HTMLOnekeySdkIconPersonalElement;
+        new (): HTMLOnekeySdkIconPersonalElement;
+    };
     interface HTMLOnekeySdkIconPhoneElement extends Components.OnekeySdkIconPhone, HTMLStencilElement {
     }
     var HTMLOnekeySdkIconPhoneElement: {
@@ -287,6 +303,12 @@ declare global {
     var HTMLOnekeySdkMapElement: {
         prototype: HTMLOnekeySdkMapElement;
         new (): HTMLOnekeySdkMapElement;
+    };
+    interface HTMLOnekeySdkResizableElement extends Components.OnekeySdkResizable, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkResizableElement: {
+        prototype: HTMLOnekeySdkResizableElement;
+        new (): HTMLOnekeySdkResizableElement;
     };
     interface HTMLOnekeySdkRouteElement extends Components.OnekeySdkRoute, HTMLStencilElement {
     }
@@ -330,6 +352,12 @@ declare global {
         prototype: HTMLOnekeySdkSwitchViewModeElement;
         new (): HTMLOnekeySdkSwitchViewModeElement;
     };
+    interface HTMLOnekeySdkViewportElement extends Components.OnekeySdkViewport, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkViewportElement: {
+        prototype: HTMLOnekeySdkViewportElement;
+        new (): HTMLOnekeySdkViewportElement;
+    };
     interface HTMLElementTagNameMap {
         "onekey-sdk": HTMLOnekeySdkElement;
         "onekey-sdk-button": HTMLOnekeySdkButtonElement;
@@ -347,12 +375,14 @@ declare global {
         "onekey-sdk-icon-list": HTMLOnekeySdkIconListElement;
         "onekey-sdk-icon-location": HTMLOnekeySdkIconLocationElement;
         "onekey-sdk-icon-map": HTMLOnekeySdkIconMapElement;
+        "onekey-sdk-icon-personal": HTMLOnekeySdkIconPersonalElement;
         "onekey-sdk-icon-phone": HTMLOnekeySdkIconPhoneElement;
         "onekey-sdk-icon-printer": HTMLOnekeySdkIconPrinterElement;
         "onekey-sdk-icon-search": HTMLOnekeySdkIconSearchElement;
         "onekey-sdk-icon-share": HTMLOnekeySdkIconShareElement;
         "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
+        "onekey-sdk-resizable": HTMLOnekeySdkResizableElement;
         "onekey-sdk-route": HTMLOnekeySdkRouteElement;
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
         "onekey-sdk-router-link": HTMLOnekeySdkRouterLinkElement;
@@ -360,6 +390,7 @@ declare global {
         "onekey-sdk-search-address-item": HTMLOnekeySdkSearchAddressItemElement;
         "onekey-sdk-search-result": HTMLOnekeySdkSearchResultElement;
         "onekey-sdk-switch-view-mode": HTMLOnekeySdkSwitchViewModeElement;
+        "onekey-sdk-viewport": HTMLOnekeySdkViewportElement;
     }
 }
 declare namespace LocalJSX {
@@ -448,6 +479,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface OnekeySdkIconPersonal {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface OnekeySdkIconPhone {
         "color"?: string;
         "height"?: number;
@@ -482,6 +518,8 @@ declare namespace LocalJSX {
         "selectedLocationIdx"?: number;
         "zoomControl"?: boolean;
     }
+    interface OnekeySdkResizable {
+    }
     interface OnekeySdkRoute {
         "component"?: string;
         "path"?: string;
@@ -514,6 +552,10 @@ declare namespace LocalJSX {
     interface OnekeySdkSwitchViewMode {
         "onSwitchViewMode"?: (event: CustomEvent<any>) => void;
     }
+    interface OnekeySdkViewport {
+        "onSizeChanged"?: (event: CustomEvent<any>) => void;
+        "sizes"?: Object[];
+    }
     interface IntrinsicElements {
         "onekey-sdk": OnekeySdk;
         "onekey-sdk-button": OnekeySdkButton;
@@ -531,12 +573,14 @@ declare namespace LocalJSX {
         "onekey-sdk-icon-list": OnekeySdkIconList;
         "onekey-sdk-icon-location": OnekeySdkIconLocation;
         "onekey-sdk-icon-map": OnekeySdkIconMap;
+        "onekey-sdk-icon-personal": OnekeySdkIconPersonal;
         "onekey-sdk-icon-phone": OnekeySdkIconPhone;
         "onekey-sdk-icon-printer": OnekeySdkIconPrinter;
         "onekey-sdk-icon-search": OnekeySdkIconSearch;
         "onekey-sdk-icon-share": OnekeySdkIconShare;
         "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
+        "onekey-sdk-resizable": OnekeySdkResizable;
         "onekey-sdk-route": OnekeySdkRoute;
         "onekey-sdk-router": OnekeySdkRouter;
         "onekey-sdk-router-link": OnekeySdkRouterLink;
@@ -544,6 +588,7 @@ declare namespace LocalJSX {
         "onekey-sdk-search-address-item": OnekeySdkSearchAddressItem;
         "onekey-sdk-search-result": OnekeySdkSearchResult;
         "onekey-sdk-switch-view-mode": OnekeySdkSwitchViewMode;
+        "onekey-sdk-viewport": OnekeySdkViewport;
     }
 }
 export { LocalJSX as JSX };
@@ -566,12 +611,14 @@ declare module "@stencil/core" {
             "onekey-sdk-icon-list": LocalJSX.OnekeySdkIconList & JSXBase.HTMLAttributes<HTMLOnekeySdkIconListElement>;
             "onekey-sdk-icon-location": LocalJSX.OnekeySdkIconLocation & JSXBase.HTMLAttributes<HTMLOnekeySdkIconLocationElement>;
             "onekey-sdk-icon-map": LocalJSX.OnekeySdkIconMap & JSXBase.HTMLAttributes<HTMLOnekeySdkIconMapElement>;
+            "onekey-sdk-icon-personal": LocalJSX.OnekeySdkIconPersonal & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPersonalElement>;
             "onekey-sdk-icon-phone": LocalJSX.OnekeySdkIconPhone & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPhoneElement>;
             "onekey-sdk-icon-printer": LocalJSX.OnekeySdkIconPrinter & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPrinterElement>;
             "onekey-sdk-icon-search": LocalJSX.OnekeySdkIconSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkIconSearchElement>;
             "onekey-sdk-icon-share": LocalJSX.OnekeySdkIconShare & JSXBase.HTMLAttributes<HTMLOnekeySdkIconShareElement>;
             "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
+            "onekey-sdk-resizable": LocalJSX.OnekeySdkResizable & JSXBase.HTMLAttributes<HTMLOnekeySdkResizableElement>;
             "onekey-sdk-route": LocalJSX.OnekeySdkRoute & JSXBase.HTMLAttributes<HTMLOnekeySdkRouteElement>;
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;
             "onekey-sdk-router-link": LocalJSX.OnekeySdkRouterLink & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterLinkElement>;
@@ -579,6 +626,7 @@ declare module "@stencil/core" {
             "onekey-sdk-search-address-item": LocalJSX.OnekeySdkSearchAddressItem & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchAddressItemElement>;
             "onekey-sdk-search-result": LocalJSX.OnekeySdkSearchResult & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchResultElement>;
             "onekey-sdk-switch-view-mode": LocalJSX.OnekeySdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLOnekeySdkSwitchViewModeElement>;
+            "onekey-sdk-viewport": LocalJSX.OnekeySdkViewport & JSXBase.HTMLAttributes<HTMLOnekeySdkViewportElement>;
         }
     }
 }
