@@ -69,7 +69,7 @@
                     android:padding="@dimen/default_padding"
                     android:text="HCP near me"
                     android:textColor="@color/colorOneKeyText"
-                    app:boldText="true" />
+                    app:title2Style="true" />
 
                 <View
                     android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                         android:padding="@dimen/default_padding"
                         android:text="Last searches"
                         android:textColor="@color/colorOneKeyText"
-                        app:boldText="true" />
+                        app:title2Style="true" />
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreSearches"
@@ -146,7 +146,7 @@
                         android:padding="@dimen/default_padding"
                         android:text="Last HCP Consulted"
                         android:textColor="@color/colorOneKeyText"
-                        app:boldText="true" />
+                        app:title2Style="true" />
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreConsulted"

@@ -105,7 +105,8 @@
                     android:layout_weight="2.5"
                     android:text="Main Information"
                     android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true" />
+                    app:forceTextSize="true"
+                    app:title2Style="true" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -284,7 +285,8 @@
                     android:layout_weight="2.5"
                     android:text="Specialities"
                     android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true" />
+                    app:forceTextSize="true"
+                    app:title2Style="true" />
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView
                     android:id="@+id/tvSpecialities"
@@ -317,7 +319,8 @@
                     android:layout_weight="2.5"
                     android:text="Rate and refunds"
                     android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true" />
+                    app:forceTextSize="true"
+                    app:title2Style="true" />
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView
                     android:id="@+id/tvRateRefund"
@@ -350,7 +353,8 @@
                     android:layout_weight="2.5"
                     android:text="Information"
                     android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true" />
+                    app:forceTextSize="true"
+                    app:title2Style="true" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -433,7 +437,8 @@
                     android:layout_weight="2.5"
                     android:text="Improve the data quality"
                     android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true" />
+                    app:forceTextSize="true"
+                    app:title2Style="true" />
 
                 <LinearLayout
                     android:layout_width="0dp"

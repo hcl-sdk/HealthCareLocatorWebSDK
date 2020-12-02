@@ -97,7 +97,8 @@
                 android:padding="@dimen/default_padding_small"
                 android:text="Start a New Search"
                 android:textColor="@color/white"
-                android:textSize="@dimen/default_text_big" />
+                android:textSize="@dimen/default_text_big"
+                app:OneKey_buttonStyle="true" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
