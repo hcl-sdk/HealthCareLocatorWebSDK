@@ -11,6 +11,7 @@ import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
@@ -35,7 +36,7 @@ class OneKeyListResultFragment : IFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        listContainer.setBackgroundColor(oneKeyViewCustomObject.colorListBackground.getColor())
         rvResult.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter

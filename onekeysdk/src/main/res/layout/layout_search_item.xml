@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorOneKeyBlue"
                     android:textSize="@dimen/default_text"
+                    app:title3Style="true"
                     tools:text="Dr." />
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView

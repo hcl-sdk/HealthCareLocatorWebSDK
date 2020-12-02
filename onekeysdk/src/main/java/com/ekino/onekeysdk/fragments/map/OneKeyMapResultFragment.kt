@@ -67,7 +67,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btnCurrentLocation -> getRunningMapFragment()?.getLastLocation()
+            R.id.btnCurrentLocation -> getRunningMapFragment()?.moveToCurrentLocation()
         }
     }
 

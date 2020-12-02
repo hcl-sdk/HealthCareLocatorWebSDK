@@ -124,6 +124,11 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 activeScreen = 1
                 fragmentState.showStack(1)
             }
+            R.id.ivSort -> {
+                navigateToProfile = true
+                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                        OneKeySortFragment.newInstance(oneKeyViewCustomObject), true)
+            }
         }
     }
 
@@ -132,18 +137,20 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         tvAddress.text = place?.displayName ?: ""
         val result = "${locations.size}"
         tvResult.text = SpannableStringBuilder(result).apply {
-            setSpan(ForegroundColorSpan(oneKeyViewCustomObject.primaryColor.getColor()),
+            setSpan(ForegroundColorSpan(oneKeyViewCustomObject.colorPrimary.getColor()),
                     0, result.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        mapViewMode.setRippleBackground(oneKeyViewCustomObject.primaryColor.getColor(), 50f)
-        ivSort.setRippleCircleBackground(oneKeyViewCustomObject.secondaryColor.getColor(), 255)
+        mapViewMode.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 50f)
+        ivSort.setRippleCircleBackground(oneKeyViewCustomObject.colorSecondary.getColor(), 255)
+        tvAddress.textSize = oneKeyViewCustomObject.fontSmallSize.size.toFloat()
+        ivSort.setOnClickListener(this)
     }
 
     private fun setModeButtons(active: Int) {
         if (active == 0) {
             listViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
-                it.background = context!!.getDrawableById(R.drawable.bg_green_corner)
+                it.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 255)
                 it.setTextColor(color)
                 it.compoundDrawables.firstOrNull()?.setTint(color)
             })
@@ -156,7 +163,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         } else {
             mapViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
-                it.background = context!!.getDrawableById(R.drawable.bg_green_corner)
+                it.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 255)
                 it.setTextColor(color)
                 it.compoundDrawables.firstOrNull()?.setTint(color)
             })

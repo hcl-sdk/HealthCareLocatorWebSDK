@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.fragments.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -36,10 +37,18 @@ class SearchFragment :
 
     override val viewModel: SearchViewModel = SearchViewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        org.osmdroid.config.Configuration.getInstance().load(
+                context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
+    }
+
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
         oneKeyViewCustomObject?.also {
-            btnSearch.setRippleBackground(it.primaryColor)
+            btnSearch.setRippleBackground(it.colorPrimary)
+            edtName.textSize = it.fontSearchInputSize.size.toFloat()
+            edtWhere.textSize = it.fontSearchInputSize.size.toFloat()
         }
         btnBack.setOnClickListener(this)
         ivSpecialityClear.setOnClickListener(this)

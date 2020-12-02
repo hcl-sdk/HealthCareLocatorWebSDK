@@ -14,6 +14,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDummyHCP
+import com.ekino.onekeysdk.extensions.getLocationString
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
@@ -61,7 +62,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             selectedAddress = savedInstanceState.getInt("selectedAddress", 0)
             oneKeyLocation = savedInstanceState.getParcelable("selectedLocation")
         }
-        val secondaryColor = oneKeyViewCustomObject.secondaryColor.getColor()
+        val secondaryColor = oneKeyViewCustomObject.colorSecondary.getColor()
         tvDoctorName.setTextColor(secondaryColor)
         tvMainInformation.setTextColor(secondaryColor)
         tvSpecialitiesLabel.setTextColor(secondaryColor)
@@ -71,7 +72,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
         ivDirection.setColorFilter(secondaryColor)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
-        ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.markerColor.getColor())
+        ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.colorMarker.getColor())
 
         tvDoctorName.text = oneKeyLocation?.name ?: ""
         tvSpeciality.text = oneKeyLocation?.speciality ?: ""
@@ -111,7 +112,9 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             }
             R.id.ivDirection -> {
                 oneKeyLocation?.also {
-                    val uri = "http://maps.google.com/maps?q=loc:${it.getLocationByString()}"
+                    val lastLocation = getRunningMapFragment()?.getLastLocation()
+                            ?.getLocationString() ?: ""
+                    val uri = "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${it.getLocationByString()}"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     startActivity(intent)
                 }
@@ -142,6 +145,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         locations.getOrNull(position)?.also {
+            oneKeyLocation = it
             getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(it), true)
         }
     }

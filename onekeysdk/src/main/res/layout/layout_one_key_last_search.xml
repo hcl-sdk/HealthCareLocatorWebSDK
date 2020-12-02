@@ -19,16 +19,30 @@
             android:orientation="vertical">
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvDoctorName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="General"
+                app:title3Style="true" />
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="General" />
+                android:text="General"
+                android:textColor="@color/colorOneKeyText" />
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="General"
+                android:textColor="@color/colorOneKeyText" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_padding_tiny"
                 android:text="General"
                 android:textColor="@color/gray" />
 
@@ -37,8 +51,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_padding_tiny"
-                android:text="General"
-                android:textColor="@color/colorOneKeyText" />
+                android:text="1 day ago"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text_small"
+                app:smallStyle="true" />
         </LinearLayout>
 
         <ImageView
@@ -46,6 +62,7 @@
             android:layout_width="@dimen/default_icon_size"
             android:layout_height="@dimen/default_icon_size"
             android:layout_marginTop="-10dp"
+            android:layout_marginEnd="-10dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/default_padding_small"
             android:src="@drawable/baseline_close_black_24dp"

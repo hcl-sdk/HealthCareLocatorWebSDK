@@ -25,8 +25,8 @@ class OneKeyPlaceAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObj
             oneKeyViewCustomObject?.also {
                 itemView.apply {
                     tvAddress.text = data.displayName
-                    ivLocation.setRippleCircleBackground(oneKeyViewCustomObject.primaryColor)
-                    ivLocation.setColorFilter(oneKeyViewCustomObject.primaryColor.getColor())
+                    ivLocation.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary)
+                    ivLocation.setColorFilter(oneKeyViewCustomObject.colorPrimary.getColor())
                     setOnClickListener { onPlaceClickedListener.onPlaceClickedListener(data) }
                 }
             }

@@ -13,68 +13,81 @@ import com.ekino.onekeysdk.R
  * • With Kotlin: OneKeyViewCustomObject.Builder(editIcon=`value`).build() or OneKeyViewCustomObject.Builder()..editIcon(`value`).build()
  *
  * If the implementation app doesn't provide those styles, the default will be applied.
- * @param titleColor Set title (header) color in colorId.
- * @param subTitleColor Set sub title color in colorId.
- * @param textColor Set text color in colorId.
- * @param markerColor Set marker color in colorId which will show on the map.
- * @param textTitleSize Set title (header) size in dimensionId.
- * @param textSubTitleSize Set sub title size in dimensionId.
- * @param textSize Set text size in dimensionId.
+ * @param colorPrimary Set primary color in the hex [String] color (Must start with #).
+ * @param colorSecondary Set secondary color in the hex [String] color (Must start with #).
+ * @param textColor Set text color in the hex [String] color (Must start with #).
+ * @param colorMarker Set marker color in colorId which will show on the map (Must start with #).
+ * @param colorMarkerSelected Set selected marker color in colorId which will show on the map (Must start with #).
+ * @param fontDefaultSize Set default font size in integer.
+ * @param fontTitle1Size Set font size for title level 1 in [OneKeyViewFontObject].
+ * @param fontTitle2Size Set font size for title level 2 in [OneKeyViewFontObject].
+ * @param fontSmallSize Set font size for small level in [OneKeyViewFontObject].
  * @param searchIcon Set search icon in drawableId.
  * @param editIcon Set edit icon in drawableId.
  * @param markerIcon Set marker icon in drawableId.
  */
 data class OneKeyViewCustomObject private constructor(
-        val primaryColor: String = "#43B12B",// Color in hex, must start with #
-        val secondaryColor: String = "#E4F3DF",
+        val colorPrimary: String = "#43b02a",// Color in hex, must start with #
+        val colorSecondary: String = "#00a3e0",
         val textColor: String = "#2d3c4d",
-        val markerColor: String = "#FE8A12",
-        val markerSelectedColor: String = "#CD0800",
-        val fontBaseSize: Int = 20,
-        val fontTitleSize: Int = 16,
-        val font: String = "fonts/Roboto-Regular.ttf",
+        val colorMarker: String = "#fe8a12",
+        val colorMarkerSelected: String = "#fd8670",
+        val fontTitle1Size: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "title1", size = 20).build(),
+        val fontTitle2Size: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "title2", size = 16).build(),
+        val fontTitle3Size: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "title3", size = 14).build(),
+        val fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", size = 14).build(),
         val fontBold: String = "fonts/Roboto-Bold.ttf",
-        val textSize: Int = 16,
+        val fontDefaultSize: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", size = 14).build(),
         val searchIcon: Int = R.drawable.baseline_search_white_24dp,
         val editIcon: Int = R.drawable.baseline_edit_white_36dp,
         val markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
-        val homeMode: Int = 0) {
+        val homeMode: Int = 0,
+        var fontSearchInputSize: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
+        val fontSmallSize: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
+        val colorListBackground: String = "#f8f9fa") {
 
     @Suppress
     data class Builder(
-            var primaryColor: String = "#43B12B",// Color in hex, must start with #
-            var secondaryColor: String = "#E4F3DF",
+            var colorPrimary: String = "#43b02a",// Color in hex, must start with #
+            var colorSecondary: String = "#00a3e0",
             var textColor: String = "#2d3c4d",
-            var markerColor: String = "#FE8A12",
-            var markerSelectedColor: String = "#CD0800",
-            var fontBaseSize: Int = 20,
-            var fontTitleSize: Int = 16,
-            var font: String = "fonts/Roboto-Regular.ttf",
-            val fontBold: String = "fonts/Roboto-Bold.ttf",
-            var textSize: Int = 16,
+            var colorMarker: String = "#fe8a12",
+            var colorMarkerSelected: String = "#fd8670",
+            var fontTitle1Size: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "title1", size = 20).build(),
+            var fontTitle2Size: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "title2", size = 16).build(),
+            var fontTitle3Size: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "title3", size = 14).build(),
+            var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", size = 14).build(),
+            var fontBold: String = "fonts/Roboto-Bold.ttf",
+            var fontDefaultSize: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", size = 14).build(),
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
             var markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
-            var homeMode: Int = 0) {
+            var homeMode: Int = 0,
+            var fontSearchInputSize: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
+            var fontSmallSize: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
+            var colorListBackground: String = "#f8f9fa") {
 
-        fun primaryColor(primaryColor: String) = apply { this.primaryColor = primaryColor }
-        fun secondaryColor(secondaryColor: String) = apply { this.secondaryColor = secondaryColor }
+        fun colorPrimary(primaryColor: String) = apply { this.colorPrimary = primaryColor }
+        fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
         fun textColor(textColor: String) = apply { this.textColor = textColor }
-        fun markerColor(markerColor: String) = apply { this.markerColor = markerColor }
-        fun fontBaseSize(fontBaseSize: Int) = apply { this.fontBaseSize = fontBaseSize }
-        fun fontTitleSize(fontTitleSize: Int) =
-                apply { this.fontTitleSize = fontTitleSize }
+        fun colorMarker(markerColor: String) = apply { this.colorMarker = markerColor }
+        fun colorMarkerSelected(markerSelectedColor: String) = apply { this.colorMarkerSelected = markerSelectedColor }
+        fun fontTitle1Size(fontBaseSize: OneKeyViewFontObject) = apply { this.fontTitle1Size = fontBaseSize }
+        fun fontTitle2Size(fontTitleSize: OneKeyViewFontObject) = apply { this.fontTitle2Size = fontTitleSize }
+        fun fontTitle3Size(fontTitleSize: OneKeyViewFontObject) = apply { this.fontTitle3Size = fontTitleSize }
+        fun fontButton(fontButton: OneKeyViewFontObject) = apply { this.fontButton = fontButton }
 
-        fun textSize(textSize: Int) = apply { this.textSize = textSize }
+        fun fontDefaultSize(fontDefaultSize: OneKeyViewFontObject) = apply { this.fontDefaultSize = fontDefaultSize }
         fun searchIcon(searchIcon: Int) = apply { this.searchIcon = searchIcon }
         fun editIcon(editIcon: Int) = apply { this.editIcon = editIcon }
         fun markerIcon(markerIcon: Int) = apply { this.markerIcon = markerIcon }
-        fun font(font: String) = apply { this.font = font }
-        fun markerSelectedColor(markerSelectedColor: String) = apply { this.markerSelectedColor = markerSelectedColor }
         fun homeMode(homeMode: Int) = apply { this.homeMode = homeMode }
+        fun fontSearchInputSize(fontSearchInputSize: OneKeyViewFontObject) = apply { this.fontSearchInputSize = fontSearchInputSize }
+        fun fontSmallSize(fontSmallSize: OneKeyViewFontObject) = apply { this.fontSmallSize = fontSmallSize }
+        fun colorListBackground(colorListBackground: String) = apply { this.colorListBackground = colorListBackground }
 
-        fun build() = OneKeyViewCustomObject(primaryColor, secondaryColor, textColor, markerColor,
-                markerSelectedColor, fontBaseSize, fontTitleSize, font, fontBold, textSize, searchIcon,
-                editIcon, markerIcon, homeMode)
+        fun build() = OneKeyViewCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
+                colorMarkerSelected, fontTitle1Size, fontTitle2Size, fontTitle3Size, fontButton, fontBold, fontDefaultSize, searchIcon,
+                editIcon, markerIcon, homeMode, fontSearchInputSize, fontSmallSize, colorListBackground)
     }
 }

@@ -15,9 +15,9 @@
         android:layout_width="@dimen/default_icon_size_big"
         android:layout_height="@dimen/default_icon_size_big"
         android:background="@drawable/bg_green_circle"
-        android:padding="8dp"
-        android:src="@drawable/baseline_search_white_24dp"
+        android:padding="@dimen/default_padding_smaller"
         app:tint="@color/colorOneKeyGreen"
+        tools:src="@drawable/ic_profile"
         tools:tint="@color/colorOneKeyGreen" />
 
     <LinearLayout
@@ -34,7 +34,8 @@
             android:text="Find and Locate other HCP"
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_padding"
-            android:textStyle="bold" />
+            app:boldText="true"
+            app:forceTextSize="true" />
 
         <com.ekino.onekeysdk.custom.text.OneKeyTextView
             android:id="@+id/tvDescription"

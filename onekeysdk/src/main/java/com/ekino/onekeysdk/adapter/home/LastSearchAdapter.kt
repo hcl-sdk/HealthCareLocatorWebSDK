@@ -3,6 +3,7 @@ package com.ekino.onekeysdk.adapter.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
@@ -16,6 +17,8 @@ import kotlinx.android.synthetic.main.layout_one_key_last_search.view.*
 class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
                                 ThemeExtension.getInstance().getThemeConfiguration()) :
         OneKeyAdapter<OneKeyLocation, LastSearchAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_search)) {
+    var onItemRemovedListener: () -> Unit = {}
+    var onItemClickedListener: (data:OneKeyLocation) -> Unit = {}
     override fun initViewHolder(parent: ViewGroup, viewType: Int): LastSearchVH =
             LastSearchVH(LayoutInflater.from(parent.context).inflate(layoutIds[0], parent, false))
 
@@ -25,9 +28,25 @@ class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvCreateAt.text = data.createdDate
-                tvSpeciality.setTextColor(theme.secondaryColor.getColor())
+                tvCreateAt.textSize = theme.fontSmallSize.size.toFloat()
+                tvDoctorName.visibility = data.isHCP.getVisibility()
+                tvTitle.visibility = data.isHCP.getVisibility()
+                if (data.isHCP) {
+                    tvDoctorName.setTextColor(theme.colorSecondary.getColor())
+                    tvDoctorName.text = data.name
+                    tvSpeciality.setTextColor(ContextCompat.getColor(context, R.color.colorOneKeyText))
+                    tvSpeciality.setFont(false, false, false, false, false, false, false)
+                    tvTitle.text = data.title
+                } else {
+                    tvSpeciality.setFont(false, false, false, true, false, false, false)
+                    tvSpeciality.setTextColor(theme.colorSecondary.getColor())
+                }
                 ivClear.setOnClickListener {
                     remove(position)
+                    onItemRemovedListener()
+                }
+                setOnClickListener {
+                    onItemClickedListener(data)
                 }
                 bottomLine.visibility = (position != getData().size - 1).getVisibility()
             }
