@@ -85,18 +85,16 @@
                 app:boldText="true" />
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_width="10dp"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_padding_smaller"
-                android:layout_marginEnd="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding_x_large"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_border_rounded"
-                android:gravity="center|end"
                 android:orientation="horizontal"
                 android:padding="3dp"
                 android:weightSum="2">
@@ -110,12 +108,12 @@
                     android:drawableStart="@drawable/baseline_list_white_24dp"
                     android:drawableTint="@color/white"
                     android:gravity="center"
-                    android:maxWidth="120dp"
+                    android:maxWidth="60dp"
                     android:paddingStart="@dimen/default_padding_small"
                     android:paddingTop="@dimen/default_padding_tiny"
                     android:paddingEnd="@dimen/default_padding_small"
                     android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="List view"
+                    android:text="List"
                     android:textColor="@color/white" />
 
 
@@ -128,12 +126,12 @@
                     android:drawableStart="@drawable/baseline_map_white_24dp"
                     android:drawableTint="@color/colorOneKeyText"
                     android:gravity="center"
-                    android:maxWidth="120dp"
+                    android:maxWidth="60dp"
                     android:paddingStart="@dimen/default_padding_small"
                     android:paddingTop="@dimen/default_padding_tiny"
                     android:paddingEnd="@dimen/default_padding_small"
                     android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="Map view"
+                    android:text="Map"
                     android:textColor="@color/colorOneKeyText" />
             </LinearLayout>
 

@@ -10,8 +10,8 @@
     <color name="colorOneKeyMarker">#ff8b28</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
-    <color name="gray">#757575</color>
-    <color name="grayLight">#55757575</color>
-    <color name="grayLighter">#f8f9fa</color>
+    <color name="gray">#a1a1a1</color>
+    <color name="grayLight">#b8b8b8</color>
+    <color name="grayLighter">#ebebeb</color>
     <color name="colorOneKeyRed">#eb4034</color>
 </resources>

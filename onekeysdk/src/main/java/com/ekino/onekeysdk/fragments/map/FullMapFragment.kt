@@ -124,6 +124,11 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 activeScreen = 1
                 fragmentState.showStack(1)
             }
+            R.id.ivSort -> {
+                navigateToProfile = true
+                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                        OneKeySortFragment.newInstance(oneKeyViewCustomObject), true)
+            }
         }
     }
 
@@ -138,6 +143,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         mapViewMode.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 50f)
         ivSort.setRippleCircleBackground(oneKeyViewCustomObject.colorSecondary.getColor(), 255)
         tvAddress.textSize = oneKeyViewCustomObject.fontSmallSize.size.toFloat()
+        ivSort.setOnClickListener(this)
     }
 
     private fun setModeButtons(active: Int) {

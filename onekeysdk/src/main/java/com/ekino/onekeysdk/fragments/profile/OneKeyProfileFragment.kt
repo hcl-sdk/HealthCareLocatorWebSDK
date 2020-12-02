@@ -142,6 +142,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         locations.getOrNull(position)?.also {
+            oneKeyLocation = it
             getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(it), true)
         }
     }

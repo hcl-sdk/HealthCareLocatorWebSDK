@@ -115,7 +115,7 @@
                     android:paddingTop="@dimen/default_padding_tiny"
                     android:paddingEnd="@dimen/default_padding_small"
                     android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="List view"
+                    android:text="List"
                     android:textColor="@color/white" />
 
 
@@ -132,7 +132,7 @@
                     android:paddingTop="@dimen/default_padding_tiny"
                     android:paddingEnd="@dimen/default_padding_small"
                     android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="Map view"
+                    android:text="Map"
                     android:textColor="@color/colorOneKeyText" />
             </LinearLayout>
 
