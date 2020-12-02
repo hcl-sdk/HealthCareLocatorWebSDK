@@ -261,7 +261,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
         val indexOfOverLay = cluster.indexOf(marker)
         val index = oneKeyMarkers.indexOf(marker)
-        if (indexOfOverLay in 0 until mMapView!!.overlays.size) {
+        if (indexOfOverLay in 0 until cluster.size) {
             if (index >= 0) {
                 (marker as? OneKeyMarker)?.apply {
                     marker.icon = selectedIcon
@@ -274,7 +274,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         }
     }
 
-    fun getLastLocation() {
+    fun moveToCurrentLocation() {
         locationProvider?.lastKnownLocation?.also { location ->
             mMapView?.apply {
                 val position = GeoPoint(location.latitude, location.longitude)
@@ -283,4 +283,6 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             }
         }
     }
+
+    fun getLastLocation(): GeoPoint? = locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
 }

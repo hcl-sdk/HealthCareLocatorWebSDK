@@ -14,6 +14,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDummyHCP
+import com.ekino.onekeysdk.extensions.getLocationString
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
@@ -111,7 +112,9 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             }
             R.id.ivDirection -> {
                 oneKeyLocation?.also {
-                    val uri = "http://maps.google.com/maps?q=loc:${it.getLocationByString()}"
+                    val lastLocation = getRunningMapFragment()?.getLastLocation()
+                            ?.getLocationString() ?: ""
+                    val uri = "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${it.getLocationByString()}"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     startActivity(intent)
                 }

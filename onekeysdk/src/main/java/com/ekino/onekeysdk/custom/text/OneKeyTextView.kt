@@ -59,7 +59,7 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         includeFontPadding = false
     }
 
-    private fun setFont(boldText: Boolean, title1Style: Boolean, title2Style: Boolean, title3Style: Boolean,
+    fun setFont(boldText: Boolean, title1Style: Boolean, title2Style: Boolean, title3Style: Boolean,
                         buttonStyle: Boolean, smallStyle: Boolean, searchInputStyle: Boolean) {
         try {
             var f = if (boldText) ThemeExtension.getInstance().getThemeConfiguration().fontBold

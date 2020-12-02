@@ -7,10 +7,11 @@ import org.osmdroid.util.GeoPoint
 data class OneKeyLocation(var id: String = "", var name: String = "", var speciality: String = "",
                           var address: String = "", var distance: Int = 0,
                           var latitude: Double = 0.0, var longitude: Double = 0.0,
-                          var createdDate: String = "") : Parcelable {
+                          var createdDate: String = "", var title: String = "", var isHCP: Boolean = false) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString() ?: "", parcel.readString() ?: "",
-            parcel.readInt(), parcel.readDouble(), parcel.readDouble(), parcel.readString() ?: "") {
+            parcel.readInt(), parcel.readDouble(), parcel.readDouble(), parcel.readString() ?: "",
+            parcel.readString() ?: "", parcel.readInt() == 1) {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -23,6 +24,8 @@ data class OneKeyLocation(var id: String = "", var name: String = "", var specia
             writeInt(distance)
             writeDouble(latitude)
             writeDouble(longitude)
+            writeString(title)
+            writeInt(if (isHCP) 1 else 0)
         }
     }
 

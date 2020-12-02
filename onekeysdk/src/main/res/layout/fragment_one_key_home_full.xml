@@ -85,6 +85,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lastSearchWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_padding"
@@ -111,6 +112,7 @@
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:padding="@dimen/default_padding_small"
+                        android:tag="0"
                         android:text="View more"
                         android:textColor="@color/colorOneKeyGreen"
                         app:forceTextSize="true" />
@@ -128,6 +130,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lastConsultedWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_padding"
@@ -154,6 +157,7 @@
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:padding="@dimen/default_padding_small"
+                        android:tag="0"
                         android:text="View more"
                         android:textColor="@color/colorOneKeyGreen"
                         app:forceTextSize="true" />

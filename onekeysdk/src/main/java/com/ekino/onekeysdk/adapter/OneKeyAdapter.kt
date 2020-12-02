@@ -45,6 +45,19 @@ abstract class OneKeyAdapter<DATA, VH : RecyclerView.ViewHolder>
         notifyDataSetChanged()
     }
 
+    open fun addList(position: Int, items: ArrayList<DATA>) {
+        dataSource.addAll(position, items)
+        notifyItemRangeInserted(if (position - 1 > 0) position - 1 else position, items.size)
+    }
+
+    open fun removeRange(position: Int, endPosition: Int) {
+        if (endPosition > dataSource.size) return
+        val sub = dataSource.subList(position, endPosition)
+        val count = sub.size
+        sub.clear()
+        notifyItemRangeRemoved(if (position - 1 > 0) position - 1 else position, count + 1)
+    }
+
     fun clear() {
         dataSource.clear()
         notifyDataSetChanged()

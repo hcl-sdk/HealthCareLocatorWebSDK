@@ -30,6 +30,7 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
     override val viewModel = OneKeySortViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
+        retainInstance = true
         var sort = sortList
         var selectedPosition = 0
         if (savedInstanceState != null) {
