@@ -3,8 +3,12 @@
     <declare-styleable name="OneKeyTextView">
         <attr name="setFont" format="string" />
         <attr name="boldText" format="boolean" />
-        <attr name="primaryText" format="boolean" />
         <attr name="forceTextSize" format="boolean" />
-        <attr name="defaultTextSize" format="boolean" />
+        <attr name="title1Style" format="boolean" />
+        <attr name="title2Style" format="boolean" />
+        <attr name="title3Style" format="boolean" />
+        <attr name="searchInputStyle" format="boolean" />
+        <attr name="smallStyle" format="boolean" />
+        <attr name="OneKey_buttonStyle" format="boolean" />
     </declare-styleable>
 </resources>

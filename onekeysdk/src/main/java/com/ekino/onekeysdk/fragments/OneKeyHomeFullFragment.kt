@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,12 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
 
     override val viewModel = OneKeyHomFullViewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        org.osmdroid.config.Configuration.getInstance().load(
+                context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
+    }
+
     override fun initView(view: View, savedInstanceState: Bundle?) {
         val fm = this@OneKeyHomeFullFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
@@ -49,7 +56,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             ivSearch.setRippleBackground(it.colorPrimary)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
-            edtSearch.textSize = it.fontSearchInputSize.toFloat()
+            edtSearch.textSize = it.fontSearchInputSize.size.toFloat()
         }
 
         newSearchWrapper.setOnClickListener(this)

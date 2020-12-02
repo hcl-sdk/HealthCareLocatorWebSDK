@@ -57,20 +57,16 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
 
     private fun initHomeSpinner() {
         val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.home, 0)
-        ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item,
-                context!!.resources.getStringArray(R.array.home)).also {
-            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            homeSpinner.adapter = it
+        if (selectedPosition == 0) rBtnFull.isChecked = true
+        else if (selectedPosition == 1) rBtnMin.isChecked = true
+        homeGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rBtnFull -> {
+                }
+                R.id.rBtnMin -> {
+                }
+            }
         }
-        homeSpinner.setSelection(selectedPosition)
-        homeSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                OneKeyLog.d("onItemSelected: $position")
-            }
-        })
     }
 
     override fun onSpinnerItemSelectedListener(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -97,7 +93,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.selectedMarkerColorPref, themeObject.markerSelectedHexColor)
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
-            putInt(Pref.home, homeSpinner.selectedItemPosition)
+            putInt(Pref.home, if (homeGroup.checkedRadioButtonId == rBtnFull.id) 0 else 1)
         }
         super.onPause()
     }

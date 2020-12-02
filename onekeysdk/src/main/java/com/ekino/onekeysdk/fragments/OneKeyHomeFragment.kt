@@ -42,9 +42,7 @@ class OneKeyHomeFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        org.osmdroid.config.Configuration.getInstance().load(
-                context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
-        if (oneKeyViewCustomObject.homeMode == 1) {
+        if (oneKeyViewCustomObject.homeMode == 0) {
             (activity as? AppCompatActivity)?.apply {
                 supportFragmentManager.popBackStack()
                 addFragment(R.id.fragmentContainer, OneKeyHomeFullFragment.newInstance(oneKeyViewCustomObject), true)
@@ -59,7 +57,7 @@ class OneKeyHomeFragment :
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             ivSearch.setRippleBackground(it.colorPrimary)
             btnStartSearch.setRippleBackground(it.colorPrimary)
-            edtSearch.textSize = it.fontSearchInputSize.toFloat()
+            edtSearch.textSize = it.fontSearchInputSize.size.toFloat()
         }
         rvHome.postDelay({
             if (rvHome == null) return@postDelay

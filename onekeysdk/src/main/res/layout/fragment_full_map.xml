@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorOneKeyText"
                     app:boldText="true"
-                    app:primaryText="true"
+                    app:title1Style="true"
                     tools:text="Speciality" />
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView
@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_padding_tiny"
                     android:textSize="@dimen/default_text_small"
+                    app:smallStyle="true"
                     tools:text="Speciality" />
             </LinearLayout>
         </LinearLayout>

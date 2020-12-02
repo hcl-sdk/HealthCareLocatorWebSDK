@@ -137,7 +137,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
         mapViewMode.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 50f)
         ivSort.setRippleCircleBackground(oneKeyViewCustomObject.colorSecondary.getColor(), 255)
-        tvAddress.textSize = oneKeyViewCustomObject.fontSmallSize.toFloat()
+        tvAddress.textSize = oneKeyViewCustomObject.fontSmallSize.size.toFloat()
     }
 
     private fun setModeButtons(active: Int) {

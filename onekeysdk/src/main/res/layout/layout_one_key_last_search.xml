@@ -22,16 +22,14 @@
                 android:id="@+id/tvSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="General"
-                app:defaultTextSize="true" />
+                android:text="General" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="General"
-                android:textColor="@color/gray"
-                app:defaultTextSize="true" />
+                android:textColor="@color/gray"/>
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvCreateAt"

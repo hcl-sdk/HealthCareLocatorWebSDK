@@ -44,7 +44,6 @@
             android:gravity="center"
             android:text="Lorem ipsum dolor sit amet, consect adipiscing elit"
             android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_padding"
-            app:defaultTextSize="true" />
+            android:textSize="@dimen/default_padding" />
     </LinearLayout>
 </LinearLayout>

@@ -22,6 +22,7 @@
             android:src="@drawable/baseline_arrow_back_ios_black_36dp" />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Settings"
@@ -30,34 +31,32 @@
             android:textSize="@dimen/default_text_big" />
     </LinearLayout>
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="API Key"
-        android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text" />
+        android:background="@drawable/bg_preview_box"
+        android:minHeight="120dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edtAPIKey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_tiny"
-        android:background="@drawable/bg_white_border_corner"
-        android:hint="Input your API Key"
-        android:inputType="text"
-        android:maxLines="1"
-        android:padding="@dimen/default_padding_smaller"
-        android:textAllCaps="true"
-        android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text" />
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            android:id="@+id/tvPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Preview"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text_big" />
+    </FrameLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_x_larger"
-        android:text="Theme"
+        android:layout_marginTop="@dimen/default_padding_larger"
+        android:text="Font"
         android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text" />
+        android:textSize="@dimen/default_text"
+        android:textStyle="bold" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -65,39 +64,38 @@
         android:layout_marginTop="@dimen/default_padding_tiny"
         android:background="@drawable/bg_white_border_corner">
 
-        <com.ekino.onekeysdk.sample.view.SSpinner
-            android:id="@+id/themeSpinner"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/fontSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_padding_smaller" />
     </FrameLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_x_larger"
-        android:text="Home"
-        android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text" />
-
-    <RadioGroup
-        android:id="@+id/homeGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_tiny"
+        android:layout_marginTop="@dimen/default_padding_larger"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rBtnFull"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_padding"
-            android:text="Full" />
+            android:layout_marginEnd="@dimen/default_padding_bigger"
+            android:text="Font Size"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rBtnMin"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Min" />
-    </RadioGroup>
+            android:background="@drawable/bg_white_border_corner">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/fontSizeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_padding_smaller" />
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

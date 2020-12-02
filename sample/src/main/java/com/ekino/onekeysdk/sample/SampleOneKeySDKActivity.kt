@@ -7,19 +7,20 @@ import base.extensions.addFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
-import com.ekino.onekeysdk.sample.fragments.CustomThemeFragment
-import com.ekino.onekeysdk.sample.fragments.DrawerMenuFragment
-import com.ekino.onekeysdk.sample.fragments.LandingPageFragment
-import com.ekino.onekeysdk.sample.fragments.SettingFragment
+import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
+import com.ekino.onekeysdk.sample.fragments.*
 import com.ekino.onekeysdk.sample.model.ThemeObject
 import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_sample.*
 
 class SampleOneKeySDKActivity : AppCompatActivity() {
     private val themes by lazy { getThemes() }
     private val fonts by lazy { getFonts() }
+    private val gson by lazy { Gson() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,27 +74,66 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 ?: selectedTheme.markerHexColor
         val selectedMarker = SampleApplication.sharedPreferences.getString(Pref.selectedMarkerColorPref, selectedTheme.markerSelectedHexColor)
                 ?: selectedTheme.markerSelectedHexColor
-        val fontDefaultSize = SampleApplication.sharedPreferences.getInt(Pref.fontDefaultSize, 16)
-        val fontSearchInputSize = SampleApplication.sharedPreferences.getInt(Pref.fontSearchInputSize, 16)
-        val fontTitle2Size = SampleApplication.sharedPreferences.getInt(Pref.fontBase, 16)
-        val fontTitle1Size = SampleApplication.sharedPreferences.getInt(Pref.fontTitle, 20)
-        val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 0)
+        var fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        var fontTitle1: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        var fontTitle2: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        var fontTitle3: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+        SampleApplication.sharedPreferences.also {
+            (it.getString(Pref.fontDefault, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontDefault = getFontSetting(this)
+            }
+            (it.getString(Pref.fontTitle1, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontTitle1 = getFontSetting(this)
+            }
+            (it.getString(Pref.fontButton, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontButton = getFontSetting(this)
+            }
+            (it.getString(Pref.fontTitle2, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontTitle2 = getFontSetting(this)
+            }
+            (it.getString(Pref.fontTitle3, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontTitle3 = getFontSetting(this)
+            }
+            (it.getString(Pref.fontSmall, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontSmall = getFontSetting(this)
+            }
+            (it.getString(Pref.fontSearchInput, "") ?: "").apply {
+                if (this.isNotEmpty())
+                    fontSearchInput = getFontSetting(this)
+            }
+        }
+        val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 1)
         /**
          * Add OneKey screen into parent application
          */
         this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
-                OneKeyViewCustomObject.Builder().fontName(font)
+                OneKeyViewCustomObject.Builder()
                         .colorPrimary(primary)
                         .colorSecondary(secondary)
                         .colorMarker(marker)
                         .colorMarkerSelected(selectedMarker)
-                        .fontTitle1Size(fontTitle1Size)
-                        .fontTitle2Size(fontTitle2Size)
-                        .fontDefaultSize(fontDefaultSize)
-                        .fontSearchInputSize(fontSearchInputSize)
+                        .fontTitle1Size(fontTitle1)
+                        .fontTitle2Size(fontTitle2)
+                        .fontTitle3Size(fontTitle3)
+                        .fontButton(fontButton)
+                        .fontDefaultSize(fontDefault)
+                        .fontSmallSize(fontSmall)
+                        .fontSearchInputSize(fontSearchInput)
                         .homeMode(homeMode)
                         .build()), true)
     }
+
+    private fun getFontSetting(json: String): OneKeyViewFontObject =
+            gson.fromJson(json, object : TypeToken<OneKeyViewFontObject>() {}.type)
 
     fun openSettingsPage() {
         resetStack()
@@ -102,5 +142,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 
     fun openCustomThemePage(themeObject: ThemeObject, callback: (theme: ThemeObject) -> Unit) {
         this.addFragment(R.id.fragmentContainer, CustomThemeFragment.newInstance(themeObject, callback), true)
+    }
+
+    fun openPreviewFont(font: OneKeyViewFontObject, callback: (font: OneKeyViewFontObject) -> Unit) {
+        this.addFragment(R.id.fragmentContainer, PreviewFontFragment.newInstance(font, callback), true)
     }
 }

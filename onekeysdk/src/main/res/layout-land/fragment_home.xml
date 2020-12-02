@@ -70,7 +70,7 @@
                 android:text="Find and Locate Healthcare Professional"
                 android:textColor="@color/colorOneKeyBlue"
                 android:textSize="@dimen/default_text_large"
-                app:primaryText="true" />
+                app:title1Style="true" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHome"

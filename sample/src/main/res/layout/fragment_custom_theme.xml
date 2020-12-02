@@ -30,234 +30,272 @@
             android:textSize="@dimen/default_text_big" />
     </LinearLayout>
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Font"
-        android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text"
-        android:textStyle="bold" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_tiny"
-        android:background="@drawable/bg_white_border_corner">
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/fontSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/default_padding_smaller" />
-    </FrameLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_xxx_large"
-        android:text="Font Sizes"
-        android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_smaller"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_padding_small"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/default_padding_bigger"
-                android:text="Base"
+                android:text="Font"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Default"
                 android:textColor="@color/colorOneKeyText"
                 android:textSize="@dimen/default_text" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_border_corner">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLight" />
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/fontBaseSpinner"
+            <TextView
+                android:id="@+id/btnTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Title 1"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLight" />
+
+            <TextView
+                android:id="@+id/btnTitle2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Title 2"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLight" />
+
+            <TextView
+                android:id="@+id/btnTitle3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Title 3"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLight" />
+
+            <TextView
+                android:id="@+id/btnSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Small"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLight" />
+
+            <TextView
+                android:id="@+id/btnSearchInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Search Input"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grayLight" />
+
+            <TextView
+                android:id="@+id/btnButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
+                android:drawableTint="@color/gray"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Button"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_xxx_large"
+                android:text="Colors"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/default_padding_smaller" />
-            </FrameLayout>
-        </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_padding_small"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Primary"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_text" />
 
+                    <View
+                        android:id="@+id/viewPrimary"
+                        android:layout_width="@dimen/default_icon_size_small"
+                        android:layout_height="@dimen/default_icon_size_small"
+                        android:layout_marginStart="@dimen/default_padding_tiny"
+                        android:layout_marginEnd="@dimen/default_padding_tiny" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/default_padding_bigger"
-                android:text="Titles"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_border_corner">
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/fontTitleSpinner"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/default_padding_smaller" />
-            </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding_xxx_large"
-        android:text="Colors"
-        android:textColor="@color/colorOneKeyText"
-        android:textSize="@dimen/default_text"
-        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Secondary"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_text" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding"
-        android:orientation="horizontal"
-        android:weightSum="2">
+                    <View
+                        android:id="@+id/viewSecondary"
+                        android:layout_width="@dimen/default_icon_size_small"
+                        android:layout_height="@dimen/default_icon_size_small"
+                        android:layout_marginStart="@dimen/default_padding_tiny"
+                        android:layout_marginEnd="@dimen/default_padding_tiny" />
+                </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Primary"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
+                android:layout_marginTop="@dimen/default_padding"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <View
-                android:id="@+id/viewPrimary"
-                android:layout_width="@dimen/default_icon_size_small"
-                android:layout_height="@dimen/default_icon_size_small"
-                android:layout_marginStart="@dimen/default_padding_tiny"
-                android:layout_marginEnd="@dimen/default_padding_tiny" />
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Marker"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_text" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="Secondary"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
+                    <View
+                        android:id="@+id/viewMarker"
+                        android:layout_width="@dimen/default_icon_size_small"
+                        android:layout_height="@dimen/default_icon_size_small"
+                        android:layout_marginStart="@dimen/default_padding_tiny"
+                        android:layout_marginEnd="@dimen/default_padding_tiny" />
+                </LinearLayout>
 
-            <View
-                android:id="@+id/viewSecondary"
-                android:layout_width="@dimen/default_icon_size_small"
-                android:layout_height="@dimen/default_icon_size_small"
-                android:layout_marginStart="@dimen/default_padding_tiny"
-                android:layout_marginEnd="@dimen/default_padding_tiny" />
-        </LinearLayout>
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_padding"
-        android:orientation="horizontal"
-        android:weightSum="2">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Selected marker"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_text" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Marker"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:id="@+id/viewMarker"
-                android:layout_width="@dimen/default_icon_size_small"
-                android:layout_height="@dimen/default_icon_size_small"
-                android:layout_marginStart="@dimen/default_padding_tiny"
-                android:layout_marginEnd="@dimen/default_padding_tiny" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                    <View
+                        android:id="@+id/viewSelectedMarker"
+                        android:layout_width="@dimen/default_icon_size_small"
+                        android:layout_height="@dimen/default_icon_size_small"
+                        android:layout_marginStart="@dimen/default_padding_tiny"
+                        android:layout_marginEnd="@dimen/default_padding_tiny" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/btnApply"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="Selected marker"
-                android:textColor="@color/colorOneKeyText"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/default_padding_xxx_large"
+                android:background="@drawable/bg_main_button_corner"
+                android:paddingStart="@dimen/default_padding_bigger"
+                android:paddingTop="@dimen/default_padding_smaller"
+                android:paddingEnd="@dimen/default_padding_bigger"
+                android:paddingBottom="@dimen/default_padding_smaller"
+                android:text="APPLY"
+                android:textColor="@color/white"
                 android:textSize="@dimen/default_text" />
-
-            <View
-                android:id="@+id/viewSelectedMarker"
-                android:layout_width="@dimen/default_icon_size_small"
-                android:layout_height="@dimen/default_icon_size_small"
-                android:layout_marginStart="@dimen/default_padding_tiny"
-                android:layout_marginEnd="@dimen/default_padding_tiny" />
         </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/btnApply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/default_padding_xxx_large"
-        android:background="@drawable/bg_main_button_corner"
-        android:paddingStart="@dimen/default_padding_bigger"
-        android:paddingTop="@dimen/default_padding_smaller"
-        android:paddingEnd="@dimen/default_padding_bigger"
-        android:paddingBottom="@dimen/default_padding_smaller"
-        android:text="APPLY"
-        android:textColor="@color/white"
-        android:textSize="@dimen/default_text" />
+    </ScrollView>
 </LinearLayout>
