@@ -66,9 +66,10 @@
       display: grid;
       grid-template-columns: 1fr auto;
 
-      .btn {
-        width: 50px;
+      .search-address-btn {
+        min-width: 50px;
         height: 100%;
+        padding: 0;
       }
     }
   }
@@ -90,10 +91,73 @@
       form {
         position: relative;
         display: grid;
-        grid-template-columns: auto auto auto;
-        grid-gap: 50px;
+        grid-template-columns: auto auto;
+        grid-gap: 30px;
         justify-content: center;
       }
+    }
+
+    .search-hpc {
+      padding: 0;
+    }
+
+    .search-block {
+      display: grid;
+      grid-gap: 31px;
+      grid-auto-flow: row;
+      position: relative;
+      border: none;
+      padding: 0;
+    }
+
+    .search-back {
+      display: none;
+    }
+
+    .search-form {
+
+      .search-form-content {
+        display: grid;
+        grid-auto-flow: column;
+        grid-gap: 30px;
+      }
+
+      input:first-child {
+        width: 258px;
+        margin: 0;
+        margin-bottom: 0;
+      }
+
+      .search-address-btn {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 150%;
+        padding: 0 10px;
+      }
+
+      .search-content {
+        position: absolute;
+        margin: 0;
+        width: 100%;
+        padding: 10px 5px;
+        height: max-content;
+        border: 1px solid #ddd;
+        display: grid;
+        box-sizing: border-box;
+        overflow-y: scroll;
+        max-height: 400px;
+
+        &.name {
+         
+        }
+
+        &.address {
+          
+        }
+      }
+
+      
     }
 
     .main-block {
@@ -118,6 +182,7 @@
         grid-gap: 10px;
         grid-template-columns: repeat(2, minmax(auto, max-content));
         justify-content: center;
+        padding: 0;
 
         .title {
           font-size: 24px;
@@ -141,7 +206,10 @@
           width: 54px;
           height: 54px;
           background-color: var(--onekeysdk-color-primary);
-          color: white;
+          
+          svg {
+            fill: white;
+          }
         }
 
         &__message {

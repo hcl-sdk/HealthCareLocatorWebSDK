@@ -28,6 +28,7 @@
 
  - [onekey-sdk-hcp-full-card](../../screens/onekey-sdk-hcp-full-card)
  - [onekey-sdk-home](../../screens/onekey-sdk-home)
+ - [onekey-sdk-input](../onekey-sdk-input)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
 
 ### Depends on
@@ -40,6 +41,7 @@ graph TD;
   onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-button
   onekey-sdk-home --> onekey-sdk-button
+  onekey-sdk-input --> onekey-sdk-button
   onekey-sdk-search --> onekey-sdk-button
   style onekey-sdk-button fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -10,6 +10,7 @@
 | Property              | Attribute               | Description | Type      | Default     |
 | --------------------- | ----------------------- | ----------- | --------- | ----------- |
 | `defaultZoom`         | `default-zoom`          |             | `number`  | `undefined` |
+| `dragging`            | `dragging`              |             | `boolean` | `true`      |
 | `locations`           | --                      |             | `any[]`   | `[]`        |
 | `mapHeight`           | `map-height`            |             | `string`  | `'100%'`    |
 | `mapWidth`            | `map-width`             |             | `string`  | `'100%'`    |

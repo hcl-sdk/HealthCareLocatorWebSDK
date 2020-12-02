@@ -9,13 +9,11 @@
 
 ### Used by
 
- - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Graph
 ```mermaid
 graph TD;
-  onekey-sdk-search --> onekey-sdk-loading
   onekey-sdk-search-result --> onekey-sdk-loading
   style onekey-sdk-loading fill:#f9f,stroke:#333,stroke-width:4px
 ```

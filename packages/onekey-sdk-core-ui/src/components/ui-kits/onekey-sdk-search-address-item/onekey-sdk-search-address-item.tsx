@@ -10,13 +10,22 @@ export class OnekeySdkSearchItem {
   @Prop() activated: boolean = false
   @Event() selectAddress: EventEmitter
 
+  renderIcon = (type) => {
+    switch(type) {
+      case 'history':
+        return <onekey-sdk-icon name="history" />
+      default:
+        return <onekey-sdk-icon name="location" />
+    }
+  }
+
   render() {
     return (
       <Host>
         <div class="search-address-item">
           <div class="search-address-item-icon-wrapper">
             <span class="search-address-item-icon">
-              <ion-icon name="location-outline"></ion-icon>
+              {this.renderIcon(this.item.type)}
             </span>
             <span>{this.item.distance || 0} km</span>
           </div>

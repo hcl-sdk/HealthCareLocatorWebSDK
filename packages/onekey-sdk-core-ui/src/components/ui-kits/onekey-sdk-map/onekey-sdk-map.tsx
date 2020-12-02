@@ -23,6 +23,7 @@ export class OnekeySdkMap {
   @Prop() markerIcon: string;
   @Prop() noCurrentLocation: boolean = false;
   @Prop() zoomControl: boolean = true;
+  @Prop() dragging: boolean = true;s
   @Event() markerClick: EventEmitter;
   @State() currentLocation: any;
   @Event() setCurrentLocation: EventEmitter;
@@ -60,7 +61,8 @@ export class OnekeySdkMap {
       zoom: this.defaultZoom,
       minZoom: 15,
       maxZoom: 20,
-      zoomControl: this.zoomControl
+      zoomControl: this.zoomControl,
+      dragging: this.dragging
     });
 
     L.tileLayer(mapTileLayer, {
@@ -151,9 +153,9 @@ export class OnekeySdkMap {
 
   render() {
     return (
-      <Host>
+      <Host style={{ height: this.mapHeight, width: this.mapWidth }}>
         { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
-        <div style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
+        <div id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );
   }

@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import cn from 'classnames';
+import { getCssColor } from 'onekey-sdk-core-ui/src/utils/helper';
 
 @Component({
   tag: 'onekey-sdk-doctor-card',
@@ -29,7 +30,7 @@ export class OnekeySdkDoctorCard {
             <span class="text address">{this.address}</span>
             <span class="text distance">{this.distance}</span>
           </div>
-          <ion-icon class="doctor-card-arrow-icon" name="chevron-forward-outline"></ion-icon>
+          <onekey-sdk-icon name="chevron-arrow" color={getCssColor("--onekeysdk-color-secondary")}/>
         </div>
       </Host>
     );

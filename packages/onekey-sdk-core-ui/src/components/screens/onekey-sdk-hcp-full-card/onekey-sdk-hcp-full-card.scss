@@ -3,6 +3,7 @@
     padding: 10px;
     display: grid;
     grid-gap: 10px;
+    position: relative;
 
     &__name {
       display: grid;
@@ -115,6 +116,67 @@
       .btn.icon {
         padding: 5px;
       }
+    }
+  }
+
+  .size-lg, .size-xl {
+    .search-home-hpc {
+      form {
+        position: relative;
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-gap: 30px;
+        justify-content: center;
+      }
+    }
+
+    .search-hpc {
+      padding: 0;
+    }
+
+    .search-block {
+      display: grid;
+      grid-gap: 31px;
+      grid-auto-flow: row;
+      position: relative;
+      border: none;
+      padding: 0;
+    }
+
+    .search-back {
+      display: none;
+    }
+
+    .main-block {
+      margin: 0;
+    }
+
+    .main-block--header {
+      padding: 0;
+    }
+
+    .main-block__navigation {
+      padding: 10px 0;
+    }
+
+    .main-contain {
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      grid-gap: 10px;
+      margin-top: 30px;
+      grid-template-rows: repeat(2, min-content);
+    }
+
+    .info-section {
+      justify-content: start;
+      grid-template-columns: 0.4fr 0.6fr;
+    }
+
+    .info-section-header__postfix {
+      position: absolute;
+      top: 15px;
+      right: 15px;
     }
   }
 }

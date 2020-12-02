@@ -99,5 +99,11 @@ html {
   width: 400px;
   margin: 0 auto;
   margin-top: 0;
+  display: grid;
+  justify-content: center;
+  width: 100%;
+}
+
+onekey-sdk {
   border: 1px solid #ddd;
 }

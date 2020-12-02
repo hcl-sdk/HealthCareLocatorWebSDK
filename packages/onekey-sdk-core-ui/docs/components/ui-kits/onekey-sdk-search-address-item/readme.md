@@ -28,12 +28,12 @@
 
 ### Depends on
 
-- ion-icon
+- [onekey-sdk-icon](../onekey-sdk-icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  onekey-sdk-search-address-item --> ion-icon
+  onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-search-address-item
   style onekey-sdk-search-address-item fill:#f9f,stroke:#333,stroke-width:4px
 ```

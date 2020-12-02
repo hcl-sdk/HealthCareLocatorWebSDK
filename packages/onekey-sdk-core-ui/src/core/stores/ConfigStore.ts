@@ -1,6 +1,7 @@
 import StoreProvider from './StoreProvider';
 import { getFullConfiguration, DEFAULT_CONFIGURATION, OnekeySDKConfig, OnekeySDKConfigInput } from 'onekey-sdk-core';
 import { ViewportSize } from 'onekey-sdk-core-ui/src/components/ui-kits/onekey-sdk-viewport/types';
+import { getContainerHeightWidthOffset } from 'onekey-sdk-core-ui/src/utils/helper';
 export interface AppConfigStyles {
   fontFamily?: string;
   fontColor?: string;
@@ -27,6 +28,11 @@ export const initStateConfigStore = {
   },
   // User input config
   input: DEFAULT_CONFIGURATION,
+  viewPortSize: ViewportSize.Large,
+  viewSDKDimension: {
+    width: getContainerHeightWidthOffset().offsetWidth,
+    height: getContainerHeightWidthOffset().offsetHeight,
+  }
 };
 
 class ConfigStore extends StoreProvider<OneKeySDKConfigData> {

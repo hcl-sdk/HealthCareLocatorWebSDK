@@ -47,6 +47,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkIconChevronArrow {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface OnekeySdkIconDefaultAvatar {
         "color": string;
         "height": number;
@@ -68,6 +73,11 @@ export namespace Components {
         "width": number;
     }
     interface OnekeySdkIconEdit {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface OnekeySdkIconHistory {
         "color": string;
         "height": number;
         "width": number;
@@ -107,6 +117,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkIconRemove {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface OnekeySdkIconSearch {
         "color": string;
         "height": number;
@@ -117,10 +132,21 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkInput {
+        "autoComplete"?: string;
+        "class"?: string;
+        "loading"?: boolean;
+        "name"?: string;
+        "onInput"?: (e: any) => void;
+        "placeholder"?: string;
+        "postfixIcon"?: string;
+        "value"?: any;
+    }
     interface OnekeySdkLoading {
     }
     interface OnekeySdkMap {
         "defaultZoom": number;
+        "dragging": boolean;
         "locations": any[];
         "mapHeight": string;
         "mapWidth": string;
@@ -152,6 +178,8 @@ export namespace Components {
         "url": string;
     }
     interface OnekeySdkSearch {
+        "noIcon": boolean;
+        "searchText": string;
     }
     interface OnekeySdkSearchAddressItem {
         "activated": boolean;
@@ -208,6 +236,12 @@ declare global {
         prototype: HTMLOnekeySdkIconArrowElement;
         new (): HTMLOnekeySdkIconArrowElement;
     };
+    interface HTMLOnekeySdkIconChevronArrowElement extends Components.OnekeySdkIconChevronArrow, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconChevronArrowElement: {
+        prototype: HTMLOnekeySdkIconChevronArrowElement;
+        new (): HTMLOnekeySdkIconChevronArrowElement;
+    };
     interface HTMLOnekeySdkIconDefaultAvatarElement extends Components.OnekeySdkIconDefaultAvatar, HTMLStencilElement {
     }
     var HTMLOnekeySdkIconDefaultAvatarElement: {
@@ -237,6 +271,12 @@ declare global {
     var HTMLOnekeySdkIconEditElement: {
         prototype: HTMLOnekeySdkIconEditElement;
         new (): HTMLOnekeySdkIconEditElement;
+    };
+    interface HTMLOnekeySdkIconHistoryElement extends Components.OnekeySdkIconHistory, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconHistoryElement: {
+        prototype: HTMLOnekeySdkIconHistoryElement;
+        new (): HTMLOnekeySdkIconHistoryElement;
     };
     interface HTMLOnekeySdkIconLikeElement extends Components.OnekeySdkIconLike, HTMLStencilElement {
     }
@@ -280,6 +320,12 @@ declare global {
         prototype: HTMLOnekeySdkIconPrinterElement;
         new (): HTMLOnekeySdkIconPrinterElement;
     };
+    interface HTMLOnekeySdkIconRemoveElement extends Components.OnekeySdkIconRemove, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconRemoveElement: {
+        prototype: HTMLOnekeySdkIconRemoveElement;
+        new (): HTMLOnekeySdkIconRemoveElement;
+    };
     interface HTMLOnekeySdkIconSearchElement extends Components.OnekeySdkIconSearch, HTMLStencilElement {
     }
     var HTMLOnekeySdkIconSearchElement: {
@@ -291,6 +337,12 @@ declare global {
     var HTMLOnekeySdkIconShareElement: {
         prototype: HTMLOnekeySdkIconShareElement;
         new (): HTMLOnekeySdkIconShareElement;
+    };
+    interface HTMLOnekeySdkInputElement extends Components.OnekeySdkInput, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkInputElement: {
+        prototype: HTMLOnekeySdkInputElement;
+        new (): HTMLOnekeySdkInputElement;
     };
     interface HTMLOnekeySdkLoadingElement extends Components.OnekeySdkLoading, HTMLStencilElement {
     }
@@ -366,11 +418,13 @@ declare global {
         "onekey-sdk-home": HTMLOnekeySdkHomeElement;
         "onekey-sdk-icon": HTMLOnekeySdkIconElement;
         "onekey-sdk-icon-arrow": HTMLOnekeySdkIconArrowElement;
+        "onekey-sdk-icon-chevron-arrow": HTMLOnekeySdkIconChevronArrowElement;
         "onekey-sdk-icon-default-avatar": HTMLOnekeySdkIconDefaultAvatarElement;
         "onekey-sdk-icon-direction": HTMLOnekeySdkIconDirectionElement;
         "onekey-sdk-icon-dislike": HTMLOnekeySdkIconDislikeElement;
         "onekey-sdk-icon-earth": HTMLOnekeySdkIconEarthElement;
         "onekey-sdk-icon-edit": HTMLOnekeySdkIconEditElement;
+        "onekey-sdk-icon-history": HTMLOnekeySdkIconHistoryElement;
         "onekey-sdk-icon-like": HTMLOnekeySdkIconLikeElement;
         "onekey-sdk-icon-list": HTMLOnekeySdkIconListElement;
         "onekey-sdk-icon-location": HTMLOnekeySdkIconLocationElement;
@@ -378,8 +432,10 @@ declare global {
         "onekey-sdk-icon-personal": HTMLOnekeySdkIconPersonalElement;
         "onekey-sdk-icon-phone": HTMLOnekeySdkIconPhoneElement;
         "onekey-sdk-icon-printer": HTMLOnekeySdkIconPrinterElement;
+        "onekey-sdk-icon-remove": HTMLOnekeySdkIconRemoveElement;
         "onekey-sdk-icon-search": HTMLOnekeySdkIconSearchElement;
         "onekey-sdk-icon-share": HTMLOnekeySdkIconShareElement;
+        "onekey-sdk-input": HTMLOnekeySdkInputElement;
         "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
         "onekey-sdk-resizable": HTMLOnekeySdkResizableElement;
@@ -434,6 +490,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface OnekeySdkIconChevronArrow {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface OnekeySdkIconDefaultAvatar {
         "color"?: string;
         "height"?: number;
@@ -455,6 +516,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface OnekeySdkIconEdit {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface OnekeySdkIconHistory {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -494,6 +560,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface OnekeySdkIconRemove {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface OnekeySdkIconSearch {
         "color"?: string;
         "height"?: number;
@@ -504,10 +575,21 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface OnekeySdkInput {
+        "autoComplete"?: string;
+        "class"?: string;
+        "loading"?: boolean;
+        "name"?: string;
+        "onInput"?: (e: any) => void;
+        "placeholder"?: string;
+        "postfixIcon"?: string;
+        "value"?: any;
+    }
     interface OnekeySdkLoading {
     }
     interface OnekeySdkMap {
         "defaultZoom"?: number;
+        "dragging"?: boolean;
         "locations"?: any[];
         "mapHeight"?: string;
         "mapWidth"?: string;
@@ -541,6 +623,8 @@ declare namespace LocalJSX {
         "url"?: string;
     }
     interface OnekeySdkSearch {
+        "noIcon"?: boolean;
+        "searchText"?: string;
     }
     interface OnekeySdkSearchAddressItem {
         "activated"?: boolean;
@@ -564,11 +648,13 @@ declare namespace LocalJSX {
         "onekey-sdk-home": OnekeySdkHome;
         "onekey-sdk-icon": OnekeySdkIcon;
         "onekey-sdk-icon-arrow": OnekeySdkIconArrow;
+        "onekey-sdk-icon-chevron-arrow": OnekeySdkIconChevronArrow;
         "onekey-sdk-icon-default-avatar": OnekeySdkIconDefaultAvatar;
         "onekey-sdk-icon-direction": OnekeySdkIconDirection;
         "onekey-sdk-icon-dislike": OnekeySdkIconDislike;
         "onekey-sdk-icon-earth": OnekeySdkIconEarth;
         "onekey-sdk-icon-edit": OnekeySdkIconEdit;
+        "onekey-sdk-icon-history": OnekeySdkIconHistory;
         "onekey-sdk-icon-like": OnekeySdkIconLike;
         "onekey-sdk-icon-list": OnekeySdkIconList;
         "onekey-sdk-icon-location": OnekeySdkIconLocation;
@@ -576,8 +662,10 @@ declare namespace LocalJSX {
         "onekey-sdk-icon-personal": OnekeySdkIconPersonal;
         "onekey-sdk-icon-phone": OnekeySdkIconPhone;
         "onekey-sdk-icon-printer": OnekeySdkIconPrinter;
+        "onekey-sdk-icon-remove": OnekeySdkIconRemove;
         "onekey-sdk-icon-search": OnekeySdkIconSearch;
         "onekey-sdk-icon-share": OnekeySdkIconShare;
+        "onekey-sdk-input": OnekeySdkInput;
         "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
         "onekey-sdk-resizable": OnekeySdkResizable;
@@ -602,11 +690,13 @@ declare module "@stencil/core" {
             "onekey-sdk-home": LocalJSX.OnekeySdkHome & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeElement>;
             "onekey-sdk-icon": LocalJSX.OnekeySdkIcon & JSXBase.HTMLAttributes<HTMLOnekeySdkIconElement>;
             "onekey-sdk-icon-arrow": LocalJSX.OnekeySdkIconArrow & JSXBase.HTMLAttributes<HTMLOnekeySdkIconArrowElement>;
+            "onekey-sdk-icon-chevron-arrow": LocalJSX.OnekeySdkIconChevronArrow & JSXBase.HTMLAttributes<HTMLOnekeySdkIconChevronArrowElement>;
             "onekey-sdk-icon-default-avatar": LocalJSX.OnekeySdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLOnekeySdkIconDefaultAvatarElement>;
             "onekey-sdk-icon-direction": LocalJSX.OnekeySdkIconDirection & JSXBase.HTMLAttributes<HTMLOnekeySdkIconDirectionElement>;
             "onekey-sdk-icon-dislike": LocalJSX.OnekeySdkIconDislike & JSXBase.HTMLAttributes<HTMLOnekeySdkIconDislikeElement>;
             "onekey-sdk-icon-earth": LocalJSX.OnekeySdkIconEarth & JSXBase.HTMLAttributes<HTMLOnekeySdkIconEarthElement>;
             "onekey-sdk-icon-edit": LocalJSX.OnekeySdkIconEdit & JSXBase.HTMLAttributes<HTMLOnekeySdkIconEditElement>;
+            "onekey-sdk-icon-history": LocalJSX.OnekeySdkIconHistory & JSXBase.HTMLAttributes<HTMLOnekeySdkIconHistoryElement>;
             "onekey-sdk-icon-like": LocalJSX.OnekeySdkIconLike & JSXBase.HTMLAttributes<HTMLOnekeySdkIconLikeElement>;
             "onekey-sdk-icon-list": LocalJSX.OnekeySdkIconList & JSXBase.HTMLAttributes<HTMLOnekeySdkIconListElement>;
             "onekey-sdk-icon-location": LocalJSX.OnekeySdkIconLocation & JSXBase.HTMLAttributes<HTMLOnekeySdkIconLocationElement>;
@@ -614,8 +704,10 @@ declare module "@stencil/core" {
             "onekey-sdk-icon-personal": LocalJSX.OnekeySdkIconPersonal & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPersonalElement>;
             "onekey-sdk-icon-phone": LocalJSX.OnekeySdkIconPhone & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPhoneElement>;
             "onekey-sdk-icon-printer": LocalJSX.OnekeySdkIconPrinter & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPrinterElement>;
+            "onekey-sdk-icon-remove": LocalJSX.OnekeySdkIconRemove & JSXBase.HTMLAttributes<HTMLOnekeySdkIconRemoveElement>;
             "onekey-sdk-icon-search": LocalJSX.OnekeySdkIconSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkIconSearchElement>;
             "onekey-sdk-icon-share": LocalJSX.OnekeySdkIconShare & JSXBase.HTMLAttributes<HTMLOnekeySdkIconShareElement>;
+            "onekey-sdk-input": LocalJSX.OnekeySdkInput & JSXBase.HTMLAttributes<HTMLOnekeySdkInputElement>;
             "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
             "onekey-sdk-resizable": LocalJSX.OnekeySdkResizable & JSXBase.HTMLAttributes<HTMLOnekeySdkResizableElement>;

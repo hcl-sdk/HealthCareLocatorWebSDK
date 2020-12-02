@@ -95,4 +95,45 @@
     width: 24px;
     height: 24px;
   }
+
+  .size-lg, .size-xl {
+    .search-map {
+      .search-map-wrapper {
+        position: relative;
+        width: 350px;
+        position: absolute;
+        height: 100%;
+        z-index: 999;
+        top: 2px;
+        display: grid;
+
+        .search-toolbar  {
+          display: grid;
+          grid-auto-flow: column;
+          grid-gap: 10px;
+
+          > div {
+            &:first-child {
+              display: grid;
+              grid-auto-flow: column;
+              justify-content: center;
+              align-items: center;
+              justify-self: start;
+              align-self: start;
+              grid-gap: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    .search-form {
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      box-shadow: 0 4px 2px -2px #ddd;
+    }
+  }
 }

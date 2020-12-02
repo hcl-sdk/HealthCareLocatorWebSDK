@@ -21,17 +21,23 @@
 ### Used by
 
  - [onekey-sdk-button](../onekey-sdk-button)
+ - [onekey-sdk-doctor-card](../onekey-sdk-doctor-card)
  - [onekey-sdk-hcp-full-card](../../screens/onekey-sdk-hcp-full-card)
  - [onekey-sdk-home](../../screens/onekey-sdk-home)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
+ - [onekey-sdk-search-address-item](../onekey-sdk-search-address-item)
+ - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Graph
 ```mermaid
 graph TD;
   onekey-sdk-button --> onekey-sdk-icon
+  onekey-sdk-doctor-card --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-icon
   onekey-sdk-home --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-icon
+  onekey-sdk-search-address-item --> onekey-sdk-icon
+  onekey-sdk-search-result --> onekey-sdk-icon
   style onekey-sdk-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

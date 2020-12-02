@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop } from '@stencil/core';
+import { Component, h, Prop } from '@stencil/core';
 import cls from 'classnames'
 import 'ionicons'
 
@@ -35,19 +35,15 @@ export class OnekeySdkButton {
 
     if(this.icon) {
       return (
-        <Host>
-          <button class={btnClass}>
-            <onekey-sdk-icon color={this.iconColor} name={this.icon} class="btn-icon"/>
-            <slot></slot>
-          </button>
-        </Host>
+        <button class={btnClass}>
+          <onekey-sdk-icon color={this.iconColor} name={this.icon} class="btn-icon"/>
+          <slot></slot>
+        </button>
       )
     }
 
     return (
-      <Host>
-        <button class={btnClass}><slot></slot></button>
-      </Host>
+      <button class={btnClass}><slot></slot></button>
     );
   }
 }

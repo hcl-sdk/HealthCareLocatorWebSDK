@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import { ViewportSize } from 'onekey-sdk-core-ui/src/components/ui-kits/onekey-sdk-viewport/types';
-import { initAppCSSWidthHeight } from 'onekey-sdk-core-ui/src/utils/helper';
+import { getContainerHeightWidthOffset, initAppCSSWidthHeight } from 'onekey-sdk-core-ui/src/utils/helper';
 import { configStore } from '../../../core/stores';
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 
@@ -21,8 +21,11 @@ export class OneKeySDK {
   }
 
   render() {
+    const containerOffset = getContainerHeightWidthOffset()
+    const width = `${configStore.state.viewSDKDimension?.width || containerOffset }px`
+    const height = `${configStore.state.viewSDKDimension?.height || containerOffset }px`
     return (
-      <Host>
+      <Host style={{ width, height }}>
         <onekey-sdk-viewport sizes={[
           { name: ViewportSize.ExtraSmall, minWidth: 0, maxWidth: 319 },
           { name: ViewportSize.Small, minWidth: 320, maxWidth: 511 },

@@ -62,6 +62,18 @@
       position: relative;
       display: flex;
       flex-direction: column;
+
+      &-item {
+        position: relative;
+
+        &__remove {
+          position: absolute;
+          right: 0;
+          justify-content: center;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
     }
   }
 

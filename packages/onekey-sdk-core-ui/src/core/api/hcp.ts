@@ -99,32 +99,33 @@ export async function searchDoctor() {
   const data = [
     {
       gp: "General Practitioner",
-      label: 'Henry Lacan',
+      label: 'General Practitioner',
       id: "1",
     },
     {
       gp: "General Doctor",
-      label: 'Alex Biane',
+      label: 'Cardiologist',
       id: "2",
     },
     {
       gp: "General Skin",
-      label: 'Pansher Jane',
-      id: "3"
+      label: 'General practitioner, 75008...',
+      id: "3",
+      type: "history"
     },
     {
       gp: "General Lung",
-      label: 'Miasna Jahne',
-      id: "4"
+      label: 'General practitioner, 75008...',
+      id: "4",
+      type: "history"
     }
   ]
 
-  searchMapStore.setState({ loading: true, searchGeo: null });
-  
+  searchMapStore.setState({ loading: true, searchDoctor: [], searchGeo: [] });
 
   return new Promise(resolve => {
     setTimeout(() => {
-      searchMapStore.setState({ searchGeo: data });
+      searchMapStore.setState({ searchDoctor: data });
   
       searchMapStore.setState({ loading: false });
       resolve()

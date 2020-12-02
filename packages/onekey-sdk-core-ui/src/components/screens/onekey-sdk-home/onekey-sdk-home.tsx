@@ -34,11 +34,17 @@ export class OnekeySdkHome {
         <div class="main-contain">
           <div class="main-block main-block--header">
             <div class="search-home-hpc">
-              <form onSubmit={this.onSubmit}>
-                <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
-                <input class="search-input hidden-sm hidden-md" placeholder="Where? (near me, address, city)" onFocus={this.onSearch} />
-                <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-home-hpc"/>
-              </form>
+              
+              {
+                ["sm", "md"].includes(configStore.state.viewPortSize)  
+                ? (
+                  <form onSubmit={this.onSubmit}>
+                    <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
+                    <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-address-btn"/>
+                  </form>
+                )
+                : <onekey-sdk-search searchText="Search"/>
+              }
             </div>
           </div>
           <div class="main-block">

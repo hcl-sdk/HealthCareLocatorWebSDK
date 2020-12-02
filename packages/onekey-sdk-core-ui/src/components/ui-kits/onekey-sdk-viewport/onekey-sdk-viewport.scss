@@ -21,4 +21,10 @@ $sizes: xs, sm, md, lg, xl;
   background: #020202a3;
   color: white !important;
   z-index: 0;
+  grid-gap: 10px;
+  display: grid;
+
+  span {
+    color: white
+  }
 }
