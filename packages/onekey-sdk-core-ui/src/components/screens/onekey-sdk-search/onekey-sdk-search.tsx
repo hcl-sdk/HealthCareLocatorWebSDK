@@ -131,7 +131,7 @@ export class OnekeySdkSearch {
     console.log(this.currentSelectedInput)
 
     return (
-      <Host>
+      <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-block search-block">
           <div class="search-hpc">
             <onekey-sdk-router-link url="/" class="search-back">

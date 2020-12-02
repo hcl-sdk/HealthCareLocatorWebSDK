@@ -7,46 +7,43 @@ import { configStore, routerStore, searchMapStore } from '../../../core/stores';
   shadow: false,
 })
 export class OnekeySdkHome {
-
   onGoSearchScreen = () => {
-    routerStore.push("/search")
-  }
+    routerStore.push('/search');
+  };
 
   inputOnChange = (e: any) => {
     searchMapStore.setState({
       search: {
-        name: e.target.value
-      }
-    })
-  }
+        name: e.target.value,
+      },
+    });
+  };
 
   onSearch = () => {
-    routerStore.push("/search")
-  }
+    routerStore.push('/search');
+  };
 
-  onSubmit = (e) => {
-    e.preventDefault()
-  }
+  onSubmit = e => {
+    e.preventDefault();
+  };
 
   render() {
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-contain">
-          <div class="main-block main-block--header">
-            <div class="search-home-hpc">
-              
-              {
-                ["sm", "md"].includes(configStore.state.viewPortSize)  
-                ? (
-                  <form onSubmit={this.onSubmit}>
-                    <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
-                    <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-address-btn"/>
-                  </form>
-                )
-                : <onekey-sdk-search searchText="Search"/>
-              }
+          {['sm', 'md'].includes(configStore.state.viewPortSize) ? (
+            <div class="main-block main-block--header">
+              <div class="search-home-hpc">
+                <form onSubmit={this.onSubmit}>
+                  <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
+                  <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-address-btn" />
+                </form>
+              </div>
             </div>
-          </div>
+          ) : (
+            <onekey-sdk-search searchText="Search" />
+          )}
+
           <div class="main-block">
             <div class="home">
               <div class="header">
@@ -73,7 +70,6 @@ export class OnekeySdkHome {
                     <strong>Consult Profile</strong>
                     <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                   </div>
-
                 </div>
 
                 <div class="item">
@@ -88,7 +84,9 @@ export class OnekeySdkHome {
               </div>
 
               <div class="full-block hidden-lg hidden-xl">
-                <onekey-sdk-button isFull primary onClick={this.onGoSearchScreen} class="search-btn">Start a New Search</onekey-sdk-button>
+                <onekey-sdk-button isFull primary onClick={this.onGoSearchScreen} class="search-btn">
+                  Start a New Search
+                </onekey-sdk-button>
               </div>
             </div>
           </div>

@@ -26,7 +26,7 @@ export class OnekeySdkHCPFullCard {
           )
         }
         <div class="main-contain">
-          <div class="main-block main-block--header">
+          <div class="main-block main-block--content">
             <div class="main-block__navigation">
               <onekey-sdk-button noBorder icon="arrow" iconColor="black" onClick={this.goBack}>Back to result list</onekey-sdk-button>
               <onekey-sdk-button noBorder icon="share" iconColor="black"/>

@@ -63,7 +63,6 @@ export class OnekeySdkSearchResult {
 
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
-        {searchMapStore.state.loading && <onekey-sdk-loading></onekey-sdk-loading>}
         <div class="search-result" style={{ height: '700px' }}>
           {['sm', 'md'].includes(configStore.state.viewPortSize) ? (
             <div class="search-header search-section">
@@ -81,35 +80,42 @@ export class OnekeySdkSearchResult {
             <onekey-sdk-search searchText="Search" />
           )}
 
-          
-          <div class="search-map search-section" style={{ height: `${offsetHeight - 82}px` }}>
-            <div class="search-map-wrapper">
-            <div class="search-toolbar search-section">
-              <div class="hidden-xs hidden-sm hidden-md">
-                <onekey-sdk-icon name="arrow" />
-                <span class="text-small">Back to my last searches</span>
-              </div>
-              <div>
-                <strong>Results: </strong>
-                <strong class="text-primary text-bold">{hcpNearMe.length}</strong>
-              </div>
-              <div class="hidden-lg hidden-xl">
-                <onekey-sdk-switch-view-mode />
-              </div>
-              <div class="search-filter">
-                <ion-icon name="filter-circle-sharp"></ion-icon>
-              </div>
-            </div>
-              <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                {hcpNearMe.map((elm, idx) => (
-                  <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={this.onItemCardClick} />
-                ))}
-              </div>
-            </div>
-            
+          {searchMapStore.state.loading 
+            ? <onekey-sdk-loading></onekey-sdk-loading>
+            : (
+              <div class="search-map search-section" style={{ height: `${offsetHeight - 82}px` }}>
+                <div class="search-map-wrapper">
+                <div class="search-toolbar search-section">
+                  <div class="hidden-xs hidden-sm hidden-md">
+                    <onekey-sdk-icon name="arrow" />
+                    <span class="text-small">Back to my last searches</span>
+                  </div>
+                  <div>
+                    <strong>Results: </strong>
+                    <strong class="text-primary text-bold">{hcpNearMe.length}</strong>
+                  </div>
+                  <div class="hidden-lg hidden-xl">
+                    <onekey-sdk-switch-view-mode />
+                  </div>
+                  <div class="search-filter">
+                    <ion-icon name="filter-circle-sharp"></ion-icon>
+                  </div>
+                </div>
+                  <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                    {hcpNearMe.map((elm, idx) => (
+                      <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={this.onItemCardClick} />
+                    ))}
+                  </div>
+                </div>
+                
 
-            {!!hcpNearMe.length && (!isSmall || !this.isListViewMode) && <onekey-sdk-map mapHeight={`${offsetHeight - 82}px`} class="search-map__content" locations={hcpNearMe} selectedLocationIdx={0} defaultZoom={5} zoomControl={isSmall} />}
-          </div>
+                {!!hcpNearMe.length && (!isSmall || !this.isListViewMode) && <onekey-sdk-map mapHeight={`${offsetHeight - 82}px`} class="search-map__content" locations={hcpNearMe} selectedLocationIdx={0} defaultZoom={5} zoomControl={isSmall} />}
+              </div>
+            )
+          }
+
+          
+          
         </div>
       </Host>
     );

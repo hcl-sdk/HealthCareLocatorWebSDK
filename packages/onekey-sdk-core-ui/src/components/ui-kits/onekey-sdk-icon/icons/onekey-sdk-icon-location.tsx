@@ -6,8 +6,8 @@ import { Component, Host, h, Prop } from '@stencil/core';
 })
 export class OnekeySdkIconLocation {
   @Prop() color: string;
-  @Prop() width: number = 20;
-  @Prop() height: number = 20;
+  @Prop() width: number = 15;
+  @Prop() height: number = 15;
 
   render() {
     return (
