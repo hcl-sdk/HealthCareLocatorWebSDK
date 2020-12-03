@@ -85,13 +85,18 @@
   }
 
   .size-lg, .size-xl {
+    .search-hpc {
+      justify-content: center;
+      grid-gap: 20px;
+      box-shadow: 0 4px 2px -2px #ddd;
+    }
     .search-form {
       display: grid;
-      grid-auto-flow: column;
+      grid-template-columns: auto 150px;
       justify-content: center;
       align-items: center;
       padding: 20px 0;
-      box-shadow: 0 4px 2px -2px #ddd;
+      grid-gap: 20px;
     }
   }
 }

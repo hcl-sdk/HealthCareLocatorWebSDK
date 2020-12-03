@@ -19,6 +19,7 @@ export class OnekeySdkButton {
   @Prop() icon: string
   @Prop() iconColor: string
   @Prop() class: string
+  @Prop() type: string
 
   render() {
     const btnClass = cls('btn', this.class, {
@@ -35,7 +36,7 @@ export class OnekeySdkButton {
 
     if(this.icon) {
       return (
-        <button class={btnClass}>
+        <button class={btnClass} type={this.type}>
           <onekey-sdk-icon color={this.iconColor} name={this.icon} class="btn-icon"/>
           <slot></slot>
         </button>

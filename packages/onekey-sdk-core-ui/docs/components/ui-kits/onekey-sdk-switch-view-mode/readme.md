@@ -5,6 +5,13 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property      | Attribute       | Description | Type                              | Default  |
+| ------------- | --------------- | ----------- | --------------------------------- | -------- |
+| `typeOfLabel` | `type-of-label` |             | `"disabled" \| "full" \| "short"` | `'full'` |
+
+
 ## Events
 
 | Event            | Description | Type               |
@@ -16,6 +23,7 @@
 
 ### Used by
 
+ - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Depends on
@@ -26,6 +34,7 @@
 ```mermaid
 graph TD;
   onekey-sdk-switch-view-mode --> ion-icon
+  onekey-sdk-search --> onekey-sdk-switch-view-mode
   onekey-sdk-search-result --> onekey-sdk-switch-view-mode
   style onekey-sdk-switch-view-mode fill:#f9f,stroke:#333,stroke-width:4px
 ```

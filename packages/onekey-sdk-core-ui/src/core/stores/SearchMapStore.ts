@@ -32,10 +32,10 @@ export interface SearchMapState {
   hcpNearMe?: HCPItem[];
   doctors?: HCPName[];
   search?: SearchResult;
-  searchGeo?: any[]
-  searchDoctor?: any[],
+  searchGeo?: any[];
+  searchDoctor?: any[];
   currentLocation?: any;
-  selectedValues?: SelectedValues
+  selectedValues?: SelectedValues;
 }
 
 export const initStateSearchMapStore: SearchMapState = {

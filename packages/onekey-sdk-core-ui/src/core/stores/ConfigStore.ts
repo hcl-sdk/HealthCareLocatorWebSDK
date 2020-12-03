@@ -12,6 +12,11 @@ export interface ViewSDKDimension {
   height: number;
 }
 
+export enum ModeViewType {
+  "LIST" = "LIST",
+  "MAP" = "MAP"
+}
+
 export interface OneKeySDKConfigData {
   markerIcon?: string;
   markerIconCurrentLocation?: string;
@@ -19,6 +24,7 @@ export interface OneKeySDKConfigData {
   input?: OnekeySDKConfig;
   viewPortSize?: ViewportSize;
   viewSDKDimension?: ViewSDKDimension;
+  modeView?: ModeViewType;
 }
 
 export const initStateConfigStore = {
@@ -32,7 +38,8 @@ export const initStateConfigStore = {
   viewSDKDimension: {
     width: getContainerHeightWidthOffset().offsetWidth,
     height: getContainerHeightWidthOffset().offsetHeight,
-  }
+  },
+  modeView: ModeViewType.LIST
 };
 
 class ConfigStore extends StoreProvider<OneKeySDKConfigData> {

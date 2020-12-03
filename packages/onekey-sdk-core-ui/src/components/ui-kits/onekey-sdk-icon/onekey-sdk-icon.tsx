@@ -14,7 +14,7 @@ export class OnekeySdkIcon {
   @Prop() primary: boolean = false;
   @State() iconComponent: any;
 
-  componentDidLoad() {
+  componentWillLoad() {
     this.iconComponent = `onekey-sdk-icon-${this.name}`
   }
 

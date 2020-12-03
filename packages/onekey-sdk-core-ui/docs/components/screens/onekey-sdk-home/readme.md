@@ -25,8 +25,10 @@ graph TD;
   onekey-sdk-search --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-input
   onekey-sdk-search --> onekey-sdk-button
+  onekey-sdk-search --> onekey-sdk-switch-view-mode
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-input --> onekey-sdk-button
+  onekey-sdk-switch-view-mode --> ion-icon
   style onekey-sdk-home fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

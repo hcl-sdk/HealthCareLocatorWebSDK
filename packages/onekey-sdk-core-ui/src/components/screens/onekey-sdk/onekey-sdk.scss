@@ -81,6 +81,12 @@
     font-size: 14px;
   }
 
+  a {
+    color: #2b3c4d;
+    font-size: 14px;
+    text-decoration: unset;
+  }
+
   .text-primary {
     color:  var(--onekeysdk-color-primary);
   }

@@ -23,6 +23,7 @@ export class OnekeySdkSearch {
   @State() currentSelectedInput: string;
   @Prop() noIcon: boolean;
   @Prop() searchText: string;
+  @Prop() showSwitchMode?: boolean = false;
 
   componentWillLoad() {
     this.formData = {
@@ -38,11 +39,7 @@ export class OnekeySdkSearch {
   private onSearch = e => {
     e.preventDefault();
 
-    console.dir(e.target);
-
     const { name, address } = e.target;
-
-    console.log({ name, address });
 
     if (name.value && address.value) {
       searchMapStore.setState({
@@ -52,9 +49,6 @@ export class OnekeySdkSearch {
         },
       });
       routerStore.push('/search-result');
-    } else {
-      this.checkValidElm(name);
-      this.checkValidElm(address);
     }
   };
 
@@ -69,14 +63,13 @@ export class OnekeySdkSearch {
   onChange = debounce(async e => {
     const inputName = e.path[0].name;
     const inputValue = e.path[0].value
-    console.log(e.path[0].value, "e.path[0]")
-    this.checkValidElm(e.path[0]);
+    // this.checkValidElm(e.path[0]);
+    this.currentSelectedInput = inputName;
 
     if(inputValue) {
       this.formData = { ...this.formData, [inputName]: inputValue };
       inputName === 'name' ? await searchDoctor() : await searchGeoMap(inputValue);
     }
-    this.currentSelectedInput = inputName;
   }, 500);
 
   @Listen('selectAddress')
@@ -121,6 +114,15 @@ export class OnekeySdkSearch {
     );
   };
 
+  resetValue = (key) => {
+    searchMapStore.setState({
+      selectedValues: {
+        ...searchMapStore.state.selectedValues,
+        [key]: null,
+      },
+    });
+  }
+
   render() {
     const searchGeoData = searchMapStore.state?.searchGeo.length > 0 && searchMapStore.state?.searchGeo;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
@@ -128,7 +130,8 @@ export class OnekeySdkSearch {
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.label;
     const searchData = searchGeoData || searchDoctorData;
     const isSmallView = ['xs', 'sm', 'md'].includes(configStore.state.viewPortSize);
-    console.log(this.currentSelectedInput)
+    const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading
+    const addressInputLoading = this.currentSelectedInput === 'address' && searchMapStore.state.loading
 
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
@@ -137,7 +140,7 @@ export class OnekeySdkSearch {
             <onekey-sdk-router-link url="/" class="search-back">
               <onekey-sdk-icon name="arrow" width={25} height={25} color="black" />
             </onekey-sdk-router-link>
-            <form onSubmit={this.onSearch} class="search-form">
+            <form class="search-form" onSubmit={this.onSearch}>
               <div class="search-form-content">
                 <div class="search-form-content-item">
                   <onekey-sdk-input
@@ -147,9 +150,10 @@ export class OnekeySdkSearch {
                     placeholder="Name, Speciality, Establishment..."
                     onInput={this.onChange}
                     autoComplete="off"
-                    loading={this.currentSelectedInput === 'name' && searchMapStore.state.loading}
+                    loading={nameInputLoading}
+                    onPostfixClick={()=> this.resetValue("name")}
                   >
-                    {!isSmallView && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
+                    {!isSmallView && searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
                   </onekey-sdk-input>
                 </div>
                 <div class="search-form-content-item">
@@ -160,20 +164,31 @@ export class OnekeySdkSearch {
                     placeholder="Near me"
                     onInput={this.onChange}
                     autoComplete="off"
-                    loading={this.currentSelectedInput === 'address' && searchMapStore.state.loading}
+                    loading={addressInputLoading}
+                    onPostfixClick={()=> this.resetValue("address")}
                   >
-                    {!isSmallView && this.currentSelectedInput === 'address' && this.renderContent(searchGeoData)}
+                    {!isSmallView && searchGeoData.length && this.currentSelectedInput === 'address' && this.renderContent(searchGeoData)}
                   </onekey-sdk-input>
                 </div>
               </div>
               {this.searchText ? (
-                <onekey-sdk-button primary class="search-address-btn">
+                <onekey-sdk-button primary type="submit"  class="search-address-btn">
                   {this.searchText}
                 </onekey-sdk-button>
               ) : (
-                <onekey-sdk-button primary icon="search" onSubmit={this.onSearch} class="search-address-btn" />
+                <onekey-sdk-button primary type="submit" icon="search" class="search-address-btn" />
               )}
             </form>
+            <div>
+              <slot></slot>
+              {
+                this.showSwitchMode &&
+                <div class="switch-mode">
+                  <onekey-sdk-switch-view-mode typeOfLabel="short" />
+                </div>
+              }
+              
+            </div>
           </div>
         </div>
 

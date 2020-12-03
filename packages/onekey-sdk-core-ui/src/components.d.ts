@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { OneKeySDKConfigData } from "./core/stores/ConfigStore";
+import { ModeViewType } from "onekey-sdk-core-ui/src/core/stores/ConfigStore";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
@@ -22,6 +23,7 @@ export namespace Components {
         "primary": boolean;
         "round": boolean;
         "secondary": boolean;
+        "type": string;
     }
     interface OnekeySdkDoctorCard {
         "address": string;
@@ -32,6 +34,7 @@ export namespace Components {
         "viewMode": string;
     }
     interface OnekeySdkHcpFullCard {
+        "goBack": (e: any) => void;
     }
     interface OnekeySdkHome {
     }
@@ -138,6 +141,7 @@ export namespace Components {
         "loading"?: boolean;
         "name"?: string;
         "onInput"?: (e: any) => void;
+        "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
         "value"?: any;
@@ -151,8 +155,10 @@ export namespace Components {
         "mapHeight": string;
         "mapWidth": string;
         "markerIcon": string;
+        "modeView": ModeViewType;
         "noCurrentLocation": boolean;
         "selectedLocationIdx": number;
+        "viewPortSize": string;
         "zoomControl": boolean;
     }
     interface OnekeySdkResizable {
@@ -180,6 +186,7 @@ export namespace Components {
     interface OnekeySdkSearch {
         "noIcon": boolean;
         "searchText": string;
+        "showSwitchMode"?: boolean;
     }
     interface OnekeySdkSearchAddressItem {
         "activated": boolean;
@@ -188,6 +195,7 @@ export namespace Components {
     interface OnekeySdkSearchResult {
     }
     interface OnekeySdkSwitchViewMode {
+        "typeOfLabel": 'full' | 'short' | 'disabled';
     }
     interface OnekeySdkViewport {
         "sizes": Object[];
@@ -465,6 +473,7 @@ declare namespace LocalJSX {
         "primary"?: boolean;
         "round"?: boolean;
         "secondary"?: boolean;
+        "type"?: string;
     }
     interface OnekeySdkDoctorCard {
         "address"?: string;
@@ -475,6 +484,7 @@ declare namespace LocalJSX {
         "viewMode"?: string;
     }
     interface OnekeySdkHcpFullCard {
+        "goBack"?: (e: any) => void;
     }
     interface OnekeySdkHome {
     }
@@ -581,6 +591,7 @@ declare namespace LocalJSX {
         "loading"?: boolean;
         "name"?: string;
         "onInput"?: (e: any) => void;
+        "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
         "value"?: any;
@@ -594,10 +605,12 @@ declare namespace LocalJSX {
         "mapHeight"?: string;
         "mapWidth"?: string;
         "markerIcon"?: string;
+        "modeView"?: ModeViewType;
         "noCurrentLocation"?: boolean;
         "onMarkerClick"?: (event: CustomEvent<any>) => void;
         "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;
+        "viewPortSize"?: string;
         "zoomControl"?: boolean;
     }
     interface OnekeySdkResizable {
@@ -625,6 +638,7 @@ declare namespace LocalJSX {
     interface OnekeySdkSearch {
         "noIcon"?: boolean;
         "searchText"?: string;
+        "showSwitchMode"?: boolean;
     }
     interface OnekeySdkSearchAddressItem {
         "activated"?: boolean;
@@ -635,6 +649,7 @@ declare namespace LocalJSX {
     }
     interface OnekeySdkSwitchViewMode {
         "onSwitchViewMode"?: (event: CustomEvent<any>) => void;
+        "typeOfLabel"?: 'full' | 'short' | 'disabled';
     }
     interface OnekeySdkViewport {
         "onSizeChanged"?: (event: CustomEvent<any>) => void;

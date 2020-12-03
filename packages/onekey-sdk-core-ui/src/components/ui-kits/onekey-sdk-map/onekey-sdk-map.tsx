@@ -2,6 +2,7 @@ import { Component, Prop, h, Host, Watch, State } from '@stencil/core';
 import * as L from 'leaflet';
 import { Event, EventEmitter } from '@stencil/core';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
+import { ModeViewType } from 'onekey-sdk-core-ui/src/core/stores/ConfigStore';
 
 @Component({
   tag: 'onekey-sdk-map',
@@ -22,8 +23,10 @@ export class OnekeySdkMap {
   @Prop() selectedLocationIdx: number;
   @Prop() markerIcon: string;
   @Prop() noCurrentLocation: boolean = false;
-  @Prop() zoomControl: boolean = true;
-  @Prop() dragging: boolean = true;s
+  @Prop() zoomControl: boolean = false;
+  @Prop() dragging: boolean = true;
+  @Prop() modeView: ModeViewType
+  @Prop() viewPortSize: string;
   @Event() markerClick: EventEmitter;
   @State() currentLocation: any;
   @Event() setCurrentLocation: EventEmitter;
@@ -38,6 +41,22 @@ export class OnekeySdkMap {
   @Watch('locations')
   handleChange() {
     this.setMarkers();
+  }
+
+  @Watch('modeView')
+  resetMapByModeView() {
+    this.map._onResize();
+  }
+
+  @Watch('viewPortSize')
+  resetMapByViewPortSize() {
+    this.map._onResize();
+  }
+
+  @Watch('zoomControl')
+  resetMapByZoomControl() {
+    this.map._onResize();
+    setTimeout(function(){this.map.invalidateSize(true);},500);
   }
 
   getCurrentLocation = () => {
@@ -64,6 +83,10 @@ export class OnekeySdkMap {
       zoomControl: this.zoomControl,
       dragging: this.dragging
     });
+
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(this.map);
 
     L.tileLayer(mapTileLayer, {
       attribution: '&copy; ' + mapLink + ' Contributors',

@@ -1,7 +1,7 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, Prop } from '@stencil/core';
 
 import 'ionicons'
-import { configStore, routerStore } from 'onekey-sdk-core-ui/src/core/stores';
+import { configStore } from 'onekey-sdk-core-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-core-ui/src/utils/helper';
 
 @Component({
@@ -10,21 +10,11 @@ import { getCssColor } from 'onekey-sdk-core-ui/src/utils/helper';
   shadow: false
 })
 export class OnekeySdkHCPFullCard {
-
-  goBack = () => {
-    routerStore.push("/search")
-  }
+  @Prop() goBack: (e: any) => void
 
   render() {
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
-        {
-          ['lg', 'xl'].includes(configStore.state.viewPortSize) && (
-            <div class="main-block main-block--header">
-              <onekey-sdk-search searchText="Search" />
-            </div>
-          )
-        }
         <div class="main-contain">
           <div class="main-block main-block--content">
             <div class="main-block__navigation">
@@ -60,8 +50,8 @@ export class OnekeySdkHCPFullCard {
                 <div class="info-section-header">
                   <span class="info-section-header__title">Main Information</span>
                   <div class="info-section-header__postfix">
-                    <onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")}/>
-                    <onekey-sdk-button round icon="phone" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")} />
+                    <a href={`https://maps.google.com/?q=48.863699,2.4833`} target="_blank"><onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")}/></a>
+                    <a href={`tel:0123456789`}><onekey-sdk-button round icon="phone" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")} /></a>
                   </div>
                 </div>
 
@@ -88,18 +78,18 @@ export class OnekeySdkHCPFullCard {
                   <div class="info-contact info-section-body__contact">
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="phone" />
-                      <span>01 44 58 56 58</span>
+                      <a href={`tel:0144585658`}>01 44 58 56 58</a>
                     </div>
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="printer" height={15} />
-                      <span>01 44 58 56 58</span>
+                      <a href={`tel:0144585658`}>01 44 58 56 58</a>
                     </div>
                   </div>
 
                   <div class="info-contact info-section-body__website">
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="earth" />
-                      <span>www.medicalsoinsparis.com</span>
+                      <a href="http://www.medicalsoinsparis.com" target="_blank">www.medicalsoinsparis.com</a>
                     </div>
                   </div>
                 </div>

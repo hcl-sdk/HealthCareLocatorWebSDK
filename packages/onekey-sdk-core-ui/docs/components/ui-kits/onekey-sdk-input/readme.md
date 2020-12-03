@@ -7,16 +7,17 @@
 
 ## Properties
 
-| Property       | Attribute       | Description | Type               | Default     |
-| -------------- | --------------- | ----------- | ------------------ | ----------- |
-| `autoComplete` | `auto-complete` |             | `string`           | `undefined` |
-| `class`        | `class`         |             | `string`           | `undefined` |
-| `loading`      | `loading`       |             | `boolean`          | `false`     |
-| `name`         | `name`          |             | `string`           | `undefined` |
-| `onInput`      | --              |             | `(e: any) => void` | `undefined` |
-| `placeholder`  | `placeholder`   |             | `string`           | `undefined` |
-| `postfixIcon`  | `postfix-icon`  |             | `string`           | `undefined` |
-| `value`        | `value`         |             | `any`              | `undefined` |
+| Property         | Attribute       | Description | Type               | Default     |
+| ---------------- | --------------- | ----------- | ------------------ | ----------- |
+| `autoComplete`   | `auto-complete` |             | `string`           | `undefined` |
+| `class`          | `class`         |             | `string`           | `undefined` |
+| `loading`        | `loading`       |             | `boolean`          | `false`     |
+| `name`           | `name`          |             | `string`           | `undefined` |
+| `onInput`        | --              |             | `(e: any) => void` | `undefined` |
+| `onPostfixClick` | --              |             | `(e: any) => void` | `undefined` |
+| `placeholder`    | `placeholder`   |             | `string`           | `undefined` |
+| `postfixIcon`    | `postfix-icon`  |             | `string`           | `undefined` |
+| `value`          | `value`         |             | `any`              | `undefined` |
 
 
 ## Dependencies

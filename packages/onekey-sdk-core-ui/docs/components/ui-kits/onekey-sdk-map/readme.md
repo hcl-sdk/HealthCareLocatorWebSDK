@@ -7,17 +7,19 @@
 
 ## Properties
 
-| Property              | Attribute               | Description | Type      | Default     |
-| --------------------- | ----------------------- | ----------- | --------- | ----------- |
-| `defaultZoom`         | `default-zoom`          |             | `number`  | `undefined` |
-| `dragging`            | `dragging`              |             | `boolean` | `true`      |
-| `locations`           | --                      |             | `any[]`   | `[]`        |
-| `mapHeight`           | `map-height`            |             | `string`  | `'100%'`    |
-| `mapWidth`            | `map-width`             |             | `string`  | `'100%'`    |
-| `markerIcon`          | `marker-icon`           |             | `string`  | `undefined` |
-| `noCurrentLocation`   | `no-current-location`   |             | `boolean` | `false`     |
-| `selectedLocationIdx` | `selected-location-idx` |             | `number`  | `undefined` |
-| `zoomControl`         | `zoom-control`          |             | `boolean` | `true`      |
+| Property              | Attribute               | Description | Type                                    | Default     |
+| --------------------- | ----------------------- | ----------- | --------------------------------------- | ----------- |
+| `defaultZoom`         | `default-zoom`          |             | `number`                                | `undefined` |
+| `dragging`            | `dragging`              |             | `boolean`                               | `true`      |
+| `locations`           | --                      |             | `any[]`                                 | `[]`        |
+| `mapHeight`           | `map-height`            |             | `string`                                | `'100%'`    |
+| `mapWidth`            | `map-width`             |             | `string`                                | `'100%'`    |
+| `markerIcon`          | `marker-icon`           |             | `string`                                | `undefined` |
+| `modeView`            | `mode-view`             |             | `ModeViewType.LIST \| ModeViewType.MAP` | `undefined` |
+| `noCurrentLocation`   | `no-current-location`   |             | `boolean`                               | `false`     |
+| `selectedLocationIdx` | `selected-location-idx` |             | `number`                                | `undefined` |
+| `viewPortSize`        | `view-port-size`        |             | `string`                                | `undefined` |
+| `zoomControl`         | `zoom-control`          |             | `boolean`                               | `false`     |
 
 
 ## Events
@@ -32,7 +34,7 @@
 
 ### Used by
 
- - [onekey-sdk-hcp-full-card](../../screens/onekey-sdk-hcp-full-card)
+ - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Depends on

@@ -22,7 +22,7 @@
 
  - [onekey-sdk-button](../onekey-sdk-button)
  - [onekey-sdk-doctor-card](../onekey-sdk-doctor-card)
- - [onekey-sdk-hcp-full-card](../../screens/onekey-sdk-hcp-full-card)
+ - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
  - [onekey-sdk-home](../../screens/onekey-sdk-home)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-address-item](../onekey-sdk-search-address-item)

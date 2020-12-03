@@ -10,6 +10,7 @@ export class OnekeySdkInput {
   @Prop() value?: any
   @Prop() placeholder?: string
   @Prop() onInput?: (e: any) => void
+  @Prop() onPostfixClick?: (e: any) => void
   @Prop() name?: string
   @Prop() autoComplete?: string
   @Prop() postfixIcon?: string
@@ -22,7 +23,7 @@ export class OnekeySdkInput {
       <Host >
         <input class={inputClass} name={this.name} value={this.value} placeholder={this.placeholder} onInput={this.onInput} autoComplete={this.autoComplete} />
           {
-            !this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" />
+            !this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} />
           }
           {
             this.loading && <span class="input-postfix loader" />

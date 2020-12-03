@@ -1,6 +1,10 @@
 :host {
   display: block;
 
+  .toggle-panel {
+    display: none;
+  }
+
   .btn-back {
     font-size: 25px;
     margin-right: 0.5rem;
@@ -56,12 +60,12 @@
       position: absolute;
       width: 100%;
       bottom: 0;
-      height: 8rem;
       display: flex;
       flex-direction: row;
       overflow-x: scroll;
       z-index: 1000;
       overflow-y: hidden;
+      
 
       &.list-view {
         position: relative;
@@ -97,6 +101,14 @@
   }
 
   .size-lg, .size-xl {
+    .search-hpc {
+      display: grid;
+      grid-template-columns: auto 145px;
+    }
+
+    .search-map .search-data.list-view {
+      background-color: transparent;
+    }
     .search-map {
       .search-map-wrapper {
         position: relative;
@@ -106,6 +118,20 @@
         z-index: 999;
         top: 2px;
         display: grid;
+
+        &.hide {
+          width: 0;
+
+          div {
+            &:not(.toggle-panel) {
+              display: none;
+            }
+          }
+
+          .toggle-panel {
+            transform: rotate(360deg);
+          }
+        }
 
         .search-toolbar  {
           display: grid;
@@ -126,5 +152,78 @@
         }
       }
     }
+
+    &.list-view-mode {
+      .search-map {
+        .search-map-wrapper {
+          position: relative;
+          width: 100%;
+          grid-template-columns: 500px;
+          justify-content: center;
+        }
+
+        .search-toolbar {
+          border: 1px solid #ddd;
+          grid-template-columns: 1fr auto auto;
+          border-radius: 5px;
+          margin-top: 10px;
+        }
+      }
+
+      .search-map.search-section {
+        .search-map-wrapper {
+          background-color: #f8f9fa;
+        }
+      }
+
+      .search-map {
+        .search-data.list-view{
+          padding: 10px 0;
+
+          .doctor-card {
+            border-width: 1px;
+          }
+        }
+      }
+    }
+
+    &.map-view-mode {
+      .search-data.list-view {
+        background-color: #f8f9fa;
+      }
+      .main-block--content {
+        margin-top: 0;
+      }
+
+      .main-info {
+        margin: 0 5px;
+      }
+
+      .main-block__navigation {
+        border-radius: 0;
+      }
+
+      .current-location {
+        right: 30px;
+        bottom: 50px;
+      }
+
+      .toggle-panel {
+        position: absolute;
+        z-index: 9999;
+        right: -40px;
+        height: 41px;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ddd;
+        background: white;
+        transform: rotate(180deg);
+        top: -1px;
+        border-radius: 5px;
+      }
+    }
   }
+
+  
 }

@@ -35,7 +35,6 @@ export class OneKeySDK {
         ]}>
         <onekey-sdk-router>
           <onekey-sdk-route component="onekey-sdk-home" path="/" />
-          <onekey-sdk-route component="onekey-sdk-hcp-full-card" path="/hcp-full-card" />
           <onekey-sdk-route component="onekey-sdk-search-result" path="/search-result" />
           <onekey-sdk-route component="onekey-sdk-search" path="/search" />
         </onekey-sdk-router>

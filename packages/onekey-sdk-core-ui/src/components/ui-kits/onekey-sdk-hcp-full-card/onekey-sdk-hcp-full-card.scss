@@ -180,15 +180,19 @@
       grid-template-rows: repeat(2, min-content);
     }
 
-    .info-section {
-      justify-content: start;
-      grid-template-columns: 0.4fr 0.6fr;
+    &.list-view-mode {
+      .info-section {
+        justify-content: start;
+        grid-template-columns: 0.4fr 0.6fr;
+      }
+
+      .info-section-header__postfix {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
     }
 
-    .info-section-header__postfix {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-    }
+    
   }
 }
