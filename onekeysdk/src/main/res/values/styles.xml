@@ -1,0 +1,10 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="OneKeySDKTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorOneKeyGreen</item>
+<!--        <item name="colorPrimaryDark">@color/col</item>-->
+        <item name="colorAccent">@color/colorOneKeyBlue</item>
+    </style>
+
+</resources>

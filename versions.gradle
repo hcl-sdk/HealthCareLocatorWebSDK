@@ -1,0 +1,31 @@
+ext.versions = [:]
+ext.build_versions = [:]
+def versions = [:]
+def build_versions = [:]
+
+ext.versions = versions
+ext.build_versions = build_versions
+/**
+ * Define plugin version here.
+ */
+versions.google_services_gradle_plugin_version = "4.2.0"
+versions.android_gradle_plugin_version = '4.0.0'
+versions.kotlin_version = '1.3.72'
+versions.dokkaVersion = '0.9.17'
+versions.glideVersion = '4.11.0'
+versions.glideTransformationsVersion = "3.0.1"
+build_versions.build_tool_version = "30.0.2"
+build_versions.compile_sdk_version = 30
+build_versions.min_sdk = 24
+build_versions.target_sdk = 30
+versions.retrofit = "2.6.0"
+versions.okHttp = "3.11.0"
+versions.okHttpIntercepter = "3.4.1"
+versions.rxJavaAdapter = "1.0.0"
+versions.rxAndroidVersion = '2.1.1'
+versions.rxBinding = "2.2.0"
+
+/**
+ * Define app dependencies versions here
+ **/
+

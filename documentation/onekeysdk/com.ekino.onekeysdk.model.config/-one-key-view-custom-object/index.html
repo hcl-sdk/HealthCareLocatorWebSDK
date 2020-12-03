@@ -1,0 +1,160 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OneKeyViewCustomObject - onekeysdk</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">onekeysdk</a>&nbsp;/&nbsp;<a href="../index.html">com.ekino.onekeysdk.model.config</a>&nbsp;/&nbsp;<a href="./index.html">OneKeyViewCustomObject</a><br/>
+<br/>
+<h1>OneKeyViewCustomObject</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">OneKeyViewCustomObject</span></code>
+<p>OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:
+text color, text size, font(s), icon(s).</p>
+<p>Implementation:</p>
+<p>• With Java: OneKeyViewCustomObject obj = new OneKeyViewCustomObject.Builder().editIcon(<code>value</code>).build();</p>
+<p>• With Kotlin: OneKeyViewCustomObject.Builder(editIcon=<code>value</code>).build() or OneKeyViewCustomObject.Builder()..editIcon(<code>value</code>).build()</p>
+<p>If the implementation app doesn't provide those styles, the default will be applied.</p>
+<h3>Parameters</h3>
+<p><a name="titleColor"></a>
+<code>titleColor</code> - Set title (header) color in colorId.</p>
+<p><a name="subTitleColor"></a>
+<code>subTitleColor</code> - Set sub title color in colorId.</p>
+<p><a name="textColor"></a>
+<code>textColor</code> - Set text color in colorId.</p>
+<p><a name="markerColor"></a>
+<code>markerColor</code> - Set marker color in colorId which will show on the map.</p>
+<p><a name="textTitleSize"></a>
+<code>textTitleSize</code> - Set title (header) size in dimensionId.</p>
+<p><a name="textSubTitleSize"></a>
+<code>textSubTitleSize</code> - Set sub title size in dimensionId.</p>
+<p><a name="textSize"></a>
+<code>textSize</code> - Set text size in dimensionId.</p>
+<p><a name="searchIcon"></a>
+<code>searchIcon</code> - Set search icon in drawableId.</p>
+<p><a name="editIcon"></a>
+<code>editIcon</code> - Set edit icon in drawableId.</p>
+<p><a name="markerIcon"></a>
+<code>markerIcon</code> - Set marker icon in drawableId.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-builder/index.html">Builder</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Builder</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="edit-icon.html">editIcon</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">editIcon</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>Set edit icon in drawableId.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="font.html">font</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">font</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="font-base-size.html">fontBaseSize</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">fontBaseSize</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="font-bold.html">fontBold</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">fontBold</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="font-title-size.html">fontTitleSize</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">fontTitleSize</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="marker-color.html">markerColor</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">markerColor</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Set marker color in colorId which will show on the map.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="marker-icon.html">markerIcon</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">markerIcon</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>Set marker icon in drawableId.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="marker-selected-color.html">markerSelectedColor</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">markerSelectedColor</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="primary-color.html">primaryColor</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">primaryColor</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="search-icon.html">searchIcon</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">searchIcon</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>Set search icon in drawableId.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="secondary-color.html">secondaryColor</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">secondaryColor</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="text-color.html">textColor</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">textColor</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Set text color in colorId.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="text-size.html">textSize</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">textSize</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>Set text size in dimensionId.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

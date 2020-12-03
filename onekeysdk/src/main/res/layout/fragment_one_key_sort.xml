@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/default_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            android:id="@+id/tvSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sort"
+            android:textSize="@dimen/default_text_big"
+            app:title1Style="true" />
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/default_icon_size_small"
+            android:layout_height="@dimen/default_icon_size_small"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="3dp"
+            android:src="@drawable/baseline_close_black_24dp"
+            app:tint="@color/gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/default_padding_smaller"
+        android:background="@drawable/bg_white_border_corner"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/default_padding"
+            android:layout_marginBottom="@dimen/default_padding"
+            android:background="@color/grayLight" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|bottom"
+            android:orientation="horizontal">
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/btnReset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_padding_smaller"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Reset"
+                android:textColor="@color/white"
+                app:OneKey_buttonStyle="true" />
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/btnApply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding_smaller"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="Apply"
+                android:textColor="@color/white"
+                app:OneKey_buttonStyle="true" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

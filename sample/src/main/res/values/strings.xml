@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">OneKey Sample</string>
+    <string-array name="themes">
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="fonts">
+        <item>Roboto</item>
+        <item>Montserrat</item>
+        <item>Impact</item>
+    </string-array>
+    <string-array name="sizes">
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+    </string-array>
+    <string-array name="home">
+        <item>Min</item>
+        <item>Full</item>
+    </string-array>
+</resources>

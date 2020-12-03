@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cpv_colorPickerDialog_red">#D32F2F</color>
+    <color name="cpv_colorPickerDialog_green">#388E3C</color>
+    <color name="cpv_colorPickerDialog_blue">#1976D2</color>
+    <color name="cpv_colorPickerDialog_neutral">#000000</color>
+</resources>
