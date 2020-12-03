@@ -48,7 +48,7 @@
                         android:layout_weight="1"
                         android:background="@color/transparent"
                         android:focusable="true"
-                        android:hint="Name, Speciality, Establishment,..."
+                        android:hint="Name, Specialty, Establishment,..."
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLines="1"

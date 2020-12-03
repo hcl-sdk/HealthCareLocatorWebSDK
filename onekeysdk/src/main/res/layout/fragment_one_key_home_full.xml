@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/default_padding"
-                    android:text="HCP near me"
+                    android:text="HCPs near me"
                     android:textColor="@color/colorOneKeyText"
                     app:title2Style="true" />
 
@@ -147,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/default_padding"
-                        android:text="Last HCP Consulted"
+                        android:text="Last HCPs consulted"
                         android:textColor="@color/colorOneKeyText"
                         app:title2Style="true" />
 
