@@ -11,4 +11,11 @@
         <attr name="smallStyle" format="boolean" />
         <attr name="OneKey_buttonStyle" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ExpandableLayout">
+        <attr name="el_duration" format="integer" />
+        <attr name="el_expanded" format="boolean" />
+        <attr name="el_parallax" format="float" />
+        <attr name="android:orientation" />
+    </declare-styleable>
 </resources>

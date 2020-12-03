@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -125,6 +126,113 @@
         android:layout_marginTop="@dimen/default_padding"
         android:alpha="0.1"
         android:background="@color/grayLight" />
+
+    <com.ekino.onekeysdk.custom.ExpandableLayout
+        android:id="@+id/selectionWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="200"
+        app:el_expanded="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/nearMeWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivNearMe"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:layout_marginEnd="@dimen/default_padding"
+                    android:background="@drawable/bg_green_circle"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_location_searching_black_24dp"
+                    app:tint="@color/colorOneKeyGreen"
+                    tools:tint="@color/colorOneKeyGreen" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/tvNearMe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/default_padding"
+                        android:paddingEnd="@dimen/default_padding"
+                        android:paddingBottom="@dimen/default_padding"
+                        android:text="Near me"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/locationSelectedWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/ivLocationSelected"
+                    android:layout_width="@dimen/default_icon_size"
+                    android:layout_height="@dimen/default_icon_size"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:layout_marginEnd="@dimen/default_padding"
+                    android:background="@drawable/bg_green_circle"
+                    android:padding="8dp"
+                    android:src="@drawable/outline_location_on_black_36dp"
+                    app:tint="@color/colorOneKeyGreen"
+                    tools:tint="@color/colorOneKeyGreen" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:alpha="0.1"
+                        android:background="@color/gray" />
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/tvLocationSelected"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/default_padding"
+                        android:paddingEnd="@dimen/default_padding"
+                        android:paddingBottom="@dimen/default_padding"
+                        android:text="Near me"
+                        android:textColor="@color/colorOneKeyText"
+                        android:textSize="@dimen/default_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/selectionLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginBottom="@dimen/default_padding_tiny"
+                android:background="@color/colorOneKeyGreen" />
+        </LinearLayout>
+    </com.ekino.onekeysdk.custom.ExpandableLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAddress"

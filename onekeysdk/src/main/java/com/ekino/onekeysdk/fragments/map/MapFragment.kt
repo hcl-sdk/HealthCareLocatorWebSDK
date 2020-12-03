@@ -218,6 +218,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     override fun onDestroyView() {
         super.onDestroyView()
         mMapView?.onDetach()
+        locationProvider?.stopLocationProvider()
     }
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
