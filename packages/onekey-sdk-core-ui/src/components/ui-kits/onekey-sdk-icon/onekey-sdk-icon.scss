@@ -8,5 +8,12 @@
       fill: var(--onekeysdk-color-secondary);
     }
   }
+
+  onekey-sdk-icon-sort {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 }
 

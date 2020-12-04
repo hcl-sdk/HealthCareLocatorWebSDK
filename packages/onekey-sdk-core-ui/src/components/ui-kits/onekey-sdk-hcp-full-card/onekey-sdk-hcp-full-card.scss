@@ -119,6 +119,27 @@
     }
   }
 
+  .size-xs, .size-sm {
+    .leaflet-control-zoom {
+      display: none;
+    }
+
+    .search-map-wrapper {
+      .main-contain {
+        position: absolute;
+        width: 100%;
+      }
+      
+      .main-block {
+        &:last-child {
+          position: absolute;
+          height: calc(100% - 50px);
+          overflow: scroll;
+        }
+      }
+    }
+  }
+
   .size-lg, .size-xl {
     .search-home-hpc {
       form {
@@ -160,7 +181,7 @@
     }
 
     .main-block__navigation {
-      padding: 10px 0;
+      padding: 5px 0;
       background-color: white;
       border: 1px solid #dedede;
       border-radius: 5px;

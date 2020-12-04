@@ -10,11 +10,10 @@
 ### Depends on
 
 - [onekey-sdk-router-link](../../onekey-sdk-router/onekey-sdk-router-link)
-- ion-icon
+- [onekey-sdk-icon](../../ui-kits/onekey-sdk-icon)
 - [onekey-sdk-search](../onekey-sdk-search)
 - [onekey-sdk-loading](../../ui-kits/onekey-sdk-loading)
 - [onekey-sdk-hcp-full-card](../../ui-kits/onekey-sdk-hcp-full-card)
-- [onekey-sdk-icon](../../ui-kits/onekey-sdk-icon)
 - [onekey-sdk-switch-view-mode](../../ui-kits/onekey-sdk-switch-view-mode)
 - [onekey-sdk-doctor-card](../../ui-kits/onekey-sdk-doctor-card)
 - [onekey-sdk-button](../../ui-kits/onekey-sdk-button)
@@ -24,11 +23,10 @@
 ```mermaid
 graph TD;
   onekey-sdk-search-result --> onekey-sdk-router-link
-  onekey-sdk-search-result --> ion-icon
+  onekey-sdk-search-result --> onekey-sdk-icon
   onekey-sdk-search-result --> onekey-sdk-search
   onekey-sdk-search-result --> onekey-sdk-loading
   onekey-sdk-search-result --> onekey-sdk-hcp-full-card
-  onekey-sdk-search-result --> onekey-sdk-icon
   onekey-sdk-search-result --> onekey-sdk-switch-view-mode
   onekey-sdk-search-result --> onekey-sdk-doctor-card
   onekey-sdk-search-result --> onekey-sdk-button

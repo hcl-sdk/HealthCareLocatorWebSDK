@@ -135,8 +135,14 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkIconSort {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface OnekeySdkInput {
         "autoComplete"?: string;
+        "autoFocus"?: boolean;
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
@@ -346,6 +352,12 @@ declare global {
         prototype: HTMLOnekeySdkIconShareElement;
         new (): HTMLOnekeySdkIconShareElement;
     };
+    interface HTMLOnekeySdkIconSortElement extends Components.OnekeySdkIconSort, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconSortElement: {
+        prototype: HTMLOnekeySdkIconSortElement;
+        new (): HTMLOnekeySdkIconSortElement;
+    };
     interface HTMLOnekeySdkInputElement extends Components.OnekeySdkInput, HTMLStencilElement {
     }
     var HTMLOnekeySdkInputElement: {
@@ -443,6 +455,7 @@ declare global {
         "onekey-sdk-icon-remove": HTMLOnekeySdkIconRemoveElement;
         "onekey-sdk-icon-search": HTMLOnekeySdkIconSearchElement;
         "onekey-sdk-icon-share": HTMLOnekeySdkIconShareElement;
+        "onekey-sdk-icon-sort": HTMLOnekeySdkIconSortElement;
         "onekey-sdk-input": HTMLOnekeySdkInputElement;
         "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
@@ -585,8 +598,14 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface OnekeySdkIconSort {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface OnekeySdkInput {
         "autoComplete"?: string;
+        "autoFocus"?: boolean;
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
@@ -680,6 +699,7 @@ declare namespace LocalJSX {
         "onekey-sdk-icon-remove": OnekeySdkIconRemove;
         "onekey-sdk-icon-search": OnekeySdkIconSearch;
         "onekey-sdk-icon-share": OnekeySdkIconShare;
+        "onekey-sdk-icon-sort": OnekeySdkIconSort;
         "onekey-sdk-input": OnekeySdkInput;
         "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
@@ -722,6 +742,7 @@ declare module "@stencil/core" {
             "onekey-sdk-icon-remove": LocalJSX.OnekeySdkIconRemove & JSXBase.HTMLAttributes<HTMLOnekeySdkIconRemoveElement>;
             "onekey-sdk-icon-search": LocalJSX.OnekeySdkIconSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkIconSearchElement>;
             "onekey-sdk-icon-share": LocalJSX.OnekeySdkIconShare & JSXBase.HTMLAttributes<HTMLOnekeySdkIconShareElement>;
+            "onekey-sdk-icon-sort": LocalJSX.OnekeySdkIconSort & JSXBase.HTMLAttributes<HTMLOnekeySdkIconSortElement>;
             "onekey-sdk-input": LocalJSX.OnekeySdkInput & JSXBase.HTMLAttributes<HTMLOnekeySdkInputElement>;
             "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;

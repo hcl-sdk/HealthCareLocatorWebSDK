@@ -32,16 +32,12 @@ export class OnekeySdkSearch {
     };
   }
 
-  componentDidLoad() {
-    this.nameInput.focus();
-  }
-
   private onSearch = e => {
     e.preventDefault();
 
-    const { name, address } = e.target;
-
-    if (name.value && address.value) {
+    const { name } = e.target;
+    this.checkValidElm(name)
+    if (name.value) {
       searchMapStore.setState({
         search: {
           name: this.selectedDoctor.label,
@@ -63,7 +59,7 @@ export class OnekeySdkSearch {
   onChange = debounce(async e => {
     const inputName = e.path[0].name;
     const inputValue = e.path[0].value
-    // this.checkValidElm(e.path[0]);
+    this.checkValidElm(e.path[0])
     this.currentSelectedInput = inputName;
 
     if(inputValue) {
@@ -152,6 +148,7 @@ export class OnekeySdkSearch {
                     autoComplete="off"
                     loading={nameInputLoading}
                     onPostfixClick={()=> this.resetValue("name")}
+                    autoFocus
                   >
                     {!isSmallView && searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
                   </onekey-sdk-input>

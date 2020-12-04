@@ -23,6 +23,7 @@ $sizes: xs, sm, md, lg, xl;
   z-index: 0;
   grid-gap: 10px;
   display: grid;
+  z-index: 99999;
 
   span {
     color: white

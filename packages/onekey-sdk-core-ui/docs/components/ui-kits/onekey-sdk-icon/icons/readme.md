@@ -1,4 +1,4 @@
-# onekey-sdk-icon-share
+# onekey-sdk-icon-sort
 
 
 
@@ -10,8 +10,8 @@
 | Property | Attribute | Description | Type     | Default     |
 | -------- | --------- | ----------- | -------- | ----------- |
 | `color`  | `color`   |             | `string` | `undefined` |
-| `height` | `height`  |             | `number` | `20`        |
-| `width`  | `width`   |             | `number` | `20`        |
+| `height` | `height`  |             | `number` | `10`        |
+| `width`  | `width`   |             | `number` | `16`        |
 
 
 ----------------------------------------------

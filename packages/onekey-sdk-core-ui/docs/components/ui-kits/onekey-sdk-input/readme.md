@@ -10,6 +10,7 @@
 | Property         | Attribute       | Description | Type               | Default     |
 | ---------------- | --------------- | ----------- | ------------------ | ----------- |
 | `autoComplete`   | `auto-complete` |             | `string`           | `undefined` |
+| `autoFocus`      | `auto-focus`    |             | `boolean`          | `false`     |
 | `class`          | `class`         |             | `string`           | `undefined` |
 | `loading`        | `loading`       |             | `boolean`          | `false`     |
 | `name`           | `name`          |             | `string`           | `undefined` |

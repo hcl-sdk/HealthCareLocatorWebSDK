@@ -79,16 +79,16 @@ export class OnekeySdkSearchResult {
       'hide': !this.isOpenPanel
     })
 
-    console.log("isOpenPanel", this.isOpenPanel)
+    const heightResult = isSmall ? '100%' : `${offsetHeight}px`
 
     return (
       <Host class={`size-${viewPortSize} ${modeView.toLowerCase()}-view-mode`}>
-        <div class="search-result" style={{ height: `${offsetHeight}px` }}>
+        <div class="search-result" style={{ height: heightResult }}>
           {isSmall ? (
             <div class="search-header search-section">
               <div>
-                <onekey-sdk-router-link url="/" class="btn-back">
-                  <ion-icon name="arrow-back-outline"></ion-icon>
+                <onekey-sdk-router-link url="/search" class="btn-back">
+                  <onekey-sdk-icon name="arrow" />
                 </onekey-sdk-router-link>
               </div>
               <div>
@@ -99,11 +99,10 @@ export class OnekeySdkSearchResult {
           ) : (
             <onekey-sdk-search searchText="Search" showSwitchMode />
           )}
-
           {searchMapStore.state.loading ? (
-            <onekey-sdk-loading></onekey-sdk-loading>
+            <onekey-sdk-loading style={{ position: 'relative'}}></onekey-sdk-loading>
           ) : (
-            <div class="search-map search-section" style={{ height: `${offsetHeight}px` }}>
+            <div class="search-map search-section"  style={{ height: heightResult }}>
               {this.selectedHCPFullCard ? (
                 <div class="search-map-wrapper">
                   <onekey-sdk-hcp-full-card goBack={this.onBackToList} />
@@ -123,7 +122,7 @@ export class OnekeySdkSearchResult {
                       <onekey-sdk-switch-view-mode typeOfLabel="disabled"/>
                     </div>
                     <div class="search-filter">
-                      <ion-icon name="filter-circle-sharp"></ion-icon>
+                      <onekey-sdk-icon name="sort" />
                     </div>
                   </div>
                   <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>

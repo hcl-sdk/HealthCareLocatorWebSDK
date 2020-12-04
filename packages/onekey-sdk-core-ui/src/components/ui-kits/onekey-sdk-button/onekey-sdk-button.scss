@@ -23,6 +23,7 @@
     cursor: pointer;
     color: black;
     outline: none;
+    min-height: 33px;
 
     &.primary {
       background-color: var(--onekeysdk-color-primary);

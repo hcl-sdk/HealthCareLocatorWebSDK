@@ -8,7 +8,7 @@
 
     a {
       color: #666;
-      margin-right: 0.5rem;
+      margin-right: 8px;
       align-self: flex-start;
     }
   } 
@@ -23,6 +23,7 @@
     margin: 0 !important;
     padding-right: 0px;
     border-radius: 0px;
+    box-sizing: border-box;
   }
 
   .search-content {
@@ -42,13 +43,14 @@
   .search-address-btn {
     align-self: center;
     position: relative;
-    margin: 0 0 0 8px;
-    padding: 5px 10px;
+    width: 41px;
+    height: 40px;
   }
 
   .search-form {
-    display: flex;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 8px;
 
     input:first-child {
       margin-bottom: 8px;

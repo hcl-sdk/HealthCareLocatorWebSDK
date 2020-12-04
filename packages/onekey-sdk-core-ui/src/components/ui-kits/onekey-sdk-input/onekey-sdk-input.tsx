@@ -16,12 +16,13 @@ export class OnekeySdkInput {
   @Prop() postfixIcon?: string
   @Prop() class?: string
   @Prop() loading?: boolean = false
+  @Prop() autoFocus?: boolean = false
 
   render() {
     const inputClass = cls("onekey-sdk-input", this.class)
     return (
       <Host >
-        <input class={inputClass} name={this.name} value={this.value} placeholder={this.placeholder} onInput={this.onInput} autoComplete={this.autoComplete} />
+        <input class={inputClass} autoFocus={this.autoFocus} name={this.name} value={this.value} placeholder={this.placeholder} onInput={this.onInput} autoComplete={this.autoComplete} />
           {
             !this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} />
           }
