@@ -78,6 +78,7 @@ html {
   display: block;
   position: relative;
   background: white;
+  z-index: 99999;
 }
 
 .menu div {

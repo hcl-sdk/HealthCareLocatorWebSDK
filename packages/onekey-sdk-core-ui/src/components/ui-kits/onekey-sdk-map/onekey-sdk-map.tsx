@@ -176,9 +176,9 @@ export class OnekeySdkMap {
 
   render() {
     return (
-      <Host style={{ height: this.mapHeight, width: this.mapWidth }}>
+      <Host>
         { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
-        <div id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
+        <div style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );
   }
