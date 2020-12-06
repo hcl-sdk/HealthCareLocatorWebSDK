@@ -1,5 +1,5 @@
 import StoreProvider from './StoreProvider';
-import { getFullConfiguration, DEFAULT_CONFIGURATION, OnekeySDKConfig, OnekeySDKConfigInput } from 'onekey-sdk-core';
+import { DEFAULT_CONFIGURATION, OnekeySDKConfig } from 'onekey-sdk-core';
 import { ViewportSize } from 'onekey-sdk-core-ui/src/components/ui-kits/onekey-sdk-viewport/types';
 import { getContainerHeightWidthOffset } from 'onekey-sdk-core-ui/src/utils/helper';
 export interface AppConfigStyles {
@@ -25,13 +25,10 @@ export interface OneKeySDKConfigData {
   viewPortSize?: ViewportSize;
   viewSDKDimension?: ViewSDKDimension;
   modeView?: ModeViewType;
+  homeMode?: 'full' | 'min';
 }
 
 export const initStateConfigStore = {
-  styles: {
-    fontFamily: '\'Roboto\', sans-serif',
-    color: 'black'
-  },
   // User input config
   input: DEFAULT_CONFIGURATION,
   viewPortSize: ViewportSize.Large,
@@ -42,18 +39,6 @@ export const initStateConfigStore = {
   modeView: ModeViewType.LIST
 };
 
-class ConfigStore extends StoreProvider<OneKeySDKConfigData> {
-  constructor(state: OneKeySDKConfigData) {
-    super(state);
-    this.state = state;
-  }
-
-  public setInputConfig(inputConfig: OnekeySDKConfigInput) {
-    this.setState({
-      ...this.state,
-      input: getFullConfiguration(inputConfig),
-    })
-  }
-}
+class ConfigStore extends StoreProvider<OneKeySDKConfigData> {}
 
 export default ConfigStore;

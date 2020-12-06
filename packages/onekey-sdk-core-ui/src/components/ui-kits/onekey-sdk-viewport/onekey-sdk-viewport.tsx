@@ -20,7 +20,7 @@ export class OneKeySDKViewport {
       // Default sizes, if none are provided as a Prop
       this.sizesList = [
         { name: 'xs', minWidth: 0, maxWidth: 319 },
-        { name: 'sm', minWidth: 320, maxWidth: 511 },
+        { name: 'sm', minWidth: 360, maxWidth: 620 },
         { name: 'md', minWidth: 512, maxWidth: 991 },
         { name: 'lg', minWidth: 992, maxWidth: 1199 },
         { name: 'xl', minWidth: 1200, maxWidth: 9999 },
@@ -86,7 +86,7 @@ export class OneKeySDKViewport {
     new ResizeObserver(containerSize).observe(onekeySDKElm);
   };
 
-  onChange = (e) => {
+  onChangeViewPort = (e) => {
     const isMobileMode = e.path[0].options.selectedIndex === 0 && this.viewPortByDevice.mobile;
     const isTabletMode = e.path[0].options.selectedIndex === 1 && this.viewPortByDevice.tablet;
     const isDesktopMode = e.path[0].options.selectedIndex === 2 && this.viewPortByDevice.desktop;
@@ -94,15 +94,28 @@ export class OneKeySDKViewport {
     configStore.setState(isMobileMode || isTabletMode || isDesktopMode)
   }
 
+  onChange = (e) => {
+    const oneKeySDK = document.querySelector('onekey-sdk');
+    if (e.target.value === 'min') {
+      oneKeySDK.updateConfig({ homeMode: 'min' });
+    } else if (e.target.value === 'full') {
+      oneKeySDK.updateConfig({ homeMode: 'full' });
+    }
+  }
+
   render() {
     return (
       <Host>
         <slot></slot>
         <div class="view-port-info">
-          <select class="view-port-selection" onChange={this.onChange} name="resView">
-            <option value="mobile">Mobile</option>
-            <option value="tablet">Tablet</option>
-            <option value="desktop">Desktop</option>
+          <select class="home-selection" onChange={this.onChange}>
+            <option value="min">Home: Min</option>
+            <option value="full">Home: Full</option>
+          </select>
+          <select class="view-port-selection" onChange={this.onChangeViewPort} name="resView">
+            <option value="mobile">Viewport: Mobile</option>
+            <option value="tablet">Viewport: Tablet</option>
+            <option value="desktop">Viewport: Desktop</option>
           </select>
           <span>{configStore.state.viewPortSize}: {configStore.state.viewSDKDimension?.width}px x {configStore.state.viewSDKDimension?.height}px</span>
         </div>

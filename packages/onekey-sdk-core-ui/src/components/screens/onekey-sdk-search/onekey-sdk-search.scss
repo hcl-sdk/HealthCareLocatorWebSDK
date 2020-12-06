@@ -1,7 +1,4 @@
 :host {
-  border-bottom: 1px solid #ddd;
-  background-color: white;
-
   .search-back {
     align-self: flex-start;
     display: flex;
@@ -11,7 +8,7 @@
       margin-right: 8px;
       align-self: flex-start;
     }
-  } 
+  }
 
   .search-block {
     position: absolute;
@@ -23,7 +20,6 @@
     margin: 0 !important;
     padding-right: 0px;
     border-radius: 0px;
-    box-sizing: border-box;
   }
 
   .search-content {
@@ -48,9 +44,13 @@
   }
 
   .search-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 8px;
+    display: flex;
+    flex: 1;
+
+    .search-form-content {
+      flex: 1;
+      margin-right: 8px;
+    }
 
     input:first-child {
       margin-bottom: 8px;
@@ -58,7 +58,7 @@
 
     .error {
       border: 1px solid red;
-    }    
+    }
 
     &-content {
       width: 100%;

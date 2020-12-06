@@ -65,7 +65,7 @@
       overflow-x: scroll;
       z-index: 1000;
       overflow-y: hidden;
-      
+
 
       &.list-view {
         position: relative;
@@ -77,9 +77,8 @@
         margin-left: 0;
         flex: 1;
         width: auto;
-        box-sizing: border-box;
         margin-bottom: 0;
-        background-color: #f8f9fa;
+        background-color: var(--onekeysdk-color-list_bkg);
 
         .doctor-card {
           margin-left: 0;
@@ -107,9 +106,9 @@
         .search-data {
           bottom: 10px;
         }
-      }  
+      }
     }
-    
+
     .search-result {
       overflow: hidden;
     }
@@ -224,7 +223,7 @@
 
       .search-map.search-section {
         .search-map-wrapper {
-          background-color: #f8f9fa;
+          background-color: var(--onekeysdk-color-view_bkg);
         }
       }
 
@@ -241,7 +240,7 @@
 
     &.map-view-mode {
       .search-data.list-view {
-        background-color: #f8f9fa;
+        background-color: var(--onekeysdk-color-list_bkg);
       }
       .main-block--content {
         margin-top: 0;
@@ -277,5 +276,5 @@
     }
   }
 
-  
+
 }

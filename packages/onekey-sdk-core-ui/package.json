@@ -38,6 +38,7 @@
     "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.4.1",
     "lodash.debounce": "^4.0.8",
+    "lodash.merge": "^4.6.2",
     "resize-observer-polyfill": "^1.5.1",
     "onekey-sdk-core": "*"
   },
