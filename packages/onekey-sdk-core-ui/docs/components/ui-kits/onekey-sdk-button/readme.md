@@ -13,6 +13,8 @@
 | `disabled`     | `disabled`      |             | `boolean` | `undefined` |
 | `icon`         | `icon`          |             | `string`  | `undefined` |
 | `iconColor`    | `icon-color`    |             | `string`  | `undefined` |
+| `iconHeight`   | `icon-height`   |             | `number`  | `undefined` |
+| `iconWidth`    | `icon-width`    |             | `number`  | `undefined` |
 | `isFull`       | `is-full`       |             | `boolean` | `undefined` |
 | `noBackground` | `no-background` |             | `boolean` | `undefined` |
 | `noBorder`     | `no-border`     |             | `boolean` | `undefined` |
@@ -29,6 +31,7 @@
 
  - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
  - [onekey-sdk-home](../../screens/onekey-sdk-home)
+ - [onekey-sdk-home-full](../../screens/onekey-sdk-home/onekey-sdk-home-full)
  - [onekey-sdk-home-min](../../screens/onekey-sdk-home/onekey-sdk-home-min)
  - [onekey-sdk-input](../onekey-sdk-input)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
@@ -44,6 +47,7 @@ graph TD;
   onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-button
   onekey-sdk-home --> onekey-sdk-button
+  onekey-sdk-home-full --> onekey-sdk-button
   onekey-sdk-home-min --> onekey-sdk-button
   onekey-sdk-input --> onekey-sdk-button
   onekey-sdk-search --> onekey-sdk-button

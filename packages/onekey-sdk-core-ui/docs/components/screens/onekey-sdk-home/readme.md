@@ -33,6 +33,9 @@ graph TD;
   onekey-sdk-switch-view-mode --> ion-icon
   onekey-sdk-home-min --> onekey-sdk-icon
   onekey-sdk-home-min --> onekey-sdk-button
+  onekey-sdk-home-full --> onekey-sdk-button
+  onekey-sdk-home-full --> onekey-sdk-map
+  onekey-sdk-map --> ion-icon
   style onekey-sdk-home fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
