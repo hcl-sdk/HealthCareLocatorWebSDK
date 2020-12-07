@@ -1,7 +1,7 @@
 :host {
   .main-contain {
     background-color: var(--onekeysdk-color-view_bkg);
-    overflow-y: hidden;
+    // overflow-y: hidden;
   }
 
   .home {
@@ -94,6 +94,15 @@
 
   .search-btn {
     margin-top: 35px;
+  }
+
+  .size-xs, .size-md {
+    .main-contain--header {
+      position: sticky;
+      width: 100%;
+      top: 0;
+      z-index: 9999;
+    }
   }
 
   // Responsive base on container
