@@ -19,6 +19,7 @@ export class OneKeySDK {
   @Method()
   updateConfig(patch: any) {
     configStore.setState(merge({}, this.config, patch));
+    return Promise.resolve(configStore.state);
   }
 
   componentWillLoad() {

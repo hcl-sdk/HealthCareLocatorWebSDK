@@ -35,7 +35,10 @@
 
   <script>
     const oneKeySDK = document.querySelector('onekey-sdk');
-    oneKeySDK.config = {};
+    const homeMode = localStorage.getItem('__onekey-sdk-dev-homeMode');
+    if (homeMode) {
+      oneKeySDK.config = { homeMode };
+    }
   </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
     align-items: center;
 
     &.selected {
-      border: 2px solid var(--onekeysdk-color-card_border);
+      border: 2px solid var(--onekeysdk-color-marker_selected);
     }
 
     &-content {

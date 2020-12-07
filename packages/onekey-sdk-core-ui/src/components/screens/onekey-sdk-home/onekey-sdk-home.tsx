@@ -1,4 +1,4 @@
-import { Component, h, Host } from '@stencil/core';
+import { Component, h, Host, Listen } from '@stencil/core';
 import { configStore, routerStore, searchMapStore } from '../../../core/stores';
 @Component({
   tag: 'onekey-sdk-home',
@@ -6,9 +6,10 @@ import { configStore, routerStore, searchMapStore } from '../../../core/stores';
   shadow: false,
 })
 export class OnekeySdkHome {
-  onGoSearchScreen = () => {
+  @Listen('goSearchScreen')
+  goSearchScreen() {
     routerStore.push('/search');
-  };
+  }
 
   inputOnChange = (e: any) => {
     searchMapStore.setState({
@@ -27,7 +28,6 @@ export class OnekeySdkHome {
   };
 
   render() {
-    console.log(configStore.state.homeMode)
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-contain">
@@ -44,8 +44,8 @@ export class OnekeySdkHome {
             <onekey-sdk-search searchText="Search" />
           )}
 
-          {configStore.state.homeMode === 'min' && <onekey-sdk-home-min onGoSearchScreen={this.onGoSearchScreen} />}
-          {configStore.state.homeMode === 'full' && <onekey-sdk-home-full onGoSearchScreen={this.onGoSearchScreen} />}
+          {configStore.state.homeMode === 'min' && <onekey-sdk-home-min />}
+          {configStore.state.homeMode === 'full' && <onekey-sdk-home-full />}
         </div>
       </Host>
     );

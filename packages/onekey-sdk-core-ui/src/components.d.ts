@@ -10,13 +10,15 @@ import { ModeViewType } from "onekey-sdk-core-ui/src/core/stores/ConfigStore";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
-        "updateConfig": (patch: any) => Promise<void>;
+        "updateConfig": (patch: any) => Promise<OneKeySDKConfigData>;
     }
     interface OnekeySdkButton {
         "class": string;
         "disabled": boolean;
         "icon": string;
         "iconColor": string;
+        "iconHeight": number;
+        "iconWidth": number;
         "isFull": boolean;
         "noBackground": boolean;
         "noBorder": boolean;
@@ -40,10 +42,8 @@ export namespace Components {
     interface OnekeySdkHome {
     }
     interface OnekeySdkHomeFull {
-        "onGoSearchScreen": any;
     }
     interface OnekeySdkHomeMin {
-        "onGoSearchScreen": any;
     }
     interface OnekeySdkIcon {
         "color": string;
@@ -173,6 +173,8 @@ export namespace Components {
         "selectedLocationIdx": number;
         "viewPortSize": string;
         "zoomControl": boolean;
+    }
+    interface OnekeySdkModal {
     }
     interface OnekeySdkResizable {
     }
@@ -395,6 +397,12 @@ declare global {
         prototype: HTMLOnekeySdkMapElement;
         new (): HTMLOnekeySdkMapElement;
     };
+    interface HTMLOnekeySdkModalElement extends Components.OnekeySdkModal, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkModalElement: {
+        prototype: HTMLOnekeySdkModalElement;
+        new (): HTMLOnekeySdkModalElement;
+    };
     interface HTMLOnekeySdkResizableElement extends Components.OnekeySdkResizable, HTMLStencilElement {
     }
     var HTMLOnekeySdkResizableElement: {
@@ -480,6 +488,7 @@ declare global {
         "onekey-sdk-input": HTMLOnekeySdkInputElement;
         "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
+        "onekey-sdk-modal": HTMLOnekeySdkModalElement;
         "onekey-sdk-resizable": HTMLOnekeySdkResizableElement;
         "onekey-sdk-route": HTMLOnekeySdkRouteElement;
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
@@ -500,6 +509,8 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "icon"?: string;
         "iconColor"?: string;
+        "iconHeight"?: number;
+        "iconWidth"?: number;
         "isFull"?: boolean;
         "noBackground"?: boolean;
         "noBorder"?: boolean;
@@ -523,10 +534,9 @@ declare namespace LocalJSX {
     interface OnekeySdkHome {
     }
     interface OnekeySdkHomeFull {
-        "onGoSearchScreen"?: any;
     }
     interface OnekeySdkHomeMin {
-        "onGoSearchScreen"?: any;
+        "onGoSearchScreen"?: (event: CustomEvent<any>) => void;
     }
     interface OnekeySdkIcon {
         "color"?: string;
@@ -659,6 +669,8 @@ declare namespace LocalJSX {
         "viewPortSize"?: string;
         "zoomControl"?: boolean;
     }
+    interface OnekeySdkModal {
+    }
     interface OnekeySdkResizable {
     }
     interface OnekeySdkRoute {
@@ -732,6 +744,7 @@ declare namespace LocalJSX {
         "onekey-sdk-input": OnekeySdkInput;
         "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
+        "onekey-sdk-modal": OnekeySdkModal;
         "onekey-sdk-resizable": OnekeySdkResizable;
         "onekey-sdk-route": OnekeySdkRoute;
         "onekey-sdk-router": OnekeySdkRouter;
@@ -777,6 +790,7 @@ declare module "@stencil/core" {
             "onekey-sdk-input": LocalJSX.OnekeySdkInput & JSXBase.HTMLAttributes<HTMLOnekeySdkInputElement>;
             "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
+            "onekey-sdk-modal": LocalJSX.OnekeySdkModal & JSXBase.HTMLAttributes<HTMLOnekeySdkModalElement>;
             "onekey-sdk-resizable": LocalJSX.OnekeySdkResizable & JSXBase.HTMLAttributes<HTMLOnekeySdkResizableElement>;
             "onekey-sdk-route": LocalJSX.OnekeySdkRoute & JSXBase.HTMLAttributes<HTMLOnekeySdkRouteElement>;
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;

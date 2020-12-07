@@ -116,7 +116,7 @@ export class OnekeySdkMap {
       document.querySelector('onekey-sdk').shadowRoot.host
     ).getPropertyValue(colorStyle);
 
-    
+
     const icon = L.icon({
       iconUrl: this.generateIconURL(markerColor),
       iconSize: [25, 40],
@@ -178,7 +178,7 @@ export class OnekeySdkMap {
     return (
       <Host>
         { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
-        <div style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
+        <div class={this.zoomControl ? '' : 'map--no-controls'} style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );
   }

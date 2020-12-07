@@ -1,7 +1,14 @@
 :host {
   .main-contain {
     background-color: var(--onekeysdk-color-view_bkg);
-    overflow-y: hidden;
+    // overflow-y: hidden;
+  }
+
+  .main-block--header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 9999;
   }
 
   .home {
@@ -87,7 +94,7 @@
   }
 
   .search-input {
-    width: 100%;
+    width: calc(100% + 3px);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -96,9 +103,9 @@
     margin-top: 35px;
   }
 
-
   // Responsive base on container
-  .size-lg, .size-xl {
+  .size-lg,
+  .size-xl {
     .search-home-hpc {
       form {
         position: relative;
@@ -117,7 +124,6 @@
       display: grid;
       grid-gap: 31px;
       grid-auto-flow: row;
-      position: relative;
       border: none;
       padding: 0;
     }
@@ -229,6 +235,94 @@
             font-weight: 500;
           }
         }
+      }
+    }
+  }
+
+  .card {
+    background-color: white;
+    border: 1px solid var(--onekeysdk-color-card_border);
+    margin: 12px 12px 0 12px;
+    border-radius: 5px;
+  }
+
+  .size-lg,
+  .size-xl {
+    .card {
+      width: 640px;
+      margin: 32px auto;
+      &--near-me {
+        display: none;
+      }
+    }
+  }
+
+  .card__title-wrapper {
+    position: relative;
+    border-bottom: 1px solid var(--onekeysdk-color-card_border);
+
+    button {
+      border: none;
+      font-size: var(--onekeysdk-font-small-size);
+      color: var(--onekeysdk-color-primary);
+      background: transparent;
+      position: absolute;
+      top: 9px;
+      right: 10px;
+      padding: 5px 0;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+
+  .card__title {
+    font-family: var(--onekeysdk-font-card_title-name);
+    font-size: var(--onekeysdk-font-card_title-size);
+    font-weight: var(--onekeysdk-font-card_title-weight);
+    margin: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .card__content-wrapper {
+    &--with-padding {
+      padding: 10px;
+    }
+  }
+
+  .history-item {
+    position: relative;
+    padding: 12px 10px;
+
+    p {
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    &__criteria,
+    &__name {
+      color: var(--onekeysdk-color-secondary);
+    }
+    &__address {
+      color: var(--onekeysdk-color-grey_dark);
+    }
+    &__time-from {
+      font-size: var(--onekeysdk-font-small-size);
+    }
+
+    & + .history-item {
+      border-top: 1px solid var(--onekeysdk-color-card_border);
+    }
+
+    .btn.icon {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      svg path {
+        fill: var(--onekeysdk-color-grey)!important; // @TODO change path in SVG
       }
     }
   }
