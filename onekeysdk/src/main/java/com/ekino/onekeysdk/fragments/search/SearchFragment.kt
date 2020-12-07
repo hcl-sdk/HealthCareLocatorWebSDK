@@ -70,8 +70,8 @@ class SearchFragment :
         oneKeyViewCustomObject?.also {
             val primaryColor = it.colorPrimary.getColor()
             btnSearch.setRippleBackground(primaryColor)
-            edtName.textSize = it.fontSearchInputSize.size.toFloat()
-            edtWhere.textSize = it.fontSearchInputSize.size.toFloat()
+            edtName.textSize = it.fontSearchInput.size.toFloat()
+            edtWhere.textSize = it.fontSearchInput.size.toFloat()
             ivNearMe.setColorFilter(primaryColor)
             ivLocationSelected.setColorFilter(primaryColor)
             tvLocationSelected.setTextColor(primaryColor)

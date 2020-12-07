@@ -68,10 +68,10 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
                     title1Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle1Size.fontName
                     title2Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.fontName
                     title3Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle3Size.fontName
-                    searchInputStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSearchInputSize.fontName
+                    searchInputStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSearchInput.fontName
                     buttonStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontButton.fontName
-                    smallStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSmallSize.fontName
-                    else -> ThemeExtension.getInstance().getThemeConfiguration().fontDefaultSize.fontName
+                    smallStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSmall.fontName
+                    else -> ThemeExtension.getInstance().getThemeConfiguration().fontDefault.fontName
                 }
             }
             if (TextUtils.isEmpty(f)) {
@@ -92,9 +92,9 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
             title2Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.size.toFloat()
             title3Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle3Size.size.toFloat()
             buttonStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontButton.size.toFloat()
-            searchInputStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSearchInputSize.size.toFloat()
-            smallStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSmallSize.size.toFloat()
-            else -> ThemeExtension.getInstance().getThemeConfiguration().fontDefaultSize.size.toFloat()
+            searchInputStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSearchInput.size.toFloat()
+            smallStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSmall.size.toFloat()
+            else -> ThemeExtension.getInstance().getThemeConfiguration().fontDefault.size.toFloat()
         }
     }
 

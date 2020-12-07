@@ -28,7 +28,7 @@ class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvCreateAt.text = data.createdDate
-                tvCreateAt.textSize = theme.fontSmallSize.size.toFloat()
+                tvCreateAt.textSize = theme.fontSmall.size.toFloat()
                 tvDoctorName.visibility = data.isHCP.getVisibility()
                 tvTitle.visibility = data.isHCP.getVisibility()
                 if (data.isHCP) {

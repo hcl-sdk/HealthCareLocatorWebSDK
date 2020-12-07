@@ -1,6 +1,5 @@
 package com.ekino.onekeysdk.fragments
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -57,7 +56,7 @@ class OneKeyHomeFragment :
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             ivSearch.setRippleBackground(it.colorPrimary)
             btnStartSearch.setRippleBackground(it.colorPrimary)
-            edtSearch.textSize = it.fontSearchInputSize.size.toFloat()
+            edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
         rvHome.postDelay({
             if (rvHome == null) return@postDelay

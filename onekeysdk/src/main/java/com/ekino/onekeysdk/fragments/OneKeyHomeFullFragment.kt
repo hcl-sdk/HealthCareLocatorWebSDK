@@ -74,7 +74,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             ivSearch.setRippleBackground(it.colorPrimary)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
-            edtSearch.textSize = it.fontSearchInputSize.size.toFloat()
+            edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
 
         newSearchWrapper.setOnClickListener(this)
