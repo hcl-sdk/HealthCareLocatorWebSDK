@@ -40,7 +40,7 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--onekeysdk-font-profile_title_section-weight': 'normal',
   '--onekeysdk-font-card_title-name': 'var(--onekeysdk-font-default-name)',
   '--onekeysdk-font-card_title-size': '16px',
-  '--onekeysdk-font-card_title-weight': 'bold',
+  '--onekeysdk-font-card_title-weight': 'normal',
   '--onekeysdk-font-modal_title-name': 'var(--onekeysdk-font-default-name)',
   '--onekeysdk-font-modal_title-size': '18px',
   '--onekeysdk-font-modal_title-weight': 'normal',
