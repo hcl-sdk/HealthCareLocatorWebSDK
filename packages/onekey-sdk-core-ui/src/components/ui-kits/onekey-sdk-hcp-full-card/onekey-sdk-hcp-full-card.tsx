@@ -1,6 +1,5 @@
-import { Component, Host, h, Prop } from '@stencil/core';
-
-import 'ionicons'
+import { Component, Host, h, Prop, State } from '@stencil/core';
+import cls from 'classnames';
 import { configStore } from 'onekey-sdk-core-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-core-ui/src/utils/helper';
 
@@ -10,16 +9,28 @@ import { getCssColor } from 'onekey-sdk-core-ui/src/utils/helper';
   shadow: false
 })
 export class OnekeySdkHCPFullCard {
-  @Prop() goBack: (e: any) => void
+  @Prop() goBack: (e: any) => void;
+  @State() confirm: boolean;
+
+  onConfirm = (answer) => {
+    this.confirm = answer
+  }
 
   render() {
+    const confirmYesClass = cls("info-contact-item", {
+      'confirm-yes': this.confirm === true
+    })
+
+    const confirmNoClass = cls("info-contact-item", {
+      'confirm-no': this.confirm === false
+    })
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-contain">
           <div class="main-block main-block--content">
             <div class="main-block__navigation">
-              <onekey-sdk-button noBorder icon="arrow" iconColor="black" onClick={this.goBack}>Back to result list</onekey-sdk-button>
-              <onekey-sdk-button noBorder icon="share" iconColor="black"/>
+              <onekey-sdk-button noBorder icon="arrow" iconColor={getCssColor("--onekeysdk-color-grey")} onClick={this.goBack}>Back to result list</onekey-sdk-button>
+              <onekey-sdk-button noBorder icon="share" iconColor={getCssColor("--onekeysdk-color-grey")}/>
             </div>
           </div>
 
@@ -66,7 +77,7 @@ export class OnekeySdkHCPFullCard {
 
                   <div class="info-contact info-section-body__location">
                     <div class="info-contact-item">
-                      <onekey-sdk-icon name="location" color={getCssColor("--onekeysdk-color-marker")}/>
+                      <onekey-sdk-icon name="location" color={getCssColor("--onekeysdk-color-marker_selected")}/>
                       <div>
                         <span>Centre Médical de Soins</span>
                         <span>Service Médecine Génarale</span>
@@ -77,18 +88,18 @@ export class OnekeySdkHCPFullCard {
 
                   <div class="info-contact info-section-body__contact">
                     <div class="info-contact-item">
-                      <onekey-sdk-icon name="phone" />
+                      <onekey-sdk-icon name="phone" color={getCssColor("--onekeysdk-color-grey")}/>
                       <a href={`tel:0144585658`}>01 44 58 56 58</a>
                     </div>
                     <div class="info-contact-item">
-                      <onekey-sdk-icon name="printer" height={15} />
+                      <onekey-sdk-icon name="printer" height={15} color={getCssColor("--onekeysdk-color-grey")} />
                       <a href={`tel:0144585658`}>01 44 58 56 58</a>
                     </div>
                   </div>
 
                   <div class="info-contact info-section-body__website">
                     <div class="info-contact-item">
-                      <onekey-sdk-icon name="earth" />
+                      <onekey-sdk-icon name="earth" color={getCssColor("--onekeysdk-color-grey")} />
                       <a href="http://www.medicalsoinsparis.com" target="_blank">www.medicalsoinsparis.com</a>
                     </div>
                   </div>
@@ -126,11 +137,11 @@ export class OnekeySdkHCPFullCard {
                 <div class="info-section-body">
                   <span>Was the information you were given about this HCP/HCO correct?</span>
                   <div class="info-contact info-section-body__correct">
-                    <div class="info-contact-item">
+                    <div class={confirmYesClass} onClick={() => this.onConfirm(true)}>
                       <onekey-sdk-button icon="like" />
                       <span>Yes</span>
                     </div>
-                    <div class="info-contact-item">
+                    <div class={confirmNoClass} onClick={() => this.onConfirm(false)}>
                       <onekey-sdk-button icon="dislike" />
                       <span>No</span>
                     </div>

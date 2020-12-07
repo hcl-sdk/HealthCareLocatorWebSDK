@@ -54,14 +54,14 @@
   }
 
   input {
-    border: 1px solid #ddd;
+    border: 1px solid var(--onekeysdk-color-card_border);
     padding-right: 1rem;
     padding-left: 1rem;
     border-radius: 5px;
     height: 38px;
 
     &:placeholder {
-      color: #b8b8b8
+      color: var(--onekeysdk-color-grey);
     }
   }
 
