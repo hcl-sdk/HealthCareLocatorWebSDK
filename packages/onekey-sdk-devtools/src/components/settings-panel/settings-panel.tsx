@@ -4,15 +4,6 @@ import { THEMES } from '../../constants/themes';
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
-interface Font {
-  size: string;
-  weight: 'normal' | 'bold' | 'bolder' | 'lighter'
-}
-
-interface Fonts {
-  [k: string]: string
-}
-
 @Component({
   tag: 'settings-panel',
   styleUrl: 'settings-panel.css',

@@ -12,6 +12,19 @@
 | `config` | --        |             | `OneKeySDKConfigData` | `undefined` |
 
 
+## Methods
+
+### `updateConfig(patch: any) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Dependencies
 
 ### Depends on
