@@ -78,7 +78,7 @@ export class OnekeySdkMap {
     this.map = L.map(this.mapElm, {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
-      minZoom: 15,
+      minZoom: 13,
       maxZoom: 20,
       zoomControl: this.zoomControl,
       dragging: this.dragging
@@ -132,7 +132,7 @@ export class OnekeySdkMap {
   private toggleMarkerIcon = (marker, status) => {
     let newMarkerIcon;
     if(status === 'active') {
-      newMarkerIcon = this.getIcon('--onekeysdk-color-marker-selected');
+      newMarkerIcon = this.getIcon('--onekeysdk-color-marker_selected');
     } else {
       newMarkerIcon = this.getIcon('--onekeysdk-color-marker');
     }
