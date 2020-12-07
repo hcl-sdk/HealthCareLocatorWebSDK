@@ -25,18 +25,23 @@
     &__profile {
       display: grid;
       &-name {
+        font-family: var(--onekeysdk-font-profile_title-name);
         color: var(--onekeysdk-color-secondary);
-        font-size: 18px;
+        font-size: var(--onekeysdk-font-profile_title-size);
+        font-weight: var(--onekeysdk-font-profile_title-weight);
       }
 
       &-dep {
-
+        font-family: var(--onekeysdk-font-profile_subtitle-name);
+        color: var(--onekeysdk-color-dark);
+        font-size: var(--onekeysdk-font-profile_subtitle-size);
+        font-weight: var(--onekeysdk-font-profile_subtitle-weight);
       }
     }
   }
 
   .info-section  {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--onekeysdk-color-card_border);
     padding: 10px 0;
     display: grid;
     grid-gap: 10px;
@@ -54,7 +59,9 @@
 
     &__title {
       color: var(--onekeysdk-color-secondary);
-      font-size: 16px;
+      font-family: var(--onekeysdk-font-profile_title_section-name);
+      font-size: var(--onekeysdk-font-profile_title_section-size);
+      font-weight: var(--onekeysdk-font-profile_title_section-weight);
     }
 
     &__postfix {
@@ -79,9 +86,37 @@
     }
   }
 
+  .info-contact-item {
+    &.confirm-yes {
+      cursor: pointer;
+      button {
+        background-color: var(--onekeysdk-color-vote_up);
+
+        svg {
+          fill: white;
+        }
+      }
+    }
+
+    &.confirm-no {
+      cursor: pointer;
+      button {
+        background-color: var(--onekeysdk-color-vote_down);
+        
+        svg {
+          fill: white;
+        }
+      }
+    }
+  }
+
   .info-section-body {
     display: grid;
     grid-gap: 20px;
+    font-family: var(--onekeysdk-font-default-name);
+    color: var(--onekeysdk-color-dark);
+    font-size: var(--onekeysdk-font-default-size);
+    font-weight: var(--onekeysdk-font-default-weight);
 
     &__map {
       height: 100px;
@@ -93,13 +128,20 @@
       select {
         width: 100%;
         padding: 5px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--onekeysdk-color-card_border);
         font-size: 13px;
+        border-radius: 5px;
+        padding: 5px;
       }
-    } 
+    }
 
     &__location {
-      
+      .info-contact-item {
+        > :first-child {
+          display: grid;
+          align-self: start;
+        }
+      }
     }
 
     &__contact {
@@ -112,6 +154,8 @@
 
     &__correct {
       grid-gap: 20px;
+      grid-template-columns: auto auto;
+      justify-content: start;
 
       .btn.icon {
         padding: 5px;
@@ -183,13 +227,13 @@
     .main-block__navigation {
       padding: 5px 0;
       background-color: white;
-      border: 1px solid #dedede;
+      border: 1px solid var(--onekeysdk-color-card_border);
       border-radius: 5px;
     }
 
     .main-info {
       background-color: white;
-      border: 1px solid #dedede;
+      border: 1px solid var(--onekeysdk-color-card_border);
       border-radius: 5px;
     }
 

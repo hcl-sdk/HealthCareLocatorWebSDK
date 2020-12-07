@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Listen } from '@stencil/core';
-import { getDoctorCardOffset } from 'onekey-sdk-core-ui/src/utils/helper';
+import { getCssColor, getDoctorCardOffset } from 'onekey-sdk-core-ui/src/utils/helper';
 import { getHCPNearMe } from '../../../core/api/hcp';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import { configStore, searchMapStore } from '../../../core/stores';
@@ -86,11 +86,9 @@ export class OnekeySdkSearchResult {
         <div class="search-result" style={{ height: heightResult }}>
           {isSmall ? (
             <div class="search-header search-section">
-              <div>
-                <onekey-sdk-router-link url="/search" class="btn-back">
-                  <onekey-sdk-icon name="arrow" />
-                </onekey-sdk-router-link>
-              </div>
+              <onekey-sdk-router-link url="/search" class="btn-back">
+                <onekey-sdk-icon name="arrow" color={getCssColor("--onekeysdk-color-dark")} />
+              </onekey-sdk-router-link>
               <div>
                 <strong class="search-result-title">{selectedDoctorName}</strong>
                 <div class="search-result-address">{selectedAddressName}</div>
@@ -103,41 +101,47 @@ export class OnekeySdkSearchResult {
             <onekey-sdk-loading style={{ position: 'relative'}}></onekey-sdk-loading>
           ) : (
             <div class="search-map search-section"  style={{ height: heightResult }}>
-              {this.selectedHCPFullCard ? (
-                <div class="search-map-wrapper">
-                  <onekey-sdk-hcp-full-card goBack={this.onBackToList} />
-                </div>
-              ) : (
+
                 <div class={mapWrapperClass}>
+                  {
+                  this.selectedHCPFullCard ?
+                    <onekey-sdk-hcp-full-card goBack={this.onBackToList} />
+                  :
                   <div class="search-toolbar search-section">
                     <div class="hidden-xs hidden-sm hidden-md">
                       <onekey-sdk-icon name="arrow" />
                       <span class="text-small">Back to my last searches</span>
                     </div>
                     <div>
-                      <strong>Results: </strong>
-                      <strong class="text-primary text-bold">{hcpNearMe.length}</strong>
+                      <strong class="search-result__total">Results: </strong>
+                      <strong class="search-result__total-value text-primary text-bold">{hcpNearMe.length}</strong>
                     </div>
                     <div class="hidden-lg hidden-xl switch-mode">
                       <onekey-sdk-switch-view-mode typeOfLabel="disabled"/>
                     </div>
-                    <div class="search-filter">
-                      <onekey-sdk-icon name="sort" />
+                    <div class="search-filter-wrapper">
+                      <div class="search-filter">
+                        <onekey-sdk-icon name="sort" />
+                      </div>
                     </div>
                   </div>
-                  <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                    }     
+                  {
+                    !this.selectedHCPFullCard && <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                     {hcpNearMe.map((elm, idx) => (
                       <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
                     ))}
                   </div>
+                  }
 
                   <div class="toggle-panel">
                     <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconColor="black" onClick={this.togglePanel}/>
                   </div>
+        
                 </div>
-              )}
               
-              {!isListView && (
+              
+              {((!isListView && !isSmall) || (!isListView && !this.selectedHCPFullCard) )&& (
                 <onekey-sdk-map
                   mapHeight={`${offsetHeight}px`}
                   class={mapClass}

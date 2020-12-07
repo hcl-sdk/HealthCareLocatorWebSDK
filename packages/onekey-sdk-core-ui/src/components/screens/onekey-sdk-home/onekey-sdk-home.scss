@@ -134,7 +134,7 @@
       }
 
       input:first-child {
-        width: 258px;
+        min-width: 258px;
         margin: 0;
         margin-bottom: 0;
       }
@@ -152,10 +152,12 @@
         width: 100%;
         padding: 10px 5px;
         height: max-content;
-        border: 1px solid #ddd;
+        border: 1px solid var(--onekeysdk-color-card_border);
         display: grid;
         overflow-y: scroll;
         max-height: 400px;
+        grid-auto-flow: row;
+        grid-template-columns: 1fr;
       }
     }
 
@@ -201,7 +203,7 @@
         align-items: center;
         text-align: center;
         grid-gap: 15px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--onekeysdk-color-card_border);
         padding: 25px 10px;
         border-radius: 10px;
         background-color: white;

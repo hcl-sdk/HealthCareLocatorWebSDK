@@ -3,19 +3,18 @@
   cursor: pointer;
 
   .doctor-card {
-    border: 2px solid #ddd;
+    border: 2px solid var(--onekeysdk-color-card_border);
     border-radius: 5px;
-    padding: 15px;
+    padding: 10px;
     margin-left: 10px;
     background-color: white;
-    max-height: 70px;
     width: 250px;
     line-height: 1.3rem;
     display: flex;
     align-items: center;
 
     &.selected {
-      border: 2px solid var(--onekeysdk-color-marker-selected);
+      border: 2px solid var(--onekeysdk-color-card_border);
     }
 
     &-content {
@@ -35,7 +34,18 @@
     }
 
     .address {
-      color: #666;
+      color: var(--onekeysdk-color-grey_dark);
+      font-family: var(--onekeysdk-font-default-name);
+    }
+
+    .gp {
+      color: var(--onekeysdk-color-dark);
+      font-family: var(--onekeysdk-font-default-name);
+    }
+
+    .distance {
+      color: var(--onekeysdk-color-dark);
+      font-family: var(--onekeysdk-font-default-name);
     }
   }
 }
