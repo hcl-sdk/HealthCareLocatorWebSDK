@@ -62,6 +62,8 @@
       font-family: var(--onekeysdk-font-profile_title_section-name);
       font-size: var(--onekeysdk-font-profile_title_section-size);
       font-weight: var(--onekeysdk-font-profile_title_section-weight);
+      display: grid;
+      align-self: start;
     }
 
     &__postfix {
