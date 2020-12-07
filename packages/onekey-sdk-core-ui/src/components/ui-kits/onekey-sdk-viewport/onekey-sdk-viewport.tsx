@@ -13,7 +13,7 @@ export class OneKeySDKViewport {
 
   @Prop() sizes: Object[] = [];
   sizesList;
-  viewPortByDevice
+  viewPortByDevice;
 
   componentWillLoad() {
     if (!this.sizes || this.sizes.length < 1) {
@@ -30,28 +30,28 @@ export class OneKeySDKViewport {
     }
 
     this.viewPortByDevice = {
-      'mobile': {
+      mobile: {
         viewPortSize: ViewportSize.Small,
         viewSDKDimension: {
           width: this.sizesList[1].minWidth,
           height: this.sizesList[1].maxWidth,
-        }
+        },
       },
-      'tablet': {
+      tablet: {
         viewPortSize: ViewportSize.Large,
         viewSDKDimension: {
           width: this.sizesList[3].maxWidth,
           height: this.sizesList[3].minWidth,
-        }
+        },
       },
-      'desktop': {
+      desktop: {
         viewPortSize: ViewportSize.ExtraLarge,
         viewSDKDimension: {
           width: window.innerWidth,
           height: window.innerHeight,
-        }
-      }
-    }
+        },
+      },
+    };
   }
 
   componentDidLoad() {
@@ -61,8 +61,8 @@ export class OneKeySDKViewport {
       viewSDKDimension: {
         width: this.sizesList[1].minWidth,
         height: this.sizesList[1].maxWidth,
-      }
-    })
+      },
+    });
   }
 
   getSDKContainerValue = () => {
@@ -86,22 +86,32 @@ export class OneKeySDKViewport {
     new ResizeObserver(containerSize).observe(onekeySDKElm);
   };
 
-  onChangeViewPort = (e) => {
+  onChangeViewPort = e => {
     const isMobileMode = e.path[0].options.selectedIndex === 0 && this.viewPortByDevice.mobile;
     const isTabletMode = e.path[0].options.selectedIndex === 1 && this.viewPortByDevice.tablet;
     const isDesktopMode = e.path[0].options.selectedIndex === 2 && this.viewPortByDevice.desktop;
 
-    configStore.setState(isMobileMode || isTabletMode || isDesktopMode)
-  }
+    configStore.setState(isMobileMode || isTabletMode || isDesktopMode);
+  };
 
-  onChange = (e) => {
+  onChange = e => {
     const oneKeySDK = document.querySelector('onekey-sdk');
     if (e.target.value === 'min') {
       oneKeySDK.updateConfig({ homeMode: 'min' });
+      localStorage.setItem('__onekey-sdk-dev-homeMode', 'min');
     } else if (e.target.value === 'full') {
       oneKeySDK.updateConfig({ homeMode: 'full' });
+      localStorage.setItem('__onekey-sdk-dev-homeMode', 'full');
     }
-  }
+  };
+
+  isSelectedHomeMode = homeMode => {
+    const stored = localStorage.getItem('__onekey-sdk-dev-homeMode');
+    if (!stored) {
+      return homeMode === 'min';
+    }
+    return homeMode === stored;
+  };
 
   render() {
     return (
@@ -109,15 +119,21 @@ export class OneKeySDKViewport {
         <slot></slot>
         <div class="view-port-info">
           <select class="home-selection" onChange={this.onChange}>
-            <option value="min">Home: Min</option>
-            <option value="full">Home: Full</option>
+            <option value="min" selected={this.isSelectedHomeMode('min')}>
+              Home: Min
+            </option>
+            <option value="full" selected={this.isSelectedHomeMode('full')}>
+              Home: Full
+            </option>
           </select>
           <select class="view-port-selection" onChange={this.onChangeViewPort} name="resView">
             <option value="mobile">Viewport: Mobile</option>
             <option value="tablet">Viewport: Tablet</option>
             <option value="desktop">Viewport: Desktop</option>
           </select>
-          <span>{configStore.state.viewPortSize}: {configStore.state.viewSDKDimension?.width}px x {configStore.state.viewSDKDimension?.height}px</span>
+          <span>
+            {configStore.state.viewPortSize}: {configStore.state.viewSDKDimension?.width}px x {configStore.state.viewSDKDimension?.height}px
+          </span>
         </div>
       </Host>
     );

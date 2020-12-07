@@ -10,13 +10,15 @@ import { ModeViewType } from "onekey-sdk-core-ui/src/core/stores/ConfigStore";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
-        "updateConfig": (patch: any) => Promise<void>;
+        "updateConfig": (patch: any) => Promise<OneKeySDKConfigData>;
     }
     interface OnekeySdkButton {
         "class": string;
         "disabled": boolean;
         "icon": string;
         "iconColor": string;
+        "iconHeight": number;
+        "iconWidth": number;
         "isFull": boolean;
         "noBackground": boolean;
         "noBorder": boolean;
@@ -40,10 +42,8 @@ export namespace Components {
     interface OnekeySdkHome {
     }
     interface OnekeySdkHomeFull {
-        "onGoSearchScreen": any;
     }
     interface OnekeySdkHomeMin {
-        "onGoSearchScreen": any;
     }
     interface OnekeySdkIcon {
         "color": string;
@@ -500,6 +500,8 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "icon"?: string;
         "iconColor"?: string;
+        "iconHeight"?: number;
+        "iconWidth"?: number;
         "isFull"?: boolean;
         "noBackground"?: boolean;
         "noBorder"?: boolean;
@@ -523,10 +525,9 @@ declare namespace LocalJSX {
     interface OnekeySdkHome {
     }
     interface OnekeySdkHomeFull {
-        "onGoSearchScreen"?: any;
     }
     interface OnekeySdkHomeMin {
-        "onGoSearchScreen"?: any;
+        "onGoSearchScreen"?: (event: CustomEvent<any>) => void;
     }
     interface OnekeySdkIcon {
         "color"?: string;

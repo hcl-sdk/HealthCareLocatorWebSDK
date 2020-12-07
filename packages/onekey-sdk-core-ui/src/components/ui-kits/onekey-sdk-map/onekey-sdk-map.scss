@@ -12,6 +12,12 @@
     height: 100%;
   }
 
+  .map--no-controls {
+    .leaflet-control-zoom {
+      display: none;
+    }
+  }
+
   .current-location {
     font-size: 24px;
     position: absolute;

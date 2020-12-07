@@ -1,11 +1,11 @@
-import { Component, h, Host, Prop } from '@stencil/core';
+import { Component, h, Host, Event, EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'onekey-sdk-home-min',
   shadow: false,
 })
 export class OnekeySdkHomeMin {
-  @Prop() onGoSearchScreen: any;
+  @Event() goSearchScreen: EventEmitter;
   render() {
     return (
       <Host>
@@ -49,7 +49,7 @@ export class OnekeySdkHomeMin {
             </div>
 
             <div class="full-block hidden-lg hidden-xl">
-              <onekey-sdk-button isFull primary onClick={this.onGoSearchScreen} class="search-btn">
+              <onekey-sdk-button isFull primary onClick={this.goSearchScreen.emit} class="search-btn">
                 Start a New Search
               </onekey-sdk-button>
             </div>
