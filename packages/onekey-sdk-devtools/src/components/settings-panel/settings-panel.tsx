@@ -13,38 +13,6 @@ interface Fonts {
   [k: string]: string
 }
 
-'font.default.size': '14px'
-'font.default.weight': 'regular'
-'font.title_main.size': '20px'
-'font.title_main.weight': 'regular'
-'font.title_secondary.size': '16px'
-'font.title_secondary.weight': 'bold'
-'font.search_result_total.size': '14px'
-'font.search_result_total.weight': 'bold'
-'font.search_result_title.size': '16px'
-'font.search_result_title.weight': 'regular'
-'font.result_title.size': '14px'
-'font.result_title.weight': 'regular'
-'font.result_subtitle.size': '14px'
-'font.result_subtitle.weight': 'regular'
-'font.profile_title.size': '18px'
-'font.profile_title.weight': 'regular'
-'font.profile_subtitle.size': '16px'
-'font.profile_subtitle.weight': 'regular'
-'font.profile_title_section.size': '16px'
-'font.profile_title_section.weight': 'regular'
-'font.card_title.size': '16px'
-'font.card_title.weight': 'bold'
-'font.modal_title.size': '18px'
-'font.modal_title.weight': 'regular'
-'font.search_input.size': '16px'
-'font.search_input.weight': 'regular'
-'font.sort_criteria.size': '16px'
-'font.sort_criteria.weight': 'regular'
-'font.button.size': '14px'
-'font.button.weight': 'regular'
-'font.small.size': '12px'
-'font.small.weight': 'regular'
 @Component({
   tag: 'settings-panel',
   styleUrl: 'settings-panel.css',
