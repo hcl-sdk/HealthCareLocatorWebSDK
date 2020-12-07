@@ -10,6 +10,7 @@ import { ModeViewType } from "onekey-sdk-core-ui/src/core/stores/ConfigStore";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
+        "updateConfig": (patch: any) => Promise<void>;
     }
     interface OnekeySdkButton {
         "class": string;
@@ -37,6 +38,12 @@ export namespace Components {
         "goBack": (e: any) => void;
     }
     interface OnekeySdkHome {
+    }
+    interface OnekeySdkHomeFull {
+        "onGoSearchScreen": any;
+    }
+    interface OnekeySdkHomeMin {
+        "onGoSearchScreen": any;
     }
     interface OnekeySdkIcon {
         "color": string;
@@ -238,6 +245,18 @@ declare global {
         prototype: HTMLOnekeySdkHomeElement;
         new (): HTMLOnekeySdkHomeElement;
     };
+    interface HTMLOnekeySdkHomeFullElement extends Components.OnekeySdkHomeFull, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkHomeFullElement: {
+        prototype: HTMLOnekeySdkHomeFullElement;
+        new (): HTMLOnekeySdkHomeFullElement;
+    };
+    interface HTMLOnekeySdkHomeMinElement extends Components.OnekeySdkHomeMin, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkHomeMinElement: {
+        prototype: HTMLOnekeySdkHomeMinElement;
+        new (): HTMLOnekeySdkHomeMinElement;
+    };
     interface HTMLOnekeySdkIconElement extends Components.OnekeySdkIcon, HTMLStencilElement {
     }
     var HTMLOnekeySdkIconElement: {
@@ -436,6 +455,8 @@ declare global {
         "onekey-sdk-doctor-card": HTMLOnekeySdkDoctorCardElement;
         "onekey-sdk-hcp-full-card": HTMLOnekeySdkHcpFullCardElement;
         "onekey-sdk-home": HTMLOnekeySdkHomeElement;
+        "onekey-sdk-home-full": HTMLOnekeySdkHomeFullElement;
+        "onekey-sdk-home-min": HTMLOnekeySdkHomeMinElement;
         "onekey-sdk-icon": HTMLOnekeySdkIconElement;
         "onekey-sdk-icon-arrow": HTMLOnekeySdkIconArrowElement;
         "onekey-sdk-icon-chevron-arrow": HTMLOnekeySdkIconChevronArrowElement;
@@ -500,6 +521,12 @@ declare namespace LocalJSX {
         "goBack"?: (e: any) => void;
     }
     interface OnekeySdkHome {
+    }
+    interface OnekeySdkHomeFull {
+        "onGoSearchScreen"?: any;
+    }
+    interface OnekeySdkHomeMin {
+        "onGoSearchScreen"?: any;
     }
     interface OnekeySdkIcon {
         "color"?: string;
@@ -680,6 +707,8 @@ declare namespace LocalJSX {
         "onekey-sdk-doctor-card": OnekeySdkDoctorCard;
         "onekey-sdk-hcp-full-card": OnekeySdkHcpFullCard;
         "onekey-sdk-home": OnekeySdkHome;
+        "onekey-sdk-home-full": OnekeySdkHomeFull;
+        "onekey-sdk-home-min": OnekeySdkHomeMin;
         "onekey-sdk-icon": OnekeySdkIcon;
         "onekey-sdk-icon-arrow": OnekeySdkIconArrow;
         "onekey-sdk-icon-chevron-arrow": OnekeySdkIconChevronArrow;
@@ -723,6 +752,8 @@ declare module "@stencil/core" {
             "onekey-sdk-doctor-card": LocalJSX.OnekeySdkDoctorCard & JSXBase.HTMLAttributes<HTMLOnekeySdkDoctorCardElement>;
             "onekey-sdk-hcp-full-card": LocalJSX.OnekeySdkHcpFullCard & JSXBase.HTMLAttributes<HTMLOnekeySdkHcpFullCardElement>;
             "onekey-sdk-home": LocalJSX.OnekeySdkHome & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeElement>;
+            "onekey-sdk-home-full": LocalJSX.OnekeySdkHomeFull & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeFullElement>;
+            "onekey-sdk-home-min": LocalJSX.OnekeySdkHomeMin & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeMinElement>;
             "onekey-sdk-icon": LocalJSX.OnekeySdkIcon & JSXBase.HTMLAttributes<HTMLOnekeySdkIconElement>;
             "onekey-sdk-icon-arrow": LocalJSX.OnekeySdkIconArrow & JSXBase.HTMLAttributes<HTMLOnekeySdkIconArrowElement>;
             "onekey-sdk-icon-chevron-arrow": LocalJSX.OnekeySdkIconChevronArrow & JSXBase.HTMLAttributes<HTMLOnekeySdkIconChevronArrowElement>;

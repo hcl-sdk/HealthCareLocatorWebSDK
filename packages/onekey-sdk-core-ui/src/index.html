@@ -17,11 +17,13 @@
   <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico">
   <link rel="manifest" href="/manifest.json">
   <style>
+    html {
+      background: rgb(82, 82, 82);
+    }
+
     onekey-sdk {
       --onekeysdk-color-primary: #001f3f;
       --onekeysdk-color-secondary: #39CCCC;
-
-      border: 1px solid #ddd;
     }
   </style>
 </head>
@@ -33,16 +35,7 @@
 
   <script>
     const oneKeySDK = document.querySelector('onekey-sdk');
-    oneKeySDK.config = {
-      styles: {
-        fontFamily: 'Roboto, sans-serif',
-        // color: 'red'
-      }
-      // mapTileLayer: 'http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-      // mapLink: '<a>Ekino</a>',
-      // markerIcon: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
-      // markerIconCurrentLocation: 'https://leafletjs.com/examples/custom-icons/leaf-orange.png'
-    };
+    oneKeySDK.config = {};
   </script>
 </body>
 </html>

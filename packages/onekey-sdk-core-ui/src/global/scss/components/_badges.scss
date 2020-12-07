@@ -9,7 +9,6 @@ span.badge {
   height: $badge-height;
   color: color('grey', 'darken-1');
   float: right;
-  box-sizing: border-box;
 
   &.new {
     font-weight: 300;

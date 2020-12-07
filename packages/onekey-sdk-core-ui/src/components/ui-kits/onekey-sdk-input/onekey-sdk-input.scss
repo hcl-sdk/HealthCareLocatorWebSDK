@@ -1,4 +1,8 @@
 :host {
+  .onekey-sdk-input {
+    width: 100%;
+  }
+
   .input-postfix {
     position: absolute;
     right: 0;
@@ -21,13 +25,13 @@
     top: 7px;
     right: 4px
   }
-  
+
   /* Safari */
   @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
   }
-  
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

@@ -15,7 +15,7 @@ export class OnekeySdkIconSearch {
         <svg
           version="1.2"
           preserveAspectRatio="none"
-          viewBox="0 0 24 24"
+          viewBox={`2 2 20 20`}
           style={{ opacity: '1', mixBlendMode: 'normal', width: `${this.width}px`, height: `${this.height}px` }}
         >
           <g>

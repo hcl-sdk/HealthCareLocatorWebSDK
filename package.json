@@ -14,6 +14,7 @@
     "build-reactjs": "echo \"Build SDK for reactjs\"",
     "build-vuejs": "echo \"Build SDK for vuejs\"",
     "start-web": "npm run start --prefix packages/onekey-sdk-core-ui",
+    "start-devtools": "npm run start --prefix packages/onekey-sdk-devtools",
     "start-example-web": "npm run build-web && npm run build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn",
     "build-example-web": "npm run build-web && npm run build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn"
   },

@@ -143,7 +143,7 @@ export class OnekeySdkSearch {
                     postfixIcon={selectedDoctorName ? 'remove' : ''}
                     name="name"
                     value={selectedDoctorName}
-                    placeholder="Name, Speciality, Establishment..."
+                    placeholder="Name, Specialty"
                     onInput={this.onChange}
                     autoComplete="off"
                     loading={nameInputLoading}
@@ -184,7 +184,7 @@ export class OnekeySdkSearch {
                   <onekey-sdk-switch-view-mode typeOfLabel="short" />
                 </div>
               }
-              
+
             </div>
           </div>
         </div>

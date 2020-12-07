@@ -45,7 +45,7 @@
 .btn-large,
 .btn-small,
 .btn-flat {
-  font-size: var(--onekeysdk-font-size);
+  font-size: var(--onekeysdk-font-default-size);
   outline: 0;
   i {
     font-size: $button-icon-font-size;

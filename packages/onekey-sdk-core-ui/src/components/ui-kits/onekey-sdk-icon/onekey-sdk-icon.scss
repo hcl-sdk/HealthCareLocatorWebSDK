@@ -1,8 +1,11 @@
-:host {  
+:host {
   .icon {
     fill: #b8b8b8;
+    svg {
+      display: flex;
+    }
   }
-  
+
   .primary {
     .icon {
       fill: var(--onekeysdk-color-secondary);
