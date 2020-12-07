@@ -1,9 +1,17 @@
 package com.ekino.onekeysdk.extensions
 
+import android.content.SharedPreferences
+import android.text.format.DateUtils
 import android.view.View
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.util.*
+import kotlin.collections.ArrayList
 
 fun Int.isValidPosition(size: Int) = this in 0..size.minus(1)
 
@@ -24,9 +32,34 @@ fun getHomeDummy(): ArrayList<OneKeyHomeObject> = arrayListOf<OneKeyHomeObject>(
 /**
  * Fragment
  */
-fun <T:Fragment>ArrayList<T>.getFragmentBy(filter:()->Boolean):T?{
+fun <T : Fragment> ArrayList<T>.getFragmentBy(filter: () -> Boolean): T? {
     return this.firstOrNull { filter() }
 }
-fun <T:Fragment>List<T>.getFragmentBy(filter:(fragment:Fragment)->Boolean):T?{
+
+fun <T : Fragment> List<T>.getFragmentBy(filter: (fragment: Fragment) -> Boolean): T? {
     return this.firstOrNull { filter(it) }
 }
+
+/**
+ * [SharedPreferences]
+ */
+fun SharedPreferences.storeConsultedProfiles(gson: Gson = Gson(), hcp: OneKeyLocation) {
+    val profiles = this.getConsultedProfiles(gson)
+    profiles.removeIf { it.id == hcp.id }
+    profiles.add(hcp)
+    profiles.sortWith(Comparator { o1: OneKeyLocation, o2: OneKeyLocation ->
+        o2.createdAt.compareTo(o1.createdAt)
+    })
+    val current = System.currentTimeMillis()
+    profiles.map {
+        it.createdDate = DateUtils.getRelativeTimeSpanString(it.createdAt, current, DateUtils.MINUTE_IN_MILLIS).toString()
+    }
+    edit { putString("ConsultedProfiles", gson.toJson(profiles)) }
+}
+
+fun SharedPreferences.getConsultedProfiles(gson: Gson = Gson()): ArrayList<OneKeyLocation> {
+    return gson.fromJson(this.getString("ConsultedProfiles", "[]") ?: "[]",
+            object : TypeToken<ArrayList<OneKeyLocation>>() {}.type)
+}
+
+fun <T> List<T>.toArrayList() = ArrayList(this)

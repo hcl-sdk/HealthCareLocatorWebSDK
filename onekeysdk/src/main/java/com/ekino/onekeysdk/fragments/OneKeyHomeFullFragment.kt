@@ -4,15 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
-import com.ekino.onekeysdk.extensions.ThemeExtension
-import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.extensions.getDummyHCP
-import com.ekino.onekeysdk.extensions.setRippleBackground
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
@@ -58,9 +56,9 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             searchTag = savedInstanceState.getInt("lastSearchTag", 0)
             consultedTag = savedInstanceState.getInt("lastConsultedTag", 0)
             lastSearches = savedInstanceState.getParcelableArrayList("lastSearches")
-                    ?: ArrayList(locations.take(3))
+                    ?: ArrayList()
             lastConsulted = savedInstanceState.getParcelableArrayList("lastConsulted")
-                    ?: ArrayList(locations.take(3))
+                    ?: ArrayList()
         }
         val fm = this@OneKeyHomeFullFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
@@ -83,6 +81,15 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreSearches.setOnClickListener(this)
         viewMoreConsulted.setOnClickListener(this)
         initLastSearch(lastSearches, lastConsulted)
+
+        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.also { pref ->
+            viewModel.apply {
+                getConsultedProfiles(pref)
+                consultedProfiles.observe(this@OneKeyHomeFullFragment, Observer {
+                    lastConsultedAdapter.setData(it.take(3).toArrayList())
+                })
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -108,7 +115,9 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             }
             R.id.viewMoreConsulted -> {
                 if (consultedTag == 0) {
-                    lastConsultedAdapter.addList(lastConsultedAdapter.itemCount, ArrayList(locations.takeLast(7)))
+                    val list = viewModel.consultedProfiles.value ?: arrayListOf()
+                    lastConsultedAdapter.addList(lastConsultedAdapter.itemCount,
+                            ArrayList(if (list.size >= 10) list.takeLast(7) else list.takeLast(list.size - 3)))
                     consultedTag = 1
                     viewMoreConsulted.text = getViewTagText(1)
                 } else {
@@ -152,7 +161,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         rvLastConsulted.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = lastConsultedAdapter
-            lastConsultedAdapter.setData(lastConsulted)
         }
     }
 

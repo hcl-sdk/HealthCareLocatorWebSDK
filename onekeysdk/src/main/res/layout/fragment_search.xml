@@ -229,6 +229,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="70dp"
+                android:layout_marginEnd="@dimen/default_padding"
                 android:layout_marginBottom="@dimen/default_padding_tiny"
                 android:background="@color/colorOneKeyGreen" />
         </LinearLayout>
