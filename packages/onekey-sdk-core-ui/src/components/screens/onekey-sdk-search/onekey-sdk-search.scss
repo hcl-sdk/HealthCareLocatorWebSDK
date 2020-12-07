@@ -11,10 +11,10 @@
   }
 
   .search-block {
-    position: absolute;
+    position: sticky;
+    width: 100%;
     top: 0;
-    left: 0;
-    z-index: 999;
+    z-index: 9999;
     background-color: white;
     width: 100%;
     margin: 0 !important;
@@ -26,7 +26,6 @@
     background: white;
     padding: 0 15px;
     border-top: 1px solid var(--onekeysdk-color-card_border);
-    margin-top: 105px;
     padding-top: 10px;
   }
 

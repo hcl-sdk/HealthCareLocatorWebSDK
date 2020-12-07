@@ -35,6 +35,7 @@
 ### Used by
 
  - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
+ - [onekey-sdk-home-full](../../screens/onekey-sdk-home/onekey-sdk-home-full)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Depends on
@@ -46,6 +47,7 @@
 graph TD;
   onekey-sdk-map --> ion-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-map
+  onekey-sdk-home-full --> onekey-sdk-map
   onekey-sdk-search-result --> onekey-sdk-map
   style onekey-sdk-map fill:#f9f,stroke:#333,stroke-width:4px
 ```

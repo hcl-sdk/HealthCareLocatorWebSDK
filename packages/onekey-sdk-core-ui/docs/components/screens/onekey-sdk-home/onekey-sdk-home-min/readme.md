@@ -5,11 +5,11 @@
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Events
 
-| Property           | Attribute             | Description | Type  | Default     |
-| ------------------ | --------------------- | ----------- | ----- | ----------- |
-| `onGoSearchScreen` | `on-go-search-screen` |             | `any` | `undefined` |
+| Event            | Description | Type               |
+| ---------------- | ----------- | ------------------ |
+| `goSearchScreen` |             | `CustomEvent<any>` |
 
 
 ## Dependencies

@@ -4,6 +4,13 @@
     // overflow-y: hidden;
   }
 
+  .main-block--header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 9999;
+  }
+
   .home {
     display: flex;
     flex-direction: column;
@@ -96,15 +103,6 @@
     margin-top: 35px;
   }
 
-  .size-xs, .size-md {
-    .main-contain--header {
-      position: sticky;
-      width: 100%;
-      top: 0;
-      z-index: 9999;
-    }
-  }
-
   // Responsive base on container
   .size-lg,
   .size-xl {
@@ -126,7 +124,6 @@
       display: grid;
       grid-gap: 31px;
       grid-auto-flow: row;
-      position: relative;
       border: none;
       padding: 0;
     }
