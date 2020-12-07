@@ -29,6 +29,7 @@
 
  - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
  - [onekey-sdk-home](../../screens/onekey-sdk-home)
+ - [onekey-sdk-home-min](../../screens/onekey-sdk-home/onekey-sdk-home-min)
  - [onekey-sdk-input](../onekey-sdk-input)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
@@ -43,6 +44,7 @@ graph TD;
   onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-button
   onekey-sdk-home --> onekey-sdk-button
+  onekey-sdk-home-min --> onekey-sdk-button
   onekey-sdk-input --> onekey-sdk-button
   onekey-sdk-search --> onekey-sdk-button
   onekey-sdk-search-result --> onekey-sdk-button

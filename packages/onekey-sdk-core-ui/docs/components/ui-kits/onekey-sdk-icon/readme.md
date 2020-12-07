@@ -23,7 +23,7 @@
  - [onekey-sdk-button](../onekey-sdk-button)
  - [onekey-sdk-doctor-card](../onekey-sdk-doctor-card)
  - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
- - [onekey-sdk-home](../../screens/onekey-sdk-home)
+ - [onekey-sdk-home-min](../../screens/onekey-sdk-home/onekey-sdk-home-min)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-address-item](../onekey-sdk-search-address-item)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
@@ -34,7 +34,7 @@ graph TD;
   onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-doctor-card --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-icon
-  onekey-sdk-home --> onekey-sdk-icon
+  onekey-sdk-home-min --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-icon
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-search-result --> onekey-sdk-icon
