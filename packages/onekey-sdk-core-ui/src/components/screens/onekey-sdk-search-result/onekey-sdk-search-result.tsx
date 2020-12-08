@@ -49,6 +49,15 @@ export class OnekeySdkSearchResult {
     this.isOpenPanel = !this.isOpenPanel
   }
 
+  onOpenSort = () => {
+    configStore.setState({
+      modal: {
+        title: "Sort",
+        component: "onekey-sdk-sort"
+      }
+    })
+  }
+
   render() {
     if (!searchMapStore.state.search) {
       return null;
@@ -121,7 +130,7 @@ export class OnekeySdkSearchResult {
                     </div>
                     <div class="search-filter-wrapper">
                       <div class="search-filter">
-                        <onekey-sdk-icon name="sort" />
+                        <onekey-sdk-icon name="sort" onClick={this.onOpenSort}/>
                       </div>
                     </div>
                   </div>

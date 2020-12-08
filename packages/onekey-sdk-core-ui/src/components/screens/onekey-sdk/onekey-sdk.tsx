@@ -52,6 +52,8 @@ export class OneKeySDK {
             <onekey-sdk-route component="onekey-sdk-search" path="/search" />
           </onekey-sdk-router>
         </onekey-sdk-viewport>
+
+        <onekey-sdk-modal modal={configStore.state.modal} />
       </Host>
     );
   }

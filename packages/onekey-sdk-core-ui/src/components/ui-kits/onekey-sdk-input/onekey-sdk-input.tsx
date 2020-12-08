@@ -39,7 +39,7 @@ export class OnekeySdkInput {
           onInput={this.onInput}
           autoComplete={this.autoComplete}
         />
-        {!this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} />}
+        {!this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} type="button" />}
         {this.loading && <span class="input-postfix loader" />}
         <slot></slot>
       </Host>

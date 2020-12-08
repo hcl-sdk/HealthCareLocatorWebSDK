@@ -27,6 +27,12 @@ export interface SelectedValues {
   address?: any;
 }
 
+export interface SortValue {
+  relevance?: boolean;
+  distance?: boolean;
+  name?: boolean;
+}
+
 export interface SearchMapState {
   loading?: boolean;
   hcpNearMe?: HCPItem[];
@@ -36,6 +42,7 @@ export interface SearchMapState {
   searchDoctor?: any[];
   currentLocation?: any;
   selectedValues?: SelectedValues;
+  sortValues?: SortValue
 }
 
 export const initStateSearchMapStore: SearchMapState = {
@@ -45,7 +52,12 @@ export const initStateSearchMapStore: SearchMapState = {
   searchGeo: [],
   searchDoctor: [],
   currentLocation: {},
-  selectedValues: {}
+  selectedValues: {},
+  sortValues: {
+    relevance: false,
+    distance: false,
+    name: false
+  }
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
