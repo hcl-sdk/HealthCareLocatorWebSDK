@@ -98,4 +98,32 @@
                 android:padding="@dimen/default_padding_smaller" />
         </FrameLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_larger"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_padding_bigger"
+            android:text="Font Weight"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_border_corner">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/fontWeightSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_padding_smaller" />
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

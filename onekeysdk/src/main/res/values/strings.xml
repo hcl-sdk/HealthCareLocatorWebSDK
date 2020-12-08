@@ -16,5 +16,5 @@
     <string name="one_key_view_more">View more</string>
     <string name="one_key_last_hcps_consulted">Last HCPs consulted</string>
     <string name="one_key_find_healthcare_professional">Find Healthcare Professional</string>
-    <string name="one_key_suggest_a_modification">Suggest a modification</string>
+    <string name="one_key_suggest_a_modification">Suggest a modification\u0020</string>
 </resources>

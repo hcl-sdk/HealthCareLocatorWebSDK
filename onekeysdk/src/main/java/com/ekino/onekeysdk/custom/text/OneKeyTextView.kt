@@ -135,13 +135,13 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         }
     }
 
-    fun setFont(font: String) {
+    fun setFont(font: String, weight:Int = Typeface.NORMAL) {
         try {
             var f = font
             if (TextUtils.isEmpty(f)) {
                 f = context.getString(R.string.roboto_regular)
             }
-            typeface = f?.let { FontUtil.getFont(context, it) }
+            setTypeface(f?.let { FontUtil.getFont(context, it) }, weight)
         } catch (e: Exception) {
             OneKeyLog.e(e.localizedMessage)
         }

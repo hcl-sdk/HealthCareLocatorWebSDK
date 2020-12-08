@@ -39,7 +39,6 @@ data class OneKeyViewCustomObject private constructor(
         val homeMode: Int = 0,
         var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
         val fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
-
         val fontTitleMain: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", size = 20).build(),
         val fontTitleSecondary: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleSecondary", size = 16, weight = Typeface.BOLD).build(),
         val fontSearchResultTotal: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTotal", size = 14, weight = Typeface.BOLD).build(),

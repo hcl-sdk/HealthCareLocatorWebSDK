@@ -30,7 +30,7 @@
             android:textSize="@dimen/default_text_big" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -47,121 +47,11 @@
                 android:textSize="@dimen/default_text"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/btnDefault"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFont"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_padding"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Default"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayLight" />
-
-            <TextView
-                android:id="@+id/btnTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Title 1"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayLight" />
-
-            <TextView
-                android:id="@+id/btnTitle2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Title 2"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayLight" />
-
-            <TextView
-                android:id="@+id/btnTitle3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Title 3"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayLight" />
-
-            <TextView
-                android:id="@+id/btnSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Small"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayLight" />
-
-            <TextView
-                android:id="@+id/btnSearchInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Search Input"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grayLight" />
-
-            <TextView
-                android:id="@+id/btnButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                android:drawableTint="@color/gray"
-                android:padding="@dimen/default_padding_smaller"
-                android:text="Button"
-                android:textColor="@color/colorOneKeyText"
-                android:textSize="@dimen/default_text" />
-
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -171,6 +61,13 @@
                 android:textColor="@color/colorOneKeyText"
                 android:textSize="@dimen/default_text"
                 android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvColor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -297,5 +194,5 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/default_text" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

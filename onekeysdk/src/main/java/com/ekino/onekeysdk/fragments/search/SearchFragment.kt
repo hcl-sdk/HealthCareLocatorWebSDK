@@ -45,9 +45,13 @@ class SearchFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        org.osmdroid.config.Configuration.getInstance().load(
-                context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)
-        )
+        try {
+            org.osmdroid.config.Configuration.getInstance().load(
+                    context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
