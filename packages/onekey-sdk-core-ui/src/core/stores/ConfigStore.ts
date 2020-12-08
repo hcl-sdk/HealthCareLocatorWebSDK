@@ -17,6 +17,11 @@ export enum ModeViewType {
   "MAP" = "MAP"
 }
 
+export interface Modal {
+  title: string;
+  component: string
+}
+
 export interface OneKeySDKConfigData {
   markerIcon?: string;
   markerIconCurrentLocation?: string;
@@ -26,6 +31,7 @@ export interface OneKeySDKConfigData {
   viewSDKDimension?: ViewSDKDimension;
   modeView?: ModeViewType;
   homeMode?: 'full' | 'min';
+  modal?: Modal;
 }
 
 export const initStateConfigStore = {
@@ -36,7 +42,8 @@ export const initStateConfigStore = {
     width: getContainerHeightWidthOffset().offsetWidth,
     height: getContainerHeightWidthOffset().offsetHeight,
   },
-  modeView: ModeViewType.LIST
+  modeView: ModeViewType.LIST,
+  modal: undefined
 };
 
 class ConfigStore extends StoreProvider<OneKeySDKConfigData> {}
