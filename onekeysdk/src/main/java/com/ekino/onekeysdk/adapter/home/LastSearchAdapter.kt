@@ -18,7 +18,7 @@ class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
                                 ThemeExtension.getInstance().getThemeConfiguration()) :
         OneKeyAdapter<OneKeyLocation, LastSearchAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_search)) {
     var onItemRemovedListener: () -> Unit = {}
-    var onItemClickedListener: (data:OneKeyLocation) -> Unit = {}
+    var onItemClickedListener: (data: OneKeyLocation) -> Unit = {}
     override fun initViewHolder(parent: ViewGroup, viewType: Int): LastSearchVH =
             LastSearchVH(LayoutInflater.from(parent.context).inflate(layoutIds[0], parent, false))
 
@@ -35,10 +35,10 @@ class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
                     tvDoctorName.setTextColor(theme.colorSecondary.getColor())
                     tvDoctorName.text = data.name
                     tvSpeciality.setTextColor(ContextCompat.getColor(context, R.color.colorOneKeyText))
-                    tvSpeciality.setFont(false, false, false, false, false, false, false)
+                    tvSpeciality.setFont(theme.fontDefault, false)
                     tvTitle.text = data.title
                 } else {
-                    tvSpeciality.setFont(false, false, false, true, false, false, false)
+                    tvSpeciality.setFont(theme.fontResultTitle, false)
                     tvSpeciality.setTextColor(theme.colorSecondary.getColor())
                 }
                 ivClear.setOnClickListener {

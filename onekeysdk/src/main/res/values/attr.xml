@@ -10,6 +10,50 @@
         <attr name="searchInputStyle" format="boolean" />
         <attr name="smallStyle" format="boolean" />
         <attr name="OneKey_buttonStyle" format="boolean" />
+        <attr name="OneKeyTextStyle" format="enum">
+            <enum name="OneKeyStyleDefault" value="0" />
+            <enum name="OneKeyStyleTitleMain" value="1" />
+            <enum name="OneKeyStyleTitleSecondary" value="2" />
+            <enum name="OneKeyStyleSearchResultTotal" value="3" />
+            <enum name="OneKeyStyleSearchResultTitle" value="4" />
+            <enum name="OneKeyStyleResultTitle" value="5" />
+            <enum name="OneKeyStyleResultSubtitle" value="6" />
+            <enum name="OneKeyStyleProfileTitle" value="7" />
+            <enum name="OneKeyStyleProfileSubtitle" value="8" />
+            <enum name="OneKeyStyleProfileTitleSection" value="9" />
+            <enum name="OneKeyStyleCardTitle" value="10" />
+            <enum name="OneKeyStyleModalTitle" value="11" />
+            <enum name="OneKeyStyleSearchInput" value="12" />
+            <enum name="OneKeyStyleButton" value="13" />
+            <enum name="OneKeyStyleSmall" value="14" />
+            <enum name="OneKeyStyleSortCriteria" value="15" />
+        </attr>
+        <attr name="OneKeyTextColor" format="enum">
+            <enum name="OneKeyColorPrimary" value="0" />
+            <enum name="OneKeyColorSecondary" value="1" />
+            <enum name="OneKeyColorButtonBackground" value="2" />
+            <enum name="OneKeyColorButtonAcceptBackground" value="3" />
+            <enum name="OneKeyColorButtonBorder" value="4" />
+            <enum name="OneKeyColorCardBorder" value="5" />
+            <enum name="OneKeyColorMarker" value="6" />
+            <enum name="OneKeyColorMarkerSelected" value="7" />
+            <enum name="OneKeyColorViewBackground" value="8" />
+            <enum name="OneKeyColorListBackground" value="9" />
+            <enum name="OneKeyColorVoteUp" value="10" />
+            <enum name="OneKeyColorVoteDown" value="11" />
+            <enum name="OneKeyColorDark" value="12" />
+            <enum name="OneKeyColorGrey" value="13" />
+            <enum name="OneKeyColorGreyDark" value="14" />
+            <enum name="OneKeyColorGreyDarker" value="15" />
+            <enum name="OneKeyColorGreyLight" value="16" />
+            <enum name="OneKeyColorGreyLighter" value="17" />
+        </attr>
+        <attr name="OneKeyFontWeight" format="enum">
+            <enum name="NORMAL" value="0" />
+            <enum name="ITALIC" value="1" />
+            <enum name="BOLD" value="2" />
+            <enum name="BOLD_ITALIC" value="3" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ExpandableLayout">

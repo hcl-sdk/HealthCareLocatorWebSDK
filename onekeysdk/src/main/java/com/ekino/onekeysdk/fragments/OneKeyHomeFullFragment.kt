@@ -65,8 +65,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             fm.beginTransaction().add(R.id.nearMeMap, mapFragment, mapFragmentTag)
                     .commit()
         }
-        viewMoreSearches.tag = searchTag
-        viewMoreConsulted.tag = consultedTag
         viewMoreSearches.text = getViewTagText(searchTag)
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
@@ -86,7 +84,8 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             viewModel.apply {
                 getConsultedProfiles(pref)
                 consultedProfiles.observe(this@OneKeyHomeFullFragment, Observer {
-                    lastConsultedAdapter.setData(it.take(3).toArrayList())
+                    checkViewMoreConsulted(it.size)
+                    lastConsultedAdapter.setData(it.take(if (consultedTag == 0) 3 else 10).toArrayList())
                 })
             }
         }
@@ -148,6 +147,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                 }
         }
         lastConsultedAdapter.onItemRemovedListener = {
+            checkViewMoreConsulted(lastConsultedAdapter.getData().size)
             if (lastConsultedAdapter.getData().isEmpty())
                 lastConsultedWrapper.visibility = View.GONE
         }
@@ -173,4 +173,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     }
 
     private fun getViewTagText(tag: Int): String = if (tag == 0) "View more" else "View less"
+    private fun checkViewMoreConsulted(size: Int) {
+        if (size <= 3) viewMoreConsulted.visibility = View.GONE
+    }
 }

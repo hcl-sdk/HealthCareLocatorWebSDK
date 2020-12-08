@@ -38,8 +38,8 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
             selectedPosition = savedInstanceState.getInt("selectedPosition")
         }
 
-        tvSort.setTextColor(theme.colorSecondary.getColor())
         btnApply.setBackgroundColor(theme.colorPrimary.getColor())
+        btnReset.setBackgroundColor(theme.colorButtonDiscardBackground.getColor())
 
         rvSort.apply {
             layoutManager = LinearLayoutManager(context)

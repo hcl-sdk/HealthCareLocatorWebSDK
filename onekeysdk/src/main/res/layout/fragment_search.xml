@@ -49,12 +49,13 @@
                         android:layout_weight="1"
                         android:background="@color/transparent"
                         android:focusable="true"
-                        android:hint="Name, Specialty, Establishment,..."
+                        android:hint="Name, Specialty"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLines="1"
                         android:padding="@dimen/default_padding_smaller"
-                        app:searchInputStyle="true" />
+                        app:OneKeyTextColor="OneKeyColorDark"
+                        app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
                     <ImageView
                         android:id="@+id/ivSpecialityClear"
@@ -93,7 +94,8 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:padding="@dimen/default_padding_smaller"
-                        app:searchInputStyle="true" />
+                        app:OneKeyTextColor="OneKeyColorDark"
+                        app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
                     <ImageView
                         android:id="@+id/ivAddressClear"

@@ -34,6 +34,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     place = p
                     locations.clear()
                     locations.addAll(l)
+                    if (p?.placeId == "near_me") activeScreen = 1
                 }
 
         private var speciality: String = ""
@@ -178,6 +179,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     fun navigateToHCPProfile(location: OneKeyLocation) {
         context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+            location.isHCP = true
             viewModel.storeConsultedProfile(this, location)
         }
         navigateToProfile = true

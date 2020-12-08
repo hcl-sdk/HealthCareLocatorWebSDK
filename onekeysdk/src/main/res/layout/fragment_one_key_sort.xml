@@ -19,7 +19,8 @@
             android:layout_weight="1"
             android:text="Sort"
             android:textSize="@dimen/default_text_big"
-            app:title1Style="true" />
+            app:OneKeyTextColor="OneKeyColorPrimary"
+            app:OneKeyTextStyle="OneKeyStyleModalTitle" />
 
         <ImageView
             android:id="@+id/btnClose"
@@ -81,7 +82,7 @@
                 android:padding="@dimen/default_padding_smaller"
                 android:text="Apply"
                 android:textColor="@color/white"
-                app:OneKey_buttonStyle="true" />
+                app:OneKeyTextStyle="OneKeyStyleButton" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -16,7 +16,8 @@
         android:text="Name"
         android:textColor="@color/colorOneKeyText"
         android:textSize="@dimen/default_text"
-        app:forceTextSize="true" />
+        app:OneKeyTextColor="OneKeyColorDark"
+        app:OneKeyTextStyle="OneKeyStyleSortCriteria" />
 
     <CheckBox
         android:id="@+id/cbxSort"

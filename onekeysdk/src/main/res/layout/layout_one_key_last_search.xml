@@ -54,7 +54,7 @@
                 android:text="1 day ago"
                 android:textColor="@color/colorOneKeyText"
                 android:textSize="@dimen/default_text_small"
-                app:smallStyle="true" />
+                app:OneKeyTextStyle="OneKeyStyleSmall" />
         </LinearLayout>
 
         <ImageView

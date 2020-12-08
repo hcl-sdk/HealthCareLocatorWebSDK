@@ -11,4 +11,10 @@
     <string name="montserrat_regular" translatable="false">fonts/Montserrat-Regular.ttf</string>
 
     <string name="app_name">OneKeySDK</string>
+    <string name="one_key_hcps_near_me">HCPs near me</string>
+    <string name="one_key_last_searches">Last searches</string>
+    <string name="one_key_view_more">View more</string>
+    <string name="one_key_last_hcps_consulted">Last HCPs consulted</string>
+    <string name="one_key_find_healthcare_professional">Find Healthcare Professional</string>
+    <string name="one_key_suggest_a_modification">Suggest a modification</string>
 </resources>

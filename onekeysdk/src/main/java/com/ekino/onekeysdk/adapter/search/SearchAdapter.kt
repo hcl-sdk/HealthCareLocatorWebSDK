@@ -31,7 +31,6 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         itemView.layoutParams = lp
                     }
                 tvName.text = data.name
-                tvName.setTextColor(themeConfig.colorSecondary.getColor())
                 tvSpeciality.text = data.speciality
                 tvAddress.text = data.address
                 tvDistance.text = "${data.distance}m"

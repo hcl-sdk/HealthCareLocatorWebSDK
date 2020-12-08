@@ -39,8 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorOneKeyText"
-                    app:boldText="true"
-                    app:title1Style="true"
+                    app:OneKeyTextColor="OneKeyColorDark"
+                    app:OneKeyTextStyle="OneKeyStyleSearchResultTitle"
                     tools:text="Speciality" />
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView
@@ -49,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_padding_tiny"
                     android:textSize="@dimen/default_text_small"
-                    app:smallStyle="true"
+                    app:OneKeyTextColor="OneKeyColorGrey"
+                    app:OneKeyTextStyle="OneKeyStyleSmall"
                     tools:text="Speciality" />
             </LinearLayout>
         </LinearLayout>
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:text="Results:"
                 android:textColor="@color/colorOneKeyText"
-                app:boldText="true" />
+                app:OneKeyTextStyle="OneKeyStyleSearchResultTotal" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvResult"
@@ -82,6 +83,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_padding_tiny"
                 android:text="0"
+                app:OneKeyTextColor="OneKeyColorPrimary"
+                app:OneKeyTextStyle="OneKeyStyleSearchResultTotal"
                 app:boldText="true" />
 
             <FrameLayout

@@ -47,7 +47,7 @@ abstract class OneKeyAdapter<DATA, VH : RecyclerView.ViewHolder>
 
     open fun addList(position: Int, items: ArrayList<DATA>) {
         dataSource.addAll(position, items)
-        notifyItemRangeInserted(if (position - 1 > 0) position - 1 else position, items.size)
+        notifyDataSetChanged()
     }
 
     open fun removeRange(position: Int, endPosition: Int) {

@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.extensions
 
 import android.content.SharedPreferences
+import android.content.res.TypedArray
 import android.text.format.DateUtils
 import android.view.View
 import androidx.core.content.edit
@@ -19,6 +20,14 @@ fun Int.isValidPosition(size: Int) = this in 0..size.minus(1)
  * Boolean
  **/
 fun Boolean.getVisibility() = if (this) View.VISIBLE else View.GONE
+
+/**
+ * [TypedArray]
+ */
+inline fun <reified T : Enum<T>> TypedArray.getEnum(index: Int, default: T) =
+        getInt(index, -1).let {
+            if (it >= 0) enumValues<T>()[it] else default
+        }
 
 /**
  * @link [com.ekino.onekeysdk.model.home.OneKeyHomeObject]
@@ -62,4 +71,7 @@ fun SharedPreferences.getConsultedProfiles(gson: Gson = Gson()): ArrayList<OneKe
             object : TypeToken<ArrayList<OneKeyLocation>>() {}.type)
 }
 
+/**
+ * [Collections]
+ */
 fun <T> List<T>.toArrayList() = ArrayList(this)

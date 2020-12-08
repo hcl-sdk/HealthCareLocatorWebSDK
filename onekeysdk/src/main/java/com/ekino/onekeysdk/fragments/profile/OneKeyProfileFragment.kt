@@ -63,12 +63,12 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             oneKeyLocation = savedInstanceState.getParcelable("selectedLocation")
         }
         val secondaryColor = oneKeyViewCustomObject.colorSecondary.getColor()
-        tvDoctorName.setTextColor(secondaryColor)
-        tvMainInformation.setTextColor(secondaryColor)
-        tvSpecialitiesLabel.setTextColor(secondaryColor)
-        tvRateRefundLabel.setTextColor(secondaryColor)
-        tvInformationLabel.setTextColor(secondaryColor)
-        tvModificationLabel.setTextColor(secondaryColor)
+//        tvDoctorName.setTextColor(secondaryColor)
+//        tvMainInformation.setTextColor(secondaryColor)
+//        tvSpecialitiesLabel.setTextColor(secondaryColor)
+//        tvRateRefundLabel.setTextColor(secondaryColor)
+//        tvInformationLabel.setTextColor(secondaryColor)
+//        tvModificationLabel.setTextColor(secondaryColor)
         ivDirection.setColorFilter(secondaryColor)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
@@ -93,6 +93,8 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
         }
         addressSpinner.setSelection(selectedAddress)
         addressSpinner.onItemSelectedListener = this
+
+        applyStyles()
 
         btnBack.setOnClickListener(this)
         tvWebsite.setOnClickListener(this)
@@ -148,6 +150,10 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             oneKeyLocation = it
             getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(it), true)
         }
+    }
+
+    private fun applyStyles() {
+        btnBack.setColorFilter(oneKeyViewCustomObject.colorGrey.getColor())
     }
 
     private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.firstOrNull {
