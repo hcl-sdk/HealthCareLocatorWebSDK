@@ -46,7 +46,7 @@ export class OnekeySdkButton {
     }
 
     return (
-      <button class={btnClass}>
+      <button class={btnClass} type={this.type}>
         <slot></slot>
       </button>
     );

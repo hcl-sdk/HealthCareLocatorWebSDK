@@ -1,0 +1,68 @@
+:host {
+  .modal-container {
+    width: 100%;
+    height: 100%;
+    background: #00000033;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+  }
+
+  .modal-class {
+    padding: 10px;
+    display: grid;
+    background-color: var(--onekeysdk-color-view_bkg);
+
+    position: absolute;
+    grid-template-rows: auto 1fr;
+    grid-gap: 10px;
+
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+  }
+
+  
+
+  .modal-title {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+      color: var(--onekeysdk-color-primary);
+      font-family: var(--onekeysdk-font-modal_title-name);
+      font-size: var(--onekeysdk-font-modal_title-size);
+      font-weight: var(--onekeysdk-font-modal_title-weight);
+    }
+  }
+
+  .size-lg, .size-xl {
+    .modal-content {
+    }
+
+    .modal-class {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      padding: 15px;
+      background-color: white;
+      width: auto;
+      height: auto;
+      border: 1px solid var(--onekeysdk-color-card_border);
+      min-width: 338px;
+      border-radius: 5px;
+    }
+
+    .modal-title {
+      text-align: center;
+      border-bottom: 1px solid var(--onekeysdk-color-card_border);
+      padding-bottom: 10px;
+    }
+  }
+}
