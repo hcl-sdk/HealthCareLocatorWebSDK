@@ -150,6 +150,7 @@ export namespace Components {
     interface OnekeySdkInput {
         "autoComplete"?: string;
         "autoFocus"?: boolean;
+        "checked"?: boolean;
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
@@ -157,6 +158,7 @@ export namespace Components {
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
+        "type"?: string;
         "value"?: any;
     }
     interface OnekeySdkLoading {
@@ -653,6 +655,7 @@ declare namespace LocalJSX {
     interface OnekeySdkInput {
         "autoComplete"?: string;
         "autoFocus"?: boolean;
+        "checked"?: boolean;
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
@@ -660,6 +663,7 @@ declare namespace LocalJSX {
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
+        "type"?: string;
         "value"?: any;
     }
     interface OnekeySdkLoading {

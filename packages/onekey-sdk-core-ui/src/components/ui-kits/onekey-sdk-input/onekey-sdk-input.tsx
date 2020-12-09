@@ -17,6 +17,8 @@ export class OnekeySdkInput {
   @Prop() class?: string;
   @Prop() loading?: boolean = false;
   @Prop() autoFocus?: boolean = false;
+  @Prop() type?: string = "text";
+  @Prop() checked?: boolean = false;
 
   textInput!: HTMLInputElement;
 
@@ -28,9 +30,19 @@ export class OnekeySdkInput {
 
   render() {
     const inputClass = cls('onekey-sdk-input', this.class);
+    if(this.type === "checkbox") {
+      return (
+        <Host class="input-checkbox">
+          <input type={this.type} name={this.name} checked={this.checked} onInput={this.onInput} />
+          <span class="checkmark" />
+        </Host>
+      )
+    }
+      
     return (
       <Host>
         <input
+          type={this.type}
           class={inputClass}
           ref={el => (this.textInput = el)}
           name={this.name}

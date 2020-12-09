@@ -49,17 +49,17 @@ export class OnekeySdkSort {
             <div class="sort-option">
               <div class="sort-option-item">
                 <label htmlFor="relevance">Relevance</label>
-                <input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
+                <onekey-sdk-input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
               </div>
 
               <div class="sort-option-item">
                 <label htmlFor="distance">Distance</label>
-                <input type="checkbox" id="distance" name="distance" checked={distance} onInput={this.onChange} />
+                <onekey-sdk-input type="checkbox" id="distance" name="distance" checked={distance} onInput={this.onChange} />
               </div>
 
               <div class="sort-option-item">
                 <label htmlFor="name">Name</label>
-                <input type="checkbox" id="name" name="name" checked={name} onInput={this.onChange} />
+                <onekey-sdk-input type="checkbox" id="name" name="name" checked={name} onInput={this.onChange} />
               </div>
             </div>
             <div class="sort-action">
