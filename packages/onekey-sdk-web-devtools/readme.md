@@ -7,6 +7,12 @@ To install project dependencies, run:
 yarn
 ```
 
+To start the project for development, run:
+
+```bash
+yarn start
+```
+
 To build the component for production, run:
 
 ```bash
