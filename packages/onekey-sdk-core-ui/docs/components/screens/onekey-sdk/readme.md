@@ -14,13 +14,13 @@
 
 ## Methods
 
-### `updateConfig(patch: any) => Promise<void>`
+### `updateConfig(patch: any) => Promise<OneKeySDKConfigData>`
 
 
 
 #### Returns
 
-Type: `Promise<void>`
+Type: `Promise<OneKeySDKConfigData>`
 
 
 

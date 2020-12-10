@@ -6,9 +6,15 @@
     <title>OneKey SDK devtools</title>
     <script type="module" src="/build/devtools.esm.js"></script>
     <script nomodule src="/build/devtools.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+      .menu { width: 300px; max-width: 100%; position: absolute; left: 0; top: 0; bottom: 0; background: rgba(0, 0, 0, 0.1); }
+      html { background-color: grey; }
+    </style>
   </head>
   <body style="font-family: Arial, Helvetica, sans-serif;">
-    <div style="width: 300px; max-width: 100%; position: absolute; left: 0; top: 0; bottom: 0; background: rgba(0, 0, 0, 0.1)">
+    <div class="menu">
       <settings-panel></settings-panel>
     </div>
     <script>
