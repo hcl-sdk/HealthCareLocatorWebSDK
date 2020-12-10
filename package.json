@@ -8,15 +8,12 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-web": "npm run build --prefix packages/onekey-sdk-core-ui",
-    "build-devtools": "npm run build --prefix packages/onekey-sdk-devtools",
-    "build-angular": "echo \"Build SDK for angular\"",
-    "build-reactjs": "echo \"Build SDK for reactjs\"",
-    "build-vuejs": "echo \"Build SDK for vuejs\"",
-    "start-web": "npm run start --prefix packages/onekey-sdk-core-ui",
-    "start-devtools": "npm run start --prefix packages/onekey-sdk-devtools",
-    "start-example-web": "npm run build-web && npm run build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn",
-    "build-example-web": "npm run build-web && npm run build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn"
+    "start-web": "lerna run start --scope onekey-sdk-core-ui",
+    "build-web": "lerna run build --scope onekey-sdk-core-ui",
+    "start-devtools": "lerna run start --scope onekey-sdk-devtools",
+    "build-devtools": "lerna run build --scope onekey-sdk-devtools",
+    "start-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn",
+    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn"
   },
   "repository": {
     "type": "git",
@@ -25,6 +22,9 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "15"
+    "node": "14"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
   }
 }

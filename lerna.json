@@ -1,0 +1,17 @@
+{
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "run": {
+      "parallel": true,
+      "stream": true
+    },
+    "version": {
+      "allowBranch": ["valid", "master"],
+      "conventionalCommits": true,
+      "message": "chore(release): bumps packages version [skip ci]",
+      "noCommitHooks": true
+    }
+  }
+}

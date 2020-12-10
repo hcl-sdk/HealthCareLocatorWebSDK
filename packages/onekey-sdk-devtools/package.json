@@ -29,5 +29,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.15"
+  },
+  "engines": {
+    "node": "14"
   }
 }

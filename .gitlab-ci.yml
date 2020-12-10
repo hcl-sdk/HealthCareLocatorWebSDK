@@ -1,4 +1,4 @@
-image: node:15.2.1-alpine3.10
+image: ekino/ci-node:14-latest
 
 stages:
   - build_n_deploy
@@ -8,9 +8,9 @@ build_n_deploy:
   stage: build_n_deploy
   only: [master]
   script:
-    - apk --update add openssh-client
-    - npm i
-    - npm run build-example-web
+    # - apk --update add openssh-client
+    - yarn
+    - yarn build-example-web
     - tar czf ./onekey-sdk-web_build.tar.gz ./examples/web/cdn
     - mkdir -p ~/.ssh/
     - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
