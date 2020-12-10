@@ -17,12 +17,13 @@
 
 ### Depends on
 
-- jeep-cpicker
+- jeep-colorpicker
 
 ### Graph
 ```mermaid
 graph TD;
-  settings-panel --> jeep-cpicker
+  settings-panel --> jeep-colorpicker
+  jeep-colorpicker --> jeep-cpicker
   style settings-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

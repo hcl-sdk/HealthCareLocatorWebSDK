@@ -3,7 +3,7 @@ import { Config } from '@stencil/core';
 export const config: Config = {
   namespace: 'devtools',
   buildEs5: true,
-  enableCache: false,
+  taskQueue: 'async',
   outputTargets: [
     {
       type: 'dist',
