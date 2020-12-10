@@ -35,9 +35,7 @@
 
     .title {
       color: var(--onekeysdk-color-primary);
-      font-family: var(--onekeysdk-font-modal_title-name);
-      font-size: var(--onekeysdk-font-modal_title-size);
-      font-weight: var(--onekeysdk-font-modal_title-weight);
+      @include applyFontStyle("modal_title");
     }
   }
 

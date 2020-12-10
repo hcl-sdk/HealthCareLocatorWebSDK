@@ -1,4 +1,11 @@
+@import '../../../global/scss/variables.scss';
+
 :host {
+
+  input {
+    @include applyFontStyle("search_input")
+  }
+
   .input-checkbox {
     position: relative;
     cursor: pointer;

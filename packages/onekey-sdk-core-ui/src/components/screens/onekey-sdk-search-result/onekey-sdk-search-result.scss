@@ -1,3 +1,5 @@
+@import '../../../global/scss/variables.scss';
+
 :host {
   display: block;
 
@@ -21,10 +23,8 @@
     flex-direction: column;
 
     &__total, &__total-value {
-      font-family: var(--onekeysdk-font-search_result_total-name);
       color: var(--onekeysdk-color-dark);
-      font-size: var(--onekeysdk-font-search_result_total-size);
-      font-weight: var(--onekeysdk-font-search_result_total-weight);
+      @include applyFontStyle("search_result_total")
     }
 
     &__total-value {
@@ -32,17 +32,13 @@
     }
 
     &-title {
-      font-family: var(--onekeysdk-font-search_result_title-name);
-      font-size: var(--onekeysdk-font-search_result_title-size);
-      font-weight: var(--onekeysdk-font-search_result_title-weight);
       color: var(--onekeysdk-font-search_result_title-weight);
+      @include applyFontStyle("search_result_title")
     }
 
     &-address {
-      font-family: var(--onekeysdk-font-small-name);
-      font-size: var(--onekeysdk-font-small-size);
-      font-weight: var(--onekeysdk-font-small-weight);
       color: var(--onekeysdk-color-grey);
+      @include applyFontStyle("small")
     }
   }
 

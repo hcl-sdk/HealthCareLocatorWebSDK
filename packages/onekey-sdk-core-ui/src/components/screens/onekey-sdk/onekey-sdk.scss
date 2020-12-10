@@ -1,5 +1,4 @@
 @import '../../../global/scss/variables.scss';
-@import '../../../global/scss/materialize.scss';
 
 :host {
   display: block;
@@ -8,8 +7,9 @@
   overflow: auto;
   position: relative;
   background-color: #f3f3f3;
-  font-family: var(--onekeysdk-font-default-name);
-  font-size: var(--onekeysdk-font-default-size);
+  
+  @include applyFontStyle("default");
+  
   color: var(--onekeysdk-color-dark);
   *, *::before, *::after, input, button {
     box-sizing: border-box;
