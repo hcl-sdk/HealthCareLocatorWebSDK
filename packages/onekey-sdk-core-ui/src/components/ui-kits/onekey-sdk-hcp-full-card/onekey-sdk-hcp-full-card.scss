@@ -1,3 +1,5 @@
+@import '../../../global/scss/variables.scss';
+
 :host {
   .main-info {
     padding: 10px;
@@ -25,17 +27,13 @@
     &__profile {
       display: grid;
       &-name {
-        font-family: var(--onekeysdk-font-profile_title-name);
         color: var(--onekeysdk-color-secondary);
-        font-size: var(--onekeysdk-font-profile_title-size);
-        font-weight: var(--onekeysdk-font-profile_title-weight);
+        @include applyFontStyle("profile_title");
       }
 
       &-dep {
-        font-family: var(--onekeysdk-font-profile_subtitle-name);
         color: var(--onekeysdk-color-dark);
-        font-size: var(--onekeysdk-font-profile_subtitle-size);
-        font-weight: var(--onekeysdk-font-profile_subtitle-weight);
+        @include applyFontStyle("profile_subtitle");
       }
     }
   }
@@ -59,9 +57,8 @@
 
     &__title {
       color: var(--onekeysdk-color-secondary);
-      font-family: var(--onekeysdk-font-profile_title_section-name);
-      font-size: var(--onekeysdk-font-profile_title_section-size);
-      font-weight: var(--onekeysdk-font-profile_title_section-weight);
+
+      @include applyFontStyle("profile_title_section");
       display: grid;
       align-self: start;
     }
@@ -115,10 +112,8 @@
   .info-section-body {
     display: grid;
     grid-gap: 20px;
-    font-family: var(--onekeysdk-font-default-name);
     color: var(--onekeysdk-color-dark);
-    font-size: var(--onekeysdk-font-default-size);
-    font-weight: var(--onekeysdk-font-default-weight);
+    @include applyFontStyle("default");
 
     &__map {
       height: 100px;
@@ -134,6 +129,8 @@
         font-size: 13px;
         border-radius: 5px;
         padding: 5px;
+
+        @include applyFontStyle("default");
       }
     }
 

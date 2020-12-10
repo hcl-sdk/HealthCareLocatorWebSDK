@@ -1,3 +1,5 @@
+@import '../../../global/scss/variables.scss';
+
 :host {
   .main-contain {
     background-color: var(--onekeysdk-color-view_bkg);
@@ -22,10 +24,9 @@
   .title {
     color: var(--onekeysdk-color-secondary);
     display: block;
-    font-family: var(--onekeysdk-font-title_main-name);
-    font-size: var(--onekeysdk-font-title_main-size);
-    font-weight: var(--onekeysdk-font-title_main-weight);
     line-height: 26px;
+
+    @include applyFontStyle("title_main");
   }
 
   .item {
@@ -263,7 +264,6 @@
 
     button {
       border: none;
-      font-size: var(--onekeysdk-font-small-size);
       color: var(--onekeysdk-color-primary);
       background: transparent;
       position: absolute;
@@ -272,18 +272,18 @@
       padding: 5px 0;
       outline: none;
       cursor: pointer;
+      @include applyFontStyle("small");
     }
   }
 
   .card__title {
-    font-family: var(--onekeysdk-font-card_title-name);
-    font-size: var(--onekeysdk-font-card_title-size);
-    font-weight: var(--onekeysdk-font-card_title-weight);
     margin: 0;
     height: 40px;
     display: flex;
     align-items: center;
     padding: 10px;
+
+    @include applyFontStyle("card_title");
   }
 
   .card__content-wrapper {

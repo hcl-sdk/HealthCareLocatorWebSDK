@@ -36,6 +36,7 @@
  - [onekey-sdk-input](../onekey-sdk-input)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
+ - [onekey-sdk-sort](../onekey-sdk-sort)
 
 ### Depends on
 
@@ -52,6 +53,7 @@ graph TD;
   onekey-sdk-input --> onekey-sdk-button
   onekey-sdk-search --> onekey-sdk-button
   onekey-sdk-search-result --> onekey-sdk-button
+  onekey-sdk-sort --> onekey-sdk-button
   style onekey-sdk-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

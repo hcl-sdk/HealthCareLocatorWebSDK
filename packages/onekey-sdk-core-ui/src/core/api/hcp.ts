@@ -161,7 +161,7 @@ export const test = (variables = {}) => {
     }
   `;
 
-  const endpoint = 'https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query';
+  const endpoint = 'https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query';
   const client = new GraphQLClient(endpoint, { mode: 'no-cors' });
   return client.request(query, variables).then(data => console.log(data));
 };

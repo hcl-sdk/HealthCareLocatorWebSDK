@@ -1,3 +1,5 @@
+@import '../../../global/scss/variables.scss';
+
 :host {
   display: block;
   cursor: pointer;
@@ -35,17 +37,17 @@
 
     .address {
       color: var(--onekeysdk-color-grey_dark);
-      font-family: var(--onekeysdk-font-default-name);
+      @include applyFontStyle("default");
     }
 
     .gp {
       color: var(--onekeysdk-color-dark);
-      font-family: var(--onekeysdk-font-default-name);
+      @include applyFontStyle("default");
     }
 
     .distance {
       color: var(--onekeysdk-color-dark);
-      font-family: var(--onekeysdk-font-default-name);
+      @include applyFontStyle("default");
     }
   }
 }

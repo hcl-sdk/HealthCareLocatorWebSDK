@@ -1,18 +1,15 @@
-// @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import '../../../global/scss/variables.scss';
-@import '../../../global/scss/materialize.scss';
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
-// @import url('https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css');
 
 :host {
   display: block;
   width: 100%;
   height: 100%;
   overflow: auto;
-  font-family: 'Roboto', sans-serif;
   position: relative;
   background-color: #f3f3f3;
-  font-size: var(--onekeysdk-font-default-size);
+  
+  @include applyFontStyle("default");
+  
   color: var(--onekeysdk-color-dark);
   *, *::before, *::after, input, button {
     box-sizing: border-box;

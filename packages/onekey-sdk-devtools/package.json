@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "@jeepq/core": "0.0.4-1",
-    "@stencil/core": "~2.2.0"
+    "@stencil/core": "~2.2.0",
+    "onekey-sdk-core": "*"
   },
   "license": "MIT",
   "devDependencies": {

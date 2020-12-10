@@ -1,3 +1,5 @@
+@import '../../../global/scss/variables.scss';
+
 :host {
   .btn {
     opacity: 1;
@@ -7,7 +9,6 @@
     color: rgb(255, 255, 255);
     font-weight: normal;
     text-align: center;
-    font-size: var(--onekeysdk-font-button-size);
     font-style: normal;
     background-color: transparent;
     background-position: center center;
@@ -24,6 +25,7 @@
     color: black;
     outline: none;
     min-height: 33px;
+    @include applyFontStyle("button");
 
     &.primary {
       background-color: var(--onekeysdk-color-primary);
