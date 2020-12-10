@@ -25,7 +25,7 @@
     color: black;
     outline: none;
     min-height: 33px;
-    @include applyFontStyle("button")
+    @include applyFontStyle("button");
 
     &.primary {
       background-color: var(--onekeysdk-color-primary);
