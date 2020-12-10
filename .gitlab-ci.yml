@@ -8,23 +8,18 @@ build_n_deploy:
   stage: build_n_deploy
   only: [master]
   script:
-    # - apk --update add openssh-client
-    - B64_PAT=$(printf ":$MY_PAT" | base64)
-    - "git -c http.extraHeader=\"Authorization: Basic ${B64_PAT}\" config remote.azure.url >&- || git -c http.extraHeader=\"Authorization: Basic ${B64_PAT}\" remote add azure https://onekeysdk@dev.azure.com/onekeysdk/onekey-sdk-web-lib/_git/onekey-sdk-web-lib"
-    # - git push azure HEAD:push-azure-repos
-    - "git -c http.extraHeader=\"Authorization: Basic ${B64_PAT}\" push -u azure master"
-    # - yarn
-    # - yarn build-example-web
-    # - tar czf ./onekey-sdk-web_build.tar.gz ./examples/web/cdn
-    # - mkdir -p ~/.ssh/
-    # - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
-    # - chmod 600 ~/.ssh/id_rsa
-    # - eval `ssh-agent -s`
-    # - cp $SSH_CONFIG_FILE ~/.ssh/config
-    # - chmod 0600 ~/.ssh/config
-    # - ssh-add ~/.ssh/id_rsa
-    # - touch ~/.ssh/known_hosts
-    # - ssh-keyscan -p 2233 -t rsa dev.ekinoffy.com >> ~/.ssh/known_hosts
-    # - ssh -p 2233 webadmin@dev.ekinoffy.com ssh-keyscan -t rsa 10.161.207.90 >> ~/.ssh/known_hosts
-    # - scp ./onekey-sdk-web_build.tar.gz webadmin@10.161.207.90:/tmp/onekey-sdk-web_build.tar.gz
-    # - ssh webadmin@10.161.207.90 "./web/onekey/deploy_sdk.sh"
+    - yarn
+    - yarn build-example-web
+    - tar czf ./onekey-sdk-web_build.tar.gz ./examples/web/cdn
+    - mkdir -p ~/.ssh/
+    - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval `ssh-agent -s`
+    - cp $SSH_CONFIG_FILE ~/.ssh/config
+    - chmod 0600 ~/.ssh/config
+    - ssh-add ~/.ssh/id_rsa
+    - touch ~/.ssh/known_hosts
+    - ssh-keyscan -p 2233 -t rsa dev.ekinoffy.com >> ~/.ssh/known_hosts
+    - ssh -p 2233 webadmin@dev.ekinoffy.com ssh-keyscan -t rsa 10.161.207.90 >> ~/.ssh/known_hosts
+    - scp ./onekey-sdk-web_build.tar.gz webadmin@10.161.207.90:/tmp/onekey-sdk-web_build.tar.gz
+    - ssh webadmin@10.161.207.90 "./web/onekey/deploy_sdk.sh"
