@@ -8,12 +8,12 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-web": "lerna run start --scope onekey-sdk-core-ui",
-    "build-web": "lerna run build --scope onekey-sdk-core-ui",
-    "start-devtools": "lerna run start --scope onekey-sdk-devtools",
-    "build-devtools": "lerna run build --scope onekey-sdk-devtools",
-    "start-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn",
-    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/onekey-sdk-core-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-devtools/dist/devtools ./examples/web/cdn"
+    "start-web": "lerna run start --scope onekey-sdk-web-ui",
+    "build-web": "lerna run build --scope onekey-sdk-web-ui",
+    "start-devtools": "lerna run start --scope onekey-sdk-web-devtools",
+    "build-devtools": "lerna run build --scope onekey-sdk-web-devtools",
+    "start-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/onekey-sdk-web-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-web-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn",
+    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/onekey-sdk-web-ui/dist/onekey-sdk ./examples/web/cdn && cp -R ./packages/onekey-sdk-web-devtools/dist/devtools ./examples/web/cdn"
   },
   "repository": {
     "type": "git",

@@ -29,5 +29,5 @@ examples/web/cdn/onekey-sdk
 examples/web/cdn/devtools
 
 packages/*/onekey-sdk-core
-packages/*/onekey-sdk-core-ui
-packages/*/onekey-sdk-devtools
+packages/*/onekey-sdk-web-ui
+packages/*/onekey-sdk-web-devtools
