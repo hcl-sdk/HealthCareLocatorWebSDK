@@ -222,6 +222,9 @@ export class SettingsPanel {
         this.removeCustomStyleProperty(prop.cssKey);
       } else if (value === this.customThemeOverrides[prop.cssKey]) {
         return;
+      } else {
+        nextCustomTheme[prop.cssKey] = value;
+        this.setCustomStyleProperty(prop.cssKey, value);
       }
     } else if (value !== DEFAULT_VALUES[prop.cssKey]) {
       nextCustomTheme[prop.cssKey] = value;
