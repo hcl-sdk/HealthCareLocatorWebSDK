@@ -198,7 +198,7 @@
         z-index: 999;
         top: 2px;
         display: grid;
-        grid-template-rows: 1fr;
+        grid-template-rows: auto 1fr;
 
         &.hide {
           width: 0;

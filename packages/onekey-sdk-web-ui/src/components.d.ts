@@ -154,6 +154,7 @@ export namespace Components {
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
+        "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
@@ -659,6 +660,7 @@ declare namespace LocalJSX {
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
+        "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;

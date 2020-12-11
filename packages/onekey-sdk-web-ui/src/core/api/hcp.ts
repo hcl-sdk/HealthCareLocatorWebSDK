@@ -1,11 +1,11 @@
 import { searchMapStore } from '../stores';
-import { GraphQLClient, gql } from 'graphql-request';
+import { graphql } from 'onekey-sdk-core'
 
-export function getHCPNearMe() {
+export async function searchLocation(variables?: any) {
   const data = [
     {
       name: 'Dr Hababou Danielle',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '13 Rue Tronchet, 75008 Paris',
       createdAt: '3 days go',
       lat: 48.863699,
@@ -14,7 +14,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Grégoire Chardin',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '75008, Paris',
       createdAt: '5 minutes ago',
       lat: 48.864699,
@@ -23,7 +23,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Marcel Trouvé',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '75008, Paris',
       createdAt: '5 minutes ago',
       lat: 48.869699,
@@ -32,7 +32,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Dr Adam Deslys',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '13 Rue Tronchet, 75008 Paris',
       createdAt: '3 days go',
       lat: 48.869599,
@@ -41,7 +41,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Dr Roméo Magnier',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '75008, Paris',
       createdAt: '5 minutes ago',
       lat: 48.869699,
@@ -50,7 +50,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Dr Marc Vandame',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '75008, Paris',
       createdAt: '5 minutes ago',
       lat: 48.869799,
@@ -59,7 +59,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Dr Lucas Chappelle',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '13 Rue Tronchet, 75008 Paris',
       createdAt: '3 days go',
       lat: 48.869899,
@@ -68,7 +68,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Frédéric Bescond',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '75008, Paris',
       createdAt: '5 minutes ago',
       lat: 48.869999,
@@ -77,7 +77,7 @@ export function getHCPNearMe() {
     },
     {
       name: 'Henry Lacan',
-      gp: 'General Practitioner',
+      label: 'General Practitioner',
       address: '75008, Paris',
       createdAt: '5 minutes ago',
       lat: 48.86999,
@@ -89,79 +89,33 @@ export function getHCPNearMe() {
   searchMapStore.setState({ loading: true });
 
   setTimeout(() => {
-    searchMapStore.setState({ hcpNearMe: data });
+    searchMapStore.setState({ specialties: data, searchDoctor: [] });
 
     searchMapStore.setState({ loading: false });
   }, 3000);
 }
 
-export async function searchDoctor() {
-  const data = [
-    {
-      gp: "General Practitioner",
-      label: 'General Practitioner',
-      id: "1",
-    },
-    {
-      gp: "General Doctor",
-      label: 'Cardiologist',
-      id: "2",
-    },
-    {
-      gp: "General Skin",
-      label: 'General practitioner, 75008...',
-      id: "3",
-      type: "history"
-    },
-    {
-      gp: "General Lung",
-      label: 'General practitioner, 75008...',
-      id: "4",
-      type: "history"
-    }
-  ]
+export async function searchDoctor(variables) {
+  if(variables.criteria.length < 3) {
+    return null;
+  }
+  searchMapStore.setState({ loading: true, searchDoctor: [], specialties: [] });
 
-  searchMapStore.setState({ loading: true, searchDoctor: [], searchGeo: [] });
+  const { codesByLabel: { codes }} = await graphql.codesByLabel({
+    apiKey: "12345",
+    codeTypes: ["SP", "TYP"],
+    first: 10,
+    offset: 0,
+    ...variables,
+  })
+
+  const data = codes ? codes.map(item => ({ label: item.longLbl, id: item.id })) : []
 
   return new Promise(resolve => {
     setTimeout(() => {
-      searchMapStore.setState({ searchDoctor: data });
-  
-      searchMapStore.setState({ loading: false });
+      searchMapStore.setState({ loading: false, searchDoctor: data });
+      console.log("dat2a", data)
       resolve()
-    }, 1000);
-  })
+    }, 500);
+  })  
 }
-
-export const test = (variables = {}) => {
-  const query = gql`
-    query {
-      activities(apiKey: "12345", criteria: "Tai", specialties: ["Tai1", "Tai2"]) {
-        distance
-        relevance
-        activity {
-          id
-          title {
-            label
-            key
-          }
-          lastUpdateDate
-          individual {
-            id
-            title
-            lastName
-          }
-          workplace {
-            id
-            name
-            lastUpdateDate
-          }
-        }
-      }
-    }
-  `;
-
-  const endpoint = 'https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query';
-  const client = new GraphQLClient(endpoint, { mode: 'no-cors' });
-  return client.request(query, variables).then(data => console.log(data));
-};

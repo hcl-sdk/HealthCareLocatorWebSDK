@@ -27,9 +27,11 @@ export class OnekeySdkSearchItem {
             <span class="search-address-item-icon">
               {this.renderIcon(this.item.type)}
             </span>
-            <span>{this.item.distance || 0} km</span>
+            <span>{this.item.distance || 0}</span>
           </div>
-          <span class={`search-address-item-text ${this.activated ? 'active': ''}`} onClick={() => this.selectAddress.emit(this.item)}>{this.item.label}</span>
+          <span class={`search-address-item-text ${this.activated ? 'active': ''}`} onClick={() => this.selectAddress.emit(this.item)}>
+            {this.item.label}
+          </span>
         </div>
       </Host>
     );
