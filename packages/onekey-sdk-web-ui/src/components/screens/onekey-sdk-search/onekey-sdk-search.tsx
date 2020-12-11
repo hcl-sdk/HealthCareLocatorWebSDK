@@ -1,8 +1,8 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
-import { searchGeoMap } from '../../../core/api/searchGeo';
-import { searchDoctor } from '../../../core/api/hcp';
+import { searchDoctor, searchLocation } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, configStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
+import cls from 'classnames';
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -32,19 +32,28 @@ export class OnekeySdkSearch {
     };
   }
 
-  private onSearch = e => {
+  private onSearch = async e => {
     e.preventDefault();
 
     const { name } = e.target;
-    this.checkValidElm(name)
+    this.checkValidElm(name);
+
+    const { isSmallView } = this.getViewSize()
+
     if (name.value) {
-      searchMapStore.setState({
-        search: {
-          name: this.selectedDoctor.label,
-          selectedItem: this.selectedAddress,
-        },
-      });
-      routerStore.push('/search-result');
+      if(isSmallView) {
+        searchMapStore.setState({
+          search: {
+            name: this.selectedDoctor.label,
+            selectedItem: this.selectedAddress,
+          },
+        });
+        routerStore.push('/search-result');
+      } else {
+        await searchLocation({
+          specialty: name.value,
+        })
+      }
     }
   };
 
@@ -58,13 +67,19 @@ export class OnekeySdkSearch {
 
   onChange = debounce(async e => {
     const inputName = e.path[0].name;
-    const inputValue = e.path[0].value
-    this.checkValidElm(e.path[0])
+    const inputValue = e.path[0].value;
+    this.checkValidElm(e.path[0]);
     this.currentSelectedInput = inputName;
 
-    if(inputValue) {
+    if (inputValue) {
       this.formData = { ...this.formData, [inputName]: inputValue };
-      inputName === 'name' ? await searchDoctor() : await searchGeoMap(inputValue);
+      inputName === 'name'
+        ? await searchDoctor({
+            criteria: inputValue,
+          })
+        : await searchLocation({
+          specialty: inputValue,
+        });
     }
   }, 500);
 
@@ -87,10 +102,7 @@ export class OnekeySdkSearch {
       });
     }
 
-    searchMapStore.setState({
-      searchDoctor: [],
-      searchGeo: [],
-    });
+    this.resetDataResult();
     this.currentSelectedInput = null;
   }
 
@@ -102,6 +114,13 @@ export class OnekeySdkSearch {
     }
   };
 
+  resetDataResult = () => {
+    searchMapStore.setState({
+      searchDoctor: [],
+      specialties: [],
+    });
+  }
+
   renderContent = data => {
     return (
       <div class={`main-contain search-content ${this.currentSelectedInput}`}>
@@ -110,24 +129,43 @@ export class OnekeySdkSearch {
     );
   };
 
-  resetValue = (key) => {
+  resetValue = key => {
     searchMapStore.setState({
       selectedValues: {
         ...searchMapStore.state.selectedValues,
         [key]: null,
       },
     });
+  };
+
+  resetInputValue = () => {
+    this.resetValue("name")
+    this.resetValue("address")
+  }
+
+  onFocusInputSearch = () => {
+    searchMapStore.setState({ searchDoctor: [], specialties: [] });
+  }
+
+  getViewSize = () => {
+    const isSmallView = ['xs', 'sm', 'md'].includes(configStore.state.viewPortSize);
+    return {
+      isSmallView
+    }
   }
 
   render() {
-    const searchGeoData = searchMapStore.state?.searchGeo.length > 0 && searchMapStore.state?.searchGeo;
+    const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 && [{ label: "Near me" }, ...searchMapStore.state?.specialties];
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.label;
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.label;
-    const searchData = searchGeoData || searchDoctorData;
-    const isSmallView = ['xs', 'sm', 'md'].includes(configStore.state.viewPortSize);
-    const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading
-    const addressInputLoading = this.currentSelectedInput === 'address' && searchMapStore.state.loading
+    const searchData = searchSpecialtiesData || searchDoctorData;
+    const isSmallView = this.getViewSize().isSmallView;
+    const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
+    const addressInputLoading = this.currentSelectedInput === 'address' && searchMapStore.state.loading;
+    const resetSearchClass = cls("reset-search", {
+      hide: !selectedDoctorName && !selectedAddressName
+    })
 
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
@@ -147,8 +185,9 @@ export class OnekeySdkSearch {
                     onInput={this.onChange}
                     autoComplete="off"
                     loading={nameInputLoading}
-                    onPostfixClick={()=> this.resetValue("name")}
+                    onPostfixClick={() => this.resetValue('name')}
                     autoFocus
+                    onFocus={this.onFocusInputSearch}
                   >
                     {!isSmallView && searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
                   </onekey-sdk-input>
@@ -162,29 +201,31 @@ export class OnekeySdkSearch {
                     onInput={this.onChange}
                     autoComplete="off"
                     loading={addressInputLoading}
-                    onPostfixClick={()=> this.resetValue("address")}
+                    onPostfixClick={() => this.resetValue('address')}
+                    onFocus={this.onFocusInputSearch}
                   >
-                    {!isSmallView && searchGeoData.length && this.currentSelectedInput === 'address' && this.renderContent(searchGeoData)}
+                    {!isSmallView && searchSpecialtiesData.length && this.currentSelectedInput === 'address' && this.renderContent(searchSpecialtiesData)}
                   </onekey-sdk-input>
                 </div>
               </div>
               {this.searchText ? (
-                <onekey-sdk-button primary type="submit"  class="search-address-btn">
+                <onekey-sdk-button primary type="submit" class="search-address-btn">
                   {this.searchText}
                 </onekey-sdk-button>
               ) : (
                 <onekey-sdk-button primary type="submit" icon="search" class="search-address-btn" />
               )}
             </form>
+            <div class={resetSearchClass} onClick={this.resetInputValue}>
+              <span>Reset search</span>
+            </div>
             <div>
               <slot></slot>
-              {
-                this.showSwitchMode &&
+              {this.showSwitchMode && (
                 <div class="switch-mode">
                   <onekey-sdk-switch-view-mode typeOfLabel="short" />
                 </div>
-              }
-
+              )}
             </div>
           </div>
         </div>

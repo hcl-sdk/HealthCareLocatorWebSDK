@@ -1,12 +1,12 @@
 import StoreProvider from "./StoreProvider";
 
-export interface HCPItem {
-  name: string,
+export interface SpecialtyItem {
+  label: string,
   title?: string;
-  address: string;
-  createdAt: string;
-  lat: number;
-  lng: number;
+  address?: string;
+  createdAt?: string;
+  lat?: number;
+  lng?: number;
 }
 
 
@@ -35,7 +35,7 @@ export interface SortValue {
 
 export interface SearchMapState {
   loading?: boolean;
-  hcpNearMe?: HCPItem[];
+  specialties?: SpecialtyItem[];
   doctors?: HCPName[];
   search?: SearchResult;
   searchGeo?: any[];
@@ -47,7 +47,7 @@ export interface SearchMapState {
 
 export const initStateSearchMapStore: SearchMapState = {
   loading: false,
-  hcpNearMe: [],
+  specialties: [],
   search: {},
   searchGeo: [],
   searchDoctor: [],

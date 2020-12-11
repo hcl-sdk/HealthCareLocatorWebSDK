@@ -5,6 +5,8 @@
   "main": "./src",
   "dependencies": {
     "@types/lodash.merge": "^4.6.6",
+    "graphql": "^15.4.0",
+    "graphql-request": "^3.3.0",
     "lodash.merge": "^4.6.2"
   },
   "engines": {

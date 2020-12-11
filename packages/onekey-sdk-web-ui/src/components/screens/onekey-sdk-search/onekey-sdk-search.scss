@@ -10,6 +10,11 @@
     }
   }
 
+  .reset-search {
+    visibility: hidden;
+    display: none;
+  }
+
   .search-block {
     position: sticky;
     width: 100%;
@@ -87,6 +92,8 @@
       justify-content: center;
       grid-gap: 20px;
       box-shadow: 0 4px 2px -2px var(--onekeysdk-color-card_border);
+      display: grid;
+      grid-auto-flow: column;
     }
     .search-form {
       display: grid;
@@ -95,6 +102,20 @@
       align-items: center;
       padding: 20px 0;
       grid-gap: 20px;
+    }
+
+    .reset-search {
+      display: block;
+      visibility: visible;
+      cursor: pointer;
+
+      span {
+        text-decoration: underline;
+      }
+
+      &.hide {
+        visibility: hidden;
+      }
     }
   }
 }

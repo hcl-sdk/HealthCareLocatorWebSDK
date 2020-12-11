@@ -19,6 +19,7 @@ export class OnekeySdkInput {
   @Prop() autoFocus?: boolean = false;
   @Prop() type?: string = "text";
   @Prop() checked?: boolean = false;
+  @Prop() onFocus?: (e: any) => void;
 
   textInput!: HTMLInputElement;
 
@@ -50,6 +51,7 @@ export class OnekeySdkInput {
           placeholder={this.placeholder}
           onInput={this.onInput}
           autoComplete={this.autoComplete}
+          onFocus={this.onFocus}
         />
         {!this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} type="button" />}
         {this.loading && <span class="input-postfix loader" />}
