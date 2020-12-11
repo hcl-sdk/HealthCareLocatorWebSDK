@@ -1,15 +1,15 @@
 function openNav() {
-  document.getElementById("mySidenav").style.width = "300px";
-  document.getElementById("main").style.marginLeft = "300px";
+  document.getElementById("mySidenav").style.left = "0";
   document.querySelector(".menu").style.display = "none";
 }
 
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
 function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("main").style.marginLeft = "0";
+  document.querySelector('.closebtn').style.display = "none";
+  document.getElementById("mySidenav").style.left = "-350px";
   setTimeout(() => {
     document.querySelector(".menu").style.display = "block";
+    document.querySelector('.closebtn').style.display = "block";
   }, 500);
 }
 
