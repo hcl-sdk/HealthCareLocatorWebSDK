@@ -1,7 +1,7 @@
 import { searchMapStore } from '../stores';
 import { graphql } from 'onekey-sdk-core'
 
-export async function searchLocation(variables?: any) {
+export async function searchLocation(_?: any) {
   const data = [
     {
       name: 'Dr Hababou Danielle',
@@ -114,8 +114,7 @@ export async function searchDoctor(variables) {
   return new Promise(resolve => {
     setTimeout(() => {
       searchMapStore.setState({ loading: false, searchDoctor: data });
-      console.log("dat2a", data)
-      resolve()
+      resolve(true)
     }, 500);
   })  
 }
