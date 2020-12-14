@@ -51,3 +51,7 @@ export function applyDefaultTheme() {
   styleElement.innerHTML += `\n}`;
   document.head.prepend(styleElement);
 }
+
+export function getSpecialtiesText(specialties) {
+  return specialties.filter(elm => elm.label).map(elm => elm.label)
+}

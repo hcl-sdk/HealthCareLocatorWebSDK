@@ -82,6 +82,10 @@
       grid-template-columns: auto 1fr;
       justify-content: center;
       align-items: center;
+
+      >:nth-child(2) {
+        display: grid;
+      }
     }
   }
 

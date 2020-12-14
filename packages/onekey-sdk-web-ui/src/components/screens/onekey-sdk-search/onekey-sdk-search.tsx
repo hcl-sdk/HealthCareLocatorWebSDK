@@ -51,7 +51,7 @@ export class OnekeySdkSearch {
         routerStore.push('/search-result');
       } else {
         await searchLocation({
-          specialty: name.value,
+          specialties: searchMapStore.state.selectedValues.name.specialties,
         })
       }
     }
@@ -78,7 +78,7 @@ export class OnekeySdkSearch {
             criteria: inputValue,
           })
         : await searchLocation({
-          specialty: inputValue,
+          id: inputValue,
         });
     }
   }, 500);
@@ -144,7 +144,7 @@ export class OnekeySdkSearch {
   }
 
   onFocusInputSearch = () => {
-    searchMapStore.setState({ searchDoctor: [], specialties: [] });
+    searchMapStore.setState({ searchDoctor: [] });
   }
 
   getViewSize = () => {
@@ -157,7 +157,7 @@ export class OnekeySdkSearch {
   render() {
     const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 && [{ label: "Near me" }, ...searchMapStore.state?.specialties];
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
-    const selectedDoctorName = searchMapStore.state.selectedValues?.name?.label;
+    const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.label;
     const searchData = searchSpecialtiesData || searchDoctorData;
     const isSmallView = this.getViewSize().isSmallView;

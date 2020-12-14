@@ -30,7 +30,9 @@ export class OnekeySdkSearchItem {
             <span>{this.item.distance || 0}</span>
           </div>
           <span class={`search-address-item-text ${this.activated ? 'active': ''}`} onClick={() => this.selectAddress.emit(this.item)}>
-            {this.item.label}
+            <span class="name">{this.item.name}</span>
+            <span class="specialty">{this.item.specialties?.[0]}</span>
+            <span class="address">{this.item.address}</span>
           </span>
         </div>
       </Host>

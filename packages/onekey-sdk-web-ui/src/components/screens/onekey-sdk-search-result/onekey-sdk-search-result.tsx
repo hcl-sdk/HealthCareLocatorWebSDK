@@ -14,16 +14,19 @@ import { searchLocation } from '../../../core/api/hcp';
 export class OnekeySdkSearchResult {
   @State() isListViewMode: boolean = true;
   @State() selectedMarkerIdx: number;
-  @State() selectedHCPFullCard: any;
   @State() isOpenPanel: boolean = true;
 
   componentWillLoad() {
-    searchLocation();
+    if(!searchMapStore.state.specialties.length) {
+      searchLocation({ specialties: searchMapStore.state.selectedValues.name.specialties, });
+    }
   }
   searchDataCardList;
 
   onItemCardClick = item => {
-    this.selectedHCPFullCard = { ...item };
+    searchMapStore.setState({
+      selectedIndividual: item
+    })
   };
 
   @Listen('markerClick')
@@ -41,7 +44,9 @@ export class OnekeySdkSearchResult {
   }
 
   onBackToList = () => {
-    this.selectedHCPFullCard = null;
+    searchMapStore.setState({
+      selectedIndividual: null
+    })
   };
 
   togglePanel = () => {
@@ -62,10 +67,10 @@ export class OnekeySdkSearchResult {
       return null;
     }
 
-    const { specialties } = searchMapStore.state;
+    const { specialties, selectedIndividual } = searchMapStore.state;
 
-    const selectedDoctorName = searchMapStore.state.selectedValues?.name?.label;
-    const selectedAddressName = searchMapStore.state.selectedValues?.address?.label;
+    const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
+    const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
     const viewPortSize = configStore.state.viewPortSize
     const isSmall = ['xs', 'sm', 'md'].includes(viewPortSize);
     const isTablet = ['lg'].includes(viewPortSize);
@@ -112,7 +117,7 @@ export class OnekeySdkSearchResult {
 
                 <div class={mapWrapperClass}>
                   {
-                  this.selectedHCPFullCard ?
+                  selectedIndividual ?
                     <onekey-sdk-hcp-full-card goBack={this.onBackToList} />
                   :
                   <div class="search-toolbar search-section">
@@ -135,7 +140,7 @@ export class OnekeySdkSearchResult {
                   </div>
                     }     
                   {
-                    !this.selectedHCPFullCard && <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                    !selectedIndividual && <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                     {specialties.map((elm, idx) => (
                       <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
                     ))}
@@ -149,7 +154,7 @@ export class OnekeySdkSearchResult {
                 </div>
               
               
-              {((!isListView && !isSmall) || (!isListView && !this.selectedHCPFullCard) )&& (
+              {((!isListView && !isSmall) || (!isListView && !selectedIndividual) )&& (
                 <onekey-sdk-map
                   mapHeight={`${offsetHeight}px`}
                   class={mapClass}

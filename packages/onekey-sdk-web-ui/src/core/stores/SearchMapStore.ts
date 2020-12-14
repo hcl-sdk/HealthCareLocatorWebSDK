@@ -1,7 +1,9 @@
 import StoreProvider from "./StoreProvider";
 
 export interface SpecialtyItem {
-  label: string,
+  name: string;
+  distance?: string;
+  specialties?: string;
   title?: string;
   address?: string;
   createdAt?: string;
@@ -33,6 +35,13 @@ export interface SortValue {
   name?: boolean;
 }
 
+export interface SelectedIndividual {
+  name?: string;
+  specialty?: string;
+  address?: string;
+  id?: string
+}
+
 export interface SearchMapState {
   loading?: boolean;
   specialties?: SpecialtyItem[];
@@ -43,6 +52,8 @@ export interface SearchMapState {
   currentLocation?: any;
   selectedValues?: SelectedValues;
   sortValues?: SortValue
+  selectedIndividual?: SelectedIndividual
+  individualDetail?: any;
 }
 
 export const initStateSearchMapStore: SearchMapState = {
@@ -53,6 +64,8 @@ export const initStateSearchMapStore: SearchMapState = {
   searchDoctor: [],
   currentLocation: {},
   selectedValues: {},
+  selectedIndividual: null,
+  individualDetail: null,
   sortValues: {
     relevance: false,
     distance: false,

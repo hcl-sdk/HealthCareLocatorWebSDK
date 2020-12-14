@@ -54,10 +54,25 @@
     padding: 1rem 0;
     border-bottom: 1px solid white;
     width: 100%;
+    display: grid;
 
     &.active {
       border-bottom: 1px solid var(--onekeysdk-color-primary);
       color: var(--onekeysdk-color-primary);
+    }
+
+    .name {
+      color: var(--onekeysdk-color-primary);
+      font-size: 14px;
+    }
+
+    .specialty {
+      font-size: 12px;
+    }
+
+    .address {
+      font-size: 12px;
+      color: var(--onekeysdk-color-grey);
     }
   }
 }

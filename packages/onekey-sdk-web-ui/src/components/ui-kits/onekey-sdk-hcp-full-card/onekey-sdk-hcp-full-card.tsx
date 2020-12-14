@@ -1,7 +1,8 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
-import { configStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { configStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
+import { getIndividualDetail } from '../../../core/api/hcp';
 
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
@@ -11,6 +12,14 @@ import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 export class OnekeySdkHCPFullCard {
   @Prop() goBack: (e: any) => void;
   @State() confirm: boolean;
+
+  componentWillLoad() {
+    if(!searchMapStore.state.individualDetail) {
+      getIndividualDetail({
+        id: searchMapStore.state.selectedIndividual.id
+      })
+    }
+  }
 
   onConfirm = (answer) => {
     this.confirm = answer
@@ -24,6 +33,15 @@ export class OnekeySdkHCPFullCard {
     const confirmNoClass = cls("info-contact-item", {
       'confirm-no': this.confirm === false
     })
+
+    const { loading, individualDetail } = searchMapStore.state
+
+    if(loading) {
+      return null
+    }
+
+    console.log(individualDetail)
+
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-contain">
@@ -41,8 +59,8 @@ export class OnekeySdkHCPFullCard {
                   <onekey-sdk-icon name="default-avatar" width={30} height={30} />
                 </div>
                 <div class="main-info__profile">
-                  <span class="main-info__profile-name">Dr Boksenbaum Michel</span>
-                  <span class="main-info__profile-dep">General Practitioner</span>
+                  <span class="main-info__profile-name">{individualDetail.name}</span>
+                  <span class="main-info__profile-dep">{individualDetail.specialties[0]}</span>
                 </div>
               </div>
 
@@ -69,9 +87,7 @@ export class OnekeySdkHCPFullCard {
                 <div class="info-section-body">
                   <div class="info-section-body__address">
                     <select>
-                      <option>Address 1: Avenue Charles Girault</option>
-                      <option>Address 2: Rue d'Astorg</option>
-                      <option>Address 3: Rue d'Amsterdam</option>
+                      <option>Address 1: {individualDetail.address}</option>
                     </select>
                   </div>
 
@@ -79,9 +95,9 @@ export class OnekeySdkHCPFullCard {
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="location" color={getCssColor("--onekeysdk-color-marker_selected")}/>
                       <div>
-                        <span>Centre Médical de Soins</span>
+                        <span>{individualDetail.addressName}</span>
                         <span>Service Médecine Génarale</span>
-                        <span>43 Avenue Charles Girault, 75008 Paris</span>
+                        <span>{individualDetail.address}, {individualDetail.postalCode} {individualDetail.city} {individualDetail.country}</span>
                       </div>
                     </div>
                   </div>
@@ -89,18 +105,18 @@ export class OnekeySdkHCPFullCard {
                   <div class="info-contact info-section-body__contact">
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="phone" color={getCssColor("--onekeysdk-color-grey")}/>
-                      <a href={`tel:0144585658`}>01 44 58 56 58</a>
+                      <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
                     </div>
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="printer" height={15} color={getCssColor("--onekeysdk-color-grey")} />
-                      <a href={`tel:0144585658`}>01 44 58 56 58</a>
+                      <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
                     </div>
                   </div>
 
                   <div class="info-contact info-section-body__website">
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="earth" color={getCssColor("--onekeysdk-color-grey")} />
-                      <a href="http://www.medicalsoinsparis.com" target="_blank">www.medicalsoinsparis.com</a>
+                      <a href={individualDetail.website} target="_blank">{individualDetail.website}</a>
                     </div>
                   </div>
                 </div>
@@ -112,7 +128,7 @@ export class OnekeySdkHCPFullCard {
                 </div>
 
                 <div class="info-section-body">
-                  <span>Generalist, Cardiology, Neurologist</span>
+                  <span>{individualDetail.specialties.join(",")}</span>
                 </div>
               </div>
 
