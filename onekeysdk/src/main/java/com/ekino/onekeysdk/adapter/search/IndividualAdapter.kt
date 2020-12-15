@@ -66,7 +66,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
                                 indexOf.plus(keyword.length), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
                 val specialty = data.specialties().firstOrNull()?.label() ?: ""
-                val address = data.workplace()?.address()?.run {
+                val address = data.mainActivity().workplace().address()?.run {
                     "${longLabel()}, ${city().label()}, ${county()?.label()}, ${country()}"
                 } ?: ""
                 tvHCPSpeciality.visibility = specialty.isNotEmpty().getVisibility()

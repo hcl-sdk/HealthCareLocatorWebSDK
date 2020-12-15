@@ -12,7 +12,7 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
 
     protected fun <D : Operation.Data, T, V : Operation.Variables>
             query(query: () -> Query<D, T, V>, success: (response: Response<T>) -> Unit,
-                  error: (e: Exception) -> Unit) {
+                  error: (e: Exception) -> Unit, runOnThread: Boolean = false) {
         ApolloConnector.getInstance().getApolloClient().query(query())
                 .enqueue(object : ApolloCall.Callback<T>() {
                     override fun onFailure(e: ApolloException) {
@@ -20,12 +20,15 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                     }
 
                     override fun onResponse(response: Response<T>) {
-                        runOnUiThread(Runnable {
-                            if (response.hasErrors())
-                                error(Exception(response.errors?.toString()))
-                            else
-                                success(response)
-                        })
+                        if (!runOnThread)
+                            runOnUiThread(Runnable {
+                                if (response.hasErrors()) error(Exception(response.errors?.toString()))
+                                else success(response)
+                            })
+                        else {
+                            if (response.hasErrors()) error(Exception(response.errors?.toString()))
+                            else success(response)
+                        }
                     }
                 })
     }

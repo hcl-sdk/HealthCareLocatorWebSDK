@@ -68,13 +68,13 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                 RxTextView.afterTextChangeEvents(view).debounce(300, TimeUnit.MILLISECONDS).map {
                     it.view().text.toString()
                 }.subscribe({
+                    specialityEvent.postValue(it.isNotEmpty())
                     if (!ref.onItemClicked) {
                         if (it.isNotEmpty() && it.length >= 3) {
                             individualsState.postValue(true)
                             getIndividualByName(ref, it)
                         } else individuals.postValue(arrayListOf())
                     } else ref.onItemClicked = false
-                    specialityEvent.postValue(it.isNotEmpty())
                 }, {
                     OneKeyLog.e(it.localizedMessage)
                 })

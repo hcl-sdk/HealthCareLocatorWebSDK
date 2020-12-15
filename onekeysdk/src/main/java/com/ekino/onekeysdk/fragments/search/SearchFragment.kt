@@ -4,7 +4,6 @@ import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -16,6 +15,7 @@ import com.ekino.onekeysdk.adapter.search.IndividualAdapter
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
+import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.KeyboardUtils
@@ -79,7 +79,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
         oneKeyViewCustomObject?.also {
             val primaryColor = it.colorPrimary.getColor()
-            btnSearch.setRippleBackground(primaryColor)
+            btnSearch.setRippleBackground(primaryColor, 20f)
             edtName.textSize = it.fontSearchInput.size.toFloat()
             edtWhere.textSize = it.fontSearchInput.size.toFloat()
             ivNearMe.setColorFilter(primaryColor)
@@ -186,6 +186,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             layoutManager = LinearLayoutManager(context)
             adapter = individualAdapter
         }
+        individualAdapter.setData(viewModel.individuals.value ?: arrayListOf())
         individualAdapter.onIndividualClickedListener = this
         viewModel.individualsState.observe(this, Observer {
             showNameProgressBar(it)
@@ -222,10 +223,13 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun onIndividualClickedListener(data: GetCodeByLabelQuery.Code) {
         onItemClicked = true
         edtName.setText(data.longLbl())
+        edtWhere.requestFocus()
     }
 
     override fun onHCPClickedListener(data: GetIndividualByNameQuery.Individual) {
-        Toast.makeText(context!!, data.firstName() ?: "", Toast.LENGTH_LONG).show()
+        onItemClicked = true
+        (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                OneKeyProfileFragment.newInstance(oneKeyViewCustomObject, null, data.mainActivity().id()), true)
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -236,6 +240,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     private fun showNameProgressBar(state: Boolean) {
         nameBar.visibility = state.getVisibility()
+        setSpecialityClearState(!state)
     }
 
     fun clearIndividualData() {

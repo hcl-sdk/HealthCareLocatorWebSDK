@@ -44,7 +44,7 @@ class CustomThemeFragment(
     private var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", title = "Small").build()
     private var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
     private var fontSearchResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "SearchResultTitle", title = "Search Result Title").build()
-    private var fontResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "ResultTitle", title = "Result Title").build()
+    private var fontResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
     private var fontResultSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
     private var fontProfileTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
     private var fontProfileSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title").build()

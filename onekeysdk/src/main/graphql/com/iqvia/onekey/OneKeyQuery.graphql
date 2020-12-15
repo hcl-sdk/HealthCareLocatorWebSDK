@@ -22,17 +22,20 @@ query getIndividualByName($apiKey: String!, $criteria:String!, $locale:String, $
                 code
                 label
             }
-            workplace {
-                address {
-                    id
-                    longLabel
-                    country
-                    postalCode
-                    county{
-                        label
-                    }
-                    city{
-                        label
+            mainActivity{
+                id
+                workplace {
+                    address {
+                        id
+                        longLabel
+                        country
+                        postalCode
+                        county{
+                            label
+                        }
+                        city{
+                            label
+                        }
                     }
                 }
             }
@@ -56,8 +59,18 @@ query getActivityById($apiKey: String!, $id:ID!, $locale:String){
             emailAddress
             address{
                 id
+                longLabel
+                country
+                postalCode
+                county{
+                    label
+                }
+                city{
+                    label
+                }
                 location{
                     lat
+                    lon
                 }
             }
         }
@@ -70,6 +83,10 @@ query getActivityById($apiKey: String!, $id:ID!, $locale:String){
             middleName
             nickname
             suffixName
+            specialties{
+                code
+                label
+            }
         }
     }
 }
