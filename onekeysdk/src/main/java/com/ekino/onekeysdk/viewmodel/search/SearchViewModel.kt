@@ -4,25 +4,34 @@ import android.Manifest
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import base.fragments.IFragment
-import base.viewmodel.AppViewModel
+import base.viewmodel.ApolloViewModel
+import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
+import com.ekino.onekeysdk.utils.OneKeyLog
+import com.iqvia.onekey.GetCodeByLabelQuery
+import com.iqvia.onekey.GetIndividualByNameQuery
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.disposables.CompositeDisposable
 import java.net.URLEncoder
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
-class SearchViewModel : AppViewModel<SearchFragment>() {
+class SearchViewModel : ApolloViewModel<SearchFragment>() {
+    private val theme = ThemeExtension.getInstance().getThemeConfiguration()
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<OneKeyPlace>>() }
     val specialityEvent by lazy { MutableLiveData<Boolean>() }
     val addressEvent by lazy { MutableLiveData<Boolean>() }
     val permissionGranted by lazy { MutableLiveData<Boolean>() }
+    val individuals by lazy { MutableLiveData<ArrayList<Any>>() }
+    val individualsState by lazy { MutableLiveData<Boolean>() }
 
     private val executor: LocationAPI by lazy {
         OneKeyMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
@@ -54,13 +63,21 @@ class SearchViewModel : AppViewModel<SearchFragment>() {
         }
     }
 
-    fun onSpecialityChanged(view: EditText) {
+    fun onSpecialityChanged(ref: SearchFragment, view: EditText) {
         disposable?.add(
-                RxTextView.afterTextChangeEvents(view).map {
+                RxTextView.afterTextChangeEvents(view).debounce(300, TimeUnit.MILLISECONDS).map {
                     it.view().text.toString()
                 }.subscribe({
+                    if (!ref.onItemClicked) {
+                        if (it.isNotEmpty() && it.length >= 3) {
+                            individualsState.postValue(true)
+                            getIndividualByName(ref, it)
+                        } else individuals.postValue(arrayListOf())
+                    } else ref.onItemClicked = false
                     specialityEvent.postValue(it.isNotEmpty())
-                }, {})
+                }, {
+                    OneKeyLog.e(it.localizedMessage)
+                })
         )
     }
 
@@ -92,5 +109,52 @@ class SearchViewModel : AppViewModel<SearchFragment>() {
                             places.postValue(arrayListOf())
                         })
         )
+    }
+
+    private fun getIndividualByName(ref: SearchFragment, name: String) {
+        getCodeByLabel(name) { codes ->
+            ref.clearIndividualData()
+            individuals.value = arrayListOf()
+            individuals.postValue((individuals.value ?: arrayListOf()).apply {
+                this.addAll(codes)
+            })
+            getIndividualByName(name) { list ->
+                individuals.postValue((individuals.value ?: arrayListOf()).apply {
+                    this.addAll(list)
+                })
+
+                individualsState.postValue(false)
+            }
+        }
+    }
+
+    private fun getIndividualByName(name: String, callback: (ArrayList<GetIndividualByNameQuery.Individual>) -> Unit) {
+        query({
+            GetIndividualByNameQuery.builder()
+                    .apiKey(theme.apiKey).criteria(name).first(5).offset(0).locale(theme.locale).build()
+        }, { response ->
+            if (response.data?.individualsByName()?.individuals().isNullable())
+                callback(arrayListOf())
+            else
+                callback(ArrayList(response.data?.individualsByName()?.individuals()!!))
+        }, { e ->
+            OneKeyLog.d("onFailure::${e.localizedMessage}")
+            callback(arrayListOf())
+        })
+    }
+
+    private fun getCodeByLabel(name: String, callback: (ArrayList<GetCodeByLabelQuery.Code>) -> Unit) {
+        query({
+            GetCodeByLabelQuery.builder()
+                    .apiKey(theme.apiKey).criteria(name).first(5).offset(0).codeTypes(listOf("SP")).build()
+        }, { response ->
+            if (response.data?.codesByLabel()?.codes().isNullable())
+                callback(arrayListOf())
+            else
+                callback(ArrayList(response.data!!.codesByLabel()!!.codes()!!))
+        }, { e ->
+            OneKeyLog.d("onFailure::${e.localizedMessage}")
+            callback(arrayListOf())
+        })
     }
 }

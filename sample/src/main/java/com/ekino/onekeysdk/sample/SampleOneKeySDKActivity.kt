@@ -191,7 +191,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
                     .colorMarker(colors.first { it.id == "colorMarker" }.color)
                     .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
-                    .colorListBackground(colors.first { it.id == "colorMarkerSelected" }.color)
+                    .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
         }
         this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
                 builder.build()), true)

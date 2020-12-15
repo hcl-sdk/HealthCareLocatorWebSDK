@@ -4,6 +4,7 @@ import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.adapter.search.IndividualAdapter
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
@@ -18,15 +20,17 @@ import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
+import com.iqvia.onekey.GetCodeByLabelQuery
+import com.iqvia.onekey.GetIndividualByNameQuery
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 
 
-class SearchFragment :
-        AppFragment<SearchFragment, SearchViewModel>(R.layout.fragment_search),
-        View.OnClickListener, OneKeyPlaceAdapter.OnOneKeyPlaceClickedListener, IMyLocationConsumer {
+class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fragment_search),
+        View.OnClickListener, OneKeyPlaceAdapter.OnOneKeyPlaceClickedListener, IMyLocationConsumer,
+        View.OnFocusChangeListener, IndividualAdapter.OnIndividualClickedListener {
 
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject) =
@@ -36,10 +40,12 @@ class SearchFragment :
     private var oneKeyViewCustomObject: OneKeyViewCustomObject =
             ThemeExtension.getInstance().getThemeConfiguration()
     private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyViewCustomObject, this) }
+    private val individualAdapter by lazy { IndividualAdapter() }
     private var selectedPlace: OneKeyPlace? = null
     private var locationProvider: GpsMyLocationProvider? = null
     private var currentLocation: Location? = null
     private var isExpand = false
+    var onItemClicked = false
 
     override val viewModel: SearchViewModel = SearchViewModel()
 
@@ -91,7 +97,7 @@ class SearchFragment :
 
         viewModel.apply {
             onAddressChanged(edtWhere)
-            onSpecialityChanged(edtName)
+            onSpecialityChanged(this@SearchFragment, edtName)
             places.observe(this@SearchFragment, Observer {
                 placeAdapter.setData(it)
             })
@@ -108,7 +114,9 @@ class SearchFragment :
             layoutManager = LinearLayoutManager(context)
             adapter = placeAdapter
         }
+        edtName.onFocusChangeListener = this
         edtName.requestFocus()
+        initIndividual()
         KeyboardUtils.showSoftKeyboard(activity)
     }
 
@@ -143,24 +151,23 @@ class SearchFragment :
                     setError(specialityWrapper, R.color.colorOneKeyRed)
                     return
                 }
-//                if (edtWhere.text.toString().isEmpty()) {
-//                    setError(addressWrapper, R.color.colorOneKeyRed)
-//                    return
-//                }
                 oneKeyViewCustomObject?.also {
                     (activity as? AppCompatActivity)?.addFragment(
                             R.id.fragmentContainer,
                             FullMapFragment.newInstance(it, edtName.text.toString(),
                                     selectedPlace ?: OneKeyPlace().apply {
                                         displayName = edtWhere.text.toString()
-                                    }, getDummyHCP()), true
+                                    }, getDummyHCP()
+                            ), true
                     )
                 }
             }
             R.id.nearMeWrapper -> {
                 currentLocation?.apply {
-                    selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
-                            longitude = "$longitude", displayName = "Near me")
+                    selectedPlace = OneKeyPlace(
+                            placeId = "near_me", latitude = "$latitude",
+                            longitude = "$longitude", displayName = "Near me"
+                    )
                     edtWhere.setText(selectedPlace?.displayName ?: "")
                 }
             }
@@ -172,6 +179,21 @@ class SearchFragment :
         locationSelectedWrapper.visibility = View.VISIBLE
         tvLocationSelected.text = place.displayName
         this.selectedPlace = place
+    }
+
+    private fun initIndividual() {
+        rvSpeciality.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = individualAdapter
+        }
+        individualAdapter.onIndividualClickedListener = this
+        viewModel.individualsState.observe(this, Observer {
+            showNameProgressBar(it)
+        })
+        viewModel.individuals.observe(this, Observer {
+            individualAdapter.setKeyword(edtName.text.toString())
+            individualAdapter.setData(it)
+        })
     }
 
     private fun setSpecialityClearState(state: Boolean) {
@@ -195,5 +217,28 @@ class SearchFragment :
             isExpand = false
             selectionWrapper.collapse(true)
         }
+    }
+
+    override fun onIndividualClickedListener(data: GetCodeByLabelQuery.Code) {
+        onItemClicked = true
+        edtName.setText(data.longLbl())
+    }
+
+    override fun onHCPClickedListener(data: GetIndividualByNameQuery.Individual) {
+        Toast.makeText(context!!, data.firstName() ?: "", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (v?.id == edtName.id) {
+            rvSpeciality.visibility = hasFocus.getVisibility()
+        }
+    }
+
+    private fun showNameProgressBar(state: Boolean) {
+        nameBar.visibility = state.getVisibility()
+    }
+
+    fun clearIndividualData() {
+        individualAdapter.clear()
     }
 }

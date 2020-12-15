@@ -57,14 +57,26 @@
                         app:OneKeyTextColor="OneKeyColorDark"
                         app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
-                    <ImageView
-                        android:id="@+id/ivSpecialityClear"
+                    <FrameLayout
                         android:layout_width="@dimen/default_icon_size"
-                        android:layout_height="@dimen/default_icon_size"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/default_padding_smaller"
-                        android:src="@drawable/baseline_close_black_24dp"
-                        app:tint="@color/gray" />
+                        android:layout_height="@dimen/default_icon_size">
+
+                        <ImageView
+                            android:id="@+id/ivSpecialityClear"
+                            android:layout_width="@dimen/default_icon_size"
+                            android:layout_height="@dimen/default_icon_size"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:padding="@dimen/default_padding_smaller"
+                            android:src="@drawable/baseline_close_black_24dp"
+                            app:tint="@color/gray" />
+
+                        <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                            android:id="@+id/nameBar"
+                            android:visibility="gone"
+                            android:layout_width="@dimen/default_icon_size_small"
+                            android:layout_height="@dimen/default_icon_size_small"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
                 </LinearLayout>
             </FrameLayout>
 
@@ -128,6 +140,15 @@
         android:layout_marginTop="@dimen/default_padding"
         android:alpha="0.1"
         android:background="@color/grayLight" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSpeciality"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/default_padding"
+        android:paddingEnd="@dimen/default_padding"
+        android:visibility="gone" />
 
     <com.ekino.onekeysdk.custom.ExpandableLayout
         android:id="@+id/selectionWrapper"

@@ -1,5 +1,7 @@
 package base.extensions
 
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
@@ -21,5 +23,17 @@ fun Fragment.addChildFragment(containerId: Int, fragment: Fragment) {
         val transaction = beginTransaction()
         transaction.replace(containerId, fragment, fragment::class.java.simpleName)
                 .commitAllowingStateLoss()
+    }
+}
+
+/**
+ * Run a runnable on the Main (UI) Thread.
+ * @param runnable the runnable
+ */
+fun runOnUiThread(runnable: Runnable) {
+    if (Looper.myLooper() != Looper.getMainLooper()) {
+        Handler(Looper.getMainLooper()).post(runnable)
+    } else {
+        runnable.run()
     }
 }

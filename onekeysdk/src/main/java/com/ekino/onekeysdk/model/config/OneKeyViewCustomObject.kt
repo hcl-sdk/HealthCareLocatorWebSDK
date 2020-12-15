@@ -56,7 +56,7 @@ data class OneKeyViewCustomObject private constructor(
         val colorGreyLighter: String, val colorVoteUp: String, val colorVoteDown: String,
         val colorViewBackground: String, val colorCardBorder: String, val colorButtonBorder: String,
         val colorButtonBackground: String, val colorButtonAcceptBackground: String,
-        val colorButtonDiscardBackground: String) {
+        val colorButtonDiscardBackground: String, val apiKey: String, val locale: String) {
 
     @Suppress
     data class Builder(
@@ -97,7 +97,9 @@ data class OneKeyViewCustomObject private constructor(
             var colorCardBorder: String = "#dedede",
             var colorButtonBorder: String = "#dedede",
             var colorButtonBackground: String = "#fcfcfc",
-            var colorButtonDiscardBackground: String = "#9aa0a7") {
+            var colorButtonDiscardBackground: String = "#9aa0a7",
+            var apiKey: String = "1",
+            var locale: String = "en") {
 
         fun colorPrimary(primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -139,6 +141,8 @@ data class OneKeyViewCustomObject private constructor(
         fun colorButtonBorder(color: String) = apply { this.colorButtonBorder = color }
         fun colorButtonBackground(color: String) = apply { this.colorButtonBackground = color }
         fun colorButtonDiscardBackground(color: String) = apply { this.colorButtonDiscardBackground = color }
+        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
+        fun locale(locale: String) = apply { this.locale = locale }
 
         fun build() = OneKeyViewCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon, homeMode,
@@ -147,6 +151,6 @@ data class OneKeyViewCustomObject private constructor(
                 fontProfileSubTitle, fontProfileTitleSection, fontCardTitle, fontModalTitle, fontSortCriteria,
                 colorListBackground, colorDark, colorGrey, colorGreyDark, colorGreyDarker, colorGreyLight,
                 colorGreyLighter, colorPrimary, colorVoteDown, colorViewBackground, colorCardBorder, colorButtonBorder,
-                colorButtonBackground, colorPrimary, colorButtonDiscardBackground)
+                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale)
     }
 }
