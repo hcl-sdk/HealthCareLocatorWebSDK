@@ -46,12 +46,30 @@ export async function searchDoctor(variables) {
     ...variables,
   })
 
-  const data: SelectedIndividual[] = individuals ? individuals.map((item) => ({ 
+  const { codesByLabel: { codes } } = await graphql.codesByLabel({
+    apiKey: "1",
+    first: 5,
+    offset: 0,
+    codeTypes: ["SP"],
+    locale: "en",
+    ...variables,
+  })
+
+  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({ 
     name: `${item.firstName} ${item.lastName}`,
     specialties: getSpecialtiesText(item.specialties),
     address: `${item.workplace.address.longLabel},${item.workplace.address.country}`,
     id: item.id
   })) : []
+
+
+  const codesData: SelectedIndividual[] = codes ? codes.map((item) => ({ 
+    name: `${item.longLbl}`,
+    id: item.id
+  })) : []
+
+  const data = [...codesData, ...individualsData]
+
 
   searchMapStore.setState({ loading: false, searchDoctor: data }); 
 }

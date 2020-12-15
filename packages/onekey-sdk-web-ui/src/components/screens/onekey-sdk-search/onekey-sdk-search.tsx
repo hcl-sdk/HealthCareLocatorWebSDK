@@ -48,12 +48,12 @@ export class OnekeySdkSearch {
             selectedItem: this.selectedAddress,
           },
         });
-        routerStore.push('/search-result');
       } else {
         await searchLocation({
           specialties: searchMapStore.state.selectedValues.name.specialties,
         })
       }
+      routerStore.push('/search-result');
     }
   };
 
@@ -106,14 +106,6 @@ export class OnekeySdkSearch {
     this.currentSelectedInput = null;
   }
 
-  getActivation = (item: any): boolean => {
-    if (this.currentSelectedInput === 'address') {
-      return this.selectedAddress?.raw?.place_id === item?.raw?.place_id;
-    } else {
-      return this.selectedDoctor.id === item.id;
-    }
-  };
-
   resetDataResult = () => {
     searchMapStore.setState({
       searchDoctor: [],
@@ -124,7 +116,7 @@ export class OnekeySdkSearch {
   renderContent = data => {
     return (
       <div class={`main-contain search-content ${this.currentSelectedInput}`}>
-        {data && data.map(item => <onekey-sdk-search-address-item item={item} activated={this.getActivation(item)} />)}
+        {data && data.map(item => <onekey-sdk-search-address-item item={item} currentSearchText={this.formData[this.currentSelectedInput]} />)}
       </div>
     );
   };
@@ -155,10 +147,12 @@ export class OnekeySdkSearch {
   }
 
   render() {
-    const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 && [{ label: "Near me" }, ...searchMapStore.state?.specialties];
-    const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
-    const selectedAddressName = searchMapStore.state.selectedValues?.address?.label;
+    const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
+  
+    const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
+    const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 && [{ name: "Near me" }, ...searchMapStore.state?.specialties];
+
     const searchData = searchSpecialtiesData || searchDoctorData;
     const isSmallView = this.getViewSize().isSmallView;
     const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
