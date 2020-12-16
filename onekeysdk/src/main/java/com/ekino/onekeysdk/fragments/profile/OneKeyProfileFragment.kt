@@ -103,7 +103,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
         ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.colorMarker.getColor())
 
         activityDetail?.apply {
-            tvDoctorName.text = "Dr ${individual?.firstName} ${individual?.lastName}"
+            tvDoctorName.text = individual?.mailingName ?: ""
             tvSpeciality.text = individual?.specialties?.firstOrNull()?.label ?: ""
             tvAddress.text = workplace?.address?.run {
                 "${longLabel}, ${city?.label}, ${county?.label}, ${country}"

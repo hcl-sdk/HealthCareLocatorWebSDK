@@ -17,6 +17,7 @@ query getIndividualByName($apiKey: String!, $criteria:String!, $locale:String, $
             id
             firstName
             lastName
+            mailingName
             professionalType { label }
             specialties{
                 code

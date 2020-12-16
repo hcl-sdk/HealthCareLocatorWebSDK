@@ -58,7 +58,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
             OneKeyViewHolder<GetIndividualByNameQuery.Individual>(itemView) {
         override fun bind(position: Int, data: GetIndividualByNameQuery.Individual) {
             itemView.apply {
-                val name: String = "Dr ${data.firstName()} ${data.lastName()}"
+                val name: String = data.mailingName() ?: ""
                 tvName.text = SpannableStringBuilder(name).apply {
                     val indexOf = name.toLowerCase().indexOf(keyword.toLowerCase())
                     if (indexOf >= 0)
