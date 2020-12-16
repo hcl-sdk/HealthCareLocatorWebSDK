@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
 import { configStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
-import { getIndividualDetail } from '../../../core/api/hcp';
+import { getFullCardDetail } from '../../../core/api/hcp';
 
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
@@ -15,8 +15,8 @@ export class OnekeySdkHCPFullCard {
 
   componentWillLoad() {
     if(!searchMapStore.state.individualDetail) {
-      getIndividualDetail({
-        id: searchMapStore.state.selectedIndividual.id
+      getFullCardDetail({
+        id: searchMapStore.state.selectedActivity.id
       })
     }
   }

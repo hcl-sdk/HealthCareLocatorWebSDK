@@ -40,6 +40,7 @@ export interface SelectedIndividual {
   specialty?: string;
   address?: string;
   id?: string
+  individualId?: string;
 }
 
 export interface SearchMapState {
@@ -52,7 +53,7 @@ export interface SearchMapState {
   currentLocation?: any;
   selectedValues?: SelectedValues;
   sortValues?: SortValue
-  selectedIndividual?: SelectedIndividual
+  selectedActivity?: SelectedIndividual
   individualDetail?: any;
 }
 
@@ -64,7 +65,7 @@ export const initStateSearchMapStore: SearchMapState = {
   searchDoctor: [],
   currentLocation: {},
   selectedValues: {},
-  selectedIndividual: null,
+  selectedActivity: null,
   individualDetail: null,
   sortValues: {
     relevance: false,

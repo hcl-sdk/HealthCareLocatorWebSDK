@@ -26,7 +26,7 @@ export async function searchLocation(variables) {
     address: `${item.activity.workplace.address.longLabel},${item.activity.workplace.address.city.label},${item.activity.workplace.address.country}`,
     lat: mockLat + (0.0001*idx),
     lng: mockLng + (0.001*idx),
-    id: item.activity.individual.id
+    id: item.activity.id
   }))
 
   searchMapStore.setState({ specialties: data, searchDoctor: [], loading: false });
@@ -59,7 +59,7 @@ export async function searchDoctor(variables) {
     name: `${item.firstName} ${item.lastName}`,
     specialties: getSpecialtiesText(item.specialties),
     address: `${item.mainActivity.workplace.address.longLabel},${item.mainActivity.workplace.address.country}`,
-    id: item.id
+    id: item.mainActivity.id
   })) : []
 
 
@@ -75,25 +75,25 @@ export async function searchDoctor(variables) {
 }
 
 
-export async function getIndividualDetail(variables) {
+export async function getFullCardDetail(variables) {
   searchMapStore.setState({ loading: true, individualDetail: null });
 
-  const { individualByID } = await graphql.individualsByID({
+  const { activityByID: activity } = await graphql.activityByID({
     apiKey: "1",
-    ...variables,
+    id: variables.id,
   })
 
   const data = {
-    name: individualByID.mailingName,
-    specialties: getSpecialtiesText(individualByID.specialties),
-    address: individualByID.mainActivity.workplace.address.longLabel,
-    addressName: individualByID.mainActivity.workplace.name,
-    postalCode: individualByID.mainActivity.workplace.address.postalCode,
-    city: individualByID.mainActivity.workplace.address.city.label,
-    country: individualByID.mainActivity.workplace.address.county.label,
-    phone: individualByID.mainActivity.workplace.localPhone,
-    fax: individualByID.mainActivity.workplace.intlFax
+    name: activity.individual.mailingName,
+    specialties: getSpecialtiesText(activity.individual.specialties),
+    address: activity.workplace.address.longLabel,
+    addressName: activity.workplace.name,
+    postalCode: activity.workplace.address.postalCode,
+    city: activity.workplace.address.city.label,
+    country: activity.workplace.address.county.label,
+    phone: activity.phone,
+    fax: activity.fax
   }
 
-  searchMapStore.setState({ loading: false, individualDetail: data }); 
+searchMapStore.setState({ loading: false, individualDetail: data }); 
 }
