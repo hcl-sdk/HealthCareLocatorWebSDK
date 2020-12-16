@@ -18,6 +18,7 @@ const QUERY_ACTIVITIES = gql`
       distance
       relevance
       activity {
+        id
         individual {
           id
           firstName
@@ -27,6 +28,7 @@ const QUERY_ACTIVITIES = gql`
           }
         }
         workplace {
+          id
           address {
             longLabel
             buildingLabel

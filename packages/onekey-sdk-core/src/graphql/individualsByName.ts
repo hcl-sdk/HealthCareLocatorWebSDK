@@ -24,6 +24,7 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
             label
           }
           mainActivity {
+            id
             workplace {
               address {longLabel, county { label } ,country }
             }

@@ -1,22 +1,59 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
-import { ActivityResult, QueryActivityByIdArgs } from './types';
+import { Activity, QueryActivityByIdArgs } from './types';
 
 interface ActivityByIdResult {
-  activityById: ActivityResult
+  activityByID: Activity
 }
 
 const QUERY_ACTIVITY_BY_ID = gql`
-  query activityById($apiKey: String!, $id: String!) {
+  query activityById($apiKey: String!, $id: ID!) {
     activityByID(
       apiKey: $apiKey
-      id: $activityById
+      id: $id
     ) {
       id
-      workplace {
-        name
-        address {
-          longLabel
+      phone
+      role{
+        code
+        label
+      }
+      fax
+      webAddress
+      workplace{
+        id
+          name
+          localPhone
+          emailAddress
+          address{
+            id
+            longLabel
+            country
+            postalCode
+            county{
+                label
+            }
+            city{
+                label
+            }
+            location{
+              lat
+              lon
+            }
+          }
+      }
+      individual{
+        id
+        firstName
+        lastName
+        middleName
+        mailingName
+        middleName
+        nickname
+        suffixName
+        specialties{
+          code
+          label
         }
       }
     }

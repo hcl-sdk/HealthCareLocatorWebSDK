@@ -25,7 +25,7 @@ export class OnekeySdkSearchResult {
 
   onItemCardClick = item => {
     searchMapStore.setState({
-      selectedIndividual: item
+      selectedActivity: item
     })
   };
 
@@ -45,7 +45,7 @@ export class OnekeySdkSearchResult {
 
   onBackToList = () => {
     searchMapStore.setState({
-      selectedIndividual: null
+      selectedActivity: null
     })
   };
 
@@ -67,7 +67,7 @@ export class OnekeySdkSearchResult {
       return null;
     }
 
-    const { specialties, selectedIndividual } = searchMapStore.state;
+    const { specialties, selectedActivity } = searchMapStore.state;
 
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
@@ -117,7 +117,7 @@ export class OnekeySdkSearchResult {
 
                 <div class={mapWrapperClass}>
                   {
-                  selectedIndividual ?
+                  selectedActivity ?
                     <onekey-sdk-hcp-full-card goBack={this.onBackToList} />
                   :
                   <div class="search-toolbar search-section">
@@ -140,7 +140,7 @@ export class OnekeySdkSearchResult {
                   </div>
                     }     
                   {
-                    !selectedIndividual && <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                    !selectedActivity && <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                     {specialties.map((elm, idx) => (
                       <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
                     ))}
@@ -154,7 +154,7 @@ export class OnekeySdkSearchResult {
                 </div>
               
               
-              {((!isListView && !isSmall) || (!isListView && !selectedIndividual) )&& (
+              {((!isListView && !isSmall) || (!isListView && !selectedActivity) )&& (
                 <onekey-sdk-map
                   mapHeight={`${offsetHeight}px`}
                   class={mapClass}

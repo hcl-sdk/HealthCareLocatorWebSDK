@@ -28,7 +28,7 @@ export class OnekeySdkSearchItem {
     return `
       <span style="color: ${isAddress ? `var(--onekeysdk-color-secondary)`: `var(--onekeysdk-color-grey_darke)`}">
         ${index >= 0 
-          ? ` ${string.substring(0,index)}<span style="color: var(--onekeysdk-color-primary)"> ${string.substring(index,index+lowerCaseText.length)} </span> ${string.substring(index + lowerCaseText.length)}`
+          ? `${string.substring(0,index)}<span style="color: var(--onekeysdk-color-primary)">${string.substring(index,index+lowerCaseText.length)}</span>${string.substring(index + lowerCaseText.length)}`
           : string
         }
       </span>
@@ -36,15 +36,12 @@ export class OnekeySdkSearchItem {
   }
 
   render() {
+    if(!this.item) {
+      return null
+    }
     return (
       <Host>
         <div class="search-address-item">
-          <div class="search-address-item-icon-wrapper">
-            <span class="search-address-item-icon">
-              {this.renderIcon(this.item.type)}
-            </span>
-            <span>{this.item.distance || 0}</span>
-          </div>
           <span class={`search-address-item-text ${this.activated ? 'active': ''}`} onClick={() => this.selectAddress.emit(this.item)}>
             <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} />
             <span class="specialty">{Array.isArray(this.item.specialties)? this.item.specialties[0]: this.item.specialties }</span>
