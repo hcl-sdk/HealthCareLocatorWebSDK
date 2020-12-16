@@ -23,8 +23,10 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
           specialties {
             label
           }
-          workplace {
-            address {longLabel, country }
+          mainActivity {
+            workplace {
+              address {longLabel, county { label } ,country }
+            }
           }
         }
     }
