@@ -58,7 +58,7 @@ export async function searchDoctor(variables) {
   const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({ 
     name: `${item.firstName} ${item.lastName}`,
     specialties: getSpecialtiesText(item.specialties),
-    address: `${item.workplace.address.longLabel},${item.workplace.address.country}`,
+    address: `${item.mainActivity.workplace.address.longLabel},${item.mainActivity.workplace.address.country}`,
     id: item.id
   })) : []
 

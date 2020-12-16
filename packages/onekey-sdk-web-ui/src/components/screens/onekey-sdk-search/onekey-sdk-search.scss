@@ -32,7 +32,7 @@
     padding: 0 15px;
     border-top: 1px solid var(--onekeysdk-color-card_border);
     padding-top: 10px;
-    display: grid;
+    display: grid !important;
     grid-auto-flow: row;
     grid-gap: 10px;
     grid-auto-rows: max-content;

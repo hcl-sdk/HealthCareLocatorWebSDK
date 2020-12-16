@@ -91,7 +91,7 @@ export type DailyOpenHours = {
 };
 
 export type DataQualityAssessment = {
-  grade: QualityGrade;
+  grade: Scalars['String'];
   comment?: Maybe<Scalars['String']>;
 };
 
@@ -113,7 +113,7 @@ export enum GeoAccurracy {
 export type Geopoint = {
   __typename?: 'Geopoint';
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lon: Scalars['Float'];
 };
 
 export type GeopointQuery = {
@@ -185,7 +185,6 @@ export type IndividualWorkPlaceDetails = OneKeyEntity & {
   webAddress?: Maybe<Scalars['String']>;
   mainActivity: Activity;
   otherActivities: Array<Activity>;
-  workplace?: Maybe<Workplace>;
 };
 
 export type KeyedString = {
@@ -204,6 +203,8 @@ export type Mutation = {
 
 
 export type MutationPostDataQualityAssesmentForActivityArgs = {
+  apiKey: Scalars['String'];
+  userId?: Maybe<Scalars['String']>;
   activityId: Scalars['ID'];
   grade: DataQualityAssessment;
 };
@@ -239,6 +240,15 @@ export enum QualityGrade {
   Ok = 'OK',
   Nok = 'NOK'
 }
+
+export type QualityReport = {
+  __typename?: 'QualityReport';
+  userId?: Maybe<Scalars['String']>;
+  apiKey?: Maybe<Scalars['String']>;
+  activityId?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  comments?: Maybe<Scalars['String']>;
+};
 
 export type Query = {
   __typename?: 'Query';
