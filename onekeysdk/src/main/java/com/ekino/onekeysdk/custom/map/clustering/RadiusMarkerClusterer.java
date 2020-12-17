@@ -46,7 +46,7 @@ public class RadiusMarkerClusterer extends MarkerClusterer {
         super();
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
-        mTextPaint.setTextSize(15 * ctx.getResources().getDisplayMetrics().density);
+        mTextPaint.setTextSize(14 * ctx.getResources().getDisplayMetrics().density);
         mTextPaint.setFakeBoldText(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
         mTextPaint.setAntiAlias(true);

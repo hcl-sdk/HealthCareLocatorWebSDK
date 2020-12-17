@@ -30,16 +30,6 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                 Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    fun storeConsultedProfile(pref: SharedPreferences, location: OneKeyLocation) {
-        disposable?.add(Flowable.just(0)
-                .map {
-                    location.createdAt = System.currentTimeMillis()
-                    pref.storeConsultedProfiles(Gson(), location)
-                }
-                .compose(compose())
-                .subscribe({}, {}))
-    }
-
     fun getActivities(criteria: String, specialityObject: OneKeySpecialityObject?, place: OneKeyPlace?) {
         loading.postValue(true)
         query({

@@ -200,8 +200,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     fun navigateToHCPProfile(obj: ActivityObject) {
         context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
-//            location.isHCP = true
-//            viewModel.storeConsultedProfile(this, location)
+            viewModel.storeConsultedProfile(this, obj)
         }
         navigateToProfile = true
         oneKeyViewCustomObject.also {

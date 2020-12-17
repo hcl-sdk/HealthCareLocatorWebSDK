@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.adapter.home.LastConsultedAdapter
 import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
@@ -39,7 +40,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val lastSearchAdapter by lazy { LastSearchAdapter(oneKeyViewCustomObject) }
-    private val lastConsultedAdapter by lazy { LastSearchAdapter(oneKeyViewCustomObject) }
+    private val lastConsultedAdapter by lazy { LastConsultedAdapter(oneKeyViewCustomObject) }
 
     override val viewModel = OneKeyHomFullViewModel()
 
@@ -144,23 +145,31 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                 lastSearchWrapper.visibility = View.GONE
         }
         lastSearchAdapter.onItemClickedListener = { location ->
-            if (location.isHCP)
-                oneKeyViewCustomObject.also {
-                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                            OneKeyProfileFragment.newInstance(it, location), true)
-                }
+//            if (location.isHCP)
+//                oneKeyViewCustomObject.also {
+//                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+//                            OneKeyProfileFragment.newInstance(it, location), true)
+//                }
         }
-        lastConsultedAdapter.onItemRemovedListener = {
-            checkViewMoreConsulted(lastConsultedAdapter.getData().size)
+        lastConsultedAdapter.onItemRemovedListener = { data, position ->
+            context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+                viewModel.removeConsultedProfile(this, data)
+            }
+            val list = viewModel.consultedProfiles.value ?: arrayListOf()
+            val indexed = list.indexOfFirst { it.id == data.id }
+            if (indexed >= 0) list.removeAt(indexed)
+            checkViewMoreConsulted(list.size)
             if (lastConsultedAdapter.getData().isEmpty())
                 lastConsultedWrapper.visibility = View.GONE
+            else {
+                lastConsultedAdapter.setData(list.take(if (consultedTag == 0) 3 else 10).toArrayList())
+            }
         }
-        lastConsultedAdapter.onItemClickedListener = { location ->
-            if (location.isHCP)
-                oneKeyViewCustomObject.also {
-                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                            OneKeyProfileFragment.newInstance(it, location), true)
-                }
+        lastConsultedAdapter.onItemClickedListener = { obj ->
+            oneKeyViewCustomObject.also {
+                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                        OneKeyProfileFragment.newInstance(it, null, obj.id), true)
+            }
         }
         rvLastConsulted.apply {
             layoutManager = LinearLayoutManager(context)

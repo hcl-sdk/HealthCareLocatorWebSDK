@@ -25,21 +25,27 @@ import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile.*
 
 
-class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile), View.OnClickListener, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
+class OneKeyProfileFragment :
+    AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile),
+    View.OnClickListener, CompoundButton.OnCheckedChangeListener,
+    AdapterView.OnItemSelectedListener {
     companion object {
-        fun newInstance(theme: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build(),
-                        oneKeyLocation: OneKeyLocation?, activityId: String = "") =
-                OneKeyProfileFragment().apply {
-                    this.oneKeyViewCustomObject = theme
-                    this.oneKeyLocation = oneKeyLocation
-                    this.activityId = activityId
-                }
+        fun newInstance(
+            theme: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build(),
+            oneKeyLocation: OneKeyLocation?, activityId: String = ""
+        ) =
+            OneKeyProfileFragment().apply {
+                this.oneKeyViewCustomObject = theme
+                this.oneKeyLocation = oneKeyLocation
+                this.activityId = activityId
+            }
 
     }
 
     private val locations by lazy { getDummyHCP() }
     private var oneKeyLocation: OneKeyLocation? = null
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject =
+        ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private var mapFragment: MapFragment? = null
     private var activityDetail: ActivityObject = ActivityObject()
@@ -65,15 +71,17 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
         viewModel.loading.observe(this, Observer {
             showLoading(it)
         })
+        btnBack.setOnClickListener { activity?.onBackPressed() }
     }
 
     private fun fillData(savedInstanceState: Bundle?) {
         if (mapFragment == null)
-            mapFragment = MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(activityDetail), 2f)
+            mapFragment =
+                MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(activityDetail), 2f)
         val fm = this@OneKeyProfileFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
             fm.beginTransaction().add(R.id.viewHCPMap, mapFragment!!, mapFragmentTag)
-                    .commit()
+                .commit()
         }
         initProfile(savedInstanceState)
     }
@@ -120,17 +128,29 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
             this@OneKeyProfileFragment.fax.visibility = fax.isNotEmpty().getVisibility()
             if (webAddress.isNotEmpty())
                 tvWebsite.text = SpannableString(webAddress).apply {
-                    setSpan(UnderlineSpan(), 0, webAddress.length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    setSpan(
+                        UnderlineSpan(),
+                        0,
+                        webAddress.length,
+                        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
                 }
             tvTelephone.text = phone
             tvFax.text = fax
-            tvSpecialities.text = TextUtils.join(",",
-                    individual?.specialties ?: arrayListOf<LabelObject>())
+            tvSpecialities.text = TextUtils.join(
+                ",",
+                individual?.specialties ?: arrayListOf<LabelObject>()
+            )
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
-            tvModification.text = "Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan."
+            tvModification.text =
+                "Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan."
         }
 
-        ArrayAdapter<OneKeyLocation>(context!!, R.layout.layout_one_key_spinner_item, locations).also {
+        ArrayAdapter<OneKeyLocation>(
+            context!!,
+            R.layout.layout_one_key_spinner_item,
+            locations
+        ).also {
             it.setDropDownViewResource(R.layout.layout_one_key_drop_down)
             addressSpinner.adapter = it
         }
@@ -139,7 +159,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
 
         applyStyles()
 
-        btnBack.setOnClickListener(this)
+        btnShare.setOnClickListener(this)
         tvWebsite.setOnClickListener(this)
         ivDirection.setOnClickListener(this)
         ivCall.setOnClickListener(this)
@@ -161,8 +181,9 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
                 if (activityDetail.id.isNotEmpty() && activityDetail.workplace?.address?.location.isNotNullable()) {
                     val location = activityDetail.workplace!!.address!!.location!!
                     val lastLocation = getRunningMapFragment()?.getLastLocation()
-                            ?.getLocationString() ?: ""
-                    val uri = "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
+                        ?.getLocationString() ?: ""
+                    val uri =
+                        "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     startActivity(intent)
                 }
@@ -175,7 +196,9 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
                 startActivity(browserIntent)
             }
-            R.id.btnBack -> activity?.onBackPressed()
+
+            R.id.btnShare -> {
+            }
         }
     }
 
@@ -209,6 +232,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
     } as? MapFragment
 
     private fun showLoading(state: Boolean) {
+        viewContainer.visibility = activityDetail.id.isNotEmpty().getVisibility()
         profileProgressBar.visibility = state.getVisibility()
     }
 }

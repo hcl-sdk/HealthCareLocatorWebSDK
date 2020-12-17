@@ -26,32 +26,53 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import kotlinx.android.synthetic.main.fragment_custom_theme.*
 
 class CustomThemeFragment(
-        val themeObject: ThemeObject,
-        val callback: (theme: ThemeObject) -> Unit
+    val themeObject: ThemeObject,
+    val callback: (theme: ThemeObject) -> Unit
 ) :
-        IFragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
+    IFragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     companion object {
         fun newInstance(themeObject: ThemeObject, callback: (theme: ThemeObject) -> Unit) =
-                CustomThemeFragment(themeObject.clone() as ThemeObject, callback)
+            CustomThemeFragment(themeObject.clone() as ThemeObject, callback)
     }
 
-    private var fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", title = "Default").build()
-    private var fontTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", title = "Title Main").build()
-    private var fontTitle2: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleSecondary", title = "Title Secondary").build()
-    private var fontTitle3: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTotal", title = "Search Result Total").build()
-    private var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", title = "Button").build()
-    private var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", title = "Small").build()
-    private var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
-    private var fontSearchResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontSearchResultTitle", title = "Search Result Title").build()
-    private var fontResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
-    private var fontResultSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
-    private var fontProfileTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
-    private var fontProfileSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title").build()
-    private var fontProfileTitleSection: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileTitleSection", title = "Profile Title Section").build()
-    private var fontCardTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
-    private var fontModalTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
-    private var fontSortCriteria: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
+    private var fontDefault: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "default", title = "Default").build()
+    private var fontTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "titleMain", title = "Title Main").build()
+    private var fontTitle2: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "titleSecondary", title = "Title Secondary").build()
+    private var fontTitle3: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "searchResultTotal", title = "Search Result Total")
+            .build()
+    private var fontButton: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "button", title = "Button").build()
+    private var fontSmall: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "small", title = "Small").build()
+    private var fontSearchInput: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
+    private var fontSearchResultTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontSearchResultTitle", title = "Search Result Title")
+            .build()
+    private var fontResultTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
+    private var fontResultSubTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
+    private var fontProfileTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
+    private var fontProfileSubTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title")
+            .build()
+    private var fontProfileTitleSection: OneKeyViewFontObject = OneKeyViewFontObject.Builder(
+        id = "fontProfileTitleSection",
+        title = "Profile Title Section"
+    ).build()
+    private var fontCardTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
+    private var fontModalTitle: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
+    private var fontSortCriteria: OneKeyViewFontObject =
+        OneKeyViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
     private val gson by lazy { Gson() }
     private val fonts by lazy { arrayListOf<OneKeyViewFontObject>() }
     private var colors = arrayListOf<ColorObject>()
@@ -59,9 +80,9 @@ class CustomThemeFragment(
     private val fontAdapter by lazy { FontAdapter() }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_custom_theme, container, false)
     }
@@ -189,27 +210,27 @@ class CustomThemeFragment(
             adapter = colorAdapter
         }
         colorAdapter.setData(colors)
-        val colorDialogBuilder = ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+        val colorDialogBuilder =
+            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                 .setAllowPresets(false).setDialogId(0)
                 .setShowAlphaSlider(true)
         colorAdapter.onColorSelected = { data, position ->
             colorDialogBuilder
-                    .setColor(data.color.getColor())
-                    .setColorPickerDialogListener(object : ColorPickerDialogListener {
-                        override fun onDialogDismissed(dialogId: Int) {
-                        }
+                .setColor(data.color.getColor())
+                .setColorPickerDialogListener(object : ColorPickerDialogListener {
+                    override fun onDialogDismissed(dialogId: Int) {
+                    }
 
-                        override fun onColorSelected(dialogId: Int, color: Int) {
-                            val hexColor = "#${Integer.toHexString(color)}"
-                            colorAdapter.getData()[position].color = hexColor
-                            colorAdapter.notifyItemChanged(position)
+                    override fun onColorSelected(dialogId: Int, color: Int) {
+                        val hexColor = "#${Integer.toHexString(color)}"
+                        colorAdapter.getData()[position].color = hexColor
+                        colorAdapter.notifyItemChanged(position)
 //                            themeObject.markerHexColor = hexColor
 //                            viewMarker.setBackgroundColor(color)
-                        }
+                    }
 
-                    }).show(activity)
+                }).show(activity)
         }
-        initColorPicker()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -220,81 +241,6 @@ class CustomThemeFragment(
 
     }
 
-    private fun initColorPicker() {
-        viewPrimary.setBackgroundColor(themeObject.primaryHexColor.getColor())
-        viewSecondary.setBackgroundColor(themeObject.secondaryHexColor.getColor())
-        viewMarker.setBackgroundColor(themeObject.markerHexColor.getColor())
-        viewSelectedMarker.setBackgroundColor(themeObject.markerSelectedHexColor.getColor())
-        viewPrimary.setOnClickListener {
-            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                    .setAllowPresets(false).setDialogId(0)
-                    .setColor(themeObject.primaryHexColor.getColor())
-                    .setShowAlphaSlider(true)
-                    .setColorPickerDialogListener(object : ColorPickerDialogListener {
-                        override fun onDialogDismissed(dialogId: Int) {
-                        }
-
-                        override fun onColorSelected(dialogId: Int, color: Int) {
-                            val hexColor = "#${Integer.toHexString(color)}"
-                            themeObject.primaryHexColor = hexColor
-                            viewPrimary.setBackgroundColor(color)
-                        }
-
-                    }).show(activity)
-        }
-        viewSecondary.setOnClickListener {
-            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                    .setAllowPresets(false).setDialogId(0)
-                    .setColor(themeObject.secondaryHexColor.getColor())
-                    .setShowAlphaSlider(true)
-                    .setColorPickerDialogListener(object : ColorPickerDialogListener {
-                        override fun onDialogDismissed(dialogId: Int) {
-                        }
-
-                        override fun onColorSelected(dialogId: Int, color: Int) {
-                            val hexColor = "#${Integer.toHexString(color)}"
-                            themeObject.secondaryHexColor = hexColor
-                            viewSecondary.setBackgroundColor(color)
-                        }
-
-                    }).show(activity)
-        }
-        viewMarker.setOnClickListener {
-            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                    .setAllowPresets(false).setDialogId(0)
-                    .setColor(themeObject.markerHexColor.getColor())
-                    .setShowAlphaSlider(true)
-                    .setColorPickerDialogListener(object : ColorPickerDialogListener {
-                        override fun onDialogDismissed(dialogId: Int) {
-                        }
-
-                        override fun onColorSelected(dialogId: Int, color: Int) {
-                            val hexColor = "#${Integer.toHexString(color)}"
-                            themeObject.markerHexColor = hexColor
-                            viewMarker.setBackgroundColor(color)
-                        }
-
-                    }).show(activity)
-        }
-        viewSelectedMarker.setOnClickListener {
-            ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                    .setAllowPresets(false).setDialogId(0)
-                    .setColor(themeObject.markerSelectedHexColor.getColor())
-                    .setShowAlphaSlider(true)
-                    .setColorPickerDialogListener(object : ColorPickerDialogListener {
-                        override fun onDialogDismissed(dialogId: Int) {
-                        }
-
-                        override fun onColorSelected(dialogId: Int, color: Int) {
-                            val hexColor = "#${Integer.toHexString(color)}"
-                            themeObject.markerSelectedHexColor = hexColor
-                            viewSelectedMarker.setBackgroundColor(color)
-                        }
-
-                    }).show(activity)
-        }
-    }
-
     override fun onClick(v: View?) {
         when (v?.id) {
 
@@ -302,6 +248,6 @@ class CustomThemeFragment(
     }
 
     private fun getFontSetting(json: String): OneKeyViewFontObject =
-            gson.fromJson(json, object : TypeToken<OneKeyViewFontObject>() {}.type)
+        gson.fromJson(json, object : TypeToken<OneKeyViewFontObject>() {}.type)
 
 }

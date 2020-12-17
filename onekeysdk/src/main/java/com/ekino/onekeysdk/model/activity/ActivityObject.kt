@@ -11,7 +11,8 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
                      var fax: String = "", var webAddress: String = "",
                      var workplace: ActivityWorkplaceObject? = null,
                      var individual: ActivityIndividualObject? = null,
-                     var distance: Double = 0.0) : Parcelable {
+                     var distance: Double = 0.0, var createdAt: Long = System.currentTimeMillis(),
+                     var createdDate: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -20,7 +21,7 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
             parcel.readString() ?: "",
             parcel.readParcelable(ActivityWorkplaceObject::class.java.classLoader),
             parcel.readParcelable(ActivityIndividualObject::class.java.classLoader),
-            parcel.readDouble()) {
+            parcel.readDouble(), parcel.readLong()) {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -33,6 +34,7 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
             writeParcelable(workplace, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
             writeParcelable(individual, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
             writeDouble(distance)
+            writeLong(createdAt)
         }
     }
 

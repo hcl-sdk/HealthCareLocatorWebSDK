@@ -7,7 +7,7 @@ import android.view.View
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.ekino.onekeysdk.R
-import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -54,11 +54,11 @@ fun <T : Fragment> List<T>.getFragmentBy(filter: (fragment: Fragment) -> Boolean
 /**
  * [SharedPreferences]
  */
-fun SharedPreferences.storeConsultedProfiles(gson: Gson = Gson(), hcp: OneKeyLocation) {
+fun SharedPreferences.storeConsultedProfiles(gson: Gson = Gson(), hcp: ActivityObject) {
     val profiles = this.getConsultedProfiles(gson)
     profiles.removeIf { it.id == hcp.id }
     profiles.add(hcp)
-    profiles.sortWith(Comparator { o1: OneKeyLocation, o2: OneKeyLocation ->
+    profiles.sortWith(Comparator { o1: ActivityObject, o2: ActivityObject ->
         o2.createdAt.compareTo(o1.createdAt)
     })
     val current = System.currentTimeMillis()
@@ -68,9 +68,15 @@ fun SharedPreferences.storeConsultedProfiles(gson: Gson = Gson(), hcp: OneKeyLoc
     edit { putString("ConsultedProfiles", gson.toJson(profiles)) }
 }
 
-fun SharedPreferences.getConsultedProfiles(gson: Gson = Gson()): ArrayList<OneKeyLocation> {
+fun SharedPreferences.removeConsultedProfile(gson: Gson = Gson(), hcp: ActivityObject) {
+    val profiles = this.getConsultedProfiles(gson)
+    profiles.removeIf { it.id == hcp.id }
+    edit { putString("ConsultedProfiles", gson.toJson(profiles)) }
+}
+
+fun SharedPreferences.getConsultedProfiles(gson: Gson = Gson()): ArrayList<ActivityObject> {
     return gson.fromJson(this.getString("ConsultedProfiles", "[]") ?: "[]",
-            object : TypeToken<ArrayList<OneKeyLocation>>() {}.type)
+            object : TypeToken<ArrayList<ActivityObject>>() {}.type)
 }
 
 /**

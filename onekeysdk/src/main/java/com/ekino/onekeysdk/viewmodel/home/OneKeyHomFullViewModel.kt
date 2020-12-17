@@ -3,16 +3,18 @@ package com.ekino.onekeysdk.viewmodel.home
 import android.content.SharedPreferences
 import android.text.format.DateUtils
 import androidx.lifecycle.MutableLiveData
+import base.viewmodel.ApolloViewModel
 import base.viewmodel.AppViewModel
 import com.ekino.onekeysdk.extensions.getConsultedProfiles
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.google.gson.Gson
 import io.reactivex.Flowable
 
-class OneKeyHomFullViewModel : AppViewModel<OneKeyHomeFullFragment>() {
+class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
     private val gson by lazy { Gson() }
-    val consultedProfiles by lazy { MutableLiveData<ArrayList<OneKeyLocation>>() }
+    val consultedProfiles by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
 
     fun getConsultedProfiles(pref: SharedPreferences) {
         disposable?.add(
