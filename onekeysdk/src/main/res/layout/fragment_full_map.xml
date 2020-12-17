@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/resultWrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -48,8 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_padding_tiny"
                     android:textSize="@dimen/default_text_small"
-                    app:OneKeyTextStyle="OneKeyStyleSmall"
                     app:OneKeyTextColor="OneKeyColorGrey"
+                    app:OneKeyTextStyle="OneKeyStyleSmall"
                     tools:text="Speciality" />
             </LinearLayout>
         </LinearLayout>
@@ -60,104 +60,128 @@
             android:alpha="0.3"
             android:background="@color/gray" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/default_padding"
-            android:paddingTop="@dimen/default_padding_smaller"
-            android:paddingBottom="@dimen/default_padding_smaller">
-
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Results:"
-                android:textColor="@color/colorOneKeyText"
-                app:OneKeyTextStyle="OneKeyStyleSearchResultTotal"/>
-
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_padding_tiny"
-                android:text="0"
-                app:OneKeyTextStyle="OneKeyStyleSearchResultTotal"
-                app:OneKeyTextColor="OneKeyColorPrimary"/>
-
-            <FrameLayout
-                android:layout_width="10dp"
-                android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_padding_smaller"
-                android:layout_marginEnd="@dimen/default_padding_x_large"
-                android:layout_weight="1"
-                android:background="@drawable/bg_white_border_rounded"
-                android:orientation="horizontal"
-                android:padding="3dp"
-                android:weightSum="2">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/listViewMode"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_green_corner"
-                    android:drawableStart="@drawable/baseline_list_white_24dp"
-                    android:drawableTint="@color/white"
-                    android:gravity="center"
-                    android:maxWidth="60dp"
-                    android:paddingStart="@dimen/default_padding_small"
-                    android:paddingTop="@dimen/default_padding_tiny"
-                    android:paddingEnd="@dimen/default_padding_small"
-                    android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="List"
-                    android:textColor="@color/white" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/default_padding"
+                    android:paddingTop="@dimen/default_padding_smaller"
+                    android:paddingBottom="@dimen/default_padding_smaller">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Results:"
+                        android:textColor="@color/colorOneKeyText"
+                        app:OneKeyTextStyle="OneKeyStyleSearchResultTotal" />
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/tvResult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_padding_tiny"
+                        android:text="0"
+                        app:OneKeyTextColor="OneKeyColorPrimary"
+                        app:OneKeyTextStyle="OneKeyStyleSearchResultTotal" />
+
+                    <FrameLayout
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_padding_smaller"
+                        android:layout_marginEnd="@dimen/default_padding_x_large"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_white_border_rounded"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="2">
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/listViewMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_green_corner"
+                            android:drawableStart="@drawable/baseline_list_white_24dp"
+                            android:drawableTint="@color/white"
+                            android:gravity="center"
+                            android:maxWidth="60dp"
+                            android:paddingStart="@dimen/default_padding_small"
+                            android:paddingTop="@dimen/default_padding_tiny"
+                            android:paddingEnd="@dimen/default_padding_small"
+                            android:paddingBottom="@dimen/default_padding_tiny"
+                            android:text="List"
+                            android:textColor="@color/white" />
 
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/mapViewMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:drawableStart="@drawable/baseline_map_white_24dp"
-                    android:drawableTint="@color/colorOneKeyText"
-                    android:gravity="center"
-                    android:maxWidth="60dp"
-                    android:paddingStart="@dimen/default_padding_small"
-                    android:paddingTop="@dimen/default_padding_tiny"
-                    android:paddingEnd="@dimen/default_padding_small"
-                    android:paddingBottom="@dimen/default_padding_tiny"
-                    android:text="Map"
-                    android:textColor="@color/colorOneKeyText" />
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/mapViewMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:drawableStart="@drawable/baseline_map_white_24dp"
+                            android:drawableTint="@color/colorOneKeyText"
+                            android:gravity="center"
+                            android:maxWidth="60dp"
+                            android:paddingStart="@dimen/default_padding_small"
+                            android:paddingTop="@dimen/default_padding_tiny"
+                            android:paddingEnd="@dimen/default_padding_small"
+                            android:paddingBottom="@dimen/default_padding_tiny"
+                            android:text="Map"
+                            android:textColor="@color/colorOneKeyText" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="@dimen/default_icon_size"
+                        android:layout_height="@dimen/default_icon_size"
+                        android:layout_marginEnd="@dimen/default_padding_smaller"
+                        android:background="@drawable/bg_white_border_rounded"
+                        android:padding="3dp">
+
+                        <ImageView
+                            android:id="@+id/ivSort"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_green_corner"
+                            android:padding="@dimen/default_padding_tiny"
+                            android:src="@drawable/baseline_sort_white_24dp" />
+                    </FrameLayout>
+                </LinearLayout>
+
+
+                <FrameLayout
+                    android:id="@+id/resultContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-                android:layout_marginEnd="@dimen/default_padding_smaller"
-                android:background="@drawable/bg_white_border_rounded"
-                android:padding="3dp">
+                android:id="@+id/loadingWrapper"
+                tools:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="true">
 
-                <ImageView
-                    android:id="@+id/ivSort"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_green_corner"
-                    android:padding="@dimen/default_padding_tiny"
-                    android:src="@drawable/baseline_sort_white_24dp" />
+                <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                    android:layout_width="@dimen/default_icon_size_bigger"
+                    android:layout_height="@dimen/default_icon_size_bigger"
+                    android:layout_gravity="center" />
             </FrameLayout>
-        </LinearLayout>
-
+        </FrameLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/resultContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/resultWrapper" />
 </RelativeLayout>

@@ -15,7 +15,7 @@ import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
-import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.utils.OneKeyConstant
@@ -36,14 +36,16 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     companion object {
         fun newInstance(
                 oneKeyViewCustomObject: OneKeyViewCustomObject,
-                locations: ArrayList<OneKeyLocation>) = MapFragment().apply {
+                activities: ArrayList<ActivityObject>, modifyZoomLevel: Float = 0f) = MapFragment().apply {
             this.oneKeyViewCustomObject = oneKeyViewCustomObject
-            this.locations = locations
+            this.activities = activities
+            this.modifyZoomLevel = modifyZoomLevel
         }
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
-    private var locations: ArrayList<OneKeyLocation> = arrayListOf()
+    private var activities: ArrayList<ActivityObject> = arrayListOf()
+    private var modifyZoomLevel: Float = 0f
 
     var onMarkerSelectionChanged: (id: String) -> Unit = {}
 
@@ -102,16 +104,16 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState != null) {
-            val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
+            val list = savedInstanceState.getParcelableArrayList<ActivityObject>(OneKeyConstant.locations)
             if (!list.isNullOrEmpty())
-                locations = list
+                activities = list
         }
-        drawMarkerOnMap(locations)
+        drawMarkerOnMap(activities)
 
 //        mMapView?.overlays?.addAll(oneKeyMarkers)
     }
 
-    fun drawMarkerOnMap(locations: ArrayList<OneKeyLocation>, moveCamera: Boolean = false) {
+    fun drawMarkerOnMap(activities: ArrayList<ActivityObject>, moveCamera: Boolean = false) {
         mMapView?.apply {
             val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>() ?: listOf()
             overlays.removeAll(clustersFiltered)
@@ -123,23 +125,26 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     R.drawable.ic_location_on_white_36dp,
                     oneKeyViewCustomObject.colorMarkerSelected.getColor()
             )!!
-            locations.forEach { location ->
+            activities.forEach { activity ->
                 val marker = OneKeyMarker(mMapView).apply {
-                    id = location.id
+                    id = activity.id
                     setOnMarkerClickListener(this@MapFragment)
-                    position = GeoPoint(location.latitude, location.longitude)
+                    val location = activity.workplace?.address?.location?.getGeoPoint()
+                            ?: GeoPoint(0.0, 0.0)
+                    position = location
                     setAnchor(Marker.ANCHOR_CENTER, 1f)
                     icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
                             oneKeyViewCustomObject.colorMarker.getColor()
                     )
-                    title = location.address
+                    title = activity.workplace?.address?.getAddress() ?: ""
                 }
                 clusters.add(marker)
                 oneKeyMarkers.add(marker)
             }
-            if (moveCamera && locations.size == 1) {
-                val position = locations[0].getLocation()
+            if (moveCamera && activities.size == 1) {
+                val position = activities[0].workplace?.address?.location?.getGeoPoint()
+                        ?: GeoPoint(0.0, 0.0)
                 controller.setCenter(position)
                 controller.animateTo(position, 16.5, 2000)
             }
@@ -148,7 +153,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(OneKeyConstant.locations, locations)
+        outState.putParcelableArrayList(OneKeyConstant.locations, activities)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -184,7 +189,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
         //the rest of this is restoring the last map location the user looked at
         val zoomLevel = mPrefs!!.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1f)
-        mMapView!!.controller.setZoom(zoomLevel.toDouble())
+        mMapView!!.controller.setZoom(if (modifyZoomLevel > 0f) modifyZoomLevel.toDouble() else zoomLevel.toDouble())
         val orientation = mPrefs!!.getFloat(PREFS_ORIENTATION, 0f)
 //        mMapView!!.setMapOrientation(orientation, false)
         val latitudeString = mPrefs!!.getString(PREFS_LATITUDE_STRING, "1.0")
@@ -209,7 +214,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             putFloat(PREFS_ORIENTATION, mMapView!!.mapOrientation)
             putString(PREFS_LATITUDE_STRING, "${mMapView!!.mapCenter.latitude}")
             putString(PREFS_LONGITUDE_STRING, "${mMapView!!.mapCenter.longitude}")
-            putFloat(PREFS_ZOOM_LEVEL_DOUBLE, mMapView!!.zoomLevelDouble.toFloat())
+            if (modifyZoomLevel == 0f)
+                putFloat(PREFS_ZOOM_LEVEL_DOUBLE, mMapView!!.zoomLevelDouble.toFloat())
         }
         mMapView?.onPause()
         super.onPause()

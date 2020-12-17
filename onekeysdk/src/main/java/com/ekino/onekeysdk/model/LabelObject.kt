@@ -3,6 +3,7 @@ package com.ekino.onekeysdk.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
+import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
 class LabelObject(var code: String = "", var label: String = "") : Parcelable {
@@ -46,6 +47,18 @@ class LabelObject(var code: String = "", var label: String = "") : Parcelable {
         return this
     }
 
+    fun parse(data: GetActivityByIdQuery.ProfessionalType?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.ProfessionalType?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
+        return this
+    }
+
     fun parse(data: GetActivityByIdQuery.County?): LabelObject {
         if (data.isNullable()) return this
         this.label = data!!.label()
@@ -62,6 +75,24 @@ class LabelObject(var code: String = "", var label: String = "") : Parcelable {
         if (data.isNullable()) return this
         this.label = data!!.label()
         this.code = data.code()
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.County?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.City?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.Specialty?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
         return this
     }
 }

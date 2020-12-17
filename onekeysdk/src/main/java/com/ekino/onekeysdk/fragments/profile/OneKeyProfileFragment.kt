@@ -41,18 +41,18 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
     private var oneKeyLocation: OneKeyLocation? = null
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, ArrayList(locations.take(1))) }
-    private var activityDetail: ActivityObject? = null
+    private var mapFragment: MapFragment? = null
+    private var activityDetail: ActivityObject = ActivityObject()
     private var activityId: String = ""
     override val viewModel = OneKeyProfileViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
         if (savedInstanceState != null) {
-            activityDetail = savedInstanceState.getParcelable("activityDetail")
+            activityDetail = savedInstanceState.getParcelable("activityDetail") ?: ActivityObject()
             activityId = savedInstanceState.getString("activityId", "") ?: ""
         }
-        if (activityDetail == null) {
+        if (activityDetail.id.isEmpty()) {
             viewModel.getDetailActivity(activityId)
             viewModel.activity.observe(this, Observer {
                 activityDetail = it
@@ -68,9 +68,11 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
     }
 
     private fun fillData(savedInstanceState: Bundle?) {
+        if (mapFragment == null)
+            mapFragment = MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(activityDetail), 2f)
         val fm = this@OneKeyProfileFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
-            fm.beginTransaction().add(R.id.viewHCPMap, mapFragment, mapFragmentTag)
+            fm.beginTransaction().add(R.id.viewHCPMap, mapFragment!!, mapFragmentTag)
                     .commit()
         }
         initProfile(savedInstanceState)
@@ -104,9 +106,14 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
 
         activityDetail?.apply {
             tvDoctorName.text = individual?.mailingName ?: ""
-            tvSpeciality.text = individual?.specialties?.firstOrNull()?.label ?: ""
-            tvAddress.text = workplace?.address?.run {
-                "${longLabel}, ${city?.label}, ${county?.label}, ${country}"
+            tvSpeciality.text = individual?.professionalType?.label ?: ""
+            tvAddress.text = workplace?.run {
+                var string = "$name"
+                if (!address?.buildingLabel.isNullOrEmpty())
+                    string += "\n${address?.buildingLabel}"
+                if (!address?.longLabel.isNullOrEmpty())
+                    string += "\n${address?.longLabel}"
+                string
             } ?: ""
             websiteWrapper.visibility = webAddress.isNotEmpty().getVisibility()
             phoneWrapper.visibility = phone.isNotEmpty().getVisibility()
@@ -144,17 +151,18 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.ivCall -> {
-                activityDetail?.also {
+                activityDetail.also {
                     val intent = Intent(Intent.ACTION_DIAL)
                     intent.data = Uri.parse("tel:${it.phone}")
                     startActivity(intent)
                 }
             }
             R.id.ivDirection -> {
-                oneKeyLocation?.also {
+                if (activityDetail.id.isNotEmpty() && activityDetail.workplace?.address?.location.isNotNullable()) {
+                    val location = activityDetail.workplace!!.address!!.location!!
                     val lastLocation = getRunningMapFragment()?.getLastLocation()
                             ?.getLocationString() ?: ""
-                    val uri = "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${it.getLocationByString()}"
+                    val uri = "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     startActivity(intent)
                 }
@@ -188,7 +196,7 @@ class OneKeyProfileFragment : AppFragment<OneKeyProfileFragment, OneKeyProfileVi
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         locations.getOrNull(position)?.also {
             oneKeyLocation = it
-            getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(it), true)
+            getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(activityDetail), true)
         }
     }
 

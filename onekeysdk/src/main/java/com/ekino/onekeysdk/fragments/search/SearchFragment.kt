@@ -16,11 +16,11 @@ import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
+import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
-import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
@@ -44,6 +44,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private var selectedPlace: OneKeyPlace? = null
     private var locationProvider: GpsMyLocationProvider? = null
     private var currentLocation: Location? = null
+    private var selectedSpeciality: OneKeySpecialityObject? = null
     private var isExpand = false
     var onItemClicked = false
 
@@ -141,6 +142,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             R.id.ivSpecialityClear -> {
                 edtName.setText("")
                 setSpecialityClearState(false)
+                selectedSpeciality = null
             }
             R.id.ivAddressClear -> {
                 edtWhere.setText("")
@@ -152,13 +154,12 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     return
                 }
                 oneKeyViewCustomObject?.also {
-                    (activity as? AppCompatActivity)?.addFragment(
-                            R.id.fragmentContainer,
-                            FullMapFragment.newInstance(it, edtName.text.toString(),
+                    onItemClicked = true
+                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                            FullMapFragment.newInstance(it, edtName.text.toString(), selectedSpeciality,
                                     selectedPlace ?: OneKeyPlace().apply {
                                         displayName = edtWhere.text.toString()
-                                    }, getDummyHCP()
-                            ), true
+                                    }), true
                     )
                 }
             }
@@ -220,9 +221,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         }
     }
 
-    override fun onIndividualClickedListener(data: GetCodeByLabelQuery.Code) {
+    override fun onIndividualClickedListener(data: OneKeySpecialityObject) {
+        this.selectedSpeciality = data
         onItemClicked = true
-        edtName.setText(data.longLbl())
+        edtName.setText(data.longLbl)
         edtWhere.requestFocus()
     }
 

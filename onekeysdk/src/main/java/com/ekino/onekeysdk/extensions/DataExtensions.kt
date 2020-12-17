@@ -21,6 +21,7 @@ fun Int.isValidPosition(size: Int) = this in 0..size.minus(1)
  **/
 fun Boolean.getVisibility() = if (this) View.VISIBLE else View.GONE
 fun <T> T?.isNullable(): Boolean = this == null
+fun <T> T?.isNotNullable(): Boolean = !this.isNullable()
 
 /**
  * [TypedArray]

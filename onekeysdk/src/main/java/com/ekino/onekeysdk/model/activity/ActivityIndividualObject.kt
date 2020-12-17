@@ -4,19 +4,22 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.model.LabelObject
+import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 import java.util.*
 
 class ActivityIndividualObject(var id: String = "", var firstName: String = "", var lastName: String = "",
                                var middleName: String = "", var mailingName: String = "",
-                               var specialties: ArrayList<LabelObject> = ArrayList()) : Parcelable {
+                               var specialties: ArrayList<LabelObject> = ArrayList(),
+                               var professionalType: LabelObject? = null) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
-            parcel.createTypedArrayList(LabelObject) ?: arrayListOf()) {
+            parcel.createTypedArrayList(LabelObject) ?: arrayListOf(),
+            parcel.readParcelable(LabelObject::class.java.classLoader)) {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -27,6 +30,7 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
             writeString(middleName)
             writeString(mailingName)
             writeTypedList(specialties)
+            writeParcelable(professionalType, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
         }
     }
 
@@ -54,6 +58,21 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
         this.lastName = data.lastName()
         this.middleName = data.middleName() ?: ""
         this.mailingName = data.mailingName() ?: ""
+        this.professionalType = LabelObject().parse(data.professionalType())
+        this.specialties = arrayListOf<LabelObject>().apply {
+            data.specialties().forEach {
+                if (it.label().isNotEmpty())
+                    add(LabelObject().parse(it))
+            }
+        }
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.Individual?): ActivityIndividualObject {
+        if (data.isNullable()) return this
+        this.id = data!!.id()
+        this.mailingName = data.mailingName() ?: ""
+        this.professionalType = LabelObject().parse(data.professionalType())
         this.specialties = arrayListOf<LabelObject>().apply {
             data.specialties().forEach {
                 if (it.label().isNotEmpty())

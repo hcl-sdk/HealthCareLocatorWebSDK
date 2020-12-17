@@ -3,7 +3,9 @@ package com.ekino.onekeysdk.model.activity
 import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
+import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
+import org.osmdroid.util.GeoPoint
 
 class LocationObject(var lat: Double = 0.0, var lon: Double = 0.0) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -32,10 +34,20 @@ class LocationObject(var lat: Double = 0.0, var lon: Double = 0.0) : Parcelable 
         }
     }
 
+    fun getGeoPoint(): GeoPoint = GeoPoint(lat, lon)
+
+    fun getLocationByString():String = "$lat,$lon"
     /**
      * Convert data from GraphQL
      */
     fun parse(data: GetActivityByIdQuery.Location?): LocationObject {
+        if (data.isNullable()) return this
+        this.lat = data!!.lat()
+        this.lon = data.lon()
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.Location?): LocationObject {
         if (data.isNullable()) return this
         this.lat = data!!.lat()
         this.lon = data.lon()

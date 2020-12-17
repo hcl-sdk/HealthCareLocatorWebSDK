@@ -43,6 +43,44 @@ query getIndividualByName($apiKey: String!, $criteria:String!, $locale:String, $
         }
     }
 }
+
+query getActivities($apiKey: String!, $locale:String, $first:Int!, $offset:Int!, $criteria:String,$specialties:[String!]){
+    activities(apiKey:$apiKey,locale: $locale, first: $first, offset:$offset, criteria:$criteria, specialties:$specialties){
+        distance
+        activity{
+            id
+            workplace{
+                id
+                name
+                address{
+                    id
+                    longLabel
+                    country
+                    postalCode
+                    county{
+                        label
+                    }
+                    city{
+                        label
+                    }
+                    location{
+                        lat
+                        lon
+                    }
+                }
+            }
+            individual{
+                id
+                professionalType{label}
+                mailingName
+                specialties{
+                    label
+                }
+            }
+        }
+    }
+}
+
 query getActivityById($apiKey: String!, $id:ID!, $locale:String){
     activityByID(apiKey:$apiKey, id:$id, locale: $locale){
         id
@@ -63,6 +101,7 @@ query getActivityById($apiKey: String!, $id:ID!, $locale:String){
                 longLabel
                 country
                 postalCode
+                buildingLabel
                 county{
                     label
                 }
@@ -84,6 +123,7 @@ query getActivityById($apiKey: String!, $id:ID!, $locale:String){
             middleName
             nickname
             suffixName
+            professionalType{label}
             specialties{
                 code
                 label

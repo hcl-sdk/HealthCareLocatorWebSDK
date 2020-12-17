@@ -4,12 +4,14 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.model.LabelObject
+import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
 class ActivityObject(var id: String = "", var phone: String = "", var role: LabelObject? = null,
                      var fax: String = "", var webAddress: String = "",
                      var workplace: ActivityWorkplaceObject? = null,
-                     var individual: ActivityIndividualObject? = null) : Parcelable {
+                     var individual: ActivityIndividualObject? = null,
+                     var distance: Int = 0) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -17,7 +19,8 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readParcelable(ActivityWorkplaceObject::class.java.classLoader),
-            parcel.readParcelable(ActivityIndividualObject::class.java.classLoader)) {
+            parcel.readParcelable(ActivityIndividualObject::class.java.classLoader),
+            parcel.readInt()) {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -29,6 +32,7 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
             writeString(webAddress)
             writeParcelable(workplace, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
             writeParcelable(individual, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
+            writeInt(distance)
         }
     }
 
@@ -58,6 +62,14 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
         this.role = LabelObject().parse(activity.role())
         this.workplace = ActivityWorkplaceObject().parse(activity.workplace())
         this.individual = ActivityIndividualObject().parse(activity.individual())
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.Activity1?): ActivityObject {
+        if (data.isNullable()) return this
+        this.id = data!!.id()
+        this.workplace = ActivityWorkplaceObject().parse(data.workplace())
+        this.individual = ActivityIndividualObject().parse(data.individual())
         return this
     }
 }

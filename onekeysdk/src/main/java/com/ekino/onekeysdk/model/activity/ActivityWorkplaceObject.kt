@@ -3,6 +3,7 @@ package com.ekino.onekeysdk.model.activity
 import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
+import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
 class ActivityWorkplaceObject(var id: String = "", var name: String = "", var localPhone: String = "",
@@ -49,6 +50,14 @@ class ActivityWorkplaceObject(var id: String = "", var name: String = "", var lo
         this.name = data.name()
         this.localPhone = data.localPhone() ?: ""
         this.emailAddress = data.emailAddress() ?: ""
+        this.address = AddressObject().parse(data.address())
+        return this
+    }
+
+    fun parse(data: GetActivitiesQuery.Workplace?): ActivityWorkplaceObject {
+        if (data.isNullable()) return this
+        this.id = data!!.id()
+        this.name = data.name()
         this.address = AddressObject().parse(data.address())
         return this
     }

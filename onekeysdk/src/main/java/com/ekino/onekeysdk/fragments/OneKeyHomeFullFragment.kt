@@ -35,7 +35,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     private var consultedTag = 0
 
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, locations) }
+    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf()) }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val lastSearchAdapter by lazy { LastSearchAdapter(oneKeyViewCustomObject) }

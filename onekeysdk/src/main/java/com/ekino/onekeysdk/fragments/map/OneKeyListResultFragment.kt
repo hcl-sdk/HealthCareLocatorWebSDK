@@ -14,20 +14,21 @@ import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class OneKeyListResultFragment : IFragment() {
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject,
-                        locations: ArrayList<OneKeyLocation>) = OneKeyListResultFragment().apply {
+                        activities: ArrayList<ActivityObject>) = OneKeyListResultFragment().apply {
             this.oneKeyViewCustomObject = oneKeyViewCustomObject
-            this.locations = locations
+            this.activities = activities
         }
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
-    private var locations: ArrayList<OneKeyLocation> = arrayListOf()
+    private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,7 +41,7 @@ class OneKeyListResultFragment : IFragment() {
         rvResult.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter
-            searchAdapter.setData(locations)
+            searchAdapter.setData(activities)
         }
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
            (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
