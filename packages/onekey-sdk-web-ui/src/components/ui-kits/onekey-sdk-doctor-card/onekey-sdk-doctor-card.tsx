@@ -10,7 +10,7 @@ import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 export class OnekeySdkDoctorCard {
   // @Prop() onClick: (e: any) => void;
   @Prop() name: string;
-  @Prop() gp: string;
+  @Prop() professionalType: string;
   @Prop() address: string;
   @Prop() distance: string;
   @Prop() selected: boolean;
@@ -26,7 +26,7 @@ export class OnekeySdkDoctorCard {
         <div class={doctorClass}>
           <div class="doctor-card-content">
             <span class="text name">{this.name}</span>
-            <span class="text gp">{this.gp}</span>
+            <span class="text gp">{this.professionalType}</span>
             <span class="text address">{this.address}</span>
             <span class="text distance">{this.distance}</span>
           </div>

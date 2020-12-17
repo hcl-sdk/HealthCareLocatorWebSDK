@@ -20,9 +20,11 @@ const QUERY_ACTIVITIES = gql`
       activity {
         id
         individual {
+          mailingName
           id
           firstName
           lastName
+          professionalType { label }
           specialties {
             label
           }
@@ -39,6 +41,10 @@ const QUERY_ACTIVITIES = gql`
               label
             }
             country
+            location {
+              lat
+              lon
+            }
           }
         }
       }

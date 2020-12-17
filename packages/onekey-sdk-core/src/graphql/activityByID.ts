@@ -22,25 +22,24 @@ const QUERY_ACTIVITY_BY_ID = gql`
       webAddress
       workplace{
         id
-          name
-          localPhone
-          emailAddress
-          address{
-            id
-            longLabel
-            country
-            postalCode
-            county{
-                label
-            }
-            city{
-                label
-            }
-            location{
-              lat
-              lon
-            }
+        name
+        address{
+          id
+          longLabel
+          country
+          postalCode
+          buildingLabel
+          county{
+              label
           }
+          city{
+              label
+          }
+          location{
+            lat
+            lon
+          }
+        }
       }
       individual{
         id
@@ -51,6 +50,7 @@ const QUERY_ACTIVITY_BY_ID = gql`
         middleName
         nickname
         suffixName
+        professionalType { label }
         specialties{
           code
           label

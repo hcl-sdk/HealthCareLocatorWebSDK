@@ -5,7 +5,7 @@ import { configStore, searchMapStore } from '../../../core/stores';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import { searchLocation } from '../../../core/api/hcp';
+import { getFullCardDetail, searchLocation } from '../../../core/api/hcp';
 @Component({
   tag: 'onekey-sdk-search-result',
   styleUrl: 'onekey-sdk-search-result.scss',
@@ -23,9 +23,13 @@ export class OnekeySdkSearchResult {
   }
   searchDataCardList;
 
-  onItemCardClick = item => {
+  onItemCardClick = async (item) => {
     searchMapStore.setState({
-      selectedActivity: item
+      selectedActivity: {...item}
+    })
+
+    await getFullCardDetail({
+      id: item.id
     })
   };
 
