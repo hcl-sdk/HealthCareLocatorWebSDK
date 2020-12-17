@@ -31,8 +31,8 @@ export namespace Components {
     interface OnekeySdkDoctorCard {
         "address": string;
         "distance": string;
-        "gp": string;
         "name": string;
+        "professionalType": string;
         "selected": boolean;
         "viewMode": string;
     }
@@ -537,8 +537,8 @@ declare namespace LocalJSX {
     interface OnekeySdkDoctorCard {
         "address"?: string;
         "distance"?: string;
-        "gp"?: string;
         "name"?: string;
+        "professionalType"?: string;
         "selected"?: boolean;
         "viewMode"?: string;
     }

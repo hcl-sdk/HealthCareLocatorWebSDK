@@ -2,8 +2,6 @@ import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
 import { configStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
-import { getFullCardDetail } from '../../../core/api/hcp';
-
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
   styleUrl: 'onekey-sdk-hcp-full-card.scss',
@@ -12,14 +10,6 @@ import { getFullCardDetail } from '../../../core/api/hcp';
 export class OnekeySdkHCPFullCard {
   @Prop() goBack: (e: any) => void;
   @State() confirm: boolean;
-
-  componentWillLoad() {
-    if(!searchMapStore.state.individualDetail) {
-      getFullCardDetail({
-        id: searchMapStore.state.selectedActivity.id
-      })
-    }
-  }
 
   onConfirm = (answer) => {
     this.confirm = answer
@@ -40,8 +30,6 @@ export class OnekeySdkHCPFullCard {
       return null
     }
 
-    console.log(individualDetail)
-
     return (
       <Host class={`size-${configStore.state.viewPortSize}`}>
         <div class="main-contain">
@@ -60,14 +48,14 @@ export class OnekeySdkHCPFullCard {
                 </div>
                 <div class="main-info__profile">
                   <span class="main-info__profile-name">{individualDetail.name}</span>
-                  <span class="main-info__profile-dep">{individualDetail.specialties[0]}</span>
+                  <span class="main-info__profile-dep">{individualDetail.professionalType}</span>
                 </div>
               </div>
 
               <div class="info-section">
                 <onekey-sdk-map
                   class="info-section-body__map hidden-lg hidden-xl"
-                  locations={[{ lat: 48.863699, lng: 2.4833 }]}
+                  locations={[{ lat: individualDetail.lat, lng: individualDetail.lng }]}
                   selectedLocationIdx={0}
                   defaultZoom={5}
                   noCurrentLocation
@@ -79,46 +67,56 @@ export class OnekeySdkHCPFullCard {
                 <div class="info-section-header">
                   <span class="info-section-header__title">Main Information</span>
                   <div class="info-section-header__postfix">
-                    <a href={`https://maps.google.com/?q=48.863699,2.4833`} target="_blank"><onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")}/></a>
-                    <a href={`tel:0123456789`}><onekey-sdk-button round icon="phone" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")} /></a>
+                    <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank"><onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")}/></a>
+                    <a href={`tel:${individualDetail.phone}`}><onekey-sdk-button round icon="phone" noBackground iconColor={getCssColor("--onekeysdk-color-secondary")} /></a>
                   </div>
                 </div>
 
                 <div class="info-section-body">
-                  <div class="info-section-body__address">
+                  {/* <div class="info-section-body__address">
                     <select>
                       <option>Address 1: {individualDetail.address}</option>
                     </select>
-                  </div>
+                  </div> */}
 
                   <div class="info-contact info-section-body__location">
                     <div class="info-contact-item">
                       <onekey-sdk-icon name="location" color={getCssColor("--onekeysdk-color-marker_selected")}/>
                       <div>
                         <span>{individualDetail.addressName}</span>
-                        <span>Service Médecine Génarale</span>
-                        <span>{individualDetail.address}, {individualDetail.postalCode} {individualDetail.city} {individualDetail.country}</span>
+                        <span>{individualDetail.addressBuildingName}</span>
+                        <span>{individualDetail.address}</span>
                       </div>
                     </div>
                   </div>
 
                   <div class="info-contact info-section-body__contact">
-                    <div class="info-contact-item">
-                      <onekey-sdk-icon name="phone" color={getCssColor("--onekeysdk-color-grey")}/>
-                      <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
-                    </div>
-                    <div class="info-contact-item">
-                      <onekey-sdk-icon name="printer" height={15} color={getCssColor("--onekeysdk-color-grey")} />
-                      <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
-                    </div>
+                    {
+                      individualDetail.phone &&
+                      <div class="info-contact-item">
+                        <onekey-sdk-icon name="phone" color={getCssColor("--onekeysdk-color-grey")}/>
+                        <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
+                      </div>
+                    }
+                    
+                    {
+                      individualDetail.fax &&
+                      <div class="info-contact-item">
+                        <onekey-sdk-icon name="printer" height={15} color={getCssColor("--onekeysdk-color-grey")} />
+                        <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
+                      </div>
+                    }
                   </div>
 
-                  <div class="info-contact info-section-body__website">
-                    <div class="info-contact-item">
-                      <onekey-sdk-icon name="earth" color={getCssColor("--onekeysdk-color-grey")} />
-                      <a href={individualDetail.website} target="_blank">{individualDetail.website}</a>
+                  {
+                    individualDetail.webAddress &&
+                    <div class="info-contact info-section-body__website">
+                      <div class="info-contact-item">
+                        <onekey-sdk-icon name="earth" color={getCssColor("--onekeysdk-color-grey")} />
+                        <a href={individualDetail.webAddress} target="_blank">{individualDetail.webAddress}</a>
+                      </div>
                     </div>
-                  </div>
+                  }
                 </div>
               </div>
               {/* Block */}

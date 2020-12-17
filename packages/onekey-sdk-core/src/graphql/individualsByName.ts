@@ -16,6 +16,7 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
         offset: $offset
       ) {
         individuals {
+          mailingName
           id
           firstName
           lastName
@@ -26,7 +27,16 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
           mainActivity {
             id
             workplace {
-              address {longLabel, county { label } ,country }
+              address {
+                longLabel
+                county { label }
+                city { label }
+                country
+                location {
+                  lat
+                  lon
+                }
+              }
             }
           }
         }

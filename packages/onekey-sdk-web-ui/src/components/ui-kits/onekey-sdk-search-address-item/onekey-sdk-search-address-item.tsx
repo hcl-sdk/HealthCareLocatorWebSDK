@@ -40,9 +40,9 @@ export class OnekeySdkSearchItem {
       <Host>
         <div class="search-address-item">
           <span class={`search-address-item-text ${this.activated ? 'active': ''}`} onClick={() => this.selectAddress.emit(this.item)}>
-            <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} />
-            <span class="specialty">{Array.isArray(this.item.specialties)? this.item.specialties[0]: this.item.specialties }</span>
-            <span class="address">{this.item.address}</span>
+            { this.item.name && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} /> }
+            { this.item.professionalType && <span class="specialty">{this.item.professionalType }</span> }
+            { this.item.address && <span class="address">{this.item.address}</span> }
           </span>
         </div>
       </Host>
