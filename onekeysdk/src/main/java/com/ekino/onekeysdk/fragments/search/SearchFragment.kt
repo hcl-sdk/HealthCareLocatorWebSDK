@@ -147,6 +147,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             R.id.ivAddressClear -> {
                 edtWhere.setText("")
                 setAddressClearState(false)
+                selectedPlace = null
             }
             R.id.btnSearch -> {
                 if (edtName.text.toString().isEmpty()) {

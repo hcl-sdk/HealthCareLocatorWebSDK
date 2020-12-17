@@ -11,6 +11,7 @@ import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import kotlinx.android.synthetic.main.layout_search_item.view.*
+import kotlin.math.round
 
 class SearchAdapter(private val screenWidth: Int = -1) :
         OneKeyAdapter<ActivityObject, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
@@ -33,7 +34,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 tvName.text = data.individual?.mailingName ?: ""
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
-                tvDistance.text = "${data.distance}m"
+                tvDistance.text = "${Math.round(data.distance)}m"
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {
                     onHCPCardClickedListener(data)

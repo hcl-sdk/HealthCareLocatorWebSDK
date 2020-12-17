@@ -86,7 +86,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     return@Observer
                 }
                 if (this@FullMapFragment.activities.isEmpty())
-                    getActivities(criteria, speciality)
+                    getActivities(criteria, speciality, place)
                 else {
                     setModeButtons(activeScreen)
                     initHeader()

@@ -10,8 +10,10 @@ import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
+import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.google.gson.Gson
 import com.iqvia.onekey.GetActivitiesQuery
+import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
 class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
@@ -38,7 +40,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                 .subscribe({}, {}))
     }
 
-    fun getActivities(criteria: String, specialityObject: OneKeySpecialityObject?) {
+    fun getActivities(criteria: String, specialityObject: OneKeySpecialityObject?, place: OneKeyPlace?) {
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder().apiKey(theme.apiKey)
@@ -48,6 +50,10 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
             } else {
                 if (criteria.isNotEmpty())
                     builder.criteria(criteria)
+            }
+            if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
+                builder.location(GeopointQuery.builder().lat(place!!.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).build())
             }
             builder.build()
         }, { response ->
@@ -59,7 +65,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                     val list = ArrayList<ActivityObject>()
                     forEach { act ->
                         val obj = ActivityObject().parse(act.activity())
-                        obj.distance = act.distance() ?: 0
+                        obj.distance = act.distance() ?: 0.0
                         list.add(obj)
                     }
                     list
