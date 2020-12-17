@@ -36,9 +36,6 @@ export class OnekeySdkSearchItem {
   }
 
   render() {
-    if(!this.item) {
-      return null
-    }
     return (
       <Host>
         <div class="search-address-item">
