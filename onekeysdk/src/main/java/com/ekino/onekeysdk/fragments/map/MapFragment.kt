@@ -21,6 +21,7 @@ import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
@@ -34,20 +35,22 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener {
 
     companion object {
-        fun newInstance(
-            oneKeyViewCustomObject: OneKeyViewCustomObject,
-            activities: ArrayList<ActivityObject>, modifyZoomLevel: Float = 0f
-        ) = MapFragment().apply {
-            this.oneKeyViewCustomObject = oneKeyViewCustomObject
-            this.activities = activities
-            this.modifyZoomLevel = modifyZoomLevel
-        }
+        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject,
+                        activities: ArrayList<ActivityObject>, modifyZoomLevel: Float = 0f,
+                        boundingBox: Boolean = false) =
+                MapFragment().apply {
+                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                    this.activities = activities
+                    this.modifyZoomLevel = modifyZoomLevel
+                    this.boundingBox = boundingBox
+                }
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject =
-        ThemeExtension.getInstance().getThemeConfiguration()
+            ThemeExtension.getInstance().getThemeConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private var modifyZoomLevel: Float = 0f
+    private var boundingBox: Boolean = false
 
     var onMarkerSelectionChanged: (id: String) -> Unit = {}
 
@@ -78,9 +81,9 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private var locationProvider: GpsMyLocationProvider? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
@@ -94,7 +97,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                         if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) mMapView!!.controller.zoomOut() else {
                             //this part just centers the map on the current mouse location before the zoom action occurs
                             val iGeoPoint =
-                                mMapView!!.projection.fromPixels(event.x.toInt(), event.y.toInt())
+                                    mMapView!!.projection.fromPixels(event.x.toInt(), event.y.toInt())
                             mMapView!!.controller.animateTo(iGeoPoint)
                             mMapView!!.controller.zoomIn()
                         }
@@ -110,8 +113,9 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState != null) {
+            boundingBox = savedInstanceState.getBoolean("boundingBox", false)
             val list =
-                savedInstanceState.getParcelableArrayList<ActivityObject>(OneKeyConstant.locations)
+                    savedInstanceState.getParcelableArrayList<ActivityObject>(OneKeyConstant.locations)
             if (!list.isNullOrEmpty())
                 activities = list
         }
@@ -129,20 +133,20 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             clusters.mAnchorV = Marker.ANCHOR_BOTTOM
             mMapView?.overlays?.add(clusters)
             selectedIcon = context!!.getDrawableFilledIcon(
-                R.drawable.ic_location_on_white_36dp,
-                oneKeyViewCustomObject.colorMarkerSelected.getColor()
+                    R.drawable.ic_location_on_white_36dp,
+                    oneKeyViewCustomObject.colorMarkerSelected.getColor()
             )!!
             activities.forEach { activity ->
                 val marker = OneKeyMarker(mMapView).apply {
                     id = activity.id
                     setOnMarkerClickListener(this@MapFragment)
                     val location = activity.workplace?.address?.location?.getGeoPoint()
-                        ?: GeoPoint(0.0, 0.0)
+                            ?: GeoPoint(0.0, 0.0)
                     position = location
                     setAnchor(Marker.ANCHOR_CENTER, 1f)
                     icon = context!!.getDrawableFilledIcon(
-                        R.drawable.baseline_location_on_black_36dp,
-                        oneKeyViewCustomObject.colorMarker.getColor()
+                            R.drawable.baseline_location_on_black_36dp,
+                            oneKeyViewCustomObject.colorMarker.getColor()
                     )
                     title = activity.workplace?.address?.getAddress() ?: ""
                 }
@@ -151,9 +155,17 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             }
             if (moveCamera && activities.size == 1) {
                 val position = activities[0].workplace?.address?.location?.getGeoPoint()
-                    ?: GeoPoint(0.0, 0.0)
+                        ?: GeoPoint(0.0, 0.0)
                 controller.setCenter(position)
                 controller.animateTo(position, 16.5, 2000)
+            }
+            if (this@MapFragment.boundingBox) {
+                val geoPoints = arrayListOf<GeoPoint>().apply {
+                    oneKeyMarkers.forEach {
+                        add(it.position)
+                    }
+                }
+                zoomToBoundingBox(BoundingBox.fromGeoPointsSafe(geoPoints), true)
             }
         }
     }
@@ -161,6 +173,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(OneKeyConstant.locations, activities)
+        outState.putBoolean("boundingBox", boundingBox)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -174,11 +187,11 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         locationProvider = GpsMyLocationProvider(context)
         locationProvider!!.startLocationProvider(this)
         mLocationOverlay =
-            CustomCurrentLocationOverlay(
-                locationProvider!!,
-                mMapView,
-                R.drawable.ic_current_location
-            )
+                CustomCurrentLocationOverlay(
+                        locationProvider!!,
+                        mMapView,
+                        R.drawable.ic_current_location
+                )
         mLocationOverlay!!.enableMyLocation()
         mMapView!!.overlays.add(mLocationOverlay)
 //        mCopyrightOverlay = CopyrightOverlay(context)
@@ -263,17 +276,17 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             animateTo(marker.position, 14.0, 2000)
         }
         oneKeyMarkers.filter { oneKeyMarker -> oneKeyMarker.selected }
-            .mapIndexed { _, oneKeyMarker ->
-                val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
-                oneKeyMarker.icon = context!!.getDrawableFilledIcon(
-                    R.drawable.baseline_location_on_black_36dp,
-                    oneKeyViewCustomObject.colorMarker.getColor()
-                )
-                oneKeyMarker.selected = false
-                if (lastIndexOfOverLay >= 0) {
-                    mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
+                .mapIndexed { _, oneKeyMarker ->
+                    val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
+                    oneKeyMarker.icon = context!!.getDrawableFilledIcon(
+                            R.drawable.baseline_location_on_black_36dp,
+                            oneKeyViewCustomObject.colorMarker.getColor()
+                    )
+                    oneKeyMarker.selected = false
+                    if (lastIndexOfOverLay >= 0) {
+                        mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
+                    }
                 }
-            }
         val cluster = (mMapView?.overlays?.firstOrNull { o -> o is RadiusMarkerClusterer }
                 as? RadiusMarkerClusterer)?.items ?: return
 
@@ -303,5 +316,5 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     }
 
     fun getLastLocation(): GeoPoint? =
-        locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
+            locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
 }

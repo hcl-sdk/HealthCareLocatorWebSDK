@@ -1,17 +1,17 @@
 package com.ekino.onekeysdk.viewmodel.map
 
 import android.Manifest
-import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.*
+import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.extensions.isNotNullable
+import com.ekino.onekeysdk.extensions.isNullable
+import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
-import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
-import com.google.gson.Gson
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
@@ -65,5 +65,27 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         }, {
             loading.postValue(false)
         }, true)
+    }
+
+    fun sortActivities(list: ArrayList<ActivityObject>, sorting: Int,
+                       callback: (list: ArrayList<ActivityObject>) -> Unit) {
+        Flowable.just(list)
+                .map {
+                    if (sorting == 0) return@map it
+                    it.sortWith(Comparator { o1, o2 ->
+                        if (sorting == 1) o1.distance.compareTo(o2.distance)
+                        else
+                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                    })
+                    it
+//                    val iterator = it.iterator()
+//                    val cloned = arrayListOf<ActivityObject>()
+//                    while (iterator.hasNext()) {
+//                        cloned.add(iterator.next().clone() as ActivityObject)
+//                    }
+//                    cloned
+                }
+                .compose(compose())
+                .subscribe({ callback(it) }, {})
     }
 }

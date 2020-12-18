@@ -12,7 +12,7 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
                      var workplace: ActivityWorkplaceObject? = null,
                      var individual: ActivityIndividualObject? = null,
                      var distance: Double = 0.0, var createdAt: Long = System.currentTimeMillis(),
-                     var createdDate: String = "") : Parcelable {
+                     var createdDate: String = "") : Parcelable, Cloneable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -50,6 +50,12 @@ class ActivityObject(var id: String = "", var phone: String = "", var role: Labe
         override fun newArray(size: Int): Array<ActivityObject?> {
             return arrayOfNulls(size)
         }
+    }
+
+    public override fun clone(): Any {
+        val obj = super.clone()
+        return if (obj is ActivityObject) obj
+        else obj
     }
 
     /**

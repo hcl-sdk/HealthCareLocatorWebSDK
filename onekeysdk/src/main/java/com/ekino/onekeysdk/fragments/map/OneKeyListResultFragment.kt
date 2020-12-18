@@ -47,4 +47,9 @@ class OneKeyListResultFragment : IFragment() {
            (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
         }
     }
+
+    fun updateActivities(activities: ArrayList<ActivityObject>){
+        this.activities = activities
+        searchAdapter.setData(activities)
+    }
 }

@@ -29,7 +29,9 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, activities) }
+    private val mapFragment by lazy {
+        MapFragment.newInstance(oneKeyViewCustomObject, activities, 0f, true)
+    }
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
 
@@ -77,5 +79,10 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
         } as? MapFragment
         else null
 
+    }
+
+    fun updateActivities(activities: ArrayList<ActivityObject>){
+        this.activities = activities
+        searchAdapter.setData(activities)
     }
 }

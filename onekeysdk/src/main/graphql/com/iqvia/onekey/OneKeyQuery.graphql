@@ -73,6 +73,8 @@ query getActivities($apiKey: String!, $locale:String, $first:Int!, $offset:Int!,
             }
             individual{
                 id
+                lastName
+                firstName
                 professionalType{label}
                 mailingName
                 specialties{

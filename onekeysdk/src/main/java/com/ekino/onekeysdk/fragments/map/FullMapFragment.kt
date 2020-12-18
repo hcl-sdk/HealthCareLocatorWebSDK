@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import base.extensions.addFragment
+import base.extensions.pushFragment
 import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
@@ -56,6 +57,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     private val fragmentState: IFragmentState by lazy { FragmentState(childFragmentManager, R.id.resultContainer) }
     private var resultFragments: ArrayList<IFragment> = arrayListOf()
     private var activities = arrayListOf<ActivityObject>()
+    private var sorting: Int = 0
     override val viewModel: FullMapViewModel = FullMapViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +71,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             place = savedInstanceState.getParcelable(OneKeyConstant.place)
             navigateToProfile = savedInstanceState.getBoolean(OneKeyConstant.navigateToProfile)
             activities = savedInstanceState.getParcelableArrayList("activities") ?: arrayListOf()
+            sorting = savedInstanceState.getInt("sorting", 0)
         }
         if (!navigateToProfile)
             childFragmentManager.fragments.filter {
@@ -131,6 +134,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         outState.putString("criteria", criteria)
         outState.putBoolean(OneKeyConstant.navigateToProfile, navigateToProfile)
         outState.putParcelableArrayList("activities", activities)
+        outState.putInt("sorting", sorting)
     }
 
     override fun onClick(v: View?) {
@@ -148,8 +152,8 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             }
             R.id.ivSort -> {
                 navigateToProfile = true
-                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                        OneKeySortFragment.newInstance(oneKeyViewCustomObject), true)
+                (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
+                        OneKeySortFragment.newInstance(oneKeyViewCustomObject, sorting), true)
             }
         }
     }
@@ -221,5 +225,17 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     private fun showLoading(state: Boolean) {
         loadingWrapper.visibility = state.getVisibility()
+    }
+
+    fun applySorting(sort: Int) {
+        this.sorting = sort
+        viewModel.sortActivities(ArrayList(activities), sorting) {
+            (fragmentState.getRootFragments()?.firstOrNull { fragment ->
+                fragment::class.java == OneKeyListResultFragment::class.java
+            } as? OneKeyListResultFragment)?.updateActivities(it)
+            (fragmentState.getRootFragments()?.firstOrNull { fragment ->
+                fragment::class.java == OneKeyMapResultFragment::class.java
+            } as? OneKeyMapResultFragment)?.updateActivities(it)
+        }
     }
 }

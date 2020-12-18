@@ -71,6 +71,8 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
     fun parse(data: GetActivitiesQuery.Individual?): ActivityIndividualObject {
         if (data.isNullable()) return this
         this.id = data!!.id()
+        this.firstName = data.firstName()?:""
+        this.lastName = data.lastName()
         this.mailingName = data.mailingName() ?: ""
         this.professionalType = LabelObject().parse(data.professionalType())
         this.specialties = arrayListOf<LabelObject>().apply {

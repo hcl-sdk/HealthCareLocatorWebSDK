@@ -8,6 +8,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.sort.OneKeySortAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
+import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeySortObject
 import com.ekino.onekeysdk.viewmodel.map.OneKeySortViewModel
@@ -15,8 +16,9 @@ import kotlinx.android.synthetic.main.fragment_one_key_sort.*
 
 class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(R.layout.fragment_one_key_sort), View.OnClickListener {
     companion object {
-        fun newInstance(theme: OneKeyViewCustomObject) = OneKeySortFragment().apply {
+        fun newInstance(theme: OneKeyViewCustomObject, sorting: Int) = OneKeySortFragment().apply {
             this.theme = theme
+            this.selectedPosition = sorting
         }
     }
 
@@ -25,22 +27,22 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
                 OneKeySortObject("1", "Distance"), OneKeySortObject("2", "Name"))
     }
     private val sortAdapter by lazy { OneKeySortAdapter() }
+    private var selectedPosition = 0
 
     private var theme = ThemeExtension.getInstance().getThemeConfiguration()
     override val viewModel = OneKeySortViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        retainInstance = true
         var sort = sortList
-        var selectedPosition = 0
+
         if (savedInstanceState != null) {
             sort = savedInstanceState.getParcelableArrayList("sortList") ?: sortList
             selectedPosition = savedInstanceState.getInt("selectedPosition")
         }
 
-        btnApply.setBackgroundColor(theme.colorPrimary.getColor())
-        btnReset.setBackgroundColor(theme.colorButtonDiscardBackground.getColor())
-
+        btnApply.setRippleBackground(theme.colorPrimary.getColor(), 8f)
+        btnReset.setRippleBackground(theme.colorButtonDiscardBackground.getColor(), 8f)
+        container.setBackgroundColor(theme.colorViewBackground.getColor())
         rvSort.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = sortAdapter
@@ -62,7 +64,20 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnClose -> activity?.onBackPressed()
-            R.id.btnApply -> activity?.onBackPressed()
+            R.id.btnReset -> {
+                sortAdapter.setSelectedPosition(0)
+            }
+            R.id.btnApply -> applySorting()
         }
+    }
+
+    private fun applySorting() {
+        (activity?.supportFragmentManager?.findFragmentByTag(
+                FullMapFragment::class.java.simpleName) as? FullMapFragment)?.apply {
+            if (isAdded && isVisible) {
+                this.applySorting(sortAdapter.getSelectedPosition())
+            }
+        }
+        activity?.onBackPressed()
     }
 }

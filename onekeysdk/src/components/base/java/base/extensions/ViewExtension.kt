@@ -18,6 +18,19 @@ fun AppCompatActivity.addFragment(containerId: Int, fragment: Fragment, addBackS
     }
 }
 
+fun AppCompatActivity.pushFragment(containerId: Int, fragment: Fragment, addBackStack: Boolean = false) {
+    with(supportFragmentManager) {
+        val transaction = beginTransaction()
+        if (addBackStack)
+            transaction.add(containerId, fragment, fragment::class.java.simpleName)
+                    .addToBackStack(fragment::class.java.simpleName)
+                    .commitAllowingStateLoss()
+        else
+            transaction.add(containerId, fragment, fragment::class.java.simpleName)
+                    .commitAllowingStateLoss()
+    }
+}
+
 fun Fragment.addChildFragment(containerId: Int, fragment: Fragment) {
     with(childFragmentManager) {
         val transaction = beginTransaction()
