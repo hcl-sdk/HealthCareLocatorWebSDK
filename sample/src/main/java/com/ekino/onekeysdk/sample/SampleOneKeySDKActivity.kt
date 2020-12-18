@@ -17,6 +17,7 @@ import com.ekino.onekeysdk.sample.utils.getThemes
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_sample.*
+import java.util.*
 
 class SampleOneKeySDKActivity : AppCompatActivity() {
     private val themes by lazy { getThemes() }
@@ -186,6 +187,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .fontModalTitle(fontModalTitle)
                 .fontSortCriteria(fontSortCriteria)
                 .homeMode(homeMode)
+                .favoriteIds(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
+                .locale(Locale.getDefault().language)
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
                     .colorSecondary(colors.first { it.id == "colorSecondary" }.color)

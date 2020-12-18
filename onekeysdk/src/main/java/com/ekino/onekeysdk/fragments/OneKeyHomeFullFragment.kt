@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.fragments
 
 import android.content.Context
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -12,17 +13,23 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.LastConsultedAdapter
 import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
 import com.ekino.onekeysdk.extensions.*
+import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.viewmodel.home.OneKeyHomFullViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_home_full.*
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
+import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 
 class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
-        OneKeyHomFullViewModel>(R.layout.fragment_one_key_home_full), View.OnClickListener {
+        OneKeyHomFullViewModel>(R.layout.fragment_one_key_home_full), View.OnClickListener, IMyLocationConsumer {
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build()) =
                 OneKeyHomeFullFragment().apply {
@@ -31,6 +38,8 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     }
 
     private val locations by lazy { getDummyHCP() }
+    private var locationProvider: GpsMyLocationProvider? = null
+    private var currentLocation: Location? = null
 
     private var searchTag = 0
     private var consultedTag = 0
@@ -70,11 +79,29 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             fm.beginTransaction().add(R.id.nearMeMap, mapFragment, mapFragmentTag)
                     .commit()
         }
+        viewModel.apply {
+            requestPermissions(this@OneKeyHomeFullFragment)
+            permissionGranted.observe(this@OneKeyHomeFullFragment, Observer { granted ->
+                if (granted) {
+                    if (locationProvider == null) {
+                        locationProvider = GpsMyLocationProvider(context)
+                    }
+                    locationProvider?.startLocationProvider(this@OneKeyHomeFullFragment)
+                }
+            })
+            activities.observe(this@OneKeyHomeFullFragment, Observer { list ->
+                getRunningMapFragment()?.drawMarkerOnMap(list, true)
+            })
+            loading.observe(this@OneKeyHomeFullFragment, Observer { state ->
+                showNearMeLoading(state)
+            })
+        }
+
         viewMoreSearches.text = getViewTagText(searchTag)
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
         oneKeyViewCustomObject.also {
-            ivSearch.setRippleBackground(it.colorPrimary)
+            ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
             edtSearch.textSize = it.fontSearchInput.size.toFloat()
@@ -83,6 +110,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         newSearchWrapper.setOnClickListener(this)
         viewMoreSearches.setOnClickListener(this)
         viewMoreConsulted.setOnClickListener(this)
+        mapOverlay.setOnClickListener(this)
         initLastSearch(lastSearches, lastConsulted)
 
         context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.also { pref ->
@@ -131,6 +159,15 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                 }
             }
             R.id.newSearchWrapper -> startNewSearch()
+            R.id.mapOverlay -> {
+                currentLocation?.also {
+                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                            FullMapFragment.newInstance(oneKeyViewCustomObject, "", null,
+                                    OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
+                                            longitude = "${it.longitude}", displayName = "Near me"),
+                                    oneKeyViewCustomObject.favoriteIds, true), true)
+                }
+            }
         }
     }
 
@@ -185,8 +222,26 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         }
     }
 
+    private fun showNearMeLoading(state: Boolean) {
+        nearMeLoading.visibility = state.getVisibility()
+    }
+
+    private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.firstOrNull {
+        it::class.java.name == MapFragment::class.java.name
+    } as? MapFragment
+
     private fun getViewTagText(tag: Int): String = if (tag == 0) "View more" else "View less"
     private fun checkViewMoreConsulted(size: Int) {
         if (size <= 3) viewMoreConsulted.visibility = View.GONE
+    }
+
+    override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
+        currentLocation = location?.getCurrentLocation(currentLocation)
+        currentLocation?.also {
+            viewModel.getNearMeHCP(it) {
+                if (isAdded)
+                    getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
+            }
+        }
     }
 }

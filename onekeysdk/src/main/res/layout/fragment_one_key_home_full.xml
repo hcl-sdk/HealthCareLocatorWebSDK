@@ -27,7 +27,7 @@
                 android:background="@drawable/bg_white_border_corner"
                 android:hint="@string/one_key_find_healthcare_professional"
                 android:padding="@dimen/default_padding"
-                app:OneKeyTextStyle="OneKeyStyleSearchInput"/>
+                app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
             <ImageView
                 android:id="@+id/ivSearch"
@@ -64,13 +64,26 @@
                 android:background="@drawable/bg_white_border_corner"
                 android:orientation="vertical">
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/default_padding"
-                    android:text="@string/one_key_hcps_near_me"
-                    android:textColor="@color/colorOneKeyText"
-                    app:OneKeyTextStyle="OneKeyStyleCardTitle" />
+                    android:layout_height="wrap_content">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/default_padding"
+                        android:text="@string/one_key_hcps_near_me"
+                        android:textColor="@color/colorOneKeyText"
+                        app:OneKeyTextStyle="OneKeyStyleCardTitle" />
+
+                    <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                        android:id="@+id/nearMeLoading"
+                        android:layout_width="@dimen/default_icon_size_smaller"
+                        android:layout_height="@dimen/default_icon_size_smaller"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="@dimen/default_padding"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -78,10 +91,22 @@
                     android:background="@color/grayLight" />
 
                 <FrameLayout
-                    android:id="@+id/nearMeMap"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:padding="@dimen/default_padding" />
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:id="@+id/nearMeMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:padding="@dimen/default_padding" />
+
+                    <FrameLayout
+                        android:id="@+id/mapOverlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/default_padding"
+                        android:background="?android:attr/selectableItemBackground" />
+                </FrameLayout>
 
             </LinearLayout>
 
@@ -151,7 +176,7 @@
                         android:padding="@dimen/default_padding"
                         android:text="@string/one_key_last_hcps_consulted"
                         android:textColor="@color/colorOneKeyText"
-                        app:OneKeyTextStyle="OneKeyStyleCardTitle"/>
+                        app:OneKeyTextStyle="OneKeyStyleCardTitle" />
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreConsulted"

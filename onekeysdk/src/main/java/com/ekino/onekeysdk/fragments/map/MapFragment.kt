@@ -170,6 +170,13 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         }
     }
 
+    fun moveToPosition(position:GeoPoint){
+        mMapView?.apply {
+            controller.setCenter(position)
+            controller.animateTo(position, 13.0, 2000)
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(OneKeyConstant.locations, activities)

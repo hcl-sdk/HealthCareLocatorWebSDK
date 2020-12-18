@@ -27,32 +27,69 @@
                 android:padding="@dimen/default_padding_small"
                 android:src="@drawable/baseline_arrow_back_black_36dp" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/default_padding_tiny"
-                android:paddingBottom="@dimen/default_padding_tiny">
+                android:layout_height="wrap_content">
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvSpeciality"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorOneKeyText"
-                    app:OneKeyTextColor="OneKeyColorDark"
-                    app:OneKeyTextStyle="OneKeyStyleSearchResultTitle"
-                    tools:text="Speciality" />
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/default_padding_tiny"
+                    android:paddingBottom="@dimen/default_padding_tiny">
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvAddress"
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/tvSpeciality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorOneKeyText"
+                        app:OneKeyTextColor="OneKeyColorDark"
+                        app:OneKeyTextStyle="OneKeyStyleSearchResultTitle"
+                        tools:text="Speciality" />
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_padding_tiny"
+                        android:textSize="@dimen/default_text_small"
+                        app:OneKeyTextColor="OneKeyColorGrey"
+                        app:OneKeyTextStyle="OneKeyStyleSmall"
+                        tools:text="Speciality" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/newSearchWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_tiny"
-                    android:textSize="@dimen/default_text_small"
-                    app:OneKeyTextColor="OneKeyColorGrey"
-                    app:OneKeyTextStyle="OneKeyStyleSmall"
-                    tools:text="Speciality" />
-            </LinearLayout>
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="@dimen/default_padding_smaller"
+                    android:layout_marginBottom="5dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:id="@+id/edtSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_white_border_corner"
+                        android:hint="Find Healthcare Professional"
+                        android:padding="@dimen/default_padding"
+                        app:OneKeyTextStyle="OneKeyStyleSearchInput" />
+
+                    <ImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="-10dp"
+                        android:background="@drawable/bg_main_button_corner"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:src="@drawable/baseline_search_white_24dp" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
         <View

@@ -30,13 +30,13 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                 Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    fun getActivities(criteria: String, specialityObject: OneKeySpecialityObject?, place: OneKeyPlace?) {
+    fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?) {
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder().apiKey(theme.apiKey)
                     .locale(theme.locale).first(50).offset(0)
-            if (specialityObject.isNotNullable()) {
-                builder.specialties(listOf(specialityObject!!.id))
+            if (specialities.isNotEmpty()) {
+                builder.specialties(specialities)
             } else {
                 if (criteria.isNotEmpty())
                     builder.criteria(criteria)
@@ -78,12 +78,6 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                             (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
                     })
                     it
-//                    val iterator = it.iterator()
-//                    val cloned = arrayListOf<ActivityObject>()
-//                    while (iterator.hasNext()) {
-//                        cloned.add(iterator.next().clone() as ActivityObject)
-//                    }
-//                    cloned
                 }
                 .compose(compose())
                 .subscribe({ callback(it) }, {})
