@@ -162,23 +162,13 @@
     }
   }
 
-  .size-xs, .size-sm {
+  .size-mobile {
     .leaflet-control-zoom {
       display: none;
     }
-
-    .search-map-wrapper {
-      .main-block {
-        &:last-child {
-          position: absolute;
-          height: calc(100% - 50px);
-          overflow: scroll;
-        }
-      }
-    }
   }
 
-  .size-lg, .size-xl {
+  .size-tablet, .size-desktop {
     .search-home-hpc {
       form {
         position: relative;
@@ -214,12 +204,22 @@
       padding: 0;
     }
 
+    .hcp-details-card,
+    .main-block__navigation {
+      width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .main-block--content {
-      margin-top: 20px;
+      margin-top: 30px;
+    }
+
+    .hcp-details-card {
+      margin-top: 10px;
     }
 
     .main-block__navigation {
-      padding: 5px 0;
       background-color: white;
       border: 1px solid var(--onekeysdk-color-card_border);
       border-radius: 5px;

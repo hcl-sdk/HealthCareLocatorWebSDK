@@ -31,18 +31,18 @@ export class OnekeySdkHCPFullCard {
     }
 
     return (
-      <Host class={`size-${uiStore.state.breakpoint}`}>
+      <Host>
         <div class="main-contain">
           <div class="main-block main-block--content">
             <div class="main-block__navigation">
-              <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor("--onekeysdk-color-grey")} onClick={this.goBack}>
+              <onekey-sdk-button class="search-back-large" noBorder noBackground icon="arrow" iconColor={getCssColor("--onekeysdk-color-grey")} onClick={this.goBack}>
                 <span class="hidden-mobile">Back to result list</span>
               </onekey-sdk-button>
               <onekey-sdk-button noBorder noBackground icon="share" iconColor={getCssColor("--onekeysdk-color-grey")}/>
             </div>
           </div>
 
-          <div class="main-block">
+          <div class="main-block hcp-details-card">
             <div class="main-info">
               <div class="main-info__name">
                 <div class="main-info__avatar">

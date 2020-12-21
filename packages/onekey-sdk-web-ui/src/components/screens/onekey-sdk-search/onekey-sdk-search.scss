@@ -97,6 +97,9 @@
   }
 
   .size-desktop, .size-tablet {
+    onekey-sdk-search {
+      z-index: 100000;
+    }
     .search-hcp {
       justify-content: center;
       box-shadow: 0 4px 2px -2px var(--onekeysdk-color-card_border);
