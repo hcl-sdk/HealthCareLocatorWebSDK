@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import { routerStore, configStore } from '../../../core/stores';
+import { routerStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-route',
@@ -15,10 +15,9 @@ export class OneKeySDKRoute {
       return null
     }
 
-    const styles = configStore.state.styles
     return (
-      <Host style={styles}>
-        <this.component />
+      <Host>
+        <this.component class={this.component} />
       </Host>
     );
   }

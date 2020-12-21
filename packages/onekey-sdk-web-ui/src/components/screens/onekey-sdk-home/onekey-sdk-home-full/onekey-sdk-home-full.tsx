@@ -29,7 +29,7 @@ export class OnekeySdkHomeFull {
   renderSearchHistory() {
     return historyStore.state.searchItems.filter(this.filterHistoryItems(this.showMoreSearchItems)).map(searchItem => (
       <div class="history-item">
-        <onekey-sdk-button noBorder icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={() => historyStore.removeItem('search', searchItem.id)} />
+        <onekey-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={() => historyStore.removeItem('search', searchItem.id)} />
         <p class="history-item__criteria">{searchItem.criteria}</p>
         <p class="history-item__address">{searchItem.address}</p>
         <p class="history-item__time-from">{formatDistance(searchItem.timestamp, Date.now())}</p>
@@ -40,7 +40,7 @@ export class OnekeySdkHomeFull {
   renderHcpHistory() {
     return historyStore.state.hcpItems.filter(this.filterHistoryItems(this.showMoreHcpItems)).map(hcpItem => (
       <div class="history-item">
-        <onekey-sdk-button noBorder icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={() => historyStore.removeItem('hcp', hcpItem.id)} />
+        <onekey-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={() => historyStore.removeItem('hcp', hcpItem.id)} />
         <p class="history-item__name">{hcpItem.hcpName}</p>
         <p class="history-item__specialty">{hcpItem.hcpSpecialty}</p>
         <p class="history-item__address">{hcpItem.address}</p>
@@ -59,7 +59,7 @@ export class OnekeySdkHomeFull {
           </div>
           <div class="card__content-wrapper card__content-wrapper--with-padding">
             <onekey-sdk-map
-              class="info-section-body__map hidden-lg hidden-xl"
+              class="info-section-body__map hidden-tablet hidden-desktop"
               locations={[{ lat: 48.863699, lng: 2.4833 }]}
               selectedLocationIdx={0}
               defaultZoom={5}

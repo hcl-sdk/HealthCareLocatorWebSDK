@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { Event, EventEmitter } from '@stencil/core';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
 import { ModeViewType } from 'onekey-sdk-web-ui/src/core/stores/ConfigStore';
+import { Breakpoint } from 'onekey-sdk-web-ui/src/core/types';
 
 @Component({
   tag: 'onekey-sdk-map',
@@ -26,7 +27,7 @@ export class OnekeySdkMap {
   @Prop() zoomControl: boolean = false;
   @Prop() dragging: boolean = true;
   @Prop() modeView: ModeViewType
-  @Prop() viewPortSize: string;
+  @Prop() breakpoint: Breakpoint;
   @Event() markerClick: EventEmitter;
   @State() currentLocation: any;
   @Event() setCurrentLocation: EventEmitter;
@@ -48,7 +49,7 @@ export class OnekeySdkMap {
     this.map._onResize();
   }
 
-  @Watch('viewPortSize')
+  @Watch('breakpoint')
   resetMapByViewPortSize() {
     this.map._onResize();
   }
@@ -78,7 +79,7 @@ export class OnekeySdkMap {
     this.map = L.map(this.mapElm, {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
-      minZoom: 13,
+      minZoom: 1,
       maxZoom: 20,
       zoomControl: this.zoomControl,
       dragging: this.dragging
@@ -178,7 +179,7 @@ export class OnekeySdkMap {
     return (
       <Host>
         { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
-        <div class={this.zoomControl ? '' : 'map--no-controls'} style={{ height: this.mapHeight, width: this.mapWidth }} id="map" ref={el => (this.mapElm = el as HTMLInputElement)} />
+        <div class={this.zoomControl ? '' : 'map--no-controls'} style={{ height: this.mapHeight, width: this.mapWidth }} id={`map-${Date.now()}`} ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );
   }

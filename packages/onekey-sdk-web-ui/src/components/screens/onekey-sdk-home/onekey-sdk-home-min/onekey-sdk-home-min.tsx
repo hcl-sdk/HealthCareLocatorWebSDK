@@ -48,7 +48,7 @@ export class OnekeySdkHomeMin {
               </div>
             </div>
 
-            <div class="full-block hidden-lg hidden-xl">
+            <div class="full-block hidden-tablet hidden-desktop">
               <onekey-sdk-button isFull primary onClick={this.goSearchScreen.emit} class="search-btn">
                 Start a New Search
               </onekey-sdk-button>

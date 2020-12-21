@@ -4,13 +4,16 @@
   display: block;
   cursor: pointer;
 
+  onekey-sdk-doctor-card:last-child .doctor-card {
+    margin-bottom: 10px;
+  }
+
   .doctor-card {
-    border: 2px solid var(--onekeysdk-color-card_border);
+    border: 1px solid var(--onekeysdk-color-card_border);
     border-radius: 5px;
     padding: 10px;
-    margin-left: 10px;
+    margin: 10px 10px 0 10px;
     background-color: white;
-    width: 250px;
     line-height: 1.3rem;
     display: flex;
     align-items: center;

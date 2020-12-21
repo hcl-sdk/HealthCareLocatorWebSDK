@@ -7,19 +7,44 @@
   overflow: auto;
   position: relative;
   background-color: #f3f3f3;
-  
-  @include applyFontStyle("default");
-  
+
+  @include applyFontStyle('default');
+
   color: var(--onekeysdk-color-dark);
-  *, *::before, *::after, input, button {
+
+  *,
+  *::before,
+  *::after,
+  input,
+  button {
     box-sizing: border-box;
+  }
+
+  .wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 
   .main-contain {
     display: block;
     position: relative;
     height: 100%;
-    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-block {
+    padding: 10px;
+    border-bottom: 1px solid var(--onekeysdk-color-card_border);
+    background-color: #fff;
+  }
+
+  .body-block {
+    flex: 1;
+    overflow-y: auto;
   }
 
   .main-block {
@@ -28,17 +53,9 @@
     border: 1px solid var(--onekeysdk-color-card_border);
     margin: 10px;
 
-    &--header {
-      border-radius: 0;
-      margin: 0;
-      padding: 10px;
-      margin-left: 0;
-    }
-
     &--full {
       border-radius: 0;
     }
-
 
     &__navigation {
       display: grid;
@@ -77,7 +94,7 @@
   }
 
   .text-primary {
-    color:  var(--onekeysdk-color-primary);
+    color: var(--onekeysdk-color-primary);
   }
 
   .text-bold {
@@ -87,6 +104,17 @@
   .text-small {
     font-size: 14px;
   }
+
+  $sizes: mobile, tablet, desktop;
+
+  @each $size in $sizes {
+    .size-#{$size} {
+      .hidden-#{$size} {
+        display: none;
+      }
+      .show-#{$size} {
+        display: block;
+      }
+    }
+  }
 }
-
-

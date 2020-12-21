@@ -3,7 +3,7 @@ import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
 @Component({
   tag: 'onekey-sdk-search-address-item',
   styleUrl: 'onekey-sdk-search-address-item.scss',
-  shadow: true,
+  shadow: false,
 })
 export class OnekeySdkSearchItem {
   @Prop() item: any
@@ -26,8 +26,8 @@ export class OnekeySdkSearchItem {
     const index = lowerCaseString.indexOf(lowerCaseText);
 
     return `
-      <span style="color: ${isAddress ? `var(--onekeysdk-color-secondary)`: `var(--onekeysdk-color-grey_darke)`}">
-        ${index >= 0 
+      <span style="color: ${isAddress ? `var(--onekeysdk-color-secondary)`: `var(--onekeysdk-color-grey_dark)`}">
+        ${index >= 0
           ? `${string.substring(0,index)}<span style="color: var(--onekeysdk-color-primary)">${string.substring(index,index+lowerCaseText.length)}</span>${string.substring(index + lowerCaseText.length)}`
           : string
         }
@@ -38,8 +38,8 @@ export class OnekeySdkSearchItem {
   render() {
     return (
       <Host>
-        <div class="search-address-item">
-          <span class={`search-address-item-text ${this.activated ? 'active': ''}`} onClick={() => this.selectAddress.emit(this.item)}>
+        <div role="button" class="search-address-item" onClick={() => this.selectAddress.emit(this.item)}>
+          <span class={`search-address-item-text ${this.activated ? 'active': ''}`}>
             { this.item.name && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} /> }
             { this.item.professionalType && <span class="specialty">{this.item.professionalType }</span> }
             { this.item.address && <span class="address">{this.item.address}</span> }

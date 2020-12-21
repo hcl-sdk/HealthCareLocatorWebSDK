@@ -1,0 +1,24 @@
+
+
+
+.dev-settings {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  background: #020202a3;
+  color: white;
+  z-index: 0;
+  grid-gap: 10px;
+  display: grid;
+  z-index: 99999;
+  min-width: 250px;
+
+  .setting {
+    display: flex;
+
+    label, select {
+      flex: 1;
+    }
+  }
+}

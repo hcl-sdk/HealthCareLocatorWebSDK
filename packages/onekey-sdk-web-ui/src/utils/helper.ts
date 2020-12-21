@@ -1,4 +1,6 @@
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
+import { Breakpoint } from 'onekey-sdk-web-ui/src/core/types';
+import { BREAKPOINT_MAX_WIDTH } from 'onekey-sdk-web-ui/src/core/constants';
 
 const CONTAINER_ELEMENT = 'onekey-sdk';
 
@@ -8,16 +10,6 @@ export function selectSDKElement() {
 
 export function getCssColor(colorStyle) {
   return getComputedStyle(document.querySelector(CONTAINER_ELEMENT).shadowRoot.host).getPropertyValue(colorStyle);
-}
-
-export function initAppCSSWidthHeight() {
-  const elm = document.querySelector(CONTAINER_ELEMENT);
-  const { offsetWidth, offsetHeight } = getContainerHeightWidthOffset();
-  elm.style.setProperty('--app-width', `${offsetWidth}px`);
-  elm.style.setProperty('--app-height', `${offsetHeight}px`);
-
-  elm.style.setProperty('--app-width-small-2x', `${offsetWidth / 2}px`);
-  elm.style.setProperty('--app-height-small-2x', `${offsetHeight / 2}px`);
 }
 
 export function getContainerHeightWidthOffset() {
@@ -54,4 +46,30 @@ export function applyDefaultTheme() {
 
 export function getSpecialtiesText(specialties) {
   return specialties.filter(elm => elm.label).map(elm => elm.label)
+}
+
+export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoint {
+  const orientation = clientRect.width >= clientRect.height ? 'landscape' : 'portrait';
+  let screenSize;
+  if (orientation === 'landscape') {
+    if (clientRect.width < BREAKPOINT_MAX_WIDTH.MOBILE_LANDSCAPE) {
+      screenSize = 'mobile';
+    } else if (clientRect.width < BREAKPOINT_MAX_WIDTH.TABLET_LANDSCAPE) {
+      screenSize = 'tablet';
+    } else {
+      screenSize = 'desktop';
+    }
+  } else {
+    if (clientRect.width < BREAKPOINT_MAX_WIDTH.MOBILE_PORTRAIT) {
+      screenSize = 'mobile';
+    } else if (clientRect.width < BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT) {
+      screenSize = 'tablet';
+    } else {
+      screenSize = 'desktop';
+    }
+  }
+  return {
+    screenSize,
+    orientation
+  };
 }
