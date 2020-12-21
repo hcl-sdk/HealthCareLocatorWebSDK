@@ -62,7 +62,8 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
         }, 1000L)
 
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
-            (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
+            if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
+            else if (parentFragment is NearMeFragment) (parentFragment as NearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
         btnCurrentLocation.setOnClickListener(this)
     }
@@ -81,7 +82,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     }
 
-    fun updateActivities(activities: ArrayList<ActivityObject>){
+    fun updateActivities(activities: ArrayList<ActivityObject>) {
         this.activities = activities
         searchAdapter.setData(activities)
     }

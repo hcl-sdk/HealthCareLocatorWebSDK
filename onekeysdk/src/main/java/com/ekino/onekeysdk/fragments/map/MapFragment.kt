@@ -21,7 +21,6 @@ import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
-import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
@@ -157,20 +156,18 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 val position = activities[0].workplace?.address?.location?.getGeoPoint()
                         ?: GeoPoint(0.0, 0.0)
                 controller.setCenter(position)
-                controller.animateTo(position, 16.5, 2000)
+                controller.animateTo(position, 15.0, 2000)
             }
             if (this@MapFragment.boundingBox) {
-                val geoPoints = arrayListOf<GeoPoint>().apply {
-                    oneKeyMarkers.forEach {
-                        add(it.position)
-                    }
-                }
-                zoomToBoundingBox(BoundingBox.fromGeoPointsSafe(geoPoints), true)
+                val position = activities[0].workplace?.address?.location?.getGeoPoint()
+                        ?: GeoPoint(0.0, 0.0)
+                controller.setCenter(position)
+                controller.animateTo(position, 10.0, 2000)
             }
         }
     }
 
-    fun moveToPosition(position:GeoPoint){
+    fun moveToPosition(position: GeoPoint) {
         mMapView?.apply {
             controller.setCenter(position)
             controller.animateTo(position, 13.0, 2000)

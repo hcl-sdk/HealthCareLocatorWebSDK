@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/labelWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -201,6 +202,12 @@
                             android:src="@drawable/baseline_sort_white_24dp" />
                     </FrameLayout>
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.3"
+                    android:background="@color/gray" />
 
                 <FrameLayout
                     android:id="@+id/resultContainer"

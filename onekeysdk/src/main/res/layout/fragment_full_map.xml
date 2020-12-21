@@ -32,10 +32,11 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/labelWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
                     android:paddingTop="@dimen/default_padding_tiny"
                     android:paddingBottom="@dimen/default_padding_tiny">
 
@@ -62,8 +63,8 @@
                     android:id="@+id/newSearchWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
@@ -200,6 +201,11 @@
                     </FrameLayout>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.3"
+                    android:background="@color/gray" />
 
                 <FrameLayout
                     android:id="@+id/resultContainer"

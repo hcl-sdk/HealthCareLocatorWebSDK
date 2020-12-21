@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
+import base.extensions.pushFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.IndividualAdapter
@@ -33,8 +34,15 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         View.OnFocusChangeListener, IndividualAdapter.OnIndividualClickedListener {
 
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject) =
-                SearchFragment().apply { this.oneKeyViewCustomObject = oneKeyViewCustomObject }
+        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, isUseNearMe: Boolean = false,
+                        currentLocation: Location? = null) =
+                SearchFragment().apply {
+                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                    this.currentLocation = currentLocation
+                    useNearMe = isUseNearMe
+                }
+
+        private var useNearMe: Boolean = false
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject =
@@ -77,6 +85,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 locationProvider?.startLocationProvider(this)
             }
         })
+
+        if (currentLocation != null && useNearMe) {
+            setNearMeText()
+        }
 
         oneKeyViewCustomObject?.also {
             val primaryColor = it.colorPrimary.getColor()
@@ -156,7 +168,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 }
                 oneKeyViewCustomObject?.also {
                     onItemClicked = true
-                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                    (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                             FullMapFragment.newInstance(it, edtName.text.toString(), selectedSpeciality,
                                     selectedPlace ?: OneKeyPlace().apply {
                                         displayName = edtWhere.text.toString()
@@ -165,13 +177,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 }
             }
             R.id.nearMeWrapper -> {
-                currentLocation?.apply {
-                    selectedPlace = OneKeyPlace(
-                            placeId = "near_me", latitude = "$latitude",
-                            longitude = "$longitude", displayName = "Near me"
-                    )
-                    edtWhere.setText(selectedPlace?.displayName ?: "")
-                }
+                setNearMeText()
             }
         }
     }
@@ -197,6 +203,14 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             individualAdapter.setKeyword(edtName.text.toString())
             individualAdapter.setData(it)
         })
+    }
+
+    private fun setNearMeText() {
+        currentLocation?.apply {
+            selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
+                    longitude = "$longitude", displayName = "Near me")
+            edtWhere.setText(selectedPlace?.displayName ?: "")
+        }
     }
 
     private fun setSpecialityClearState(state: Boolean) {

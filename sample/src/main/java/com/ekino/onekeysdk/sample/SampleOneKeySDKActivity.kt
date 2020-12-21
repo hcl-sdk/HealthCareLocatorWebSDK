@@ -87,17 +87,17 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
         var fontTitle2: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
         var fontTitle3: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontSearchResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "SearchResultTitle", title = "Search Result Title").build()
-        var fontResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "ResultTitle", title = "Result Title").build()
-        var fontResultSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
-        var fontProfileTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
-        var fontProfileSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title").build()
-        var fontProfileTitleSection: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontProfileTitleSection", title = "Profile Title Section").build()
-        var fontCardTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
-        var fontModalTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
-        var fontSortCriteria: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
+        var fontSmall: OneKeyViewFontObject ?=null
+        var fontSearchInput: OneKeyViewFontObject? = null
+        var fontSearchResultTitle: OneKeyViewFontObject? = null
+        var fontResultTitle: OneKeyViewFontObject? = null
+        var fontResultSubTitle: OneKeyViewFontObject? = null
+        var fontProfileTitle: OneKeyViewFontObject? = null
+        var fontProfileSubTitle: OneKeyViewFontObject? = null
+        var fontProfileTitleSection: OneKeyViewFontObject? = null
+        var fontCardTitle: OneKeyViewFontObject? = null
+        var fontModalTitle: OneKeyViewFontObject? = null
+        var fontSortCriteria: OneKeyViewFontObject? = null
         SampleApplication.sharedPreferences.also {
             (it.getString(Pref.fontDefault, "") ?: "").apply {
                 if (this.isNotEmpty())

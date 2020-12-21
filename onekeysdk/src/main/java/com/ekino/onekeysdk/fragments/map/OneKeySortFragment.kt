@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.fragments.map
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
@@ -72,12 +73,22 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
     }
 
     private fun applySorting() {
-        (activity?.supportFragmentManager?.findFragmentByTag(
-                FullMapFragment::class.java.simpleName) as? FullMapFragment)?.apply {
+        val fragment = getFragment(FullMapFragment::class.java.simpleName)
+        val nearMeFragment = getFragment(NearMeFragment::class.java.simpleName)
+        if (fragment is FullMapFragment) fragment.apply {
+            if (isAdded && isVisible) {
+                this.applySorting(sortAdapter.getSelectedPosition())
+            }
+        }
+        if (nearMeFragment is NearMeFragment) nearMeFragment.apply {
             if (isAdded && isVisible) {
                 this.applySorting(sortAdapter.getSelectedPosition())
             }
         }
         activity?.onBackPressed()
+    }
+
+    private fun getFragment(tag: String): Fragment? {
+        return activity?.supportFragmentManager?.findFragmentByTag(tag)
     }
 }

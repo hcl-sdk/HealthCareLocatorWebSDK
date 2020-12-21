@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.model.config
 
 import android.graphics.Typeface
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.extensions.isNullable
 
 /**
  * OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:
@@ -115,21 +116,66 @@ data class OneKeyViewCustomObject private constructor(
         fun editIcon(editIcon: Int) = apply { this.editIcon = editIcon }
         fun markerIcon(markerIcon: Int) = apply { this.markerIcon = markerIcon }
         fun homeMode(homeMode: Int) = apply { this.homeMode = homeMode }
-        fun fontSearchInput(fontSearchInput: OneKeyViewFontObject) = apply { this.fontSearchInput = fontSearchInput }
-        fun fontSmall(fontSmallSize: OneKeyViewFontObject) = apply { this.fontSmall = fontSmallSize }
+        fun fontSearchInput(fontSearchInput: OneKeyViewFontObject?) = apply {
+            if (fontSearchInput.isNullable()) return@apply
+            this.fontSearchInput = fontSearchInput!!
+        }
 
-        fun fontTitleMain(fontTitleMain: OneKeyViewFontObject) = apply { this.fontTitleMain = fontTitleMain }
-        fun fontTitleSecondary(fontTitleSecondary: OneKeyViewFontObject) = apply { this.fontTitleSecondary = fontTitleSecondary }
-        fun fontSearchResultTotal(fontSearchResultTotal: OneKeyViewFontObject) = apply { this.fontSearchResultTotal = fontSearchResultTotal }
-        fun fontSearchResultTitle(fontSearchResultTitle: OneKeyViewFontObject) = apply { this.fontSearchResultTitle = fontSearchResultTitle }
-        fun fontResultTitle(fontResultTitle: OneKeyViewFontObject) = apply { this.fontResultTitle = fontResultTitle }
-        fun fontResultSubTitle(fontResultSubTitle: OneKeyViewFontObject) = apply { this.fontResultSubTitle = fontResultSubTitle }
-        fun fontProfileTitle(fontProfileTitle: OneKeyViewFontObject) = apply { this.fontProfileTitle = fontProfileTitle }
-        fun fontProfileSubTitle(fontProfileSubTitle: OneKeyViewFontObject) = apply { this.fontProfileSubTitle = fontProfileSubTitle }
-        fun fontProfileTitleSection(fontProfileTitleSection: OneKeyViewFontObject) = apply { this.fontProfileTitleSection = fontProfileTitleSection }
-        fun fontCardTitle(fontCardTitle: OneKeyViewFontObject) = apply { this.fontCardTitle = fontCardTitle }
-        fun fontModalTitle(fontModalTitle: OneKeyViewFontObject) = apply { this.fontModalTitle = fontModalTitle }
-        fun fontSortCriteria(fontSortCriteria: OneKeyViewFontObject) = apply { this.fontSortCriteria = fontSortCriteria }
+        fun fontSmall(fontSmallSize: OneKeyViewFontObject?) = apply {
+            if (fontSmallSize.isNullable()) return@apply
+            this.fontSmall = fontSmallSize!!
+        }
+
+        fun fontTitleMain(fontTitleMain: OneKeyViewFontObject?) = apply {
+            if (fontTitleMain.isNullable()) return@apply
+            this.fontTitleMain = fontTitleMain!!
+        }
+
+        fun fontTitleSecondary(fontTitleSecondary: OneKeyViewFontObject?) = apply {
+            if (fontTitleSecondary.isNullable()) return@apply
+            this.fontTitleSecondary = fontTitleSecondary!!
+        }
+
+        fun fontSearchResultTotal(fontSearchResultTotal: OneKeyViewFontObject?) = apply {
+            this.fontSearchResultTotal = fontSearchResultTotal ?: this.fontSearchResultTotal
+        }
+
+        fun fontSearchResultTitle(fontSearchResultTitle: OneKeyViewFontObject?) = apply {
+            if (fontSearchResultTitle.isNullable()) return@apply
+            this.fontSearchResultTitle = fontSearchResultTitle!!
+        }
+
+        fun fontResultTitle(fontResultTitle: OneKeyViewFontObject?) = apply {
+            this.fontResultTitle = fontResultTitle ?: this.fontResultTitle
+        }
+
+        fun fontResultSubTitle(fontResultSubTitle: OneKeyViewFontObject?) = apply {
+            this.fontResultSubTitle = fontResultSubTitle ?: this.fontResultSubTitle
+        }
+
+        fun fontProfileTitle(fontProfileTitle: OneKeyViewFontObject?) = apply {
+            this.fontProfileTitle = fontProfileTitle ?: this.fontProfileTitle
+        }
+
+        fun fontProfileSubTitle(fontProfileSubTitle: OneKeyViewFontObject?) = apply {
+            this.fontProfileSubTitle = fontProfileSubTitle ?: this.fontProfileSubTitle
+        }
+
+        fun fontProfileTitleSection(fontProfileTitleSection: OneKeyViewFontObject?) = apply {
+            this.fontProfileTitleSection = fontProfileTitleSection ?: this.fontProfileTitleSection
+        }
+
+        fun fontCardTitle(fontCardTitle: OneKeyViewFontObject?) = apply {
+            this.fontCardTitle = fontCardTitle ?: this.fontCardTitle
+        }
+
+        fun fontModalTitle(fontModalTitle: OneKeyViewFontObject?) = apply {
+            this.fontModalTitle = fontModalTitle ?: this.fontModalTitle
+        }
+
+        fun fontSortCriteria(fontSortCriteria: OneKeyViewFontObject?) = apply {
+            this.fontSortCriteria = fontSortCriteria ?: this.fontSortCriteria
+        }
 
         fun colorListBackground(colorListBackground: String) = apply { this.colorListBackground = colorListBackground }
         fun colorGreyLight(color: String) = apply { this.colorGreyLight = color }

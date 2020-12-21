@@ -15,6 +15,7 @@ import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.map.MapFragment
+import com.ekino.onekeysdk.fragments.map.NearMeFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
@@ -132,6 +133,11 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         outState.putInt("lastConsultedTag", consultedTag)
     }
 
+    override fun onResume() {
+        super.onResume()
+        FullMapFragment.clear()
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.viewMoreSearches -> {
@@ -162,10 +168,10 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             R.id.mapOverlay -> {
                 currentLocation?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                            FullMapFragment.newInstance(oneKeyViewCustomObject, "", null,
+                            NearMeFragment.newInstance(oneKeyViewCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
                                             longitude = "${it.longitude}", displayName = "Near me"),
-                                    oneKeyViewCustomObject.favoriteIds, true), true)
+                                    oneKeyViewCustomObject.favoriteIds, currentLocation), true)
                 }
             }
         }

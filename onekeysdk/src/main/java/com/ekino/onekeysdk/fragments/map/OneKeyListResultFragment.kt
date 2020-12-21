@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import base.extensions.addFragment
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
@@ -44,11 +40,12 @@ class OneKeyListResultFragment : IFragment() {
             searchAdapter.setData(activities)
         }
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
-           (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
+            if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
+            else if (parentFragment is NearMeFragment) (parentFragment as NearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
     }
 
-    fun updateActivities(activities: ArrayList<ActivityObject>){
+    fun updateActivities(activities: ArrayList<ActivityObject>) {
         this.activities = activities
         searchAdapter.setData(activities)
     }
