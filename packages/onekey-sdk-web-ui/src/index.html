@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>Stencil Starter App</title>
-  <meta name="Description" content="Welcome to the Stencil App Starter. You can use this starter to build entire apps all with web components using Stencil!">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <meta name="theme-color" content="#16161d">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,7 +10,6 @@
 
   <script type="module" src="/build/onekey-sdk.esm.js"></script>
   <script nomodule src="/build/onekey-sdk.js"></script>
-  <link href="/build/onekey-sdk.css" rel="stylesheet">
 
   <link rel="apple-touch-icon" href="/assets/icon/icon.png">
   <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico">
@@ -22,24 +20,57 @@
       font-family: 'Roboto', Arial, Helvetica, sans-serif;
     }
 
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
     onekey-sdk {
       --onekeysdk-color-primary: #001f3f;
       --onekeysdk-color-secondary: #39CCCC;
+    }
+
+    .onekey-sdk-wrapper.desktop {
+      width: 100%;
+      height: 100vh;
+    }
+    .onekey-sdk-wrapper.desktop {
+      width: 100%;
+      height: 100vh;
+    }
+    .onekey-sdk-wrapper.mobile,
+    .onekey-sdk-wrapper.tablet {
+      margin: 20px auto;
+    }
+    .onekey-sdk-wrapper.mobile {
+      width: 375px;
+      height: 667px;
+    }
+    .onekey-sdk-wrapper.tablet {
+      width: 1024px;
+      height: 768px;
+    }
+
+    @media screen and (max-width: 1024px) {
+      onekey-sdk-dev-settings {
+        display: none;
+      }
+      .onekey-sdk-wrapper.mobile,
+      .onekey-sdk-wrapper.tablet {
+        margin: 0;
+        width: 100%;
+        height: 100vh;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="onekey-sdk">
+  <div class="onekey-sdk-wrapper">
     <onekey-sdk />
   </div>
 
-  <script>
-    const oneKeySDK = document.querySelector('onekey-sdk');
-    const homeMode = localStorage.getItem('__onekey-sdk-dev-homeMode');
-    if (homeMode) {
-      oneKeySDK.config = { homeMode };
-    }
-  </script>
+  <onekey-sdk-dev-settings />
+
 </body>
 </html>

@@ -18,7 +18,7 @@
 | `modeView`            | `mode-view`             |             | `ModeViewType.LIST \| ModeViewType.MAP` | `undefined` |
 | `noCurrentLocation`   | `no-current-location`   |             | `boolean`                               | `false`     |
 | `selectedLocationIdx` | `selected-location-idx` |             | `number`                                | `undefined` |
-| `viewPortSize`        | `view-port-size`        |             | `string`                                | `undefined` |
+| `breakpoint`        | `view-port-size`        |             | `string`                                | `undefined` |
 | `zoomControl`         | `zoom-control`          |             | `boolean`                               | `false`     |
 
 

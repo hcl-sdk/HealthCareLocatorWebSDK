@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import cn from 'classnames';
-import { configStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { uiStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { Modal } from 'onekey-sdk-web-ui/src/core/stores/ConfigStore';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 
@@ -23,7 +23,7 @@ export class OnekeySdkModal {
 
     const modalClass = cn("modal-class", {})
     return (
-      <Host class={`size-${configStore.state.viewPortSize}`}>
+      <Host class={`size-${uiStore.state.breakpoint}`}>
         <div class="modal-container">
           <div class={modalClass}>
             <div class="modal-title">

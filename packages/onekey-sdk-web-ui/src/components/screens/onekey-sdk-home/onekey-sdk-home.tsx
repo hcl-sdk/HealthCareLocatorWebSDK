@@ -1,5 +1,5 @@
 import { Component, h, Host, Listen } from '@stencil/core';
-import { configStore, routerStore, searchMapStore } from '../../../core/stores';
+import { configStore, routerStore, searchMapStore, uiStore } from '../../../core/stores';
 @Component({
   tag: 'onekey-sdk-home',
   styleUrl: 'onekey-sdk-home.scss',
@@ -27,25 +27,34 @@ export class OnekeySdkHome {
     e.preventDefault();
   };
 
+  renderHeader() {
+    const { breakpoint } = uiStore.state;
+
+    if (breakpoint.screenSize === 'desktop' || breakpoint.screenSize === 'tablet') {
+      return <onekey-sdk-search searchText="Search" />;
+    }
+
+    return (
+      <div class="header-block">
+        <div class="search-home-hpc">
+          <form onSubmit={this.onSubmit}>
+            <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
+            <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="btn--icon search-address-btn" />
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
-      <Host class={`size-${configStore.state.viewPortSize}`}>
+      <Host>
         <div class="main-contain">
-          {['sm', 'md'].includes(configStore.state.viewPortSize) ? (
-            <div class="main-block main-block--header">
-              <div class="search-home-hpc">
-                <form onSubmit={this.onSubmit}>
-                  <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
-                  <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="search-address-btn" />
-                </form>
-              </div>
-            </div>
-          ) : (
-            <onekey-sdk-search searchText="Search" />
-          )}
-
-          {configStore.state.homeMode === 'min' && <onekey-sdk-home-min />}
-          {configStore.state.homeMode === 'full' && <onekey-sdk-home-full />}
+          {this.renderHeader()}
+          <div class="body-block">
+            {configStore.state.homeMode === 'min' && <onekey-sdk-home-min />}
+            {configStore.state.homeMode === 'full' && <onekey-sdk-home-full />}
+          </div>
         </div>
       </Host>
     );

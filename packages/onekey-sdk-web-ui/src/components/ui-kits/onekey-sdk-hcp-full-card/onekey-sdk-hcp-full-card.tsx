@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
-import { configStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { uiStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
@@ -31,12 +31,14 @@ export class OnekeySdkHCPFullCard {
     }
 
     return (
-      <Host class={`size-${configStore.state.viewPortSize}`}>
+      <Host class={`size-${uiStore.state.breakpoint}`}>
         <div class="main-contain">
           <div class="main-block main-block--content">
             <div class="main-block__navigation">
-              <onekey-sdk-button noBorder icon="arrow" iconColor={getCssColor("--onekeysdk-color-grey")} onClick={this.goBack}>Back to result list</onekey-sdk-button>
-              <onekey-sdk-button noBorder icon="share" iconColor={getCssColor("--onekeysdk-color-grey")}/>
+              <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor("--onekeysdk-color-grey")} onClick={this.goBack}>
+                <span class="hidden-mobile">Back to result list</span>
+              </onekey-sdk-button>
+              <onekey-sdk-button noBorder noBackground icon="share" iconColor={getCssColor("--onekeysdk-color-grey")}/>
             </div>
           </div>
 
@@ -98,7 +100,7 @@ export class OnekeySdkHCPFullCard {
                         <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
                       </div>
                     }
-                    
+
                     {
                       individualDetail.fax &&
                       <div class="info-contact-item">

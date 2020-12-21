@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { OneKeySDKConfigData } from "./core/stores/ConfigStore";
 import { Modal, ModeViewType } from "onekey-sdk-web-ui/src/core/stores/ConfigStore";
+import { Breakpoint } from "onekey-sdk-web-ui/src/core/types";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
@@ -27,6 +28,8 @@ export namespace Components {
         "round": boolean;
         "secondary": boolean;
         "type": string;
+    }
+    interface OnekeySdkDevSettings {
     }
     interface OnekeySdkDoctorCard {
         "address": string;
@@ -154,6 +157,7 @@ export namespace Components {
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
+        "onBlur"?: (e: any) => void;
         "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
@@ -165,6 +169,7 @@ export namespace Components {
     interface OnekeySdkLoading {
     }
     interface OnekeySdkMap {
+        "breakpoint": Breakpoint;
         "defaultZoom": number;
         "dragging": boolean;
         "locations": any[];
@@ -174,13 +179,10 @@ export namespace Components {
         "modeView": ModeViewType;
         "noCurrentLocation": boolean;
         "selectedLocationIdx": number;
-        "viewPortSize": string;
         "zoomControl": boolean;
     }
     interface OnekeySdkModal {
         "modal"?: Modal;
-    }
-    interface OnekeySdkResizable {
     }
     interface OnekeySdkRoute {
         "component": string;
@@ -219,9 +221,6 @@ export namespace Components {
     interface OnekeySdkSwitchViewMode {
         "typeOfLabel": 'full' | 'short' | 'disabled';
     }
-    interface OnekeySdkViewport {
-        "sizes": Object[];
-    }
 }
 declare global {
     interface HTMLOnekeySdkElement extends Components.OnekeySdk, HTMLStencilElement {
@@ -235,6 +234,12 @@ declare global {
     var HTMLOnekeySdkButtonElement: {
         prototype: HTMLOnekeySdkButtonElement;
         new (): HTMLOnekeySdkButtonElement;
+    };
+    interface HTMLOnekeySdkDevSettingsElement extends Components.OnekeySdkDevSettings, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkDevSettingsElement: {
+        prototype: HTMLOnekeySdkDevSettingsElement;
+        new (): HTMLOnekeySdkDevSettingsElement;
     };
     interface HTMLOnekeySdkDoctorCardElement extends Components.OnekeySdkDoctorCard, HTMLStencilElement {
     }
@@ -410,12 +415,6 @@ declare global {
         prototype: HTMLOnekeySdkModalElement;
         new (): HTMLOnekeySdkModalElement;
     };
-    interface HTMLOnekeySdkResizableElement extends Components.OnekeySdkResizable, HTMLStencilElement {
-    }
-    var HTMLOnekeySdkResizableElement: {
-        prototype: HTMLOnekeySdkResizableElement;
-        new (): HTMLOnekeySdkResizableElement;
-    };
     interface HTMLOnekeySdkRouteElement extends Components.OnekeySdkRoute, HTMLStencilElement {
     }
     var HTMLOnekeySdkRouteElement: {
@@ -464,15 +463,10 @@ declare global {
         prototype: HTMLOnekeySdkSwitchViewModeElement;
         new (): HTMLOnekeySdkSwitchViewModeElement;
     };
-    interface HTMLOnekeySdkViewportElement extends Components.OnekeySdkViewport, HTMLStencilElement {
-    }
-    var HTMLOnekeySdkViewportElement: {
-        prototype: HTMLOnekeySdkViewportElement;
-        new (): HTMLOnekeySdkViewportElement;
-    };
     interface HTMLElementTagNameMap {
         "onekey-sdk": HTMLOnekeySdkElement;
         "onekey-sdk-button": HTMLOnekeySdkButtonElement;
+        "onekey-sdk-dev-settings": HTMLOnekeySdkDevSettingsElement;
         "onekey-sdk-doctor-card": HTMLOnekeySdkDoctorCardElement;
         "onekey-sdk-hcp-full-card": HTMLOnekeySdkHcpFullCardElement;
         "onekey-sdk-home": HTMLOnekeySdkHomeElement;
@@ -502,7 +496,6 @@ declare global {
         "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
         "onekey-sdk-modal": HTMLOnekeySdkModalElement;
-        "onekey-sdk-resizable": HTMLOnekeySdkResizableElement;
         "onekey-sdk-route": HTMLOnekeySdkRouteElement;
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
         "onekey-sdk-router-link": HTMLOnekeySdkRouterLinkElement;
@@ -511,7 +504,6 @@ declare global {
         "onekey-sdk-search-result": HTMLOnekeySdkSearchResultElement;
         "onekey-sdk-sort": HTMLOnekeySdkSortElement;
         "onekey-sdk-switch-view-mode": HTMLOnekeySdkSwitchViewModeElement;
-        "onekey-sdk-viewport": HTMLOnekeySdkViewportElement;
     }
 }
 declare namespace LocalJSX {
@@ -533,6 +525,8 @@ declare namespace LocalJSX {
         "round"?: boolean;
         "secondary"?: boolean;
         "type"?: string;
+    }
+    interface OnekeySdkDevSettings {
     }
     interface OnekeySdkDoctorCard {
         "address"?: string;
@@ -661,6 +655,7 @@ declare namespace LocalJSX {
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
+        "onBlur"?: (e: any) => void;
         "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
@@ -672,6 +667,7 @@ declare namespace LocalJSX {
     interface OnekeySdkLoading {
     }
     interface OnekeySdkMap {
+        "breakpoint"?: Breakpoint;
         "defaultZoom"?: number;
         "dragging"?: boolean;
         "locations"?: any[];
@@ -683,13 +679,10 @@ declare namespace LocalJSX {
         "onMarkerClick"?: (event: CustomEvent<any>) => void;
         "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;
-        "viewPortSize"?: string;
         "zoomControl"?: boolean;
     }
     interface OnekeySdkModal {
         "modal"?: Modal;
-    }
-    interface OnekeySdkResizable {
     }
     interface OnekeySdkRoute {
         "component"?: string;
@@ -730,13 +723,10 @@ declare namespace LocalJSX {
         "onSwitchViewMode"?: (event: CustomEvent<any>) => void;
         "typeOfLabel"?: 'full' | 'short' | 'disabled';
     }
-    interface OnekeySdkViewport {
-        "onSizeChanged"?: (event: CustomEvent<any>) => void;
-        "sizes"?: Object[];
-    }
     interface IntrinsicElements {
         "onekey-sdk": OnekeySdk;
         "onekey-sdk-button": OnekeySdkButton;
+        "onekey-sdk-dev-settings": OnekeySdkDevSettings;
         "onekey-sdk-doctor-card": OnekeySdkDoctorCard;
         "onekey-sdk-hcp-full-card": OnekeySdkHcpFullCard;
         "onekey-sdk-home": OnekeySdkHome;
@@ -766,7 +756,6 @@ declare namespace LocalJSX {
         "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
         "onekey-sdk-modal": OnekeySdkModal;
-        "onekey-sdk-resizable": OnekeySdkResizable;
         "onekey-sdk-route": OnekeySdkRoute;
         "onekey-sdk-router": OnekeySdkRouter;
         "onekey-sdk-router-link": OnekeySdkRouterLink;
@@ -775,7 +764,6 @@ declare namespace LocalJSX {
         "onekey-sdk-search-result": OnekeySdkSearchResult;
         "onekey-sdk-sort": OnekeySdkSort;
         "onekey-sdk-switch-view-mode": OnekeySdkSwitchViewMode;
-        "onekey-sdk-viewport": OnekeySdkViewport;
     }
 }
 export { LocalJSX as JSX };
@@ -784,6 +772,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "onekey-sdk": LocalJSX.OnekeySdk & JSXBase.HTMLAttributes<HTMLOnekeySdkElement>;
             "onekey-sdk-button": LocalJSX.OnekeySdkButton & JSXBase.HTMLAttributes<HTMLOnekeySdkButtonElement>;
+            "onekey-sdk-dev-settings": LocalJSX.OnekeySdkDevSettings & JSXBase.HTMLAttributes<HTMLOnekeySdkDevSettingsElement>;
             "onekey-sdk-doctor-card": LocalJSX.OnekeySdkDoctorCard & JSXBase.HTMLAttributes<HTMLOnekeySdkDoctorCardElement>;
             "onekey-sdk-hcp-full-card": LocalJSX.OnekeySdkHcpFullCard & JSXBase.HTMLAttributes<HTMLOnekeySdkHcpFullCardElement>;
             "onekey-sdk-home": LocalJSX.OnekeySdkHome & JSXBase.HTMLAttributes<HTMLOnekeySdkHomeElement>;
@@ -813,7 +802,6 @@ declare module "@stencil/core" {
             "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
             "onekey-sdk-modal": LocalJSX.OnekeySdkModal & JSXBase.HTMLAttributes<HTMLOnekeySdkModalElement>;
-            "onekey-sdk-resizable": LocalJSX.OnekeySdkResizable & JSXBase.HTMLAttributes<HTMLOnekeySdkResizableElement>;
             "onekey-sdk-route": LocalJSX.OnekeySdkRoute & JSXBase.HTMLAttributes<HTMLOnekeySdkRouteElement>;
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;
             "onekey-sdk-router-link": LocalJSX.OnekeySdkRouterLink & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterLinkElement>;
@@ -822,7 +810,6 @@ declare module "@stencil/core" {
             "onekey-sdk-search-result": LocalJSX.OnekeySdkSearchResult & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchResultElement>;
             "onekey-sdk-sort": LocalJSX.OnekeySdkSort & JSXBase.HTMLAttributes<HTMLOnekeySdkSortElement>;
             "onekey-sdk-switch-view-mode": LocalJSX.OnekeySdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLOnekeySdkSwitchViewModeElement>;
-            "onekey-sdk-viewport": LocalJSX.OnekeySdkViewport & JSXBase.HTMLAttributes<HTMLOnekeySdkViewportElement>;
         }
     }
 }

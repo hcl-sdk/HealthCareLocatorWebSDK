@@ -3,14 +3,6 @@
 :host {
   .main-contain {
     background-color: var(--onekeysdk-color-view_bkg);
-    // overflow-y: hidden;
-  }
-
-  .main-block--header {
-    position: sticky;
-    width: 100%;
-    top: 0;
-    z-index: 9999;
   }
 
   .home {
@@ -98,6 +90,10 @@
     width: calc(100% + 3px);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    height: 40px;
+    &::placeholder {
+      color: var(--onekeysdk-color-grey_light);
+    }
   }
 
   .search-btn {
@@ -105,8 +101,7 @@
   }
 
   // Responsive base on container
-  .size-lg,
-  .size-xl {
+  .size-desktop, .size-tablet {
     .search-home-hpc {
       form {
         position: relative;
@@ -117,7 +112,7 @@
       }
     }
 
-    .search-hpc {
+    .search-hcp {
       padding: 0;
     }
 
@@ -140,6 +135,11 @@
         grid-gap: 20px;
       }
 
+      .onekey-sdk-input {
+        z-index: 1;
+        position: relative;
+      }
+
       input:first-child {
         min-width: 258px;
         margin: 0;
@@ -149,22 +149,20 @@
       .search-address-btn {
         padding: 0;
         margin: 0;
-        height: 100%;
         width: 100%;
       }
 
       .search-content {
         position: absolute;
-        margin: 0;
+        margin: -2px 0 0 0;
         width: 100%;
-        padding: 10px 5px;
+        padding: 0 15px;
         height: max-content;
         border: 1px solid var(--onekeysdk-color-card_border);
-        display: grid;
+        box-shadow: 0 0 2px rgba(0,0,0,0.3);
         overflow-y: scroll;
-        max-height: 400px;
-        grid-auto-flow: row;
-        grid-template-columns: 1fr;
+        max-height: 250px;
+        z-index: 0;
       }
     }
 
@@ -245,10 +243,13 @@
     border: 1px solid var(--onekeysdk-color-card_border);
     margin: 12px 12px 0 12px;
     border-radius: 5px;
+
+    &:last-child {
+      margin-bottom: 12px;
+    }
   }
 
-  .size-lg,
-  .size-xl {
+  .size-desktop, .size-tablet {
     .card {
       width: 640px;
       margin: 32px auto;

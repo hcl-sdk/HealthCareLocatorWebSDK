@@ -1,7 +1,7 @@
-import { Component, Host, h, State, Listen } from '@stencil/core';
+import { Component, Host, h, State, Listen, Fragment } from '@stencil/core';
 import { getCssColor, getDoctorCardOffset } from '../../../utils/helper';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
-import { configStore, searchMapStore } from '../../../core/stores';
+import { configStore, searchMapStore, uiStore } from '../../../core/stores';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
@@ -17,20 +17,20 @@ export class OnekeySdkSearchResult {
   @State() isOpenPanel: boolean = true;
 
   componentWillLoad() {
-    if(!searchMapStore.state.specialties.length) {
-      searchLocation({ specialties: searchMapStore.state.selectedValues.name.specialties, });
+    if (!searchMapStore.state.specialties.length) {
+      searchLocation({ specialties: searchMapStore.state.selectedValues.name.specialties });
     }
   }
   searchDataCardList;
 
-  onItemCardClick = async (item) => {
+  onItemCardClick = async item => {
     searchMapStore.setState({
-      selectedActivity: {...item}
-    })
+      selectedActivity: { ...item },
+    });
 
     await getFullCardDetail({
-      id: item.id
-    })
+      id: item.id,
+    });
   };
 
   @Listen('markerClick')
@@ -49,22 +49,49 @@ export class OnekeySdkSearchResult {
 
   onBackToList = () => {
     searchMapStore.setState({
-      selectedActivity: null
-    })
+      selectedActivity: null,
+    });
   };
 
   togglePanel = () => {
-    this.isOpenPanel = !this.isOpenPanel
-  }
+    this.isOpenPanel = !this.isOpenPanel;
+  };
 
   onOpenSort = () => {
     configStore.setState({
       modal: {
-        title: "Sort",
-        component: "onekey-sdk-sort"
-      }
-    })
-  }
+        title: 'Sort',
+        component: 'onekey-sdk-sort',
+      },
+    });
+  };
+
+  renderToolbar = (isSmall = false) => {
+    const { specialties } = searchMapStore.state;
+    const className = cls('search-toolbar search-section', {
+      'header-block': isSmall
+    });
+    return (
+      <div class={className}>
+        <div class="search-back-large hidden-mobile">
+          <onekey-sdk-icon name="arrow" />
+          <span class="text-small">Back to my last searches</span>
+        </div>
+        <div class="search-result__wrapper">
+          <strong class="search-result__total">Results: </strong>
+          <strong class="search-result__total-value text-primary text-bold">{specialties.length}</strong>
+        </div>
+        <div class="hidden-desktop hidden-tablet switch-mode">
+          <onekey-sdk-switch-view-mode typeOfLabel="disabled" />
+        </div>
+        <div class="search-filter-wrapper">
+          <div class="search-filter">
+            <onekey-sdk-icon name="sort" onClick={this.onOpenSort} />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   render() {
     if (!searchMapStore.state.search) {
@@ -75,103 +102,66 @@ export class OnekeySdkSearchResult {
 
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
-    const viewPortSize = configStore.state.viewPortSize
-    const isSmall = ['xs', 'sm', 'md'].includes(viewPortSize);
-    const isTablet = ['lg'].includes(viewPortSize);
-    const isDesktop = ['xl'].includes(viewPortSize);
+    const breakpoint = uiStore.state.breakpoint;
+    const isSmall = breakpoint.screenSize === 'mobile';
     const isListView = configStore.state.modeView === ModeViewType.LIST;
     const modeView = configStore.state.modeView;
     const searchDataClass = cls('search-data', {
       'list-view': !isSmall || isListView,
     });
 
-    const offsetHeight = isSmall ? configStore.state.viewSDKDimension.height - 110 : configStore.state.viewSDKDimension.height - 82;
-    const mapClass = cls('search-map__content', {
-      'hidden-xs hidden-sm hidden-md': isSmall && isListView,
-      'hidden-lg': isTablet && isListView,
-      'hidden-xl': isDesktop && isListView,
+    const mapClass = cls('search-map__content');
+
+    const mapWrapperClass = cls('search-map-wrapper', {
+      hide: !this.isOpenPanel,
     });
 
-    const mapWrapperClass = cls("search-map-wrapper", {
-      'hide': !this.isOpenPanel
+    const wrapperClass = cls('search-result main-contain', `${modeView.toLowerCase()}-view-mode`, {
+      'hcp-details': !!selectedActivity
     })
 
-    const heightResult = isSmall ? '100%' : `${offsetHeight}px`
-
     return (
-      <Host class={`size-${viewPortSize} ${modeView.toLowerCase()}-view-mode`}>
-        <div class="search-result" style={{ height: heightResult }}>
-          {isSmall ? (
-            <div class="search-header search-section">
-              <onekey-sdk-router-link url="/search" class="btn-back">
-                <onekey-sdk-icon name="arrow" color={getCssColor("--onekeysdk-color-dark")} />
-              </onekey-sdk-router-link>
-              <div>
-                <strong class="search-result-title">{selectedDoctorName}</strong>
-                <div class="search-result-address">{selectedAddressName}</div>
-              </div>
+      <Host class={wrapperClass}>
+        {!selectedActivity && (isSmall ? (
+          <div class="header-block search-header search-section">
+            <onekey-sdk-router-link url="/search" class="btn-back">
+              <onekey-sdk-icon name="arrow" color={getCssColor('--onekeysdk-color-dark')} />
+            </onekey-sdk-router-link>
+            <div>
+              <strong class="search-result-title">{selectedDoctorName}</strong>
+              <div class="search-result-address">{selectedAddressName}</div>
             </div>
-          ) : (
-            <onekey-sdk-search searchText="Search" showSwitchMode />
-          )}
-          {searchMapStore.state.loading ? (
-            <onekey-sdk-loading class="hidden-lg hidden-xl" style={{ position: 'relative'}}></onekey-sdk-loading>
-          ) : (
-            <div class="search-map search-section"  style={{ height: heightResult }}>
-
-                <div class={mapWrapperClass}>
-                  {
-                  selectedActivity ?
-                    <onekey-sdk-hcp-full-card goBack={this.onBackToList} />
-                  :
-                  <div class="search-toolbar search-section">
-                    <div class="hidden-xs hidden-sm hidden-md">
-                      <onekey-sdk-icon name="arrow" />
-                      <span class="text-small">Back to my last searches</span>
-                    </div>
-                    <div>
-                      <strong class="search-result__total">Results: </strong>
-                      <strong class="search-result__total-value text-primary text-bold">{specialties.length}</strong>
-                    </div>
-                    <div class="hidden-lg hidden-xl switch-mode">
-                      <onekey-sdk-switch-view-mode typeOfLabel="disabled"/>
-                    </div>
-                    <div class="search-filter-wrapper">
-                      <div class="search-filter">
-                        <onekey-sdk-icon name="sort" onClick={this.onOpenSort}/>
-                      </div>
-                    </div>
-                  </div>
-                    }     
-                  {
-                    !selectedActivity && <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+          </div>
+        ) : (
+          <onekey-sdk-search searchText="Search" showSwitchMode />
+        ))}
+        {searchMapStore.state.loading ? (
+          <onekey-sdk-loading class="hidden-tablet hidden-desktop body-block" style={{ position: 'relative' }}></onekey-sdk-loading>
+        ) : (
+          <Fragment>
+            {isSmall && !selectedActivity && this.renderToolbar(true)}
+            <div class="body-block">
+              <div class={mapWrapperClass}>
+                {selectedActivity ? <onekey-sdk-hcp-full-card goBack={this.onBackToList} /> : !isSmall && this.renderToolbar()}
+                {!selectedActivity && (
+                  <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                     {specialties.map((elm, idx) => (
                       <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
                     ))}
                   </div>
-                  }
+                )}
 
-                  <div class="toggle-panel">
-                    <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconColor="black" onClick={this.togglePanel}/>
-                  </div>
-        
+                <div class="toggle-panel">
+                  <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconColor="black" onClick={this.togglePanel} />
                 </div>
-              
-              
+              </div>
+
               {((!isListView && !isSmall) || (!isListView && !selectedActivity) )&& (
-                <onekey-sdk-map
-                  mapHeight={`${offsetHeight}px`}
-                  class={mapClass}
-                  modeView={modeView}
-                  viewPortSize={viewPortSize}
-                  locations={specialties}
-                  selectedLocationIdx={0}
-                  defaultZoom={5}
-                />
+                <onekey-sdk-map mapHeight={`100%`} class={mapClass} modeView={modeView} breakpoint={breakpoint} locations={specialties} selectedLocationIdx={0} defaultZoom={5} />
               )}
             </div>
-          )}
-        </div>
+          </Fragment>
+        )}
       </Host>
     );
   }

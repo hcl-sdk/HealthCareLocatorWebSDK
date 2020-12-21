@@ -15,7 +15,7 @@ export async function searchLocation(variables) {
     ...variables,
   })
 
-  const data = activities.map((item, idx) => ({
+  const data = activities.map((item) => ({
     distance: `${item.distance}m`,
     name: item.activity.individual.mailingName,
     professionalType: item.activity.individual.professionalType.label,
@@ -36,24 +36,30 @@ export async function searchDoctor(variables) {
   }
   searchMapStore.setState({ loading: true, searchDoctor: [], specialties: [] });
 
-  const { individualsByName: { individuals } } = await graphql.individualsByName({
-    apiKey: "1",
-    locale: "en",
-    first: 5,
-    offset: 0,
-    ...variables,
-  })
+  const [
+    { individualsByName: { individuals } },
+    { codesByLabel: { codes } }
+  ] = await Promise.all(
+    [
+      graphql.individualsByName({
+        apiKey: "1",
+        locale: "en",
+        first: 5,
+        offset: 0,
+        ...variables,
+      }),
+      graphql.codesByLabel({
+        apiKey: "1",
+        first: 5,
+        offset: 0,
+        codeTypes: ["SP"],
+        locale: "en",
+        ...variables,
+      })
+    ]
+  )
 
-  const { codesByLabel: { codes } } = await graphql.codesByLabel({
-    apiKey: "1",
-    first: 5,
-    offset: 0,
-    codeTypes: ["SP"],
-    locale: "en",
-    ...variables,
-  })
-
-  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({ 
+  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({
     name: item.mailingName,
     professionalType: item.professionalType.label,
     specialties: getSpecialtiesText(item.specialties),
@@ -62,7 +68,7 @@ export async function searchDoctor(variables) {
   })) : []
 
 
-  const codesData: SelectedIndividual[] = codes ? codes.map((item) => ({ 
+  const codesData: SelectedIndividual[] = codes ? codes.map((item) => ({
     name: `${item.longLbl}`,
     id: item.id
   })) : []
@@ -70,7 +76,7 @@ export async function searchDoctor(variables) {
   const data = [...codesData, ...individualsData]
 
 
-  searchMapStore.setState({ loading: false, searchDoctor: data }); 
+  searchMapStore.setState({ loading: false, searchDoctor: data });
 }
 
 
@@ -99,5 +105,5 @@ export async function getFullCardDetail(variables) {
     lng: activity.workplace.address.location.lon
   }
 
-  searchMapStore.setState({ loading: false, individualDetail: data }); 
+  searchMapStore.setState({ loading: false, individualDetail: data });
 }

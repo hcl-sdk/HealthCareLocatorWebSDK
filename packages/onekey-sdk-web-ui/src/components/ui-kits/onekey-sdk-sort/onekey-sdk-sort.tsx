@@ -1,6 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import cn from 'classnames';
-import { configStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { configStore, searchMapStore, uiStore } from 'onekey-sdk-web-ui/src/core/stores';
 
 @Component({
   tag: 'onekey-sdk-sort',
@@ -43,7 +43,7 @@ export class OnekeySdkSort {
     const onekeySDKSortClass = cn("onekey-sdk-sort", {})
     const { name, relevance, distance } = searchMapStore.state.sortValues
     return (
-      <Host class={`size-${configStore.state.viewPortSize}`}>
+      <Host class={`size-${uiStore.state.breakpoint}`}>
         <div class={onekeySDKSortClass}>
           <form class="sort-body" onSubmit={this.onSubmit}>
             <div class="sort-option">

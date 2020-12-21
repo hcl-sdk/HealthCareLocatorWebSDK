@@ -1,7 +1,12 @@
 :host {
+  .size-mobile .onekey-sdk-search .search-content {
+    padding: 0 15px;
+  }
+
   .search-back {
     align-self: flex-start;
     display: flex;
+    padding: 5px 0;
 
     a {
       color: var(--onekeysdk-color-dark);
@@ -10,9 +15,25 @@
     }
   }
 
+  .search-back-large {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 6px;
+      color: var(--onekeysdk-color-grey_dark);
+    }
+  }
+
   .reset-search {
     visibility: hidden;
     display: none;
+  }
+
+  .onekey-sdk-home {
+    .reset-search.hide {
+      display: none;
+    }
   }
 
   .search-block {
@@ -22,32 +43,22 @@
     z-index: 9999;
     background-color: white;
     width: 100%;
-    margin: 0 !important;
-    padding-right: 0px;
     border-radius: 0px;
   }
 
   .search-content {
     background: white;
-    padding: 0 15px;
-    border-top: 1px solid var(--onekeysdk-color-card_border);
-    padding-top: 10px;
-    display: grid !important;
-    grid-auto-flow: row;
-    grid-gap: 20px;
-    grid-auto-rows: max-content;
   }
 
-  .search-hpc {
+  .search-hcp {
     display: flex;
     align-items: center;
-    padding: 10px 15px;
   }
 
   .search-address-btn {
     align-self: center;
     position: relative;
-    width: 41px;
+    width: 40px;
     height: 40px;
   }
 
@@ -85,16 +96,9 @@
     }
   }
 
-  .search-address-item {
-    padding: 1rem;
-    border-bottom: 1px solid var(--onekeysdk-color-card_border);
-    cursor: pointer;
-  }
-
-  .size-lg, .size-xl {
-    .search-hpc {
+  .size-desktop, .size-tablet {
+    .search-hcp {
       justify-content: center;
-      grid-gap: 20px;
       box-shadow: 0 4px 2px -2px var(--onekeysdk-color-card_border);
       display: grid;
       grid-auto-flow: column;
@@ -112,6 +116,7 @@
       display: block;
       visibility: visible;
       cursor: pointer;
+      margin-left: 20px;
 
       span {
         text-decoration: underline;

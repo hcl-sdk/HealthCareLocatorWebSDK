@@ -1,6 +1,6 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
 import { searchDoctor, searchLocation } from '../../../core/api/hcp';
-import { searchMapStore, routerStore, configStore } from '../../../core/stores';
+import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
 
@@ -25,6 +25,11 @@ export class OnekeySdkSearch {
   @Prop() searchText: string;
   @Prop() showSwitchMode?: boolean = false;
 
+  fields = {
+    name: null,
+    address: null
+  }
+
   componentWillLoad() {
     this.formData = {
       ...this.formData,
@@ -38,10 +43,10 @@ export class OnekeySdkSearch {
     const { name } = e.target;
     this.checkValidElm(name);
 
-    const { isSmallView } = this.getViewSize()
+    const { isSmallView } = this.getViewSize();
 
     if (name.value) {
-      if(isSmallView) {
+      if (isSmallView) {
         searchMapStore.setState({
           search: {
             name: this.selectedDoctor.label,
@@ -50,8 +55,8 @@ export class OnekeySdkSearch {
         });
       } else {
         await searchLocation({
-          specialties: searchMapStore.state.selectedValues.name.specialties,
-        })
+          specialties: searchMapStore.state.selectedValues.name,
+        });
       }
       routerStore.push('/search-result');
     }
@@ -78,8 +83,8 @@ export class OnekeySdkSearch {
             criteria: inputValue,
           })
         : await searchLocation({
-          id: inputValue,
-        });
+            id: inputValue,
+          });
     }
   }, 500);
 
@@ -111,120 +116,137 @@ export class OnekeySdkSearch {
       searchDoctor: [],
       specialties: [],
     });
-  }
+  };
 
   renderContent = data => {
     return (
-      <div class={`main-contain search-content ${this.currentSelectedInput}`}>
+      <div class={`search-content ${this.currentSelectedInput}`}>
         {data && data.map(item => <onekey-sdk-search-address-item item={item} currentSearchText={this.formData[this.currentSelectedInput]} />)}
       </div>
     );
   };
 
-  resetValue = key => {
+  resetValue = (key, focusField = false) => {
     searchMapStore.setState({
       selectedValues: {
         ...searchMapStore.state.selectedValues,
         [key]: null,
       },
     });
+    if (focusField) {
+      this.fields[key].querySelector('input').focus();
+    }
   };
 
   resetInputValue = () => {
-    this.resetValue("name")
-    this.resetValue("address")
-  }
+    this.resetValue('name');
+    this.resetValue('address');
+  };
 
-  onFocusInputSearch = () => {
-    searchMapStore.setState({ searchDoctor: [] });
-  }
+  onFocusInputSearch = e => {
+    const name = (e.target as any).name;
+    if (name) {
+      this.currentSelectedInput = name;
+    }
+  };
+
+  onBlurInputSearch = () => {
+    if (uiStore.state.breakpoint.screenSize === 'mobile') {
+      return;
+    }
+    this.currentSelectedInput = null;
+  };
 
   getViewSize = () => {
-    const isSmallView = ['xs', 'sm', 'md'].includes(configStore.state.viewPortSize);
+    const isSmallView = uiStore.state.breakpoint.screenSize === 'mobile';
     return {
-      isSmallView
-    }
-  }
+      isSmallView,
+    };
+  };
 
   render() {
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
-  
-    const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
-    const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 && [{ name: "Near me" }, ...searchMapStore.state?.specialties];
 
-    const searchData = searchSpecialtiesData || searchDoctorData;
+    const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
+    const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 ? [{ name: 'Near me' }, ...searchMapStore.state?.specialties] : [{ name: 'Near me' }];
+
     const isSmallView = this.getViewSize().isSmallView;
     const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
     const addressInputLoading = this.currentSelectedInput === 'address' && searchMapStore.state.loading;
-    const resetSearchClass = cls("reset-search", {
-      hide: !selectedDoctorName && !selectedAddressName
-    })
+    const resetSearchClass = cls('reset-search', {
+      hide: !selectedDoctorName && !selectedAddressName,
+    });
 
     return (
-      <Host class={`size-${configStore.state.viewPortSize}`}>
-        <div class="main-block search-block">
-          <div class="search-hpc">
-            <onekey-sdk-router-link url="/" class="search-back">
-              <onekey-sdk-icon name="arrow" width={25} height={25} color="black" />
-            </onekey-sdk-router-link>
-            <form class="search-form" onSubmit={this.onSearch}>
-              <div class="search-form-content">
-                <div class="search-form-content-item">
-                  <onekey-sdk-input
-                    postfixIcon={selectedDoctorName ? 'remove' : ''}
-                    name="name"
-                    value={selectedDoctorName}
-                    placeholder="Name, Specialty"
-                    onInput={this.onChange}
-                    autoComplete="off"
-                    loading={nameInputLoading}
-                    onPostfixClick={() => this.resetValue('name')}
-                    autoFocus
-                    onFocus={this.onFocusInputSearch}
-                  >
-                    {!isSmallView && searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
-                  </onekey-sdk-input>
+      <Host>
+        <div class="main-contain">
+          <div class="header-block search-block">
+            <div class="search-hcp">
+              <onekey-sdk-router-link url="/" class="search-back">
+                <onekey-sdk-icon name="arrow" width={25} height={25} color="black" />
+              </onekey-sdk-router-link>
+              <form class="search-form" onSubmit={this.onSearch}>
+                <div class="search-form-content">
+                  <div class="search-form-content-item">
+                    <onekey-sdk-input
+                      ref={(el) => this.fields.name = el}
+                      postfixIcon={selectedDoctorName ? 'remove' : ''}
+                      name="name"
+                      value={selectedDoctorName}
+                      placeholder="Name, Specialty"
+                      onInput={this.onChange}
+                      autoComplete="off"
+                      loading={nameInputLoading}
+                      onPostfixClick={() => this.resetValue('name', true)}
+                      autoFocus
+                      onFocus={this.onFocusInputSearch}
+                      onBlur={this.onBlurInputSearch}
+                    >
+                      {!isSmallView && searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
+                    </onekey-sdk-input>
+                  </div>
+                  <div class="search-form-content-item">
+                    <onekey-sdk-input
+                      ref={(el) => this.fields.address = el}
+                      postfixIcon={selectedAddressName ? 'remove' : ''}
+                      name="address"
+                      value={selectedAddressName}
+                      placeholder="Where? (address, city...)"
+                      onInput={this.onChange}
+                      autoComplete="off"
+                      loading={addressInputLoading}
+                      onPostfixClick={() => this.resetValue('address', true)}
+                      onFocus={this.onFocusInputSearch}
+                      onBlur={this.onBlurInputSearch}
+                    >
+                      {!isSmallView && searchSpecialtiesData.length && this.currentSelectedInput === 'address' && this.renderContent(searchSpecialtiesData)}
+                    </onekey-sdk-input>
+                  </div>
                 </div>
-                <div class="search-form-content-item">
-                  <onekey-sdk-input
-                    postfixIcon={selectedAddressName ? 'remove' : ''}
-                    name="address"
-                    value={selectedAddressName}
-                    placeholder="Near me"
-                    onInput={this.onChange}
-                    autoComplete="off"
-                    loading={addressInputLoading}
-                    onPostfixClick={() => this.resetValue('address')}
-                    onFocus={this.onFocusInputSearch}
-                  >
-                    {!isSmallView && searchSpecialtiesData.length && this.currentSelectedInput === 'address' && this.renderContent(searchSpecialtiesData)}
-                  </onekey-sdk-input>
-                </div>
+                {this.searchText ? (
+                  <onekey-sdk-button primary type="submit" class="search-address-btn">
+                    {this.searchText}
+                  </onekey-sdk-button>
+                ) : (
+                  <onekey-sdk-button primary type="submit" icon="search" class="search-address-btn" />
+                )}
+              </form>
+              <div class={resetSearchClass} onClick={this.resetInputValue}>
+                <span>Reset search</span>
               </div>
-              {this.searchText ? (
-                <onekey-sdk-button primary type="submit" class="search-address-btn">
-                  {this.searchText}
-                </onekey-sdk-button>
-              ) : (
-                <onekey-sdk-button primary type="submit" icon="search" class="search-address-btn" />
-              )}
-            </form>
-            <div class={resetSearchClass} onClick={this.resetInputValue}>
-              <span>Reset search</span>
-            </div>
-            <div>
-              <slot></slot>
-              {this.showSwitchMode && (
-                <div class="switch-mode">
-                  <onekey-sdk-switch-view-mode typeOfLabel="short" />
-                </div>
-              )}
+              <div>
+                <slot></slot>
+                {this.showSwitchMode && (
+                  <div class="switch-mode">
+                    <onekey-sdk-switch-view-mode typeOfLabel="short" />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+          {isSmallView && <div class="body-block">{searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}</div>}
         </div>
-
-        {isSmallView && this.renderContent(searchData)}
       </Host>
     );
   }

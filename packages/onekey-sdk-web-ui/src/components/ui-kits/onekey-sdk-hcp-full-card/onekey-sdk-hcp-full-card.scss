@@ -105,7 +105,7 @@
       cursor: pointer;
       button {
         background-color: var(--onekeysdk-color-vote_down);
-        
+
         svg {
           fill: white;
         }
@@ -151,10 +151,6 @@
       grid-gap: 30px;
     }
 
-    &__website {
-
-    }
-
     &__correct {
       grid-gap: 20px;
       grid-template-columns: auto auto;
@@ -172,11 +168,6 @@
     }
 
     .search-map-wrapper {
-      .main-contain {
-        position: absolute;
-        width: 100%;
-      }
-      
       .main-block {
         &:last-child {
           position: absolute;
@@ -198,7 +189,7 @@
       }
     }
 
-    .search-hpc {
+    .search-hcp {
       padding: 0;
     }
 
@@ -240,14 +231,6 @@
       border-radius: 5px;
     }
 
-    .main-contain {
-      display: grid;
-      justify-content: center;
-      align-items: center;
-      grid-gap: 10px;
-      grid-template-rows: repeat(2, min-content);
-    }
-
     &.list-view-mode {
       .info-section {
         justify-content: start;
@@ -258,9 +241,10 @@
         position: absolute;
         top: 15px;
         right: 15px;
+        z-index: 4;
       }
     }
 
-    
+
   }
 }

@@ -1,8 +1,9 @@
-import { Component, Host, h, Prop, Method } from '@stencil/core';
+import { Component, Host, h, Prop, Method, Element } from '@stencil/core';
 import merge from 'lodash.merge';
-import { ViewportSize } from 'onekey-sdk-web-ui/src/components/ui-kits/onekey-sdk-viewport/types';
-import { getContainerHeightWidthOffset, initAppCSSWidthHeight, applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
-import { configStore } from '../../../core/stores';
+import debounce from 'lodash.debounce';
+import { applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
+import ResizeObserver from 'resize-observer-polyfill';
+import { configStore, uiStore } from '../../../core/stores';
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 
 const defaults = {
@@ -14,7 +15,10 @@ const defaults = {
   shadow: true,
 })
 export class OneKeySDK {
+  @Element() el: HTMLElement;
   @Prop() config: OneKeySDKConfigData;
+
+  parentEl;
 
   @Method()
   updateConfig(patch: any) {
@@ -25,35 +29,44 @@ export class OneKeySDK {
   componentWillLoad() {
     applyDefaultTheme();
     configStore.setState(merge({}, defaults, this.config));
+    const parent = this.el.parentElement;
+    parent.style.padding = "0";
+    // add a position (if not defined) to parent element in order to stretch
+    // the sdk wrapper dimensions using absolute position
+    if (getComputedStyle(parent).position === 'static') {
+      parent.style.position = 'relative';
+    }
+
+    this.parentEl = parent;
+
+    const update = debounce(this.updateParentDims.bind(this), 100);
+
+    update();
+
+    const ro = new ResizeObserver(update);
+
+    ro.observe(parent);
   }
 
-  componentDidLoad() {
-    initAppCSSWidthHeight();
+  updateParentDims() {
+    uiStore.setParentDims(this.parentEl.getBoundingClientRect())
   }
 
   render() {
-    const containerOffset = getContainerHeightWidthOffset();
-    const width = `${configStore.state.viewSDKDimension?.width || containerOffset}px`;
-    const height = `${configStore.state.viewSDKDimension?.height || containerOffset}px`;
+    const { screenSize, orientation } = uiStore.state.breakpoint;
+    if (screenSize === 'unknown') {
+      return null;
+    }
     return (
-      <Host style={{ width, height }}>
-        <onekey-sdk-viewport
-          sizes={[
-            { name: ViewportSize.ExtraSmall, minWidth: 0, maxWidth: 359 },
-            { name: ViewportSize.Small, minWidth: 360, maxWidth: 620 },
-            { name: ViewportSize.Medium, minWidth: 621, maxWidth: 991 },
-            { name: ViewportSize.Large, minWidth: 992, maxWidth: 1199 },
-            { name: ViewportSize.ExtraLarge, minWidth: 1200, maxWidth: 9999 },
-          ]}
-        >
+      <Host>
+        <div class={`wrapper size-${screenSize} orientation-${orientation}`}>
           <onekey-sdk-router>
             <onekey-sdk-route component="onekey-sdk-home" path="/" />
             <onekey-sdk-route component="onekey-sdk-search-result" path="/search-result" />
             <onekey-sdk-route component="onekey-sdk-search" path="/search" />
           </onekey-sdk-router>
-        </onekey-sdk-viewport>
-
-        <onekey-sdk-modal modal={configStore.state.modal} />
+          <onekey-sdk-modal modal={configStore.state.modal} />
+        </div>
       </Host>
     );
   }
