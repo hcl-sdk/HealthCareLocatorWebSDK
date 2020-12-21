@@ -72,10 +72,10 @@
 
                         <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
                             android:id="@+id/nameBar"
-                            android:visibility="gone"
                             android:layout_width="@dimen/default_icon_size_small"
                             android:layout_height="@dimen/default_icon_size_small"
-                            android:layout_gravity="center" />
+                            android:layout_gravity="center"
+                            android:visibility="gone" />
                     </FrameLayout>
                 </LinearLayout>
             </FrameLayout>
@@ -109,14 +109,27 @@
                         app:OneKeyTextColor="OneKeyColorDark"
                         app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
-                    <ImageView
-                        android:id="@+id/ivAddressClear"
-                        android:layout_width="@dimen/default_icon_size"
-                        android:layout_height="@dimen/default_icon_size"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/default_padding_smaller"
-                        android:src="@drawable/baseline_close_black_24dp"
-                        app:tint="@color/gray" />
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivAddressClear"
+                            android:layout_width="@dimen/default_icon_size"
+                            android:layout_height="@dimen/default_icon_size"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:padding="@dimen/default_padding_smaller"
+                            android:src="@drawable/baseline_close_black_24dp"
+                            app:tint="@color/gray" />
+
+
+                        <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                            android:id="@+id/addressLoading"
+                            android:layout_width="@dimen/default_icon_size_small"
+                            android:layout_height="@dimen/default_icon_size_small"
+                            android:layout_gravity="center"
+                            android:visibility="gone" />
+                    </FrameLayout>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

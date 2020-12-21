@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.fragments.profile
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -63,6 +64,9 @@ class OneKeyProfileFragment :
             viewModel.activity.observe(this, Observer {
                 activityDetail = it
                 fillData(savedInstanceState)
+                context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+                    viewModel.storeConsultedProfile(this, it)
+                }
             })
         } else {
             fillData(savedInstanceState)

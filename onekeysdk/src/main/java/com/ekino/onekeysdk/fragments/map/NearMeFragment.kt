@@ -225,9 +225,6 @@ class NearMeFragment : AppFragment<NearMeFragment, NearMeViewModel>(R.layout.fra
     }
 
     fun navigateToHCPProfile(obj: ActivityObject) {
-        context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
-            viewModel.storeConsultedProfile(this, obj)
-        }
         navigateToProfile = true
         oneKeyViewCustomObject.also {
             (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,

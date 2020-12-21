@@ -159,8 +159,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 controller.animateTo(position, 15.0, 2000)
             }
             if (this@MapFragment.boundingBox) {
-                val position = activities[0].workplace?.address?.location?.getGeoPoint()
-                        ?: GeoPoint(0.0, 0.0)
+                val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint() ?: return
                 controller.setCenter(position)
                 controller.animateTo(position, 10.0, 2000)
             }

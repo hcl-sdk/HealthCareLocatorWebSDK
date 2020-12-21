@@ -117,10 +117,16 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             specialityEvent.observe(this@SearchFragment, Observer {
                 setSpecialityClearState(it)
                 setError(specialityWrapper)
+                if (edtName.hasFocus())
+                    rvSpeciality.visibility = it.getVisibility()
             })
             addressEvent.observe(this@SearchFragment, Observer {
                 setAddressClearState(it)
                 setError(addressWrapper)
+                if (edtWhere.text.toString() == "Near me") {
+                    isExpand = false
+                    selectionWrapper.collapse(true)
+                }
             })
         }
         rvAddress.apply {
@@ -130,6 +136,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         edtName.onFocusChangeListener = this
         edtName.requestFocus()
         initIndividual()
+        initAddress()
         KeyboardUtils.showSoftKeyboard(activity)
     }
 
@@ -158,6 +165,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             }
             R.id.ivAddressClear -> {
                 edtWhere.setText("")
+                locationSelectedWrapper.visibility = View.GONE
                 setAddressClearState(false)
                 selectedPlace = null
             }
@@ -205,6 +213,12 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         })
     }
 
+    private fun initAddress() {
+        viewModel.addressState.observe(this, Observer {
+            showAddressLoading(it)
+        })
+    }
+
     private fun setNearMeText() {
         currentLocation?.apply {
             selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
@@ -227,7 +241,9 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
         currentLocation = location?.getCurrentLocation(currentLocation)
-        if (currentLocation != null && edtWhere.hasFocus()) {
+        if (currentLocation != null && ((edtWhere.hasFocus()) ||
+                        (edtName.hasFocus() && edtName.text.toString().isEmpty()))
+                && edtWhere.text.toString() != "Near me") {
             isExpand = true
             selectionWrapper.expand(true)
         } else {
@@ -250,14 +266,21 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
-        if (v?.id == edtName.id) {
+        if (v?.id == edtName.id && edtName.text.toString().isNotEmpty()) {
             rvSpeciality.visibility = hasFocus.getVisibility()
+        } else {
+            rvSpeciality.visibility = View.GONE
         }
     }
 
     private fun showNameProgressBar(state: Boolean) {
         nameBar.visibility = state.getVisibility()
         setSpecialityClearState(!state)
+    }
+
+    private fun showAddressLoading(state: Boolean) {
+        addressLoading.visibility = state.getVisibility()
+        setAddressClearState(!state)
     }
 
     fun clearIndividualData() {

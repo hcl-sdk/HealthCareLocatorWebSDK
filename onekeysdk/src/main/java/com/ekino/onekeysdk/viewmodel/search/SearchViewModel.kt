@@ -34,6 +34,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     val permissionGranted by lazy { MutableLiveData<Boolean>() }
     val individuals by lazy { MutableLiveData<ArrayList<Any>>() }
     val individualsState by lazy { MutableLiveData<Boolean>() }
+    val addressState by lazy { MutableLiveData<Boolean>() }
 
     private val executor: LocationAPI by lazy {
         OneKeyMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
@@ -102,12 +103,15 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     }
 
     private fun searchAddress() {
+        addressState.postValue(true)
         searchDisposable?.clear()
         searchDisposable?.add(
                 executor.searchAddress(searchParameters).delay(300, TimeUnit.MILLISECONDS)
                         .compose(compose()).subscribe({
+                            addressState.postValue(false)
                             places.postValue(it)
                         }, {
+                            addressState.postValue(false)
                             places.postValue(arrayListOf())
                         })
         )
