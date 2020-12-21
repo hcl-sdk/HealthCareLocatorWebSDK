@@ -3,6 +3,7 @@ import { searchDoctor, searchLocation } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
+import { searchGeoMap } from '../../../core/api/searchGeo';
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -54,8 +55,10 @@ export class OnekeySdkSearch {
           },
         });
       } else {
+        const { lat, lng } = this.selectedAddress
         await searchLocation({
-          specialties: searchMapStore.state.selectedValues.name,
+          specialties: searchMapStore.state.selectedValues?.name?.specialties,
+          location: searchMapStore.state.selectedValues?.address?.lat ? { lat, lon: lng } : {},
         });
       }
       routerStore.push('/search-result');
@@ -82,7 +85,7 @@ export class OnekeySdkSearch {
         ? await searchDoctor({
             criteria: inputValue,
           })
-        : await searchLocation({
+        : await searchGeoMap({
             id: inputValue,
           });
     }
@@ -90,6 +93,7 @@ export class OnekeySdkSearch {
 
   @Listen('selectAddress')
   onSelectAddress(e) {
+    console.log(e)
     if (this.currentSelectedInput === 'address') {
       this.selectedAddress = { ...e.detail };
       searchMapStore.setState({
@@ -154,7 +158,7 @@ export class OnekeySdkSearch {
     if (uiStore.state.breakpoint.screenSize === 'mobile') {
       return;
     }
-    this.currentSelectedInput = null;
+    // this.currentSelectedInput = null;
   };
 
   getViewSize = () => {
@@ -168,8 +172,8 @@ export class OnekeySdkSearch {
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
 
-    const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
-    const searchSpecialtiesData = searchMapStore.state?.specialties.length > 0 ? [{ name: 'Near me' }, ...searchMapStore.state?.specialties] : [{ name: 'Near me' }];
+    const selectedAddressName = searchMapStore.state.selectedValues?.address?.name;
+    const searchSpecialtiesData = searchMapStore.state?.searchGeo.length > 0 ? [{ name: 'Near me' }, ...searchMapStore.state?.searchGeo] : [{ name: 'Near me' }];
 
     const isSmallView = this.getViewSize().isSmallView;
     const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
