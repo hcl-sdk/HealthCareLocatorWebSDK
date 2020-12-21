@@ -10,7 +10,6 @@ export async function searchLocation(variables) {
     apiKey: "1",
     first: 10,
     offset: 0,
-    specialties: [],
     county: "",
     ...variables,
   })

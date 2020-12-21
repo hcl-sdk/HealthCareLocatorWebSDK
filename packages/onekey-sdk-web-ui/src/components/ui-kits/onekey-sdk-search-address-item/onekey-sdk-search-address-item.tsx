@@ -38,9 +38,9 @@ export class OnekeySdkSearchItem {
   render() {
     return (
       <Host>
-        <div role="button" class="search-address-item" onClick={() => this.selectAddress.emit(this.item)}>
+        <div class="search-address-item"  role="button" onClick={() => this.selectAddress.emit(this.item)}>
           <span class={`search-address-item-text ${this.activated ? 'active': ''}`}>
-            { this.item.name && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} /> }
+            { this.item.name && this.currentSearchText && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} /> }
             { this.item.professionalType && <span class="specialty">{this.item.professionalType }</span> }
             { this.item.address && <span class="address">{this.item.address}</span> }
           </span>

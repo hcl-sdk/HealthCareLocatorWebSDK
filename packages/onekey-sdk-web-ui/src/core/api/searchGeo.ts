@@ -1,15 +1,22 @@
 import axios from 'axios';
+import { id } from 'date-fns/locale';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { searchMapStore } from '../stores';
 
-export async function searchGeoMap(value: string) {
+export async function searchGeoMap({ id }) {
   searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] })
   const provider = new OpenStreetMapProvider();
 
-  const results = await provider.search({ query: value });
+  const results = await provider.search({ query: id });
+
+  const data = results.map(elm => ({
+    name: elm.raw.display_name,
+    lat: elm.raw.lat,
+    lng: elm.raw.lon
+  }))
 
   searchMapStore.setState({
-    searchGeo: results,
+    searchGeo: data,
     loading: false
   })
 }
