@@ -21,7 +21,7 @@
   }
 
   .main-info {
-    padding: 10px;
+    padding: 16px;
     display: grid;
     grid-gap: 10px;
     position: relative;
@@ -67,7 +67,7 @@
 
   .info-section  {
     border-top: 1px solid var(--onekeysdk-color-card_border);
-    padding: 10px 0;
+    padding: 16px 0;
     display: grid;
     grid-gap: 10px;
 
@@ -82,9 +82,10 @@
 
   .info-section-header {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     grid-gap: 10px;
-    align-items: center;
+    align-content: baseline;
+    justify-content: start;
 
     &__title {
       color: var(--onekeysdk-color-secondary);
@@ -260,7 +261,7 @@
       border-radius: 5px;
     }
 
-    &.list-view-mode {
+    .list-view-mode {
       .info-section {
         justify-content: start;
         grid-template-columns: 0.4fr 0.6fr;

@@ -23,7 +23,7 @@ export class OnekeySdkModal {
 
     const modalClass = cn("modal-class", {})
     return (
-      <Host class={`size-${uiStore.state.breakpoint}`}>
+      <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class="modal-container">
           <div class={modalClass}>
             <div class="modal-title">

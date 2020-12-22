@@ -244,6 +244,11 @@
         margin-right: 10px;
         width: auto;
       }
+
+      .search-hcp {
+        justify-content: space-between;
+        padding: 0 10px;
+      }
     }
 
     .search-result__wrapper {
@@ -315,6 +320,11 @@
             border-width: 1px;
           }
         }
+      }
+
+      .search-hcp {
+        justify-content: space-between;
+        padding: 0 10px;
       }
     }
 

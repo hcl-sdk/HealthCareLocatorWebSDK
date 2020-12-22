@@ -40,6 +40,7 @@
     "leaflet.markercluster": "^1.4.1",
     "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2",
+    "lodash.sortby": "^4.7.0",
     "memo-decorator": "^2.0.1",
     "onekey-sdk-core": "*",
     "resize-observer-polyfill": "^1.5.1"

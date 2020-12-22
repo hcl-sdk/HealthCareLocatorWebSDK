@@ -1,6 +1,7 @@
 import { Component, Host, h } from '@stencil/core';
 import cn from 'classnames';
 import { configStore, searchMapStore, uiStore } from 'onekey-sdk-web-ui/src/core/stores';
+import sortBy from 'lodash.sortby'
 
 @Component({
   tag: 'onekey-sdk-sort',
@@ -10,11 +11,20 @@ import { configStore, searchMapStore, uiStore } from 'onekey-sdk-web-ui/src/core
 export class OnekeySdkSort {
   onSubmit = (e) => {
     e.preventDefault()
+    const { specialtiesRaw: specialties, sortValues } =  searchMapStore.state
+
+    const sortByField = Object.keys(sortValues)
+    .filter(elm => sortValues[elm])
+
+    const sortedSpecialties= sortBy(specialties, sortByField)
+    console.log({ sortValues, sortedSpecialties: sortedSpecialties, sortByField })
+
+    searchMapStore.setState({
+      specialties: sortBy(specialties, sortByField)
+    })
+
     configStore.setState({
       modal: undefined
-    })
-    searchMapStore.setState({
-      sortValues: {...searchMapStore.state.sortValues}
     })
   }
 
@@ -43,7 +53,7 @@ export class OnekeySdkSort {
     const onekeySDKSortClass = cn("onekey-sdk-sort", {})
     const { name, relevance, distance } = searchMapStore.state.sortValues
     return (
-      <Host class={`size-${uiStore.state.breakpoint}`}>
+      <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class={onekeySDKSortClass}>
           <form class="sort-body" onSubmit={this.onSubmit}>
             <div class="sort-option">
