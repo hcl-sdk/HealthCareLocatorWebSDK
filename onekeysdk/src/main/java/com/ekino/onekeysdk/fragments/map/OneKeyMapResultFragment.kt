@@ -13,7 +13,7 @@ import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getFragmentBy
 import com.ekino.onekeysdk.extensions.getScreenWidth
 import com.ekino.onekeysdk.extensions.postDelay
-import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import kotlinx.android.synthetic.main.fragment_map_result.*
 
@@ -21,16 +21,18 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     companion object {
         fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject,
-                        locations: ArrayList<OneKeyLocation>) = OneKeyMapResultFragment().apply {
-            this.locations = locations
+                        activities: ArrayList<ActivityObject>) = OneKeyMapResultFragment().apply {
+            this.activities = activities
             this.oneKeyViewCustomObject = oneKeyViewCustomObject
         }
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, locations) }
-    private var locations: ArrayList<OneKeyLocation> = arrayListOf()
+    private val mapFragment by lazy {
+        MapFragment.newInstance(oneKeyViewCustomObject, activities, 0f, true)
+    }
+    private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,11 +49,11 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
         rvLocations.apply {
             layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter
-            searchAdapter.setData(locations)
+            searchAdapter.setData(activities)
         }
         rvLocations.postDelay({
             getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
-                val selectedPosition = locations.indexOfFirst { it.id == id }
+                val selectedPosition = activities.indexOfFirst { it.id == id }
                 if (selectedPosition >= 0) {
                     rvLocations.smoothScrollToPosition(selectedPosition)
                     searchAdapter.setSelectedPosition(selectedPosition)
@@ -60,7 +62,8 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
         }, 1000L)
 
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
-            (parentFragment as? FullMapFragment)?.navigateToHCPProfile(oneKeyLocation)
+            if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
+            else if (parentFragment is NearMeFragment) (parentFragment as NearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
         btnCurrentLocation.setOnClickListener(this)
     }
@@ -77,5 +80,10 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
         } as? MapFragment
         else null
 
+    }
+
+    fun updateActivities(activities: ArrayList<ActivityObject>) {
+        this.activities = activities
+        searchAdapter.setData(activities)
     }
 }

@@ -1,8 +1,12 @@
 package com.ekino.onekeysdk.extensions
 
 import android.content.Context
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
@@ -18,4 +22,12 @@ fun String.getColor(): Int {
     return if (!this.contains("#")) {
         Color.parseColor("#43B12B")
     } else Color.parseColor(this)
+}
+
+fun Drawable.setColorFilter(color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+    } else {
+        setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    }
 }

@@ -8,19 +8,141 @@ query getProfile($apiKey: String!, $id: ID!) {
         maidenName
         nickname
         suffixName
-        professionalType{
-            label
-            key
-        }
-        specialties{
-            label
-            key
-        }
-        lastUpdateDate
-        webAddress
-        mainActivity{
+
+    }
+}
+query getIndividualByName($apiKey: String!, $criteria:String!, $locale:String, $first:Int!, $offset:Int!){
+    individualsByName(apiKey:$apiKey, criteria:$criteria, locale: $locale, first:$first, offset:$offset){
+        individuals {
             id
-            phone
+            firstName
+            lastName
+            mailingName
+            professionalType { label }
+            specialties{
+                code
+                label
+            }
+            mainActivity{
+                id
+                workplace {
+                    address {
+                        id
+                        longLabel
+                        country
+                        postalCode
+                        county{
+                            label
+                        }
+                        city{
+                            label
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query getActivities($apiKey: String!, $locale:String, $first:Int!, $offset:Int!,
+    $criteria:String,$specialties:[String!], $location:GeopointQuery){
+    activities(apiKey:$apiKey,locale: $locale, first: $first, offset:$offset,
+        criteria:$criteria, specialties:$specialties, location:$location){
+        distance
+        activity{
+            id
+            workplace{
+                id
+                name
+                address{
+                    id
+                    longLabel
+                    country
+                    postalCode
+                    county{
+                        label
+                    }
+                    city{
+                        label
+                    }
+                    location{
+                        lat
+                        lon
+                    }
+                }
+            }
+            individual{
+                id
+                lastName
+                firstName
+                professionalType{label}
+                mailingName
+                specialties{
+                    label
+                }
+            }
+        }
+    }
+}
+
+query getActivityById($apiKey: String!, $id:ID!, $locale:String){
+    activityByID(apiKey:$apiKey, id:$id, locale: $locale){
+        id
+        phone
+        role{
+            code
+            label
+        }
+        fax
+        webAddress
+        workplace{
+            id
+            name
+            localPhone
+            emailAddress
+            address{
+                id
+                longLabel
+                country
+                postalCode
+                buildingLabel
+                county{
+                    label
+                }
+                city{
+                    label
+                }
+                location{
+                    lat
+                    lon
+                }
+            }
+        }
+        individual{
+            id
+            firstName
+            lastName
+            middleName
+            mailingName
+            middleName
+            nickname
+            suffixName
+            professionalType{label}
+            specialties{
+                code
+                label
+            }
+        }
+    }
+}
+query getCodeByLabel($apiKey: String!, $first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[String!]!){
+    codesByLabel(apiKey: $apiKey,  first: $first,offset: $offset,
+        criteria: $criteria,
+        codeTypes: $codeTypes) {
+        codes {
+            id
+            lisCode
+            longLbl
         }
     }
 }

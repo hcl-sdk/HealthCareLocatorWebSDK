@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk
 
+import com.ekino.onekeysdk.custom.text.OneKeyTextView
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.extensions.getDummyHCP
 import org.junit.Test

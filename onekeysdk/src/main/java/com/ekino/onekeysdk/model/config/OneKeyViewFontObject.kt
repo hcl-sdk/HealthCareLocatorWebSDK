@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.model.config
 
+import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -10,32 +11,34 @@ import android.os.Parcelable
  * @param size is font size to make the text small or big.
  */
 data class OneKeyViewFontObject
-private constructor(var id: String = "default",
-                    var fontName: String = "fonts/Roboto-Regular.ttf",
-                    var size: Int = 16,
-                    var title: String = "Default") : Parcelable {
+private constructor(var id: String = "default", var fontName: String = "fonts/Roboto-Regular.ttf",
+                    var size: Int = 14, var title: String = "Default", var weight: Int = Typeface.NORMAL) : Parcelable {
 
-    constructor(parcel: Parcel) : this(parcel.readString() ?: "defau[String] lt",
+    constructor(parcel: Parcel) : this(parcel.readString() ?: "default",
             parcel.readString() ?: "fonts/Roboto-Regular.ttf",
-            parcel.readInt() ?: 16, parcel.readString() ?: "Default")
+            if (parcel.readInt() == 0) 14 else parcel.readInt(), parcel.readString() ?: "Default",
+            parcel.readInt())
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.apply {
             writeString(id)
             writeString(fontName)
             writeInt(size)
+            writeInt(weight)
         }
     }
 
     data class Builder(var id: String = "default",
                        var fontName: String = "fonts/Roboto-Regular.ttf",
-                       var size: Int = 16, var title: String = "Default") {
+                       var size: Int = 14, var title: String = "Default",
+                       var weight: Int = Typeface.NORMAL) {
         fun id(id: String) = apply { this.id = id }
         fun fontName(fontName: String) = apply { this.fontName = fontName }
         fun size(size: Int) = apply { this.size = size }
         fun title(title: String) = apply { this.title = title }
+        fun weight(weight: Int) = apply { this.weight = weight }
 
-        fun build() = OneKeyViewFontObject(id, fontName, size, title)
+        fun build() = OneKeyViewFontObject(id, fontName, size, title, weight)
     }
 
     companion object CREATOR : Parcelable.Creator<OneKeyViewFontObject> {

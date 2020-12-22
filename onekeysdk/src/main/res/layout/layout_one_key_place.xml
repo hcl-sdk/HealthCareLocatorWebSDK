@@ -42,6 +42,7 @@
                 android:textSize="@dimen/default_text" />
 
             <View
+                android:id="@+id/bottomLine"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:alpha="0.1"

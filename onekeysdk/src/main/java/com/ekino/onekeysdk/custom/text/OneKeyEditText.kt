@@ -8,6 +8,9 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.IOneKeyView
 import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.extensions.getColor
+import com.ekino.onekeysdk.extensions.getEnum
+import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.utils.FontUtil
 import com.ekino.onekeysdk.utils.OneKeyLog
 
@@ -29,73 +32,91 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
     }
 
     override fun init(attributeSet: AttributeSet?) {
-        var font: String? = ""
-        var boldText: Boolean = false
-        var smallStyle: Boolean = false
         var forceTextSize = false
-
-        var title1Style = false
-        var title2Style = false
-        var title3Style = false
-        var searchInputStyle = false
-        var buttonStyle = false
+        var textStyle: OneKeyTextView.OneKeyTextStyle = OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault
+        var colorStyle: OneKeyTextView.OneKeyColorStyle = OneKeyTextView.OneKeyColorStyle.NONE
+        var fontWeight = OneKeyTextView.OneKeyFontWeight.NORMAL
         if (attributeSet != null) {
             var typeArray: TypedArray =
                     context.obtainStyledAttributes(attributeSet, R.styleable.OneKeyTextView)
-            font = typeArray.getString(R.styleable.OneKeyTextView_setFont)
-            boldText = typeArray.getBoolean(R.styleable.OneKeyTextView_boldText, false)
-            forceTextSize = typeArray.getBoolean(R.styleable.OneKeyTextView_forceTextSize, false)
-            smallStyle = typeArray.getBoolean(R.styleable.OneKeyTextView_smallStyle, false)
-
-            title1Style = typeArray.getBoolean(R.styleable.OneKeyTextView_title1Style, false)
-            title2Style = typeArray.getBoolean(R.styleable.OneKeyTextView_title2Style, false)
-            title3Style = typeArray.getBoolean(R.styleable.OneKeyTextView_title3Style, false)
-            searchInputStyle = typeArray.getBoolean(R.styleable.OneKeyTextView_searchInputStyle, false)
-            buttonStyle = typeArray.getBoolean(R.styleable.OneKeyTextView_OneKey_buttonStyle, false)
+            textStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextStyle, OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault)
+            colorStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextColor, OneKeyTextView.OneKeyColorStyle.NONE)
+            fontWeight = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyFontWeight, OneKeyTextView.OneKeyFontWeight.NORMAL)
             typeArray.recycle()
         }
-        setFont(boldText, title1Style, title2Style, title3Style, buttonStyle, smallStyle, searchInputStyle)
-        setFontSize(forceTextSize, smallStyle, title1Style, title2Style, title3Style, buttonStyle, searchInputStyle)
+        mapFontForView(textStyle, forceTextSize)
+        mapTextColor(colorStyle)
         includeFontPadding = false
     }
 
-    private fun setFont(boldText: Boolean, title1Style: Boolean, title2Style: Boolean, title3Style: Boolean,
-                        buttonStyle: Boolean, smallStyle: Boolean, searchInputStyle: Boolean) {
+    private fun mapFontForView(textStyle: OneKeyTextView.OneKeyTextStyle, forceTextSize: Boolean = false) {
+        when (textStyle) {
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontDefault, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleTitleMain ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontTitleMain, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleTitleSecondary ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontTitleSecondary, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchResultTotal ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSearchResultTotal, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchResultTitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSearchResultTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleResultTitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontResultTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleResultSubtitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontResultSubTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileTitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontProfileTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileSubtitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontProfileSubTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileTitleSection ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontProfileTitleSection, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleCardTitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontCardTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleModalTitle ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontModalTitle, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchInput ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSearchInput, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleButton ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontButton, forceTextSize)
+            OneKeyTextView.OneKeyTextStyle.OneKeyStyleSmall ->
+                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSmall, forceTextSize)
+        }
+    }
+
+    private fun setFont(font: OneKeyViewFontObject, forceTextSize: Boolean = false) {
         try {
-            var f = if (boldText) ThemeExtension.getInstance().getThemeConfiguration().fontBold
-            else {
-                when {
-                    title1Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle1Size.fontName
-                    title2Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.fontName
-                    title3Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle3Size.fontName
-                    searchInputStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSearchInputSize.fontName
-                    buttonStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontButton.fontName
-                    smallStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSmallSize.fontName
-                    else -> ThemeExtension.getInstance().getThemeConfiguration().fontDefaultSize.fontName
-                }
-            }
+            var f = font.fontName
             if (TextUtils.isEmpty(f)) {
                 f = context.getString(R.string.roboto_regular)
             }
-            typeface = f?.let { FontUtil.getFont(context, it) }
+            setTypeface(f?.let { FontUtil.getFont(context, it) }, font.weight)
+            setFontSize(forceTextSize, font.size)
         } catch (e: Exception) {
             OneKeyLog.e(e.localizedMessage)
         }
     }
 
-    private fun setFontSize(forceTextSize: Boolean = false, smallStyle: Boolean = false,
-                            title1Style: Boolean, title2Style: Boolean, title3Style: Boolean,
-                            buttonStyle: Boolean, searchInputStyle: Boolean) {
+    private fun setFontSize(forceTextSize: Boolean = false, size: Int) {
         if (forceTextSize) return
-        textSize = when {
-            title1Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle1Size.size.toFloat()
-            title2Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle2Size.size.toFloat()
-            title3Style -> ThemeExtension.getInstance().getThemeConfiguration().fontTitle3Size.size.toFloat()
-            buttonStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontButton.size.toFloat()
-            searchInputStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSearchInputSize.size.toFloat()
-            smallStyle -> ThemeExtension.getInstance().getThemeConfiguration().fontSmallSize.size.toFloat()
-            else -> ThemeExtension.getInstance().getThemeConfiguration().fontDefaultSize.size.toFloat()
+        textSize = size.toFloat()
+    }
+
+    private fun mapTextColor(colorStyle: OneKeyTextView.OneKeyColorStyle) {
+        val theme = ThemeExtension.getInstance().getThemeConfiguration()
+        when (colorStyle) {
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorPrimary -> setTextColor(theme.colorPrimary.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorSecondary -> setTextColor(theme.colorSecondary.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorDark -> setTextColor(theme.colorDark.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorGrey -> setTextColor(theme.colorGrey.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorGreyDark -> setTextColor(theme.colorGreyDark.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorGreyDarker -> setTextColor(theme.colorGreyDarker.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorGreyLight -> setTextColor(theme.colorGreyLight.getColor())
+            OneKeyTextView.OneKeyColorStyle.OneKeyColorGreyLighter -> setTextColor(theme.colorGreyLighter.getColor())
+            else -> {
+            }
         }
+        setHintTextColor(theme.colorGreyLight.getColor())
     }
 
 }

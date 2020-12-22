@@ -1,6 +1,8 @@
 package com.ekino.onekeysdk.sample.fragments
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +19,9 @@ import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.SpinnerInteractionListener
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
-import com.ekino.onekeysdk.utils.OneKeyLog
 import kotlinx.android.synthetic.main.fragment_setting.*
 
-class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener {
+class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener, View.OnClickListener {
     companion object {
         fun newInstance() = SettingFragment()
     }
@@ -53,6 +54,13 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         themeSpinner.setOnTouchListener(listener)
         themeSpinner.setSelection(selectedTheme)
         initHomeSpinner()
+
+        tvResetDefault.text = tvResetDefault.text.run {
+            val span = SpannableString(this)
+            span.setSpan(UnderlineSpan(), 0, this.length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+            span
+        }
+        tvResetDefault.setOnClickListener(this)
     }
 
     private fun initHomeSpinner() {
@@ -123,6 +131,35 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             themeObject.markerSelectedHexColor = selectedMarker
             themeObject.fontBase = fontBase
             themeObject.fontTitle = fontTitle
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.tvResetDefault -> {
+                resetDefault()
+            }
+        }
+    }
+
+    private fun resetDefault(){
+        SampleApplication.sharedPreferences.edit {
+            putString(Pref.fontDefault, "") 
+            putString(Pref.fontTitle1, "")
+            putString(Pref.fontButton, "")
+            putString(Pref.fontTitle2, "")
+            putString(Pref.fontTitle3, "")
+            putString(Pref.fontSmall, "")
+            putString(Pref.fontSearchInput, "")
+            putString(Pref.fontSearchResultTitle, "")
+            putString(Pref.fontResultTitle, "")
+            putString(Pref.fontResultSubTitle, "")
+            putString(Pref.fontProfileTitle, "")
+            putString(Pref.fontProfileSubTitle, "")
+            putString(Pref.fontProfileTitleSection, "")
+            putString(Pref.fontCardTitle, "")
+            putString(Pref.fontModalTitle, "")
+            putString(Pref.fontSortCriteria, "")
         }
     }
 }

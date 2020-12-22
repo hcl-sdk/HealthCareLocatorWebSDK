@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.sample.utils
 
+import com.ekino.onekeysdk.sample.model.ColorObject
 import com.ekino.onekeysdk.sample.model.FontObject
 import com.ekino.onekeysdk.sample.model.ThemeObject
 
@@ -14,15 +15,27 @@ object Pref {
     const val selectedMarkerColorPref = "Pref.selectedMarkerColorPref"
     const val fontDefaultSize = "Pref.fontDefaultSize"
     const val fontSearchInputSize = "Pref.fontSearchInputSize"
-    const val fontDefault = "Pref.fontDefault"
+    const val fontDefault = "Pref.default"
     const val fontBase = "Pref.fontBase"
     const val fontTitle = "Pref.fontTitle"
-    const val fontTitle1 = "Pref.fontTitle1"
-    const val fontTitle2 = "Pref.fontTitle2"
-    const val fontTitle3 = "Pref.fontTitle3"
-    const val fontSmall = "Pref.fontSmall"
-    const val fontSearchInput = "Pref.fontSearchInput"
-    const val fontButton = "Pref.fontButton"
+    const val fontTitle1 = "Pref.titleMain"
+    const val fontTitle2 = "Pref.titleSecondary"
+    const val fontTitle3 = "Pref.searchResultTotal"
+    const val fontSmall = "Pref.small"
+    const val fontSearchInput = "Pref.searchInput"
+    const val fontButton = "Pref.button"
+
+    const val fontSearchResultTitle = "Pref.fontSearchResultTitle"
+    const val fontResultTitle = "Pref.fontResultTitle"
+    const val fontResultSubTitle = "Pref.fontResultSubTitle"
+    const val fontProfileTitle = "Pref.fontProfileTitle"
+    const val fontProfileSubTitle = "Pref.fontProfileSubTitle"
+    const val fontProfileTitleSection = "Pref.fontProfileTitleSection"
+    const val fontCardTitle = "Pref.fontCardTitle"
+    const val fontModalTitle = "Pref.fontModalTitle"
+    const val fontSortCriteria = "Pref.fontSortCriteria"
+    const val colors = "Pref.colors"
+
     const val home = "Pref.home"
 }
 
@@ -37,4 +50,20 @@ fun getFonts(): ArrayList<FontObject> = arrayListOf<FontObject>().apply {
     add(FontObject("Roboto", "fonts/Roboto-Regular.ttf"))
     add(FontObject("Montserrat", "fonts/Montserrat-Regular.ttf"))
     add(FontObject("Impact", "fonts/impact.ttf"))
+}
+
+fun getColorList(): ArrayList<ColorObject> = arrayListOf<ColorObject>().apply {
+    add(ColorObject("colorPrimary", "Primary", "#43b02a"))
+    add(ColorObject("colorSecondary", "Secondary", "#00a3e0"))
+    add(ColorObject("colorButtonBackground", "Button Background", "#fcfcfc"))
+    add(ColorObject("colorButtonAcceptBackground", "Button Accept Background", "#43b02a"))
+    add(ColorObject("colorButtonDiscardBackground", "Button Discard Background", "#43b02a"))
+    add(ColorObject("colorButtonBorder", "Button Border", "#dedede"))
+    add(ColorObject("colorCardBorder", "Card Border", "#dedede"))
+    add(ColorObject("colorMarker", "Marker", "#fe8a12"))
+    add(ColorObject("colorMarkerSelected", "Marker Selected", "#fd8670"))
+    add(ColorObject("colorViewBackground", "View Background", "#f8f9fa"))
+    add(ColorObject("colorListBackground", "List Background", "#f8f9fa"))
+    add(ColorObject("colorVoteUp", "Vote Up", "#43b02a"))
+    add(ColorObject("colorVoteDown", "Vote Down", "#ff0000"))
 }

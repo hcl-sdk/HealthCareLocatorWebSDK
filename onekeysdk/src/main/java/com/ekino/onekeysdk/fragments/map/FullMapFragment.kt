@@ -1,13 +1,14 @@
 package com.ekino.onekeysdk.fragments.map
 
 import android.content.Context
+import android.location.Location
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import base.extensions.addFragment
+import base.extensions.pushFragment
 import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
@@ -15,7 +16,9 @@ import base.fragments.IFragmentState
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.fragments.search.SearchFragment
+import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.OneKeyConstant
@@ -24,36 +27,54 @@ import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
 class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
-        View.OnClickListener {
+    View.OnClickListener {
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, s: String,
-                        p: OneKeyPlace?, l: ArrayList<OneKeyLocation>) =
-                FullMapFragment().apply {
-                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
-                    speciality = s
-                    place = p
-                    locations.clear()
-                    locations.addAll(l)
-                }
+        fun newInstance(
+            oneKeyViewCustomObject: OneKeyViewCustomObject, c: String, s: OneKeySpecialityObject?,
+            p: OneKeyPlace?, listIds: ArrayList<String> = arrayListOf(),
+            isBasicNearMe: Boolean = false, cLocation: Location? = null
+        ) =
+            FullMapFragment().apply {
+                this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                speciality = s
+                criteria = c
+                specialities = listIds
+                place = p
+                currentLocation = cLocation
+                basicNearMe = isBasicNearMe
+                if (p?.placeId == "near_me") activeScreen = 1
+            }
 
-        private var speciality: String = ""
+        private var criteria: String = ""
+        private var speciality: OneKeySpecialityObject? = null
         private var place: OneKeyPlace? = null
-        private var locations: ArrayList<OneKeyLocation> = arrayListOf()
         private var navigateToProfile = false
         private var activeScreen = 0
+        private var currentLocation: Location? = null
+        private var specialities = arrayListOf<String>()
+        private var basicNearMe = false
 
         fun clear() {
-            speciality = ""
+            criteria = ""
+            speciality = null
             place = null
-            locations.clear()
             navigateToProfile = false
             activeScreen = 0
+            currentLocation = null
         }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
-    private val fragmentState: IFragmentState by lazy { FragmentState(childFragmentManager, R.id.resultContainer) }
+    private var oneKeyViewCustomObject: OneKeyViewCustomObject =
+        ThemeExtension.getInstance().getThemeConfiguration()
+    private val fragmentState: IFragmentState by lazy {
+        FragmentState(
+            childFragmentManager,
+            R.id.resultContainer
+        )
+    }
     private var resultFragments: ArrayList<IFragment> = arrayListOf()
+    private var activities = arrayListOf<ActivityObject>()
+    private var sorting: Int = 0
     override val viewModel: FullMapViewModel = FullMapViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +83,14 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
-            val list = savedInstanceState.getParcelableArrayList<OneKeyLocation>(OneKeyConstant.locations)
-            if (!list.isNullOrEmpty())
-                locations = list
-            speciality = savedInstanceState.getString(OneKeyConstant.speciality, "")
+            speciality = savedInstanceState.getParcelable(OneKeyConstant.speciality)
+            specialities = savedInstanceState.getStringArrayList("specialities") ?: arrayListOf()
+            criteria = savedInstanceState.getString(criteria, "")
             place = savedInstanceState.getParcelable(OneKeyConstant.place)
             navigateToProfile = savedInstanceState.getBoolean(OneKeyConstant.navigateToProfile)
+            activities = savedInstanceState.getParcelableArrayList("activities") ?: arrayListOf()
+            sorting = savedInstanceState.getInt("sorting", 0)
+            basicNearMe = savedInstanceState.getBoolean("basicNearMe", false)
         }
         if (!navigateToProfile)
             childFragmentManager.fragments.filter {
@@ -76,26 +99,59 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             }.map { childFragmentManager.beginTransaction().remove(it).commit() }
         else navigateToProfile = false
 
+        newSearchWrapper.visibility = basicNearMe.getVisibility()
+        if (basicNearMe) {
+            ivSearch.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 15f)
+        }
+
         btnBack.setOnClickListener(this)
-        initHeader()
-        setModeButtons(activeScreen)
-        resultFragments = arrayListOf<IFragment>(OneKeyListResultFragment.newInstance(oneKeyViewCustomObject, locations),
-                OneKeyMapResultFragment.newInstance(oneKeyViewCustomObject, locations))
         viewModel.apply {
             requestPermissions(this@FullMapFragment)
             permissionRequested.observe(this@FullMapFragment, Observer { granted ->
-                if (!granted) return@Observer
-                fragmentState.apply {
-                    enableAnim(false)
-                    setStacksRootFragment(resultFragments)
-                    if (resultFragments.isNotEmpty() && activeScreen < resultFragments.size)
-                        showStack(activeScreen)
+                if (!granted) {
+                    showLoading(false)
+                    return@Observer
                 }
-
+                if (this@FullMapFragment.activities.isEmpty())
+                    getActivities(
+                        criteria, if (speciality.isNotNullable())
+                            arrayListOf(speciality!!.id) else specialities, place
+                    )
+                else {
+                    setModeButtons(activeScreen)
+                    initHeader()
+                    showLoading(false)
+                    initTabs()
+                }
+                loading.observe(this@FullMapFragment, Observer {
+                    showLoading(it)
+                })
+                activities.observe(this@FullMapFragment, Observer {
+                    this@FullMapFragment.activities = it
+                    setModeButtons(activeScreen)
+                    initHeader()
+                    initTabs()
+                })
             })
         }
         listViewMode.setOnClickListener(this)
         mapViewMode.setOnClickListener(this)
+        newSearchWrapper.setOnClickListener(this)
+    }
+
+    private fun initTabs() {
+        viewModel.sortActivities(ArrayList(activities), sorting) {
+            resultFragments = arrayListOf(
+                OneKeyListResultFragment.newInstance(oneKeyViewCustomObject, it),
+                OneKeyMapResultFragment.newInstance(oneKeyViewCustomObject, it)
+            )
+            fragmentState.apply {
+                enableAnim(false)
+                setStacksRootFragment(resultFragments)
+                if (resultFragments.isNotEmpty() && activeScreen < resultFragments.size)
+                    showStack(activeScreen)
+            }
+        }
     }
 
     override val onPassingEventListener: (data: Any) -> Unit = {
@@ -105,10 +161,14 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (!isVisible) return
-        outState.putParcelableArrayList(OneKeyConstant.locations, locations)
         outState.putParcelable(OneKeyConstant.place, place)
-        outState.putString(OneKeyConstant.speciality, speciality)
+        outState.putParcelable(OneKeyConstant.speciality, speciality)
+        outState.putStringArrayList("specialities", specialities)
+        outState.putString("criteria", criteria)
         outState.putBoolean(OneKeyConstant.navigateToProfile, navigateToProfile)
+        outState.putParcelableArrayList("activities", activities)
+        outState.putInt("sorting", sorting)
+        outState.putBoolean("basicNearMe", basicNearMe)
     }
 
     override fun onClick(v: View?) {
@@ -126,23 +186,36 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             }
             R.id.ivSort -> {
                 navigateToProfile = true
-                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                        OneKeySortFragment.newInstance(oneKeyViewCustomObject), true)
+                (activity as? AppCompatActivity)?.pushFragment(
+                    R.id.fragmentContainer,
+                    OneKeySortFragment.newInstance(oneKeyViewCustomObject, sorting), true
+                )
+            }
+            R.id.newSearchWrapper -> {
+                (activity as? AppCompatActivity)?.pushFragment(
+                    R.id.fragmentContainer,
+                    SearchFragment.newInstance(
+                        oneKeyViewCustomObject,
+                        true, currentLocation
+                    ), true
+                )
             }
         }
     }
 
     private fun initHeader() {
-        tvSpeciality.text = speciality
+        tvSpeciality.text = speciality?.longLbl ?: criteria
         tvAddress.text = place?.displayName ?: ""
-        val result = "${locations.size}"
+        val result = "${activities.size}"
         tvResult.text = SpannableStringBuilder(result).apply {
-            setSpan(ForegroundColorSpan(oneKeyViewCustomObject.colorPrimary.getColor()),
-                    0, result.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(
+                ForegroundColorSpan(oneKeyViewCustomObject.colorPrimary.getColor()),
+                0, result.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
         mapViewMode.setRippleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 50f)
         ivSort.setRippleCircleBackground(oneKeyViewCustomObject.colorSecondary.getColor(), 255)
-        tvAddress.textSize = oneKeyViewCustomObject.fontSmallSize.size.toFloat()
+        tvAddress.textSize = oneKeyViewCustomObject.fontSmall.size.toFloat()
         ivSort.setOnClickListener(this)
     }
 
@@ -176,11 +249,13 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
     }
 
-    fun navigateToHCPProfile(location: OneKeyLocation) {
+    fun navigateToHCPProfile(obj: ActivityObject) {
         navigateToProfile = true
         oneKeyViewCustomObject.also {
-            (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                    OneKeyProfileFragment.newInstance(it, location), true)
+            (activity as? AppCompatActivity)?.pushFragment(
+                R.id.fragmentContainer,
+                OneKeyProfileFragment.newInstance(it, null, obj.id), true
+            )
         }
     }
 
@@ -192,5 +267,21 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     override fun onDetach() {
         super.onDetach()
         OneKeyLog.d("LifeCycle: onDetach")
+    }
+
+    private fun showLoading(state: Boolean) {
+        loadingWrapper.visibility = state.getVisibility()
+    }
+
+    fun applySorting(sort: Int) {
+        this.sorting = sort
+        viewModel.sortActivities(ArrayList(activities), sorting) {
+            (fragmentState.getRootFragments()?.firstOrNull { fragment ->
+                fragment::class.java == OneKeyListResultFragment::class.java
+            } as? OneKeyListResultFragment)?.updateActivities(it)
+            (fragmentState.getRootFragments()?.firstOrNull { fragment ->
+                fragment::class.java == OneKeyMapResultFragment::class.java
+            } as? OneKeyMapResultFragment)?.updateActivities(it)
+        }
     }
 }

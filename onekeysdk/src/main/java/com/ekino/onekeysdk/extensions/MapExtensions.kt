@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.extensions
 
+import android.location.Location
 import com.ekino.onekeysdk.model.OneKeyLocation
 import org.osmdroid.util.GeoPoint
 
@@ -22,6 +23,21 @@ fun getDummyHCP(): ArrayList<OneKeyLocation> {
 }
 
 /**
- * Geo point
+ * Geo point [GeoPoint]
  */
 fun GeoPoint.getLocationString(): String = "$latitude,$longitude"
+
+/**
+ * [Location]
+ */
+fun Location?.getCurrentLocation(newLocation: Location?): Location? {
+    return when {
+        this == null -> newLocation
+        newLocation == null -> this
+        else -> {
+            if (newLocation.latitude == this.latitude && newLocation.longitude == this.longitude)
+                this
+            else newLocation
+        }
+    }
+}
