@@ -4,7 +4,6 @@ import { Event, EventEmitter } from '@stencil/core';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
 import { ModeViewType } from 'onekey-sdk-web-ui/src/core/stores/ConfigStore';
 import { Breakpoint } from 'onekey-sdk-web-ui/src/core/types';
-
 @Component({
   tag: 'onekey-sdk-map',
   styleUrl: 'onekey-sdk-map.scss',

@@ -12,7 +12,8 @@ export async function searchGeoMap({ id }) {
   const data = results.map(elm => ({
     name: elm.raw.display_name,
     lat: elm.raw.lat,
-    lng: elm.raw.lon
+    lng: elm.raw.lon,
+    type: "location"
   }))
 
   searchMapStore.setState({

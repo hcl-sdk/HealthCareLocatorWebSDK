@@ -26,7 +26,7 @@ export async function searchLocation(variables) {
     id: item.activity.id
   }))
 
-  searchMapStore.setState({ specialties: data, searchDoctor: [], loading: false });
+  searchMapStore.setState({ specialties: data, specialtiesRaw: data, searchDoctor: [], loading: false });
 }
 
 export async function searchDoctor(variables) {

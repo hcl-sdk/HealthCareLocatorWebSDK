@@ -49,6 +49,7 @@ export interface SelectedIndividual {
 export interface SearchMapState {
   loading?: boolean;
   specialties?: SpecialtyItem[];
+  specialtiesRaw?: SpecialtyItem[];
   doctors?: HCPName[];
   search?: SearchResult;
   searchGeo?: any[];
@@ -66,6 +67,7 @@ export interface SearchMapState {
 export const initStateSearchMapStore: SearchMapState = {
   loading: false,
   specialties: [],
+  specialtiesRaw: [],
   search: {},
   searchGeo: [],
   searchDoctor: [],
