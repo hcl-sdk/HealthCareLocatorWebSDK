@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { NEAR_ME } from '../../../core/constants';
 
 @Component({
   tag: 'onekey-sdk-search-address-item',
@@ -42,6 +43,9 @@ export class OnekeySdkSearchItem {
     return (
       <Host>
         <div class="search-address-item" role="button" onClick={() => this.selectAddress.emit(this.item)}>
+          {
+            (this.item.type || this.item.id === NEAR_ME) && <div class="search-address-item-icon-wrapper"><span class="search-address-item-icon">{this.renderIcon(this.item.type)}</span></div>
+          }
           <span class={`search-address-item-text ${this.activated ? 'active' : ''}`}>
             {!!this.item.name && !this.currentSearchText && <span class="name">{this.item.name}</span>}
             {!!this.item.name && this.currentSearchText && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} />}
