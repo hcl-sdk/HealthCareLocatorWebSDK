@@ -35,13 +35,11 @@ class OneKeyCheckBox : CheckBox, IOneKeyView {
         var forceTextSize = false
         var textStyle: OneKeyTextView.OneKeyTextStyle = OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault
         var colorStyle: OneKeyTextView.OneKeyColorStyle = OneKeyTextView.OneKeyColorStyle.NONE
-        var fontWeight = OneKeyTextView.OneKeyFontWeight.NORMAL
         if (attributeSet != null) {
             var typeArray: TypedArray =
                     context.obtainStyledAttributes(attributeSet, R.styleable.OneKeyTextView)
             textStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextStyle, OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault)
             colorStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextColor, OneKeyTextView.OneKeyColorStyle.NONE)
-            fontWeight = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyFontWeight, OneKeyTextView.OneKeyFontWeight.NORMAL)
             typeArray.recycle()
         }
         mapFontForView(textStyle, forceTextSize)

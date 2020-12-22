@@ -1,5 +1,7 @@
 package com.ekino.onekeysdk.adapter.home
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableById
+import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.extensions.setRippleCircleBackground
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
@@ -25,6 +28,10 @@ class OneKeyHomeAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObje
         override fun bind(position: Int, data: OneKeyHomeObject) {
             oneKeyViewCustomObject?.also {
                 itemView.apply {
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+                    } else
+                        setBackgroundColor(Color.WHITE)
                     ivFind.setImageDrawable(context.getDrawableById(data.drawableId))
                     ivFind.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary.getColor(), 26)
                     ivFind.setColorFilter(oneKeyViewCustomObject.colorPrimary.getColor())

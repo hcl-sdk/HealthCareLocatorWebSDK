@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
@@ -72,6 +73,15 @@ fun View.setRippleBackground(hexColor: String, radius: Float) {
 fun View.setRippleCircleBackground(hexColor: String) {
     this.setRippleCircleBackground(hexColor.getColor())
 }
+
+fun View.setBackgroundWithCorner(backgroundColor: Int, strokeColor: Int, radius: Float = 10f, width: Int = 1) {
+    this.background = GradientDrawable().apply {
+        cornerRadius = radius
+        setColor(backgroundColor)
+        setStroke(width, strokeColor)
+    }
+}
+
 
 fun Context.getDrawableById(drawableId: Int): Drawable? =
         ContextCompat.getDrawable(this, drawableId)

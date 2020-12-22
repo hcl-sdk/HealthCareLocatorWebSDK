@@ -32,8 +32,6 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         OneKeyColorGreyLight, OneKeyColorGreyLighter, NONE
     }
 
-    enum class OneKeyFontWeight { NORMAL, ITALIC, BOLD, BOLD_ITALIC }
-
     constructor(context: Context) : super(context) {
         init(null)
     }
@@ -50,13 +48,11 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         var forceTextSize = false
         var textStyle: OneKeyTextStyle = OneKeyTextStyle.OneKeyStyleDefault
         var colorStyle: OneKeyColorStyle = OneKeyColorStyle.NONE
-        var fontWeight = OneKeyFontWeight.NORMAL
         if (attributeSet != null) {
             var typeArray: TypedArray =
                     context.obtainStyledAttributes(attributeSet, R.styleable.OneKeyTextView)
             textStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextStyle, OneKeyTextStyle.OneKeyStyleDefault)
             colorStyle = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyTextColor, OneKeyColorStyle.NONE)
-            fontWeight = typeArray.getEnum(R.styleable.OneKeyTextView_OneKeyFontWeight, OneKeyFontWeight.NORMAL)
             typeArray.recycle()
         }
         mapFontForView(textStyle, forceTextSize)
@@ -135,7 +131,7 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         }
     }
 
-    fun setFont(font: String, weight:Int = Typeface.NORMAL) {
+    fun setFont(font: String, weight: Int = Typeface.NORMAL) {
         try {
             var f = font
             if (TextUtils.isEmpty(f)) {
@@ -144,15 +140,6 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
             setTypeface(f?.let { FontUtil.getFont(context, it) }, weight)
         } catch (e: Exception) {
             OneKeyLog.e(e.localizedMessage)
-        }
-    }
-
-    private fun OneKeyFontWeight.getFontWeight(): Int {
-        return when (this) {
-            OneKeyFontWeight.NORMAL -> Typeface.NORMAL
-            OneKeyFontWeight.BOLD -> Typeface.BOLD
-            OneKeyFontWeight.ITALIC -> Typeface.ITALIC
-            OneKeyFontWeight.BOLD_ITALIC -> Typeface.BOLD_ITALIC
         }
     }
 }

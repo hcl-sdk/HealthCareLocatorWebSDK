@@ -82,12 +82,12 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 ?: selectedTheme.markerHexColor
         val selectedMarker = SampleApplication.sharedPreferences.getString(Pref.selectedMarkerColorPref, selectedTheme.markerSelectedHexColor)
                 ?: selectedTheme.markerSelectedHexColor
-        var fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontTitle1: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontTitle2: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontTitle3: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
-        var fontSmall: OneKeyViewFontObject ?=null
+        var fontDefault: OneKeyViewFontObject? = null
+        var fontTitle1: OneKeyViewFontObject? = null
+        var fontButton: OneKeyViewFontObject? = null
+        var fontTitle2: OneKeyViewFontObject? = null
+        var fontTitle3: OneKeyViewFontObject? = null
+        var fontSmall: OneKeyViewFontObject? = null
         var fontSearchInput: OneKeyViewFontObject? = null
         var fontSearchResultTitle: OneKeyViewFontObject? = null
         var fontResultTitle: OneKeyViewFontObject? = null
@@ -195,6 +195,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .colorMarker(colors.first { it.id == "colorMarker" }.color)
                     .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
                     .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
+                    .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
         }
         this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
                 builder.build()), true)

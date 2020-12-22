@@ -67,7 +67,7 @@ data class OneKeyViewCustomObject private constructor(
             var textColor: String = "#2d3c4d",
             var colorMarker: String = "#fe8a12",
             var colorMarkerSelected: String = "#fd8670",
-            var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", size = 14).build(),
+            var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", size = 16).build(),
             var fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", size = 14).build(),
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
@@ -96,7 +96,7 @@ data class OneKeyViewCustomObject private constructor(
             var colorGreyLighter: String = "#ebebeb",
             var colorVoteDown: String = "#ff0000",
             var colorViewBackground: String = "#f8f9fa",
-            var colorCardBorder: String = "#dedede",
+            var colorCardBorder: String = "#E3E3E3",
             var colorButtonBorder: String = "#dedede",
             var colorButtonBackground: String = "#fcfcfc",
             var colorButtonDiscardBackground: String = "#9aa0a7",
@@ -109,9 +109,14 @@ data class OneKeyViewCustomObject private constructor(
         fun textColor(textColor: String) = apply { this.textColor = textColor }
         fun colorMarker(markerColor: String) = apply { this.colorMarker = markerColor }
         fun colorMarkerSelected(markerSelectedColor: String) = apply { this.colorMarkerSelected = markerSelectedColor }
-        fun fontButton(fontButton: OneKeyViewFontObject) = apply { this.fontButton = fontButton }
+        fun fontButton(fontButton: OneKeyViewFontObject?) = apply {
+            this.fontButton = fontButton ?: this.fontButton
+        }
 
-        fun fontDefault(fontDefaultSize: OneKeyViewFontObject) = apply { this.fontDefault = fontDefaultSize }
+        fun fontDefault(fontDefaultSize: OneKeyViewFontObject?) = apply {
+            this.fontDefault = fontDefaultSize ?: this.fontDefault
+        }
+
         fun searchIcon(searchIcon: Int) = apply { this.searchIcon = searchIcon }
         fun editIcon(editIcon: Int) = apply { this.editIcon = editIcon }
         fun markerIcon(markerIcon: Int) = apply { this.markerIcon = markerIcon }
