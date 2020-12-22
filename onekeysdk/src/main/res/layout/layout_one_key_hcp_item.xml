@@ -60,8 +60,8 @@
             app:tint="@color/gray" />
     </LinearLayout>
 
-    <View
+    <com.ekino.onekeysdk.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grayLighter" />
+        app:OneKeyViewColor="OneKeyColorCardBorder"/>
 </LinearLayout>

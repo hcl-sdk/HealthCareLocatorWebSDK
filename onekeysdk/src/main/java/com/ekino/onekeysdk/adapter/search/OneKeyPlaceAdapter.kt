@@ -28,7 +28,6 @@ class OneKeyPlaceAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObj
                     ivLocation.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary)
                     ivLocation.setColorFilter(oneKeyViewCustomObject.colorPrimary.getColor())
                     setOnClickListener { onPlaceClickedListener.onPlaceClickedListener(data) }
-                    bottomLine.setBackgroundColor(oneKeyViewCustomObject.colorGreyLighter.getColor())
                 }
             }
         }
