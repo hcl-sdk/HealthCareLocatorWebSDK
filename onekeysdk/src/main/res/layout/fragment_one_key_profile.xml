@@ -5,11 +5,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
     android:background="@color/white"
+    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/contentWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/default_padding"
@@ -46,10 +47,12 @@
 
             <ScrollView
                 android:id="@+id/viewContainer"
-                tools:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false">
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/default_padding_tiny"
+                android:paddingBottom="@dimen/default_padding_tiny"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -130,8 +133,8 @@
 
                             <ImageView
                                 android:id="@+id/ivDirection"
-                                android:layout_width="@dimen/default_icon_size"
-                                android:layout_height="@dimen/default_icon_size"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
                                 android:layout_marginEnd="@dimen/default_padding"
                                 android:background="@drawable/bg_white_circle_border"
                                 android:padding="@dimen/default_padding_tiny"
@@ -139,8 +142,8 @@
 
                             <ImageView
                                 android:id="@+id/ivCall"
-                                android:layout_width="@dimen/default_icon_size"
-                                android:layout_height="@dimen/default_icon_size"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
                                 android:background="@drawable/bg_white_circle_border"
                                 android:padding="8dp"
                                 android:src="@drawable/baseline_call_black_36dp" />
@@ -270,17 +273,17 @@
                                 android:text="www.medicalsoinsparis.com"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
-                                app:OneKeyTextColor="OneKeyColorGrey" />
+                                app:OneKeyTextColor="OneKeyColorDark" />
                         </LinearLayout>
 
                     </LinearLayout>
 
-                    <View
+                    <com.ekino.onekeysdk.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/default_padding"
                         android:layout_marginBottom="@dimen/default_padding"
-                        android:background="@color/grayLight" />
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -309,12 +312,12 @@
                             tools:text="Specialities" />
                     </LinearLayout>
 
-                    <View
+                    <com.ekino.onekeysdk.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/default_padding"
                         android:layout_marginBottom="@dimen/default_padding"
-                        android:background="@color/grayLight" />
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -343,12 +346,12 @@
                             tools:text="Conventionned Sector 1\n\n25€" />
                     </LinearLayout>
 
-                    <View
+                    <com.ekino.onekeysdk.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/default_padding"
                         android:layout_marginBottom="@dimen/default_padding"
-                        android:background="@color/grayLight" />
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -420,12 +423,12 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View
+                    <com.ekino.onekeysdk.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/default_padding"
                         android:layout_marginBottom="@dimen/default_padding"
-                        android:background="@color/grayLight" />
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -464,8 +467,8 @@
 
                             <ImageView
                                 android:id="@+id/ivEdit"
-                                android:layout_width="@dimen/default_icon_size"
-                                android:layout_height="@dimen/default_icon_size"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
                                 android:padding="@dimen/default_padding_tiny"
                                 android:src="@drawable/baseline_edit_white_36dp"
                                 tools:tint="@color/colorOneKeyBlue" />
@@ -475,8 +478,8 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center|end"
                                 android:paddingStart="@dimen/default_padding_tiny"
-                                android:paddingTop="@dimen/default_padding"
-                                android:paddingBottom="@dimen/default_padding"
+                                android:paddingTop="@dimen/default_padding_small"
+                                android:paddingBottom="@dimen/default_padding_small"
                                 android:text="@string/one_key_suggest_a_modification"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"

@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.fragments.profile
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -27,26 +28,26 @@ import kotlinx.android.synthetic.main.fragment_one_key_profile.*
 
 
 class OneKeyProfileFragment :
-    AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile),
-    View.OnClickListener, CompoundButton.OnCheckedChangeListener,
-    AdapterView.OnItemSelectedListener {
+        AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile),
+        View.OnClickListener, CompoundButton.OnCheckedChangeListener,
+        AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
-            theme: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build(),
-            oneKeyLocation: OneKeyLocation?, activityId: String = ""
+                theme: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build(),
+                oneKeyLocation: OneKeyLocation?, activityId: String = ""
         ) =
-            OneKeyProfileFragment().apply {
-                this.oneKeyViewCustomObject = theme
-                this.oneKeyLocation = oneKeyLocation
-                this.activityId = activityId
-            }
+                OneKeyProfileFragment().apply {
+                    this.oneKeyViewCustomObject = theme
+                    this.oneKeyLocation = oneKeyLocation
+                    this.activityId = activityId
+                }
 
     }
 
     private val locations by lazy { getDummyHCP() }
     private var oneKeyLocation: OneKeyLocation? = null
     private var oneKeyViewCustomObject: OneKeyViewCustomObject =
-        ThemeExtension.getInstance().getThemeConfiguration()
+            ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private var mapFragment: MapFragment? = null
     private var activityDetail: ActivityObject = ActivityObject()
@@ -55,6 +56,7 @@ class OneKeyProfileFragment :
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
+        contentWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyViewCustomObject.colorCardBorder.getColor(), 12f, 3)
         if (savedInstanceState != null) {
             activityDetail = savedInstanceState.getParcelable("activityDetail") ?: ActivityObject()
             activityId = savedInstanceState.getString("activityId", "") ?: ""
@@ -81,11 +83,11 @@ class OneKeyProfileFragment :
     private fun fillData(savedInstanceState: Bundle?) {
         if (mapFragment == null)
             mapFragment =
-                MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(activityDetail), 2f)
+                    MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(activityDetail), 2f)
         val fm = this@OneKeyProfileFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
             fm.beginTransaction().add(R.id.viewHCPMap, mapFragment!!, mapFragmentTag)
-                .commit()
+                    .commit()
         }
         initProfile(savedInstanceState)
     }
@@ -115,8 +117,10 @@ class OneKeyProfileFragment :
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
         ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.colorMarker.getColor())
+        btnSuggestModification.setBackgroundWithCorner(oneKeyViewCustomObject.colorButtonBackground.getColor(),
+                oneKeyViewCustomObject.colorButtonBorder.getColor(), 8f, 3)
 
-        activityDetail?.apply {
+        activityDetail.apply {
             tvDoctorName.text = individual?.mailingName ?: ""
             tvSpeciality.text = individual?.professionalType?.label ?: ""
             tvAddress.text = workplace?.run {
@@ -133,27 +137,27 @@ class OneKeyProfileFragment :
             if (webAddress.isNotEmpty())
                 tvWebsite.text = SpannableString(webAddress).apply {
                     setSpan(
-                        UnderlineSpan(),
-                        0,
-                        webAddress.length,
-                        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            UnderlineSpan(),
+                            0,
+                            webAddress.length,
+                            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
             tvTelephone.text = phone
             tvFax.text = fax
             tvSpecialities.text = TextUtils.join(
-                ",",
-                individual?.specialties ?: arrayListOf<LabelObject>()
+                    ",",
+                    individual?.specialties ?: arrayListOf<LabelObject>()
             )
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
             tvModification.text =
-                "Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan."
+                    "Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan."
         }
 
         ArrayAdapter<OneKeyLocation>(
-            context!!,
-            R.layout.layout_one_key_spinner_item,
-            locations
+                context!!,
+                R.layout.layout_one_key_spinner_item,
+                locations
         ).also {
             it.setDropDownViewResource(R.layout.layout_one_key_drop_down)
             addressSpinner.adapter = it
@@ -185,9 +189,9 @@ class OneKeyProfileFragment :
                 if (activityDetail.id.isNotEmpty() && activityDetail.workplace?.address?.location.isNotNullable()) {
                     val location = activityDetail.workplace!!.address!!.location!!
                     val lastLocation = getRunningMapFragment()?.getLastLocation()
-                        ?.getLocationString() ?: ""
+                            ?.getLocationString() ?: ""
                     val uri =
-                        "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
+                            "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     startActivity(intent)
                 }
