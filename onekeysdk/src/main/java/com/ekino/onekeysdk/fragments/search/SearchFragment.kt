@@ -74,6 +74,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
         if (savedInstanceState != null) {
+            selectedSpeciality = savedInstanceState.getParcelable("selectedSpeciality")
+            selectedPlace = savedInstanceState.getParcelable("selectedPlace")
             isExpand = savedInstanceState.getBoolean("expand", false)
             if (isExpand) selectionWrapper.expand(true)
             else selectionWrapper.collapse(true)
@@ -150,6 +152,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean("expand", isExpand)
+        outState.putParcelable("selectedSpeciality", selectedSpeciality)
+        outState.putParcelable("selectedPlace", selectedPlace)
     }
 
     override fun onDestroyView() {
