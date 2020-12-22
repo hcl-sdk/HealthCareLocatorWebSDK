@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property    | Attribute   | Description | Type      | Default     |
-| ----------- | ----------- | ----------- | --------- | ----------- |
-| `activated` | `activated` |             | `boolean` | `false`     |
-| `item`      | `item`      |             | `any`     | `undefined` |
+| Property            | Attribute             | Description | Type      | Default     |
+| ------------------- | --------------------- | ----------- | --------- | ----------- |
+| `activated`         | `activated`           |             | `boolean` | `false`     |
+| `currentSearchText` | `current-search-text` |             | `string`  | `undefined` |
+| `item`              | `item`                |             | `any`     | `undefined` |
 
 
 ## Events

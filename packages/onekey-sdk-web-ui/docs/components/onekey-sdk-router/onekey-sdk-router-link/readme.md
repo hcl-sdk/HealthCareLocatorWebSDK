@@ -28,13 +28,11 @@
 ### Used by
 
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
- - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
 
 ### Graph
 ```mermaid
 graph TD;
   onekey-sdk-search --> onekey-sdk-router-link
-  onekey-sdk-search-result --> onekey-sdk-router-link
   style onekey-sdk-router-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

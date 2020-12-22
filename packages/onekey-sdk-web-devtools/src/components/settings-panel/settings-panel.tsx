@@ -24,6 +24,24 @@ const DEFAULT_VALUES = ALL_PROPS.map(font => ({ key: font.cssKey, value: getDefa
 
 const COLORS = ALL_PROPS.filter(n => /^color\./.test(n.key)).map(c => c.key);
 
+const defaultSettings = {
+  apiKey: '1234AZERTY',
+  theme: 'default' as Theme,
+  homeMode: 'min' as const,
+}
+
+const storeSettings = (settings: Fields) => {
+  localStorage.setItem(`__onekey-sdk-dev-settings-fields`, JSON.stringify(settings));
+};
+
+const loadSettings = (): Fields => {
+  const settingsStr = localStorage.getItem(`__onekey-sdk-dev-settings-fields`);
+  if (settingsStr) {
+    return JSON.parse(settingsStr);
+  }
+  return defaultSettings;
+};
+
 function getDefaultValue(key: string) {
   const value = DEFAULT_THEME_PROPERTIES[key];
   if (/^var/.test(value)) {
@@ -100,10 +118,7 @@ export class SettingsPanel {
     [k: string]: string;
   } = getCustomThemeFromStorage();
 
-  @State() fields: Fields = {
-    apiKey: '1234AZERTY',
-    theme: (localStorage.getItem('__onekeysdk-devtools-selected-theme') as Theme) || 'default',
-  };
+  @State() fields: Fields = loadSettings();
 
   @State() editedFont: null | SelectedFont = null;
   @State() editedColor: null | SelectedColor = null;
@@ -129,6 +144,23 @@ export class SettingsPanel {
     if (this.fields.theme === 'custom') {
       this.setCustomTheme();
     }
+    const patch: any = {};
+    if (this.fields.homeMode !== defaultSettings.homeMode) {
+      patch.homeMode = this.fields.homeMode;
+    }
+    this.updateSDKConfig(patch);
+  }
+
+  updateSDKConfig = (patch: any) => {
+    if (!Object.keys(patch).length) {
+      return;
+    }
+    const el: any = document.querySelector('onekey-sdk');
+    if (el) {
+      el.updateConfig({
+        ...patch
+      });
+    }
   }
 
   handleBackButton = () => {
@@ -144,12 +176,17 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
-        window.localStorage.setItem('__onekeysdk-devtools-selected-theme', value);
       }
       this.fields = {
         ...this.fields,
         [fieldName]: value,
       };
+      storeSettings(this.fields);
+      if (fieldName === 'homeMode') {
+        this.updateSDKConfig({
+          homeMode: value
+        })
+      }
     };
   }
 
@@ -371,6 +408,17 @@ export class SettingsPanel {
             </option> */}
             <option value="custom" selected={this.fields.theme === 'custom'}>
               Custom
+            </option>
+          </select>
+        </div>
+        <div class="row">
+          <label>Home Mode</label>
+          <select name="homeMode" onChange={this.handleChange('homeMode')}>
+            <option value="min" selected={this.fields.homeMode === 'min'}>
+              Min
+            </option>
+            <option value="full" selected={this.fields.homeMode === 'full'}>
+              Full
             </option>
           </select>
         </div>

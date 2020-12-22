@@ -10,10 +10,10 @@
 | Property  | Attribute | Description | Type      | Default     |
 | --------- | --------- | ----------- | --------- | ----------- |
 | `color`   | `color`   |             | `string`  | `undefined` |
-| `height`  | `height`  |             | `number`  | `undefined` |
+| `height`  | `height`  |             | `number`  | `20`        |
 | `name`    | `name`    |             | `string`  | `undefined` |
 | `primary` | `primary` |             | `boolean` | `false`     |
-| `width`   | `width`   |             | `number`  | `undefined` |
+| `width`   | `width`   |             | `number`  | `20`        |
 
 
 ## Dependencies

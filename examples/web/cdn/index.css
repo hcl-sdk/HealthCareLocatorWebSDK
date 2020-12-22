@@ -108,12 +108,6 @@ html {
 }
 
 .onekey-sdk {
-  display: block;
-  margin: 0 auto;
-  margin-top: 0;
-  display: grid;
-  justify-content: center;
-  width: 100%;
   z-index: 1;
   position: fixed;
   width: 100%;
@@ -124,4 +118,11 @@ html {
 
 onekey-sdk {
   border: 1px solid #ddd;
+}
+
+@media screen and (max-width: 1024px) {
+  #mySidenav,
+  #main > .menu {
+    display: none;
+  }
 }
