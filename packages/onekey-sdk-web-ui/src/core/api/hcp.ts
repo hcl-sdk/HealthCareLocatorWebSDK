@@ -64,7 +64,8 @@ export async function searchDoctor(variables) {
     professionalType: item.professionalType.label,
     specialties: getSpecialtiesText(item.specialties),
     address: `${item.mainActivity.workplace.address.longLabel},${item.mainActivity.workplace.address.city.label}`,
-    id: item.mainActivity.id
+    id: item.mainActivity.id,
+    activity: item.mainActivity
   })) : []
 
 
@@ -80,12 +81,12 @@ export async function searchDoctor(variables) {
 }
 
 
-export async function getFullCardDetail(variables) {
+export async function getFullCardDetail({ activityId }) {
   searchMapStore.setState({ loading: true, individualDetail: null });
 
   const { activityByID: activity } = await graphql.activityByID({
     apiKey: "1",
-    id: variables.id,
+    id: activityId,
   })
 
   const data = {

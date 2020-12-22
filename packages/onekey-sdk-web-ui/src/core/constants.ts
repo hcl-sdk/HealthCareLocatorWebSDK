@@ -6,3 +6,8 @@ export const BREAKPOINT_MAX_WIDTH = {
 }
 
 export const NEAR_ME = 'NEAR_ME';
+
+export const NEAR_ME_ITEM = {
+  name: 'Near me',
+  id: NEAR_ME,
+};

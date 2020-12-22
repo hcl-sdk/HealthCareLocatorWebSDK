@@ -1,11 +1,12 @@
 import { Component, Host, h, State, Listen, Fragment } from '@stencil/core';
 import { getCssColor, getDoctorCardOffset } from '../../../utils/helper';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
-import { configStore, searchMapStore, uiStore } from '../../../core/stores';
+import { configStore, searchMapStore, uiStore, routerStore } from '../../../core/stores';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
 import { getFullCardDetail, searchLocation } from '../../../core/api/hcp';
+import { NEAR_ME } from '../../../core/constants';
 @Component({
   tag: 'onekey-sdk-search-result',
   styleUrl: 'onekey-sdk-search-result.scss',
@@ -19,8 +20,13 @@ export class OnekeySdkSearchResult {
   componentWillLoad() {
     const params: any = {};
     if (searchMapStore.state.locationFilter) {
-      params.location = {
-
+      if (searchMapStore.state.locationFilter.id === NEAR_ME) {
+        params.location = searchMapStore.state.currentLocation;
+      } else {
+        params.location = {
+          lat: Number(searchMapStore.state.locationFilter.lat),
+          lon: Number(searchMapStore.state.locationFilter.lng),
+        };
       }
     }
     if (searchMapStore.state.specialtyFilter) {
@@ -36,7 +42,7 @@ export class OnekeySdkSearchResult {
     });
 
     await getFullCardDetail({
-      id: item.id,
+      activityId: item.id,
     });
   };
 
@@ -73,6 +79,21 @@ export class OnekeySdkSearchResult {
     });
   };
 
+  goBack = (clearSearch = false) => {
+    routerStore.back();
+    if (clearSearch) {
+      searchMapStore.setState({
+        searchFields: { name: '', address: '' },
+        locationFilter: null,
+        specialtyFilter: null,
+      });
+    }
+  };
+
+  goToSearch = () => {
+    routerStore.push('/search');
+  };
+
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
     const className = cls('search-toolbar search-section', {
@@ -81,8 +102,9 @@ export class OnekeySdkSearchResult {
     return (
       <div class={className}>
         <div class="search-back-large hidden-mobile">
-          <onekey-sdk-icon name="arrow" />
-          <span class="text-small">Back to my last searches</span>
+          <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={() => this.goBack(true)}>
+            <span class="text-small">Back to my last searches</span>
+          </onekey-sdk-button>
         </div>
         <div class="search-result__wrapper">
           <strong class="search-result__total">Results: </strong>
@@ -105,9 +127,9 @@ export class OnekeySdkSearchResult {
       return null;
     }
 
-    const { specialties, selectedActivity } = searchMapStore.state;
+    const { specialties, selectedActivity, locationFilter, searchFields } = searchMapStore.state;
 
-    const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
+    const selectedAddressName = locationFilter?.id === NEAR_ME ? locationFilter.name : searchFields.address;
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
     const isListView = configStore.state.modeView === ModeViewType.LIST;
@@ -124,6 +146,7 @@ export class OnekeySdkSearchResult {
 
     const wrapperClass = cls('search-result main-contain', `${modeView.toLowerCase()}-view-mode`, {
       'hcp-details': !!selectedActivity,
+      'with-nearme': locationFilter?.id === NEAR_ME && searchFields.name === '',
     });
 
     return (
@@ -131,43 +154,56 @@ export class OnekeySdkSearchResult {
         {(!selectedActivity || !isSmall) &&
           (isSmall ? (
             <div class="header-block search-header search-section">
-              <onekey-sdk-router-link url="/search" class="btn-back">
-                <onekey-sdk-icon name="arrow" color={getCssColor('--onekeysdk-color-dark')} />
-              </onekey-sdk-router-link>
-              <div>
-                <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
-                <div class="search-result-address">{selectedAddressName || 'Canada'}</div>
+              <onekey-sdk-button
+                class="btn-back"
+                iconWidth={27}
+                iconHeight={27}
+                noBorder
+                noBackground
+                icon="arrow"
+                iconColor={getCssColor('--onekeysdk-color-dark')}
+                onClick={() => this.goBack()}
+              ></onekey-sdk-button>
+              <div class="header-infos">
+                {locationFilter?.id === NEAR_ME && searchFields.name === '' ? (
+                  <div class="search-home-hpc" onClick={this.goToSearch}>
+                    <input class="search-input" placeholder="Find Healthcare Professional" />
+                    <onekey-sdk-button primary icon="search" class="btn--icon search-address-btn" />
+                  </div>
+                ) : (
+                  <Fragment>
+                    <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
+                    <div class="search-result-address">{selectedAddressName || 'Canada'}</div>
+                  </Fragment>
+                )}
               </div>
             </div>
           ) : (
             <onekey-sdk-search searchText="Search" showSwitchMode />
           ))}
-        {isSmall && searchMapStore.state.loading ? (
-          <onekey-sdk-loading class="body-block" style={{ position: 'relative' }}></onekey-sdk-loading>
-        ) : (
-          <Fragment>
-            {isSmall && !selectedActivity && this.renderToolbar(true)}
-            <div class="body-block">
-              <div class={mapWrapperClass}>
-                {selectedActivity ? <onekey-sdk-hcp-full-card goBack={this.onBackToList} /> : !isSmall && this.renderToolbar()}
-                {!selectedActivity && (
-                  <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                    {specialties.map((elm, idx) => (
-                      <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div class="toggle-panel">
-                <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
-              </div>
 
-              {((!isListView && !isSmall) || (!isListView && !selectedActivity)) && (
-                <onekey-sdk-map mapHeight={`100%`} class={mapClass} modeView={modeView} breakpoint={breakpoint} locations={specialties} selectedLocationIdx={0} defaultZoom={5} />
+        <Fragment>
+          {isSmall && !selectedActivity && this.renderToolbar(true)}
+          <div class="body-block">
+            <div class={mapWrapperClass}>
+              {selectedActivity ? <onekey-sdk-hcp-full-card goBack={this.onBackToList} /> : !isSmall && this.renderToolbar()}
+              {!selectedActivity && (
+                <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                  {specialties.map((elm, idx) => (
+                    <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
+                  ))}
+                </div>
               )}
             </div>
-          </Fragment>
-        )}
+            <div class="toggle-panel">
+              <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
+            </div>
+
+            {((!isListView && !isSmall) || (!isListView && !selectedActivity)) && (
+              <onekey-sdk-map mapHeight={`100%`} class={mapClass} modeView={modeView} breakpoint={breakpoint} locations={specialties} selectedLocationIdx={0} defaultZoom={5} />
+            )}
+          </div>
+        </Fragment>
       </Host>
     );
   }

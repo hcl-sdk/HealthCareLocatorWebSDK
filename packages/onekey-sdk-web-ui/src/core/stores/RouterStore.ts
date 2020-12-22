@@ -1,12 +1,12 @@
-import StoreProvider from "./StoreProvider";
+import StoreProvider from './StoreProvider';
 interface RouteItem {
   routePath: string;
-  state?: any
+  state?: any;
 }
 
 export interface RouterState {
-  currentRoutePath?: string,
-  routes: RouteItem[]
+  currentRoutePath?: string;
+  routes: RouteItem[];
 }
 
 interface RouterStoreState extends RouterState {
@@ -16,10 +16,12 @@ interface RouterStoreState extends RouterState {
 
 export const initStateRouterStore: RouterState = {
   currentRoutePath: '/',
-  routes: [{
-    routePath: '/'
-  }]
-}
+  routes: [
+    {
+      routePath: '/',
+    },
+  ],
+};
 
 class RouterStore extends StoreProvider<RouterState> implements RouterStoreState {
   routes;
@@ -33,16 +35,24 @@ class RouterStore extends StoreProvider<RouterState> implements RouterStoreState
     this.setState({
       currentRoutePath: routePath,
       routes: [
-        ...this.state.routes, 
+        ...this.state.routes,
         {
           routePath,
-          state
-        }
-      ]
-    })
-  }
+          state,
+        },
+      ],
+    });
+  };
+
+  back = () => {
+    const routes = [...this.state.routes];
+    if (routes.length < 2) {
+      return;
+    }
+    routes.pop();
+    const nextRoute = routes[routes.length - 1];
+    this.setState({ currentRoutePath: nextRoute.routePath, routes });
+  };
 }
 
-
-
-export default RouterStore
+export default RouterStore;

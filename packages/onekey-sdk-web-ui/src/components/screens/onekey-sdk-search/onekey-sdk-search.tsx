@@ -4,12 +4,7 @@ import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
 import { searchGeoMap } from '../../../core/api/searchGeo';
-import { NEAR_ME } from '../../../core/constants';
-
-const nearMeItem = {
-  name: 'Near me',
-  id: NEAR_ME,
-};
+import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -71,6 +66,7 @@ export class OnekeySdkSearch {
   handleFieldInput = e => {
     const el = e.target;
     searchMapStore.setSearchFieldValue(el.name, el.value);
+    this.clearFilter(el.name);
     this.onChange(e);
   };
 
@@ -83,6 +79,9 @@ export class OnekeySdkSearch {
       searchMapStore.setState({
         locationFilter: item,
       });
+      if (searchMapStore.state.searchFields.name === '') {
+        this.fields.name.querySelector('input').focus();
+      }
       return;
     }
     if (this.currentSelectedInput === 'address') {
@@ -92,8 +91,10 @@ export class OnekeySdkSearch {
       });
     } else {
       if (item.professionalType) {
-        // on click HCP item
-        alert('TODO');
+        searchMapStore.setState({
+          selectedActivity: item.activity
+        });
+        routerStore.push('/search-result');
       } else {
         // on click Specialty item
         searchMapStore.setSearchFieldValue('name', item.name);
@@ -122,8 +123,21 @@ export class OnekeySdkSearch {
     );
   };
 
+  clearFilter = (key: string) => {
+    if (key === 'name') {
+      searchMapStore.setState({
+        specialtyFilter: null
+      });
+    } else if (key === 'address') {
+      searchMapStore.setState({
+        locationFilter: null
+      });
+    }
+  }
+
   resetValue = (key, focusField = false) => {
     searchMapStore.setSearchFieldValue(key, '');
+    this.clearFilter(key);
     if (focusField) {
       this.fields[key].querySelector('input').focus();
     }
@@ -155,20 +169,38 @@ export class OnekeySdkSearch {
     };
   };
 
-  renderAutocompleteResults = (isSmallView, searchDoctorData, addressAutocompletionData) => {
-    if (!isSmallView) {
-      return null;
+  renderAutocompleteMobile = (searchDoctorData, addressAutocompletionData) => {
+    const addressResults = [...addressAutocompletionData];
+    const nearMeFound = searchMapStore.state.locationFilter?.id === NEAR_ME;
+    if (!nearMeFound && !searchMapStore.state.searchFields.address.length) {
+      addressResults.unshift(NEAR_ME_ITEM);
     }
     if (this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0) {
-      return <div class="body-block">{searchDoctorData.length && this.renderContent(searchDoctorData)}</div>;
+      return <div class="body-block">{searchDoctorData.length > 0 && this.renderContent(searchDoctorData)}</div>;
     }
     if (this.currentSelectedInput === 'address') {
-      return <div class="body-block">{this.renderContent(addressAutocompletionData)}</div>;
+      return <div class="body-block">{this.renderContent(addressResults)}</div>;
     }
-    if (!this.currentSelectedInput || (!searchMapStore.state.searchFields.name.length && searchMapStore.state.locationFilter?.id !== NEAR_ME)) {
-      return <div class="body-block">{this.renderContent([nearMeItem])}</div>;
+    if ((!this.currentSelectedInput || !searchMapStore.state.searchFields.name.length) && !nearMeFound && !searchMapStore.state.searchFields.address.length) {
+      return <div class="body-block">{this.renderContent([NEAR_ME_ITEM])}</div>;
     }
+    return null;
+  };
 
+  renderAutocompleteField = (fieldName, data) => {
+    if (fieldName !== this.currentSelectedInput) {
+      return null;
+    }
+    if (this.currentSelectedInput === 'name') {
+      return <div class="body-block">{data.length > 0 && this.renderContent(data)}</div>;
+    } else if (this.currentSelectedInput === 'address') {
+      const addressResults = [...data];
+      const nearMeFound = searchMapStore.state.locationFilter?.id === NEAR_ME;
+      if (!nearMeFound && !searchMapStore.state.searchFields.address.length) {
+        addressResults.unshift(NEAR_ME_ITEM);
+      }
+      return <div class="body-block">{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
+    }
     return null;
   };
 
@@ -177,7 +209,7 @@ export class OnekeySdkSearch {
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
 
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.name;
-    const addressAutocompletionData = searchMapStore.state?.searchGeo.length > 0 ? [nearMeItem, ...searchMapStore.state?.searchGeo] : [nearMeItem];
+    const addressAutocompletionData = searchMapStore.state.searchGeo;
 
     const isSmallView = this.getViewSize().isSmallView;
     const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
@@ -211,7 +243,7 @@ export class OnekeySdkSearch {
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
                     >
-                      {!isSmallView && searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}
+                      {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
                     </onekey-sdk-input>
                   </div>
                   <div class="search-form-content-item">
@@ -228,7 +260,7 @@ export class OnekeySdkSearch {
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
                     >
-                      {!isSmallView && addressAutocompletionData.length && this.currentSelectedInput === 'address' && this.renderContent(addressAutocompletionData)}
+                      {!isSmallView && this.renderAutocompleteField('address', addressAutocompletionData)}
                     </onekey-sdk-input>
                   </div>
                 </div>
@@ -253,7 +285,7 @@ export class OnekeySdkSearch {
               </div>
             </div>
           </div>
-          {this.renderAutocompleteResults(isSmallView, searchDoctorData, addressAutocompletionData)}
+          {isSmallView && this.renderAutocompleteMobile(searchDoctorData, addressAutocompletionData)}
         </div>
       </Host>
     );

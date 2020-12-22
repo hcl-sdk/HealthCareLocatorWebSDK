@@ -117,7 +117,7 @@ export class OnekeySdkMap {
       center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
       zoom: this.defaultZoom,
       minZoom: 1,
-      maxZoom: 20,
+      maxZoom: 10,
       zoomControl: this.zoomControl,
       dragging: this.dragging
     });

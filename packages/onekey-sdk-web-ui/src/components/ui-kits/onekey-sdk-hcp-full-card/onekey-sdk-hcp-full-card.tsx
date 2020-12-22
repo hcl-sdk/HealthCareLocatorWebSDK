@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
 import { uiStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { getFullCardDetail } from 'onekey-sdk-web-ui/src/core/api/hcp';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
@@ -10,6 +11,13 @@ import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 export class OnekeySdkHCPFullCard {
   @Prop() goBack: (e: any) => void;
   @State() confirm: boolean;
+
+
+  componentWillLoad() {
+    if (!searchMapStore.state.individualDetail) {
+      getFullCardDetail({ activityId: searchMapStore.state.selectedActivity.id });
+    }
+  }
 
   onConfirm = answer => {
     this.confirm = answer;
