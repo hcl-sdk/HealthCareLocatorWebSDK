@@ -27,6 +27,23 @@
       @include applyFontStyle("search_result_total")
     }
 
+    .search-home-hpc {
+      display: flex;
+    }
+
+    .header-infos {
+      width: 100%;
+    }
+
+    &.with-nearme .search-section {
+      padding: 10px;
+      grid-gap: 0;
+
+      .btn-back .icon svg {
+        margin-top: 5px;
+      }
+    }
+
     &__total-value {
       font-weight: normal;
       color: var(--onekeysdk-color-primary);
@@ -55,9 +72,12 @@
     grid-template-columns: auto 1fr;
     justify-items: start;
     align-items: start;
-    grid-gap: 10px;
     padding: 15px;
     grid-template-rows: min-content;
+
+    .btn-back {
+      padding: 0;
+    }
   }
 
   .search-toolbar {

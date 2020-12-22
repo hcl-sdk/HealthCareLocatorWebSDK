@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import { Component, h, Host, State, Listen } from '@stencil/core';
-import { historyStore, routerStore } from '../../../../core/stores';
+import { historyStore, routerStore, searchMapStore } from '../../../../core/stores';
+import { NEAR_ME_ITEM } from '../../../../core/constants';
 @Component({
   tag: 'onekey-sdk-home-full',
   shadow: false,
@@ -11,6 +12,11 @@ export class OnekeySdkHomeFull {
 
   @Listen('mapClicked')
   onMapClicked() {
+    searchMapStore.setSearchFieldValue('address', NEAR_ME_ITEM.name);
+    searchMapStore.setState({
+      locationFilter: NEAR_ME_ITEM,
+      specialtyFilter: null
+    });
     routerStore.push('/search-result');
   }
 
@@ -23,10 +29,10 @@ export class OnekeySdkHomeFull {
 
   renderViewMore(items: any[], showMoreState: string) {
     if (this[showMoreState]) {
-      return <button onClick={() => this[showMoreState] = false}>View less</button>;
+      return <button onClick={() => (this[showMoreState] = false)}>View less</button>;
     }
     if (!this[showMoreState] && items.length > 3) {
-      return <button onClick={() => this[showMoreState] = true}>View more</button>;
+      return <button onClick={() => (this[showMoreState] = true)}>View more</button>;
     }
     return null;
   }
@@ -65,7 +71,7 @@ export class OnekeySdkHomeFull {
           <div class="card__content-wrapper card__content-wrapper--with-padding">
             <onekey-sdk-map
               class="info-section-body__map hidden-tablet hidden-desktop"
-              locations={[{ lat: 48.863699, lng: 2.4833 }]}
+              locations={[{ lat: searchMapStore.state.currentLocation.lat, lng: searchMapStore.state.currentLocation.lon }]}
               selectedLocationIdx={0}
               defaultZoom={5}
               noCurrentLocation

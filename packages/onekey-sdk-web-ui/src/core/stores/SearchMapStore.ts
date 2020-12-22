@@ -71,7 +71,12 @@ export const initStateSearchMapStore: SearchMapState = {
   search: {},
   searchGeo: [],
   searchDoctor: [],
-  currentLocation: {},
+  currentLocation: {
+    // TO REMOVE
+    // mock location with CA address
+    lat: 43.7621836,
+    lon: -79.4449289
+  },
   selectedValues: {},
   selectedActivity: null,
   individualDetail: null,
