@@ -17,6 +17,7 @@ export async function searchLocation(variables) {
   const data = activities.map((item) => ({
     distance: `${item.distance}m`,
     name: item.activity.individual.mailingName,
+    lastName: item.activity.individual.lastName,
     professionalType: item.activity.individual.professionalType.label,
     specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
     specialties: getSpecialtiesText(item.activity.individual.specialties)[0],

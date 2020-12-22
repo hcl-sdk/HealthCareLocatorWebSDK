@@ -155,6 +155,23 @@ export class OnekeySdkSearch {
     };
   };
 
+  renderAutocompleteResults = (isSmallView, searchDoctorData, addressAutocompletionData) => {
+    if (!isSmallView) {
+      return null;
+    }
+    if (this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0) {
+      return <div class="body-block">{searchDoctorData.length && this.renderContent(searchDoctorData)}</div>;
+    }
+    if (this.currentSelectedInput === 'address') {
+      return <div class="body-block">{this.renderContent(addressAutocompletionData)}</div>;
+    }
+    if (!this.currentSelectedInput || (!searchMapStore.state.searchFields.name.length && searchMapStore.state.locationFilter?.id !== NEAR_ME)) {
+      return <div class="body-block">{this.renderContent([nearMeItem])}</div>;
+    }
+
+    return null;
+  };
+
   render() {
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
@@ -236,13 +253,7 @@ export class OnekeySdkSearch {
               </div>
             </div>
           </div>
-          {isSmallView && this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0 && (
-            <div class="body-block">{searchDoctorData.length && this.renderContent(searchDoctorData)}</div>
-          )}
-          {isSmallView && this.currentSelectedInput === 'address' && <div class="body-block">{this.renderContent(addressAutocompletionData)}</div>}
-          {isSmallView && (!this.currentSelectedInput || (!searchMapStore.state.searchFields.name.length && searchMapStore.state.locationFilter?.id !== NEAR_ME)) && (
-            <div class="body-block">{this.renderContent([nearMeItem])}</div>
-          )}
+          {this.renderAutocompleteResults(isSmallView, searchDoctorData, addressAutocompletionData)}
         </div>
       </Host>
     );

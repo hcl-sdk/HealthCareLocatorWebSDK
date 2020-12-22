@@ -35,7 +35,7 @@ export interface SelectedValues {
 export interface SortValue {
   relevance?: boolean;
   distance?: boolean;
-  name?: boolean;
+  lastName?: boolean;
 }
 
 export interface SelectedIndividual {
@@ -78,7 +78,7 @@ export const initStateSearchMapStore: SearchMapState = {
   sortValues: {
     relevance: false,
     distance: false,
-    name: false
+    lastName: false
   },
   searchFields: {
     name: '',
