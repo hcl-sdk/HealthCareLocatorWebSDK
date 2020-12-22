@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.fragments.map
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.sort.OneKeySortAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
+import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeySortObject
@@ -29,7 +31,6 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
     }
     private val sortAdapter by lazy { OneKeySortAdapter() }
     private var selectedPosition = 0
-
     private var theme = ThemeExtension.getInstance().getThemeConfiguration()
     override val viewModel = OneKeySortViewModel()
 
@@ -43,6 +44,7 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
 
         btnApply.setRippleBackground(theme.colorPrimary.getColor(), 8f)
         btnReset.setRippleBackground(theme.colorButtonDiscardBackground.getColor(), 8f)
+        contentWrapper.setBackgroundWithCorner(Color.WHITE, theme.colorCardBorder.getColor(), 12f, 3)
         container.setBackgroundColor(theme.colorViewBackground.getColor())
         rvSort.apply {
             layoutManager = LinearLayoutManager(context)
