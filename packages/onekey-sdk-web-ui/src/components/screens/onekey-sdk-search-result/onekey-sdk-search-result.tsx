@@ -107,7 +107,6 @@ export class OnekeySdkSearchResult {
 
     const { specialties, selectedActivity } = searchMapStore.state;
 
-    const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.address;
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';

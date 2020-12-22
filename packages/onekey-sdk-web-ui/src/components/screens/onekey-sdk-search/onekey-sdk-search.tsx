@@ -4,6 +4,12 @@ import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
 import { searchGeoMap } from '../../../core/api/searchGeo';
+import { NEAR_ME } from '../../../core/constants';
+
+const nearMeItem = {
+  name: 'Near me',
+  id: NEAR_ME,
+};
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -14,10 +20,6 @@ export class OnekeySdkSearch {
   nameInput!: HTMLInputElement;
   addressInput!: HTMLInputElement;
 
-  @State() formData = {
-    name: '',
-    address: '',
-  };
   @State() searchResult = [];
   @State() selectedAddress: any = {};
   @State() selectedDoctor: any = {};
@@ -28,15 +30,8 @@ export class OnekeySdkSearch {
 
   fields = {
     name: null,
-    address: null
-  }
-
-  componentWillLoad() {
-    this.formData = {
-      ...this.formData,
-      name: searchMapStore.state.search.name,
-    };
-  }
+    address: null,
+  };
 
   private onSearch = async e => {
     e.preventDefault();
@@ -61,10 +56,8 @@ export class OnekeySdkSearch {
     const inputName = e.path[0].name;
     const inputValue = e.path[0].value;
     this.checkValidElm(e.path[0]);
-    this.currentSelectedInput = inputName;
 
     if (inputValue) {
-      this.formData = { ...this.formData, [inputName]: inputValue };
       inputName === 'name'
         ? await searchDoctor({
             criteria: inputValue,
@@ -75,26 +68,37 @@ export class OnekeySdkSearch {
     }
   }, 500);
 
-  handleFieldInput = (e) => {
+  handleFieldInput = e => {
     const el = e.target;
     searchMapStore.setSearchFieldValue(el.name, el.value);
     this.onChange(e);
-  }
+  };
 
   @Listen('selectAddress')
   onSelectAddress(e) {
     const item = e.detail;
+    // "Near Me" special Case
+    if (item.id === NEAR_ME) {
+      searchMapStore.setSearchFieldValue('address', item.name);
+      searchMapStore.setState({
+        locationFilter: item,
+      });
+      return;
+    }
     if (this.currentSelectedInput === 'address') {
-      // searchMapStore.setSearchFieldValue('address', )
+      searchMapStore.setSearchFieldValue('address', item.name);
+      searchMapStore.setState({
+        locationFilter: item,
+      });
     } else {
       if (item.professionalType) {
         // on click HCP item
-        alert('TODO')
+        alert('TODO');
       } else {
         // on click Specialty item
         searchMapStore.setSearchFieldValue('name', item.name);
         searchMapStore.setState({
-          specialtyFilter: item
+          specialtyFilter: item,
         });
       }
     }
@@ -113,7 +117,7 @@ export class OnekeySdkSearch {
   renderContent = data => {
     return (
       <div class={`search-content ${this.currentSelectedInput}`}>
-        {data && data.map(item => <onekey-sdk-search-address-item item={item} currentSearchText={this.formData[this.currentSelectedInput]} />)}
+        {data && data.map(item => <onekey-sdk-search-address-item item={item} currentSearchText={searchMapStore.state.searchFields.name} />)}
       </div>
     );
   };
@@ -156,7 +160,7 @@ export class OnekeySdkSearch {
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
 
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.name;
-    const searchSpecialtiesData = searchMapStore.state?.searchGeo.length > 0 ? [{ name: 'Near me' }, ...searchMapStore.state?.searchGeo] : [{ name: 'Near me' }];
+    const addressAutocompletionData = searchMapStore.state?.searchGeo.length > 0 ? [nearMeItem, ...searchMapStore.state?.searchGeo] : [nearMeItem];
 
     const isSmallView = this.getViewSize().isSmallView;
     const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
@@ -177,7 +181,7 @@ export class OnekeySdkSearch {
                 <div class="search-form-content">
                   <div class="search-form-content-item">
                     <onekey-sdk-input
-                      ref={(el) => this.fields.name = el}
+                      ref={el => (this.fields.name = el)}
                       postfixIcon={searchMapStore.state.searchFields.name ? 'remove' : ''}
                       name="name"
                       value={searchMapStore.state.searchFields.name}
@@ -195,10 +199,10 @@ export class OnekeySdkSearch {
                   </div>
                   <div class="search-form-content-item">
                     <onekey-sdk-input
-                      ref={(el) => this.fields.address = el}
-                      postfixIcon={selectedAddressName ? 'remove' : ''}
+                      ref={el => (this.fields.address = el)}
+                      postfixIcon={searchMapStore.state.searchFields.address ? 'remove' : ''}
                       name="address"
-                      value={selectedAddressName}
+                      value={searchMapStore.state.searchFields.address}
                       placeholder="Where? (address, city...)"
                       onInput={this.handleFieldInput}
                       autoComplete="off"
@@ -207,7 +211,7 @@ export class OnekeySdkSearch {
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
                     >
-                      {!isSmallView && searchSpecialtiesData.length && this.currentSelectedInput === 'address' && this.renderContent(searchSpecialtiesData)}
+                      {!isSmallView && addressAutocompletionData.length && this.currentSelectedInput === 'address' && this.renderContent(addressAutocompletionData)}
                     </onekey-sdk-input>
                   </div>
                 </div>
@@ -232,7 +236,13 @@ export class OnekeySdkSearch {
               </div>
             </div>
           </div>
-          {isSmallView && <div class="body-block">{searchDoctorData.length && this.currentSelectedInput === 'name' && this.renderContent(searchDoctorData)}</div>}
+          {isSmallView && this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0 && (
+            <div class="body-block">{searchDoctorData.length && this.renderContent(searchDoctorData)}</div>
+          )}
+          {isSmallView && this.currentSelectedInput === 'address' && <div class="body-block">{this.renderContent(addressAutocompletionData)}</div>}
+          {isSmallView && (!this.currentSelectedInput || (!searchMapStore.state.searchFields.name.length && searchMapStore.state.locationFilter?.id !== NEAR_ME)) && (
+            <div class="body-block">{this.renderContent([nearMeItem])}</div>
+          )}
         </div>
       </Host>
     );

@@ -4,3 +4,5 @@ export const BREAKPOINT_MAX_WIDTH = {
   TABLET_PORTRAIT: 1024,
   TABLET_LANDSCAPE: 1100
 }
+
+export const NEAR_ME = 'NEAR_ME';
