@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.extensions.runOnUiThread
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.ThemeExtension
-import com.ekino.onekeysdk.extensions.getConsultedProfiles
-import com.ekino.onekeysdk.extensions.isNullable
-import com.ekino.onekeysdk.extensions.requestPermission
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
+import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.google.gson.Gson
 import com.iqvia.onekey.GetActivitiesQuery
@@ -23,6 +21,7 @@ class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
     private val gson by lazy { Gson() }
     private val config = ThemeExtension.getInstance().getThemeConfiguration()
     val consultedProfiles by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
+    val lastSearches by lazy { MutableLiveData<ArrayList<SearchObject>>() }
     val permissionGranted by lazy { MutableLiveData<Boolean>() }
     val loading by lazy { MutableLiveData<Boolean>() }
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
@@ -88,5 +87,32 @@ class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
             lockState = false
             loading.postValue(false)
         }, true)
+    }
+
+    fun getLastSearches(pref: SharedPreferences) {
+        disposable?.add(
+                Flowable.just(pref)
+                        .map { pref.getLastSearches(gson) }
+                        .map { list ->
+                            val current = System.currentTimeMillis()
+                            list.map {
+                                it.createdDate = DateUtils.getRelativeTimeSpanString(it.createdAt, current, DateUtils.MINUTE_IN_MILLIS).toString()
+                            }
+                            list
+                        }
+                        .compose(compose())
+                        .subscribe({
+                            lastSearches.postValue(it)
+                        }, {})
+        )
+    }
+
+    fun removeSearch(pref: SharedPreferences, obj: SearchObject) {
+        disposable?.add(Flowable.just(obj)
+                .map {
+                    pref.removeConsultedProfile(Gson(), obj)
+                }
+                .compose(compose())
+                .subscribe({}, {}))
     }
 }

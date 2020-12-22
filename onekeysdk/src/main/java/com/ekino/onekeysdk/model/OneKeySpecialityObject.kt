@@ -3,9 +3,12 @@ package com.ekino.onekeysdk.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
+import com.google.gson.annotations.SerializedName
 import com.iqvia.onekey.GetCodeByLabelQuery
 
-class OneKeySpecialityObject(var id: String = "", var lisCode: String = "", var longLbl: String = "") : Parcelable {
+class OneKeySpecialityObject(@SerializedName("id") var id: String = "",
+                             @SerializedName("lisCode") var lisCode: String = "",
+                             @SerializedName("longLbl") var longLbl: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",

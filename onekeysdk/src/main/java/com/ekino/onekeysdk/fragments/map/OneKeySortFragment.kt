@@ -67,6 +67,7 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
             R.id.btnClose -> activity?.onBackPressed()
             R.id.btnReset -> {
                 sortAdapter.setSelectedPosition(0)
+                applySorting()
             }
             R.id.btnApply -> applySorting()
         }

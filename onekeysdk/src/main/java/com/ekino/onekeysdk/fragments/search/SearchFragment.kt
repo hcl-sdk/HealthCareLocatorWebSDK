@@ -18,6 +18,7 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.KeyboardUtils
@@ -176,6 +177,13 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 }
                 oneKeyViewCustomObject?.also {
                     onItemClicked = true
+                    context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+                        viewModel.storeSearch(this, SearchObject(selectedSpeciality
+                                ?: OneKeySpecialityObject(longLbl = edtName.text.toString()), selectedPlace
+                                ?: OneKeyPlace().apply {
+                                    displayName = edtWhere.text.toString()
+                                }))
+                    }
                     (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                             FullMapFragment.newInstance(it, edtName.text.toString(), selectedSpeciality,
                                     selectedPlace ?: OneKeyPlace().apply {

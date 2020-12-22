@@ -276,7 +276,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         if (mMapView == null) return
         mMapView?.controller?.apply {
             setCenter(marker.position)
-            animateTo(marker.position, 14.0, 2000)
+            animateTo(marker.position, mMapView!!.zoomLevelDouble.toDouble(), 2000)
         }
         oneKeyMarkers.filter { oneKeyMarker -> oneKeyMarker.selected }
                 .mapIndexed { _, oneKeyMarker ->

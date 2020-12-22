@@ -3,10 +3,12 @@ package com.ekino.onekeysdk.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
+import com.google.gson.annotations.SerializedName
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
-class LabelObject(var code: String = "", var label: String = "") : Parcelable {
+class LabelObject(@SerializedName("code") var code: String = "",
+                  @SerializedName("label") var label: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "") {

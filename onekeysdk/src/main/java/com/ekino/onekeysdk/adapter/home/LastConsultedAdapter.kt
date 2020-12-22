@@ -10,11 +10,11 @@ import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
-import kotlinx.android.synthetic.main.layout_one_key_last_search.view.*
+import kotlinx.android.synthetic.main.layout_one_key_last_consulted.view.*
 
 class LastConsultedAdapter(private val theme: OneKeyViewCustomObject =
                                    ThemeExtension.getInstance().getThemeConfiguration()) :
-        OneKeyAdapter<ActivityObject, LastConsultedAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_search)) {
+        OneKeyAdapter<ActivityObject, LastConsultedAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_consulted)) {
     var onItemRemovedListener: (data: ActivityObject, position: Int) -> Unit = { _, _ -> }
     var onItemClickedListener: (data: ActivityObject) -> Unit = {}
     override fun initViewHolder(parent: ViewGroup, viewType: Int): LastSearchVH =

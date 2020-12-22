@@ -4,15 +4,20 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.model.LabelObject
+import com.google.gson.annotations.SerializedName
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
-class ActivityObject(var id: String = "", var phone: String = "", var role: LabelObject? = null,
-                     var fax: String = "", var webAddress: String = "",
-                     var workplace: ActivityWorkplaceObject? = null,
-                     var individual: ActivityIndividualObject? = null,
-                     var distance: Double = 0.0, var createdAt: Long = System.currentTimeMillis(),
-                     var createdDate: String = "") : Parcelable, Cloneable {
+class ActivityObject(@SerializedName("id") var id: String = "",
+                     @SerializedName("phone") var phone: String = "",
+                     @SerializedName("role") var role: LabelObject? = null,
+                     @SerializedName("fax") var fax: String = "",
+                     @SerializedName("webAddress") var webAddress: String = "",
+                     @SerializedName("workplace") var workplace: ActivityWorkplaceObject? = null,
+                     @SerializedName("individual") var individual: ActivityIndividualObject? = null,
+                     @SerializedName("distance") var distance: Double = 0.0,
+                     @SerializedName("createdAt") var createdAt: Long = System.currentTimeMillis(),
+                     @SerializedName("createdDate") var createdDate: String = "") : Parcelable, Cloneable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",

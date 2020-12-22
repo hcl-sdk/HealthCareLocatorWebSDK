@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
+import base.extensions.pushFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.LastConsultedAdapter
@@ -19,7 +20,6 @@ import com.ekino.onekeysdk.fragments.map.NearMeFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.viewmodel.home.OneKeyHomFullViewModel
@@ -38,7 +38,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                 }
     }
 
-    private val locations by lazy { getDummyHCP() }
     private var locationProvider: GpsMyLocationProvider? = null
     private var currentLocation: Location? = null
 
@@ -65,15 +64,9 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        var lastSearches = ArrayList(locations.take(3))
-        var lastConsulted = ArrayList(locations.take(3))
         if (savedInstanceState != null) {
             searchTag = savedInstanceState.getInt("lastSearchTag", 0)
             consultedTag = savedInstanceState.getInt("lastConsultedTag", 0)
-            lastSearches = savedInstanceState.getParcelableArrayList("lastSearches")
-                    ?: ArrayList()
-            lastConsulted = savedInstanceState.getParcelableArrayList("lastConsulted")
-                    ?: ArrayList()
         }
         val fm = this@OneKeyHomeFullFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
@@ -112,14 +105,27 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreSearches.setOnClickListener(this)
         viewMoreConsulted.setOnClickListener(this)
         mapOverlay.setOnClickListener(this)
-        initLastSearch(lastSearches, lastConsulted)
+        initLastSearch()
 
         context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.also { pref ->
             viewModel.apply {
                 getConsultedProfiles(pref)
+                getLastSearches(pref)
                 consultedProfiles.observe(this@OneKeyHomeFullFragment, Observer {
-                    checkViewMoreConsulted(it.size)
+                    if (it.isEmpty()) {
+                        lastConsultedWrapper.visibility = View.GONE
+                        return@Observer
+                    }
+                    checkViewMoreConsulted(it.size, viewMoreConsulted)
                     lastConsultedAdapter.setData(it.take(if (consultedTag == 0) 3 else 10).toArrayList())
+                })
+                this.lastSearches.observe(this@OneKeyHomeFullFragment, Observer {
+                    if (it.isEmpty()) {
+                        lastSearchWrapper.visibility = View.GONE
+                        return@Observer
+                    }
+                    checkViewMoreConsulted(it.size, viewMoreSearches)
+                    lastSearchAdapter.setData(it.take(if (searchTag == 0) 3 else 10).toArrayList())
                 })
             }
         }
@@ -136,13 +142,16 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     override fun onResume() {
         super.onResume()
         FullMapFragment.clear()
+//        NearMeFragment.clear()
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.viewMoreSearches -> {
                 if (searchTag == 0) {
-                    lastSearchAdapter.addList(lastSearchAdapter.itemCount, ArrayList(locations.takeLast(7)))
+                    val list = viewModel.lastSearches.value ?: arrayListOf()
+                    lastSearchAdapter.addList(lastSearchAdapter.itemCount,
+                            ArrayList(if (list.size >= 10) list.takeLast(7) else list.takeLast(list.size - 3)))
                     searchTag = 1
                     viewMoreSearches.text = getViewTagText(1)
                 } else {
@@ -177,22 +186,33 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         }
     }
 
-    private fun initLastSearch(lastSearches: ArrayList<OneKeyLocation>, lastConsulted: ArrayList<OneKeyLocation>) {
+    private fun initLastSearch() {
         rvLastSearch.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = lastSearchAdapter
-            lastSearchAdapter.setData(lastSearches)
         }
-        lastSearchAdapter.onItemRemovedListener = {
+        lastSearchAdapter.onItemRemovedListener = { data ->
+            context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+                viewModel.removeSearch(this, data)
+            }
+            val list = viewModel.lastSearches.value ?: arrayListOf()
+            val indexed = list.indexOfFirst { it.createdAt == data.createdAt }
+            if (indexed >= 0) list.removeAt(indexed)
+            checkViewMoreConsulted(list.size, viewMoreSearches)
             if (lastSearchAdapter.getData().isEmpty())
                 lastSearchWrapper.visibility = View.GONE
+            else {
+                lastSearchAdapter.setData(list.take(if (consultedTag == 0) 3 else 10).toArrayList())
+            }
         }
-        lastSearchAdapter.onItemClickedListener = { location ->
-//            if (location.isHCP)
-//                oneKeyViewCustomObject.also {
-//                    (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-//                            OneKeyProfileFragment.newInstance(it, location), true)
-//                }
+        lastSearchAdapter.onItemClickedListener = { obj ->
+//            context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+//                viewModel.storeSearch(this, SearchObject(obj.speciality, obj.place))
+//            }
+            (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
+                    FullMapFragment.newInstance(oneKeyViewCustomObject,
+                            obj.speciality?.longLbl ?: "", obj.speciality, obj.place), true
+            )
         }
         lastConsultedAdapter.onItemRemovedListener = { data, position ->
             context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
@@ -201,7 +221,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             val list = viewModel.consultedProfiles.value ?: arrayListOf()
             val indexed = list.indexOfFirst { it.id == data.id }
             if (indexed >= 0) list.removeAt(indexed)
-            checkViewMoreConsulted(list.size)
+            checkViewMoreConsulted(list.size, viewMoreConsulted)
             if (lastConsultedAdapter.getData().isEmpty())
                 lastConsultedWrapper.visibility = View.GONE
             else {
@@ -237,11 +257,13 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     } as? MapFragment
 
     private fun getViewTagText(tag: Int): String = if (tag == 0) "View more" else "View less"
-    private fun checkViewMoreConsulted(size: Int) {
-        if (size <= 3) viewMoreConsulted.visibility = View.GONE
+
+    private fun checkViewMoreConsulted(size: Int, view: View) {
+        view.visibility = (size > 3).getVisibility()
     }
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
+//        val l= Location.convert()
         currentLocation = location?.getCurrentLocation(currentLocation)
         currentLocation?.also {
             viewModel.getNearMeHCP(it) {

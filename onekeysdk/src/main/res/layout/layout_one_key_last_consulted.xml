@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                android:id="@+id/tvSpeciality"
+                android:id="@+id/tvDoctorName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="General"
@@ -27,12 +27,26 @@
                 app:OneKeyTextStyle="OneKeyStyleResultTitle" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvSpeciality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="General" />
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="General"
+                android:textColor="@color/colorOneKeyText"
+                android:visibility="gone" />
+
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text=""
-                android:visibility="gone"
+                android:text="General"
                 app:OneKeyTextColor="OneKeyColorGreyDark" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView

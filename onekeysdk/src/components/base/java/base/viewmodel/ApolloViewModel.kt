@@ -10,6 +10,8 @@ import com.apollographql.apollo.exception.ApolloException
 import com.ekino.onekeysdk.extensions.ApolloConnector
 import com.ekino.onekeysdk.extensions.removeConsultedProfile
 import com.ekino.onekeysdk.extensions.storeConsultedProfiles
+import com.ekino.onekeysdk.extensions.storeLastSearch
+import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.google.gson.Gson
 import io.reactivex.Flowable
@@ -39,12 +41,21 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                 })
     }
 
-
     fun storeConsultedProfile(pref: SharedPreferences, activity: ActivityObject) {
         disposable?.add(Flowable.just(0)
                 .map {
                     activity.createdAt = System.currentTimeMillis()
                     pref.storeConsultedProfiles(Gson(), activity)
+                }
+                .compose(compose())
+                .subscribe({}, {}))
+    }
+
+    fun storeSearch(pref: SharedPreferences, obj: SearchObject) {
+        disposable?.add(Flowable.just(0)
+                .map {
+                    obj.createdAt = System.currentTimeMillis()
+                    pref.storeLastSearch(Gson(), obj)
                 }
                 .compose(compose())
                 .subscribe({}, {}))

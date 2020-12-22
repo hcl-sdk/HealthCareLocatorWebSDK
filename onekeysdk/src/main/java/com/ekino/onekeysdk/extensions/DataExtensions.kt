@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
 import com.google.gson.Gson
@@ -77,6 +78,31 @@ fun SharedPreferences.removeConsultedProfile(gson: Gson = Gson(), hcp: ActivityO
 fun SharedPreferences.getConsultedProfiles(gson: Gson = Gson()): ArrayList<ActivityObject> {
     return gson.fromJson(this.getString("ConsultedProfiles", "[]") ?: "[]",
             object : TypeToken<ArrayList<ActivityObject>>() {}.type)
+}
+
+fun SharedPreferences.storeLastSearch(gson: Gson = Gson(), obj: SearchObject) {
+    val searches = this.getLastSearches(gson)
+    searches.removeIf { it.createdAt == obj.createdAt }
+    searches.add(obj)
+    searches.sortWith(Comparator { o1: SearchObject, o2: SearchObject ->
+        o2.createdAt.compareTo(o1.createdAt)
+    })
+    val current = System.currentTimeMillis()
+    searches.map {
+        it.createdDate = DateUtils.getRelativeTimeSpanString(it.createdAt, current, DateUtils.MINUTE_IN_MILLIS).toString()
+    }
+    edit { putString("LastSearches", gson.toJson(searches)) }
+}
+
+fun SharedPreferences.removeConsultedProfile(gson: Gson = Gson(), obj: SearchObject) {
+    val searches = this.getLastSearches(gson)
+    searches.removeIf { it.createdAt == obj.createdAt }
+    edit { putString("LastSearches", gson.toJson(searches)) }
+}
+
+fun SharedPreferences.getLastSearches(gson: Gson = Gson()): ArrayList<SearchObject> {
+    return gson.fromJson(this.getString("LastSearches", "[]") ?: "[]",
+            object : TypeToken<ArrayList<SearchObject>>() {}.type)
 }
 
 /**
