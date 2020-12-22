@@ -9,8 +9,10 @@
 
 | Property              | Attribute               | Description | Type                                    | Default     |
 | --------------------- | ----------------------- | ----------- | --------------------------------------- | ----------- |
+| `breakpoint`          | --                      |             | `Breakpoint`                            | `undefined` |
 | `defaultZoom`         | `default-zoom`          |             | `number`                                | `undefined` |
 | `dragging`            | `dragging`              |             | `boolean`                               | `true`      |
+| `interactive`         | `interactive`           |             | `boolean`                               | `true`      |
 | `locations`           | --                      |             | `any[]`                                 | `[]`        |
 | `mapHeight`           | `map-height`            |             | `string`                                | `'100%'`    |
 | `mapWidth`            | `map-width`             |             | `string`                                | `'100%'`    |
@@ -18,7 +20,6 @@
 | `modeView`            | `mode-view`             |             | `ModeViewType.LIST \| ModeViewType.MAP` | `undefined` |
 | `noCurrentLocation`   | `no-current-location`   |             | `boolean`                               | `false`     |
 | `selectedLocationIdx` | `selected-location-idx` |             | `number`                                | `undefined` |
-| `breakpoint`        | `view-port-size`        |             | `string`                                | `undefined` |
 | `zoomControl`         | `zoom-control`          |             | `boolean`                               | `false`     |
 
 
@@ -26,6 +27,7 @@
 
 | Event                | Description | Type               |
 | -------------------- | ----------- | ------------------ |
+| `mapClicked`         |             | `CustomEvent<any>` |
 | `markerClick`        |             | `CustomEvent<any>` |
 | `setCurrentLocation` |             | `CustomEvent<any>` |
 

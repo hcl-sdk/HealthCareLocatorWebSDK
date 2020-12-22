@@ -9,19 +9,18 @@
 
 ### Depends on
 
-- [onekey-sdk-button](../../ui-kits/onekey-sdk-button)
 - [onekey-sdk-search](../onekey-sdk-search)
+- [onekey-sdk-button](../../ui-kits/onekey-sdk-button)
 - [onekey-sdk-home-min](onekey-sdk-home-min)
 - [onekey-sdk-home-full](onekey-sdk-home-full)
 
 ### Graph
 ```mermaid
 graph TD;
-  onekey-sdk-home --> onekey-sdk-button
   onekey-sdk-home --> onekey-sdk-search
+  onekey-sdk-home --> onekey-sdk-button
   onekey-sdk-home --> onekey-sdk-home-min
   onekey-sdk-home --> onekey-sdk-home-full
-  onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-search-address-item
   onekey-sdk-search --> onekey-sdk-router-link
   onekey-sdk-search --> onekey-sdk-icon
@@ -30,6 +29,7 @@ graph TD;
   onekey-sdk-search --> onekey-sdk-switch-view-mode
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-input --> onekey-sdk-button
+  onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-switch-view-mode --> ion-icon
   onekey-sdk-home-min --> onekey-sdk-icon
   onekey-sdk-home-min --> onekey-sdk-button
