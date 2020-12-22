@@ -9,7 +9,7 @@ class StoreProvider<T extends {}> {
     this.storeInstance = createStore<T>(initState);
   }
 
-  setState = (states: T) => {
+  setState = (states: Partial<T>) => {
     if (states) {
       const statesKeys: string[] = Object.keys(states)
       statesKeys.forEach((k) => {

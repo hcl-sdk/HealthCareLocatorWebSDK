@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { id } from 'date-fns/locale';
+// import { id } from 'date-fns/locale';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { searchMapStore } from '../stores';
 

@@ -172,6 +172,7 @@ export namespace Components {
         "breakpoint": Breakpoint;
         "defaultZoom": number;
         "dragging": boolean;
+        "interactive": boolean;
         "locations": any[];
         "mapHeight": string;
         "mapWidth": string;
@@ -670,12 +671,14 @@ declare namespace LocalJSX {
         "breakpoint"?: Breakpoint;
         "defaultZoom"?: number;
         "dragging"?: boolean;
+        "interactive"?: boolean;
         "locations"?: any[];
         "mapHeight"?: string;
         "mapWidth"?: string;
         "markerIcon"?: string;
         "modeView"?: ModeViewType;
         "noCurrentLocation"?: boolean;
+        "onMapClicked"?: (event: CustomEvent<any>) => void;
         "onMarkerClick"?: (event: CustomEvent<any>) => void;
         "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;

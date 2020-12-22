@@ -17,9 +17,16 @@ export class OnekeySdkSearchResult {
   @State() isOpenPanel: boolean = true;
 
   componentWillLoad() {
-    if (!searchMapStore.state.specialties.length) {
-      searchLocation({ specialties: searchMapStore.state.selectedValues.name.specialties });
+    const params: any = {};
+    if (searchMapStore.state.locationFilter) {
+      params.location = {
+
+      }
     }
+    if (searchMapStore.state.specialtyFilter) {
+      params.specialties = [searchMapStore.state.specialtyFilter.id];
+    }
+    searchLocation(params);
   }
   searchDataCardList;
 
@@ -69,7 +76,7 @@ export class OnekeySdkSearchResult {
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
     const className = cls('search-toolbar search-section', {
-      'header-block': isSmall
+      'header-block': isSmall,
     });
     return (
       <div class={className}>
@@ -86,7 +93,7 @@ export class OnekeySdkSearchResult {
         </div>
         <div class="search-filter-wrapper">
           <div class="search-filter">
-            <onekey-sdk-icon name="sort" onClick={this.onOpenSort} />
+            <onekey-sdk-icon name="sort" width={15} height={9} onClick={this.onOpenSort} />
           </div>
         </div>
       </div>
@@ -117,26 +124,27 @@ export class OnekeySdkSearchResult {
     });
 
     const wrapperClass = cls('search-result main-contain', `${modeView.toLowerCase()}-view-mode`, {
-      'hcp-details': !!selectedActivity
-    })
+      'hcp-details': !!selectedActivity,
+    });
 
     return (
       <Host class={wrapperClass}>
-        {!selectedActivity && (isSmall ? (
-          <div class="header-block search-header search-section">
-            <onekey-sdk-router-link url="/search" class="btn-back">
-              <onekey-sdk-icon name="arrow" color={getCssColor('--onekeysdk-color-dark')} />
-            </onekey-sdk-router-link>
-            <div>
-              <strong class="search-result-title">{selectedDoctorName}</strong>
-              <div class="search-result-address">{selectedAddressName}</div>
+        {(!selectedActivity || !isSmall) &&
+          (isSmall ? (
+            <div class="header-block search-header search-section">
+              <onekey-sdk-router-link url="/search" class="btn-back">
+                <onekey-sdk-icon name="arrow" color={getCssColor('--onekeysdk-color-dark')} />
+              </onekey-sdk-router-link>
+              <div>
+                <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
+                <div class="search-result-address">{selectedAddressName || 'Canada'}</div>
+              </div>
             </div>
-          </div>
-        ) : (
-          <onekey-sdk-search searchText="Search" showSwitchMode />
-        ))}
-        {searchMapStore.state.loading ? (
-          <onekey-sdk-loading class="hidden-tablet hidden-desktop body-block" style={{ position: 'relative' }}></onekey-sdk-loading>
+          ) : (
+            <onekey-sdk-search searchText="Search" showSwitchMode />
+          ))}
+        {isSmall && searchMapStore.state.loading ? (
+          <onekey-sdk-loading class="body-block" style={{ position: 'relative' }}></onekey-sdk-loading>
         ) : (
           <Fragment>
             {isSmall && !selectedActivity && this.renderToolbar(true)}
@@ -150,13 +158,12 @@ export class OnekeySdkSearchResult {
                     ))}
                   </div>
                 )}
-
-                <div class="toggle-panel">
-                  <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconColor="black" onClick={this.togglePanel} />
-                </div>
+              </div>
+              <div class="toggle-panel">
+                <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
               </div>
 
-              {((!isListView && !isSmall) || (!isListView && !selectedActivity) )&& (
+              {((!isListView && !isSmall) || (!isListView && !selectedActivity)) && (
                 <onekey-sdk-map mapHeight={`100%`} class={mapClass} modeView={modeView} breakpoint={breakpoint} locations={specialties} selectedLocationIdx={0} defaultZoom={5} />
               )}
             </div>

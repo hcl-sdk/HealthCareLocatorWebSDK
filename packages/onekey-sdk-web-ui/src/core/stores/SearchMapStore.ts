@@ -11,7 +11,10 @@ export interface SpecialtyItem {
   lng?: number;
 }
 
-
+export interface SearchFields {
+  name: string;
+  address: string;
+}
 export interface HCPName {
   id: string
   label: string
@@ -55,6 +58,9 @@ export interface SearchMapState {
   sortValues?: SortValue
   selectedActivity?: SelectedIndividual
   individualDetail?: any;
+  searchFields: SearchFields;
+  locationFilter: any;
+  specialtyFilter: any;
 }
 
 export const initStateSearchMapStore: SearchMapState = {
@@ -71,13 +77,28 @@ export const initStateSearchMapStore: SearchMapState = {
     relevance: false,
     distance: false,
     name: false
-  }
+  },
+  searchFields: {
+    name: '',
+    address: ''
+  },
+  locationFilter: null,
+  specialtyFilter: null
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
   constructor(state: SearchMapState) {
     super(state);
     this.state = state;
+  }
+
+  setSearchFieldValue(key: string, value: string) {
+    this.setState({
+      searchFields: {
+        ...this.state.searchFields,
+        [key]: value
+      }
+    })
   }
 }
 

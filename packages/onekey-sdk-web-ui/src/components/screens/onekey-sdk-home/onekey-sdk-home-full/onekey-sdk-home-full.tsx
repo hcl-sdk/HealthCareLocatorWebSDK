@@ -1,6 +1,6 @@
 import { formatDistance } from 'date-fns';
-import { Component, h, Host, State } from '@stencil/core';
-import { historyStore } from '../../../../core/stores';
+import { Component, h, Host, State, Listen } from '@stencil/core';
+import { historyStore, routerStore } from '../../../../core/stores';
 @Component({
   tag: 'onekey-sdk-home-full',
   shadow: false,
@@ -8,6 +8,11 @@ import { historyStore } from '../../../../core/stores';
 export class OnekeySdkHomeFull {
   @State() showMoreSearchItems: boolean = false;
   @State() showMoreHcpItems: boolean = false;
+
+  @Listen('mapClicked')
+  onMapClicked() {
+    routerStore.push('/search-result');
+  }
 
   filterHistoryItems = (showMore: boolean) => (_: any, index: number) => {
     if (showMore) {
@@ -67,6 +72,7 @@ export class OnekeySdkHomeFull {
               zoomControl={false}
               mapHeight="100px"
               dragging={false}
+              interactive={false}
             />
           </div>
         </div>
