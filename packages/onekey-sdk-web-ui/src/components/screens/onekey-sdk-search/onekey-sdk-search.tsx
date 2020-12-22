@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
-import { searchDoctor, searchLocation } from '../../../core/api/hcp';
+import { searchDoctor } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
@@ -44,23 +44,7 @@ export class OnekeySdkSearch {
     const { name } = e.target;
     this.checkValidElm(name);
 
-    const { isSmallView } = this.getViewSize();
-
     if (name.value) {
-      if (isSmallView) {
-        searchMapStore.setState({
-          search: {
-            name: this.selectedDoctor.label,
-            selectedItem: this.selectedAddress,
-          },
-        });
-      } else {
-        const { lat, lng } = this.selectedAddress
-        await searchLocation({
-          specialties: searchMapStore.state.selectedValues?.name?.specialties,
-          location: searchMapStore.state.selectedValues?.address?.lat ? { lat, lon: lng } : {},
-        });
-      }
       routerStore.push('/search-result');
     }
   };
@@ -91,24 +75,28 @@ export class OnekeySdkSearch {
     }
   }, 500);
 
+  handleFieldInput = (e) => {
+    const el = e.target;
+    searchMapStore.setSearchFieldValue(el.name, el.value);
+    this.onChange(e);
+  }
+
   @Listen('selectAddress')
   onSelectAddress(e) {
-    console.log(e)
+    const item = e.detail;
     if (this.currentSelectedInput === 'address') {
-      this.selectedAddress = { ...e.detail };
-      searchMapStore.setState({
-        selectedValues: {
-          ...searchMapStore.state.selectedValues,
-          address: { ...e.detail },
-        },
-      });
+      // searchMapStore.setSearchFieldValue('address', )
     } else {
-      searchMapStore.setState({
-        selectedValues: {
-          ...searchMapStore.state.selectedValues,
-          name: { ...e.detail },
-        },
-      });
+      if (item.professionalType) {
+        // on click HCP item
+        alert('TODO')
+      } else {
+        // on click Specialty item
+        searchMapStore.setSearchFieldValue('name', item.name);
+        searchMapStore.setState({
+          specialtyFilter: item
+        });
+      }
     }
 
     this.resetDataResult();
@@ -131,12 +119,7 @@ export class OnekeySdkSearch {
   };
 
   resetValue = (key, focusField = false) => {
-    searchMapStore.setState({
-      selectedValues: {
-        ...searchMapStore.state.selectedValues,
-        [key]: null,
-      },
-    });
+    searchMapStore.setSearchFieldValue(key, '');
     if (focusField) {
       this.fields[key].querySelector('input').focus();
     }
@@ -195,11 +178,11 @@ export class OnekeySdkSearch {
                   <div class="search-form-content-item">
                     <onekey-sdk-input
                       ref={(el) => this.fields.name = el}
-                      postfixIcon={selectedDoctorName ? 'remove' : ''}
+                      postfixIcon={searchMapStore.state.searchFields.name ? 'remove' : ''}
                       name="name"
-                      value={selectedDoctorName}
+                      value={searchMapStore.state.searchFields.name}
                       placeholder="Name, Specialty"
-                      onInput={this.onChange}
+                      onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={nameInputLoading}
                       onPostfixClick={() => this.resetValue('name', true)}
@@ -217,7 +200,7 @@ export class OnekeySdkSearch {
                       name="address"
                       value={selectedAddressName}
                       placeholder="Where? (address, city...)"
-                      onInput={this.onChange}
+                      onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={addressInputLoading}
                       onPostfixClick={() => this.resetValue('address', true)}

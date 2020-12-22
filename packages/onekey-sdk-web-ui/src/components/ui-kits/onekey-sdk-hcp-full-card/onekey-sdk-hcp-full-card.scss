@@ -1,6 +1,25 @@
 @import '../../../global/scss/variables.scss';
 
 :host {
+  .suggest-edit-btn .btn {
+    background-color: var(--onekeysdk-color-button_bkg);
+    border: 1px solid var(--onekeysdk-color-button_border);
+    padding-top: 5px;
+    padding-bottom: 8px;
+    .icon {
+      margin-right: 5px;
+    }
+  }
+
+  .btn-rate .btn {
+    background-color: #fff;
+    border: 1px solid var(--onekeysdk-color-grey_light);
+    width: 30px;
+    .icon {
+      fill: var(--onekeysdk-color-grey_light);
+    }
+  }
+
   .main-info {
     padding: 10px;
     display: grid;
@@ -22,10 +41,18 @@
       display: grid;
       justify-content: center;
       align-items: center;
+      border-radius: 3px;
+
+      .icon {
+        fill: white;
+      }
     }
 
     &__profile {
       display: grid;
+      align-self: flex-start;
+      padding-top: 4px;
+
       &-name {
         color: var(--onekeysdk-color-secondary);
         @include applyFontStyle("profile_title");
@@ -47,6 +74,10 @@
     &:nth-child(2) {
       border-top: none;
     }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
   }
 
   .info-section-header {
@@ -60,13 +91,16 @@
 
       @include applyFontStyle("profile_title_section");
       display: grid;
-      align-self: start;
+      align-self: center;
     }
 
     &__postfix {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
+      .btn {
+        border: 1px solid var(--onekeysdk-color-grey_lighter);
+      }
     }
   }
 
@@ -78,7 +112,7 @@
 
     &-item {
       display: grid;
-      grid-gap: 10px;
+      grid-gap: 7px;
       grid-template-columns: auto 1fr;
       justify-content: center;
       align-items: center;
@@ -122,7 +156,6 @@
     &__map {
       height: 100px;
       width: 100%;
-      margin-bottom: 10px;
     }
 
     &__address {
@@ -211,10 +244,6 @@
       margin-right: auto;
     }
 
-    .main-block--content {
-      margin-top: 30px;
-    }
-
     .hcp-details-card {
       margin-top: 10px;
     }
@@ -244,7 +273,5 @@
         z-index: 4;
       }
     }
-
-
   }
 }

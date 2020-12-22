@@ -200,7 +200,6 @@ export class SettingsPanel {
   };
 
   setCustomStyleProperty = (propName: string, propValue: string) => {
-    console.log('setCustomStyleProperty', { propName, propValue });
     const el = document.querySelector('onekey-sdk') as HTMLElement;
     if (el) {
       el.style.setProperty(propName, propValue);

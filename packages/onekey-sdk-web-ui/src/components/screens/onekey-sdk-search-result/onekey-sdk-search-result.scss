@@ -153,11 +153,33 @@
     .search-result {
       overflow: hidden;
     }
+
     .search-toolbar {
       display: grid;
       grid-template-columns: 1fr auto auto;
       padding: 10px;
       grid-gap: 10px;
+    }
+
+    onekey-sdk-hcp-full-card {
+      .search-toolbar {
+        border: 1px solid var(--onekeysdk-color-card_border);
+        border-bottom: 0;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin: 10px 10px 0 10px;
+        grid-gap: 0;
+        padding-bottom: 0;
+        .search-back-large {
+          height: auto;
+        }
+        .btn {
+          padding: 0;
+        }
+      }
+      .hcp-details-card.main-block {
+        margin-bottom: 10px;
+      }
     }
 
     .search-map-wrapper {
@@ -200,6 +222,12 @@
         border-right: 1px solid var(--onekeysdk-color-card_border);
       }
 
+      .hcp-details-card {
+        margin-left: 0;
+        margin-right: 0;
+        width: auto;
+      }
+
       .search-toolbar {
         margin-top: 0;
         border: none;
@@ -207,11 +235,14 @@
         border-radius: 0;
         position: sticky;
         top: 0;
+        width: auto;
+        margin: 0;
       }
 
       .search-data {
         margin-left: 10px;
         margin-right: 10px;
+        width: auto;
       }
     }
 
@@ -220,7 +251,7 @@
     }
 
     .search-toolbar, .search-data {
-      max-width: 640px;
+      width: 640px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -230,6 +261,10 @@
       border: 1px solid var(--onekeysdk-color-card_border);
       border-radius: 5px;
       display: flex;
+      padding: 0 5px;
+      .btn {
+        padding: 0;
+      }
     }
 
     .search-data .doctor-card {
@@ -244,7 +279,7 @@
     .search-map-wrapper.hide {
       display: none;
       & + .toggle-panel {
-        left: 5px;
+        left: 3px;
         transform: rotate(0);
       }
     }
@@ -292,7 +327,7 @@
       }
 
       .main-info {
-        margin: 0 5px;
+        margin: 0 10px;
       }
 
       .main-block__navigation {
@@ -307,9 +342,9 @@
       .toggle-panel {
         position: absolute;
         z-index: 9999;
-        left: 365px;
+        left: 363px;
         height: 36px;
-        width: 30px;
+        width: 26px;
         padding: 0;
         display: grid;
         justify-content: center;
@@ -319,8 +354,8 @@
         transform: rotate(180deg);
         top: 5px;
         border-radius: 5px;
-        svg {
-          margin-top: 2px;
+        .btn {
+          padding: 0;
         }
       }
     }

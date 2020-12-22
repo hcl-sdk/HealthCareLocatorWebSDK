@@ -28,15 +28,29 @@ export class OnekeySdkMap {
   @Prop() dragging: boolean = true;
   @Prop() modeView: ModeViewType
   @Prop() breakpoint: Breakpoint;
+  @Prop() interactive: boolean = true;
   @Event() markerClick: EventEmitter;
   @State() currentLocation: any;
   @Event() setCurrentLocation: EventEmitter;
+  @Event() mapClicked: EventEmitter;
   mapElm: HTMLInputElement;
   map;
 
   componentDidLoad() {
     this.setMap();
     this.getCurrentLocation();
+    if (!this.interactive) {
+      this.disableMap();
+    }
+  }
+
+  @Watch('interactive')
+  handleInteractiveChange() {
+    if (this.interactive) {
+      this.enableMap();
+    } else {
+      this.disableMap();
+    }
   }
 
   @Watch('locations')
@@ -71,6 +85,30 @@ export class OnekeySdkMap {
         icon: this.getIcon()
       }).addTo(this.map);
     })
+  }
+
+  private disableMap() {
+    this.map.dragging.disable();
+    this.map.touchZoom.disable();
+    this.map.doubleClickZoom.disable();
+    this.map.scrollWheelZoom.disable();
+    this.map.boxZoom.disable();
+    this.map.keyboard.disable();
+    if (this.map.tap) {
+      this.map.tap.disable();
+    }
+  }
+
+  private enableMap() {
+    this.map.dragging.enable();
+    this.map.touchZoom.enable();
+    this.map.doubleClickZoom.enable();
+    this.map.scrollWheelZoom.enable();
+    this.map.boxZoom.enable();
+    this.map.keyboard.enable();
+    if (this.map.tap) {
+      this.map.tap.enable();
+    }
   }
 
   private setMap = () => {
@@ -179,7 +217,7 @@ export class OnekeySdkMap {
     return (
       <Host>
         { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
-        <div class={this.zoomControl ? '' : 'map--no-controls'} style={{ height: this.mapHeight, width: this.mapWidth }} id={`map-${Date.now()}`} ref={el => (this.mapElm = el as HTMLInputElement)} />
+        <div class={this.zoomControl ? '' : 'map--no-controls'} onClick={this.mapClicked.emit} style={{ height: this.mapHeight, width: this.mapWidth }} id={`map-${Date.now()}`} ref={el => (this.mapElm = el as HTMLInputElement)} />
       </Host>
     );
   }

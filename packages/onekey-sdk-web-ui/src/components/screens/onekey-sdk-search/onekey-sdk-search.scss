@@ -19,9 +19,13 @@
     flex: 1;
     display: flex;
     align-items: center;
+    height: 44px;
     span {
       margin-left: 6px;
       color: var(--onekeysdk-color-grey_dark);
+    }
+    .btn {
+      padding: 0;
     }
   }
 

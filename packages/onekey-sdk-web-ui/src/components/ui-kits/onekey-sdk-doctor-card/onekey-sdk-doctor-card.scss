@@ -2,13 +2,13 @@
 
 :host {
   display: block;
-  cursor: pointer;
 
   onekey-sdk-doctor-card:last-child .doctor-card {
     margin-bottom: 10px;
   }
 
   .doctor-card {
+    cursor: pointer;
     border: 1px solid var(--onekeysdk-color-card_border);
     border-radius: 5px;
     padding: 10px;
