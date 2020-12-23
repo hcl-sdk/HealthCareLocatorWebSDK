@@ -9,7 +9,7 @@ const easeInOutQuad = function (t, b, c, d) {
   return (-c / 2) * (t * (t - 2) - 1) + b;
 };
 
-function animateScrollTo({ element, scrollDirection, to, duration, screenSize }) {
+function animateScrollTo({ element, scrollDirection, to, duration }) {
 
   const isVertical = scrollDirection === "scrollTop"
   let start = element[scrollDirection],
