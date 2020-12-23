@@ -12,7 +12,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import base.extensions.pushFragment
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
@@ -167,6 +169,7 @@ class OneKeyProfileFragment :
 
         applyStyles()
 
+        mapOverlay.setOnClickListener(this)
         btnShare.setOnClickListener(this)
         tvWebsite.setOnClickListener(this)
         ivDirection.setOnClickListener(this)
@@ -206,6 +209,10 @@ class OneKeyProfileFragment :
             }
 
             R.id.btnShare -> {
+            }
+            R.id.mapOverlay -> {
+                (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
+                        OneKeyProfileMapFragment.newInstance(activityDetail), true)
             }
         }
     }

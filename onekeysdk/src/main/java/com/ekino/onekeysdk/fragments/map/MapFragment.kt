@@ -159,7 +159,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 controller.animateTo(position, 15.0, 2000)
             }
             if (this@MapFragment.boundingBox) {
-                val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint() ?: return
+                val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint()
+                        ?: return
                 controller.setCenter(position)
                 controller.animateTo(position, 10.0, 2000)
             }
@@ -308,16 +309,18 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         }
     }
 
-    fun moveToCurrentLocation() {
+    fun moveToCurrentLocation(forcedZoom: Boolean = false) {
         locationProvider?.lastKnownLocation?.also { location ->
             mMapView?.apply {
                 val position = GeoPoint(location.latitude, location.longitude)
                 controller.setCenter(position)
-                controller.animateTo(position, 16.0, 2000)
+                controller.animateTo(position, if (forcedZoom) 15.0 else zoomLevelDouble, 2000)
             }
         }
     }
 
     fun getLastLocation(): GeoPoint? =
             locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
+
+    fun getMapView(): OneKeyMapView? = mMapView
 }

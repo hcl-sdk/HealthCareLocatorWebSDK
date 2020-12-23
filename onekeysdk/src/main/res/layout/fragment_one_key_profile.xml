@@ -105,9 +105,20 @@
                     </LinearLayout>
 
                     <FrameLayout
-                        android:id="@+id/viewHCPMap"
                         android:layout_width="match_parent"
-                        android:layout_height="125dp" />
+                        android:layout_height="125dp">
+
+                        <FrameLayout
+                            android:id="@+id/viewHCPMap"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <View
+                            android:id="@+id/mapOverlay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground" />
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

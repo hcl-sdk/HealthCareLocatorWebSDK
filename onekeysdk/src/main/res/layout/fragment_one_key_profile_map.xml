@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/default_padding">
+
+    <LinearLayout
+        android:id="@+id/headerWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivLocation"
+                android:layout_width="@dimen/default_icon_size_small"
+                android:layout_height="@dimen/default_icon_size_small"
+                android:layout_marginStart="-5dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:paddingBottom="2dp"
+                android:src="@drawable/outline_location_on_black_24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding_smaller"
+                android:orientation="vertical">
+
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/tvBuilding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:OneKeyTextColor="OneKeyColorSecondary"
+                    tools:text="Address 1" />
+
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:OneKeyTextColor="OneKeyColorDark"
+                    tools:text="Address 1" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/default_icon_size_smaller"
+            android:layout_height="@dimen/default_icon_size_smaller"
+            android:layout_marginTop="-3dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="1dp"
+            android:src="@drawable/baseline_close_black_24dp"
+            app:tint="@color/gray"
+            tools:tint="@color/gray" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/mapWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerWrapper"
+        android:layout_marginTop="@dimen/default_padding"
+        android:padding="1dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="0dp">
+
+            <FrameLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/btnCurrentLocation"
+        android:layout_width="@dimen/default_icon_size_big"
+        android:layout_height="@dimen/default_icon_size_big"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/default_padding"
+        android:layout_marginBottom="@dimen/default_padding"
+        android:background="@drawable/bg_white_circle_border"
+        android:padding="@dimen/default_padding_small"
+        android:src="@drawable/baseline_my_location_black_24dp"
+        app:tint="@color/colorOneKeyText" />
+</RelativeLayout>
