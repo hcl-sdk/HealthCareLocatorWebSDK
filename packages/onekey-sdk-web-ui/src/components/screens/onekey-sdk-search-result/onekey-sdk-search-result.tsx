@@ -59,8 +59,7 @@ export class OnekeySdkSearchResult {
       element: elm,
       scrollDirection: isSmall ? 'scrollLeft': 'scrollTop',
       to: doctorCardOffset,
-      duration: 1000,
-      screenSize: breakpoint.screenSize
+      duration: 1000
     });
     this.selectedMarkerIdx = selectedMarkerIdx;
   }
