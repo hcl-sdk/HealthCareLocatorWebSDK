@@ -35,6 +35,7 @@ export class OnekeySdkSearchResult {
     searchLocation(params);
   }
   searchDataCardList;
+  searchDataMapElm;
 
   onItemCardClick = async item => {
     searchMapStore.setState({
@@ -48,10 +49,19 @@ export class OnekeySdkSearchResult {
 
   @Listen('markerClick')
   onMarkerClick(e) {
+    const breakpoint = uiStore.state.breakpoint;
     const selectedMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
-    const doctorCardOffset = getDoctorCardOffset(this.searchDataCardList, selectedMarkerIdx);
+    const isSmall = breakpoint.screenSize === 'mobile';
+    const elm = isSmall ? this.searchDataCardList : this.searchDataMapElm
+    const doctorCardOffset = getDoctorCardOffset(elm, selectedMarkerIdx, !isSmall);
 
-    animateScrollTo(this.searchDataCardList, 'scrollLeft', doctorCardOffset, 1000);
+    animateScrollTo({
+      element: elm,
+      scrollDirection: isSmall ? 'scrollLeft': 'scrollTop',
+      to: doctorCardOffset,
+      duration: 1000,
+      screenSize: breakpoint.screenSize
+    });
     this.selectedMarkerIdx = selectedMarkerIdx;
   }
 
@@ -185,7 +195,7 @@ export class OnekeySdkSearchResult {
         <Fragment>
           {isSmall && !selectedActivity && this.renderToolbar(true)}
           <div class="body-block">
-            <div class={mapWrapperClass}>
+            <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
               {selectedActivity ? <onekey-sdk-hcp-full-card goBack={this.onBackToList} /> : !isSmall && this.renderToolbar()}
               {!selectedActivity && (
                 <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>

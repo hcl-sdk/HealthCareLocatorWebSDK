@@ -51,7 +51,6 @@ export class OnekeySdkSearch {
     const inputName = e.path[0].name;
     const inputValue = e.path[0].value;
     this.checkValidElm(e.path[0]);
-
     if (inputValue) {
       inputName === 'name'
         ? await searchDoctor({
@@ -188,18 +187,19 @@ export class OnekeySdkSearch {
   };
 
   renderAutocompleteField = (fieldName, data) => {
+    console.log({ fieldName, data, currentSelectedInput: this.currentSelectedInput })
     if (fieldName !== this.currentSelectedInput) {
       return null;
     }
     if (this.currentSelectedInput === 'name') {
-      return <div class="body-block">{data.length > 0 && this.renderContent(data)}</div>;
+      return <div>{data.length > 0 && this.renderContent(data)}</div>;
     } else if (this.currentSelectedInput === 'address') {
       const addressResults = [...data];
       const nearMeFound = searchMapStore.state.locationFilter?.id === NEAR_ME;
       if (!nearMeFound && !searchMapStore.state.searchFields.address.length) {
         addressResults.unshift(NEAR_ME_ITEM);
       }
-      return <div class="body-block">{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
+      return <div>{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
     }
     return null;
   };
@@ -207,7 +207,6 @@ export class OnekeySdkSearch {
   render() {
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
-
     const selectedAddressName = searchMapStore.state.selectedValues?.address?.name;
     const addressAutocompletionData = searchMapStore.state.searchGeo;
 

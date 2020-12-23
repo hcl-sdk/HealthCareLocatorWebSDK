@@ -8,7 +8,7 @@ export async function searchLocation(variables) {
 
   const { activities } = await graphql.activities({
     apiKey: "1",
-    first: 10,
+    first: 50,
     offset: 0,
     county: "",
     ...variables,
@@ -34,7 +34,7 @@ export async function searchDoctor(variables) {
   if(variables.criteria.length < 3) {
     return null;
   }
-  searchMapStore.setState({ loading: true, searchDoctor: [], specialties: [] });
+  searchMapStore.setState({ loading: true });
 
   const [
     { individualsByName: { individuals } },
