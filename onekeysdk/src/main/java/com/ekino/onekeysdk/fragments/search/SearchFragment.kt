@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.fragments.search
 
 import android.content.Context
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -73,6 +74,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
         if (savedInstanceState != null) {
+            selectedSpeciality = savedInstanceState.getParcelable("selectedSpeciality")
+            selectedPlace = savedInstanceState.getParcelable("selectedPlace")
             isExpand = savedInstanceState.getBoolean("expand", false)
             if (isExpand) selectionWrapper.expand(true)
             else selectionWrapper.collapse(true)
@@ -149,6 +152,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean("expand", isExpand)
+        outState.putParcelable("selectedSpeciality", selectedSpeciality)
+        outState.putParcelable("selectedPlace", selectedPlace)
     }
 
     override fun onDestroyView() {
@@ -172,7 +177,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             }
             R.id.btnSearch -> {
                 if (edtName.text.toString().isEmpty()) {
-                    setError(specialityWrapper, R.color.colorOneKeyRed)
+                    setError(specialityWrapper, ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
                 }
                 oneKeyViewCustomObject?.also {
@@ -243,8 +248,8 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         ivAddressClear.visibility = state.getVisibility()
     }
 
-    private fun setError(view: View, color: Int = R.color.grayLight) {
-        view.setRippleBackground(ContextCompat.getColor(context!!, color), 20f)
+    private fun setError(view: View, strokeColor: Int = oneKeyViewCustomObject.colorCardBorder.getColor()) {
+        view.setBackgroundWithCorner(Color.WHITE, strokeColor, 12f, 3)
     }
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {

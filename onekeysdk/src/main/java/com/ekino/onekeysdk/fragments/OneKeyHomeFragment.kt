@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.fragments
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -23,11 +24,11 @@ import com.iqvia.onekey.GetProfileQuery
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class OneKeyHomeFragment :
-    AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
+        AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
     companion object {
         fun newInstance(
-            oneKeyViewCustomObject: OneKeyViewCustomObject =
-                OneKeyViewCustomObject.Builder().build()
+                oneKeyViewCustomObject: OneKeyViewCustomObject =
+                        OneKeyViewCustomObject.Builder().build()
         ): OneKeyHomeFragment {
             ThemeExtension.getInstance().setThemeConfiguration(oneKeyViewCustomObject)
             return OneKeyHomeFragment().apply {
@@ -37,7 +38,7 @@ class OneKeyHomeFragment :
     }
 
     private var oneKeyViewCustomObject: OneKeyViewCustomObject =
-        ThemeExtension.getInstance().getThemeConfiguration()
+            ThemeExtension.getInstance().getThemeConfiguration()
 
     private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyViewCustomObject) }
 
@@ -49,9 +50,9 @@ class OneKeyHomeFragment :
             (activity as? AppCompatActivity)?.apply {
                 supportFragmentManager.popBackStack()
                 addFragment(
-                    R.id.fragmentContainer,
-                    OneKeyHomeFullFragment.newInstance(oneKeyViewCustomObject),
-                    true
+                        R.id.fragmentContainer,
+                        OneKeyHomeFullFragment.newInstance(oneKeyViewCustomObject),
+                        true
                 )
             }
         }
@@ -60,9 +61,12 @@ class OneKeyHomeFragment :
     override fun initView(view: View, savedInstanceState: Bundle?) {
         newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
-        oneKeyViewCustomObject?.also {
+        oneKeyViewCustomObject.also {
+            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
-            ivSearch.setRippleBackground(it.colorPrimary)
+            container.setBackgroundColor(it.colorViewBackground.getColor())
+            ivSearch.setRippleBackground(it.colorPrimary.getColor(), 12f)
             btnStartSearch.setRippleBackground(it.colorPrimary)
             edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
@@ -71,13 +75,13 @@ class OneKeyHomeFragment :
             rvHome.apply {
                 val orientation = resources.configuration.orientation
                 layoutManager = GridLayoutManager(
-                    context,
-                    if (orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3
+                        context,
+                        if (orientation == Configuration.ORIENTATION_PORTRAIT) 1 else 3
                 )
                 val padding = paddingStart
                 setPadding(
-                    padding, paddingTop, if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-                        0 else padding, paddingBottom
+                        padding, paddingTop, if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+                    0 else padding, paddingBottom
                 )
                 adapter = homeAdapter
             }
@@ -85,18 +89,18 @@ class OneKeyHomeFragment :
         homeAdapter.setData(getHomeDummy())
 
         val apolloClient = ApolloClient.builder()
-            .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()
+                .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()
         apolloClient.query(GetProfileQuery.builder().apiKey("1").id("1").build())
-            .enqueue(object : ApolloCall.Callback<GetProfileQuery.Data>() {
-                override fun onFailure(e: ApolloException) {
-                    OneKeyLog.e("${e.localizedMessage}")
-                }
+                .enqueue(object : ApolloCall.Callback<GetProfileQuery.Data>() {
+                    override fun onFailure(e: ApolloException) {
+                        OneKeyLog.e("${e.localizedMessage}")
+                    }
 
-                override fun onResponse(response: Response<GetProfileQuery.Data>) {
-                    OneKeyLog.d("${response.data?.individualByID()?.firstName()}")
-                }
+                    override fun onResponse(response: Response<GetProfileQuery.Data>) {
+                        OneKeyLog.d("${response.data?.individualByID()?.firstName()}")
+                    }
 
-            })
+                })
     }
 
     override fun onResume() {
@@ -107,8 +111,8 @@ class OneKeyHomeFragment :
     private fun startNewSearch() {
         oneKeyViewCustomObject?.also {
             (activity as? AppCompatActivity)?.addFragment(
-                R.id.fragmentContainer,
-                SearchFragment.newInstance(it), true
+                    R.id.fragmentContainer,
+                    SearchFragment.newInstance(it), true
             )
         }
     }

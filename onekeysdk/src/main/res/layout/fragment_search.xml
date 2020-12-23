@@ -147,12 +147,11 @@
     </LinearLayout>
 
 
-    <View
+    <com.ekino.onekeysdk.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/default_padding"
-        android:alpha="0.1"
-        android:background="@color/grayLight" />
+        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSpeciality"
@@ -240,11 +239,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <View
+                    <com.ekino.onekeysdk.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:alpha="0.1"
-                        android:background="@color/gray" />
+                        android:layout_marginEnd="@dimen/default_padding"
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/tvLocationSelected"

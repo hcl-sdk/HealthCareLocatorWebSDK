@@ -14,4 +14,5 @@
     <color name="grayLight">#b8b8b8</color>
     <color name="grayLighter">#ebebeb</color>
     <color name="colorOneKeyRed">#eb4034</color>
+    <color name="colorOneKeyUnselected">#5C5C5C</color>
 </resources>

@@ -15,14 +15,14 @@
         <LinearLayout
             android:id="@+id/newSearchWrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/edtSearch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_border_corner"
                 android:hint="@string/one_key_find_healthcare_professional"
@@ -31,25 +31,24 @@
 
             <ImageView
                 android:id="@+id/ivSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="-10dp"
                 android:background="@drawable/bg_main_button_corner"
-                android:paddingStart="@dimen/default_padding"
-                android:paddingEnd="@dimen/default_padding"
-                android:src="@drawable/baseline_search_white_24dp" />
+                android:padding="@dimen/default_padding_smaller"
+                android:src="@drawable/baseline_search_white_36dp" />
         </LinearLayout>
     </LinearLayout>
 
-    <View
+    <com.ekino.onekeysdk.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grayLight" />
+        app:OneKeyViewColor="OneKeyColorCardBorder" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f8f9fa"
         android:clipToPadding="false"
         android:padding="@dimen/default_padding">
 
@@ -59,6 +58,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/nearMeWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_border_corner"
@@ -85,10 +85,11 @@
                         android:visibility="gone" />
                 </FrameLayout>
 
-                <View
+
+                <com.ekino.onekeysdk.custom.OneKeyView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grayLight" />
+                    app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -145,10 +146,10 @@
                         app:OneKeyTextStyle="OneKeyStyleSmall" />
                 </LinearLayout>
 
-                <View
+                <com.ekino.onekeysdk.custom.OneKeyView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grayLight" />
+                    app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvLastSearch"
@@ -190,10 +191,10 @@
                         app:OneKeyTextStyle="OneKeyStyleSmall" />
                 </LinearLayout>
 
-                <View
+                <com.ekino.onekeysdk.custom.OneKeyView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grayLight" />
+                    app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvLastConsulted"

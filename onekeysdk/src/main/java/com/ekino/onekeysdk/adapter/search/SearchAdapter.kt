@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.adapter.search
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,9 @@ import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.extensions.setRippleBackground
+import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import kotlinx.android.synthetic.main.layout_search_item.view.*
-import kotlin.math.round
 
 class SearchAdapter(private val screenWidth: Int = -1) :
         OneKeyAdapter<ActivityObject, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
@@ -40,8 +40,8 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                     onHCPCardClickedListener(data)
                 }
                 if (selectedPosition == position)
-                    borderContainer.setRippleBackground(themeConfig.colorMarkerSelected.getColor(), 15f)
-                else borderContainer.background = null
+                    setBackgroundWithCorner(Color.WHITE, themeConfig.colorMarkerSelected.getColor(), 12f, 8)
+                else setBackgroundWithCorner(Color.WHITE, themeConfig.colorCardBorder.getColor(), 12f, 3)
             }
         }
     }

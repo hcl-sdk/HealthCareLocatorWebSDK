@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.fragments
 
 import android.content.Context
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -95,6 +96,11 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
         oneKeyViewCustomObject.also {
+            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            nearMeWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            lastSearchWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            lastConsultedWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            contentWrapper.setBackgroundColor(it.colorViewBackground.getColor())
             ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())

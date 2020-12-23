@@ -6,79 +6,72 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/default_padding"
     android:layout_marginBottom="@dimen/default_padding"
-    android:background="@drawable/bg_white_border_corner"
-    android:orientation="horizontal"
-    android:padding="1dp">
+    android:orientation="horizontal">
 
-    <FrameLayout
-        android:id="@+id/borderContainer"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp">
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/default_padding"
+        android:paddingTop="@dimen/default_padding"
+        android:paddingEnd="@dimen/default_padding_tiny"
+        android:paddingBottom="@dimen/default_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_border"
-            android:orientation="horizontal"
-            android:padding="@dimen/default_padding_smaller">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:textSize="@dimen/default_text"
+                app:OneKeyTextColor="OneKeyColorSecondary"
+                app:OneKeyTextStyle="OneKeyStyleResultTitle"
+                tools:text="Dr." />
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/default_text"
-                    app:OneKeyTextColor="OneKeyColorSecondary"
-                    app:OneKeyTextStyle="OneKeyStyleResultTitle"
-                    tools:text="Dr." />
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvSpeciality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text"
+                app:OneKeyTextColor="OneKeyColorDark"
+                app:OneKeyTextStyle="OneKeyStyleResultSubtitle"
+                tools:text="Dr." />
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvSpeciality"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:textColor="@color/colorOneKeyText"
-                    android:textSize="@dimen/default_text"
-                    app:OneKeyTextColor="OneKeyColorDark"
-                    app:OneKeyTextStyle="OneKeyStyleResultSubtitle"
-                    tools:text="Dr." />
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/default_text"
+                app:OneKeyTextColor="OneKeyColorGreyLight"
+                tools:text="Dr." />
 
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/default_text"
-                    app:OneKeyTextColor="OneKeyColorGreyLight"
-                    tools:text="Dr." />
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvDistance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:textColor="@color/colorOneKeyText"
-                    android:textSize="@dimen/default_text"
-                    app:OneKeyTextColor="OneKeyColorDark"
-                    tools:text="Distance" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/ivArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/baseline_keyboard_arrow_right_black_24dp"
-                app:tint="@color/gray" />
+            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                android:id="@+id/tvDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text"
+                app:OneKeyTextColor="OneKeyColorDark"
+                tools:text="Distance" />
         </LinearLayout>
-    </FrameLayout>
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_keyboard_arrow_right_black_36dp"
+            app:tint="@color/gray" />
+    </LinearLayout>
 </FrameLayout>

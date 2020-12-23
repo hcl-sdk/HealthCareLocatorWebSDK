@@ -35,6 +35,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/contentWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/default_padding_smaller"
@@ -47,12 +48,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <View
+        <com.ekino.onekeysdk.custom.OneKeyView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/default_padding"
             android:layout_marginBottom="@dimen/default_padding"
-            android:background="@color/grayLight" />
+            app:OneKeyViewColor="OneKeyColorCardBorder" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,7 +72,7 @@
                 android:padding="@dimen/default_padding_smaller"
                 android:text="Reset"
                 android:textColor="@color/white"
-                app:OneKey_buttonStyle="true" />
+                app:OneKeyTextStyle="OneKeyStyleButton" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/btnApply"
