@@ -82,7 +82,7 @@
 
   .info-section-header {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     grid-gap: 10px;
     align-content: baseline;
     justify-content: start;
@@ -203,6 +203,9 @@
   }
 
   .size-tablet, .size-desktop {
+    .info-section-header {
+      grid-template-columns: 1fr;
+    }
     .search-home-hpc {
       form {
         position: relative;

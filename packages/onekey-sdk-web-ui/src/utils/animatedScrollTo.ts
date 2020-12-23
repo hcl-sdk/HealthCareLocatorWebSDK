@@ -9,13 +9,15 @@ const easeInOutQuad = function (t, b, c, d) {
   return (-c / 2) * (t * (t - 2) - 1) + b;
 };
 
-function animateScrollTo(element, scrollDirection, to, duration) {
-  var start = element[scrollDirection],
-    change = to - start,
+function animateScrollTo({ element, scrollDirection, to, duration, screenSize }) {
+
+  const isVertical = scrollDirection === "scrollTop"
+  let start = element[scrollDirection],
+    change = isVertical ? to : to - start,
     currentTime = 0,
     increment = 20;
 
-  var animateScroll = function () {
+  const animateScroll = function () {
     currentTime += increment;
     var val = easeInOutQuad(currentTime, start, change, duration);
     element[scrollDirection] = val;
@@ -23,10 +25,18 @@ function animateScrollTo(element, scrollDirection, to, duration) {
       setTimeout(animateScroll, increment);
     }
   };
-  animateScroll();
+
+  new Promise((resolve) => {
+    if(isVertical) {
+      start = 0
+    }
+    resolve(true)
+  }).then(() => {
+    setTimeout(() => {
+      animateScroll();
+    }, 200)
+  })
+  
 }
 
-
-
-
-export default animateScrollTo
+export default animateScrollTo;

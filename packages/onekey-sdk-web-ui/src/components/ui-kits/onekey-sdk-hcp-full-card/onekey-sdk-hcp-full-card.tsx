@@ -137,16 +137,18 @@ export class OnekeySdkHCPFullCard {
                   </div>
                 </div>
                 {/* Block */}
-                <div class="info-section">
-                  <div class="info-section-header">
-                    <span class="info-section-header__title">Specialities</span>
-                  </div>
+                {
+                  individualDetail.specialties.length > 0 &&
+                  <div class="info-section">
+                    <div class="info-section-header">
+                      <span class="info-section-header__title">Specialties</span>
+                    </div>
 
-                  <div class="info-section-body">
-                    <span>{individualDetail.specialties.join(',')}</span>
+                    <div class="info-section-body">
+                      <span>{individualDetail.specialties.join(',')}</span>
+                    </div>
                   </div>
-                </div>
-
+                }
                 {/* Block */}
                 <div class="info-section">
                   <div class="info-section-header">

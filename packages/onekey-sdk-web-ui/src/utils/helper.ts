@@ -21,11 +21,26 @@ export function getContainerHeightWidthOffset() {
   };
 }
 
-export function getDoctorCardOffset(cardListItem, selectedMarkerIdx) {
-  const { offsetWidth } = getContainerHeightWidthOffset();
-  const cardItemOffsetWidth = cardListItem.children[selectedMarkerIdx].offsetWidth;
-  const gap = (offsetWidth - cardItemOffsetWidth) / 2;
-  const itemNewOffset = cardItemOffsetWidth * selectedMarkerIdx - (gap - 5);
+export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical = false) {
+  const { offsetWidth, offsetHeight } = getContainerHeightWidthOffset();
+  let offsetSize = offsetWidth
+  let offsetName = 'offsetWidth'
+  let itemNewOffset = 0
+
+  console.dir(cardListItem)
+  
+  if(isVertical) {
+    offsetSize = offsetHeight
+    offsetName = 'offsetTop'
+    const cardItemOffset = cardListItem.children[1]?.children[selectedMarkerIdx]?.[offsetName] || 0
+    const gap = offsetSize / 2;
+    itemNewOffset = cardItemOffset - (gap - 100)
+  } else {
+    const cardItemOffset = cardListItem.children[selectedMarkerIdx][offsetName];
+    const gap = (offsetSize - cardItemOffset) / 2;
+    itemNewOffset = cardItemOffset * selectedMarkerIdx - (gap - 5);
+  }
+
   return itemNewOffset;
 }
 
