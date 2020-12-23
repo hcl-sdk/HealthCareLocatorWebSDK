@@ -12,14 +12,14 @@ import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.extensions.setRippleBackground
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeySortObject
 import com.ekino.onekeysdk.viewmodel.map.OneKeySortViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_sort.*
 
 class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(R.layout.fragment_one_key_sort), View.OnClickListener {
     companion object {
-        fun newInstance(theme: OneKeyViewCustomObject, sorting: Int) = OneKeySortFragment().apply {
+        fun newInstance(theme: OneKeyCustomObject, sorting: Int) = OneKeySortFragment().apply {
             this.theme = theme
             this.selectedPosition = sorting
         }
@@ -77,13 +77,13 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
 
     private fun applySorting() {
         val fragment = getFragment(FullMapFragment::class.java.simpleName)
-        val nearMeFragment = getFragment(NearMeFragment::class.java.simpleName)
+        val nearMeFragment = getFragment(OneKeyNearMeFragment::class.java.simpleName)
         if (fragment is FullMapFragment) fragment.apply {
             if (isAdded && isVisible) {
                 this.applySorting(sortAdapter.getSelectedPosition())
             }
         }
-        if (nearMeFragment is NearMeFragment) nearMeFragment.apply {
+        if (nearMeFragment is OneKeyNearMeFragment) nearMeFragment.apply {
             if (isAdded && isVisible) {
                 this.applySorting(sortAdapter.getSelectedPosition())
             }

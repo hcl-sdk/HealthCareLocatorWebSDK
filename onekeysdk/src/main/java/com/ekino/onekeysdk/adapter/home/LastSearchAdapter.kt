@@ -9,10 +9,10 @@ import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.model.SearchObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import kotlinx.android.synthetic.main.layout_one_key_last_search.view.*
 
-class LastSearchAdapter(private val theme: OneKeyViewCustomObject =
+class LastSearchAdapter(private val theme: OneKeyCustomObject =
                                 ThemeExtension.getInstance().getThemeConfiguration()) :
         OneKeyAdapter<SearchObject, LastSearchAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_search)) {
     var onItemRemovedListener: (data: SearchObject) -> Unit = {}

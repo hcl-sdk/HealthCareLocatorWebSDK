@@ -9,7 +9,7 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileMapViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile_map.*
 
@@ -23,10 +23,10 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
                 }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
-        MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(), 0f, true)
+        MapFragment.newInstance(oneKeyCustomObject, arrayListOf(), 0f, true)
     }
     private var activityObject: ActivityObject? = null
 
@@ -42,8 +42,8 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
                     .commit()
         }
         mapWrapper.setBackgroundWithCorner(Color.WHITE,
-                oneKeyViewCustomObject.colorCardBorder.getColor(), 16f, 3)
-        btnClose.setColorFilter(oneKeyViewCustomObject.colorGreyDark.getColor())
+                oneKeyCustomObject.colorCardBorder.getColor(), 16f, 3)
+        btnClose.setColorFilter(oneKeyCustomObject.colorGreyDark.getColor())
         mapContainer.postDelay({
             activityObject?.apply {
                 getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(activityObject!!), true)
@@ -70,7 +70,7 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
         activityObject?.apply {
             tvBuilding.text = workplace?.name ?: ""
             tvAddress.text = workplace?.address?.getAddress() ?: ""
-            ivLocation.setColorFilter(oneKeyViewCustomObject.colorMarker.getColor())
+            ivLocation.setColorFilter(oneKeyCustomObject.colorMarker.getColor())
         }
     }
 

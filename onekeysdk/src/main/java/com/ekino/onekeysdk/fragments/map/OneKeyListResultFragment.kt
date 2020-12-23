@@ -11,19 +11,19 @@ import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class OneKeyListResultFragment : IFragment() {
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject,
+        fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
                         activities: ArrayList<ActivityObject>) = OneKeyListResultFragment().apply {
-            this.oneKeyViewCustomObject = oneKeyViewCustomObject
+            this.oneKeyCustomObject = oneKeyCustomObject
             this.activities = activities
         }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter() }
 
@@ -33,7 +33,7 @@ class OneKeyListResultFragment : IFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listContainer.setBackgroundColor(oneKeyViewCustomObject.colorListBackground.getColor())
+        listContainer.setBackgroundColor(oneKeyCustomObject.colorListBackground.getColor())
         rvResult.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter
@@ -41,7 +41,7 @@ class OneKeyListResultFragment : IFragment() {
         }
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
-            else if (parentFragment is NearMeFragment) (parentFragment as NearMeFragment).navigateToHCPProfile(oneKeyLocation)
+            else if (parentFragment is OneKeyNearMeFragment) (parentFragment as OneKeyNearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
     }
 

@@ -8,16 +8,14 @@ import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.isNotNullable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
-import com.ekino.onekeysdk.fragments.map.FullMapFragment
-import com.ekino.onekeysdk.fragments.map.NearMeFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
-class NearMeViewModel : ApolloViewModel<NearMeFragment>() {
+class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
     private val theme = ThemeExtension.getInstance().getThemeConfiguration()
 
     val permissionRequested by lazy { MutableLiveData<Boolean>() }

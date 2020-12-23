@@ -14,23 +14,23 @@ import com.ekino.onekeysdk.extensions.getFragmentBy
 import com.ekino.onekeysdk.extensions.getScreenWidth
 import com.ekino.onekeysdk.extensions.postDelay
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import kotlinx.android.synthetic.main.fragment_map_result.*
 
 class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject,
+        fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
                         activities: ArrayList<ActivityObject>) = OneKeyMapResultFragment().apply {
             this.activities = activities
-            this.oneKeyViewCustomObject = oneKeyViewCustomObject
+            this.oneKeyCustomObject = oneKeyCustomObject
         }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
-        MapFragment.newInstance(oneKeyViewCustomObject, activities, 0f, true)
+        MapFragment.newInstance(oneKeyCustomObject, activities, 0f, true)
     }
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
@@ -63,7 +63,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
-            else if (parentFragment is NearMeFragment) (parentFragment as NearMeFragment).navigateToHCPProfile(oneKeyLocation)
+            else if (parentFragment is OneKeyNearMeFragment) (parentFragment as OneKeyNearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
         btnCurrentLocation.setOnClickListener(this)
     }

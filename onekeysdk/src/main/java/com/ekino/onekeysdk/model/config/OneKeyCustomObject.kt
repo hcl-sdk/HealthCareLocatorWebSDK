@@ -26,7 +26,7 @@ import com.ekino.onekeysdk.extensions.isNullable
  * @param editIcon Set edit icon in drawableId.
  * @param markerIcon Set marker icon in drawableId.
  */
-data class OneKeyViewCustomObject private constructor(
+data class OneKeyCustomObject private constructor(
         val colorPrimary: String = "#43b02a",// Color in hex, must start with #
         val colorSecondary: String = "#00a3e0",
         val textColor: String = "#2d3c4d",
@@ -198,7 +198,7 @@ data class OneKeyViewCustomObject private constructor(
         fun locale(locale: String) = apply { this.locale = locale }
         fun favoriteIds(favoriteIds: ArrayList<String>) = apply { this.favoriteIds = favoriteIds }
 
-        fun build() = OneKeyViewCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
+        fun build() = OneKeyCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon, homeMode,
                 fontSearchInput, fontSmall, fontTitleMain, fontTitleSecondary, fontSearchResultTotal,
                 fontSearchResultTitle, fontResultTitle, fontResultSubTitle, fontProfileTitle,

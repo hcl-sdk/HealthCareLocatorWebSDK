@@ -9,12 +9,12 @@ import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeySortObject
 import kotlinx.android.synthetic.main.layout_one_key_sort.view.*
 
 class OneKeySortAdapter : OneKeyAdapter<OneKeySortObject, OneKeySortAdapter.OneKeySortVH>(arrayListOf(R.layout.layout_one_key_sort)) {
-    private val theme: OneKeyViewCustomObject by lazy { ThemeExtension.getInstance().getThemeConfiguration() }
+    private val theme: OneKeyCustomObject by lazy { ThemeExtension.getInstance().getThemeConfiguration() }
     private var selectedPosition = -1
     override fun initViewHolder(parent: ViewGroup, viewType: Int): OneKeySortVH =
             OneKeySortVH(LayoutInflater.from(parent.context)

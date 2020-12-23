@@ -20,7 +20,7 @@ import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.SearchObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
@@ -36,10 +36,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         View.OnFocusChangeListener, IndividualAdapter.OnIndividualClickedListener {
 
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject, isUseNearMe: Boolean = false,
+        fun newInstance(oneKeyCustomObject: OneKeyCustomObject, isUseNearMe: Boolean = false,
                         currentLocation: Location? = null) =
                 SearchFragment().apply {
-                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                    this.oneKeyCustomObject = oneKeyCustomObject
                     this.currentLocation = currentLocation
                     useNearMe = isUseNearMe
                 }
@@ -47,9 +47,9 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         private var useNearMe: Boolean = false
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject =
+    private var oneKeyCustomObject: OneKeyCustomObject =
             ThemeExtension.getInstance().getThemeConfiguration()
-    private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyViewCustomObject, this) }
+    private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyCustomObject, this) }
     private val individualAdapter by lazy { IndividualAdapter() }
     private var selectedPlace: OneKeyPlace? = null
     private var locationProvider: GpsMyLocationProvider? = null
@@ -94,7 +94,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             setNearMeText()
         }
 
-        oneKeyViewCustomObject?.also {
+        oneKeyCustomObject?.also {
             val primaryColor = it.colorPrimary.getColor()
             btnSearch.setRippleBackground(primaryColor, 20f)
             edtName.textSize = it.fontSearchInput.size.toFloat()
@@ -180,7 +180,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     setError(specialityWrapper, ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
                 }
-                oneKeyViewCustomObject?.also {
+                oneKeyCustomObject?.also {
                     onItemClicked = true
                     context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
                         viewModel.storeSearch(this, SearchObject(selectedSpeciality
@@ -248,7 +248,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         ivAddressClear.visibility = state.getVisibility()
     }
 
-    private fun setError(view: View, strokeColor: Int = oneKeyViewCustomObject.colorCardBorder.getColor()) {
+    private fun setError(view: View, strokeColor: Int = oneKeyCustomObject.colorCardBorder.getColor()) {
         view.setBackgroundWithCorner(Color.WHITE, strokeColor, 12f, 3)
     }
 
@@ -275,7 +275,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun onHCPClickedListener(data: GetIndividualByNameQuery.Individual) {
         onItemClicked = true
         (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                OneKeyProfileFragment.newInstance(oneKeyViewCustomObject, null, data.mainActivity().id()), true)
+                OneKeyProfileFragment.newInstance(oneKeyCustomObject, null, data.mainActivity().id()), true)
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {

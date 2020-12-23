@@ -6,7 +6,7 @@ import androidx.core.view.GravityCompat
 import base.extensions.addFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.fragments.*
 import com.ekino.onekeysdk.sample.model.ColorObject
@@ -169,7 +169,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         /**
          * Add OneKey screen into parent application
          */
-        val builder = OneKeyViewCustomObject.Builder()
+        val builder = OneKeyCustomObject.Builder()
                 .fontTitleMain(fontTitle1)
                 .fontTitleSecondary(fontTitle2)
                 .fontSearchResultTotal(fontTitle3)

@@ -23,7 +23,7 @@ import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.model.LabelObject
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile.*
@@ -35,11 +35,11 @@ class OneKeyProfileFragment :
         AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
-                theme: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build(),
+                theme: OneKeyCustomObject = OneKeyCustomObject.Builder().build(),
                 oneKeyLocation: OneKeyLocation?, activityId: String = ""
         ) =
                 OneKeyProfileFragment().apply {
-                    this.oneKeyViewCustomObject = theme
+                    this.oneKeyCustomObject = theme
                     this.oneKeyLocation = oneKeyLocation
                     this.activityId = activityId
                 }
@@ -48,7 +48,7 @@ class OneKeyProfileFragment :
 
     private val locations by lazy { getDummyHCP() }
     private var oneKeyLocation: OneKeyLocation? = null
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject =
+    private var oneKeyCustomObject: OneKeyCustomObject =
             ThemeExtension.getInstance().getThemeConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private var mapFragment: MapFragment? = null
@@ -58,7 +58,7 @@ class OneKeyProfileFragment :
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
-        contentWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyViewCustomObject.colorCardBorder.getColor(), 12f, 3)
+        contentWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 12f, 3)
         if (savedInstanceState != null) {
             activityDetail = savedInstanceState.getParcelable("activityDetail") ?: ActivityObject()
             activityId = savedInstanceState.getString("activityId", "") ?: ""
@@ -85,7 +85,7 @@ class OneKeyProfileFragment :
     private fun fillData(savedInstanceState: Bundle?) {
         if (mapFragment == null)
             mapFragment =
-                    MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf(activityDetail), 2f)
+                    MapFragment.newInstance(oneKeyCustomObject, arrayListOf(activityDetail), 2f)
         val fm = this@OneKeyProfileFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
             fm.beginTransaction().add(R.id.viewHCPMap, mapFragment!!, mapFragmentTag)
@@ -108,7 +108,7 @@ class OneKeyProfileFragment :
             selectedAddress = savedInstanceState.getInt("selectedAddress", 0)
             oneKeyLocation = savedInstanceState.getParcelable("selectedLocation")
         }
-        val secondaryColor = oneKeyViewCustomObject.colorSecondary.getColor()
+        val secondaryColor = oneKeyCustomObject.colorSecondary.getColor()
 //        tvDoctorName.setTextColor(secondaryColor)
 //        tvMainInformation.setTextColor(secondaryColor)
 //        tvSpecialitiesLabel.setTextColor(secondaryColor)
@@ -118,9 +118,9 @@ class OneKeyProfileFragment :
         ivDirection.setColorFilter(secondaryColor)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
-        ivLocationOutLine.setColorFilter(oneKeyViewCustomObject.colorMarker.getColor())
-        btnSuggestModification.setBackgroundWithCorner(oneKeyViewCustomObject.colorButtonBackground.getColor(),
-                oneKeyViewCustomObject.colorButtonBorder.getColor(), 8f, 3)
+        ivLocationOutLine.setColorFilter(oneKeyCustomObject.colorMarker.getColor())
+        btnSuggestModification.setBackgroundWithCorner(oneKeyCustomObject.colorButtonBackground.getColor(),
+                oneKeyCustomObject.colorButtonBorder.getColor(), 8f, 3)
 
         activityDetail.apply {
             tvDoctorName.text = individual?.mailingName ?: ""
@@ -239,7 +239,7 @@ class OneKeyProfileFragment :
     }
 
     private fun applyStyles() {
-        btnShare.setColorFilter(oneKeyViewCustomObject.colorGrey.getColor())
+        btnShare.setColorFilter(oneKeyCustomObject.colorGrey.getColor())
     }
 
     private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.firstOrNull {

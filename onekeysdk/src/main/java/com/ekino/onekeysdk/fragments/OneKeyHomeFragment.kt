@@ -17,7 +17,7 @@ import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.home.HomeViewModel
 import com.iqvia.onekey.GetProfileQuery
@@ -27,31 +27,31 @@ class OneKeyHomeFragment :
         AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
     companion object {
         fun newInstance(
-                oneKeyViewCustomObject: OneKeyViewCustomObject =
-                        OneKeyViewCustomObject.Builder().build()
+                oneKeyCustomObject: OneKeyCustomObject =
+                        OneKeyCustomObject.Builder().build()
         ): OneKeyHomeFragment {
-            ThemeExtension.getInstance().setThemeConfiguration(oneKeyViewCustomObject)
+            ThemeExtension.getInstance().setThemeConfiguration(oneKeyCustomObject)
             return OneKeyHomeFragment().apply {
-                this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                this.oneKeyCustomObject = oneKeyCustomObject
             }
         }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject =
+    private var oneKeyCustomObject: OneKeyCustomObject =
             ThemeExtension.getInstance().getThemeConfiguration()
 
-    private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyViewCustomObject) }
+    private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyCustomObject) }
 
     override val viewModel: HomeViewModel = HomeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (oneKeyViewCustomObject.homeMode == 0) {
+        if (oneKeyCustomObject.homeMode == 0) {
             (activity as? AppCompatActivity)?.apply {
                 supportFragmentManager.popBackStack()
                 addFragment(
                         R.id.fragmentContainer,
-                        OneKeyHomeFullFragment.newInstance(oneKeyViewCustomObject),
+                        OneKeyHomeFullFragment.newInstance(oneKeyCustomObject),
                         true
                 )
             }
@@ -61,7 +61,7 @@ class OneKeyHomeFragment :
     override fun initView(view: View, savedInstanceState: Bundle?) {
         newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
-        oneKeyViewCustomObject.also {
+        oneKeyCustomObject.also {
             edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
@@ -109,7 +109,7 @@ class OneKeyHomeFragment :
     }
 
     private fun startNewSearch() {
-        oneKeyViewCustomObject?.also {
+        oneKeyCustomObject?.also {
             (activity as? AppCompatActivity)?.addFragment(
                     R.id.fragmentContainer,
                     SearchFragment.newInstance(it), true

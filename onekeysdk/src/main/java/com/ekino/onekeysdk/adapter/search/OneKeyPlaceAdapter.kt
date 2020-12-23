@@ -8,11 +8,11 @@ import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setRippleCircleBackground
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import kotlinx.android.synthetic.main.layout_one_key_place.view.*
 
-class OneKeyPlaceAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObject?,
+class OneKeyPlaceAdapter(private val oneKeyCustomObject: OneKeyCustomObject?,
                          private val onPlaceClickedListener: OnOneKeyPlaceClickedListener) :
         OneKeyAdapter<OneKeyPlace, OneKeyPlaceAdapter.OneKeyPlaceViewHolder>(
                 arrayListOf(R.layout.layout_one_key_place)) {
@@ -22,11 +22,11 @@ class OneKeyPlaceAdapter(private val oneKeyViewCustomObject: OneKeyViewCustomObj
 
     inner class OneKeyPlaceViewHolder(itemView: View) : OneKeyViewHolder<OneKeyPlace>(itemView) {
         override fun bind(position: Int, data: OneKeyPlace) {
-            oneKeyViewCustomObject?.also {
+            oneKeyCustomObject?.also {
                 itemView.apply {
                     tvAddress.text = data.displayName
-                    ivLocation.setRippleCircleBackground(oneKeyViewCustomObject.colorPrimary)
-                    ivLocation.setColorFilter(oneKeyViewCustomObject.colorPrimary.getColor())
+                    ivLocation.setRippleCircleBackground(oneKeyCustomObject.colorPrimary)
+                    ivLocation.setColorFilter(oneKeyCustomObject.colorPrimary.getColor())
                     setOnClickListener { onPlaceClickedListener.onPlaceClickedListener(data) }
                 }
             }
