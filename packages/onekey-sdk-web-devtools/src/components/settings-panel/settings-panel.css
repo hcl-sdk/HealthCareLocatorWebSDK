@@ -247,6 +247,18 @@ select {
   background-color: #e2e2e2;
 }
 
+.icon-preview {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-preview svg {
+  height: 30px;
+  width: 30px;
+}
+
 .color-picker-wrapper {
   position: relative;
   height: 203px;

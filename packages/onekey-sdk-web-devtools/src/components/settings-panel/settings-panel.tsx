@@ -1,5 +1,6 @@
 import { Component, h, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
+import * as icons from './icons'
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
@@ -71,6 +72,11 @@ interface SelectedFont {
   weight: string;
 }
 
+interface SelectedIcon {
+  key: string;
+  value: string;
+}
+
 interface SelectedColor {
   key: string;
   hex: string;
@@ -113,7 +119,7 @@ export class SettingsPanel {
   @Event() applyChanges: EventEmitter<any>;
   @Event() backPressed: EventEmitter<any>;
 
-  @State() view: 'main' | 'theme' | 'font' | 'color' = 'main';
+  @State() view: 'main' | 'theme' | 'font' | 'icon' | 'color' = 'main';
 
   @State() customThemeOverrides: {
     [k: string]: string;
@@ -123,8 +129,10 @@ export class SettingsPanel {
 
   @State() editedFont: null | SelectedFont = null;
   @State() editedColor: null | SelectedColor = null;
+  @State() editedIcon: null | SelectedIcon = null; 
   @State() isFontsExpanded: boolean = false;
   @State() isColorsExpanded: boolean = false;
+  @State() isIconsExpanded: boolean = false;
   @State() colorPickerField: null | string = null;
 
   @Listen('jeepColorpickerGetColor')
@@ -236,6 +244,14 @@ export class SettingsPanel {
     };
   };
 
+  editIcon = (iconKey: string) => {
+    this.view = 'icon';
+    this.editedIcon = {
+      key: iconKey,
+      value: icons[iconKey]
+    };
+  }
+
   backToCustomTheme = () => {
     this.view = 'theme';
     this.editedFont = null;
@@ -306,6 +322,10 @@ export class SettingsPanel {
     this.backToCustomTheme();
   };
 
+  applyIcon = () => {
+    console.log("applyIcon TODO")
+  }
+
   updateEditedFont = (propName: string) => e => (this.editedFont = { ...this.editedFont, [propName]: (e.target as any).value });
 
   updateEditedColorHex = e => {
@@ -322,6 +342,13 @@ export class SettingsPanel {
       this.picker.color = hex.trim();
     }
   };
+
+  onChangeIconInput = (e) => {
+    this.editedIcon = {
+      ...this.editedIcon,
+      value: e.path[0].value
+    }
+  }
 
   updateEditedColorRGB = (k: string) => e => {
     this.editedColor = {
@@ -345,7 +372,7 @@ export class SettingsPanel {
     return '';
   };
 
-  renderPropName(propType: 'color' | 'font', propName: string) {
+  renderPropName(propType: 'color' | 'font' | 'icon', propName: string) {
     return propName.replace(`${propType}.`, '').replace(/_/g, ' ').replace('bkg', 'background');
   }
 
@@ -353,6 +380,14 @@ export class SettingsPanel {
     return (
       <button class="var-button" onClick={() => this.editFont(fontKey)}>
         <b>{this.renderPropName('font', fontKey)}</b> <i class="right-arrow"></i>
+      </button>
+    );
+  };
+
+  renderIconButton = (iconKey: string) => {
+    return (
+      <button class="var-button" onClick={() => this.editIcon(iconKey)}>
+        <b>{this.renderPropName('icon', iconKey)}</b> <i class="right-arrow"></i>
       </button>
     );
   };
@@ -474,6 +509,18 @@ export class SettingsPanel {
           </label>
           <div class="var-buttons">{COLORS.filter((_, i) => (this.isColorsExpanded ? true : i < 6)).map(this.renderColorButton)}</div>
         </div>
+
+        <div class="row">
+          <label class="section">
+            <span>Icons</span>
+            <a class="link" href="javascript:;" onClick={() => (this.isIconsExpanded = !this.isIconsExpanded)}>
+              view {this.isIconsExpanded ? 'less' : 'more'}
+            </a>
+          </label>
+          <div class="var-buttons">
+            {Object.keys(icons).map(this.renderIconButton)}
+          </div>
+        </div>
       </section>
     );
   }
@@ -548,6 +595,40 @@ export class SettingsPanel {
     );
   }
 
+  renderIconView() {
+    return (
+      <section>
+        <div class="title-wrapper">
+          <button onClick={this.backToCustomTheme} class="back">
+            <i class="icono-arrow1-right"></i>
+          </button>
+          <h2 class="title-var">Colors {this.renderPropName('icon', this.editedIcon.key)}</h2>
+        </div>
+        <div
+          class="icon-preview">
+          <span innerHTML={`
+            <svg
+              version="1.2"
+              preserveAspectRatio="none"
+              viewBox="0 0 24 24"
+            >
+            ${this.editedIcon.value}
+            </svg>
+          `} />
+        </div>
+        <div class="row">
+          <label>
+            <span>Icon</span>
+          </label>
+          <textarea rows={8} cols={30} value={this.editedIcon.value} onInput={this.onChangeIconInput} />
+        </div>
+        <button class="btn-full save-theme" onClick={this.applyIcon}>
+          OK
+        </button>
+      </section>
+    );
+  }
+
   renderColorView() {
     return (
       <section>
@@ -610,6 +691,7 @@ export class SettingsPanel {
         {this.view === 'theme' && this.renderThemeView()}
         {this.view === 'font' && this.renderFontView()}
         {this.view === 'color' && this.renderColorView()}
+        {this.view === 'icon' && this.renderIconView()}
       </div>
     );
   }
