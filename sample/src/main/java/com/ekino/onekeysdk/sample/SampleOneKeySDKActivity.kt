@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.fragments.*
@@ -14,6 +14,7 @@ import com.ekino.onekeysdk.sample.model.ThemeObject
 import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_sample.*
@@ -57,7 +58,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         this.addFragment(R.id.fragmentContainer, LandingPageFragment.newInstance(), true)
     }
 
-    fun launchOneKeySDK() {
+    fun launchOneKeySDK(favoriteNearMe: Boolean = false) {
         resetStack()
         /**
          * Customize the theme attributes
@@ -187,8 +188,6 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .fontCardTitle(fontCardTitle)
                 .fontModalTitle(fontModalTitle)
                 .fontSortCriteria(fontSortCriteria)
-                .homeMode(homeMode)
-                .favoriteIds(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
                 .locale(if (language == 0) "en" else "fr")
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
@@ -198,6 +197,12 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
                     .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
         }
+        if (favoriteNearMe) {
+            builder.specialities(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
+                    .entryScreen(ScreenReference.SEARCH_NEAR_ME)
+        } else if (homeMode == 1)
+            builder.entryScreen(ScreenReference.HOME_FULL)
+
         OneKeySDK.getInstance().init(builder.build())
         OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
     }

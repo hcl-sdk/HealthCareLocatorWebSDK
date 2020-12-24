@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import base.activity.AppActivity
+import base.extensions.changeLocale
 import base.viewmodel.IViewModel
 import com.ekino.onekeysdk.state.OneKeySDK
-import java.util.*
 
 /**
  * This class will be used for the fragments where the binding functions are called already.
@@ -79,16 +79,6 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
 
     open fun changeLocale(language: String) {
         if (activity == null) return
-        try {
-            var l = language
-            if (l.isEmpty())
-                l = "en"
-            val locale = Locale(l)
-            Locale.setDefault(locale)
-            val config = activity!!.baseContext.resources.configuration
-            config.setLocale(locale)
-            activity!!.resources.updateConfiguration(config, activity!!.resources.displayMetrics)
-        } finally {
-        }
+        activity!!.changeLocale(language)
     }
 }

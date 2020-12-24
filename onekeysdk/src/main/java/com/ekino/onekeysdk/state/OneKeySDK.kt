@@ -2,10 +2,18 @@ package com.ekino.onekeysdk.state
 
 import androidx.appcompat.app.AppCompatActivity
 import base.extensions.addFragment
+import base.extensions.changeLocale
+import base.extensions.pushFragment
+import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.error.OneKeyException
+import com.ekino.onekeysdk.extensions.ErrorReference
+import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
+import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.map.OneKeyPlace
 
 class OneKeySDK private constructor() : OneKeyState {
     private object Instance {
@@ -27,12 +35,22 @@ class OneKeySDK private constructor() : OneKeyState {
 
     override fun startOneKeySDKFragment(activity: AppCompatActivity?, containerId: Int) {
         if (activity.isNullable())
-            throw NullPointerException("The provided Activity must NOT be nullable.")
+            throw OneKeyException(ErrorReference.ACTIVITY_INVALID, "The provided Activity must NOT be nullable.")
         else if (containerId == 0)
-            throw IllegalArgumentException("The provided containerId must NOT be 0.")
-        if (config.homeMode == 1)
-            activity!!.addFragment(containerId, OneKeyHomeFragment.newInstance(), true)
-        else activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
+            throw OneKeyException(ErrorReference.ID_INVALID, "The provided containerId must NOT be 0.")
+        when (config.screenReference) {
+            ScreenReference.SEARCH_NEAR_ME -> {
+                if (config.specialities.isEmpty())
+                    throw OneKeyException(ErrorReference.DATA_INVALID,
+                            "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
+                activity!!.changeLocale(config.locale)
+                activity.pushFragment(containerId, OneKeyNearMeFragment.newInstance(config, "", null,
+                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.one_key_near_me)),
+                        config.specialities), true)
+            }
+            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFragment.newInstance(), true)
+            else -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
+        }
 
     }
 }

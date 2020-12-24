@@ -17,7 +17,6 @@ import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.text.OneKeyTextView
 import com.ekino.onekeysdk.extensions.*
@@ -27,6 +26,7 @@ import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import com.ekino.onekeysdk.utils.OneKeyLog
@@ -111,8 +111,10 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
                     return@Observer
                 }
                 if (this@OneKeyNearMeFragment.activities.isEmpty())
-                    getActivities(criteria, if (speciality.isNotNullable())
-                        arrayListOf(speciality!!.id) else specialities, place)
+                    getActivities(context!!, criteria, if (speciality.isNotNullable())
+                        arrayListOf(speciality!!.id) else specialities, place) { location ->
+                        currentLocation = location
+                    }
                 else {
                     setModeButtons(activeScreen)
                     showLoading(false)
