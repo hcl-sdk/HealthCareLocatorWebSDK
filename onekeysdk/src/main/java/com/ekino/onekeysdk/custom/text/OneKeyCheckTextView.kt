@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatCheckedTextView
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.IOneKeyView
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getEnum
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
@@ -50,35 +50,35 @@ class OneKeyCheckTextView : AppCompatCheckedTextView, IOneKeyView {
     private fun mapFontForView(textStyle: OneKeyTextView.OneKeyTextStyle, forceTextSize: Boolean = false) {
         when (textStyle) {
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontDefault, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontDefault, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleTitleMain ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontTitleMain, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontTitleMain, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleTitleSecondary ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontTitleSecondary, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontTitleSecondary, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchResultTotal ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSearchResultTotal, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontSearchResultTotal, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchResultTitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSearchResultTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontSearchResultTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleResultTitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontResultTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontResultTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleResultSubtitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontResultSubTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontResultSubTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileTitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontProfileTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontProfileTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileSubtitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontProfileSubTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontProfileSubTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileTitleSection ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontProfileTitleSection, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontProfileTitleSection, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleCardTitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontCardTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontCardTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleModalTitle ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontModalTitle, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontModalTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchInput ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSearchInput, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontSearchInput, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleButton ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontButton, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontButton, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSmall ->
-                setFont(ThemeExtension.getInstance().getThemeConfiguration().fontSmall, forceTextSize)
+                setFont(OneKeySDK.getInstance().getConfiguration().fontSmall, forceTextSize)
         }
     }
 
@@ -101,7 +101,7 @@ class OneKeyCheckTextView : AppCompatCheckedTextView, IOneKeyView {
     }
 
     private fun mapTextColor(colorStyle: OneKeyTextView.OneKeyColorStyle) {
-        val theme = ThemeExtension.getInstance().getThemeConfiguration()
+        val theme = OneKeySDK.getInstance().getConfiguration()
         when (colorStyle) {
             OneKeyTextView.OneKeyColorStyle.OneKeyColorPrimary -> setTextColor(theme.colorPrimary.getColor())
             OneKeyTextView.OneKeyColorStyle.OneKeyColorSecondary -> setTextColor(theme.colorSecondary.getColor())

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.sort.OneKeySortAdapter
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.extensions.setRippleBackground
@@ -28,7 +28,7 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
     private val sortList by lazy { arrayListOf<OneKeySortObject>() }
     private val sortAdapter by lazy { OneKeySortAdapter() }
     private var selectedPosition = 0
-    private var theme = ThemeExtension.getInstance().getThemeConfiguration()
+    private var theme = OneKeySDK.getInstance().getConfiguration()
     override val viewModel = OneKeySortViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {

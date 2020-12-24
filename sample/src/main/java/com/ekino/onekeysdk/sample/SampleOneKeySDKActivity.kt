@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
-import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.fragments.*
@@ -198,8 +198,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
                     .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
         }
-        this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
-                builder.build()), true)
+        OneKeySDK.getInstance().init(builder.build())
+        OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
     }
 
     private fun getFontSetting(json: String): OneKeyViewFontObject =

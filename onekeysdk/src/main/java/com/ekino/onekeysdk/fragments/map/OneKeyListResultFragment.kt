@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
@@ -23,7 +23,7 @@ class OneKeyListResultFragment : IFragment() {
         }
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter() }
 

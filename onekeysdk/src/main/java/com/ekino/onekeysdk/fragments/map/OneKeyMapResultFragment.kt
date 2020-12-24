@@ -9,7 +9,7 @@ import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.custom.CenterLayoutManager
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getFragmentBy
 import com.ekino.onekeysdk.extensions.getScreenWidth
 import com.ekino.onekeysdk.extensions.postDelay
@@ -27,7 +27,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
         }
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
         MapFragment.newInstance(oneKeyCustomObject, activities, 0f, true)

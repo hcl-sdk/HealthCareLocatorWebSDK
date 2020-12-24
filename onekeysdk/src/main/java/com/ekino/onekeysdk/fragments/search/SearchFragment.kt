@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.extensions.pushFragment
 import base.fragments.AppFragment
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.IndividualAdapter
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
@@ -48,7 +49,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     }
 
     private var oneKeyCustomObject: OneKeyCustomObject =
-            ThemeExtension.getInstance().getThemeConfiguration()
+            OneKeySDK.getInstance().getConfiguration()
     private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyCustomObject, this) }
     private val individualAdapter by lazy { IndividualAdapter() }
     private var selectedPlace: OneKeyPlace? = null

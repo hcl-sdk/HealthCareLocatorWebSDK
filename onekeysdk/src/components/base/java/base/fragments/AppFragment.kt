@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import base.activity.AppActivity
 import base.viewmodel.IViewModel
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import java.util.*
 
 /**
@@ -39,7 +39,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        changeLocale(ThemeExtension.getInstance().getThemeConfiguration().getLocaleCode())
+        changeLocale(OneKeySDK.getInstance().getConfiguration().getLocaleCode())
         val view = inflater.inflate(layoutId, container, false)
         viewModel.bindView(this as T)
         return view

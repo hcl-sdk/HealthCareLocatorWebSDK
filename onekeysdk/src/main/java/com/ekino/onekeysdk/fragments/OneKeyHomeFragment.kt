@@ -12,6 +12,7 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
 import com.ekino.onekeysdk.extensions.*
@@ -26,37 +27,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class OneKeyHomeFragment :
         AppFragment<OneKeyHomeFragment, HomeViewModel>(R.layout.fragment_home) {
     companion object {
-        fun newInstance(
-                oneKeyCustomObject: OneKeyCustomObject =
-                        OneKeyCustomObject.Builder().build()
-        ): OneKeyHomeFragment {
-            ThemeExtension.getInstance().setThemeConfiguration(oneKeyCustomObject)
-            return OneKeyHomeFragment().apply {
-                this.oneKeyCustomObject = oneKeyCustomObject
-            }
-        }
+        fun newInstance(): OneKeyHomeFragment = OneKeyHomeFragment()
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject =
-            ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
 
     private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyCustomObject) }
 
     override val viewModel: HomeViewModel = HomeViewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (oneKeyCustomObject.homeMode == 0) {
-            (activity as? AppCompatActivity)?.apply {
-                supportFragmentManager.popBackStack()
-                addFragment(
-                        R.id.fragmentContainer,
-                        OneKeyHomeFullFragment.newInstance(oneKeyCustomObject),
-                        true
-                )
-            }
-        }
-    }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         newSearchWrapper.setOnClickListener { startNewSearch() }

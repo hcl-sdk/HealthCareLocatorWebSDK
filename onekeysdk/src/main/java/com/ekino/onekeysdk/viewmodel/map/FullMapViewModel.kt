@@ -4,12 +4,11 @@ import android.Manifest
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.isNotNullable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.iqvia.onekey.GetActivitiesQuery
@@ -17,7 +16,7 @@ import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
 class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
-    private val theme = ThemeExtension.getInstance().getThemeConfiguration()
+    private val theme = OneKeySDK.getInstance().getConfiguration()
 
     val permissionRequested by lazy { MutableLiveData<Boolean>() }
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }

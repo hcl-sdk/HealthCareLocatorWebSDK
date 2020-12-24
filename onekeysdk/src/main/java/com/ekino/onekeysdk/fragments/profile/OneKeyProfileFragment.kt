@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
 import base.fragments.AppFragment
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
@@ -49,7 +50,7 @@ class OneKeyProfileFragment :
     private val locations by lazy { getDummyHCP() }
     private var oneKeyLocation: OneKeyLocation? = null
     private var oneKeyCustomObject: OneKeyCustomObject =
-            ThemeExtension.getInstance().getThemeConfiguration()
+            OneKeySDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private var mapFragment: MapFragment? = null
     private var activityDetail: ActivityObject = ActivityObject()

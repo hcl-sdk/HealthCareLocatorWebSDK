@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.extensions.pushFragment
 import base.fragments.AppFragment
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.LastConsultedAdapter
 import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
@@ -33,10 +34,7 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         OneKeyHomFullViewModel>(R.layout.fragment_one_key_home_full), View.OnClickListener, IMyLocationConsumer {
     companion object {
-        fun newInstance(oneKeyCustomObject: OneKeyCustomObject = OneKeyCustomObject.Builder().build()) =
-                OneKeyHomeFullFragment().apply {
-                    this.oneKeyCustomObject = oneKeyCustomObject
-                }
+        fun newInstance() = OneKeyHomeFullFragment()
     }
 
     private var locationProvider: GpsMyLocationProvider? = null
@@ -48,7 +46,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy { MapFragment.newInstance(oneKeyCustomObject, arrayListOf()) }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
     private val lastSearchAdapter by lazy { LastSearchAdapter(oneKeyCustomObject) }
     private val lastConsultedAdapter by lazy { LastConsultedAdapter(oneKeyCustomObject) }
 

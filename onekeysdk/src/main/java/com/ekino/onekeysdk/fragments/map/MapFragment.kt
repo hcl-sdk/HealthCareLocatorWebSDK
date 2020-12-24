@@ -12,7 +12,7 @@ import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.map.OneKeyMapView
 import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.activity.ActivityObject
@@ -46,7 +46,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     }
 
     private var oneKeyCustomObject: OneKeyCustomObject =
-            ThemeExtension.getInstance().getThemeConfiguration()
+            OneKeySDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private var modifyZoomLevel: Float = 0f
     private var boundingBox: Boolean = false

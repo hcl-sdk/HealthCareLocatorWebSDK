@@ -17,6 +17,7 @@ import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.text.OneKeyTextView
 import com.ekino.onekeysdk.extensions.*
@@ -61,7 +62,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     }
 
     private var oneKeyCustomObject: OneKeyCustomObject =
-            ThemeExtension.getInstance().getThemeConfiguration()
+            OneKeySDK.getInstance().getConfiguration()
     private val fragmentState: IFragmentState by lazy {
         FragmentState(
                 childFragmentManager,

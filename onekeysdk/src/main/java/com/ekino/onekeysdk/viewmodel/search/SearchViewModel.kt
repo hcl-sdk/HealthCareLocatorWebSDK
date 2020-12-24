@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import base.extensions.runOnUiThread
 import base.fragments.IFragment
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.search.SearchFragment
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class SearchViewModel : ApolloViewModel<SearchFragment>() {
-    private val theme = ThemeExtension.getInstance().getThemeConfiguration()
+    private val theme = OneKeySDK.getInstance().getConfiguration()
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<OneKeyPlace>>() }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.model.activity.ActivityObject
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.layout_search_item.view.*
 class SearchAdapter(private val screenWidth: Int = -1) :
         OneKeyAdapter<ActivityObject, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
     private var selectedPosition = -1
-    private val themeConfig by lazy { ThemeExtension.getInstance().getThemeConfiguration() }
+    private val themeConfig by lazy { OneKeySDK.getInstance().getConfiguration() }
     var onHCPCardClickedListener: (data: ActivityObject) -> Unit = {}
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): SearchVH =
