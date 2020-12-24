@@ -130,7 +130,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
-                            android:text="Main Information"
+                            android:text="@string/one_key_main_information_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -313,7 +313,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
-                            android:text="Specialities"
+                            android:text="@string/one_key_specialities_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -347,7 +347,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
-                            android:text="Rate and refunds"
+                            android:text="@string/one_key_rate_refunds_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -381,7 +381,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
-                            android:text="Information"
+                            android:text="@string/one_key_information_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -396,7 +396,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
 
-                                android:text="Was the information you were given about this HCP/HCO correct?"
+                                android:text="@string/one_key_information_description"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
@@ -421,7 +421,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/default_padding"
-                                    android:text="Yes"
+                                    android:text="@string/one_key_information_yes_label"
                                     android:textColor="@color/colorOneKeyText"
                                     android:textSize="@dimen/default_text"
                                     app:forceTextSize="true" />
@@ -439,7 +439,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/default_padding"
-                                    android:text="No"
+                                    android:text="@string/one_key_information_no_label"
                                     android:textColor="@color/colorOneKeyText"
                                     android:textSize="@dimen/default_text"
                                     app:forceTextSize="true" />
@@ -465,7 +465,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
-                            android:text="Improve the data quality"
+                            android:text="@string/one_key_improve_quality_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -511,7 +511,7 @@
                                     android:paddingTop="@dimen/default_padding_small"
                                     android:paddingEnd="@dimen/default_padding_tiny"
                                     android:paddingBottom="@dimen/default_padding_small"
-                                    android:text="@string/one_key_suggest_a_modification"
+                                    android:text="@string/one_key_suggess_modification_button"
                                     android:textColor="@color/colorOneKeyText"
                                     android:textSize="@dimen/default_text"
                                     app:OneKeyTextColor="OneKeyColorSecondary"

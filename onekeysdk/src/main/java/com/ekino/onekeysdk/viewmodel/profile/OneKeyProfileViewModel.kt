@@ -18,7 +18,7 @@ class OneKeyProfileViewModel : ApolloViewModel<OneKeyProfileFragment>() {
     fun getDetailActivity(id: String) {
         loading.postValue(true)
         query({
-            GetActivityByIdQuery.builder().id(id).apiKey(theme.apiKey).locale(theme.locale).build()
+            GetActivityByIdQuery.builder().id(id).apiKey(theme.apiKey).locale(theme.getLocaleCode()).build()
         }, { response ->
             if (response.data?.activityByID().isNullable()) {
                 runOnUiThread(Runnable {

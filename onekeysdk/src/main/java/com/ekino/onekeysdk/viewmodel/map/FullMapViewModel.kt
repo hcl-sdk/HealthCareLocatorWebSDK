@@ -34,7 +34,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder().apiKey(theme.apiKey)
-                    .locale(theme.locale).first(50).offset(0)
+                    .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty()) {
                 builder.specialties(specialities)
             } else {

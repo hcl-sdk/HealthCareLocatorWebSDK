@@ -34,7 +34,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 tvName.text = data.individual?.mailingName ?: ""
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
-                tvDistance.text = "${Math.round(data.distance)}m"
+                tvDistance.text = itemView.context.getString(R.string.one_key_distance_unit_android, "${Math.round(data.distance)}")
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {
                     onHCPCardClickedListener(data)

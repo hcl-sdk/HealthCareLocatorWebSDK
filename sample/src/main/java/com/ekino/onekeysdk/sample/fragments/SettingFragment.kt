@@ -54,6 +54,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         themeSpinner.setOnTouchListener(listener)
         themeSpinner.setSelection(selectedTheme)
         initHomeSpinner()
+        initLanguageSpinner()
 
         tvResetDefault.text = tvResetDefault.text.run {
             val span = SpannableString(this)
@@ -75,6 +76,16 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
                 }
             }
         }
+    }
+
+    private fun initLanguageSpinner() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
+        val languages = requireContext().resources.getStringArray(R.array.languages)
+        ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, languages).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            languageSpinner.adapter = it
+        }
+        languageSpinner.setSelection(selectedPosition)
     }
 
     override fun onSpinnerItemSelectedListener(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -102,6 +113,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
             putInt(Pref.home, if (homeGroup.checkedRadioButtonId == rBtnFull.id) 0 else 1)
+            putInt(Pref.language, languageSpinner.selectedItemPosition)
         }
         super.onPause()
     }
@@ -142,9 +154,9 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         }
     }
 
-    private fun resetDefault(){
+    private fun resetDefault() {
         SampleApplication.sharedPreferences.edit {
-            putString(Pref.fontDefault, "") 
+            putString(Pref.fontDefault, "")
             putString(Pref.fontTitle1, "")
             putString(Pref.fontButton, "")
             putString(Pref.fontTitle2, "")

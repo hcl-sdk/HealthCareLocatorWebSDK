@@ -25,16 +25,17 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
         }
     }
 
-    private val sortList by lazy {
-        arrayListOf(OneKeySortObject("0", "Relevance"),
-                OneKeySortObject("1", "Distance"), OneKeySortObject("2", "Name"))
-    }
+    private val sortList by lazy { arrayListOf<OneKeySortObject>() }
     private val sortAdapter by lazy { OneKeySortAdapter() }
     private var selectedPosition = 0
     private var theme = ThemeExtension.getInstance().getThemeConfiguration()
     override val viewModel = OneKeySortViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
+        sortList.clear()
+        sortList.addAll(arrayListOf(OneKeySortObject("0", getString(R.string.one_key_relevance_item)),
+                OneKeySortObject("1", getString(R.string.one_key_distance_item)),
+                OneKeySortObject("2", getString(R.string.one_key_name_item))))
         var sort = sortList
 
         if (savedInstanceState != null) {

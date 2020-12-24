@@ -112,4 +112,25 @@
             android:layout_height="wrap_content"
             android:text="Min" />
     </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_larger"
+        android:text="Language"
+        android:textColor="@color/colorOneKeyText"
+        android:textSize="@dimen/default_text" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_tiny"
+        android:background="@drawable/bg_white_border_corner">
+
+        <com.ekino.onekeysdk.sample.view.SSpinner
+            android:id="@+id/languageSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding_smaller" />
+    </FrameLayout>
 </LinearLayout>

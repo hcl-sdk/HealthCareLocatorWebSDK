@@ -3,6 +3,8 @@ package com.ekino.onekeysdk.model.config
 import android.graphics.Typeface
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.isNullable
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:
@@ -59,6 +61,8 @@ data class OneKeyCustomObject private constructor(
         val colorButtonBackground: String, val colorButtonAcceptBackground: String,
         val colorButtonDiscardBackground: String, val apiKey: String, val locale: String,
         val favoriteIds: ArrayList<String>) {
+
+    fun getLocaleCode():String= if (locale.isNotEmpty())locale else Locale.getDefault().language
 
     @Suppress
     data class Builder(

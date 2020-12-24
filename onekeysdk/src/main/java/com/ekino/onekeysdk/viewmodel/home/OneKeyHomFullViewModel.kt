@@ -58,10 +58,10 @@ class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder().apiKey(config.apiKey)
-                    .locale(config.locale).first(10).offset(0)
-            if (config.favoriteIds.isNotEmpty()) {
-                builder.specialties(config.favoriteIds)
-            }
+                    .locale(config.getLocaleCode()).first(10).offset(0)
+//            if (config.favoriteIds.isNotEmpty()) {
+//                builder.specialties(config.favoriteIds)
+//            }
             builder.location(GeopointQuery.builder().lat(currentLocation.latitude).lon(currentLocation.longitude).build())
             builder.build()
         }, { response ->

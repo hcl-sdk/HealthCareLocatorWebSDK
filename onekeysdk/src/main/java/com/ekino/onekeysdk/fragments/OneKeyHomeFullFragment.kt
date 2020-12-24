@@ -60,7 +60,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             org.osmdroid.config.Configuration.getInstance().load(
                     context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
         } catch (e: Exception) {
-            //
         }
     }
 
@@ -212,15 +211,12 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             }
         }
         lastSearchAdapter.onItemClickedListener = { obj ->
-//            context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
-//                viewModel.storeSearch(this, SearchObject(obj.speciality, obj.place))
-//            }
             (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                     FullMapFragment.newInstance(oneKeyCustomObject,
                             obj.speciality?.longLbl ?: "", obj.speciality, obj.place), true
             )
         }
-        lastConsultedAdapter.onItemRemovedListener = { data, position ->
+        lastConsultedAdapter.onItemRemovedListener = { data, _ ->
             context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
                 viewModel.removeConsultedProfile(this, data)
             }
@@ -262,7 +258,8 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         it::class.java.name == MapFragment::class.java.name
     } as? MapFragment
 
-    private fun getViewTagText(tag: Int): String = if (tag == 0) "View more" else "View less"
+    private fun getViewTagText(tag: Int): String = if (tag == 0)
+        getString(R.string.one_key_view_more) else getString(R.string.one_key_view_less)
 
     private fun checkViewMoreConsulted(size: Int, view: View) {
         view.visibility = (size > 3).getVisibility()

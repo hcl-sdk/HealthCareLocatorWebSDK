@@ -137,7 +137,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private fun getIndividualByName(name: String, callback: (ArrayList<GetIndividualByNameQuery.Individual>) -> Unit) {
         query({
             GetIndividualByNameQuery.builder()
-                    .apiKey(theme.apiKey).criteria(name).first(5).offset(0).locale(theme.locale).build()
+                    .apiKey(theme.apiKey).criteria(name).first(5).offset(0).locale(theme.getLocaleCode()).build()
         }, { response ->
             if (response.data?.individualsByName()?.individuals().isNullable())
                 callback(arrayListOf())

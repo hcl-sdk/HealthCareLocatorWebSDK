@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Results:"
+                        android:text="@string/one_key_results_label"
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleSearchResultTotal" />
 
@@ -174,7 +174,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_padding_tiny"
                                 android:gravity="center"
-                                android:text="List"
+                                android:text="@string/one_key_list_label"
                                 android:textColor="@color/white" />
                         </LinearLayout>
 
@@ -201,7 +201,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_padding_tiny"
                                 android:gravity="center"
-                                android:text="Map"
+                                android:text="@string/one_key_map_label"
                                 android:textColor="@color/colorOneKeyText" />
                         </LinearLayout>
                     </LinearLayout>

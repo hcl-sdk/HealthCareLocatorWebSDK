@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import base.activity.AppActivity
 import base.viewmodel.IViewModel
+import com.ekino.onekeysdk.extensions.ThemeExtension
+import java.util.*
 
 /**
  * This class will be used for the fragments where the binding functions are called already.
@@ -37,6 +39,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        changeLocale(ThemeExtension.getInstance().getThemeConfiguration().getLocaleCode())
         val view = inflater.inflate(layoutId, container, false)
         viewModel.bindView(this as T)
         return view
@@ -71,6 +74,21 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
             val transaction = beginTransaction()
             transaction.replace(containerId, fragment, fragment::class.java.simpleName)
                     .commitAllowingStateLoss()
+        }
+    }
+
+    open fun changeLocale(language: String) {
+        if (activity == null) return
+        try {
+            var l = language
+            if (l.isEmpty())
+                l = "en"
+            val locale = Locale(l)
+            Locale.setDefault(locale)
+            val config = activity!!.baseContext.resources.configuration
+            config.setLocale(locale)
+            activity!!.resources.updateConfiguration(config, activity!!.resources.displayMetrics)
+        } finally {
         }
     }
 }

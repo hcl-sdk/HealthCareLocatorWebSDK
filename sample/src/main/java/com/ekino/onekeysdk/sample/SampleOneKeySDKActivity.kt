@@ -165,6 +165,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             }
         }
         val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 1)
+        val language = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
 
         /**
          * Add OneKey screen into parent application
@@ -188,7 +189,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .fontSortCriteria(fontSortCriteria)
                 .homeMode(homeMode)
                 .favoriteIds(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
-                .locale(Locale.getDefault().language)
+                .locale(if (language == 0) "en" else "fr")
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
                     .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
