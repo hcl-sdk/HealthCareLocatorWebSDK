@@ -1,10 +1,11 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
-import { searchDoctor } from '../../../core/api/hcp';
+import { searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
+import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -35,8 +36,14 @@ export class OnekeySdkSearch {
     this.checkValidElm(name);
 
     if (name.value) {
-      routerStore.push('/search-result');
+      if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
+        routerStore.push(ROUTER_PATH.SEARCH_RESULT);
+      } else {
+        searchLocationWithParams()
+      }
     }
+
+
   };
 
   checkValidElm = elm => {

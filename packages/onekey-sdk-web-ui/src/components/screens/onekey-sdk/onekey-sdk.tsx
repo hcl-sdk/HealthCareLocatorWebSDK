@@ -5,6 +5,7 @@ import { applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore } from '../../../core/stores';
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
+import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 
 const defaults = {
   homeMode: 'min'
@@ -61,9 +62,9 @@ export class OneKeySDK {
       <Host>
         <div class={`wrapper size-${screenSize} orientation-${orientation}`}>
           <onekey-sdk-router>
-            <onekey-sdk-route component="onekey-sdk-home" path="/" />
-            <onekey-sdk-route component="onekey-sdk-search-result" path="/search-result" />
-            <onekey-sdk-route component="onekey-sdk-search" path="/search" />
+            <onekey-sdk-route component="onekey-sdk-home" path={ROUTER_PATH.MAIN} />
+            <onekey-sdk-route component="onekey-sdk-search-result" path={ROUTER_PATH.SEARCH_RESULT} />
+            <onekey-sdk-route component="onekey-sdk-search" path={ROUTER_PATH.SEARCH} />
           </onekey-sdk-router>
           <onekey-sdk-modal modal={configStore.state.modal} />
         </div>
