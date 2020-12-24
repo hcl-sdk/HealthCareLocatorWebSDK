@@ -5,7 +5,7 @@ import { configStore, searchMapStore, uiStore, routerStore } from '../../../core
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import { getFullCardDetail, searchLocation } from '../../../core/api/hcp';
+import { getFullCardDetail, searchLocationWithParams } from '../../../core/api/hcp';
 import { NEAR_ME } from '../../../core/constants';
 @Component({
   tag: 'onekey-sdk-search-result',
@@ -18,21 +18,7 @@ export class OnekeySdkSearchResult {
   @State() isOpenPanel: boolean = true;
 
   componentWillLoad() {
-    const params: any = {};
-    if (searchMapStore.state.locationFilter) {
-      if (searchMapStore.state.locationFilter.id === NEAR_ME) {
-        params.location = searchMapStore.state.currentLocation;
-      } else {
-        params.location = {
-          lat: Number(searchMapStore.state.locationFilter.lat),
-          lon: Number(searchMapStore.state.locationFilter.lng),
-        };
-      }
-    }
-    if (searchMapStore.state.specialtyFilter) {
-      params.specialties = [searchMapStore.state.specialtyFilter.id];
-    }
-    searchLocation(params);
+    searchLocationWithParams()
   }
   searchDataCardList;
   searchDataMapElm;
@@ -108,6 +94,10 @@ export class OnekeySdkSearchResult {
     const className = cls('search-toolbar search-section', {
       'header-block': isSmall,
     });
+    if(!specialties || !specialties.length) {
+      return null
+    }
+
     return (
       <div class={className}>
         <div class="search-back-large hidden-mobile">
@@ -150,7 +140,7 @@ export class OnekeySdkSearchResult {
     const mapClass = cls('search-map__content');
 
     const mapWrapperClass = cls('search-map-wrapper', {
-      hide: !this.isOpenPanel,
+      hide: !this.isOpenPanel || !specialties.length,
     });
 
     const wrapperClass = cls('search-result main-contain', `${modeView.toLowerCase()}-view-mode`, {

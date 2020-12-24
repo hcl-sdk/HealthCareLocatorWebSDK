@@ -2,9 +2,28 @@ import { searchMapStore } from '../stores';
 import { graphql } from 'onekey-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
 import { getSpecialtiesText } from '../../utils/helper';
+import { NEAR_ME } from '../constants';
+
+export async function searchLocationWithParams() {
+  const params: any = {};
+  if (searchMapStore.state.locationFilter) {
+    if (searchMapStore.state.locationFilter.id === NEAR_ME) {
+      params.location = searchMapStore.state.currentLocation;
+    } else {
+      params.location = {
+        lat: Number(searchMapStore.state.locationFilter.lat),
+        lon: Number(searchMapStore.state.locationFilter.lng),
+      };
+    }
+  }
+  if (searchMapStore.state.specialtyFilter) {
+    params.specialties = [searchMapStore.state.specialtyFilter.id];
+  }
+  searchLocation(params);
+}
 
 export async function searchLocation(variables) {
-  searchMapStore.setState({ loading: true });
+  searchMapStore.setState({ loading: true, individualDetail: null });
 
   const { activities } = await graphql.activities({
     apiKey: "1",
@@ -27,7 +46,7 @@ export async function searchLocation(variables) {
     id: item.activity.id
   }))
 
-  searchMapStore.setState({ specialties: data, specialtiesRaw: data, searchDoctor: [], loading: false });
+  searchMapStore.setState({ specialties: data, specialtiesRaw: data, searchDoctor: [], selectedActivity: null, individualDetail: null, loading: false });
 }
 
 export async function searchDoctor(variables) {
