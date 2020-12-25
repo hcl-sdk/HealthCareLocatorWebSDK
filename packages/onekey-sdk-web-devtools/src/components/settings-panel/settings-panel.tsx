@@ -1,6 +1,7 @@
 import { Component, h, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
 import * as icons from './icons'
+import Prism from 'prismjs';
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
@@ -148,6 +149,7 @@ export class SettingsPanel {
   }
 
   picker: any;
+  iconCodePreview: any;
 
   componentWillLoad() {
     this.updateLanguage();
@@ -596,6 +598,16 @@ export class SettingsPanel {
   }
 
   renderIconView() {
+    const content = `
+      <svg
+        version="1.2"
+        preserveAspectRatio="none"
+        viewBox="0 0 24 24"
+      >
+      ${this.editedIcon.value}
+      </svg>
+    `
+    const out = Prism.highlight(content, Prism.languages.svg, 'svg')
     return (
       <section>
         <div class="title-wrapper">
@@ -606,21 +618,18 @@ export class SettingsPanel {
         </div>
         <div
           class="icon-preview">
-          <span innerHTML={`
-            <svg
-              version="1.2"
-              preserveAspectRatio="none"
-              viewBox="0 0 24 24"
-            >
-            ${this.editedIcon.value}
-            </svg>
-          `} />
+          <span innerHTML={content} />
         </div>
         <div class="row">
           <label>
             <span>Icon</span>
           </label>
-          <textarea rows={8} cols={30} value={this.editedIcon.value} onInput={this.onChangeIconInput} />
+
+          <pre class="language-markup" contentEditable onInput={this.onChangeIconInput}>
+            <code class="language-svg">
+              <span innerHTML={out} />
+            </code>
+          </pre>
         </div>
         <button class="btn-full save-theme" onClick={this.applyIcon}>
           OK
@@ -685,6 +694,10 @@ export class SettingsPanel {
   }
 
   render() {
+    console.log(this.iconCodePreview);
+    if(this.iconCodePreview) {
+      (window as any).hljs.highlightBlock(this.iconCodePreview)
+    }
     return (
       <div class="wrapper">
         {this.view === 'main' && this.renderMainView()}
