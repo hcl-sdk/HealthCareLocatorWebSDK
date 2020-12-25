@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:clickable="true"
     android:orientation="vertical">
 
     <ImageView
@@ -68,5 +69,11 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/default_text_bigger" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.3"
+            android:background="@color/white" />
     </LinearLayout>
 </LinearLayout>

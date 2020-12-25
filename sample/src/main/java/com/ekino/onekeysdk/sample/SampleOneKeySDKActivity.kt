@@ -58,8 +58,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         this.addFragment(R.id.fragmentContainer, LandingPageFragment.newInstance(), true)
     }
 
-    fun launchOneKeySDK(favoriteNearMe: Boolean = false) {
-        resetStack()
+    fun launchOneKeySDK(favoriteNearMe: Boolean = false, resetStack: Boolean = true) {
+        if (resetStack)
+            resetStack()
         /**
          * Customize the theme attributes
          */

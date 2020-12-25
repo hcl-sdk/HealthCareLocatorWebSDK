@@ -14,5 +14,6 @@ interface OneKeyState {
      * @param containerId the area in layout where fragment runs on.
      * @exception [OneKeyException] if data is invalid.
      */
+    @Throws(OneKeyException::class)
     fun startOneKeySDKFragment(activity: AppCompatActivity?, containerId: Int)
 }

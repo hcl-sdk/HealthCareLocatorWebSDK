@@ -29,6 +29,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
     private var themeObject: ThemeObject = ThemeObject()
     private val themes by lazy { getThemes() }
     private val fonts by lazy { getFonts() }
+    override fun shouldInterceptBackPress(): Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_setting, container, false)
