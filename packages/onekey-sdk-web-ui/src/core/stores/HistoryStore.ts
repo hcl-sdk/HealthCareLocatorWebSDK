@@ -1,23 +1,21 @@
+import { HISTORY_ITEMS_TO_DISPLAY } from '../constants';
 import StoreProvider from './StoreProvider';
-import { HISTORY_SEARCH_ITEMS_MOCK, HISTORY_HCP_ITEMS_MOCK } from './dataMocks';
 
 type HistoryItemType = 'search' | 'hcp';
 
-interface HistorySearchItem {
+export interface HistorySearchItem {
   id: string;
   type: 'search';
-  criteria: string;
-  specialtyId?: string;
-  address: string;
+  locationFilter: any;
+  specialtyFilter: any;
+  searchFields: any;
   timestamp: number;
 }
 
-interface HistoryHcpItem {
-  id: string;
+export interface HistoryHcpItem {
+  activityId: string;
   type: 'hcp';
-  hcpName: string;
-  hcpSpecialty: string;
-  address: string;
+  activity: any;
   timestamp: number;
 }
 
@@ -26,10 +24,27 @@ interface HistoryStoreState {
   hcpItems: HistoryHcpItem[];
 }
 
-const initialData: HistoryStoreState = {
-  searchItems: HISTORY_SEARCH_ITEMS_MOCK as HistorySearchItem[],
-  hcpItems: HISTORY_HCP_ITEMS_MOCK as HistoryHcpItem[]
-};
+function loadHistory() {
+  const historyStr = window.localStorage.getItem('__onekey-sdk-searchHistory');
+  if (historyStr) {
+    return JSON.parse(historyStr);
+  }
+  return {
+    searchItems: [],
+    hcpItems: [],
+  };
+}
+
+function storeHistory(history: HistoryStoreState) {
+  if (!history) {
+    return;
+  }
+  try {
+    window.localStorage.setItem('__onekey-sdk-searchHistory', JSON.stringify(history));
+  } catch (e) {}
+}
+
+const initialData: HistoryStoreState = loadHistory();
 
 export default class HistoryStore extends StoreProvider<HistoryStoreState> {
   constructor() {
@@ -38,23 +53,63 @@ export default class HistoryStore extends StoreProvider<HistoryStoreState> {
 
   addItem(itemType: HistoryItemType, item: HistoryHcpItem | HistorySearchItem) {
     switch (itemType) {
-      case 'hcp':
-        this.state.hcpItems.push(item as HistoryHcpItem);
+      case 'hcp': {
+        const hcpItem = item as HistoryHcpItem;
+        const found = this.state.hcpItems.filter(i => i.activityId === hcpItem.activityId)[0];
+        if (!found) {
+          this.state.hcpItems.unshift(item as HistoryHcpItem);
+          if (this.state.hcpItems.length > HISTORY_ITEMS_TO_DISPLAY) {
+            this.state.hcpItems.length = HISTORY_ITEMS_TO_DISPLAY;
+          }
+        } else {
+          // Item already exists, update and move to top
+          this.updateItem('hcpItems', found);
+        }
         break;
-      case 'search':
-        this.state.searchItems.push(item as HistorySearchItem);
+      }
+      case 'search': {
+        const hcpItem = item as HistorySearchItem;
+        const found = this.state.searchItems.filter(i => {
+          return (
+            JSON.stringify({ s: i.specialtyFilter, a: i.locationFilter, f: i.searchFields }) ===
+            JSON.stringify({ s: hcpItem.specialtyFilter, a: hcpItem.locationFilter, f: hcpItem.searchFields })
+          );
+        })[0];
+        if (!found) {
+          this.state.searchItems.unshift(item as HistorySearchItem);
+          if (this.state.searchItems.length > HISTORY_ITEMS_TO_DISPLAY) {
+            this.state.searchItems.length = HISTORY_ITEMS_TO_DISPLAY;
+          }
+        } else {
+          // Item already exists, update and move to top
+          this.updateItem('searchItems', found);
+        }
         break;
+      }
     }
+    storeHistory(this.state);
   }
 
   removeItem(itemType: HistoryItemType, itemId: string) {
     switch (itemType) {
-      case 'hcp':
-        this.state.hcpItems = this.state.hcpItems.filter(item => item.id !== itemId);
+      case 'hcp': {
+        this.state.hcpItems = this.state.hcpItems.filter(item => item.activityId !== itemId);
         break;
-      case 'search':
+      }
+      case 'search': {
         this.state.searchItems = this.state.searchItems.filter(item => item.id !== itemId);
         break;
+      }
     }
+    storeHistory(this.state);
+  }
+
+  updateItem(key: 'searchItems' | 'hcpItems', item: any) {
+    const updated = { ...item };
+    updated.timestamp = Date.now();
+    const nextState = [...this.state[key]];
+    nextState.splice(this.state[key].indexOf(item), 1);
+    nextState.unshift(updated);
+    this.state[key] = nextState as any;
   }
 }

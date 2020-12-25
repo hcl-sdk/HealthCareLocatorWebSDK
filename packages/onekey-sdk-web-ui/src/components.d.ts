@@ -40,7 +40,6 @@ export namespace Components {
         "viewMode": string;
     }
     interface OnekeySdkHcpFullCard {
-        "goBack": (e: any) => void;
     }
     interface OnekeySdkHome {
     }
@@ -538,7 +537,7 @@ declare namespace LocalJSX {
         "viewMode"?: string;
     }
     interface OnekeySdkHcpFullCard {
-        "goBack"?: (e: any) => void;
+        "onBackFromHcpFullCard"?: (event: CustomEvent<MouseEvent>) => void;
     }
     interface OnekeySdkHome {
     }

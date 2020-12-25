@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Event, State, EventEmitter } from '@stencil/core';
 import cls from 'classnames';
 import { uiStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getFullCardDetail } from 'onekey-sdk-web-ui/src/core/api/hcp';
@@ -9,14 +9,17 @@ import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
   shadow: false,
 })
 export class OnekeySdkHCPFullCard {
-  @Prop() goBack: (e: any) => void;
+  @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() confirm: boolean;
 
-
   componentWillLoad() {
-    if (!searchMapStore.state.individualDetail) {
-      getFullCardDetail({ activityId: searchMapStore.state.selectedActivity.id });
-    }
+    getFullCardDetail({ activityId: searchMapStore.state.selectedActivity.id });
+  }
+
+  disconnectedCallback() {
+    searchMapStore.setState({
+      individualDetail: null
+    });
   }
 
   onConfirm = answer => {
@@ -44,7 +47,7 @@ export class OnekeySdkHCPFullCard {
         <div class="main-contain">
           <div class={toolbarClass}>
             <div class="search-back-large">
-              <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={this.goBack}>
+              <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={this.backFromHcpFullCard.emit}>
                 <span class="hidden-mobile">Back to result list</span>
               </onekey-sdk-button>
             </div>
@@ -52,7 +55,7 @@ export class OnekeySdkHCPFullCard {
           </div>
 
           <div class="main-block hcp-details-card">
-            {!loading && (
+            {!loading && !!individualDetail && (
               <div class="main-info">
                 <div class="main-info__name">
                   <div class="main-info__avatar">

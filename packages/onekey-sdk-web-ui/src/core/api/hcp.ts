@@ -1,4 +1,5 @@
-import { searchMapStore } from '../stores';
+import { searchMapStore, historyStore } from '../stores';
+import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'onekey-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
 import { getSpecialtiesText } from '../../utils/helper';
@@ -124,6 +125,17 @@ export async function getFullCardDetail({ activityId }) {
     lat: activity.workplace.address.location.lat,
     lng: activity.workplace.address.location.lon
   }
+
+  // add to history
+  // TODO: disable if userId is defined
+  const historyItem: HistoryHcpItem = {
+    type: 'hcp',
+    activityId,
+    activity: activity,
+    timestamp: Date.now(),
+  };
+  historyStore.addItem('hcp', historyItem);
+
 
   searchMapStore.setState({ loading: false, individualDetail: data });
 }

@@ -11,3 +11,7 @@ export const NEAR_ME_ITEM = {
   name: 'Near me',
   id: NEAR_ME,
 };
+
+
+export const HISTORY_ITEMS_TO_DISPLAY = 3;
+export const HISTORY_MAX_TOTAL_ITEMS = 10;
