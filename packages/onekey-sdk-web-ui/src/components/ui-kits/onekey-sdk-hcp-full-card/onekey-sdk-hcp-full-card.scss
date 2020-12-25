@@ -277,5 +277,21 @@
         z-index: 4;
       }
     }
+
+    .map-view-mode {
+      .info-section {
+        >:first-child {
+          position: relative;
+          margin-bottom: 15px;
+        }
+      }
+
+      .info-section-header__postfix {
+        position: absolute;
+        top: -10px;
+        right: 0;
+        z-index: 4;
+      }
+    }
   }
 }
