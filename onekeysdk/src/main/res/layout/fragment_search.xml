@@ -49,7 +49,7 @@
                         android:layout_weight="1"
                         android:background="@color/transparent"
                         android:focusable="true"
-                        android:hint="Name, Specialty"
+                        android:hint="@string/one_key_search_first_field_label"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLines="1"
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/transparent"
-                        android:hint="Where? (address, city,...)"
+                        android:hint="@string/one_key_search_second_field_label"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:maxLines="1"
@@ -207,7 +207,7 @@
                         android:paddingTop="@dimen/default_padding"
                         android:paddingEnd="@dimen/default_padding"
                         android:paddingBottom="@dimen/default_padding"
-                        android:text="Near me"
+                        android:text="@string/one_key_near_me"
                         android:textColor="@color/colorOneKeyText"
                         android:textSize="@dimen/default_text" />
                 </LinearLayout>

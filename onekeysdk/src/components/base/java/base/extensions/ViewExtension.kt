@@ -1,9 +1,12 @@
 package base.extensions
 
+import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.ekino.onekeysdk.R
+import java.util.*
 
 fun AppCompatActivity.addFragment(containerId: Int, fragment: Fragment, addBackStack: Boolean = false) {
     with(supportFragmentManager) {
@@ -22,12 +25,28 @@ fun AppCompatActivity.pushFragment(containerId: Int, fragment: Fragment, addBack
     with(supportFragmentManager) {
         val transaction = beginTransaction()
         if (addBackStack)
-            transaction.add(containerId, fragment, fragment::class.java.simpleName)
+            transaction
+                    .setCustomAnimations(R.anim.one_key_slide_from_right, 0, 0, R.anim.one_key_exit_from_left)
+                    .add(containerId, fragment, fragment::class.java.simpleName)
                     .addToBackStack(fragment::class.java.simpleName)
                     .commitAllowingStateLoss()
         else
             transaction.add(containerId, fragment, fragment::class.java.simpleName)
                     .commitAllowingStateLoss()
+    }
+}
+
+fun Activity.changeLocale(language: String) {
+    try {
+        var l = language
+        if (l.isEmpty())
+            l = "en"
+        val locale = Locale(l)
+        Locale.setDefault(locale)
+        val config = baseContext.resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+    } finally {
     }
 }
 

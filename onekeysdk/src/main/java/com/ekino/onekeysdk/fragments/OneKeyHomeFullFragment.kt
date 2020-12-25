@@ -11,17 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.extensions.pushFragment
 import base.fragments.AppFragment
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.LastConsultedAdapter
 import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.map.MapFragment
-import com.ekino.onekeysdk.fragments.map.NearMeFragment
+import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.viewmodel.home.OneKeyHomFullViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_home_full.*
@@ -33,10 +34,7 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         OneKeyHomFullViewModel>(R.layout.fragment_one_key_home_full), View.OnClickListener, IMyLocationConsumer {
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject = OneKeyViewCustomObject.Builder().build()) =
-                OneKeyHomeFullFragment().apply {
-                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
-                }
+        fun newInstance() = OneKeyHomeFullFragment()
     }
 
     private var locationProvider: GpsMyLocationProvider? = null
@@ -46,11 +44,11 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     private var consultedTag = 0
 
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyViewCustomObject, arrayListOf()) }
+    private val mapFragment by lazy { MapFragment.newInstance(oneKeyCustomObject, arrayListOf()) }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject = ThemeExtension.getInstance().getThemeConfiguration()
-    private val lastSearchAdapter by lazy { LastSearchAdapter(oneKeyViewCustomObject) }
-    private val lastConsultedAdapter by lazy { LastConsultedAdapter(oneKeyViewCustomObject) }
+    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
+    private val lastSearchAdapter by lazy { LastSearchAdapter(oneKeyCustomObject) }
+    private val lastConsultedAdapter by lazy { LastConsultedAdapter(oneKeyCustomObject) }
 
     override val viewModel = OneKeyHomFullViewModel()
 
@@ -60,7 +58,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             org.osmdroid.config.Configuration.getInstance().load(
                     context, context!!.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE))
         } catch (e: Exception) {
-            //
         }
     }
 
@@ -95,7 +92,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreSearches.text = getViewTagText(searchTag)
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
-        oneKeyViewCustomObject.also {
+        oneKeyCustomObject.also {
             edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             nearMeWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastSearchWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
@@ -183,10 +180,10 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             R.id.mapOverlay -> {
                 currentLocation?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                            NearMeFragment.newInstance(oneKeyViewCustomObject, "", null,
+                            OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
-                                            longitude = "${it.longitude}", displayName = "Near me"),
-                                    oneKeyViewCustomObject.favoriteIds, currentLocation), true)
+                                            longitude = "${it.longitude}", displayName = getString(R.string.one_key_near_me)),
+                                    oneKeyCustomObject.specialities, currentLocation), true)
                 }
             }
         }
@@ -212,15 +209,12 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             }
         }
         lastSearchAdapter.onItemClickedListener = { obj ->
-//            context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
-//                viewModel.storeSearch(this, SearchObject(obj.speciality, obj.place))
-//            }
             (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
-                    FullMapFragment.newInstance(oneKeyViewCustomObject,
+                    FullMapFragment.newInstance(oneKeyCustomObject,
                             obj.speciality?.longLbl ?: "", obj.speciality, obj.place), true
             )
         }
-        lastConsultedAdapter.onItemRemovedListener = { data, position ->
+        lastConsultedAdapter.onItemRemovedListener = { data, _ ->
             context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
                 viewModel.removeConsultedProfile(this, data)
             }
@@ -235,8 +229,8 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             }
         }
         lastConsultedAdapter.onItemClickedListener = { obj ->
-            oneKeyViewCustomObject.also {
-                (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+            oneKeyCustomObject.also {
+                (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                         OneKeyProfileFragment.newInstance(it, null, obj.id), true)
             }
         }
@@ -248,7 +242,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
 
 
     private fun startNewSearch() {
-        oneKeyViewCustomObject.also {
+        oneKeyCustomObject.also {
             (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                     SearchFragment.newInstance(it), true)
         }
@@ -262,7 +256,8 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         it::class.java.name == MapFragment::class.java.name
     } as? MapFragment
 
-    private fun getViewTagText(tag: Int): String = if (tag == 0) "View more" else "View less"
+    private fun getViewTagText(tag: Int): String = if (tag == 0)
+        getString(R.string.one_key_view_more) else getString(R.string.one_key_view_less)
 
     private fun checkViewMoreConsulted(size: Int, view: View) {
         view.visibility = (size > 3).getVisibility()

@@ -1,24 +1,25 @@
 package com.ekino.onekeysdk.viewmodel.map
 
 import android.Manifest
+import android.content.Context
+import android.location.Location
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.isNotNullable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
-import com.ekino.onekeysdk.fragments.map.FullMapFragment
-import com.ekino.onekeysdk.fragments.map.NearMeFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.service.location.LocationClient
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
-class NearMeViewModel : ApolloViewModel<NearMeFragment>() {
-    private val theme = ThemeExtension.getInstance().getThemeConfiguration()
+class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
+    private val theme = OneKeySDK.getInstance().getConfiguration()
 
     val permissionRequested by lazy { MutableLiveData<Boolean>() }
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
@@ -31,41 +32,53 @@ class NearMeViewModel : ApolloViewModel<NearMeFragment>() {
                 Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?) {
+    fun getActivities(context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+                      currentLocation: (location: Location) -> Unit) {
         loading.postValue(true)
-        query({
-            val builder = GetActivitiesQuery.builder().apiKey(theme.apiKey)
-                    .locale(theme.locale).first(50).offset(0)
-            if (specialities.isNotEmpty()) {
-                builder.specialties(specialities)
-            } else {
-                if (criteria.isNotEmpty())
-                    builder.criteria(criteria)
-            }
-            if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
-                builder.location(GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).build())
-            }
-            builder.build()
-        }, { response ->
-            if (response.data?.activities().isNullable()) {
-                activities.postValue(arrayListOf())
+        val client = LocationClient(context)
+        client.requestLastLocation().registerDataCallBack({ location ->
+            client.removeLocationUpdate()
+            client.releaseApiClient()
+            currentLocation(location)
+            query({
+                val builder = GetActivitiesQuery.builder().apiKey(theme.apiKey)
+                        .locale(theme.getLocaleCode()).first(50).offset(0)
+                if (specialities.isNotEmpty()) {
+                    builder.specialties(specialities)
+                } else {
+                    if (criteria.isNotEmpty())
+                        builder.criteria(criteria)
+                }
+                if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
+                    builder.location(GeopointQuery.builder().lat(location.latitude)
+                            .lon(location.longitude).build())
+                }
+                builder.build()
+            }, { response ->
+                if (response.data?.activities().isNullable()) {
+                    activities.postValue(arrayListOf())
+                    loading.postValue(false)
+                } else {
+                    activities.postValue(response.data!!.activities()!!.run {
+                        val list = ArrayList<ActivityObject>()
+                        forEach { act ->
+                            val obj = ActivityObject().parse(act.activity())
+                            obj.distance = act.distance() ?: 0.0
+                            list.add(obj)
+                        }
+                        list
+                    })
+                    loading.postValue(false)
+                }
+            }, {
                 loading.postValue(false)
-            } else {
-                activities.postValue(response.data!!.activities()!!.run {
-                    val list = ArrayList<ActivityObject>()
-                    forEach { act ->
-                        val obj = ActivityObject().parse(act.activity())
-                        obj.distance = act.distance() ?: 0.0
-                        list.add(obj)
-                    }
-                    list
-                })
+            }, true)
+        }, { isAvailable ->
+            if (!isAvailable)
                 loading.postValue(false)
-            }
         }, {
             loading.postValue(false)
-        }, true)
+        })
     }
 
     fun sortActivities(list: ArrayList<ActivityObject>, sorting: Int,

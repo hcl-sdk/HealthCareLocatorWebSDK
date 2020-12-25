@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.text.OneKeyTextView
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getEnum
 
@@ -36,7 +36,7 @@ class OneKeyView : View, IOneKeyView {
     }
 
     private fun mapViewColor(colorStyle: OneKeyTextView.OneKeyColorStyle) {
-        val theme = ThemeExtension.getInstance().getThemeConfiguration()
+        val theme = OneKeySDK.getInstance().getConfiguration()
         when (colorStyle) {
             OneKeyTextView.OneKeyColorStyle.OneKeyColorPrimary -> setBackgroundColor(theme.colorPrimary.getColor())
             OneKeyTextView.OneKeyColorStyle.OneKeyColorSecondary -> setBackgroundColor(theme.colorSecondary.getColor())

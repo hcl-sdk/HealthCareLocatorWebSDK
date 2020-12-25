@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.extensions.runOnUiThread
 import base.viewmodel.ApolloViewModel
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
 import com.ekino.onekeysdk.model.SearchObject
@@ -19,7 +20,7 @@ import io.reactivex.Flowable
 
 class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
     private val gson by lazy { Gson() }
-    private val config = ThemeExtension.getInstance().getThemeConfiguration()
+    private val config = OneKeySDK.getInstance().getConfiguration()
     val consultedProfiles by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
     val lastSearches by lazy { MutableLiveData<ArrayList<SearchObject>>() }
     val permissionGranted by lazy { MutableLiveData<Boolean>() }
@@ -58,10 +59,10 @@ class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder().apiKey(config.apiKey)
-                    .locale(config.locale).first(10).offset(0)
-            if (config.favoriteIds.isNotEmpty()) {
-                builder.specialties(config.favoriteIds)
-            }
+                    .locale(config.getLocaleCode()).first(10).offset(0)
+//            if (config.favoriteIds.isNotEmpty()) {
+//                builder.specialties(config.favoriteIds)
+//            }
             builder.location(GeopointQuery.builder().lat(currentLocation.latitude).lon(currentLocation.longitude).build())
             builder.build()
         }, { response ->

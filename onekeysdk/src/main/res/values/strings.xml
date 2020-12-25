@@ -11,10 +11,44 @@
     <string name="montserrat_regular" translatable="false">fonts/Montserrat-Regular.ttf</string>
 
     <string name="app_name">OneKeySDK</string>
+    <!--Home-->
+    <string name="one_key_home_title">Find and Locate\nHealthcare Professional</string>
+    <string name="one_key_start_new_search">Start a New Search</string>
+    <!--Home Full-->
     <string name="one_key_hcps_near_me">HCPs near me</string>
     <string name="one_key_last_searches">Last searches</string>
     <string name="one_key_view_more">View more</string>
+    <string name="one_key_view_less">one_key_view_less</string>
     <string name="one_key_last_hcps_consulted">Last HCPs consulted</string>
     <string name="one_key_find_healthcare_professional">Find Healthcare Professional</string>
-    <string name="one_key_suggest_a_modification">Suggest a modification\u0020</string>
+
+    <!--Search-->
+    <string name="one_key_search_first_field_label">Name, Specialty</string>
+    <string name="one_key_search_second_field_label">Where? (address, city…)</string>
+    <string name="one_key_near_me">Near me</string>
+
+    <!--Results List View-->
+    <string name="one_key_results_label">Results</string>
+    <string name="one_key_list_label">List</string>
+    <string name="one_key_map_label">Map</string>
+    <string name="one_key_distance_unit_android">%sm</string>
+
+    <!--Sort-->
+    <string name="one_key_sort_label">Sort</string>
+    <string name="one_key_relevance_item">Relevance</string>
+    <string name="one_key_distance_item">Distance</string>
+    <string name="one_key_name_item">Name</string>
+    <string name="one_key_apply_button">Apply</string>
+    <string name="one_key_reset_button">Reset</string>
+
+    <!--HCP profile-->
+    <string name="one_key_main_information_label">Main Information</string>
+    <string name="one_key_rate_refunds_label">Rate and refunds</string>
+    <string name="one_key_specialities_label">Specialties</string>
+    <string name="one_key_information_label">Information</string>
+    <string name="one_key_information_description">Was the information you were given about this HCP/HCO correct?</string>
+    <string name="one_key_information_yes_label">Yes</string>
+    <string name="one_key_information_no_label">No</string>
+    <string name="one_key_improve_quality_label">Improve the data quality</string>
+    <string name="one_key_suggess_modification_button">Suggest a modification\u0020</string>
 </resources>

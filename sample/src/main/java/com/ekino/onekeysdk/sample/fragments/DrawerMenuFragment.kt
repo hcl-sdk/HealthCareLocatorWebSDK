@@ -14,6 +14,7 @@ class DrawerMenuFragment : IFragment() {
         fun newInstance() = DrawerMenuFragment()
     }
 
+    override fun shouldInterceptBackPress(): Boolean = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_drawer_menu, container, false)
     }
@@ -28,6 +29,10 @@ class DrawerMenuFragment : IFragment() {
         btnSettings.setOnClickListener {
             closeDrawer()
             (activity as? SampleOneKeySDKActivity)?.openSettingsPage()
+        }
+        btnNearMeSearch.setOnClickListener {
+            closeDrawer()
+            (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true, false)
         }
     }
 

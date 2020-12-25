@@ -12,11 +12,11 @@ import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.map.OneKeyMapView
 import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import customization.map.CustomCurrentLocationOverlay
@@ -34,19 +34,19 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener {
 
     companion object {
-        fun newInstance(oneKeyViewCustomObject: OneKeyViewCustomObject,
+        fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
                         activities: ArrayList<ActivityObject>, modifyZoomLevel: Float = 0f,
                         boundingBox: Boolean = false) =
                 MapFragment().apply {
-                    this.oneKeyViewCustomObject = oneKeyViewCustomObject
+                    this.oneKeyCustomObject = oneKeyCustomObject
                     this.activities = activities
                     this.modifyZoomLevel = modifyZoomLevel
                     this.boundingBox = boundingBox
                 }
     }
 
-    private var oneKeyViewCustomObject: OneKeyViewCustomObject =
-            ThemeExtension.getInstance().getThemeConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject =
+            OneKeySDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private var modifyZoomLevel: Float = 0f
     private var boundingBox: Boolean = false
@@ -133,7 +133,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             mMapView?.overlays?.add(clusters)
             selectedIcon = context!!.getDrawableFilledIcon(
                     R.drawable.ic_location_on_white_36dp,
-                    oneKeyViewCustomObject.colorMarkerSelected.getColor()
+                    oneKeyCustomObject.colorMarkerSelected.getColor()
             )!!
             activities.forEach { activity ->
                 val marker = OneKeyMarker(mMapView).apply {
@@ -145,7 +145,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     setAnchor(Marker.ANCHOR_CENTER, 1f)
                     icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
-                            oneKeyViewCustomObject.colorMarker.getColor()
+                            oneKeyCustomObject.colorMarker.getColor()
                     )
                     title = activity.workplace?.address?.getAddress() ?: ""
                 }
@@ -284,7 +284,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
                     oneKeyMarker.icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
-                            oneKeyViewCustomObject.colorMarker.getColor()
+                            oneKeyCustomObject.colorMarker.getColor()
                     )
                     oneKeyMarker.selected = false
                     if (lastIndexOfOverLay >= 0) {

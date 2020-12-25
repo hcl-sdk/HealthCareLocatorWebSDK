@@ -2,7 +2,9 @@ package com.ekino.onekeysdk.model.config
 
 import android.graphics.Typeface
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.extensions.isNullable
+import java.util.*
 
 /**
  * OneKeyViewCustomObject provides fields where the implementation app could be changed the style(s) like:
@@ -26,7 +28,7 @@ import com.ekino.onekeysdk.extensions.isNullable
  * @param editIcon Set edit icon in drawableId.
  * @param markerIcon Set marker icon in drawableId.
  */
-data class OneKeyViewCustomObject private constructor(
+data class OneKeyCustomObject private constructor(
         val colorPrimary: String = "#43b02a",// Color in hex, must start with #
         val colorSecondary: String = "#00a3e0",
         val textColor: String = "#2d3c4d",
@@ -37,7 +39,6 @@ data class OneKeyViewCustomObject private constructor(
         val searchIcon: Int = R.drawable.baseline_search_white_24dp,
         val editIcon: Int = R.drawable.baseline_edit_white_36dp,
         val markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
-        val homeMode: Int = 0,
         var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
         val fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
         val fontTitleMain: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", size = 20).build(),
@@ -58,7 +59,9 @@ data class OneKeyViewCustomObject private constructor(
         val colorViewBackground: String, val colorCardBorder: String, val colorButtonBorder: String,
         val colorButtonBackground: String, val colorButtonAcceptBackground: String,
         val colorButtonDiscardBackground: String, val apiKey: String, val locale: String,
-        val favoriteIds: ArrayList<String>) {
+        val specialities: ArrayList<String>, @ScreenReference val screenReference: Int) {
+
+    fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language
 
     @Suppress
     data class Builder(
@@ -72,10 +75,8 @@ data class OneKeyViewCustomObject private constructor(
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
             var markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
-            var homeMode: Int = 0,
             var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
             var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
-
             var fontTitleMain: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", size = 20).build(),
             var fontTitleSecondary: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleSecondary", size = 16, weight = Typeface.BOLD).build(),
             var fontSearchResultTotal: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTotal", size = 14, weight = Typeface.BOLD).build(),
@@ -102,7 +103,8 @@ data class OneKeyViewCustomObject private constructor(
             var colorButtonDiscardBackground: String = "#9aa0a7",
             var apiKey: String = "1",
             var locale: String = "en",
-            var favoriteIds: ArrayList<String> = arrayListOf()) {
+            var specialities: ArrayList<String> = arrayListOf(),
+            @ScreenReference var screenReference: Int = ScreenReference.HOME) {
 
         fun colorPrimary(primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -120,7 +122,6 @@ data class OneKeyViewCustomObject private constructor(
         fun searchIcon(searchIcon: Int) = apply { this.searchIcon = searchIcon }
         fun editIcon(editIcon: Int) = apply { this.editIcon = editIcon }
         fun markerIcon(markerIcon: Int) = apply { this.markerIcon = markerIcon }
-        fun homeMode(homeMode: Int) = apply { this.homeMode = homeMode }
         fun fontSearchInput(fontSearchInput: OneKeyViewFontObject?) = apply {
             if (fontSearchInput.isNullable()) return@apply
             this.fontSearchInput = fontSearchInput!!
@@ -196,15 +197,16 @@ data class OneKeyViewCustomObject private constructor(
         fun colorButtonDiscardBackground(color: String) = apply { this.colorButtonDiscardBackground = color }
         fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
         fun locale(locale: String) = apply { this.locale = locale }
-        fun favoriteIds(favoriteIds: ArrayList<String>) = apply { this.favoriteIds = favoriteIds }
+        fun specialities(specialities: ArrayList<String>) = apply { this.specialities = specialities }
+        fun entryScreen(@ScreenReference screenReference: Int) = apply { this.screenReference = screenReference }
 
-        fun build() = OneKeyViewCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
-                colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon, homeMode,
+        fun build() = OneKeyCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
+                colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon,
                 fontSearchInput, fontSmall, fontTitleMain, fontTitleSecondary, fontSearchResultTotal,
                 fontSearchResultTitle, fontResultTitle, fontResultSubTitle, fontProfileTitle,
                 fontProfileSubTitle, fontProfileTitleSection, fontCardTitle, fontModalTitle, fontSortCriteria,
                 colorListBackground, colorDark, colorGrey, colorGreyDark, colorGreyDarker, colorGreyLight,
                 colorGreyLighter, colorPrimary, colorVoteDown, colorViewBackground, colorCardBorder, colorButtonBorder,
-                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, favoriteIds)
+                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities, screenReference)
     }
 }

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
 import com.ekino.onekeysdk.R
-import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
-import com.ekino.onekeysdk.model.config.OneKeyViewCustomObject
+import com.ekino.onekeysdk.extensions.ScreenReference
+import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.fragments.*
 import com.ekino.onekeysdk.sample.model.ColorObject
@@ -14,6 +14,7 @@ import com.ekino.onekeysdk.sample.model.ThemeObject
 import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_sample.*
@@ -57,8 +58,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         this.addFragment(R.id.fragmentContainer, LandingPageFragment.newInstance(), true)
     }
 
-    fun launchOneKeySDK() {
-        resetStack()
+    fun launchOneKeySDK(favoriteNearMe: Boolean = false, resetStack: Boolean = true) {
+        if (resetStack)
+            resetStack()
         /**
          * Customize the theme attributes
          */
@@ -165,11 +167,12 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             }
         }
         val homeMode = SampleApplication.sharedPreferences.getInt(Pref.home, 1)
+        val language = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
 
         /**
          * Add OneKey screen into parent application
          */
-        val builder = OneKeyViewCustomObject.Builder()
+        val builder = OneKeyCustomObject.Builder()
                 .fontTitleMain(fontTitle1)
                 .fontTitleSecondary(fontTitle2)
                 .fontSearchResultTotal(fontTitle3)
@@ -186,9 +189,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .fontCardTitle(fontCardTitle)
                 .fontModalTitle(fontModalTitle)
                 .fontSortCriteria(fontSortCriteria)
-                .homeMode(homeMode)
-                .favoriteIds(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
-                .locale(Locale.getDefault().language)
+                .locale(if (language == 0) "en" else "fr")
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
                     .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
@@ -197,8 +198,14 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
                     .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
         }
-        this.addFragment(R.id.fragmentContainer, OneKeyHomeFragment.newInstance(
-                builder.build()), true)
+        if (favoriteNearMe) {
+            builder.specialities(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
+                    .entryScreen(ScreenReference.SEARCH_NEAR_ME)
+        } else if (homeMode == 1)
+            builder.entryScreen(ScreenReference.HOME_FULL)
+
+        OneKeySDK.getInstance().init(builder.build())
+        OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
     }
 
     private fun getFontSetting(json: String): OneKeyViewFontObject =

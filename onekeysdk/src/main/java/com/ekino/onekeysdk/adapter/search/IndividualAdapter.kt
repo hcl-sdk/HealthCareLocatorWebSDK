@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.extensions.ThemeExtension
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
@@ -22,7 +22,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
     private val speciality = 0
     private val hcp = 1
     private var keyword: String = ""
-    private val theme = ThemeExtension.getInstance().getThemeConfiguration()
+    private val theme = OneKeySDK.getInstance().getConfiguration()
     var onIndividualClickedListener: OnIndividualClickedListener? = null
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =

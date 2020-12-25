@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="Find Healthcare Professional"
+                android:hint="@string/one_key_find_healthcare_professional"
                 android:padding="@dimen/default_padding"
                 app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
@@ -65,7 +65,7 @@
                 android:layout_marginTop="@dimen/default_padding_x_larger"
                 android:layout_marginEnd="@dimen/default_padding_bigger"
                 android:gravity="center"
-                android:text="Find and Locate Healthcare Professional"
+                android:text="@string/one_key_home_title"
                 android:textColor="@color/colorOneKeyBlue"
                 android:textSize="@dimen/default_text_large"
                 app:OneKeyTextStyle="OneKeyStyleTitleMain" />
@@ -96,7 +96,7 @@
                 android:padding="@dimen/default_padding_small"
                 android:paddingStart="85dp"
                 android:paddingEnd="85dp"
-                android:text="Start a New Search"
+                android:text="@string/one_key_start_new_search"
                 android:textColor="@color/white"
                 android:textSize="@dimen/default_text_big"
                 app:OneKeyTextStyle="OneKeyStyleButton" />
