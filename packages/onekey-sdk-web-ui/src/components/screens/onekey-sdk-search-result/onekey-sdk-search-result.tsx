@@ -5,7 +5,7 @@ import { configStore, searchMapStore, uiStore, routerStore } from '../../../core
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import { getFullCardDetail, searchLocationWithParams } from '../../../core/api/hcp';
+import { searchLocationWithParams } from '../../../core/api/hcp';
 import { NEAR_ME } from '../../../core/constants';
 @Component({
   tag: 'onekey-sdk-search-result',
@@ -18,20 +18,32 @@ export class OnekeySdkSearchResult {
   @State() isOpenPanel: boolean = true;
 
   componentWillLoad() {
-    searchLocationWithParams()
+    if (!searchMapStore.state.selectedActivity) {
+      searchLocationWithParams()
+    }
   }
   searchDataCardList;
   searchDataMapElm;
 
   onItemCardClick = async item => {
     searchMapStore.setState({
-      selectedActivity: { ...item },
-    });
-
-    await getFullCardDetail({
-      activityId: item.id,
+      selectedActivity: item,
+      individualDetail: null,
     });
   };
+
+  @Listen('backFromHcpFullCard')
+  backFromHcpFullCardHandler() {
+    const { locationFilter, specialtyFilter } = searchMapStore.state;
+    if (locationFilter === null && specialtyFilter === null) {
+      searchMapStore.setState({
+        selectedActivity: null
+      });
+      this.goBackToHome();
+      return;
+    }
+    this.goBackToList();
+  }
 
   @Listen('markerClick')
   onMarkerClick(e) {
@@ -55,7 +67,7 @@ export class OnekeySdkSearchResult {
     getAddressFromGeo(e.detail.lat, e.detail.lng);
   }
 
-  onBackToList = () => {
+  goBackToList = () => {
     searchMapStore.setState({
       selectedActivity: null,
     });
@@ -74,15 +86,13 @@ export class OnekeySdkSearchResult {
     });
   };
 
-  goBack = (clearSearch = false) => {
+  goBackToHome = () => {
     routerStore.back();
-    if (clearSearch) {
-      searchMapStore.setState({
-        searchFields: { name: '', address: '' },
-        locationFilter: null,
-        specialtyFilter: null,
-      });
-    }
+    searchMapStore.setState({
+      searchFields: { name: '', address: '' },
+      locationFilter: null,
+      specialtyFilter: null,
+    });
   };
 
   goToSearch = () => {
@@ -101,7 +111,7 @@ export class OnekeySdkSearchResult {
     return (
       <div class={className}>
         <div class="search-back-large hidden-mobile">
-          <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={() => this.goBack(true)}>
+          <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={() => this.goBackToHome()}>
             <span class="text-small">Back to my last searches</span>
           </onekey-sdk-button>
         </div>
@@ -161,7 +171,7 @@ export class OnekeySdkSearchResult {
                 noBackground
                 icon="arrow"
                 iconColor={getCssColor('--onekeysdk-color-dark')}
-                onClick={() => this.goBack()}
+                onClick={() => this.goBackToHome()}
               ></onekey-sdk-button>
               <div class="header-infos">
                 {locationFilter?.id === NEAR_ME && searchFields.name === '' ? (
@@ -185,7 +195,7 @@ export class OnekeySdkSearchResult {
           {isSmall && !selectedActivity && this.renderToolbar(true)}
           <div class="body-block">
             <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
-              {selectedActivity ? <onekey-sdk-hcp-full-card goBack={this.onBackToList} /> : !isSmall && this.renderToolbar()}
+              {selectedActivity ? <onekey-sdk-hcp-full-card /> : !isSmall && this.renderToolbar()}
               {!selectedActivity && (
                 <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                   {specialties.map((elm, idx) => (

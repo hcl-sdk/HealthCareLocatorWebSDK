@@ -25,7 +25,7 @@ export class OnekeySdkMap {
   @Prop() noCurrentLocation: boolean = false;
   @Prop() zoomControl: boolean = false;
   @Prop() dragging: boolean = true;
-  @Prop() modeView: ModeViewType
+  @Prop() modeView: ModeViewType;
   @Prop() breakpoint: Breakpoint;
   @Prop() interactive: boolean = true;
   @Event() markerClick: EventEmitter;
@@ -70,21 +70,25 @@ export class OnekeySdkMap {
   @Watch('zoomControl')
   resetMapByZoomControl() {
     this.map._onResize();
-    setTimeout(function(){this.map.invalidateSize(true);},500);
+    setTimeout(function () {
+      this.map.invalidateSize(true);
+    }, 500);
   }
 
   getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
-      const { coords: { latitude, longitude }} = position;
-      this.currentLocation = { lat: latitude, lng: longitude }
+      const {
+        coords: { latitude, longitude },
+      } = position;
+      this.currentLocation = { lat: latitude, lng: longitude };
 
       L.marker([latitude, longitude], {
         draggable: true,
         autoPan: true,
-        icon: this.getIcon()
+        icon: this.getIcon(),
       }).addTo(this.map);
-    })
-  }
+    });
+  };
 
   private disableMap() {
     this.map.dragging.disable();
@@ -119,12 +123,14 @@ export class OnekeySdkMap {
       minZoom: 1,
       maxZoom: 10,
       zoomControl: this.zoomControl,
-      dragging: this.dragging
+      dragging: this.dragging,
     });
 
-    L.control.zoom({
-        position: 'topright'
-    }).addTo(this.map);
+    L.control
+      .zoom({
+        position: 'topright',
+      })
+      .addTo(this.map);
 
     L.tileLayer(mapTileLayer, {
       attribution: '&copy; ' + mapLink + ' Contributors',
@@ -134,7 +140,7 @@ export class OnekeySdkMap {
     this.setMarkers();
   };
 
-  generateIconURL = (markerColor) => {
+  generateIconURL = markerColor => {
     const makerIconString = `
     <svg id="onekey-sdk-marker" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
       viewBox="0 0 512 512" fill="${markerColor}" xml:space="preserve">
@@ -143,48 +149,55 @@ export class OnekeySdkMap {
           c-51.442,0-93.292-41.851-93.292-93.293S204.559,92.134,256,92.134s93.291,41.851,93.291,93.293S307.441,278.719,256,278.719z"/>
       </g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
     </svg>
-    `
-    let myIconUrl = encodeURI("data:image/svg+xml," + makerIconString).replace('#','%23');
+    `;
+    let myIconUrl = encodeURI('data:image/svg+xml,' + makerIconString).replace('#', '%23');
 
-    return myIconUrl
-  }
+    return myIconUrl;
+  };
 
   getIcon = (colorStyle = '--onekeysdk-color-marker') => {
-    const markerColor = getComputedStyle(
-      document.querySelector('onekey-sdk').shadowRoot.host
-    ).getPropertyValue(colorStyle);
-
+    const markerColor = getComputedStyle(document.querySelector('onekey-sdk').shadowRoot.host).getPropertyValue(colorStyle);
 
     const icon = L.icon({
       iconUrl: this.generateIconURL(markerColor),
       iconSize: [25, 40],
     });
-    return icon
-  }
+    return icon;
+  };
 
-  private onSelectedMarker = (marker) => {
-    this.markerClick.emit(marker)
-    this.updateMarkerIcon(marker.target)
-  }
+  private onSelectedMarker = marker => {
+    this.markerClick.emit(marker);
+    this.updateMarkerIcon(marker.target);
+  };
 
   private toggleMarkerIcon = (marker, status) => {
     let newMarkerIcon;
-    if(status === 'active') {
+    if (status === 'active') {
       newMarkerIcon = this.getIcon('--onekeysdk-color-marker_selected');
     } else {
       newMarkerIcon = this.getIcon('--onekeysdk-color-marker');
     }
     marker.setIcon(newMarkerIcon);
-  }
+  };
 
-  private updateMarkerIcon = (targetMarker) => {
-    this.markers.forEach((marker) => {
-      if(marker._leaflet_id === targetMarker._leaflet_id) {
-        this.toggleMarkerIcon(marker, 'active')
+  private updateMarkerIcon = targetMarker => {
+    this.markers.forEach(marker => {
+      if (marker._leaflet_id === targetMarker._leaflet_id) {
+        this.toggleMarkerIcon(marker, 'active');
       } else {
-        this.toggleMarkerIcon(marker, 'inactive')
+        this.toggleMarkerIcon(marker, 'inactive');
       }
-    })
+    });
+  };
+
+  private handleMapClick = (e) => {
+    const target = e.target as HTMLElement;
+    if (target.nodeName.toLowerCase() === 'a') {
+      window.open((target as HTMLAnchorElement).href, '_blank');
+      e.preventDefault();
+      return;
+    }
+    this.mapClicked.emit(e);
   }
 
   private setMarkers = () => {
@@ -192,31 +205,41 @@ export class OnekeySdkMap {
       showCoverageOnHover: false,
     });
 
-    const _markers = []
+    const _markers = [];
 
     if (this.locations) {
       for (let i = 0; i < this.locations.length; i++) {
-        const marker = L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() })
-        const layer = markers.addLayer(marker)
-        layer.addTo(this.map)
-        marker.on("click", this.onSelectedMarker);
-        _markers.push(marker)
+        const marker = L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() });
+        const layer = markers.addLayer(marker);
+        layer.addTo(this.map);
+        marker.on('click', this.onSelectedMarker);
+        _markers.push(marker);
       }
     }
 
-    this.markers = [..._markers]
+    this.markers = [..._markers];
   };
 
   moveToCurrentLocation = () => {
     // this.setCurrentLocation.emit(this.currentLocation) // change label on the top
     this.map.panTo(this.currentLocation, 16);
-  }
+  };
 
   render() {
     return (
       <Host>
-        { !this.noCurrentLocation && <div class="current-location" onClick={this.moveToCurrentLocation}><ion-icon name="locate" size="medium"></ion-icon></div> }
-        <div class={this.zoomControl ? '' : 'map--no-controls'} onClick={this.mapClicked.emit} style={{ height: this.mapHeight, width: this.mapWidth }} id={`map-${Date.now()}`} ref={el => (this.mapElm = el as HTMLInputElement)} />
+        {!this.noCurrentLocation && (
+          <div class="current-location" onClick={this.moveToCurrentLocation}>
+            <ion-icon name="locate" size="medium"></ion-icon>
+          </div>
+        )}
+        <div
+          class={this.zoomControl ? '' : 'map--no-controls'}
+          onClick={this.handleMapClick}
+          style={{ height: this.mapHeight, width: this.mapWidth }}
+          id={`map-${Date.now()}`}
+          ref={el => (this.mapElm = el as HTMLInputElement)}
+        />
       </Host>
     );
   }

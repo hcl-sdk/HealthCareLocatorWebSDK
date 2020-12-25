@@ -1,11 +1,12 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
 import { searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
-import { searchMapStore, routerStore, uiStore } from '../../../core/stores';
+import { searchMapStore, routerStore, uiStore, historyStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import cls from 'classnames';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
+import { HistorySearchItem } from '../../../core/stores/HistoryStore';
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -41,9 +42,17 @@ export class OnekeySdkSearch {
       } else {
         searchLocationWithParams()
       }
+      // store search to history
+      const historySearchItem: HistorySearchItem = {
+        id: String(Date.now()),
+        type: 'search',
+        locationFilter: searchMapStore.state.locationFilter,
+        specialtyFilter: searchMapStore.state.specialtyFilter,
+        searchFields: searchMapStore.state.searchFields,
+        timestamp: Date.now()
+      }
+      historyStore.addItem('search', historySearchItem);
     }
-
-
   };
 
   checkValidElm = elm => {
