@@ -3,13 +3,12 @@ package com.ekino.onekeysdk.extensions
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.RippleDrawable
-import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.*
 import android.graphics.drawable.shapes.RoundRectShape
 import android.view.View
+import android.widget.CheckBox
 import androidx.core.content.ContextCompat
+import com.ekino.onekeysdk.R
 import java.util.*
 
 /**
@@ -79,6 +78,31 @@ fun View.setBackgroundWithCorner(backgroundColor: Int, strokeColor: Int, radius:
         cornerRadius = radius
         setColor(backgroundColor)
         setStroke(width, strokeColor)
+    }
+}
+
+fun CheckBox.setLayerList(normalBackgroundColor: Int, activatedBackgroundColor: Int,
+                          strokeColor: Int, strokeWidth: Int, normalIconId: Int, activatedIconId: Int,
+                          radius: Float = 12f) {
+    val normalIcon = ContextCompat.getDrawable(this.context, normalIconId)
+    val activatedIcon = ContextCompat.getDrawable(this.context, activatedIconId)
+    val normalDrawable = GradientDrawable().apply {
+        cornerRadius = radius
+        setColor(normalBackgroundColor)
+        setStroke(strokeWidth, strokeColor)
+    }
+    val activatedDrawable = GradientDrawable().apply {
+        cornerRadius = radius
+        setColor(activatedBackgroundColor)
+        setStroke(strokeWidth, strokeColor)
+    }
+    val normalInset = InsetDrawable(normalIcon, 20, 10, 20, 10)
+    val activatedInset = InsetDrawable(activatedIcon, 20, 10, 20, 10)
+    val normalLayer = LayerDrawable(arrayOf(normalDrawable, normalInset))
+    val activatedLayer = LayerDrawable(arrayOf(activatedDrawable, activatedInset))
+    buttonDrawable = StateListDrawable().apply {
+        addState(intArrayOf(android.R.attr.state_checked), activatedLayer)
+        addState(intArrayOf(), normalLayer)
     }
 }
 

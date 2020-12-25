@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
 import base.fragments.AppFragment
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
@@ -25,6 +24,7 @@ import com.ekino.onekeysdk.model.LabelObject
 import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile.*
@@ -55,6 +55,7 @@ class OneKeyProfileFragment :
     private var mapFragment: MapFragment? = null
     private var activityDetail: ActivityObject = ActivityObject()
     private var activityId: String = ""
+    private var vote: Int = -1
     override val viewModel = OneKeyProfileViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +64,7 @@ class OneKeyProfileFragment :
         if (savedInstanceState != null) {
             activityDetail = savedInstanceState.getParcelable("activityDetail") ?: ActivityObject()
             activityId = savedInstanceState.getString("activityId", "") ?: ""
+            vote = savedInstanceState.getInt("vote", -1)
         }
         if (activityDetail.id.isEmpty()) {
             viewModel.getDetailActivity(activityId)
@@ -81,6 +83,12 @@ class OneKeyProfileFragment :
             showLoading(it)
         })
         btnBack.setOnClickListener { activity?.onBackPressed() }
+        oneKeyCustomObject.apply {
+            cbxYes.setLayerList(Color.WHITE, colorPrimary.getColor(),
+                    colorGreyLight.getColor(), 3, R.drawable.ic_like_gray, R.drawable.ic_like)
+            cbxNo.setLayerList(Color.WHITE, colorVoteDown.getColor(),
+                    colorGreyLight.getColor(), 3, R.drawable.ic_dislike_gray, R.drawable.ic_dislike)
+        }
     }
 
     private fun fillData(savedInstanceState: Bundle?) {
@@ -101,6 +109,7 @@ class OneKeyProfileFragment :
         outState.putParcelable("selectedLocation", oneKeyLocation)
         outState.putString("activityId", activityId)
         outState.putParcelable("activityDetail", activityDetail)
+        outState.putInt("vote", vote)
     }
 
     private fun initProfile(savedInstanceState: Bundle?) {

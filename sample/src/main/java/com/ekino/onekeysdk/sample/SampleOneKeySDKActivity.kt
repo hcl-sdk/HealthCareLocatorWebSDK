@@ -206,6 +206,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 
         OneKeySDK.getInstance().init(builder.build())
         OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
+//        OneKeySDK.getInstance().startOneKeySDKActivity(this)
     }
 
     private fun getFontSetting(json: String): OneKeyViewFontObject =

@@ -1,6 +1,9 @@
 package com.ekino.onekeysdk.model.config
 
 import android.graphics.Typeface
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.annotation.Size
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.extensions.isNullable
@@ -61,8 +64,6 @@ data class OneKeyCustomObject private constructor(
         val colorButtonDiscardBackground: String, val apiKey: String, val locale: String,
         val specialities: ArrayList<String>, @ScreenReference val screenReference: Int) {
 
-    fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language
-
     @Suppress
     data class Builder(
             var colorPrimary: String = "#43b02a",// Color in hex, must start with #
@@ -106,7 +107,7 @@ data class OneKeyCustomObject private constructor(
             var specialities: ArrayList<String> = arrayListOf(),
             @ScreenReference var screenReference: Int = ScreenReference.HOME) {
 
-        fun colorPrimary(primaryColor: String) = apply { this.colorPrimary = primaryColor }
+        fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
         fun textColor(textColor: String) = apply { this.textColor = textColor }
         fun colorMarker(markerColor: String) = apply { this.colorMarker = markerColor }
@@ -209,4 +210,6 @@ data class OneKeyCustomObject private constructor(
                 colorGreyLighter, colorPrimary, colorVoteDown, colorViewBackground, colorCardBorder, colorButtonBorder,
                 colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities, screenReference)
     }
+
+    fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language
 }

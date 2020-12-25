@@ -106,15 +106,17 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="125dp">
+
                         <FrameLayout
                             android:id="@+id/viewHCPMap"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
+
                         <View
                             android:id="@+id/mapOverlay"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground"/>
+                            android:background="?android:attr/selectableItemBackground" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -409,10 +411,8 @@
 
                                 <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
                                     android:id="@+id/cbxYes"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/default_padding_tiny"
-                                    android:button="@drawable/bg_cbx_positive"
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
                                     android:textColor="@color/colorOneKeyText"
                                     android:textSize="@dimen/default_text"
                                     app:forceTextSize="true" />
@@ -428,10 +428,8 @@
 
                                 <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
                                     android:id="@+id/cbxNo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/default_padding_tiny"
-                                    android:button="@drawable/bg_cbx_negative"
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
                                     android:textSize="@dimen/default_text"
                                     app:forceTextSize="true" />
 

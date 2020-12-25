@@ -1,10 +1,12 @@
 package com.ekino.onekeysdk.state
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import base.extensions.addFragment
 import base.extensions.changeLocale
 import base.extensions.pushFragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.activities.OneKeyActivity
 import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.extensions.ErrorReference
 import com.ekino.onekeysdk.extensions.ScreenReference
@@ -51,6 +53,11 @@ class OneKeySDK private constructor() : OneKeyState {
             ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFragment.newInstance(), true)
             else -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
         }
+    }
 
+    override fun startOneKeySDKActivity(activity: AppCompatActivity?) {
+        if (activity.isNullable())
+            throw OneKeyException(ErrorReference.ACTIVITY_INVALID, "The provided Activity must NOT be nullable.")
+        activity!!.startActivity(Intent(activity, OneKeyActivity::class.java))
     }
 }
