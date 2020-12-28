@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.extensions
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.*
@@ -8,7 +9,6 @@ import android.graphics.drawable.shapes.RoundRectShape
 import android.view.View
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
-import com.ekino.onekeysdk.R
 import java.util.*
 
 /**
@@ -109,6 +109,8 @@ fun CheckBox.setLayerList(normalBackgroundColor: Int, activatedBackgroundColor: 
 
 fun Context.getDrawableById(drawableId: Int): Drawable? =
         ContextCompat.getDrawable(this, drawableId)
+
+fun Context?.getSharedPref(): SharedPreferences? = this?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)
 
 fun <T : View> T.postDelay(run: (view: T) -> Unit, time: Long = 0L) {
     this.postDelayed({

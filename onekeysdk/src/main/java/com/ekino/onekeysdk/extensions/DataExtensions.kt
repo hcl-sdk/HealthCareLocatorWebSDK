@@ -105,6 +105,21 @@ fun SharedPreferences.getLastSearches(gson: Gson = Gson()): ArrayList<SearchObje
             object : TypeToken<ArrayList<SearchObject>>() {}.type)
 }
 
+fun SharedPreferences.getVoteById(gson: Gson = Gson(), id: String): Int {
+    return getVotes(gson)[id] ?: -1
+}
+
+fun SharedPreferences.getVotes(gson: Gson = Gson()): HashMap<String, Int> {
+    return gson.fromJson(getString("ActivityVotes", "{}") ?: "{}",
+            object : TypeToken<HashMap<String, Int>>() {}.type)
+}
+
+fun SharedPreferences.storeVote(gson: Gson = Gson(), id: String, vote: Int) {
+    val votes = getVotes(gson)
+    votes[id] = vote
+    edit { putString("ActivityVotes", gson.toJson(votes)) }
+}
+
 /**
  * [Collections]
  */

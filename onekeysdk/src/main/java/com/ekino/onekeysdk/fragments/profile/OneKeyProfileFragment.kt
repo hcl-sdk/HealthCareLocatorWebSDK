@@ -1,6 +1,5 @@
 package com.ekino.onekeysdk.fragments.profile
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
@@ -32,8 +30,7 @@ import kotlinx.android.synthetic.main.fragment_one_key_profile.*
 
 class OneKeyProfileFragment :
         AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile),
-        View.OnClickListener, CompoundButton.OnCheckedChangeListener,
-        AdapterView.OnItemSelectedListener {
+        View.OnClickListener, AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
                 theme: OneKeyCustomObject = OneKeyCustomObject.Builder().build(),
@@ -71,7 +68,7 @@ class OneKeyProfileFragment :
             viewModel.activity.observe(this, Observer {
                 activityDetail = it
                 fillData(savedInstanceState)
-                context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
+                context?.getSharedPref()?.apply {
                     viewModel.storeConsultedProfile(this, it)
                 }
             })
@@ -79,6 +76,16 @@ class OneKeyProfileFragment :
             fillData(savedInstanceState)
             viewModel.loading.postValue(false)
         }
+        viewModel.getVoteById(context, activityId)
+        viewModel.voteState.observe(this, Observer { vote ->
+            if (vote == 0) {
+                cbxYes.isEnabled = false
+                cbxYes.isChecked = true
+            } else if (vote == 1) {
+                cbxNo.isEnabled = false
+                cbxNo.isChecked = true
+            }
+        })
         viewModel.loading.observe(this, Observer {
             showLoading(it)
         })
@@ -119,12 +126,6 @@ class OneKeyProfileFragment :
             oneKeyLocation = savedInstanceState.getParcelable("selectedLocation")
         }
         val secondaryColor = oneKeyCustomObject.colorSecondary.getColor()
-//        tvDoctorName.setTextColor(secondaryColor)
-//        tvMainInformation.setTextColor(secondaryColor)
-//        tvSpecialitiesLabel.setTextColor(secondaryColor)
-//        tvRateRefundLabel.setTextColor(secondaryColor)
-//        tvInformationLabel.setTextColor(secondaryColor)
-//        tvModificationLabel.setTextColor(secondaryColor)
         ivDirection.setColorFilter(secondaryColor)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
@@ -185,8 +186,8 @@ class OneKeyProfileFragment :
         ivDirection.setOnClickListener(this)
         ivCall.setOnClickListener(this)
         btnSuggestModification.setOnClickListener(this)
-        cbxYes.setOnCheckedChangeListener(this)
-        cbxNo.setOnCheckedChangeListener(this)
+        cbxYes.setOnClickListener(this)
+        cbxNo.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -224,16 +225,20 @@ class OneKeyProfileFragment :
                 (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                         OneKeyProfileMapFragment.newInstance(activityDetail), true)
             }
-        }
-    }
-
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        if (buttonView?.id == cbxYes.id) {
-            if (isChecked && cbxNo.isChecked)
+            R.id.cbxYes -> {
+                cbxYes.isChecked = true
                 cbxNo.isChecked = false
-        } else if (buttonView?.id == cbxNo.id) {
-            if (isChecked && cbxYes.isChecked)
+                cbxYes.isEnabled = false
+                cbxNo.isEnabled = true
+                viewModel.storeVote(context, activityId, 0)
+            }
+            R.id.cbxNo -> {
                 cbxYes.isChecked = false
+                cbxNo.isChecked = true
+                cbxYes.isEnabled = true
+                cbxNo.isEnabled = false
+                viewModel.storeVote(context, activityId, 1)
+            }
         }
     }
 
