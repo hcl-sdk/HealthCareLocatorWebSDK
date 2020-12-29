@@ -18,6 +18,7 @@ export interface OneKeySDKConfigData {
   modeView?: ModeViewType;
   homeMode?: 'full' | 'min';
   modal?: Modal;
+  entry?: any;
 }
 
 export const initStateConfigStore = {

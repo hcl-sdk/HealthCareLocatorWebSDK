@@ -3,9 +3,10 @@ import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
-import { configStore, uiStore } from '../../../core/stores';
+import { configStore, uiStore, searchMapStore, routerStore } from '../../../core/stores';
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
+import { NEAR_ME_ITEM } from '../../../core/constants';
 
 const defaults = {
   homeMode: 'min'
@@ -27,9 +28,21 @@ export class OneKeySDK {
     return Promise.resolve(configStore.state);
   }
 
+  @Method()
+  searchNearMe({ specialtyCode, specialtyLabel }) {
+    searchMapStore.setSearchFieldValue('address', NEAR_ME_ITEM.name);
+    searchMapStore.setSearchFieldValue('name', specialtyLabel);
+    searchMapStore.setState({
+      locationFilter: NEAR_ME_ITEM,
+      specialtyFilter: { id: specialtyCode },
+    });
+    routerStore.push('/search-result');
+  }
+
   componentWillLoad() {
     applyDefaultTheme();
     configStore.setState(merge({}, defaults, this.config));
+
     const parent = this.el.parentElement;
     parent.style.padding = "0";
     // add a position (if not defined) to parent element in order to stretch
@@ -47,6 +60,20 @@ export class OneKeySDK {
     const ro = new ResizeObserver(update);
 
     ro.observe(parent);
+
+    // Search near me entry
+    if (this.config && this.config.entry && this.config.entry.screenName === 'nearMe') {
+      const { specialtyCode, specialtyLabel } = this.config.entry;
+      if (!specialtyCode) {
+        console.error('missing specialtyCode for "near me" search');
+        return;
+      }
+      if (!specialtyLabel) {
+        console.error('missing specialtyLabel for "near me" search');
+        return;
+      }
+      this.searchNearMe({ specialtyCode, specialtyLabel });
+    }
   }
 
   updateParentDims() {

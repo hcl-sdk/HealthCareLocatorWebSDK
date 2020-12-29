@@ -203,7 +203,6 @@ export class OnekeySdkSearch {
   };
 
   renderAutocompleteField = (fieldName, data) => {
-    console.log({ fieldName, data, currentSelectedInput: this.currentSelectedInput })
     if (fieldName !== this.currentSelectedInput) {
       return null;
     }

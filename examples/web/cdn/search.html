@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OneKey SDK Sample App</title>
     <link rel="stylesheet" href="main.css" />
+    <script src='./onekey-sdk/onekey-sdk.js'></script>
+    <script src='./devtools/devtools.js'></script>
   </head>
   <body>
     <section class="sidebar">
@@ -20,10 +22,10 @@
           <a href="/search.html">Search for HCPs</a>
         </li>
         <li class="menu-item">
-          <a href="/search.html#sp=SP.WCA.75">Find a dentist near me</a>
+          <a href="javascript:void(0)" onclick="searchNearMe('SP.WCA.75')">Find a dentist near me</a>
         </li>
         <li class="menu-item">
-          <a href="/search.html#sp=SP.WCA.08">Find a cardiologist near me</a>
+          <a href="javascript:void(0)" onclick="searchNearMe('SP.WCA.08')">Find a cardiologist near me</a>
         </li>
         <li class="menu-item">
           <a href="javascript:void(0)" onclick="openSettings()">Settings</a>
@@ -34,15 +36,7 @@
       </div>
     </section>
     <section class="content-wrapper">
-      <div class="home-content">
-        <img src="./logo_iqvia.png" />
-        <section class="home-text">
-          <p>This sample app is a demo of the integration of OneKey SDK UI inside a simple server side rendered web application, using vanilla JS.</p>
-        </section>
-        <a href="/search.html" class="ui-cta">
-          Search for HCPs
-        </a>
-      </div>
+      <onekey-sdk></onekey-sdk>
     </section>
     <script src="index.js"></script>
     <script src="./devtools/devtools.js"></script>

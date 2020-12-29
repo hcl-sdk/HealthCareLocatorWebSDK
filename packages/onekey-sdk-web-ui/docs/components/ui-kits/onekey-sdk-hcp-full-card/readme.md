@@ -5,11 +5,11 @@
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Events
 
-| Property | Attribute | Description | Type               | Default     |
-| -------- | --------- | ----------- | ------------------ | ----------- |
-| `goBack` | --        |             | `(e: any) => void` | `undefined` |
+| Event                 | Description | Type                      |
+| --------------------- | ----------- | ------------------------- |
+| `backFromHcpFullCard` |             | `CustomEvent<MouseEvent>` |
 
 
 ## Dependencies
