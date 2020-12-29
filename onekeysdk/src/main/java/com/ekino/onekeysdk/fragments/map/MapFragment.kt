@@ -12,12 +12,13 @@ import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.map.OneKeyMapView
 import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableFilledIcon
 import com.ekino.onekeysdk.model.activity.ActivityObject
+import com.ekino.onekeysdk.model.activity.AddressObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyMarker
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -154,6 +155,50 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             }
             if (moveCamera && activities.size == 1) {
                 val position = activities[0].workplace?.address?.location?.getGeoPoint()
+                        ?: GeoPoint(0.0, 0.0)
+                controller.setCenter(position)
+                controller.animateTo(position, 15.0, 2000)
+            }
+            if (this@MapFragment.boundingBox) {
+                val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint()
+                        ?: return
+                controller.setCenter(position)
+                controller.animateTo(position, 10.0, 2000)
+            }
+        }
+    }
+
+    fun drawAddressOnMap(listOfAddress: ArrayList<AddressObject>, moveCamera: Boolean = false) {
+        mMapView?.apply {
+            val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>() ?: listOf()
+            overlays.removeAll(clustersFiltered)
+            val clusters = RadiusMarkerClusterer(context!!)
+            clusters.textPaint.textSize = 14 * resources.displayMetrics.density
+            clusters.mAnchorV = Marker.ANCHOR_BOTTOM
+            mMapView?.overlays?.add(clusters)
+            selectedIcon = context!!.getDrawableFilledIcon(
+                    R.drawable.ic_location_on_white_36dp,
+                    oneKeyCustomObject.colorMarkerSelected.getColor()
+            )!!
+            listOfAddress.forEach { address ->
+                val marker = OneKeyMarker(mMapView).apply {
+                    id = address.activityId
+                    setOnMarkerClickListener(this@MapFragment)
+                    val location = address.location?.getGeoPoint()
+                            ?: GeoPoint(0.0, 0.0)
+                    position = location
+                    setAnchor(Marker.ANCHOR_CENTER, 1f)
+                    icon = context!!.getDrawableFilledIcon(
+                            R.drawable.baseline_location_on_black_36dp,
+                            oneKeyCustomObject.colorMarker.getColor()
+                    )
+                    title = address.getAddress() ?: ""
+                }
+                clusters.add(marker)
+                oneKeyMarkers.add(marker)
+            }
+            if (moveCamera && listOfAddress.size == 1) {
+                val position = listOfAddress[0].location?.getGeoPoint()
                         ?: GeoPoint(0.0, 0.0)
                 controller.setCenter(position)
                 controller.animateTo(position, 15.0, 2000)

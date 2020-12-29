@@ -61,4 +61,12 @@ class ActivityWorkplaceObject(var id: String = "", var name: String = "", var lo
         this.address = AddressObject().parse(data.address())
         return this
     }
+
+    fun parse(data: GetActivityByIdQuery.Workplace1?, activityId: String): ActivityWorkplaceObject {
+        if (data.isNullable()) return this
+        this.id = data!!.id()
+        this.name = data.name()
+        this.address = AddressObject().parse(data.address(), activityId)
+        return this
+    }
 }

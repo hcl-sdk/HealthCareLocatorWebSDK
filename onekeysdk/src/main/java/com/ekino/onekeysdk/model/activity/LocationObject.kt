@@ -53,4 +53,11 @@ class LocationObject(var lat: Double = 0.0, var lon: Double = 0.0) : Parcelable 
         this.lon = data.lon()
         return this
     }
+
+    fun parse(data: GetActivityByIdQuery.Location1?): LocationObject {
+        if (data.isNullable()) return this
+        this.lat = data!!.lat()
+        this.lon = data.lon()
+        return this
+    }
 }

@@ -132,6 +132,35 @@ query getActivityById($apiKey: String!, $id:ID!, $locale:String){
                 code
                 label
             }
+            otherActivities{
+                id
+                phone
+                fax
+                webAddress
+                workplace{
+                    id
+                    name
+                    localPhone
+                    emailAddress
+                    address{
+                        id
+                        longLabel
+                        country
+                        postalCode
+                        buildingLabel
+                        county{
+                            label
+                        }
+                        city{
+                            label
+                        }
+                        location{
+                            lat
+                            lon
+                        }
+                    }
+                }
+            }
         }
     }
 }
