@@ -11,6 +11,7 @@ import { Breakpoint } from "onekey-sdk-web-ui/src/core/types";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
+        "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: any; specialtyLabel: any; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<OneKeySDKConfigData>;
     }
     interface OnekeySdkButton {

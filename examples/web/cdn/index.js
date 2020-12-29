@@ -1,23 +1,52 @@
-function openNav() {
-  document.getElementById("mySidenav").style.left = "0";
-  document.querySelector(".menu").style.display = "none";
+var sidebarEl = document.querySelector('.sidebar');
+var settingPanelEl = document.querySelector('settings-panel');
+var onekeySdkEl = document.querySelector('onekey-sdk');
+var burgerEl = document.querySelector('.burger');
+
+var specialtyLabelByCode = {
+  'SP.WCA.08': 'Cardiologist',
+  'SP.WCA.75': 'Dentist',
 }
 
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
-function closeNav() {
-  document.querySelector('.closebtn').style.display = "none";
-  document.getElementById("mySidenav").style.left = "-350px";
-  setTimeout(() => {
-    document.querySelector(".menu").style.display = "block";
-    document.querySelector('.closebtn').style.display = "block";
-  }, 500);
+for (let i = 0; i < 3; i++) {
+  burgerEl.innerHTML += '<div></div>';
 }
+
+burgerEl.addEventListener('click', function() {
+  document.body.classList.toggle('menu-opened')
+});
 
 function openSettings() {
-  document.querySelector('#mySidenav').classList.add('show-settings');
-  document.querySelector('settings-panel').addEventListener('backPressed', closeSettings, { once: true });
+  sidebarEl.classList.add('settings-opened');
 }
 
-function closeSettings() {
-  document.querySelector('#mySidenav').classList.remove('show-settings');
+settingPanelEl.addEventListener('backPressed', function() {
+  sidebarEl.classList.remove('settings-opened');
+});
+
+var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
+if (matches) {
+  var specialtyCode = matches[1];
+  var specialtyLabel = specialtyLabelByCode[specialtyCode];
+  if (specialtyLabel) {
+    onekeySdkEl.config = {
+      entry: {
+        screenName: 'nearMe',
+        specialtyCode,
+        specialtyLabel
+      }
+    }
+  }
 }
+
+function searchNearMe(specialtyCode) {
+  document.body.classList.remove('menu-opened');
+  var specialtyLabel = specialtyLabelByCode[specialtyCode];
+  if (specialtyLabel) {
+    onekeySdkEl.searchNearMe({
+      specialtyCode,
+      specialtyLabel
+    });
+  }
+}
+

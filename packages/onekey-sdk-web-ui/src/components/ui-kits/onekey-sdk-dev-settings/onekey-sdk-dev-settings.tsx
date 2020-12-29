@@ -1,4 +1,5 @@
 import { Component, Host, h, State } from '@stencil/core';
+import cls from 'classnames';
 
 interface DevSettings {
   [k: string]: any;
@@ -47,6 +48,7 @@ const optionSets = [
 })
 export class OneKeySDKViewport {
   @State() settings = loadSettings() || defaultSettings;
+  @State() isCollapsed = false;
 
   componentWillLoad() {
     this.applySettings();
@@ -69,6 +71,10 @@ export class OneKeySDKViewport {
     this.applySettings();
   }
 
+  handleCollapseBtnClick = () => {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
   renderSetting(setting) {
     return (
       <div class="setting">
@@ -85,10 +91,14 @@ export class OneKeySDKViewport {
   }
 
   render() {
+    const className = cls('dev-settings', {
+      collapsed: this.isCollapsed
+    })
     return (
       <Host>
         <slot></slot>
-        <div class="dev-settings">
+        <div class={className}>
+          <div class="dev-settings-collapse-btn" onClick={this.handleCollapseBtnClick}>{this.isCollapsed ? '<' : '>'}</div>
           {optionSets.map(optionSet => this.renderSetting(optionSet))}
         </div>
       </Host>

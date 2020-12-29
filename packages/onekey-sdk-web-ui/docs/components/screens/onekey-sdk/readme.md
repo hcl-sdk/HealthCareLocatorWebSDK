@@ -14,6 +14,16 @@
 
 ## Methods
 
+### `searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: any; specialtyLabel: any; }) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `updateConfig(patch: any) => Promise<OneKeySDKConfigData>`
 
 
