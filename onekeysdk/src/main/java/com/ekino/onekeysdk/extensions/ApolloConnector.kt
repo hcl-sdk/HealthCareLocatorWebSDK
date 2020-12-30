@@ -1,10 +1,12 @@
 package com.ekino.onekeysdk.extensions
 
 import com.apollographql.apollo.ApolloClient
+import com.ekino.onekeysdk.extensions.ApolloConnector.Instance.apolloClientUrl
 
 class ApolloConnector private constructor() {
     private object Instance {
         val instance = ApolloConnector()
+        const val apolloClientUrl = "https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query"
     }
 
     private var apolloClient: ApolloClient? = null
@@ -17,8 +19,16 @@ class ApolloConnector private constructor() {
     fun getApolloClient(): ApolloClient {
         if (apolloClient == null) {
             apolloClient = ApolloClient.builder()
-                .serverUrl("https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query")
-                .build()
+                    .serverUrl(apolloClientUrl)
+                    .build()
+        }
+        return apolloClient!!
+    }
+
+    fun getApolloClient(builder: () -> ApolloClient.Builder): ApolloClient {
+        if (apolloClient == null) {
+            apolloClient = builder().serverUrl(apolloClientUrl)
+                    .build()
         }
         return apolloClient!!
     }

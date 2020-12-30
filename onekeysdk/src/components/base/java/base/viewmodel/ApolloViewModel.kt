@@ -7,6 +7,7 @@ import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.apollographql.apollo.rx2.Rx2Apollo
 import com.ekino.onekeysdk.extensions.ApolloConnector
 import com.ekino.onekeysdk.extensions.removeConsultedProfile
 import com.ekino.onekeysdk.extensions.storeConsultedProfiles
@@ -38,6 +39,17 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                             else success(response)
                         }
                     }
+                })
+    }
+
+    protected fun <D : Operation.Data, T, V : Operation.Variables, K>
+            rxQuery(query: () -> Query<D, T, V>, map: (response: Response<T>) -> K,
+                    onSuccess: (data: K) -> Unit, onError: (e: Throwable) -> Unit) {
+        Rx2Apollo.from(ApolloConnector.getInstance().getApolloClient().query(query()))
+                .map { map(it) }.compose(composeObservable()).subscribe({
+                    onSuccess(it)
+                }, {
+                    onError(it)
                 })
     }
 
