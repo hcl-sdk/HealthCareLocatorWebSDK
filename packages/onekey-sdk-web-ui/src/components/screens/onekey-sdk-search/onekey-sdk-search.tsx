@@ -107,7 +107,10 @@ export class OnekeySdkSearch {
     } else {
       if (item.professionalType) {
         searchMapStore.setState({
-          selectedActivity: item.activity
+          selectedActivity: {
+            ...item.activity,
+            name: item.name
+          }
         });
         routerStore.push('/search-result');
       } else {

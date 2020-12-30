@@ -58,6 +58,18 @@
       color: var(--onekeysdk-color-grey);
       @include applyFontStyle("small")
     }
+
+    .search-data {
+      position: relative;
+    }
+    &__loading {
+      position: absolute;
+      padding: 120px 0;
+      text-align: center;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
   }
 
   .search-section {

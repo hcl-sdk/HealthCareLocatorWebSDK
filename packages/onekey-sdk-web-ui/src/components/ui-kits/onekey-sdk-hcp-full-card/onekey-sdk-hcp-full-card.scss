@@ -196,6 +196,17 @@
     }
   }
 
+  .hcp-details-card {
+    &__loading {
+      min-height: 180px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid var(--onekeysdk-color-card_border);
+    }
+  }
+
   .size-mobile {
     .leaflet-control-zoom {
       display: none;
@@ -250,6 +261,9 @@
 
     .hcp-details-card {
       margin-top: 10px;
+      &__loading {
+        min-height: 80px;
+      }
     }
 
     .main-block__navigation {
@@ -294,4 +308,5 @@
       }
     }
   }
+
 }
