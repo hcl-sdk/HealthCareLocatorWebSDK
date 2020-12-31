@@ -104,9 +104,7 @@ export class OnekeySdkSearchResult {
     const className = cls('search-toolbar search-section', {
       'header-block': isSmall,
     });
-    if(!specialties || !specialties.length) {
-      return null
-    }
+
 
     return (
       <div class={className}>
@@ -136,7 +134,13 @@ export class OnekeySdkSearchResult {
       return null;
     }
 
-    const { specialties, selectedActivity, locationFilter, searchFields } = searchMapStore.state;
+    const { 
+      specialties, 
+      selectedActivity, 
+      locationFilter, 
+      searchFields, 
+      loadingActivities 
+    } = searchMapStore.state;
 
     const selectedAddressName = locationFilter?.id === NEAR_ME ? locationFilter.name : searchFields.address;
     const breakpoint = uiStore.state.breakpoint;
@@ -150,7 +154,7 @@ export class OnekeySdkSearchResult {
     const mapClass = cls('search-map__content');
 
     const mapWrapperClass = cls('search-map-wrapper', {
-      hide: !this.isOpenPanel || !specialties.length,
+      hide: !this.isOpenPanel,
     });
 
     const wrapperClass = cls('search-result main-contain', `${modeView.toLowerCase()}-view-mode`, {
@@ -198,9 +202,14 @@ export class OnekeySdkSearchResult {
               {selectedActivity ? <onekey-sdk-hcp-full-card /> : !isSmall && this.renderToolbar()}
               {!selectedActivity && (
                 <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                  {specialties.map((elm, idx) => (
+                  {!loadingActivities && specialties.map((elm, idx) => (
                     <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
                   ))}
+                  {loadingActivities && (
+                    <div class="search-result__loading">
+                      <onekey-sdk-icon name="circular" />
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -13,7 +13,10 @@ export class OnekeySdkHCPFullCard {
   @State() confirm: boolean;
 
   componentWillLoad() {
-    getFullCardDetail({ activityId: searchMapStore.state.selectedActivity.id });
+    getFullCardDetail({ 
+      activityId: searchMapStore.state.selectedActivity.id,
+      activityName: searchMapStore.state.selectedActivity.name,
+    });
   }
 
   disconnectedCallback() {
@@ -35,12 +38,14 @@ export class OnekeySdkHCPFullCard {
       'confirm-no': this.confirm === false,
     });
 
-    const { individualDetail, loading } = searchMapStore.state;
+    const { individualDetail, loadingIndividualDetail, individualDetailName } = searchMapStore.state;
     const { breakpoint } = uiStore.state;
 
     const toolbarClass = cls('search-toolbar search-section', {
       'header-block': breakpoint.screenSize === 'mobile',
     });
+
+    const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
 
     return (
       <Host>
@@ -55,155 +60,162 @@ export class OnekeySdkHCPFullCard {
           </div>
 
           <div class="main-block hcp-details-card">
-            {!loading && !!individualDetail && (
-              <div class="main-info">
-                <div class="main-info__name">
-                  <div class="main-info__avatar">
-                    <onekey-sdk-icon name="default-avatar" width={30} height={30} />
-                  </div>
-                  <div class="main-info__profile">
-                    <span class="main-info__profile-name">{individualDetail.name}</span>
-                    <span class="main-info__profile-dep">{individualDetail.professionalType}</span>
-                  </div>
+            <div class="main-info">
+              <div class="main-info__name">
+                <div class="main-info__avatar">
+                  <onekey-sdk-icon name="default-avatar" width={30} height={30} />
                 </div>
-
-                <div class="info-section">
-                  {breakpoint.screenSize === 'mobile' && (
-                    <onekey-sdk-map
-                      class="info-section-body__map"
-                      locations={[{ lat: individualDetail.lat, lng: individualDetail.lng }]}
-                      selectedLocationIdx={0}
-                      defaultZoom={5}
-                      noCurrentLocation
-                      zoomControl={false}
-                      mapHeight="100px"
-                      interactive={false}
-                    />
-                  )}
-
-                  <div class="info-section-header">
-                    <span class="info-section-header__title">Main Information</span>
-                    <div class="info-section-header__postfix">
-                      <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
-                        <onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor('--onekeysdk-color-secondary')} />
-                      </a>
-                      <a href={`tel:${individualDetail.phone}`}>
-                        <onekey-sdk-button round icon="phone" noBackground iconColor={getCssColor('--onekeysdk-color-secondary')} />
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="info-section-body">
-                    {/* <div class="info-section-body__address">
-                    <select>
-                      <option>Address 1: {individualDetail.address}</option>
-                    </select>
-                  </div> */}
-
-                    <div class="info-contact info-section-body__location">
-                      <div class="info-contact-item">
-                        <onekey-sdk-icon name="location" color={getCssColor('--onekeysdk-color-marker_selected')} />
-                        <div>
-                          <span>{individualDetail.addressName}</span>
-                          <span>{individualDetail.addressBuildingName}</span>
-                          <span>{individualDetail.address}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="info-contact info-section-body__contact">
-                      {individualDetail.phone && (
-                        <div class="info-contact-item">
-                          <onekey-sdk-icon name="phone" color={getCssColor('--onekeysdk-color-grey')} />
-                          <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
-                        </div>
-                      )}
-
-                      {individualDetail.fax && (
-                        <div class="info-contact-item">
-                          <onekey-sdk-icon name="printer" height={15} color={getCssColor('--onekeysdk-color-grey')} />
-                          <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
-                        </div>
-                      )}
-                    </div>
-
-                    {individualDetail.webAddress && (
-                      <div class="info-contact info-section-body__website">
-                        <div class="info-contact-item">
-                          <onekey-sdk-icon name="earth" color={getCssColor('--onekeysdk-color-grey')} />
-                          <a href={individualDetail.webAddress} target="_blank">
-                            {individualDetail.webAddress}
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                <div class="main-info__profile">
+                  <span class="main-info__profile-name">{hpcProfileName}</span>
+                  <span class="main-info__profile-dep">{individualDetail && individualDetail.professionalType}</span>
                 </div>
-                {/* Block */}
-                {
-                  individualDetail.specialties.length > 0 &&
+              </div>
+
+              {loadingIndividualDetail && !individualDetail && (
+                <div class="hcp-details-card__loading">
+                  <onekey-sdk-icon name="circular" />
+                </div>
+              )}
+              {individualDetail && (
+                <div>
                   <div class="info-section">
+                    {breakpoint.screenSize === 'mobile' && (
+                      <onekey-sdk-map
+                        class="info-section-body__map"
+                        locations={[{ lat: individualDetail.lat, lng: individualDetail.lng }]}
+                        selectedLocationIdx={0}
+                        defaultZoom={5}
+                        noCurrentLocation
+                        zoomControl={false}
+                        mapHeight="100px"
+                        interactive={false}
+                      />
+                    )}
+
                     <div class="info-section-header">
-                      <span class="info-section-header__title">Specialties</span>
+                      <span class="info-section-header__title">Main Information</span>
+                      <div class="info-section-header__postfix">
+                        <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
+                          <onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor('--onekeysdk-color-secondary')} />
+                        </a>
+                        <a href={`tel:${individualDetail.phone}`}>
+                          <onekey-sdk-button round icon="phone" noBackground iconColor={getCssColor('--onekeysdk-color-secondary')} />
+                        </a>
+                      </div>
                     </div>
 
                     <div class="info-section-body">
-                      <span>{individualDetail.specialties.join(',')}</span>
+                      {/* <div class="info-section-body__address">
+                        <select>
+                          <option>Address 1: {individualDetail.address}</option>
+                        </select>
+                      </div> */}
+
+                      <div class="info-contact info-section-body__location">
+                        <div class="info-contact-item">
+                          <onekey-sdk-icon name="location" color={getCssColor('--onekeysdk-color-marker_selected')} />
+                          <div>
+                            <span>{individualDetail.addressName}</span>
+                            <span>{individualDetail.addressBuildingName}</span>
+                            <span>{individualDetail.address}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="info-contact info-section-body__contact">
+                        {individualDetail.phone && (
+                          <div class="info-contact-item">
+                            <onekey-sdk-icon name="phone" color={getCssColor('--onekeysdk-color-grey')} />
+                            <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
+                          </div>
+                        )}
+
+                        {individualDetail.fax && (
+                          <div class="info-contact-item">
+                            <onekey-sdk-icon name="printer" height={15} color={getCssColor('--onekeysdk-color-grey')} />
+                            <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
+                          </div>
+                        )}
+                      </div>
+
+                      {individualDetail.webAddress && (
+                        <div class="info-contact info-section-body__website">
+                          <div class="info-contact-item">
+                            <onekey-sdk-icon name="earth" color={getCssColor('--onekeysdk-color-grey')} />
+                            <a href={individualDetail.webAddress} target="_blank">
+                              {individualDetail.webAddress}
+                            </a>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                }
-                {/* Block */}
-                <div class="info-section">
-                  <div class="info-section-header">
-                    <span class="info-section-header__title">Rate and refunds</span>
-                  </div>
-
-                  <div class="info-section-body">
-                    <span>Conventionned Sector 1</span>
-                    <span>25€</span>
-                  </div>
-                </div>
-
-                {/* Block */}
-                <div class="info-section">
-                  <div class="info-section-header">
-                    <span class="info-section-header__title">Information</span>
-                  </div>
-
-                  <div class="info-section-body">
-                    <span>Was the information you were given about this HCP/HCO correct?</span>
-                    <div class="info-contact info-section-body__correct">
-                      <div class={confirmYesClass} onClick={() => this.onConfirm(true)}>
-                        <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="like" />
-                        <span>Yes</span>
+                  {/* Block */}
+                  {
+                    individualDetail.specialties.length > 0 &&
+                    <div class="info-section">
+                      <div class="info-section-header">
+                        <span class="info-section-header__title">Specialties</span>
                       </div>
-                      <div class={confirmNoClass} onClick={() => this.onConfirm(false)}>
-                        <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="dislike" />
-                        <span>No</span>
+
+                      <div class="info-section-body">
+                        <span>{individualDetail.specialties.join(',')}</span>
                       </div>
                     </div>
-                  </div>
+                  }
+                </div>
+              )}
+              {/* Block Rate and refunds */}
+              <div class="info-section">
+                <div class="info-section-header">
+                  <span class="info-section-header__title">Rate and refunds</span>
                 </div>
 
-                {/* Block */}
-
-                <div class="info-section">
-                  <div class="info-section-header">
-                    <span class="info-section-header__title">Improve the data quality</span>
-                  </div>
-
-                  <div class="info-section-body">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan.</span>
-
-                    <onekey-sdk-button isFull class="suggest-edit-btn">
-                      <onekey-sdk-icon name="edit" color={getCssColor('--onekeysdk-color-secondary')} />
-                      <span>Suggest a modification</span>
-                    </onekey-sdk-button>
-                  </div>
+                <div class="info-section-body">
+                  <span>Conventionned Sector 1</span>
+                  <span>25€</span>
                 </div>
-                {/* Block */}
               </div>
-            )}
+
+              {/* Block Information */}
+              <div class="info-section">
+                <div class="info-section-header">
+                  <span class="info-section-header__title">Information</span>
+                </div>
+
+                <div class="info-section-body">
+                  <span>Was the information you were given about this HCP/HCO correct?</span>
+                  <div class="info-contact info-section-body__correct">
+                    <div class={confirmYesClass} onClick={() => this.onConfirm(true)}>
+                      <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="like" />
+                      <span>Yes</span>
+                    </div>
+                    <div class={confirmNoClass} onClick={() => this.onConfirm(false)}>
+                      <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="dislike" />
+                      <span>No</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Block */}
+
+              <div class="info-section">
+                <div class="info-section-header">
+                  <span class="info-section-header__title">Improve the data quality</span>
+                </div>
+
+                <div class="info-section-body">
+                  <span>Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan.</span>
+
+                  <onekey-sdk-button isFull class="suggest-edit-btn">
+                    <onekey-sdk-icon name="edit" color={getCssColor('--onekeysdk-color-secondary')} />
+                    <span>Suggest a modification</span>
+                  </onekey-sdk-button>
+                </div>
+              </div>
+              {/* Block */}
+            </div>
           </div>
         </div>
       </Host>

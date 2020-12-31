@@ -48,6 +48,8 @@ export interface SelectedIndividual {
 
 export interface SearchMapState {
   loading?: boolean;
+  loadingActivities?: boolean;
+  loadingIndividualDetail?: boolean;
   specialties?: SpecialtyItem[];
   specialtiesRaw?: SpecialtyItem[];
   doctors?: HCPName[];
@@ -59,6 +61,7 @@ export interface SearchMapState {
   sortValues?: SortValue
   selectedActivity?: SelectedIndividual
   individualDetail?: any;
+  individualDetailName?: string;
   searchFields: SearchFields;
   locationFilter: any;
   specialtyFilter: any;
@@ -66,6 +69,8 @@ export interface SearchMapState {
 
 export const initStateSearchMapStore: SearchMapState = {
   loading: false,
+  loadingActivities: false,
+  loadingIndividualDetail: false,
   specialties: [],
   specialtiesRaw: [],
   search: {},

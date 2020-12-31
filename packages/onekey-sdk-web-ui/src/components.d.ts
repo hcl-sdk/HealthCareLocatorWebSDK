@@ -65,6 +65,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkIconCircular {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface OnekeySdkIconDefaultAvatar {
         "color": string;
         "height": number;
@@ -290,6 +295,12 @@ declare global {
         prototype: HTMLOnekeySdkIconChevronArrowElement;
         new (): HTMLOnekeySdkIconChevronArrowElement;
     };
+    interface HTMLOnekeySdkIconCircularElement extends Components.OnekeySdkIconCircular, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconCircularElement: {
+        prototype: HTMLOnekeySdkIconCircularElement;
+        new (): HTMLOnekeySdkIconCircularElement;
+    };
     interface HTMLOnekeySdkIconDefaultAvatarElement extends Components.OnekeySdkIconDefaultAvatar, HTMLStencilElement {
     }
     var HTMLOnekeySdkIconDefaultAvatarElement: {
@@ -476,6 +487,7 @@ declare global {
         "onekey-sdk-icon": HTMLOnekeySdkIconElement;
         "onekey-sdk-icon-arrow": HTMLOnekeySdkIconArrowElement;
         "onekey-sdk-icon-chevron-arrow": HTMLOnekeySdkIconChevronArrowElement;
+        "onekey-sdk-icon-circular": HTMLOnekeySdkIconCircularElement;
         "onekey-sdk-icon-default-avatar": HTMLOnekeySdkIconDefaultAvatarElement;
         "onekey-sdk-icon-direction": HTMLOnekeySdkIconDirectionElement;
         "onekey-sdk-icon-dislike": HTMLOnekeySdkIconDislikeElement;
@@ -560,6 +572,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface OnekeySdkIconChevronArrow {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface OnekeySdkIconCircular {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -738,6 +755,7 @@ declare namespace LocalJSX {
         "onekey-sdk-icon": OnekeySdkIcon;
         "onekey-sdk-icon-arrow": OnekeySdkIconArrow;
         "onekey-sdk-icon-chevron-arrow": OnekeySdkIconChevronArrow;
+        "onekey-sdk-icon-circular": OnekeySdkIconCircular;
         "onekey-sdk-icon-default-avatar": OnekeySdkIconDefaultAvatar;
         "onekey-sdk-icon-direction": OnekeySdkIconDirection;
         "onekey-sdk-icon-dislike": OnekeySdkIconDislike;
@@ -784,6 +802,7 @@ declare module "@stencil/core" {
             "onekey-sdk-icon": LocalJSX.OnekeySdkIcon & JSXBase.HTMLAttributes<HTMLOnekeySdkIconElement>;
             "onekey-sdk-icon-arrow": LocalJSX.OnekeySdkIconArrow & JSXBase.HTMLAttributes<HTMLOnekeySdkIconArrowElement>;
             "onekey-sdk-icon-chevron-arrow": LocalJSX.OnekeySdkIconChevronArrow & JSXBase.HTMLAttributes<HTMLOnekeySdkIconChevronArrowElement>;
+            "onekey-sdk-icon-circular": LocalJSX.OnekeySdkIconCircular & JSXBase.HTMLAttributes<HTMLOnekeySdkIconCircularElement>;
             "onekey-sdk-icon-default-avatar": LocalJSX.OnekeySdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLOnekeySdkIconDefaultAvatarElement>;
             "onekey-sdk-icon-direction": LocalJSX.OnekeySdkIconDirection & JSXBase.HTMLAttributes<HTMLOnekeySdkIconDirectionElement>;
             "onekey-sdk-icon-dislike": LocalJSX.OnekeySdkIconDislike & JSXBase.HTMLAttributes<HTMLOnekeySdkIconDislikeElement>;

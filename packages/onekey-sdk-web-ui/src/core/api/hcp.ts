@@ -24,7 +24,10 @@ export async function searchLocationWithParams() {
 }
 
 export async function searchLocation(variables) {
-  searchMapStore.setState({ loading: true, individualDetail: null });
+  searchMapStore.setState({ 
+    individualDetail: null, 
+    loadingActivities: true 
+  });
 
   const { activities } = await graphql.activities({
     apiKey: "1",
@@ -47,7 +50,14 @@ export async function searchLocation(variables) {
     id: item.activity.id
   }))
 
-  searchMapStore.setState({ specialties: data, specialtiesRaw: data, searchDoctor: [], selectedActivity: null, individualDetail: null, loading: false });
+  searchMapStore.setState({ 
+    specialties: data, 
+    specialtiesRaw: data, 
+    searchDoctor: [], 
+    selectedActivity: null, 
+    individualDetail: null, 
+    loadingActivities: false 
+  });
 }
 
 export async function searchDoctor(variables) {
@@ -101,8 +111,12 @@ export async function searchDoctor(variables) {
 }
 
 
-export async function getFullCardDetail({ activityId }) {
-  searchMapStore.setState({ loading: true, individualDetail: null });
+export async function getFullCardDetail({ activityId, activityName }) {
+  searchMapStore.setState({ 
+    individualDetail: null,
+    individualDetailName: activityName,
+    loadingIndividualDetail: true
+  });
 
   const { activityByID: activity } = await graphql.activityByID({
     apiKey: "1",
@@ -137,5 +151,9 @@ export async function getFullCardDetail({ activityId }) {
   historyStore.addItem('hcp', historyItem);
 
 
-  searchMapStore.setState({ loading: false, individualDetail: data });
+  searchMapStore.setState({ 
+    individualDetail: data,
+    individualDetailName: '',
+    loadingIndividualDetail: false
+  });
 }

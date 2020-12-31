@@ -30,7 +30,10 @@ export class OnekeySdkHomeFull {
 
   handleHistoryHcpItemClick = (hcpItem: HistoryHcpItem) => {
     searchMapStore.setState({
-      selectedActivity: hcpItem.activity,
+      selectedActivity: {
+        ...hcpItem.activity,
+        name: hcpItem.activity.individual.mailingName
+      },
     });
     routerStore.push('/search-result');
   };

@@ -56,7 +56,7 @@ export class OnekeySdkInput {
           onBlur={this.onBlur}
         />
         {!this.loading && this.postfixIcon && <onekey-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} type="button" />}
-        {this.loading && <span class="input-postfix loader" />}
+        {this.loading && <onekey-sdk-icon name="circular" class="input-postfix input-postfix__loader" width={15} height={15} />}
         <slot></slot>
       </Host>
     );
