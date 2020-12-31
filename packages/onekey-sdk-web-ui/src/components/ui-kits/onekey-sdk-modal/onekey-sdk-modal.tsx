@@ -28,7 +28,13 @@ export class OnekeySdkModal {
           <div class={modalClass}>
             <div class="modal-title">
               <span class="title">Sort</span>
-              <onekey-sdk-icon name="remove" color={getCssColor("--onekeysdk-color-grey_dark")} onClick={this.onClose}/>
+              <onekey-sdk-icon 
+                name="remove"
+                onClick={this.onClose}
+                color={getCssColor("--onekeysdk-color-grey_dark")} 
+                width={17}
+                height={17}
+              />
             </div>
             <div class="modal-content">
               <this.modal.component />

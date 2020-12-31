@@ -6,7 +6,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 9999;
+    z-index: 100000;
   }
 
   .modal-class {
@@ -25,8 +25,6 @@
     z-index: 9999;
   }
 
-  
-
   .modal-title {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -39,16 +37,20 @@
     }
   }
 
-  .size-desktop {
+  .size-mobile {
     .modal-content {
+      display: flex;
     }
+  }
 
+  .size-tablet,
+  .size-desktop {
     .modal-class {
       position: absolute;
       top: 20%;
       left: 50%;
       transform: translate(-50%, -20%);
-      padding: 15px;
+      padding: 12px 15px 22px 15px;
       background-color: white;
       width: auto;
       height: auto;
@@ -59,8 +61,22 @@
 
     .modal-title {
       text-align: center;
-      border-bottom: 1px solid var(--onekeysdk-color-card_border);
+      position: relative;
       padding-bottom: 10px;
+      &::after {
+        content: '';
+        height: 1px;
+        left: -15px;
+        right: -15px;
+        bottom: 0;
+        background-color: var(--onekeysdk-color-card_border);
+        position: absolute;
+      }
+      .icon {
+        top: -4px;
+        right: -8px;
+        position: absolute;
+      }
     }
   }
 }

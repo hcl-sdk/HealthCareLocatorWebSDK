@@ -6,7 +6,7 @@
   .sort-body {
     display: grid;
     grid-template-rows: 1fr auto;
-    padding: 15px;
+    padding: 28px 15px 18px 15px;
     grid-gap: 10px;
     border-radius: 5px;
     border: 1px solid var(--onekeysdk-color-card_border);
@@ -22,10 +22,23 @@
 
   .sort-option-item {
     display: grid;
+    position: relative;
     grid-template-columns: 1fr auto;
     color: var(--onekeysdk-color-dark);
     @include applyFontStyle("sort_criteria");
     align-items: center;
+
+    &:last-child {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -26px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: var(--onekeysdk-color-card_border);
+      }
+    }
   }
 
   .sort-action {
@@ -49,7 +62,6 @@
   }
 
   > .size-xs, > .size-sm, > .size-md {
-
     .onekey-sdk-sort {
       height: 100%;
       grid-template-rows: auto 1fr;
@@ -57,6 +69,20 @@
     }
   }
 
+  >.size-tablet,
+  >.size-desktop {
+    .sort-action {
+      .btn {
+        padding: 7px 10px;
+      }
+    }
+
+    .sort-option-item {
+      font-size: var(--onekeysdk-font-sort_criteria-desktop-size);
+    }
+  }
+
+  >.size-tablet,
   >.size-desktop {
     .sort-body {
       padding: 0;
@@ -65,8 +91,27 @@
     }
 
     .sort-option {
-      border-bottom: 1px solid var(--onekeysdk-color-card_border);
-      padding-bottom: 20px;
+      padding-top: 14px;
+      padding-bottom: 26px;
+    }
+  }
+
+  >.size-mobile {
+    .onekey-sdk-sort {
+      height: 100%;
+    }
+
+    .sort-action {
+      .btn {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+    }
+  }
+
+  onekey-sdk-sort {
+    &.size-mobile {
+      width: 100%;
     }
   }
 }

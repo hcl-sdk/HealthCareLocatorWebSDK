@@ -37,6 +37,7 @@ graph TD;
   onekey-sdk-search --> onekey-sdk-switch-view-mode
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-input --> onekey-sdk-button
+  onekey-sdk-input --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-button
   onekey-sdk-hcp-full-card --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-map
