@@ -7,6 +7,7 @@ import { configStore, uiStore, searchMapStore, routerStore } from '../../../core
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { NEAR_ME_ITEM } from '../../../core/constants';
+import { searchLocationWithParams } from '../../../core/api/hcp';
 
 const defaults = {
   homeMode: 'min'
@@ -36,7 +37,11 @@ export class OneKeySDK {
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: { id: specialtyCode },
     });
-    routerStore.push('/search-result');
+    if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
+      routerStore.push('/search-result');
+    } else {
+      searchLocationWithParams();
+    }
   }
 
   componentWillLoad() {

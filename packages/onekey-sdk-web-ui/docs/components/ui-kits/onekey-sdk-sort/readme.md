@@ -18,6 +18,7 @@ graph TD;
   onekey-sdk-sort --> onekey-sdk-input
   onekey-sdk-sort --> onekey-sdk-button
   onekey-sdk-input --> onekey-sdk-button
+  onekey-sdk-input --> onekey-sdk-icon
   onekey-sdk-button --> onekey-sdk-icon
   style onekey-sdk-sort fill:#f9f,stroke:#333,stroke-width:4px
 ```

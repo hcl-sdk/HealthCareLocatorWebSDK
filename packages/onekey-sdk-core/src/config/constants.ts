@@ -49,6 +49,7 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--onekeysdk-font-search_input-weight': 'normal',
   '--onekeysdk-font-sort_criteria-name': 'var(--onekeysdk-font-default-name)',
   '--onekeysdk-font-sort_criteria-size': '16px',
+  '--onekeysdk-font-sort_criteria-desktop-size': '14px',
   '--onekeysdk-font-sort_criteria-weight': 'normal',
   '--onekeysdk-font-button-name': 'var(--onekeysdk-font-default-name)',
   '--onekeysdk-font-button-size': 'var(--onekeysdk-font-default-size)',

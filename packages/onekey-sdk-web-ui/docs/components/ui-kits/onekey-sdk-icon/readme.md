@@ -24,6 +24,7 @@
  - [onekey-sdk-doctor-card](../onekey-sdk-doctor-card)
  - [onekey-sdk-hcp-full-card](../onekey-sdk-hcp-full-card)
  - [onekey-sdk-home-min](../../screens/onekey-sdk-home/onekey-sdk-home-min)
+ - [onekey-sdk-input](../onekey-sdk-input)
  - [onekey-sdk-modal](../onekey-sdk-modal)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-address-item](../onekey-sdk-search-address-item)
@@ -36,6 +37,7 @@ graph TD;
   onekey-sdk-doctor-card --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-icon
   onekey-sdk-home-min --> onekey-sdk-icon
+  onekey-sdk-input --> onekey-sdk-icon
   onekey-sdk-modal --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-icon
   onekey-sdk-search-address-item --> onekey-sdk-icon

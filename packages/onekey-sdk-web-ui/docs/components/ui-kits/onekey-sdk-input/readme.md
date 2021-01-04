@@ -35,11 +35,13 @@
 ### Depends on
 
 - [onekey-sdk-button](../onekey-sdk-button)
+- [onekey-sdk-icon](../onekey-sdk-icon)
 
 ### Graph
 ```mermaid
 graph TD;
   onekey-sdk-input --> onekey-sdk-button
+  onekey-sdk-input --> onekey-sdk-icon
   onekey-sdk-button --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-input
   onekey-sdk-sort --> onekey-sdk-input
