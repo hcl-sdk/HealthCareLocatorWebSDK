@@ -1,5 +1,7 @@
 import { Component, h, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
+import * as icons from './icons'
+// import Prism from 'prismjs';
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
@@ -71,6 +73,11 @@ interface SelectedFont {
   weight: string;
 }
 
+interface SelectedIcon {
+  key: string;
+  value: string;
+}
+
 interface SelectedColor {
   key: string;
   hex: string;
@@ -113,7 +120,7 @@ export class SettingsPanel {
   @Event() applyChanges: EventEmitter<any>;
   @Event() backPressed: EventEmitter<any>;
 
-  @State() view: 'main' | 'theme' | 'font' | 'color' = 'main';
+  @State() view: 'main' | 'theme' | 'font' | 'icon' | 'color' = 'main';
 
   @State() customThemeOverrides: {
     [k: string]: string;
@@ -123,8 +130,10 @@ export class SettingsPanel {
 
   @State() editedFont: null | SelectedFont = null;
   @State() editedColor: null | SelectedColor = null;
+  @State() editedIcon: null | SelectedIcon = null; 
   @State() isFontsExpanded: boolean = false;
   @State() isColorsExpanded: boolean = false;
+  @State() isIconsExpanded: boolean = false;
   @State() colorPickerField: null | string = null;
 
   @Listen('jeepColorpickerGetColor')
@@ -140,6 +149,8 @@ export class SettingsPanel {
   }
 
   picker: any;
+  iconCodePreview: any;
+  ICON_STORE_NAME = "__onekeysdk-devtools-custom-icon"
 
   componentWillLoad() {
     this.updateLanguage();
@@ -236,6 +247,15 @@ export class SettingsPanel {
     };
   };
 
+  editIcon = (iconKey: string) => {
+    const value = this.getCustomIcon(iconKey)
+    this.view = 'icon';
+    this.editedIcon = {
+      key: iconKey,
+      value: value || icons[iconKey]
+    };
+  }
+
   backToCustomTheme = () => {
     this.view = 'theme';
     this.editedFont = null;
@@ -280,6 +300,39 @@ export class SettingsPanel {
     this.customThemeOverrides = nextCustomTheme;
   };
 
+  applyCustomIcon = (prop: string, value: string) => {
+    
+    const customizedIcon = window.localStorage.getItem(this.ICON_STORE_NAME);
+    const trimValue = value.replace(/(\r\n|\n|\r)/gm, "").replace(/>\s+|\s+</g, (m) => m.trim())
+    let newCustomizedIcon = {}
+    try {
+      const parsedCustIcon = JSON.parse(customizedIcon);
+      newCustomizedIcon = {
+        ...parsedCustIcon,
+        [prop]: trimValue
+      }
+    } catch(error) {
+      newCustomizedIcon = {
+        [prop]: trimValue
+      }
+    }
+
+    this.updateSDKConfig({ icons: newCustomizedIcon });
+
+    window.localStorage.setItem(this.ICON_STORE_NAME, JSON.stringify(newCustomizedIcon))
+  }
+
+  getCustomIcon = (prop: string) => {
+    let customizedIcon = null
+    try {
+      const parsedCustIcon = JSON.parse(window.localStorage.getItem(this.ICON_STORE_NAME));
+      customizedIcon = parsedCustIcon[prop]
+    } catch(_) {}
+
+    return customizedIcon
+  }
+
+
   applyFont = () => {
     const fonts = ALL_PROPS.filter(p => p.key.includes(this.editedFont.key));
     if (fonts.length) {
@@ -306,6 +359,18 @@ export class SettingsPanel {
     this.backToCustomTheme();
   };
 
+  applyIcon = (newIcon) => {
+    if(newIcon) {
+      this.applyCustomIcon(this.editedIcon.key, this.editedIcon.value)
+    } else {
+      this.applyCustomIcon(this.editedIcon.key, icons[this.editedIcon.key])
+      this.editedIcon = {
+        ...this.editedIcon,
+        value: icons[this.editedIcon.key]
+      }
+    }
+  }
+
   updateEditedFont = (propName: string) => e => (this.editedFont = { ...this.editedFont, [propName]: (e.target as any).value });
 
   updateEditedColorHex = e => {
@@ -322,6 +387,13 @@ export class SettingsPanel {
       this.picker.color = hex.trim();
     }
   };
+
+  onChangeIconInput = (e) => {
+    this.editedIcon = {
+      ...this.editedIcon,
+      value: e.path[0].value
+    }
+  }
 
   updateEditedColorRGB = (k: string) => e => {
     this.editedColor = {
@@ -345,7 +417,7 @@ export class SettingsPanel {
     return '';
   };
 
-  renderPropName(propType: 'color' | 'font', propName: string) {
+  renderPropName(propType: 'color' | 'font' | 'icon', propName: string) {
     return propName.replace(`${propType}.`, '').replace(/_/g, ' ').replace('bkg', 'background');
   }
 
@@ -353,6 +425,14 @@ export class SettingsPanel {
     return (
       <button class="var-button" onClick={() => this.editFont(fontKey)}>
         <b>{this.renderPropName('font', fontKey)}</b> <i class="right-arrow"></i>
+      </button>
+    );
+  };
+
+  renderIconButton = (iconKey: string) => {
+    return (
+      <button class="var-button" onClick={() => this.editIcon(iconKey)}>
+        <b>{this.renderPropName('icon', iconKey)}</b> <i class="right-arrow"></i>
       </button>
     );
   };
@@ -474,6 +554,18 @@ export class SettingsPanel {
           </label>
           <div class="var-buttons">{COLORS.filter((_, i) => (this.isColorsExpanded ? true : i < 6)).map(this.renderColorButton)}</div>
         </div>
+
+        <div class="row">
+          <label class="section">
+            <span>Icons</span>
+            <a class="link" href="javascript:;" onClick={() => (this.isIconsExpanded = !this.isIconsExpanded)}>
+              view {this.isIconsExpanded ? 'less' : 'more'}
+            </a>
+          </label>
+          <div class="var-buttons">
+            {Object.keys(icons).map(this.renderIconButton)}
+          </div>
+        </div>
       </section>
     );
   }
@@ -548,6 +640,40 @@ export class SettingsPanel {
     );
   }
 
+  renderIconView() {
+    // const out = Prism.highlight(this.editedIcon.value, Prism.languages.svg, 'svg')
+    return (
+      <section>
+        <div class="title-wrapper">
+          <button onClick={this.backToCustomTheme} class="back">
+            <i class="icono-arrow1-right"></i>
+          </button>
+          <h2 class="title-var">Icon {this.renderPropName('icon', this.editedIcon.key)}</h2>
+        </div>
+        <div
+          class="icon-preview">
+          <span innerHTML={this.editedIcon.value} />
+        </div>
+        <div class="row">
+          <textarea cols={30} rows={20} onInput={this.onChangeIconInput} value={this.editedIcon.value}>
+            {this.editedIcon.value}
+          </textarea>
+          {/* <pre class="language-markup" contentEditable onInput={this.onChangeIconInput}>
+            <code class="language-svg">
+              <span innerHTML={out} />
+            </code>
+          </pre> */}
+        </div>
+        <button class="btn-full btn-success save-theme" onClick={() => this.applyIcon(false)}>
+          Revert
+        </button>
+        <button class="btn-full save-theme" onClick={() => this.applyIcon(true)}>
+          Apply
+        </button>
+      </section>
+    );
+  }
+
   renderColorView() {
     return (
       <section>
@@ -604,12 +730,17 @@ export class SettingsPanel {
   }
 
   render() {
+    console.log(this.iconCodePreview);
+    if(this.iconCodePreview) {
+      (window as any).hljs.highlightBlock(this.iconCodePreview)
+    }
     return (
       <div class="wrapper">
         {this.view === 'main' && this.renderMainView()}
         {this.view === 'theme' && this.renderThemeView()}
         {this.view === 'font' && this.renderFontView()}
         {this.view === 'color' && this.renderColorView()}
+        {this.view === 'icon' && this.renderIconView()}
       </div>
     );
   }

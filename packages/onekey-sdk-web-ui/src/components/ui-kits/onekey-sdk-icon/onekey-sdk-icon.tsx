@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
+import { configStore } from '../../../core/stores';
 
 @Component({
   tag: 'onekey-sdk-icon',
@@ -13,9 +14,11 @@ export class OnekeySdkIcon {
   @Prop() color: string;
   @Prop() primary: boolean = false;
   @State() iconComponent: any;
+  @State() customizedIcons = {}
 
   componentWillLoad() {
     this.iconComponent = `onekey-sdk-icon-${this.name}`;
+    
   }
 
   render() {
@@ -23,9 +26,14 @@ export class OnekeySdkIcon {
       primary: this.primary,
     });
 
+    const overwroteIcon = configStore.state.icons[this.name];
     return (
       <Host class={iconClass} style={{ width: `${this.width}px`, height: `${this.height}px` }}>
-        <this.iconComponent color={this.color} width={this.width} height={this.height} />
+        {
+          overwroteIcon
+          ? <span innerHTML={overwroteIcon} />
+          : <this.iconComponent color={this.color} width={this.width} height={this.height} />
+        }
       </Host>
     );
   }

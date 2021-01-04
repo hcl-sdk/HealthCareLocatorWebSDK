@@ -24,7 +24,8 @@
   "dependencies": {
     "@jeepq/core": "0.0.4-1",
     "@stencil/core": "~2.2.0",
-    "onekey-sdk-core": "*"
+    "onekey-sdk-core": "*",
+    "prismjs": "^1.22.0"
   },
   "license": "MIT",
   "devDependencies": {
