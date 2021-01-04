@@ -44,6 +44,8 @@ export interface SelectedIndividual {
   address?: string;
   id?: string
   individualId?: string;
+  lat?: number;
+  lng?: number;
 }
 
 export interface SearchMapState {

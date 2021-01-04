@@ -33,7 +33,9 @@ export class OnekeySdkHomeFull {
     searchMapStore.setState({
       selectedActivity: {
         ...hcpItem.activity,
-        name: hcpItem.activity.individual.mailingName
+        name: hcpItem.activity.individual.mailingName,
+        lat: hcpItem.activity.workplace.address.location.lat,
+        lng: hcpItem.activity.workplace.address.location.lon,
       },
     });
     routerStore.push('/search-result');

@@ -40,8 +40,6 @@ export class OnekeySdkProfileMap {
               selectedLocationIdx={0}
               defaultZoom={5}
               noCurrentLocation
-              zoomControl={false}
-              interactive={false}
             />
           </div>
         </div>

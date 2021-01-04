@@ -163,6 +163,14 @@ export class OnekeySdkSearchResult {
       'with-nearme': locationFilter?.id === NEAR_ME && searchFields.name === '',
     });
 
+    const injectedMapProps = {
+      mapHeight: '100%',
+      class: mapClass, 
+      modeView: modeView, 
+      selectedLocationIdx: 0,
+      defaultZoom: 5
+    }
+
     return (
       <Host class={wrapperClass}>
         {(!selectedActivity || !isSmall) &&
@@ -217,9 +225,21 @@ export class OnekeySdkSearchResult {
             <div class="toggle-panel">
               <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
             </div>
-
-            {((!isListView && !isSmall) || (!isListView && !selectedActivity)) && (
-              <onekey-sdk-map mapHeight={`100%`} class={mapClass} modeView={modeView} breakpoint={breakpoint} locations={specialties} selectedLocationIdx={0} defaultZoom={5} />
+            {(!isListView && !isSmall) && (
+              !selectedActivity ? (
+                <onekey-sdk-map
+                  key="map-cluster"
+                  breakpoint={breakpoint} 
+                  locations={specialties}
+                  {...injectedMapProps}
+                />
+              ) : (
+                <onekey-sdk-map 
+                  key="map-single"
+                  locations={[{ lat: selectedActivity.lat, lng: selectedActivity.lng }]}
+                  {...injectedMapProps}
+                />
+              )
             )}
           </div>
         </Fragment>

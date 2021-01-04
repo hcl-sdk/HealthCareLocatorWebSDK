@@ -110,7 +110,9 @@ export class OnekeySdkSearch {
         searchMapStore.setState({
           selectedActivity: {
             ...item.activity,
-            name: item.name
+            name: item.name,
+            lat: item.activity.workplace.address.location.lat,
+            lng: item.activity.workplace.address.location.lon
           }
         });
         routerStore.push('/search-result');
