@@ -13,6 +13,7 @@ import { HTMLStencilElement } from '@stencil/core/internal';
 
 const defaults = {
   homeMode: 'min',
+  i18nBundlesPath: '/i18n'
 };
 @Component({
   tag: 'onekey-sdk',
@@ -47,6 +48,8 @@ export class OneKeySDK {
   }
 
   async componentWillLoad() {
+    configStore.setState(merge({}, defaults, this.config));
+
     const closestElement = this.el.closest('[lang]') as HTMLElement;
     const lang = closestElement ? closestElement.lang : 'en';
 
@@ -57,7 +60,6 @@ export class OneKeySDK {
     await getI18nLabels(lang);
 
     applyDefaultTheme();
-    configStore.setState(merge({}, defaults, this.config));
 
     const parent = this.el.parentElement;
     parent.style.padding = '0';

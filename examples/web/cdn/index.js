@@ -24,21 +24,6 @@ settingPanelEl.addEventListener('backPressed', function() {
   sidebarEl.classList.remove('settings-opened');
 });
 
-var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
-if (matches) {
-  var specialtyCode = matches[1];
-  var specialtyLabel = specialtyLabelByCode[specialtyCode];
-  if (specialtyLabel) {
-    onekeySdkEl.config = {
-      entry: {
-        screenName: 'nearMe',
-        specialtyCode,
-        specialtyLabel
-      }
-    }
-  }
-}
-
 function searchNearMe(specialtyCode) {
   document.body.classList.remove('menu-opened');
   var specialtyLabel = specialtyLabelByCode[specialtyCode];
@@ -49,4 +34,28 @@ function searchNearMe(specialtyCode) {
     });
   }
 }
+
+// Initialize Onekey SDK
+
+const config = {
+  i18nBundlesPath: '/onekey-sdk/i18n'
+};
+
+var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
+if (matches) {
+  var specialtyCode = matches[1];
+  var specialtyLabel = specialtyLabelByCode[specialtyCode];
+  if (specialtyLabel) {
+    config.entry = {
+      screenName: 'nearMe',
+      specialtyCode,
+      specialtyLabel
+    }
+  }
+}
+
+if (onekeySdkEl) {
+  onekeySdkEl.config = config;
+}
+
 
