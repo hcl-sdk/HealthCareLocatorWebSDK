@@ -8,7 +8,8 @@ export enum ModeViewType {
 
 export interface Modal {
   title: string;
-  component: string
+  component: string;
+  className?: string;
 }
 
 export interface OneKeySDKConfigData {

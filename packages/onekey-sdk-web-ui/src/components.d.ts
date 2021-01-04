@@ -180,6 +180,7 @@ export namespace Components {
         "interactive": boolean;
         "locations": any[];
         "mapHeight": string;
+        "mapMinHeight": string;
         "mapWidth": string;
         "markerIcon": string;
         "modeView": ModeViewType;
@@ -189,6 +190,8 @@ export namespace Components {
     }
     interface OnekeySdkModal {
         "modal"?: Modal;
+    }
+    interface OnekeySdkProfileMap {
     }
     interface OnekeySdkRoute {
         "component": string;
@@ -427,6 +430,12 @@ declare global {
         prototype: HTMLOnekeySdkModalElement;
         new (): HTMLOnekeySdkModalElement;
     };
+    interface HTMLOnekeySdkProfileMapElement extends Components.OnekeySdkProfileMap, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkProfileMapElement: {
+        prototype: HTMLOnekeySdkProfileMapElement;
+        new (): HTMLOnekeySdkProfileMapElement;
+    };
     interface HTMLOnekeySdkRouteElement extends Components.OnekeySdkRoute, HTMLStencilElement {
     }
     var HTMLOnekeySdkRouteElement: {
@@ -509,6 +518,7 @@ declare global {
         "onekey-sdk-loading": HTMLOnekeySdkLoadingElement;
         "onekey-sdk-map": HTMLOnekeySdkMapElement;
         "onekey-sdk-modal": HTMLOnekeySdkModalElement;
+        "onekey-sdk-profile-map": HTMLOnekeySdkProfileMapElement;
         "onekey-sdk-route": HTMLOnekeySdkRouteElement;
         "onekey-sdk-router": HTMLOnekeySdkRouterElement;
         "onekey-sdk-router-link": HTMLOnekeySdkRouterLinkElement;
@@ -691,6 +701,7 @@ declare namespace LocalJSX {
         "interactive"?: boolean;
         "locations"?: any[];
         "mapHeight"?: string;
+        "mapMinHeight"?: string;
         "mapWidth"?: string;
         "markerIcon"?: string;
         "modeView"?: ModeViewType;
@@ -703,6 +714,8 @@ declare namespace LocalJSX {
     }
     interface OnekeySdkModal {
         "modal"?: Modal;
+    }
+    interface OnekeySdkProfileMap {
     }
     interface OnekeySdkRoute {
         "component"?: string;
@@ -777,6 +790,7 @@ declare namespace LocalJSX {
         "onekey-sdk-loading": OnekeySdkLoading;
         "onekey-sdk-map": OnekeySdkMap;
         "onekey-sdk-modal": OnekeySdkModal;
+        "onekey-sdk-profile-map": OnekeySdkProfileMap;
         "onekey-sdk-route": OnekeySdkRoute;
         "onekey-sdk-router": OnekeySdkRouter;
         "onekey-sdk-router-link": OnekeySdkRouterLink;
@@ -824,6 +838,7 @@ declare module "@stencil/core" {
             "onekey-sdk-loading": LocalJSX.OnekeySdkLoading & JSXBase.HTMLAttributes<HTMLOnekeySdkLoadingElement>;
             "onekey-sdk-map": LocalJSX.OnekeySdkMap & JSXBase.HTMLAttributes<HTMLOnekeySdkMapElement>;
             "onekey-sdk-modal": LocalJSX.OnekeySdkModal & JSXBase.HTMLAttributes<HTMLOnekeySdkModalElement>;
+            "onekey-sdk-profile-map": LocalJSX.OnekeySdkProfileMap & JSXBase.HTMLAttributes<HTMLOnekeySdkProfileMapElement>;
             "onekey-sdk-route": LocalJSX.OnekeySdkRoute & JSXBase.HTMLAttributes<HTMLOnekeySdkRouteElement>;
             "onekey-sdk-router": LocalJSX.OnekeySdkRouter & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterElement>;
             "onekey-sdk-router-link": LocalJSX.OnekeySdkRouterLink & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterLinkElement>;
