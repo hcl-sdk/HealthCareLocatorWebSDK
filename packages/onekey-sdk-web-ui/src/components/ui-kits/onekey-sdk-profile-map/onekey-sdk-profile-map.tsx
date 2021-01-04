@@ -1,6 +1,5 @@
 import { Component, Host, h } from '@stencil/core';
-// import cn from 'classnames';
-import { uiStore, configStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { uiStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 
 @Component({

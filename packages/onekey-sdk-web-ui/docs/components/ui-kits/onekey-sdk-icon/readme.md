@@ -26,6 +26,7 @@
  - [onekey-sdk-home-min](../../screens/onekey-sdk-home/onekey-sdk-home-min)
  - [onekey-sdk-input](../onekey-sdk-input)
  - [onekey-sdk-modal](../onekey-sdk-modal)
+ - [onekey-sdk-profile-map](../onekey-sdk-profile-map)
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-address-item](../onekey-sdk-search-address-item)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
@@ -39,6 +40,7 @@ graph TD;
   onekey-sdk-home-min --> onekey-sdk-icon
   onekey-sdk-input --> onekey-sdk-icon
   onekey-sdk-modal --> onekey-sdk-icon
+  onekey-sdk-profile-map --> onekey-sdk-icon
   onekey-sdk-search --> onekey-sdk-icon
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-search-result --> onekey-sdk-icon
