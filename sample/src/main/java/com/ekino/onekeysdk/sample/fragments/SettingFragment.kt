@@ -55,6 +55,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         themeSpinner.setOnTouchListener(listener)
         themeSpinner.setSelection(selectedTheme)
         initHomeSpinner()
+        initMapService()
         initLanguageSpinner()
 
         tvResetDefault.text = tvResetDefault.text.run {
@@ -77,6 +78,12 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
                 }
             }
         }
+    }
+
+    private fun initMapService() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.mapService, 0)
+        if (selectedPosition == 0) rBtnOpenStreetMap.isChecked = true
+        else rBtnGoogleMap.isChecked = true
     }
 
     private fun initLanguageSpinner() {
@@ -114,6 +121,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
             putInt(Pref.home, if (homeGroup.checkedRadioButtonId == rBtnFull.id) 0 else 1)
+            putInt(Pref.mapService, if (mapGroup.checkedRadioButtonId == rBtnOpenStreetMap.id) 0 else 1)
             putInt(Pref.language, languageSpinner.selectedItemPosition)
         }
         super.onPause()

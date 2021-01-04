@@ -203,6 +203,8 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .entryScreen(ScreenReference.SEARCH_NEAR_ME)
         } else if (homeMode == 1)
             builder.entryScreen(ScreenReference.HOME_FULL)
+        builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
+        builder.googleMapKey("key")
 
         OneKeySDK.getInstance().init(builder.build())
         OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)

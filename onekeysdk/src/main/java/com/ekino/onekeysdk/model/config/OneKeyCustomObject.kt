@@ -1,10 +1,9 @@
 package com.ekino.onekeysdk.model.config
 
 import android.graphics.Typeface
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.annotation.Size
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.extensions.MapService
 import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.extensions.isNullable
 import java.util.*
@@ -62,7 +61,8 @@ data class OneKeyCustomObject private constructor(
         val colorViewBackground: String, val colorCardBorder: String, val colorButtonBorder: String,
         val colorButtonBackground: String, val colorButtonAcceptBackground: String,
         val colorButtonDiscardBackground: String, val apiKey: String, val locale: String,
-        val specialities: ArrayList<String>, @ScreenReference val screenReference: Int) {
+        val specialities: ArrayList<String>, @ScreenReference val screenReference: Int,
+        @MapService val mapService: Int, val googleMapKey: String) {
 
     @Suppress
     data class Builder(
@@ -105,7 +105,9 @@ data class OneKeyCustomObject private constructor(
             var apiKey: String = "1",
             var locale: String = "en",
             var specialities: ArrayList<String> = arrayListOf(),
-            @ScreenReference var screenReference: Int = ScreenReference.HOME) {
+            @ScreenReference var screenReference: Int = ScreenReference.HOME,
+            @MapService var mapService: Int = MapService.OSM,
+            var googleMapKey: String = "") {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -200,6 +202,8 @@ data class OneKeyCustomObject private constructor(
         fun locale(locale: String) = apply { this.locale = locale }
         fun specialities(specialities: ArrayList<String>) = apply { this.specialities = specialities }
         fun entryScreen(@ScreenReference screenReference: Int) = apply { this.screenReference = screenReference }
+        fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
+        fun googleMapKey(googleMapKey: String) = apply { this.googleMapKey = googleMapKey }
 
         fun build() = OneKeyCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon,
@@ -208,7 +212,8 @@ data class OneKeyCustomObject private constructor(
                 fontProfileSubTitle, fontProfileTitleSection, fontCardTitle, fontModalTitle, fontSortCriteria,
                 colorListBackground, colorDark, colorGrey, colorGreyDark, colorGreyDarker, colorGreyLight,
                 colorGreyLighter, colorPrimary, colorVoteDown, colorViewBackground, colorCardBorder, colorButtonBorder,
-                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities, screenReference)
+                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities,
+                screenReference, mapService, googleMapKey)
     }
 
     fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language

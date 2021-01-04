@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.extensions
 
 import android.location.Location
 import com.ekino.onekeysdk.model.OneKeyLocation
+import com.google.android.gms.maps.model.LatLng
 import org.osmdroid.util.GeoPoint
 
 const val mapZoomInEvent = 0
@@ -27,6 +28,7 @@ fun getDummyHCP(): ArrayList<OneKeyLocation> {
  */
 fun GeoPoint.getLocationString(): String = "$latitude,$longitude"
 
+fun Location.getLatLng():LatLng = LatLng(latitude, longitude)
 /**
  * [Location]
  */
