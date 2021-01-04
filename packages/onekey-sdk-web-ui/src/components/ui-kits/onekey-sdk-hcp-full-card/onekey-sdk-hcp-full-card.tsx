@@ -1,6 +1,6 @@
-import { Component, Host, h, Event, State, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil/core';
 import cls from 'classnames';
-import { uiStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { uiStore, searchMapStore, configStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getFullCardDetail } from 'onekey-sdk-web-ui/src/core/api/hcp';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
 import { t } from '../../../utils/i18n';
@@ -12,6 +12,17 @@ import { t } from '../../../utils/i18n';
 export class OnekeySdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() confirm: boolean;
+  
+  @Listen('mapClicked')
+  onMapClicked() {
+    configStore.setState({
+      modal: {
+        title: '',
+        className: 'profile-map__modal',
+        component: 'onekey-sdk-profile-map',
+      },
+    });
+  }
 
   componentWillLoad() {
     getFullCardDetail({

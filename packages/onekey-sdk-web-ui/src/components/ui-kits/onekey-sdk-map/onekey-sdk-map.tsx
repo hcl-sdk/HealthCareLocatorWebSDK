@@ -18,6 +18,7 @@ export class OnekeySdkMap {
   @State() selectedMarkerIdx;
   @Prop() mapHeight: string = '100%';
   @Prop() mapWidth: string = '100%';
+  @Prop() mapMinHeight: string = '0px';
   @Prop() locations = [];
   @Prop() defaultZoom: number;
   @Prop() selectedLocationIdx: number;
@@ -236,7 +237,7 @@ export class OnekeySdkMap {
         <div
           class={this.zoomControl ? '' : 'map--no-controls'}
           onClick={this.handleMapClick}
-          style={{ height: this.mapHeight, width: this.mapWidth }}
+          style={{ height: this.mapHeight, width: this.mapWidth, minHeight: this.mapMinHeight }}
           id={`map-${Date.now()}`}
           ref={el => (this.mapElm = el as HTMLInputElement)}
         />

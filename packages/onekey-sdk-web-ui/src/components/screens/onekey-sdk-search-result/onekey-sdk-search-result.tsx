@@ -81,7 +81,7 @@ export class OnekeySdkSearchResult {
   onOpenSort = () => {
     configStore.setState({
       modal: {
-        title: 'Sort',
+        title: t('sort_label'),
         component: 'onekey-sdk-sort',
       },
     });
