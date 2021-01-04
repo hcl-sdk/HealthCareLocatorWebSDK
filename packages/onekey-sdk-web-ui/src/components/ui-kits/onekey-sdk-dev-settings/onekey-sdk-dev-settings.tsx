@@ -6,6 +6,7 @@ interface DevSettings {
 }
 
 const defaultSettings = {
+  lang: 'en',
   homeMode: 'min',
   screenLayout: 'desktop',
 };
@@ -23,6 +24,14 @@ const loadSettings = (): DevSettings => {
 };
 
 const optionSets = [
+  {
+    key: 'lang',
+    label: 'Language',
+    options: [
+      { label: 'English', value: 'en' },
+      { label: 'French', value: 'fr' },
+    ],
+  },
   {
     key: 'homeMode',
     label: 'Home mode',
@@ -57,9 +66,13 @@ export class OneKeySDKViewport {
   applySettings() {
     const oneKeySDK = document.querySelector('onekey-sdk');
     const wrapper = document.querySelector('.onekey-sdk-wrapper');
-    wrapper.classList.remove(...optionSets.find(o => o.key === 'screenLayout').options.map(o => o.value))
+    wrapper.classList.remove(...optionSets.find(o => o.key === 'screenLayout').options.map(o => o.value));
     wrapper.classList.add(this.settings.screenLayout);
     oneKeySDK.updateConfig({ homeMode: this.settings.homeMode });
+
+    if (this.settings.lang && document.documentElement.lang !== this.settings.lang) {
+      document.documentElement.lang = this.settings.lang;
+    }
   }
 
   changeSetting(k, v) {
@@ -73,7 +86,7 @@ export class OneKeySDKViewport {
 
   handleCollapseBtnClick = () => {
     this.isCollapsed = !this.isCollapsed;
-  }
+  };
 
   renderSetting(setting) {
     return (
@@ -92,13 +105,15 @@ export class OneKeySDKViewport {
 
   render() {
     const className = cls('dev-settings', {
-      collapsed: this.isCollapsed
-    })
+      collapsed: this.isCollapsed,
+    });
     return (
       <Host>
         <slot></slot>
         <div class={className}>
-          <div class="dev-settings-collapse-btn" onClick={this.handleCollapseBtnClick}>{this.isCollapsed ? '<' : '>'}</div>
+          <div class="dev-settings-collapse-btn" onClick={this.handleCollapseBtnClick}>
+            {this.isCollapsed ? '<' : '>'}
+          </div>
           {optionSets.map(optionSet => this.renderSetting(optionSet))}
         </div>
       </Host>

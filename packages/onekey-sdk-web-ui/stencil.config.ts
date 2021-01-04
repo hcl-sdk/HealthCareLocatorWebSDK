@@ -14,11 +14,17 @@ export const config: Config = {
       dir: 'docs',
     },
     {
-      type: 'dist'
+      type: 'dist',
+      copy: [
+        { src: 'i18n' }
+      ]
     },
     {
       type: 'www',
       serviceWorker: null, // disable service workers
+      copy: [
+        { src: 'i18n' }
+      ]
     }
   ],
   plugins: [

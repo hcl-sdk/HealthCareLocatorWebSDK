@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { uiStore, searchMapStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getFullCardDetail } from 'onekey-sdk-web-ui/src/core/api/hcp';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
+import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
   styleUrl: 'onekey-sdk-hcp-full-card.scss',
@@ -13,7 +14,7 @@ export class OnekeySdkHCPFullCard {
   @State() confirm: boolean;
 
   componentWillLoad() {
-    getFullCardDetail({ 
+    getFullCardDetail({
       activityId: searchMapStore.state.selectedActivity.id,
       activityName: searchMapStore.state.selectedActivity.name,
     });
@@ -53,7 +54,7 @@ export class OnekeySdkHCPFullCard {
           <div class={toolbarClass}>
             <div class="search-back-large">
               <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={this.backFromHcpFullCard.emit}>
-                <span class="hidden-mobile">Back to result list</span>
+                <span class="hidden-mobile">{t('back_to_search_results')}</span>
               </onekey-sdk-button>
             </div>
             <onekey-sdk-button noBorder noBackground icon="share" iconColor={getCssColor('--onekeysdk-color-grey_dark')} />
@@ -93,7 +94,7 @@ export class OnekeySdkHCPFullCard {
                     )}
 
                     <div class="info-section-header">
-                      <span class="info-section-header__title">Main Information</span>
+                      <span class="info-section-header__title">{t('main_information_label')}</span>
                       <div class="info-section-header__postfix">
                         <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
                           <onekey-sdk-button round icon="direction" noBackground iconColor={getCssColor('--onekeysdk-color-secondary')} />
@@ -155,7 +156,7 @@ export class OnekeySdkHCPFullCard {
                     individualDetail.specialties.length > 0 &&
                     <div class="info-section">
                       <div class="info-section-header">
-                        <span class="info-section-header__title">Specialties</span>
+                        <span class="info-section-header__title">{t('specialities_label')}</span>
                       </div>
 
                       <div class="info-section-body">
@@ -168,7 +169,7 @@ export class OnekeySdkHCPFullCard {
               {/* Block Rate and refunds */}
               <div class="info-section">
                 <div class="info-section-header">
-                  <span class="info-section-header__title">Rate and refunds</span>
+                  <span class="info-section-header__title">{t('rate_refunds_label')}</span>
                 </div>
 
                 <div class="info-section-body">
@@ -180,19 +181,19 @@ export class OnekeySdkHCPFullCard {
               {/* Block Information */}
               <div class="info-section">
                 <div class="info-section-header">
-                  <span class="info-section-header__title">Information</span>
+                  <span class="info-section-header__title">{t('information_label')}</span>
                 </div>
 
                 <div class="info-section-body">
-                  <span>Was the information you were given about this HCP/HCO correct?</span>
+                  <span>{t('information_description')}</span>
                   <div class="info-contact info-section-body__correct">
                     <div class={confirmYesClass} onClick={() => this.onConfirm(true)}>
                       <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="like" />
-                      <span>Yes</span>
+                      <span>{t('information_yes_label')}</span>
                     </div>
                     <div class={confirmNoClass} onClick={() => this.onConfirm(false)}>
                       <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="dislike" />
-                      <span>No</span>
+                      <span>{t('information_no_label')}</span>
                     </div>
                   </div>
                 </div>
@@ -202,7 +203,7 @@ export class OnekeySdkHCPFullCard {
 
               <div class="info-section">
                 <div class="info-section-header">
-                  <span class="info-section-header__title">Improve the data quality</span>
+                  <span class="info-section-header__title">{t('improve_quality_label')}</span>
                 </div>
 
                 <div class="info-section-body">
@@ -210,7 +211,7 @@ export class OnekeySdkHCPFullCard {
 
                   <onekey-sdk-button isFull class="suggest-edit-btn">
                     <onekey-sdk-icon name="edit" color={getCssColor('--onekeysdk-color-secondary')} />
-                    <span>Suggest a modification</span>
+                    <span>{t('suggess_modification_button')}</span>
                   </onekey-sdk-button>
                 </div>
               </div>

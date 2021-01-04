@@ -1,4 +1,5 @@
 import { Component, h, Host, Event, EventEmitter } from '@stencil/core';
+import { t } from '../../../../utils/i18n';
 
 @Component({
   tag: 'onekey-sdk-home-min',
@@ -12,8 +13,7 @@ export class OnekeySdkHomeMin {
         <div class="main-block">
           <div class="home">
             <div class="header">
-              <span class="title">Find and Locate</span>
-              <span class="title">Healthcare Professional</span>
+              <span class="title" innerHTML={t('home_title')} />
             </div>
 
             <div class="content">
@@ -22,27 +22,25 @@ export class OnekeySdkHomeMin {
                   <onekey-sdk-icon name="search" width={17} height={17} />
                 </div>
                 <div class="item__message">
-                  <strong>Find and Locate other HCP</strong>
+                  <strong>{t('home_feat_find_hcp_title')}</strong>
                   <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                 </div>
               </div>
-
               <div class="item">
                 <div class="item__icon">
                   <onekey-sdk-icon name="personal" />
                 </div>
                 <div class="item__message">
-                  <strong>Consult Profile</strong>
+                  <strong>{t('home_feat_consult_profile_title')}</strong>
                   <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                 </div>
               </div>
-
               <div class="item">
                 <div class="item__icon">
                   <onekey-sdk-icon name="edit" />
                 </div>
                 <div class="item__message">
-                  <strong>Request my Information update</strong>
+                  <strong>{t('home_feat_request_info_update_title')}</strong>
                   <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
                 </div>
               </div>
@@ -50,7 +48,7 @@ export class OnekeySdkHomeMin {
 
             <div class="full-block hidden-tablet hidden-desktop">
               <onekey-sdk-button isFull primary onClick={this.goSearchScreen.emit} class="search-btn">
-                Start a New Search
+                {t('start_new_search')}
               </onekey-sdk-button>
             </div>
           </div>

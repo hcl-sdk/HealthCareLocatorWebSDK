@@ -8,17 +8,19 @@ import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
+import { getI18nLabels, t } from '../../../utils/i18n';
+import { HTMLStencilElement } from '@stencil/core/internal';
 
 const defaults = {
-  homeMode: 'min'
-}
+  homeMode: 'min',
+};
 @Component({
   tag: 'onekey-sdk',
   styleUrl: 'onekey-sdk.scss',
   shadow: true,
 })
 export class OneKeySDK {
-  @Element() el: HTMLElement;
+  @Element() el: HTMLStencilElement;
   @Prop() config: OneKeySDKConfigData;
 
   parentEl;
@@ -31,7 +33,7 @@ export class OneKeySDK {
 
   @Method()
   searchNearMe({ specialtyCode, specialtyLabel }) {
-    searchMapStore.setSearchFieldValue('address', NEAR_ME_ITEM.name);
+    searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setSearchFieldValue('name', specialtyLabel);
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
@@ -44,12 +46,21 @@ export class OneKeySDK {
     }
   }
 
-  componentWillLoad() {
+  async componentWillLoad() {
+    const closestElement = this.el.closest('[lang]') as HTMLElement;
+    const lang = closestElement ? closestElement.lang : 'en';
+
+    if (closestElement) {
+      this.observeChangeLang(closestElement);
+    }
+
+    await getI18nLabels(lang);
+
     applyDefaultTheme();
     configStore.setState(merge({}, defaults, this.config));
 
     const parent = this.el.parentElement;
-    parent.style.padding = "0";
+    parent.style.padding = '0';
     // add a position (if not defined) to parent element in order to stretch
     // the sdk wrapper dimensions using absolute position
     if (getComputedStyle(parent).position === 'static') {
@@ -81,8 +92,20 @@ export class OneKeySDK {
     }
   }
 
+  observeChangeLang(targetElement: Element) {
+    const observer = new MutationObserver(mutationsList => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+          const lang = targetElement.getAttribute('lang');
+          getI18nLabels(lang);
+        }
+      }
+    });
+    observer.observe(targetElement, { attributes: true, childList: false, subtree: false });
+  }
+
   updateParentDims() {
-    uiStore.setParentDims(this.parentEl.getBoundingClientRect())
+    uiStore.setParentDims(this.parentEl.getBoundingClientRect());
   }
 
   render() {
