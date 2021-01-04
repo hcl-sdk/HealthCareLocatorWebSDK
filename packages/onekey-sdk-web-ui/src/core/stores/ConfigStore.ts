@@ -17,6 +17,7 @@ export interface OneKeySDKConfigData {
   input?: OnekeySDKConfig;
   modeView?: ModeViewType;
   homeMode?: 'full' | 'min';
+  i18nBundlesPath?: string;
   modal?: Modal;
   entry?: any;
 }

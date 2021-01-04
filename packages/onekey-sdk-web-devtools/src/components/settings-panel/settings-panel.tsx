@@ -28,6 +28,7 @@ const defaultSettings = {
   apiKey: '1234AZERTY',
   theme: 'default' as Theme,
   homeMode: 'min' as const,
+  lang: 'en'
 }
 
 const storeSettings = (settings: Fields) => {
@@ -141,6 +142,7 @@ export class SettingsPanel {
   picker: any;
 
   componentWillLoad() {
+    this.updateLanguage();
     if (this.fields.theme === 'custom') {
       this.setCustomTheme();
     }
@@ -149,6 +151,13 @@ export class SettingsPanel {
       patch.homeMode = this.fields.homeMode;
     }
     this.updateSDKConfig(patch);
+  }
+
+  updateLanguage = () => {
+    const htmlElement = document.documentElement;
+    if (this.fields.lang !== htmlElement.lang) {
+      document.documentElement.lang = this.fields.lang;
+    }
   }
 
   updateSDKConfig = (patch: any) => {
@@ -187,6 +196,7 @@ export class SettingsPanel {
           homeMode: value
         })
       }
+      this.updateLanguage();
     };
   }
 
@@ -419,6 +429,17 @@ export class SettingsPanel {
             </option>
             <option value="full" selected={this.fields.homeMode === 'full'}>
               Full
+            </option>
+          </select>
+        </div>
+        <div class="row">
+          <label>Language</label>
+          <select name="lang" onChange={this.handleChange('lang')}>
+            <option value="en" selected={this.fields.lang === 'en'}>
+              English
+            </option>
+            <option value="fr" selected={this.fields.lang === 'fr'}>
+              Français
             </option>
           </select>
         </div>

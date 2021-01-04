@@ -4,4 +4,5 @@ interface Fields {
   apiKey: string;
   theme: Theme;
   homeMode: 'full' | 'min';
+  lang: string;
 }
