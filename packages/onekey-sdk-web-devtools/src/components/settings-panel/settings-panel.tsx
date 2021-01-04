@@ -1,7 +1,7 @@
 import { Component, h, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
 import * as icons from './icons'
-import Prism from 'prismjs';
+// import Prism from 'prismjs';
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
@@ -150,6 +150,7 @@ export class SettingsPanel {
 
   picker: any;
   iconCodePreview: any;
+  ICON_STORE_NAME = "__onekeysdk-devtools-custom-icon"
 
   componentWillLoad() {
     this.updateLanguage();
@@ -247,10 +248,11 @@ export class SettingsPanel {
   };
 
   editIcon = (iconKey: string) => {
+    const value = this.getCustomIcon(iconKey)
     this.view = 'icon';
     this.editedIcon = {
       key: iconKey,
-      value: icons[iconKey]
+      value: value || icons[iconKey]
     };
   }
 
@@ -298,6 +300,39 @@ export class SettingsPanel {
     this.customThemeOverrides = nextCustomTheme;
   };
 
+  applyCustomIcon = (prop: string, value: string) => {
+    
+    const customizedIcon = window.localStorage.getItem(this.ICON_STORE_NAME);
+    const trimValue = value.replace(/(\r\n|\n|\r)/gm, "").replace(/>\s+|\s+</g, (m) => m.trim())
+    let newCustomizedIcon = {}
+    try {
+      const parsedCustIcon = JSON.parse(customizedIcon);
+      newCustomizedIcon = {
+        ...parsedCustIcon,
+        [prop]: trimValue
+      }
+    } catch(error) {
+      newCustomizedIcon = {
+        [prop]: trimValue
+      }
+    }
+
+    this.updateSDKConfig({ icons: newCustomizedIcon });
+
+    window.localStorage.setItem(this.ICON_STORE_NAME, JSON.stringify(newCustomizedIcon))
+  }
+
+  getCustomIcon = (prop: string) => {
+    let customizedIcon = null
+    try {
+      const parsedCustIcon = JSON.parse(window.localStorage.getItem(this.ICON_STORE_NAME));
+      customizedIcon = parsedCustIcon[prop]
+    } catch(_) {}
+
+    return customizedIcon
+  }
+
+
   applyFont = () => {
     const fonts = ALL_PROPS.filter(p => p.key.includes(this.editedFont.key));
     if (fonts.length) {
@@ -324,8 +359,16 @@ export class SettingsPanel {
     this.backToCustomTheme();
   };
 
-  applyIcon = () => {
-    console.log("applyIcon TODO")
+  applyIcon = (newIcon) => {
+    if(newIcon) {
+      this.applyCustomIcon(this.editedIcon.key, this.editedIcon.value)
+    } else {
+      this.applyCustomIcon(this.editedIcon.key, icons[this.editedIcon.key])
+      this.editedIcon = {
+        ...this.editedIcon,
+        value: icons[this.editedIcon.key]
+      }
+    }
   }
 
   updateEditedFont = (propName: string) => e => (this.editedFont = { ...this.editedFont, [propName]: (e.target as any).value });
@@ -598,41 +641,34 @@ export class SettingsPanel {
   }
 
   renderIconView() {
-    const content = `
-      <svg
-        version="1.2"
-        preserveAspectRatio="none"
-        viewBox="0 0 24 24"
-      >
-      ${this.editedIcon.value}
-      </svg>
-    `
-    const out = Prism.highlight(content, Prism.languages.svg, 'svg')
+    // const out = Prism.highlight(this.editedIcon.value, Prism.languages.svg, 'svg')
     return (
       <section>
         <div class="title-wrapper">
           <button onClick={this.backToCustomTheme} class="back">
             <i class="icono-arrow1-right"></i>
           </button>
-          <h2 class="title-var">Colors {this.renderPropName('icon', this.editedIcon.key)}</h2>
+          <h2 class="title-var">Icon {this.renderPropName('icon', this.editedIcon.key)}</h2>
         </div>
         <div
           class="icon-preview">
-          <span innerHTML={content} />
+          <span innerHTML={this.editedIcon.value} />
         </div>
         <div class="row">
-          <label>
-            <span>Icon</span>
-          </label>
-
-          <pre class="language-markup" contentEditable onInput={this.onChangeIconInput}>
+          <textarea cols={30} rows={20} onInput={this.onChangeIconInput} value={this.editedIcon.value}>
+            {this.editedIcon.value}
+          </textarea>
+          {/* <pre class="language-markup" contentEditable onInput={this.onChangeIconInput}>
             <code class="language-svg">
               <span innerHTML={out} />
             </code>
-          </pre>
+          </pre> */}
         </div>
-        <button class="btn-full save-theme" onClick={this.applyIcon}>
-          OK
+        <button class="btn-full btn-success save-theme" onClick={() => this.applyIcon(false)}>
+          Revert
+        </button>
+        <button class="btn-full save-theme" onClick={() => this.applyIcon(true)}>
+          Apply
         </button>
       </section>
     );

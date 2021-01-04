@@ -21,13 +21,15 @@ export interface OneKeySDKConfigData {
   i18nBundlesPath?: string;
   modal?: Modal;
   entry?: any;
+  icons: any
 }
 
 export const initStateConfigStore = {
   // User input config
   input: DEFAULT_CONFIGURATION,
   modeView: ModeViewType.LIST,
-  modal: undefined
+  modal: undefined,
+  icons: {}
 };
 
 class ConfigStore extends StoreProvider<OneKeySDKConfigData> {}
