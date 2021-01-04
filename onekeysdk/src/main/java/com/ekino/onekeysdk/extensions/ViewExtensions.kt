@@ -8,6 +8,7 @@ import android.graphics.drawable.*
 import android.graphics.drawable.shapes.RoundRectShape
 import android.view.View
 import android.widget.CheckBox
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import java.util.*
 
@@ -109,6 +110,14 @@ fun CheckBox.setLayerList(normalBackgroundColor: Int, activatedBackgroundColor: 
 
 fun Context.getDrawableById(drawableId: Int): Drawable? =
         ContextCompat.getDrawable(this, drawableId)
+
+fun ImageView.setIconFromDrawableId(drawableId: Int, useColorFilter: Boolean = false, colorFilter: Int = 0) {
+    if (useColorFilter) {
+        setImageDrawable(context.getDrawableById(drawableId))
+        setColorFilter(colorFilter)
+    } else
+        setImageDrawable(context.getDrawableById(drawableId))
+}
 
 fun Context?.getSharedPref(): SharedPreferences? = this?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)
 

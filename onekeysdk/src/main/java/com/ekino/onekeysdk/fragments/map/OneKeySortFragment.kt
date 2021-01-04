@@ -11,6 +11,7 @@ import com.ekino.onekeysdk.adapter.sort.OneKeySortAdapter
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.extensions.setRippleBackground
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeySortObject
@@ -45,6 +46,7 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
 
         btnApply.setRippleBackground(theme.colorPrimary.getColor(), 8f)
         btnReset.setRippleBackground(theme.colorButtonDiscardBackground.getColor(), 8f)
+        btnClose.setIconFromDrawableId(theme.iconCross, true, theme.colorGrey.getColor())
         contentWrapper.setBackgroundWithCorner(Color.WHITE, theme.colorCardBorder.getColor(), 12f, 3)
         container.setBackgroundColor(theme.colorViewBackground.getColor())
         rvSort.apply {

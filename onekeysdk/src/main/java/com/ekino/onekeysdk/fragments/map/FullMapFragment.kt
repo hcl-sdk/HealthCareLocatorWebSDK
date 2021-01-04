@@ -17,7 +17,6 @@ import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.text.OneKeyTextView
 import com.ekino.onekeysdk.extensions.*
@@ -27,6 +26,7 @@ import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import com.ekino.onekeysdk.utils.OneKeyLog
@@ -61,8 +61,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject =
-            OneKeySDK.getInstance().getConfiguration()
+    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
     private val fragmentState: IFragmentState by lazy {
         FragmentState(
                 childFragmentManager,
@@ -213,6 +212,9 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         sortWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 50f, 3)
         modeWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 50f, 3)
         ivSort.setRippleCircleBackground(oneKeyCustomObject.colorSecondary.getColor(), 255)
+        ivSort.setIconFromDrawableId(oneKeyCustomObject.iconSort, true, Color.WHITE)
+        ivList.setIconFromDrawableId(oneKeyCustomObject.iconList)
+        ivMap.setIconFromDrawableId(oneKeyCustomObject.iconMap)
         resultContainer.setBackgroundColor(oneKeyCustomObject.colorListBackground.getColor())
         tvAddress.textSize = oneKeyCustomObject.fontSmall.size.toFloat()
         ivSort.setOnClickListener(this)

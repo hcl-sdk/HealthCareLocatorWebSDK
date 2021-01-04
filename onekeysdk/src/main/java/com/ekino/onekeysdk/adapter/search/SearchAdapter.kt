@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.model.activity.ActivityObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.layout_search_item.view.*
 
 class SearchAdapter(private val screenWidth: Int = -1) :
@@ -35,6 +36,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
                 tvDistance.text = itemView.context.getString(R.string.one_key_distance_unit_android, "${Math.round(data.distance)}")
+                ivArrow.setIconFromDrawableId(themeConfig.iconArrowRight)
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {
                     onHCPCardClickedListener(data)

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.extensions.pushFragment
 import base.fragments.AppFragment
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.LastConsultedAdapter
 import com.ekino.onekeysdk.adapter.home.LastSearchAdapter
@@ -24,6 +23,7 @@ import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.viewmodel.home.OneKeyHomFullViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_home_full.*
 import org.osmdroid.util.GeoPoint
@@ -99,6 +99,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             lastConsultedWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             contentWrapper.setBackgroundColor(it.colorViewBackground.getColor())
             ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
+            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
             edtSearch.textSize = it.fontSearchInput.size.toFloat()

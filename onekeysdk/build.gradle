@@ -15,6 +15,12 @@ android {
         versionCode 1
         versionName "1.0.0"
 
+        Properties properties = new Properties()
+        if (rootProject.file("map.properties").exists()) {
+            properties.load(rootProject.file("map.properties").newDataInputStream())
+        }
+        manifestPlaceholders = [mapsApiKey: properties.getProperty("MAPS_API_KEY", "")]
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

@@ -12,13 +12,13 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.home.HomeViewModel
 import com.iqvia.onekey.GetProfileQuery
@@ -45,6 +45,7 @@ class OneKeyHomeFragment :
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             container.setBackgroundColor(it.colorViewBackground.getColor())
             ivSearch.setRippleBackground(it.colorPrimary.getColor(), 12f)
+            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             btnStartSearch.setRippleBackground(it.colorPrimary)
             edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
@@ -64,7 +65,8 @@ class OneKeyHomeFragment :
                 adapter = homeAdapter
             }
         })
-        homeAdapter.setData(getHomeDummy())
+        homeAdapter.setData(getHomeDummy(oneKeyCustomObject.searchIcon, oneKeyCustomObject.iconProfile,
+                oneKeyCustomObject.editIcon))
 
         val apolloClient = ApolloClient.builder()
                 .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()

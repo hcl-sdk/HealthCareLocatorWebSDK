@@ -62,7 +62,11 @@ data class OneKeyCustomObject private constructor(
         val colorButtonBackground: String, val colorButtonAcceptBackground: String,
         val colorButtonDiscardBackground: String, val apiKey: String, val locale: String,
         val specialities: ArrayList<String>, @ScreenReference val screenReference: Int,
-        @MapService val mapService: Int, val googleMapKey: String) {
+        @MapService val mapService: Int, val iconCross: Int, val iconGeoLoc: Int,
+        val iconMarkerMin: Int, val iconSort: Int, val iconList: Int, val iconMap: Int,
+        val iconArrowRight: Int, val iconMapGeoLoc: Int, val iconPhone: Int, val iconFax: Int,
+        val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
+        val iconLocation: Int) {
 
     @Suppress
     data class Builder(
@@ -107,7 +111,21 @@ data class OneKeyCustomObject private constructor(
             var specialities: ArrayList<String> = arrayListOf(),
             @ScreenReference var screenReference: Int = ScreenReference.HOME,
             @MapService var mapService: Int = MapService.OSM,
-            var googleMapKey: String = "") {
+            var iconCross: Int = R.drawable.baseline_close_black_24dp,
+            var iconGeoLoc: Int = R.drawable.baseline_location_searching_black_24dp,
+            var iconMarkerMin: Int = R.drawable.outline_location_on_black_24dp,
+            var iconSort: Int = R.drawable.baseline_sort_white_24dp,
+            var iconList: Int = R.drawable.baseline_list_white_24dp,
+            var iconMap: Int = R.drawable.baseline_map_white_24dp,
+            var iconArrowRight: Int = R.drawable.baseline_keyboard_arrow_right_black_36dp,
+            var iconMapGeoLoc: Int = R.drawable.baseline_my_location_black_24dp,
+            var iconPhone: Int = R.drawable.baseline_call_black_36dp,
+            var iconFax: Int = R.drawable.baseline_print_black_36dp,
+            var iconWebsite: Int = R.drawable.ic_network,
+            var iconVoteUp: Int = R.drawable.ic_like_gray,
+            var iconVoteDown: Int = R.drawable.ic_dislike_gray,
+            var iconProfile: Int = R.drawable.ic_profile,
+            var iconLocation: Int = R.drawable.outline_location_on_black_36dp) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -122,9 +140,25 @@ data class OneKeyCustomObject private constructor(
             this.fontDefault = fontDefaultSize ?: this.fontDefault
         }
 
-        fun searchIcon(searchIcon: Int) = apply { this.searchIcon = searchIcon }
-        fun editIcon(editIcon: Int) = apply { this.editIcon = editIcon }
-        fun markerIcon(markerIcon: Int) = apply { this.markerIcon = markerIcon }
+        fun iconSearch(searchIcon: Int) = apply { this.searchIcon = searchIcon }
+        fun iconProfile(iconProfile: Int) = apply { this.iconProfile = iconProfile }
+        fun iconEdit(editIcon: Int) = apply { this.editIcon = editIcon }
+        fun iconMapMarker(markerIcon: Int) = apply { this.markerIcon = markerIcon }
+        fun iconCross(iconCross: Int) = apply { this.iconCross = iconCross }
+        fun iconSort(iconSort: Int) = apply { this.iconSort = iconSort }
+        fun iconList(iconList: Int) = apply { this.iconList = iconList }
+        fun iconMap(iconMap: Int) = apply { this.iconMap = iconMap }
+        fun iconArrowRight(iconArrowRight: Int) = apply { this.iconArrowRight = iconArrowRight }
+        fun iconVoteDown(iconVoteDown: Int) = apply { this.iconVoteDown = iconVoteDown }
+        fun iconVoteUp(iconVoteUp: Int) = apply { this.iconVoteUp = iconVoteUp }
+        fun iconFax(iconFax: Int) = apply { this.iconFax = iconFax }
+        fun iconWebsite(iconPhone: Int) = apply { this.iconWebsite = iconWebsite }
+        fun iconPhone(iconPhone: Int) = apply { this.iconPhone = iconPhone }
+        fun iconMapGeoLoc(iconMapGeoLoc: Int) = apply { this.iconMapGeoLoc = iconMapGeoLoc }
+        fun iconGeoLoc(iconGeoLoc: Int) = apply { this.iconGeoLoc = iconGeoLoc }
+        fun iconMarkerMin(iconMarkerMin: Int) = apply { this.iconMarkerMin = iconMarkerMin }
+        fun iconLocation(iconLocation: Int) = apply { this.iconLocation = iconLocation }
+
         fun fontSearchInput(fontSearchInput: OneKeyViewFontObject?) = apply {
             if (fontSearchInput.isNullable()) return@apply
             this.fontSearchInput = fontSearchInput!!
@@ -203,7 +237,6 @@ data class OneKeyCustomObject private constructor(
         fun specialities(specialities: ArrayList<String>) = apply { this.specialities = specialities }
         fun entryScreen(@ScreenReference screenReference: Int) = apply { this.screenReference = screenReference }
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
-        fun googleMapKey(googleMapKey: String) = apply { this.googleMapKey = googleMapKey }
 
         fun build() = OneKeyCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon,
@@ -213,7 +246,9 @@ data class OneKeyCustomObject private constructor(
                 colorListBackground, colorDark, colorGrey, colorGreyDark, colorGreyDarker, colorGreyLight,
                 colorGreyLighter, colorPrimary, colorVoteDown, colorViewBackground, colorCardBorder, colorButtonBorder,
                 colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities,
-                screenReference, mapService, googleMapKey)
+                screenReference, mapService, iconCross, iconGeoLoc, iconMarkerMin, iconSort, iconList,
+                iconMap, iconArrowRight, iconMapGeoLoc, iconPhone, iconFax, iconWebsite, iconVoteUp,
+                iconVoteDown, iconProfile, iconLocation)
     }
 
     fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language

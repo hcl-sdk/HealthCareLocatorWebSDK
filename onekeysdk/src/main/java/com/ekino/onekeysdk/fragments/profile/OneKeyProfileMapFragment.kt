@@ -53,6 +53,10 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
             }
         }, 500L)
         initView()
+        oneKeyCustomObject.apply {
+            btnCurrentLocation.setIconFromDrawableId(iconMapGeoLoc)
+            btnClose.setIconFromDrawableId(iconCross, true, colorGrey.getColor())
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

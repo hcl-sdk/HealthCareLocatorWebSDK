@@ -198,6 +198,7 @@
                                     android:orientation="horizontal">
 
                                     <ImageView
+                                        android:id="@+id/ivPhone"
                                         android:layout_width="@dimen/default_icon_size_small"
                                         android:layout_height="@dimen/default_icon_size_small"
                                         android:padding="@dimen/default_padding_tiny"
@@ -225,6 +226,7 @@
                                     android:orientation="horizontal">
 
                                     <ImageView
+                                        android:id="@+id/ivFax"
                                         android:layout_width="@dimen/default_icon_size_small"
                                         android:layout_height="@dimen/default_icon_size_small"
                                         android:padding="@dimen/default_padding_tiny"
@@ -253,6 +255,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/ivBrowser"
                                     android:layout_width="@dimen/default_icon_size_small"
                                     android:layout_height="@dimen/default_icon_size_small"
                                     android:padding="@dimen/default_padding_tiny"

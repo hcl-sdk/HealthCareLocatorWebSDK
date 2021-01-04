@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.extensions.addFragment
 import base.extensions.pushFragment
 import base.fragments.AppFragment
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.IndividualAdapter
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
@@ -23,6 +22,7 @@ import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
 import com.iqvia.onekey.GetIndividualByNameQuery
@@ -106,6 +106,11 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             ivNearMe.setRippleCircleBackground(primaryColor, 26)
             ivLocationSelected.setRippleCircleBackground(primaryColor, 26)
             selectionLine.setBackgroundColor(primaryColor)
+            ivSpecialityClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
+            ivAddressClear.setIconFromDrawableId(it.iconCross, true, it.colorGrey.getColor())
+            btnSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
+            ivNearMe.setIconFromDrawableId(it.iconGeoLoc, true, it.colorPrimary.getColor())
+            ivLocationSelected.setIconFromDrawableId(it.iconMarkerMin, true, it.colorPrimary.getColor())
         }
         btnBack.setOnClickListener(this)
         ivSpecialityClear.setOnClickListener(this)

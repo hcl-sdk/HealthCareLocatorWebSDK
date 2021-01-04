@@ -94,6 +94,10 @@ class OneKeyProfileFragment :
         })
         btnBack.setOnClickListener { activity?.onBackPressed() }
         oneKeyCustomObject.apply {
+            ivLocationOutLine.setIconFromDrawableId(iconLocation, true, colorMarkerSelected.getColor())
+            ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
+            ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
+            ivBrowser.setIconFromDrawableId(iconWebsite, true, colorGrey.getColor())
             cbxYes.setLayerList(Color.WHITE, colorPrimary.getColor(),
                     colorGreyLight.getColor(), 3, R.drawable.ic_like_gray, R.drawable.ic_like)
             cbxNo.setLayerList(Color.WHITE, colorVoteDown.getColor(),
