@@ -18,7 +18,7 @@
     display: block;
     line-height: 21px;
 
-    @include applyFontStyle("title_main");
+    @include applyFontStyle('title_main');
   }
 
   .item {
@@ -101,7 +101,8 @@
   }
 
   // Responsive base on container
-  .size-desktop, .size-tablet {
+  .size-desktop,
+  .size-tablet {
     .search-home-hpc {
       form {
         position: relative;
@@ -129,6 +130,12 @@
         .title {
           font-size: 24px;
           display: inline-block;
+          br {
+            content: '';
+          }
+          br:after {
+            content: '\00a0';
+          }
         }
       }
 
@@ -179,7 +186,8 @@
     }
   }
 
-  .size-desktop, .size-tablet {
+  .size-desktop,
+  .size-tablet {
     .card {
       width: 640px;
       margin: 32px auto;
@@ -203,7 +211,7 @@
       padding: 5px 0;
       outline: none;
       cursor: pointer;
-      @include applyFontStyle("small");
+      @include applyFontStyle('small');
     }
   }
 
@@ -214,14 +222,14 @@
     align-items: center;
     padding: 10px;
 
-    @include applyFontStyle("card_title");
+    @include applyFontStyle('card_title');
   }
 
   .card__content-wrapper {
     &--with-padding {
       padding: 10px;
     }
-    .info-section-body__map{
+    .info-section-body__map {
       cursor: pointer;
     }
   }
@@ -257,7 +265,7 @@
       top: 0;
       right: 0;
       svg path {
-        fill: var(--onekeysdk-color-grey)!important; // @TODO change path in SVG
+        fill: var(--onekeysdk-color-grey) !important; // @TODO change path in SVG
       }
     }
   }

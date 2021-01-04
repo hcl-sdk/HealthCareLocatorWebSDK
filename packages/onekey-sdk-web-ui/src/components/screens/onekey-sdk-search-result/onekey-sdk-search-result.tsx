@@ -7,6 +7,7 @@ import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { NEAR_ME } from '../../../core/constants';
+import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-search-result',
   styleUrl: 'onekey-sdk-search-result.scss',
@@ -110,11 +111,11 @@ export class OnekeySdkSearchResult {
       <div class={className}>
         <div class="search-back-large hidden-mobile">
           <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={() => this.goBackToHome()}>
-            <span class="text-small">Back to my last searches</span>
+            <span class="text-small">{t('back_to_home')}</span>
           </onekey-sdk-button>
         </div>
         <div class="search-result__wrapper">
-          <strong class="search-result__total">Results: </strong>
+          <strong class="search-result__total">{t('results_label')}: </strong>
           <strong class="search-result__total-value text-primary text-bold">{specialties.length}</strong>
         </div>
         <div class="hidden-desktop hidden-tablet switch-mode">
@@ -134,15 +135,15 @@ export class OnekeySdkSearchResult {
       return null;
     }
 
-    const { 
-      specialties, 
-      selectedActivity, 
-      locationFilter, 
-      searchFields, 
-      loadingActivities 
+    const {
+      specialties,
+      selectedActivity,
+      locationFilter,
+      searchFields,
+      loadingActivities
     } = searchMapStore.state;
 
-    const selectedAddressName = locationFilter?.id === NEAR_ME ? locationFilter.name : searchFields.address;
+    const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
     const isListView = configStore.state.modeView === ModeViewType.LIST;
@@ -192,7 +193,7 @@ export class OnekeySdkSearchResult {
               </div>
             </div>
           ) : (
-            <onekey-sdk-search searchText="Search" showSwitchMode />
+            <onekey-sdk-search searchText={t('search')} showSwitchMode />
           ))}
 
         <Fragment>

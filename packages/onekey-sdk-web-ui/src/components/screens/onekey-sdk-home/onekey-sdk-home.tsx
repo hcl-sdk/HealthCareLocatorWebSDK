@@ -1,5 +1,6 @@
 import { Component, h, Host, Listen } from '@stencil/core';
 import { configStore, routerStore, searchMapStore, uiStore } from '../../../core/stores';
+import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-home',
   styleUrl: 'onekey-sdk-home.scss',
@@ -31,14 +32,14 @@ export class OnekeySdkHome {
     const { breakpoint } = uiStore.state;
 
     if (breakpoint.screenSize === 'desktop' || breakpoint.screenSize === 'tablet') {
-      return <onekey-sdk-search searchText="Search" />;
+      return <onekey-sdk-search searchText={t('search')} />;
     }
 
     return (
       <div class="header-block">
         <div class="search-home-hpc">
           <form onSubmit={this.onSubmit}>
-            <input class="search-input" placeholder="Find Healthcare Professional" onFocus={this.onSearch} />
+            <input class="search-input" placeholder={t('find_healthcare_professional')} onFocus={this.onSearch} />
             <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="btn--icon search-address-btn" />
           </form>
         </div>

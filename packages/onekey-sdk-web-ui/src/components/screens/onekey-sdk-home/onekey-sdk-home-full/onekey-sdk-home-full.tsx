@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import { Component, h, Host, State, Listen } from '@stencil/core';
 import { historyStore, routerStore, searchMapStore } from '../../../../core/stores';
+import { t } from '../../../../utils/i18n';
 import { NEAR_ME_ITEM, HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
 @Component({
@@ -13,7 +14,7 @@ export class OnekeySdkHomeFull {
 
   @Listen('mapClicked')
   onMapClicked() {
-    searchMapStore.setSearchFieldValue('address', NEAR_ME_ITEM.name);
+    searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: null,
@@ -92,7 +93,7 @@ export class OnekeySdkHomeFull {
       <Host>
         <div class="card card--near-me">
           <div class="card__title-wrapper">
-            <h3 class="card__title">HCPs near me</h3>
+            <h3 class="card__title">{t('hcps_near_me')}</h3>
           </div>
           <div class="card__content-wrapper card__content-wrapper--with-padding">
             <onekey-sdk-map
@@ -111,7 +112,7 @@ export class OnekeySdkHomeFull {
         {!!searchItems.length && (
           <div class="card">
             <div class="card__title-wrapper">
-              <h3 class="card__title">Last searches</h3>
+              <h3 class="card__title">{t('last_searches')}</h3>
               {this.renderViewMore(searchItems, 'showMoreSearchItems')}
             </div>
             <div class="card__content-wrapper">{this.renderSearchHistory()}</div>
@@ -120,7 +121,7 @@ export class OnekeySdkHomeFull {
         {!!hcpItems.length && (
           <div class="card">
             <div class="card__title-wrapper">
-              <h3 class="card__title">Last HCPs consulted</h3>
+              <h3 class="card__title">{t('last_hcps_consulted')}</h3>
               {this.renderViewMore(hcpItems, 'showMoreHcpItems')}
             </div>
             <div class="card__content-wrapper">{this.renderHcpHistory()}</div>

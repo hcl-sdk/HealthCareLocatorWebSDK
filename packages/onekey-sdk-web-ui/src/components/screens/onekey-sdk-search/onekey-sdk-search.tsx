@@ -7,6 +7,7 @@ import { searchGeoMap } from '../../../core/api/searchGeo';
 import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { HistorySearchItem } from '../../../core/stores/HistoryStore';
+import { t } from '../../../utils/i18n';
 
 @Component({
   tag: 'onekey-sdk-search',
@@ -90,7 +91,7 @@ export class OnekeySdkSearch {
     const item = e.detail;
     // "Near Me" special Case
     if (item.id === NEAR_ME) {
-      searchMapStore.setSearchFieldValue('address', item.name);
+      searchMapStore.setSearchFieldValue('address', t('near_me'));
       searchMapStore.setState({
         locationFilter: item,
       });
@@ -251,7 +252,7 @@ export class OnekeySdkSearch {
                       postfixIcon={searchMapStore.state.searchFields.name ? 'remove' : ''}
                       name="name"
                       value={searchMapStore.state.searchFields.name}
-                      placeholder="Name, Specialty"
+                      placeholder={t('search_first_field_label')}
                       onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={nameInputLoading}
@@ -269,7 +270,7 @@ export class OnekeySdkSearch {
                       postfixIcon={searchMapStore.state.searchFields.address ? 'remove' : ''}
                       name="address"
                       value={searchMapStore.state.searchFields.address}
-                      placeholder="Where? (address, city...)"
+                      placeholder={t('search_second_field_label')}
                       onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={addressInputLoading}

@@ -2,6 +2,7 @@ import { Component, Host, h } from '@stencil/core';
 import cn from 'classnames';
 import { configStore, searchMapStore, uiStore } from 'onekey-sdk-web-ui/src/core/stores';
 import sortBy from 'lodash.sortby';
+import { t } from '../../../utils/i18n';
 
 @Component({
   tag: 'onekey-sdk-sort',
@@ -54,26 +55,26 @@ export class OnekeySdkSort {
           <form class="sort-body" onSubmit={this.onSubmit}>
             <div class="sort-option">
               <div class="sort-option-item">
-                <label htmlFor="relevance">Relevance</label>
+                <label htmlFor="relevance">{t('relevance_item')}</label>
                 <onekey-sdk-input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
               </div>
 
               <div class="sort-option-item">
-                <label htmlFor="distance">Distance</label>
+                <label htmlFor="distance">{t('distance_item')}</label>
                 <onekey-sdk-input type="checkbox" id="distance" name="distance" checked={distance} onInput={this.onChange} />
               </div>
 
               <div class="sort-option-item">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">{t('name_item')}</label>
                 <onekey-sdk-input type="checkbox" id="lastName" name="lastName" checked={lastName} onInput={this.onChange} />
               </div>
             </div>
             <div class="sort-action">
               <onekey-sdk-button isFull type="button" onClick={this.onReset}>
-                Reset
+                {t('reset_button')}
               </onekey-sdk-button>
               <onekey-sdk-button isFull type="submit">
-                Apply
+                {t('apply_button')}
               </onekey-sdk-button>
             </div>
           </form>

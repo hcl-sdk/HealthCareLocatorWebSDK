@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { uiStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { Modal } from 'onekey-sdk-web-ui/src/core/stores/ConfigStore';
 import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
+import { t } from '../../../utils/i18n';
 
 @Component({
   tag: 'onekey-sdk-modal',
@@ -27,11 +28,11 @@ export class OnekeySdkModal {
         <div class="modal-container">
           <div class={modalClass}>
             <div class="modal-title">
-              <span class="title">Sort</span>
-              <onekey-sdk-icon 
+              <span class="title">{t('sort_label')}</span>
+              <onekey-sdk-icon
                 name="remove"
                 onClick={this.onClose}
-                color={getCssColor("--onekeysdk-color-grey_dark")} 
+                color={getCssColor("--onekeysdk-color-grey_dark")}
                 width={17}
                 height={17}
               />
