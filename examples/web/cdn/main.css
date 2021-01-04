@@ -26,10 +26,12 @@ body {
   display: none;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .burger > div {
   height: 4px;
+  transition: 0.3s;
   background-color: #001f3f;
 }
 
@@ -164,5 +166,14 @@ body {
   }
   .menu-opened .sidebar .menu {
     display: block;
+  }
+  .menu-opened .burger > div:first-child {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .menu-opened .burger > div:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-opened .burger > div:last-child {
+    transform: translateY(-9px) rotate(-45deg);
   }
 }
