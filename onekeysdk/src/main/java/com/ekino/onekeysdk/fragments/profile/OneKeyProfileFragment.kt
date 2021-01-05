@@ -98,10 +98,12 @@ class OneKeyProfileFragment :
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
             ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
             ivBrowser.setIconFromDrawableId(iconWebsite, true, colorGrey.getColor())
-            cbxYes.setLayerList(Color.WHITE, colorPrimary.getColor(),
-                    colorGreyLight.getColor(), 3, R.drawable.ic_like_gray, R.drawable.ic_like)
-            cbxNo.setLayerList(Color.WHITE, colorVoteDown.getColor(),
-                    colorGreyLight.getColor(), 3, R.drawable.ic_dislike_gray, R.drawable.ic_dislike)
+            cbxYes.setLayerListFromDrawable(Color.WHITE, colorPrimary.getColor(),
+                    colorGreyLight.getColor(), 3, context!!.getDrawableFilledIcon(iconVoteUp, colorGreyLight.getColor()),
+                    context!!.getDrawableFilledIcon(iconVoteUp, Color.WHITE))
+            cbxNo.setLayerListFromDrawable(Color.WHITE, colorVoteDown.getColor(),
+                    colorGreyLight.getColor(), 3, context!!.getDrawableFilledIcon(iconVoteDown, colorGreyLight.getColor()),
+                    context!!.getDrawableFilledIcon(iconVoteDown, Color.WHITE))
         }
     }
 
@@ -166,6 +168,7 @@ class OneKeyProfileFragment :
         applyStyles()
 
         mapOverlay.setOnClickListener(this)
+        phoneWrapper.setOnClickListener(this)
         btnShare.setOnClickListener(this)
         tvWebsite.setOnClickListener(this)
         ivDirection.setOnClickListener(this)
@@ -177,12 +180,8 @@ class OneKeyProfileFragment :
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.ivCall -> {
-                if (phone.isEmpty()) return
-                val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${this.phone}")
-                startActivity(intent)
-            }
+            R.id.ivCall -> callToPhone()
+            R.id.phoneWrapper -> callToPhone()
             R.id.ivDirection -> {
                 val obj = (addressSpinner.selectedItem as? OtherActivityObject) ?: return
                 if (obj.workplace?.address?.location.isNotNullable()) {
@@ -240,6 +239,13 @@ class OneKeyProfileFragment :
             if (address.isNotNullable())
                 getRunningMapFragment()?.drawAddressOnMap(arrayListOf(address!!), true)
         }
+    }
+
+    private fun callToPhone() {
+        if (phone.isEmpty()) return
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:${this.phone}")
+        startActivity(intent)
     }
 
     private fun applyStyles() {

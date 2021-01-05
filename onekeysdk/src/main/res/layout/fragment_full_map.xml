@@ -114,8 +114,8 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/default_padding"
-                    android:paddingTop="@dimen/default_padding_smaller"
-                    android:paddingBottom="@dimen/default_padding_smaller">
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
 
                     <com.ekino.onekeysdk.custom.text.OneKeyTextView
                         android:id="@+id/tvResultLabel"
@@ -158,9 +158,9 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingStart="@dimen/default_padding_small"
-                            android:paddingTop="@dimen/default_padding_tiny"
+                            android:paddingTop="3dp"
                             android:paddingEnd="@dimen/default_padding_small"
-                            android:paddingBottom="@dimen/default_padding_tiny">
+                            android:paddingBottom="3dp">
 
                             <ImageView
                                 android:id="@+id/ivList"
@@ -184,9 +184,9 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingStart="@dimen/default_padding_small"
-                            android:paddingTop="@dimen/default_padding_tiny"
+                            android:paddingTop="3dp"
                             android:paddingEnd="@dimen/default_padding_small"
-                            android:paddingBottom="@dimen/default_padding_tiny">
+                            android:paddingBottom="3dp">
 
                             <ImageView
                                 android:id="@+id/ivMap"

@@ -107,6 +107,29 @@ fun CheckBox.setLayerList(normalBackgroundColor: Int, activatedBackgroundColor: 
     }
 }
 
+fun CheckBox.setLayerListFromDrawable(normalBackgroundColor: Int, activatedBackgroundColor: Int,
+                          strokeColor: Int, strokeWidth: Int, normalIcon: Drawable?, activatedIcon: Drawable?,
+                          radius: Float = 12f) {
+    val normalDrawable = GradientDrawable().apply {
+        cornerRadius = radius
+        setColor(normalBackgroundColor)
+        setStroke(strokeWidth, strokeColor)
+    }
+    val activatedDrawable = GradientDrawable().apply {
+        cornerRadius = radius
+        setColor(activatedBackgroundColor)
+        setStroke(strokeWidth, strokeColor)
+    }
+    val normalInset = InsetDrawable(normalIcon, 20, 10, 20, 10)
+    val activatedInset = InsetDrawable(activatedIcon, 20, 10, 20, 10)
+    val normalLayer = LayerDrawable(arrayOf(normalDrawable, normalInset))
+    val activatedLayer = LayerDrawable(arrayOf(activatedDrawable, activatedInset))
+    buttonDrawable = StateListDrawable().apply {
+        addState(intArrayOf(android.R.attr.state_checked), activatedLayer)
+        addState(intArrayOf(), normalLayer)
+    }
+}
+
 
 fun Context.getDrawableById(drawableId: Int): Drawable? =
         ContextCompat.getDrawable(this, drawableId)

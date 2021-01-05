@@ -12,6 +12,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 
 fun Context.getDrawableFilledIcon(drawableId: Int, color: Int): Drawable? {
     val unWrappedDrawable = ContextCompat.getDrawable(this, drawableId)
+            ?.constantState?.newDrawable()?.mutate()
     return unWrappedDrawable?.apply {
         val wrappedDrawable = DrawableCompat.wrap(unWrappedDrawable)
         DrawableCompat.setTint(wrappedDrawable, color)
