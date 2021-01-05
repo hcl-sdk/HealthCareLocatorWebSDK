@@ -16,4 +16,7 @@ interface OneKeyState {
      */
     @Throws(OneKeyException::class)
     fun startOneKeySDKFragment(activity: AppCompatActivity?, containerId: Int)
+
+    @Throws(OneKeyException::class)
+    fun startOneKeySDKActivity(activity: AppCompatActivity?)
 }

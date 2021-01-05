@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.layout_one_key_last_consulted.view.*
 
 class LastConsultedAdapter(private val theme: OneKeyCustomObject =
@@ -29,6 +31,7 @@ class LastConsultedAdapter(private val theme: OneKeyCustomObject =
                 tvCreateAt.text = data.createdDate
                 tvCreateAt.textSize = theme.fontSmall.size.toFloat()
 
+                ivClear.setIconFromDrawableId(theme.iconCross, true, theme.colorGrey.getColor())
                 ivClear.setOnClickListener {
                     remove(position)
                     onItemRemovedListener(data, position)

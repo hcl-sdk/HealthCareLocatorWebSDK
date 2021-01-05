@@ -161,6 +161,7 @@
                         </LinearLayout>
 
                         <FrameLayout
+                            android:id="@+id/spinnerWrapper"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/default_padding"
@@ -211,10 +212,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/ivPhone"
                                     android:layout_width="@dimen/default_icon_size_small"
                                     android:layout_height="@dimen/default_icon_size_small"
                                     android:padding="@dimen/default_padding_tiny"
@@ -242,6 +245,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/ivFax"
                                     android:layout_width="@dimen/default_icon_size_small"
                                     android:layout_height="@dimen/default_icon_size_small"
                                     android:padding="@dimen/default_padding_tiny"
@@ -270,6 +274,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/ivBrowser"
                                 android:layout_width="@dimen/default_icon_size_small"
                                 android:layout_height="@dimen/default_icon_size_small"
                                 android:padding="@dimen/default_padding_tiny"
@@ -397,10 +402,8 @@
 
                             <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
                                 android:id="@+id/cbxYes"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/default_padding_tiny"
-                                android:button="@drawable/bg_cbx_positive"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
@@ -416,10 +419,8 @@
 
                             <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
                                 android:id="@+id/cbxNo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/default_padding_tiny"
-                                android:button="@drawable/bg_cbx_negative"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
 

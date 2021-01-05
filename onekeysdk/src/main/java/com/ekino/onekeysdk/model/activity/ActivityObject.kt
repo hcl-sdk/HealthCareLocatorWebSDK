@@ -74,7 +74,8 @@ class ActivityObject(@SerializedName("id") var id: String = "",
         this.webAddress = activity.webAddress() ?: ""
         this.role = LabelObject().parse(activity.role())
         this.workplace = ActivityWorkplaceObject().parse(activity.workplace())
-        this.individual = ActivityIndividualObject().parse(activity.individual())
+        this.individual = ActivityIndividualObject().parse(activity.individual(),
+                OtherActivityObject(id, phone, role, fax, webAddress, workplace))
         return this
     }
 

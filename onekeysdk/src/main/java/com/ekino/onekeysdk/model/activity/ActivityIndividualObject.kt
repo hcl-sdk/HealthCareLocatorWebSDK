@@ -6,12 +6,12 @@ import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.model.LabelObject
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
-import java.util.*
 
 class ActivityIndividualObject(var id: String = "", var firstName: String = "", var lastName: String = "",
                                var middleName: String = "", var mailingName: String = "",
                                var specialties: ArrayList<LabelObject> = ArrayList(),
-                               var professionalType: LabelObject? = null) : Parcelable {
+                               var professionalType: LabelObject? = null,
+                               var otherActivities: ArrayList<OtherActivityObject> = arrayListOf()) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -19,7 +19,8 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.createTypedArrayList(LabelObject) ?: arrayListOf(),
-            parcel.readParcelable(LabelObject::class.java.classLoader)) {
+            parcel.readParcelable(LabelObject::class.java.classLoader),
+            parcel.createTypedArrayList(OtherActivityObject) ?: arrayListOf()) {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -31,6 +32,7 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
             writeString(mailingName)
             writeTypedList(specialties)
             writeParcelable(professionalType, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
+            writeTypedList(otherActivities)
         }
     }
 
@@ -51,7 +53,7 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
     /**
      * Convert data from GraphQL
      */
-    fun parse(data: GetActivityByIdQuery.Individual?): ActivityIndividualObject {
+    fun parse(data: GetActivityByIdQuery.Individual?, activity: OtherActivityObject): ActivityIndividualObject {
         if (data.isNullable()) return this
         this.id = data!!.id()
         this.firstName = data.firstName() ?: ""
@@ -65,13 +67,22 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
                     add(LabelObject().parse(it))
             }
         }
+        this.otherActivities = arrayListOf<OtherActivityObject>().apply {
+            add(activity)
+            add(OtherActivityObject().addMock())
+            data.otherActivities().forEach {
+                add(OtherActivityObject(it.id(), it.phone() ?: "", null, it.fax() ?: "",
+                        it.webAddress()
+                                ?: "", ActivityWorkplaceObject().parse(it.workplace(), it.id())))
+            }
+        }
         return this
     }
 
     fun parse(data: GetActivitiesQuery.Individual?): ActivityIndividualObject {
         if (data.isNullable()) return this
         this.id = data!!.id()
-        this.firstName = data.firstName()?:""
+        this.firstName = data.firstName() ?: ""
         this.lastName = data.lastName()
         this.mailingName = data.mailingName() ?: ""
         this.professionalType = LabelObject().parse(data.professionalType())

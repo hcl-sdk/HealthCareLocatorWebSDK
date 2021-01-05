@@ -1,6 +1,5 @@
 package com.ekino.onekeysdk.service.location
 
-import android.util.Log
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,7 +15,7 @@ class OneKeyMapService<T> private constructor() {
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().run {
                 addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-                    Log.d("OneKeyMapService", it)
+//                    println(it)
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 build()
             })

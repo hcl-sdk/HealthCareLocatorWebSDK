@@ -7,6 +7,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.extensions.setRippleCircleBackground
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -25,6 +26,7 @@ class OneKeyPlaceAdapter(private val oneKeyCustomObject: OneKeyCustomObject?,
             oneKeyCustomObject?.also {
                 itemView.apply {
                     tvAddress.text = data.displayName
+                    ivLocation.setIconFromDrawableId(oneKeyCustomObject.iconMarkerMin)
                     ivLocation.setRippleCircleBackground(oneKeyCustomObject.colorPrimary)
                     ivLocation.setColorFilter(oneKeyCustomObject.colorPrimary.getColor())
                     setOnClickListener { onPlaceClickedListener.onPlaceClickedListener(data) }

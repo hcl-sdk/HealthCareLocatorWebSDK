@@ -1,21 +1,40 @@
 package com.ekino.onekeysdk.extensions
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.TypedArray
 import android.text.format.DateUtils
 import android.view.View
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
+import com.ekino.onekeysdk.utils.OneKeyLog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
 fun Int.isValidPosition(size: Int) = this in 0..size.minus(1)
+
+/**
+ * String
+ */
+fun Context?.getMetaDataFromManifest(name: String): String {
+    return try {
+        this?.run {
+            val applicationInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+            applicationInfo.metaData.getString(name)
+        } ?: ""
+    } catch (e: Exception) {
+        OneKeyLog.e(OneKeyException(ErrorReference.DATA_INVALID, "Can not get Google map API Key.").toString())
+        ""
+    }
+}
 
 /**
  * Boolean
@@ -35,10 +54,11 @@ inline fun <reified T : Enum<T>> TypedArray.getEnum(index: Int, default: T) =
 /**
  * @link [com.ekino.onekeysdk.model.home.OneKeyHomeObject]
  */
-fun getHomeDummy(): ArrayList<OneKeyHomeObject> = arrayListOf<OneKeyHomeObject>().apply {
-    add(OneKeyHomeObject("0", "Find and Locate other HCP", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.baseline_search_white_24dp))
-    add(OneKeyHomeObject("1", "Consult Profile", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.ic_profile))
-    add(OneKeyHomeObject("0", "Request my Information update", "Lorem ipsum dolor sit amet, consect adipiscing elit", R.drawable.baseline_edit_white_36dp))
+fun getHomeDummy(icon1: Int = R.drawable.baseline_search_white_24dp, icon2: Int = R.drawable.ic_profile,
+                 icon3: Int = R.drawable.baseline_edit_white_36dp): ArrayList<OneKeyHomeObject> = arrayListOf<OneKeyHomeObject>().apply {
+    add(OneKeyHomeObject("0", "Find and Locate other HCP", "Lorem ipsum dolor sit amet, consect adipiscing elit", icon1))
+    add(OneKeyHomeObject("1", "Consult Profile", "Lorem ipsum dolor sit amet, consect adipiscing elit", icon2))
+    add(OneKeyHomeObject("0", "Request my Information update", "Lorem ipsum dolor sit amet, consect adipiscing elit", icon3))
 }
 
 /**
@@ -103,6 +123,21 @@ fun SharedPreferences.removeConsultedProfile(gson: Gson = Gson(), obj: SearchObj
 fun SharedPreferences.getLastSearches(gson: Gson = Gson()): ArrayList<SearchObject> {
     return gson.fromJson(this.getString("LastSearches", "[]") ?: "[]",
             object : TypeToken<ArrayList<SearchObject>>() {}.type)
+}
+
+fun SharedPreferences.getVoteById(gson: Gson = Gson(), id: String): Int {
+    return getVotes(gson)[id] ?: -1
+}
+
+fun SharedPreferences.getVotes(gson: Gson = Gson()): HashMap<String, Int> {
+    return gson.fromJson(getString("ActivityVotes", "{}") ?: "{}",
+            object : TypeToken<HashMap<String, Int>>() {}.type)
+}
+
+fun SharedPreferences.storeVote(gson: Gson = Gson(), id: String, vote: Int) {
+    val votes = getVotes(gson)
+    votes[id] = vote
+    edit { putString("ActivityVotes", gson.toJson(votes)) }
 }
 
 /**

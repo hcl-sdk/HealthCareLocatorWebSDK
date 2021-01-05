@@ -13,6 +13,7 @@ import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getFragmentBy
 import com.ekino.onekeysdk.extensions.getScreenWidth
 import com.ekino.onekeysdk.extensions.postDelay
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import kotlinx.android.synthetic.main.fragment_map_result.*
@@ -66,6 +67,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             else if (parentFragment is OneKeyNearMeFragment) (parentFragment as OneKeyNearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
         btnCurrentLocation.setOnClickListener(this)
+        btnCurrentLocation.setIconFromDrawableId(oneKeyCustomObject.iconMapGeoLoc)
     }
 
     override fun onClick(v: View?) {

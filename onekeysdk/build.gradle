@@ -15,6 +15,12 @@ android {
         versionCode 1
         versionName "1.0.0"
 
+        Properties properties = new Properties()
+        if (rootProject.file("map.properties").exists()) {
+            properties.load(rootProject.file("map.properties").newDataInputStream())
+        }
+        manifestPlaceholders = [mapsApiKey: properties.getProperty("MAPS_API_KEY", "")]
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -91,14 +97,23 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$versions.rxJavaAdapter"
-    implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
     implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttpIntercepter"
     implementation "io.reactivex.rxjava2:rxandroid:$versions.rxAndroidVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding"
     implementation "com.apollographql.apollo:apollo-runtime:2.4.4"
     implementation "com.apollographql.apollo:apollo-android-support:2.4.4"
+    implementation "com.apollographql.apollo:apollo-rx2-support:2.4.4"
+
+    /**
+     * Google services
+     */
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
     implementation "com.google.android.gms:play-services-location:16.0.0"
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
     compileOnly "org.jetbrains:annotations:13.0"
+    testImplementation "com.google.truth:truth:1.0.1"
 
 }
 

@@ -189,6 +189,13 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 .fontCardTitle(fontCardTitle)
                 .fontModalTitle(fontModalTitle)
                 .fontSortCriteria(fontSortCriteria)
+//                .iconSearch(R.drawable.baseline_location_on_white_36dp)
+//                .iconProfile(R.drawable.baseline_map_white_24dp)
+//                .iconCross(R.drawable.baseline_share_black_36dp)
+//                .iconMarkerMin(R.drawable.baseline_directions_black_36dp)
+//                .iconSort(R.drawable.baseline_location_on_white_36dp)
+//                .iconMapGeoLoc(R.drawable.baseline_print_black_36dp)
+//                .iconLocation(R.drawable.baseline_list_white_24dp)
                 .locale(if (language == 0) "en" else "fr")
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
@@ -203,9 +210,11 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .entryScreen(ScreenReference.SEARCH_NEAR_ME)
         } else if (homeMode == 1)
             builder.entryScreen(ScreenReference.HOME_FULL)
+        builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
 
         OneKeySDK.getInstance().init(builder.build())
         OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
+//        OneKeySDK.getInstance().startOneKeySDKActivity(this)
     }
 
     private fun getFontSetting(json: String): OneKeyViewFontObject =

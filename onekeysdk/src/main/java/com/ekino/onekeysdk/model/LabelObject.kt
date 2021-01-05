@@ -97,4 +97,16 @@ class LabelObject(@SerializedName("code") var code: String = "",
         this.label = data!!.label()
         return this
     }
+
+    fun parse(data: GetActivityByIdQuery.County1?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
+        return this
+    }
+
+    fun parse(data: GetActivityByIdQuery.City1?): LabelObject {
+        if (data.isNullable()) return this
+        this.label = data!!.label()
+        return this
+    }
 }

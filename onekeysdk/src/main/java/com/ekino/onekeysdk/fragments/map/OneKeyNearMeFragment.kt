@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
@@ -92,9 +93,10 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
             }.map { childFragmentManager.beginTransaction().remove(it).commit() }
         else navigateToProfile = false
 
-        labelWrapper.visibility = View.GONE
-        newSearchWrapper.visibility = View.VISIBLE
+        labelWrapper.visibility = View.VISIBLE
+        newSearchWrapper.visibility = View.GONE
         oneKeyCustomObject.apply {
+            tvSpeciality.text = TextUtils.join(", ", specialities)
             newSearchWrapper.setBackgroundWithCorner(Color.WHITE, colorCardBorder.getColor(), 12f, 3)
             ivSearch.setRippleBackground(colorPrimary.getColor(), 15f)
             sortWrapper.setBackgroundWithCorner(Color.WHITE, colorCardBorder.getColor(), 50f, 3)
@@ -194,12 +196,15 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
     }
 
     private fun initHeader() {
-        tvSpeciality.text = speciality?.longLbl ?: criteria
         tvAddress.text = place?.displayName ?: ""
         mapViewMode.setRippleBackground(oneKeyCustomObject.colorPrimary.getColor(), 50f)
         sortWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 50f, 3)
         modeWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 50f, 3)
         ivSort.setRippleCircleBackground(oneKeyCustomObject.colorSecondary.getColor(), 255)
+        ivSort.setIconFromDrawableId(oneKeyCustomObject.iconSort, true, Color.WHITE)
+        ivSearch.setIconFromDrawableId(oneKeyCustomObject.searchIcon, true, Color.WHITE)
+        ivList.setIconFromDrawableId(oneKeyCustomObject.iconList)
+        ivMap.setIconFromDrawableId(oneKeyCustomObject.iconMap)
         resultContainer.setBackgroundColor(oneKeyCustomObject.colorListBackground.getColor())
         tvAddress.textSize = oneKeyCustomObject.fontSmall.size.toFloat()
         ivSort.setOnClickListener(this)

@@ -38,6 +38,7 @@ object Pref {
 
     const val home = "Pref.home"
     const val language = "Pref.language"
+    const val mapService = "Pref.mapService"
 }
 
 fun getThemes(): ArrayList<ThemeObject> = arrayListOf<ThemeObject>().apply {

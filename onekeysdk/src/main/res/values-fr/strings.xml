@@ -2,14 +2,14 @@
 <resources>
 
     <string name="one_key_home_title">Rechercher et localiser\nProfessionnel de la santé</string>
-    <string name="one_key_start_new_search">Lancer une nouvelle recherche</string>
+    <string name="one_key_start_new_search">Démarrer une nouvelle recherche</string>
     <string name="app_name">OneKeySDK</string>
     <string name="one_key_hcps_near_me">HCP à proximité</string>
     <string name="one_key_last_searches">Dernières recherches</string>
     <string name="one_key_view_more">Voir plus</string>
     <string name="one_key_view_less">Voir moins</string>
-    <string name="one_key_last_hcps_consulted">Derniers HCP consultés</string>
-    <string name="one_key_find_healthcare_professional">Trouver un professionnel de la santé</string>
+    <string name="one_key_last_hcps_consulted">Derniers HCPs consultés</string>
+    <string name="one_key_find_healthcare_professional">Rechercher un Professionnel de Santé</string>
     <!--Search-->
     <string name="one_key_search_first_field_label">Nom, spécialité</string>
     <string name="one_key_search_second_field_label">Où? (l\'addresse de la ville…)</string>
@@ -30,13 +30,13 @@
     <string name="one_key_reset_button">Réinitialiser</string>
 
     <!--HCP profile-->
-    <string name="one_key_main_information_label">Main Information</string>
-    <string name="one_key_rate_refunds_label">Rate and refunds</string>
-    <string name="one_key_specialities_label">Specialties</string>
-    <string name="one_key_information_label">Information</string>
-    <string name="one_key_information_description">Was the information you were given about this HCP/HCO correct?</string>
-    <string name="one_key_information_yes_label">Yes</string>
-    <string name="one_key_information_no_label">No</string>
-    <string name="one_key_improve_quality_label">Improve the data quality</string>
-    <string name="one_key_suggess_modification_button">Suggest a modification\u0020</string>
+    <string name="one_key_main_information_label">Informations générales</string>
+    <string name="one_key_rate_refunds_label">Prix et remboursements</string>
+    <string name="one_key_specialities_label">Spécialités</string>
+    <string name="one_key_information_label">Informations</string>
+    <string name="one_key_information_description">Les informations à propos de ce HCP étaient-elles correctes?</string>
+    <string name="one_key_information_yes_label">Oui</string>
+    <string name="one_key_information_no_label">Non</string>
+    <string name="one_key_improve_quality_label">Améliorer la qualité des données</string>
+    <string name="one_key_suggess_modification_button">Suggérer une modification\u0020</string>
 </resources>

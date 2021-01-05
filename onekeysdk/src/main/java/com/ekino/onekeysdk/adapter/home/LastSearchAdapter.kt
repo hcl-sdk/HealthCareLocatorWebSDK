@@ -1,15 +1,18 @@
 package com.ekino.onekeysdk.adapter.home
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.layout_one_key_last_search.view.*
 
 class LastSearchAdapter(private val theme: OneKeyCustomObject =
@@ -30,7 +33,7 @@ class LastSearchAdapter(private val theme: OneKeyCustomObject =
                 } else tvAddress.visibility = View.GONE
                 tvCreateAt.text = data.createdDate
                 tvCreateAt.textSize = theme.fontSmall.size.toFloat()
-
+                ivClear.setIconFromDrawableId(theme.iconCross, true, theme.colorGrey.getColor())
                 ivClear.setOnClickListener {
                     remove(position)
                     onItemRemovedListener(data)

@@ -4,13 +4,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import base.fragments.AppFragment
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
-import com.ekino.onekeysdk.model.activity.ActivityObject
+import com.ekino.onekeysdk.model.activity.OtherActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileMapViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile_map.*
 
@@ -18,7 +18,7 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
         OneKeyProfileMapViewModel>(R.layout.fragment_one_key_profile_map), View.OnClickListener {
 
     companion object {
-        fun newInstance(activity: ActivityObject): OneKeyProfileMapFragment =
+        fun newInstance(activity: OtherActivityObject): OneKeyProfileMapFragment =
                 OneKeyProfileMapFragment().apply {
                     this.activityObject = activity
                 }
@@ -29,7 +29,7 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
     private val mapFragment by lazy {
         MapFragment.newInstance(oneKeyCustomObject, arrayListOf(), 0f, true)
     }
-    private var activityObject: ActivityObject? = null
+    private var activityObject: OtherActivityObject? = null
 
     override val viewModel = OneKeyProfileMapViewModel()
 
@@ -45,12 +45,18 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
         mapWrapper.setBackgroundWithCorner(Color.WHITE,
                 oneKeyCustomObject.colorCardBorder.getColor(), 16f, 3)
         btnClose.setColorFilter(oneKeyCustomObject.colorGreyDark.getColor())
-        mapContainer.postDelay({
+        mapContainer.postDelay({ _ ->
             activityObject?.apply {
-                getRunningMapFragment()?.drawMarkerOnMap(arrayListOf(activityObject!!), true)
+                val address = workplace?.address
+                if (address.isNotNullable())
+                    getRunningMapFragment()?.drawAddressOnMap(arrayListOf(address!!), true)
             }
         }, 500L)
         initView()
+        oneKeyCustomObject.apply {
+            btnCurrentLocation.setIconFromDrawableId(iconMapGeoLoc)
+            btnClose.setIconFromDrawableId(iconCross, true, colorGrey.getColor())
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

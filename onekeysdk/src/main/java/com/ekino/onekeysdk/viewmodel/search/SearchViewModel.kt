@@ -3,10 +3,8 @@ package com.ekino.onekeysdk.viewmodel.search
 import android.Manifest
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
-import base.extensions.runOnUiThread
 import base.fragments.IFragment
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.search.SearchFragment
@@ -14,6 +12,7 @@ import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.OneKeyLog
 import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
@@ -150,22 +149,23 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     }
 
     private fun getCodeByLabel(name: String, callback: (ArrayList<OneKeySpecialityObject>) -> Unit) {
-        query({
+        rxQuery({
             GetCodeByLabelQuery.builder()
                     .apiKey(theme.apiKey).criteria(name).first(5).offset(0).codeTypes(listOf("SP")).build()
         }, { response ->
             if (response.data?.codesByLabel()?.codes().isNullable())
-                runOnUiThread(Runnable { callback(arrayListOf()) })
+                arrayListOf<OneKeySpecialityObject>()
             else {
                 val list = arrayListOf<OneKeySpecialityObject>()
                 response.data!!.codesByLabel()!!.codes()!!.forEach {
                     list.add(OneKeySpecialityObject().parse(it))
                 }
-                runOnUiThread(Runnable { callback(list) })
+                list
             }
-        }, { e ->
-            OneKeyLog.d("onFailure::${e.localizedMessage}")
-            runOnUiThread(Runnable { callback(arrayListOf()) })
-        }, true)
+        }, {
+            callback(it)
+        }, {
+            callback(arrayListOf())
+        })
     }
 }
