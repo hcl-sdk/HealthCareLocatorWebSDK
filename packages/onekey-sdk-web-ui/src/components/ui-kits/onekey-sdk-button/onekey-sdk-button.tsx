@@ -24,22 +24,22 @@ export class OnekeySdkButton {
   @Prop() iconHeight: number;
 
   render() {
-    const btnClass = cls('btn', this.class, {
-      'primary': this.primary,
-      'secondary': this.secondary,
-      'disabled': this.disabled,
-      'full': this.isFull,
-      'round': this.round,
-      'icon': this.icon,
-      'no-border': this.noBorder,
-      'no-background': this.noBackground,
-      'no-text-color': this.noTextColor,
+    const btnClass = cls('oksdk-btn', this.class, {
+      'oksdk-btn--primary': this.primary,
+      'oksdk-btn--secondary': this.secondary,
+      'oksdk-btn--disabled': this.disabled,
+      'oksdk-btn--full': this.isFull,
+      'oksdk-btn--round': this.round,
+      'oksdk-btn--has-icon': this.icon,
+      'oksdk-btn--no-border': this.noBorder,
+      'oksdk-btn--no-background': this.noBackground,
+      'oksdk-btn--no-text-color': this.noTextColor,
     });
 
     if (this.icon) {
       return (
         <button class={btnClass} type={this.type}>
-          <onekey-sdk-icon color={this.iconColor} name={this.icon} class="btn-icon" width={this.iconWidth} height={this.iconHeight} />
+          <onekey-sdk-icon color={this.iconColor} name={this.icon} class="oksdk-btn__icon" width={this.iconWidth} height={this.iconHeight} />
           <slot></slot>
         </button>
       );

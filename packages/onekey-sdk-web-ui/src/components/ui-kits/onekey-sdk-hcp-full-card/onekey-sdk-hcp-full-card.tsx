@@ -199,11 +199,11 @@ export class OnekeySdkHCPFullCard {
                   <span>{t('information_description')}</span>
                   <div class="info-contact info-section-body__correct">
                     <div class={confirmYesClass} onClick={() => this.onConfirm(true)}>
-                      <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="like" />
+                      <onekey-sdk-button class="oksdk-btn-rate" iconWidth={15} iconHeight={14} icon="like" />
                       <span>{t('information_yes_label')}</span>
                     </div>
                     <div class={confirmNoClass} onClick={() => this.onConfirm(false)}>
-                      <onekey-sdk-button class="btn-rate" iconWidth={15} iconHeight={14} icon="dislike" />
+                      <onekey-sdk-button class="oksdk-btn-rate" iconWidth={15} iconHeight={14} icon="dislike" />
                       <span>{t('information_no_label')}</span>
                     </div>
                   </div>
@@ -220,7 +220,7 @@ export class OnekeySdkHCPFullCard {
                 <div class="info-section-body">
                   <span>Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan.</span>
 
-                  <onekey-sdk-button isFull class="suggest-edit-btn">
+                  <onekey-sdk-button isFull class="oksdk-btn-suggest-edit">
                     <onekey-sdk-icon name="edit" color={getCssColor('--onekeysdk-color-secondary')} />
                     <span>{t('suggess_modification_button')}</span>
                   </onekey-sdk-button>

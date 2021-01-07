@@ -190,7 +190,7 @@ export class OnekeySdkSearchResult {
                 {locationFilter?.id === NEAR_ME && searchFields.name === '' ? (
                   <div class="search-home-hpc" onClick={this.goToSearch}>
                     <input class="search-input" placeholder="Find Healthcare Professional" />
-                    <onekey-sdk-button primary icon="search" class="btn--icon search-address-btn" />
+                    <onekey-sdk-button primary icon="search" class="oksdk-btn-search-address" />
                   </div>
                 ) : (
                   <Fragment>
@@ -225,7 +225,7 @@ export class OnekeySdkSearchResult {
             <div class="toggle-panel">
               <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
             </div>
-            {(!isListView && !isSmall) && (
+            {!isListView && (
               !selectedActivity ? (
                 <onekey-sdk-map
                   key="map-cluster"

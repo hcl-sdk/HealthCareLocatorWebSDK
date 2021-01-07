@@ -1,17 +1,21 @@
 :host {
-  .size-mobile .onekey-sdk-search .search-content {
-    padding: 0 15px;
-  }
-
-  .search-back {
-    align-self: flex-start;
-    display: flex;
-    padding: 5px 0;
-
-    a {
-      color: var(--onekeysdk-color-dark);
-      margin-right: 8px;
+  .oksdk-btn-search {
+    &-back {
       align-self: flex-start;
+      display: flex;
+      padding: 5px 0;
+  
+      a {
+        color: var(--onekeysdk-color-dark);
+        margin-right: 8px;
+        align-self: flex-start;
+      }
+    }
+    &-address {
+      align-self: center;
+      position: relative;
+      width: 40px;
+      height: 40px;
     }
   }
 
@@ -24,7 +28,7 @@
       margin-left: 6px;
       color: var(--onekeysdk-color-grey_dark);
     }
-    .btn {
+    .oksdk-btn {
       padding: 0;
     }
   }
@@ -40,7 +44,7 @@
     }
   }
 
-  .search-block {
+  .oksdk-search {
     position: sticky;
     width: 100%;
     top: 0;
@@ -48,89 +52,132 @@
     background-color: white;
     width: 100%;
     border-radius: 0px;
-  }
-
-  .search-content {
-    background: white;
-  }
-
-  .search-hcp {
-    display: flex;
-    align-items: center;
-  }
-
-  .search-address-btn {
-    align-self: center;
-    position: relative;
-    width: 40px;
-    height: 40px;
-  }
-
-  .search-form {
-    display: flex;
-    flex: 1;
-
-    .search-form-content {
-      flex: 1;
-      margin-right: 8px;
-      grid-gap: 8px;
-    }
-
-    .error {
-      border: 1px solid red;
-    }
-
-    &-content {
-      width: 100%;
-      position: relative;
+    border-bottom: 1px solid var(--onekeysdk-color-card_border);
+    padding: 10px;
+  
+    &__container {
       display: flex;
-      flex-direction: column;
-
-      &-item {
+      align-items: center;
+    }
+  
+    &__form {
+      display: flex;
+      flex: 1;
+  
+      .error {
+        border: 1px solid red;
+      }
+  
+      &--content {
+        flex: 1;
+        margin-right: 8px;
+        grid-gap: 8px;
+        width: 100%;
         position: relative;
-
-        &__remove {
-          position: absolute;
-          right: 0;
-          justify-content: center;
-          top: 50%;
-          transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        
+        &-item {
+          position: relative;
         }
       }
     }
+  
+    &__dropdown {
+      padding: 0 15px;
+      background-color: white;
+    }
   }
-
-  .size-desktop, .size-tablet {
+  
+  .size-tablet,
+  .size-desktop {
     onekey-sdk-search {
       z-index: 100000;
     }
-    .search-hcp {
-      justify-content: center;
-      box-shadow: 0 4px 2px -2px var(--onekeysdk-color-card_border);
+  
+    .oksdk-search {
       display: grid;
-      grid-auto-flow: column;
-    }
-    .search-form {
-      display: grid;
-      grid-template-columns: auto 150px;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 0;
-      grid-gap: 20px;
-    }
+      grid-gap: 31px;
+      grid-auto-flow: row;
+      border: none;
+      padding: 0;
+  
+      &__container {
+        padding: 0;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: center;
+        grid-template-columns: auto 145px;
+        box-shadow: 0 4px 2px -2px var(--onekeysdk-color-card_border);
+      }
+  
+      &__form {
+        display: grid;
+        grid-template-columns: auto 150px;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0;
+        grid-gap: 20px;
+  
+        &--content {
+          display: grid;
+          grid-auto-flow: column;
+          grid-gap: 20px;
+        }
+  
+        .onekey-sdk-input {
+          z-index: 1;
+          position: relative;
+          min-width: 258px;
+          margin: 0;
+          margin-bottom: 0;
+        }
 
+        .oksdk-btn-search-address {
+          padding: 0;
+          margin: 0;
+          width: 100%;
+        }
+      }
+  
+      &__dropdown {
+        position: absolute;
+        margin: -2px 0 0 0;
+        width: 100%;
+        height: max-content;
+        border: 1px solid var(--onekeysdk-color-card_border);
+        box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        overflow-y: auto;
+        max-height: 250px;
+        z-index: 0;
+      }
+    }
+    
     .reset-search {
       display: block;
       visibility: visible;
       cursor: pointer;
       margin-left: 20px;
-
+  
       span {
         text-decoration: underline;
       }
-
+  
       &.hide {
         visibility: hidden;
+      }
+    }
+
+    .oksdk-btn-search-back {
+      display: none;
+    }
+
+    // HCP Detail Page
+    .map-view-mode,
+    .list-view-mode {
+      .oksdk-search__container{
+        padding: 0 17px;
+        justify-content: space-between;
       }
     }
   }
