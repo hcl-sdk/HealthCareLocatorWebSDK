@@ -16,12 +16,14 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.activity.AddressObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.model.map.OneKeyClusterObject
+import com.ekino.onekeysdk.model.map.OneKeyGoogleMarkerItem
 import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.OneKeyConstant
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import customization.map.CustomCurrentLocationOverlay
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -34,7 +36,9 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
-class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener, OnMapReadyCallback {
+class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener, OnMapReadyCallback,
+        ClusterManager.OnClusterClickListener<OneKeyGoogleMarkerItem>,
+        ClusterManager.OnClusterItemClickListener<OneKeyGoogleMarkerItem> {
 
     companion object {
         fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
@@ -86,8 +90,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
      * Variables for google map
      */
     private lateinit var googleMap: GoogleMap
-    private lateinit var googleMapView: MapView
-    private lateinit var clusterManager: ClusterManager<OneKeyClusterObject>
+    private var clusterManager: ClusterManager<OneKeyGoogleMarkerItem>? = null
+    private var googleMapMarkerRender: GoogleMapMarkerRender? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (oneKeyCustomObject.mapService == MapService.OSM) {
@@ -113,9 +117,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             })
             return mMapView
         } else {
-            googleMapView = MapView(context)
-            googleMapView.getMapAsync(this)
-            return null
+            return inflater.inflate(R.layout.fragment_one_key_google_map, container, false)
         }
     }
 
@@ -130,9 +132,94 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     activities = list
             }
             drawMarkerOnMap(activities)
+        } else if (oneKeyCustomObject.mapService == MapService.GOOGLE_MAP) {
+            activity?.isGooglePlayServiceAvailable({
+                (childFragmentManager.findFragmentById(R.id.googleMapView)
+                        as? SupportMapFragment)?.getMapAsync(this)
+            }, { })
         }
 
 //        mMapView?.overlays?.addAll(oneKeyMarkers)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(OneKeyConstant.locations, activities)
+        outState.putBoolean("boundingBox", boundingBox)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val context: Context? = this.activity
+        locationProvider = GpsMyLocationProvider(context)
+        locationProvider!!.startLocationProvider(this)
+        if (oneKeyCustomObject.mapService == MapService.OSM) {
+            mPrefs = context!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            mLocationOverlay = CustomCurrentLocationOverlay(
+                    locationProvider!!, mMapView, R.drawable.ic_current_location)
+            mLocationOverlay!!.enableMyLocation()
+            mMapView!!.overlays.add(mLocationOverlay)
+            mRotationGestureOverlay = RotationGestureOverlay(mMapView)
+            mRotationGestureOverlay!!.isEnabled = false
+            mMapView!!.overlays.add(mRotationGestureOverlay)
+            mMapView!!.mapOrientation = 0f
+            mMapView!!.setMultiTouchControls(true)
+            mMapView!!.isTilesScaledToDpi = true
+            val zoomLevel = mPrefs!!.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1f)
+            mMapView!!.controller.setZoom(if (modifyZoomLevel > 0f) modifyZoomLevel.toDouble() else zoomLevel.toDouble())
+            val orientation = mPrefs!!.getFloat(PREFS_ORIENTATION, 0f)
+            val latitudeString = mPrefs!!.getString(PREFS_LATITUDE_STRING, "1.0")
+            val longitudeString = mPrefs!!.getString(PREFS_LONGITUDE_STRING, "1.0")
+            val latitude = java.lang.Double.valueOf(latitudeString)
+            val longitude = java.lang.Double.valueOf(longitudeString)
+            mMapView!!.setExpectedCenter(GeoPoint(latitude, longitude))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (oneKeyCustomObject.mapService == MapService.OSM) {
+            try {
+                mMapView!!.setTileSource(TileSourceFactory.WIKIMEDIA)
+            } catch (e: IllegalArgumentException) {
+                mMapView!!.setTileSource(TileSourceFactory.WIKIMEDIA)
+            }
+            mMapView?.onResume()
+        }
+    }
+
+    override fun onPause() {
+        if (oneKeyCustomObject.mapService == MapService.OSM) {
+            mPrefs?.edit {
+                putFloat(PREFS_ORIENTATION, mMapView!!.mapOrientation)
+                putString(PREFS_LATITUDE_STRING, "${mMapView!!.mapCenter.latitude}")
+                putString(PREFS_LONGITUDE_STRING, "${mMapView!!.mapCenter.longitude}")
+                if (modifyZoomLevel == 0f)
+                    putFloat(PREFS_ZOOM_LEVEL_DOUBLE, mMapView!!.zoomLevelDouble.toFloat())
+            }
+            mMapView?.onPause()
+        }
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mMapView?.onDetach()
+        locationProvider?.stopLocationProvider()
+    }
+
+    override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
+        this.lastCurrentLocation = location
+    }
+
+    override fun onMarkerClick(marker: Marker?, mapView: org.osmdroid.views.MapView?): Boolean {
+        if (mapView == null || mapView.overlays.isNullOrEmpty())
+            return true
+        marker?.let {
+            validateMarker(marker)
+            onMarkerSelectionChanged(marker.id)
+        }
+        return true
     }
 
     fun drawMarkerOnMap(activities: ArrayList<ActivityObject>, moveCamera: Boolean = false) {
@@ -180,59 +267,80 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 }
             }
         } else {
+            this.activities = activities
+            if (clusterManager.isNullable()) return
+            googleMap.clear()
+            val boundBuilder = LatLngBounds.builder()
             activities.forEach { activity ->
                 val location = activity.workplace?.address?.location?.getLatLng()
                         ?: LatLng(0.0, 0.0)
-                val item = OneKeyClusterObject(location, activity.workplace?.address?.getAddress()
-                        ?: "", "")
-                clusterManager.addItem(item)
-
+                boundBuilder.include(location)
+                val item = OneKeyGoogleMarkerItem(activity.id, activity.workplace?.address?.getAddress()
+                        ?: "", "", location)
+                clusterManager!!.addItem(item)
             }
+            boundLocations(boundBuilder)
         }
 
     }
 
     fun drawAddressOnMap(listOfAddress: ArrayList<AddressObject>, moveCamera: Boolean = false) {
-        mMapView?.apply {
-            val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>() ?: listOf()
-            overlays.removeAll(clustersFiltered)
-            val clusters = RadiusMarkerClusterer(context!!)
-            clusters.textPaint.textSize = 14 * resources.displayMetrics.density
-            clusters.mAnchorV = Marker.ANCHOR_BOTTOM
-            mMapView?.overlays?.add(clusters)
-            selectedIcon = context!!.getDrawableFilledIcon(
-                    R.drawable.ic_location_on_white_36dp,
-                    oneKeyCustomObject.colorMarkerSelected.getColor()
-            )!!
-            listOfAddress.forEach { address ->
-                val marker = OneKeyMarker(mMapView).apply {
-                    id = address.activityId
-                    setOnMarkerClickListener(this@MapFragment)
-                    val location = address.location?.getGeoPoint()
-                            ?: GeoPoint(0.0, 0.0)
-                    position = location
-                    setAnchor(Marker.ANCHOR_CENTER, 1f)
-                    icon = context!!.getDrawableFilledIcon(
-                            R.drawable.baseline_location_on_black_36dp,
-                            oneKeyCustomObject.colorMarker.getColor()
-                    )
-                    title = address.getAddress() ?: ""
+        if (oneKeyCustomObject.mapService == MapService.OSM) {
+            mMapView?.apply {
+                val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>()
+                        ?: listOf()
+                overlays.removeAll(clustersFiltered)
+                val clusters = RadiusMarkerClusterer(context!!)
+                clusters.textPaint.textSize = 14 * resources.displayMetrics.density
+                clusters.mAnchorV = Marker.ANCHOR_BOTTOM
+                mMapView?.overlays?.add(clusters)
+                selectedIcon = context!!.getDrawableFilledIcon(
+                        R.drawable.ic_location_on_white_36dp,
+                        oneKeyCustomObject.colorMarkerSelected.getColor()
+                )!!
+                listOfAddress.forEach { address ->
+                    val marker = OneKeyMarker(mMapView).apply {
+                        id = address.activityId
+                        setOnMarkerClickListener(this@MapFragment)
+                        val location = address.location?.getGeoPoint()
+                                ?: GeoPoint(0.0, 0.0)
+                        position = location
+                        setAnchor(Marker.ANCHOR_CENTER, 1f)
+                        icon = context!!.getDrawableFilledIcon(
+                                R.drawable.baseline_location_on_black_36dp,
+                                oneKeyCustomObject.colorMarker.getColor()
+                        )
+                        title = address.getAddress() ?: ""
+                    }
+                    clusters.add(marker)
+                    oneKeyMarkers.add(marker)
                 }
-                clusters.add(marker)
-                oneKeyMarkers.add(marker)
+                if (moveCamera && listOfAddress.size == 1) {
+                    val position = listOfAddress[0].location?.getGeoPoint()
+                            ?: GeoPoint(0.0, 0.0)
+                    controller.setCenter(position)
+                    controller.animateTo(position, 15.0, 2000)
+                }
+                if (this@MapFragment.boundingBox) {
+                    val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint()
+                            ?: return
+                    controller.setCenter(position)
+                    controller.animateTo(position, 10.0, 2000)
+                }
             }
-            if (moveCamera && listOfAddress.size == 1) {
-                val position = listOfAddress[0].location?.getGeoPoint()
-                        ?: GeoPoint(0.0, 0.0)
-                controller.setCenter(position)
-                controller.animateTo(position, 15.0, 2000)
+        } else if (oneKeyCustomObject.mapService == MapService.GOOGLE_MAP) {
+            googleMap.clear()
+            var location: LatLng = LatLng(0.0, 0.0)
+            val items = arrayListOf<OneKeyGoogleMarkerItem>()
+            val markerDescriptor = context!!.getDrawableFilledIcon(oneKeyCustomObject.markerIcon,
+                    oneKeyCustomObject.colorMarker.getColor()).getBitmapDescriptor()
+            listOfAddress.forEach { address ->
+                location = address.location?.getLatLng() ?: LatLng(0.0, 0.0)
+                val item = OneKeyGoogleMarkerItem(address.activityId, address.getAddress(), "", location)
+                items.add(item)
             }
-            if (this@MapFragment.boundingBox) {
-                val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint()
-                        ?: return
-                controller.setCenter(position)
-                controller.animateTo(position, 10.0, 2000)
-            }
+            context!!.showMarkerOnGoogleMap(googleMap, items, markerDescriptor)
+            animateCameraGoogleMap(CameraUpdateFactory.newLatLngZoom(location, 13f))
         }
     }
 
@@ -243,86 +351,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(OneKeyConstant.locations, activities)
-        outState.putBoolean("boundingBox", boundingBox)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val context: Context? = this.activity
-        if (oneKeyCustomObject.mapService == MapService.OSM) {
-            mPrefs = context!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            locationProvider = GpsMyLocationProvider(context)
-            locationProvider!!.startLocationProvider(this)
-            mLocationOverlay = CustomCurrentLocationOverlay(
-                    locationProvider!!, mMapView, R.drawable.ic_current_location)
-            mLocationOverlay!!.enableMyLocation()
-            mMapView!!.overlays.add(mLocationOverlay)
-            mRotationGestureOverlay = RotationGestureOverlay(mMapView)
-            mRotationGestureOverlay!!.isEnabled = false
-            mMapView!!.overlays.add(mRotationGestureOverlay)
-            mMapView!!.mapOrientation = 0f
-            mMapView!!.setMultiTouchControls(true)
-            mMapView!!.isTilesScaledToDpi = true
-            val zoomLevel = mPrefs!!.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1f)
-            mMapView!!.controller.setZoom(if (modifyZoomLevel > 0f) modifyZoomLevel.toDouble() else zoomLevel.toDouble())
-            val orientation = mPrefs!!.getFloat(PREFS_ORIENTATION, 0f)
-            val latitudeString = mPrefs!!.getString(PREFS_LATITUDE_STRING, "1.0")
-            val longitudeString = mPrefs!!.getString(PREFS_LONGITUDE_STRING, "1.0")
-            val latitude = java.lang.Double.valueOf(latitudeString)
-            val longitude = java.lang.Double.valueOf(longitudeString)
-            mMapView!!.setExpectedCenter(GeoPoint(latitude, longitude))
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (oneKeyCustomObject.mapService == MapService.OSM) {
-            try {
-                mMapView!!.setTileSource(TileSourceFactory.WIKIMEDIA)
-            } catch (e: IllegalArgumentException) {
-                mMapView!!.setTileSource(TileSourceFactory.WIKIMEDIA)
-            }
-            mMapView?.onResume()
-        }
-    }
-
-    override fun onPause() {
-        mPrefs?.edit {
-            putFloat(PREFS_ORIENTATION, mMapView!!.mapOrientation)
-            putString(PREFS_LATITUDE_STRING, "${mMapView!!.mapCenter.latitude}")
-            putString(PREFS_LONGITUDE_STRING, "${mMapView!!.mapCenter.longitude}")
-            if (modifyZoomLevel == 0f)
-                putFloat(PREFS_ZOOM_LEVEL_DOUBLE, mMapView!!.zoomLevelDouble.toFloat())
-        }
-        mMapView?.onPause()
-        super.onPause()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mMapView?.onDetach()
-        locationProvider?.stopLocationProvider()
-    }
-
-    override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
-        this.lastCurrentLocation = location
-    }
-
-    fun invalidateMapView() {
-        mMapView!!.invalidate()
-    }
-
-    override fun onMarkerClick(marker: Marker?, mapView: org.osmdroid.views.MapView?): Boolean {
-        if (mapView == null || mapView.overlays.isNullOrEmpty())
-            return true
-        marker?.let {
-            validateMarker(marker)
-            onMarkerSelectionChanged(marker.id)
-        }
-        return true
+    private fun animateCameraGoogleMap(update: CameraUpdate) {
+        googleMap.animateCamera(update)
     }
 
     private fun validateMarker(marker: Marker) {
@@ -336,8 +366,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
                     oneKeyMarker.icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
-                            oneKeyCustomObject.colorMarker.getColor()
-                    )
+                            oneKeyCustomObject.colorMarker.getColor())
                     oneKeyMarker.selected = false
                     if (lastIndexOfOverLay >= 0) {
                         mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
@@ -378,19 +407,63 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     fun getLastLocation(): GeoPoint? =
             locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
 
-    fun getMapView(): OneKeyMapView? = mMapView
-
     /**
+     * ================================
      * Functions handle Google map view
+     * ================================
      */
+    @Throws(SecurityException::class)
     override fun onMapReady(p0: GoogleMap?) {
         if (p0.isNullable()) return
         this.googleMap = p0!!
         googleMap.apply {
+            isMyLocationEnabled = true
+            uiSettings.isMyLocationButtonEnabled = false
             clusterManager = ClusterManager(context, this)
+            googleMapMarkerRender = GoogleMapMarkerRender(context!!, this, clusterManager!!,
+                    context!!.getDrawableFilledIcon(oneKeyCustomObject.markerIcon,
+                            oneKeyCustomObject.colorMarker.getColor()).getBitmapDescriptor(),
+                    context!!.getDrawableFilledIcon(oneKeyCustomObject.markerIcon,
+                            oneKeyCustomObject.colorMarkerSelected.getColor()).getBitmapDescriptor())
+            clusterManager?.renderer = googleMapMarkerRender
+            clusterManager?.setOnClusterClickListener(this@MapFragment)
+            clusterManager?.setOnClusterItemClickListener(this@MapFragment)
             setOnCameraIdleListener(clusterManager)
             setOnMarkerClickListener(clusterManager)
             drawMarkerOnMap(activities)
+        }
+    }
+
+    override fun onClusterClick(cluster: Cluster<OneKeyGoogleMarkerItem>?): Boolean {
+        val builder = LatLngBounds.builder()
+        if (cluster == null) return true
+        for (item in cluster.items) {
+            builder.include(item.position)
+        }
+        boundLocations(builder)
+        return true
+    }
+
+    override fun onClusterItemClick(p0: OneKeyGoogleMarkerItem?): Boolean {
+        if (p0.isNullable()) return true
+        googleMapMarkerRender?.apply {
+            val lastItem = getLastItemSelected()
+            if (lastItem.isNotNullable()) {
+                try {
+                    setMarkerIcon()
+                } catch (e: Exception) {
+                }
+            }
+            setSelectedMarkerIcon(p0!!)
+        }
+        onMarkerSelectionChanged(p0!!.id)
+        return true
+    }
+
+    private fun boundLocations(boundBuilder: LatLngBounds.Builder) {
+        try {
+            animateCameraGoogleMap(CameraUpdateFactory.newLatLngBounds(boundBuilder.build(), 100))
+        } catch (e: Exception) {
         }
     }
 

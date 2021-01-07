@@ -1,8 +1,16 @@
 package com.ekino.onekeysdk.extensions
 
+import android.content.Context
 import android.location.Location
+import androidx.fragment.app.FragmentActivity
 import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.map.OneKeyGoogleMarkerItem
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.osmdroid.util.GeoPoint
 
 const val mapZoomInEvent = 0
@@ -28,7 +36,8 @@ fun getDummyHCP(): ArrayList<OneKeyLocation> {
  */
 fun GeoPoint.getLocationString(): String = "$latitude,$longitude"
 
-fun Location.getLatLng():LatLng = LatLng(latitude, longitude)
+fun Location.getLatLng(): LatLng = LatLng(latitude, longitude)
+
 /**
  * [Location]
  */
@@ -40,6 +49,26 @@ fun Location?.getCurrentLocation(newLocation: Location?): Location? {
             if (newLocation.latitude == this.latitude && newLocation.longitude == this.longitude)
                 this
             else newLocation
+        }
+    }
+}
+
+fun Context.showMarkerOnGoogleMap(map: GoogleMap, items: ArrayList<OneKeyGoogleMarkerItem>,
+                                  descriptor: BitmapDescriptor?) {
+    items.forEach { item ->
+        val marker = map.addMarker(MarkerOptions().title(item.title)
+                .position(item.mPosition).icon(descriptor))
+        marker.tag = item.id
+    }
+}
+
+
+fun FragmentActivity.isGooglePlayServiceAvailable(success: () -> Unit, error: (message: String) -> Unit) {
+    when (val status = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)) {
+        ConnectionResult.SUCCESS -> success()
+        else -> {
+            GoogleApiAvailability.getInstance().getErrorDialog(this, status, 1001).show()
+            error(GoogleApiAvailability.getInstance().getErrorString(status))
         }
     }
 }

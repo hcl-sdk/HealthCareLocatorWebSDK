@@ -66,15 +66,15 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             searchTag = savedInstanceState.getInt("lastSearchTag", 0)
             consultedTag = savedInstanceState.getInt("lastConsultedTag", 0)
         }
-        val fm = this@OneKeyHomeFullFragment.childFragmentManager
-        if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
-            fm.beginTransaction().add(R.id.nearMeMap, mapFragment, mapFragmentTag)
-                    .commit()
-        }
         viewModel.apply {
             requestPermissions(this@OneKeyHomeFullFragment)
             permissionGranted.observe(this@OneKeyHomeFullFragment, Observer { granted ->
                 if (granted) {
+                    val fm = this@OneKeyHomeFullFragment.childFragmentManager
+                    if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
+                        fm.beginTransaction().add(R.id.nearMeMap, mapFragment, mapFragmentTag)
+                                .commit()
+                    }
                     if (locationProvider == null) {
                         locationProvider = GpsMyLocationProvider(context)
                     }
