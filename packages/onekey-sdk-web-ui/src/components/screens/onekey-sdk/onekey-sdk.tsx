@@ -12,7 +12,6 @@ import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
 
 const defaults = {
-  homeMode: 'min',
   i18nBundlesPath: '/i18n'
 };
 @Component({
@@ -48,6 +47,8 @@ export class OneKeySDK {
   }
 
   async componentWillLoad() {
+    this.checkGeolocationPermission();
+
     configStore.setState(merge({}, defaults, this.config));
 
     const closestElement = this.el.closest('[lang]') as HTMLElement;
@@ -110,11 +111,30 @@ export class OneKeySDK {
     uiStore.setParentDims(this.parentEl.getBoundingClientRect());
   }
 
+  checkGeolocationPermission() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((evt) => {
+        searchMapStore.setState({
+          geoLocation: {
+            ...searchMapStore.state.geoLocation,
+            status: 'granted',
+            // Using mock data to CA Address, will remove in the future
+            // latitude: evt.coords.latitude,
+            // longitude: evt.coords.longitude,
+          }
+        })
+      }, (err) => {
+        console.error('[geolocation] ', err);
+      })
+    }
+  }
+
   render() {
     const { screenSize, orientation } = uiStore.state.breakpoint;
     if (screenSize === 'unknown') {
       return null;
     }
+
     return (
       <Host>
         <div class={`wrapper size-${screenSize} orientation-${orientation}`}>

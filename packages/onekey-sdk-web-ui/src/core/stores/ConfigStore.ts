@@ -17,11 +17,10 @@ export interface OneKeySDKConfigData {
   markerIconCurrentLocation?: string;
   input?: OnekeySDKConfig;
   modeView?: ModeViewType;
-  homeMode?: 'full' | 'min';
   i18nBundlesPath?: string;
   modal?: Modal;
   entry?: any;
-  icons: any
+  icons: any;
 }
 
 export const initStateConfigStore = {

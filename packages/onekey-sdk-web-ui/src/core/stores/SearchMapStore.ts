@@ -67,6 +67,14 @@ export interface SearchMapState {
   searchFields: SearchFields;
   locationFilter: any;
   specialtyFilter: any;
+  geoLocation?: GeoLocation
+}
+
+export type GeoLocationStatus = 'granted' | 'denied';
+export interface GeoLocation {
+  status: GeoLocationStatus,
+  latitude: number;
+  longitude: number;
 }
 
 export const initStateSearchMapStore: SearchMapState = {
@@ -78,12 +86,6 @@ export const initStateSearchMapStore: SearchMapState = {
   search: {},
   searchGeo: [],
   searchDoctor: [],
-  currentLocation: {
-    // TO REMOVE
-    // mock location with CA address
-    lat: 43.7621836,
-    lon: -79.4449289
-  },
   selectedValues: {},
   selectedActivity: null,
   individualDetail: null,
@@ -97,7 +99,14 @@ export const initStateSearchMapStore: SearchMapState = {
     address: ''
   },
   locationFilter: null,
-  specialtyFilter: null
+  specialtyFilter: null,
+  geoLocation: {
+    status: 'denied' as GeoLocationStatus,
+
+    // Mock location with CA address
+    latitude: 43.7621836,
+    longitude: -79.4449289
+  }
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {

@@ -23,7 +23,7 @@ export class OnekeySdkHomeMin {
                 </div>
                 <div class="item__message">
                   <strong>{t('home_feat_find_hcp_title')}</strong>
-                  <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
+                  <span class="sub-text">{t('home_feat_find_hcp_text')}</span>
                 </div>
               </div>
               <div class="item">
@@ -32,7 +32,7 @@ export class OnekeySdkHomeMin {
                 </div>
                 <div class="item__message">
                   <strong>{t('home_feat_consult_profile_title')}</strong>
-                  <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
+                  <span class="sub-text">{t('home_feat_consult_profile_text')}</span>
                 </div>
               </div>
               <div class="item">
@@ -41,7 +41,7 @@ export class OnekeySdkHomeMin {
                 </div>
                 <div class="item__message">
                   <strong>{t('home_feat_request_info_update_title')}</strong>
-                  <span class="sub-text">Lorem ipsum dolor sit amet, consect adipiscing elit</span>
+                  <span class="sub-text">{t('home_feat_request_info_update_text')}</span>
                 </div>
               </div>
             </div>

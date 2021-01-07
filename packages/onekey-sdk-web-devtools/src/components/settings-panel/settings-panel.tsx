@@ -29,7 +29,6 @@ const COLORS = ALL_PROPS.filter(n => /^color\./.test(n.key)).map(c => c.key);
 const defaultSettings = {
   apiKey: '1234AZERTY',
   theme: 'default' as Theme,
-  homeMode: 'min' as const,
   lang: 'en'
 }
 
@@ -157,11 +156,6 @@ export class SettingsPanel {
     if (this.fields.theme === 'custom') {
       this.setCustomTheme();
     }
-    const patch: any = {};
-    if (this.fields.homeMode !== defaultSettings.homeMode) {
-      patch.homeMode = this.fields.homeMode;
-    }
-    this.updateSDKConfig(patch);
   }
 
   updateLanguage = () => {
@@ -202,11 +196,6 @@ export class SettingsPanel {
         [fieldName]: value,
       };
       storeSettings(this.fields);
-      if (fieldName === 'homeMode') {
-        this.updateSDKConfig({
-          homeMode: value
-        })
-      }
       this.updateLanguage();
     };
   }
@@ -498,17 +487,6 @@ export class SettingsPanel {
             </option> */}
             <option value="custom" selected={this.fields.theme === 'custom'}>
               Custom
-            </option>
-          </select>
-        </div>
-        <div class="row">
-          <label>Home Mode</label>
-          <select name="homeMode" onChange={this.handleChange('homeMode')}>
-            <option value="min" selected={this.fields.homeMode === 'min'}>
-              Min
-            </option>
-            <option value="full" selected={this.fields.homeMode === 'full'}>
-              Full
             </option>
           </select>
         </div>

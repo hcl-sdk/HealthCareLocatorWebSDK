@@ -9,7 +9,10 @@ export async function searchLocationWithParams() {
   const params: any = {};
   if (searchMapStore.state.locationFilter) {
     if (searchMapStore.state.locationFilter.id === NEAR_ME) {
-      params.location = searchMapStore.state.currentLocation;
+      params.location = {
+        lat: searchMapStore.state.geoLocation.latitude,
+        lon: searchMapStore.state.geoLocation.longitude,
+      };
     } else {
       params.location = {
         lat: Number(searchMapStore.state.locationFilter.lat),
