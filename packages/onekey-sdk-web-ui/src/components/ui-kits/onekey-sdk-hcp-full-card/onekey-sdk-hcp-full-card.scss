@@ -1,22 +1,27 @@
 @import '../../../global/scss/variables.scss';
 
 :host {
-  .suggest-edit-btn .btn {
-    background-color: var(--onekeysdk-color-button_bkg);
-    border: 1px solid var(--onekeysdk-color-button_border);
-    padding-top: 5px;
-    padding-bottom: 8px;
-    .icon {
-      margin-right: 5px;
+  .oksdk-btn-suggest-edit {
+    .oksdk-btn {
+      background-color: var(--onekeysdk-color-button_bkg);
+      border: 1px solid var(--onekeysdk-color-button_border);
+      padding-top: 5px;
+      padding-bottom: 8px;
+      .icon {
+        margin-right: 5px;
+      }
     }
   }
+  
 
-  .btn-rate .btn {
-    background-color: #fff;
-    border: 1px solid var(--onekeysdk-color-grey_light);
-    width: 30px;
-    .icon {
-      fill: var(--onekeysdk-color-grey_light);
+  .oksdk-btn {
+    &.oksdk-btn-rate {
+      background-color: #fff;
+      border: 1px solid var(--onekeysdk-color-grey_light);
+      width: 30px;
+      .icon {
+        fill: var(--onekeysdk-color-grey_light);
+      }
     }
   }
 
@@ -99,7 +104,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
-      .btn {
+      .oksdk-btn {
         border: 1px solid var(--onekeysdk-color-grey_lighter);
       }
     }
@@ -190,7 +195,7 @@
       grid-template-columns: auto auto;
       justify-content: start;
 
-      .btn.icon {
+      .oksdk-btn--has-icon {
         padding: 5px;
       }
     }
@@ -225,23 +230,6 @@
         grid-gap: 30px;
         justify-content: center;
       }
-    }
-
-    .search-hcp {
-      padding: 0;
-    }
-
-    .search-block {
-      display: grid;
-      grid-gap: 31px;
-      grid-auto-flow: row;
-      position: relative;
-      border: none;
-      padding: 0;
-    }
-
-    .search-back {
-      display: none;
     }
 
     .main-block {

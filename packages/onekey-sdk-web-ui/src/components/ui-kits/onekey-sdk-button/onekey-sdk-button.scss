@@ -1,7 +1,7 @@
 @import '../../../global/scss/variables.scss';
 
 :host {
-  .btn {
+  .oksdk-btn {
     opacity: 1;
     mix-blend-mode: normal;
     border-radius: 5px;
@@ -22,7 +22,7 @@
       justify-content: center;
     }
 
-    &.primary {
+    &--primary {
       background-color: var(--onekeysdk-color-primary);
       color: white;
 
@@ -31,7 +31,7 @@
       }
     }
 
-    &.secondary {
+    &--secondary {
       background-color: var(--onekeysdk-color-secondary);
       color: white;
 
@@ -40,7 +40,7 @@
       }
     }
 
-    &.full {
+    &--full {
       width: 100%;
     }
 
@@ -52,25 +52,25 @@
       box-shadow: none;
     }
 
-    &.no-background {
+    &--no-background {
       background-color: transparent;
     }
 
-    &.no-border {
+    &--no-border {
       border: none;
     }
 
-    &.no-text-color {
+    &--no-text-color {
       color: white
     }
 
-    &.round {
+    &--round {
       border-radius: 50%;
       width: 35px;
       height: 35px;
     }
 
-    &.btn-icon {
+    &--icon {
       width: 30px;
       height: 30px;
       padding: 0;

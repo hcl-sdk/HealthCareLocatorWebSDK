@@ -77,7 +77,7 @@
       display: grid;
       grid-template-columns: 1fr auto;
 
-      .search-address-btn {
+      .oksdk-btn-search-address {
         width: 42px;
         height: 100%;
         padding: 0;
@@ -259,7 +259,7 @@
       border-top: 1px solid var(--onekeysdk-color-card_border);
     }
 
-    .btn.icon {
+    .oksdk-btn--has-icon {
       display: block;
       position: absolute;
       top: 0;

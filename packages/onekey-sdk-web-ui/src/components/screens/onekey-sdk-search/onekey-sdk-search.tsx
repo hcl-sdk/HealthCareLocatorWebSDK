@@ -138,7 +138,7 @@ export class OnekeySdkSearch {
 
   renderContent = data => {
     return (
-      <div class={`search-content ${this.currentSelectedInput}`}>
+      <div class={`oksdk-search__dropdown ${this.currentSelectedInput}`}>
         {data && data.map(item => <onekey-sdk-search-address-item item={item} currentSearchText={searchMapStore.state.searchFields.name} />)}
       </div>
     );
@@ -241,14 +241,14 @@ export class OnekeySdkSearch {
     return (
       <Host>
         <div class="main-contain">
-          <div class="header-block search-block">
-            <div class="search-hcp">
-              <onekey-sdk-router-link url="/" class="search-back">
+          <div class="oksdk-search">
+            <div class="oksdk-search__container">
+              <onekey-sdk-router-link url="/" class="oksdk-btn-search-back">
                 <onekey-sdk-icon name="arrow" width={25} height={25} color="black" />
               </onekey-sdk-router-link>
-              <form class="search-form" onSubmit={this.onSearch}>
-                <div class="search-form-content">
-                  <div class="search-form-content-item">
+              <form class="oksdk-search__form" onSubmit={this.onSearch}>
+                <div class="oksdk-search__form--content">
+                  <div class="oksdk-search__form--content-item">
                     <onekey-sdk-input
                       ref={el => (this.fields.name = el)}
                       postfixIcon={searchMapStore.state.searchFields.name ? 'remove' : ''}
@@ -266,7 +266,7 @@ export class OnekeySdkSearch {
                       {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
                     </onekey-sdk-input>
                   </div>
-                  <div class="search-form-content-item">
+                  <div class="oksdk-search__form--content-item">
                     <onekey-sdk-input
                       ref={el => (this.fields.address = el)}
                       postfixIcon={searchMapStore.state.searchFields.address ? 'remove' : ''}
@@ -284,13 +284,12 @@ export class OnekeySdkSearch {
                     </onekey-sdk-input>
                   </div>
                 </div>
-                {this.searchText ? (
-                  <onekey-sdk-button primary type="submit" class="search-address-btn">
-                    {this.searchText}
-                  </onekey-sdk-button>
-                ) : (
-                  <onekey-sdk-button primary type="submit" icon="search" class="search-address-btn" />
-                )}
+                <onekey-sdk-button 
+                  primary 
+                  type="submit" 
+                  icon={this.searchText ? undefined : 'search'} 
+                  class="oksdk-btn-search-address"
+                >{this.searchText}</onekey-sdk-button>
               </form>
               <div class={resetSearchClass} onClick={this.resetInputValue}>
                 <span>Reset search</span>

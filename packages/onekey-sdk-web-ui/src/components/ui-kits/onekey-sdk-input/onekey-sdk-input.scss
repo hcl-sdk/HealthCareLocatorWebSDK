@@ -88,11 +88,11 @@
     top: 0;  
     z-index: 4;
   
-    &.btn {
+    &.oksdk-btn {
       padding: 0 5px;
       margin-right: 3px;
       background-color: white;
-      &.icon {
+      &--has-icon {
         margin-top: 10px;
       }
     }

@@ -40,7 +40,7 @@ export class OnekeySdkHome {
         <div class="search-home-hpc">
           <form onSubmit={this.onSubmit}>
             <input class="search-input" placeholder={t('find_healthcare_professional')} onFocus={this.onSearch} />
-            <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="btn--icon search-address-btn" />
+            <onekey-sdk-button primary icon="search" onClick={this.onSearch} class="oksdk-btn-search-address" />
           </form>
         </div>
       </div>
