@@ -1,14 +1,13 @@
 package com.ekino.onekeysdk.extensions
 
 import android.content.Context
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 fun Context.getDrawableFilledIcon(drawableId: Int, color: Int): Drawable? {
     val unWrappedDrawable = ContextCompat.getDrawable(this, drawableId)
@@ -17,6 +16,16 @@ fun Context.getDrawableFilledIcon(drawableId: Int, color: Int): Drawable? {
         val wrappedDrawable = DrawableCompat.wrap(unWrappedDrawable)
         DrawableCompat.setTint(wrappedDrawable, color)
     }
+}
+
+fun Drawable?.getBitmapDescriptor(): BitmapDescriptor?{
+    if (this.isNullable())return null
+    val canvas = Canvas()
+    val bitmap = Bitmap.createBitmap(this!!.intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+    canvas.setBitmap(bitmap)
+    setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+    draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
 
 fun String.getColor(): Int {

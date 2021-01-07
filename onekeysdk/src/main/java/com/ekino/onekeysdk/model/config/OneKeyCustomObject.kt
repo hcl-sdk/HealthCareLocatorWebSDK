@@ -79,7 +79,7 @@ data class OneKeyCustomObject private constructor(
             var fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", size = 14).build(),
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
-            var markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
+            var markerIcon: Int = R.drawable.baseline_location_on_black_36dp,
             var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
             var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
             var fontTitleMain: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", size = 20).build(),
@@ -125,7 +125,8 @@ data class OneKeyCustomObject private constructor(
             var iconVoteUp: Int = R.drawable.ic_like_gray,
             var iconVoteDown: Int = R.drawable.ic_dislike_gray,
             var iconProfile: Int = R.drawable.ic_profile,
-            var iconLocation: Int = R.drawable.outline_location_on_black_36dp) {
+            var iconLocation: Int = R.drawable.outline_location_on_black_36dp,
+            var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
