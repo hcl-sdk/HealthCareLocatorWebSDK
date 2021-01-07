@@ -2,7 +2,7 @@ import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil
 import cls from 'classnames';
 import { uiStore, searchMapStore, configStore } from 'onekey-sdk-web-ui/src/core/stores';
 import { getFullCardDetail } from 'onekey-sdk-web-ui/src/core/api/hcp';
-import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
+import { getCssColor, fallbackShareHCPDetail, getTextBodyToShare } from 'onekey-sdk-web-ui/src/utils/helper';
 import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-hcp-full-card',
@@ -50,6 +50,27 @@ export class OnekeySdkHCPFullCard {
     }
   }
 
+  handleShareHCPDetail() {
+    const { individualDetail } = searchMapStore.state;
+
+    if (!individualDetail) {
+      return null;
+    }
+
+    if (navigator.share) {
+      navigator.share({
+        text: getTextBodyToShare(individualDetail, '\n', 'Share')
+      }).then(() => {
+        // TODO Successfully: 
+      })
+      .catch(() => {
+        fallbackShareHCPDetail(individualDetail)
+      });
+    } else {
+      fallbackShareHCPDetail(individualDetail)
+    }
+  }
+
   render() {
     const confirmYesClass = cls('info-contact-item', {
       'confirm-yes': this.confirm === true,
@@ -78,11 +99,22 @@ export class OnekeySdkHCPFullCard {
         <div class="main-contain">
           <div class={toolbarClass}>
             <div class="search-back-large">
-              <onekey-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--onekeysdk-color-dark')} onClick={this.backFromHcpFullCard.emit}>
+              <onekey-sdk-button 
+                noBorder 
+                noBackground 
+                icon="arrow" 
+                iconColor={getCssColor('--onekeysdk-color-dark')} 
+                onClick={this.backFromHcpFullCard.emit}>
                 <span class="hidden-mobile">{t('back_to_search_results')}</span>
               </onekey-sdk-button>
             </div>
-            <onekey-sdk-button noBorder noBackground icon="share" iconColor={getCssColor('--onekeysdk-color-grey_dark')} />
+            <onekey-sdk-button 
+              noBorder 
+              noBackground 
+              icon="share" 
+              iconColor={getCssColor('--onekeysdk-color-grey_dark')} 
+              onClick={this.handleShareHCPDetail}
+            />
           </div>
 
           <div class="main-block hcp-details-card">

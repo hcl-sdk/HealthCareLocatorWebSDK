@@ -99,3 +99,24 @@ export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActi
   }
   return results
 }
+
+export function getTextBodyToShare({ fax, name, address, phone }, newLine = '%0D%0A', firstLabel = 'Name') {
+  return [
+    `${firstLabel}: ${name}`,
+    `Fax: ${fax}`,
+    `Phone: ${phone}`,
+    `Address: ${address}`
+  ].join(newLine)
+}
+
+export function fallbackShareHCPDetail({ fax, name, address, phone }) {
+  const newlineChar = `%0D%0A`;
+  const subject = `Share: ${name}`;
+  const mailBody = getTextBodyToShare({ fax, name, address, phone }, newlineChar);
+
+  const link = document.createElement('a');
+
+  link.href = `mailto:${fax}?subject=${subject}&body=${mailBody}`;
+  link.target = '_blank';
+  link.click();
+}
