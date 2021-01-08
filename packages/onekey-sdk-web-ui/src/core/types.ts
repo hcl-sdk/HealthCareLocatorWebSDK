@@ -6,3 +6,7 @@ export interface Breakpoint {
   orientation: Orientation;
 }
 
+export interface OptionType {
+  label: string;
+  value: string;
+}

@@ -41,7 +41,9 @@ graph TD;
   onekey-sdk-hcp-full-card --> onekey-sdk-button
   onekey-sdk-hcp-full-card --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-map
+  onekey-sdk-hcp-full-card --> onekey-sdk-select
   onekey-sdk-map --> ion-icon
+  onekey-sdk-select --> onekey-sdk-icon
   onekey-sdk-doctor-card --> onekey-sdk-icon
   style onekey-sdk-search-result fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -113,7 +113,7 @@ export class OneKeySDK {
 
   checkGeolocationPermission() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((evt) => {
+      navigator.geolocation.getCurrentPosition(() => {
         searchMapStore.setState({
           geoLocation: {
             ...searchMapStore.state.geoLocation,

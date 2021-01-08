@@ -8,7 +8,7 @@ import { getCssColor } from 'onekey-sdk-web-ui/src/utils/helper';
   shadow: false,
 })
 export class OnekeySdkProfileMap {
-  
+
   render() {
     const { individualDetail } = searchMapStore.state;
 
@@ -35,7 +35,7 @@ export class OnekeySdkProfileMap {
           <div class="profile-map__content">
             <onekey-sdk-map 
               mapHeight={`100%`}
-              mapMinHeight={'100px'}
+              mapMinHeight={'200px'}
               locations={[{ lat: individualDetail.lat, lng: individualDetail.lng }]}
               selectedLocationIdx={0}
               defaultZoom={5}

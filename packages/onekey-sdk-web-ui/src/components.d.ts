@@ -8,6 +8,7 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { OneKeySDKConfigData } from "./core/stores/ConfigStore";
 import { Modal, ModeViewType } from "onekey-sdk-web-ui/src/core/stores/ConfigStore";
 import { Breakpoint } from "onekey-sdk-web-ui/src/core/types";
+import { OptionType } from "./core/types";
 export namespace Components {
     interface OnekeySdk {
         "config": OneKeySDKConfigData;
@@ -224,6 +225,12 @@ export namespace Components {
         "item": any;
     }
     interface OnekeySdkSearchResult {
+    }
+    interface OnekeySdkSelect {
+        "loading"?: boolean;
+        "onChange"?: (e: any) => void;
+        "options"?: OptionType[];
+        "value"?: string;
     }
     interface OnekeySdkSort {
     }
@@ -472,6 +479,12 @@ declare global {
         prototype: HTMLOnekeySdkSearchResultElement;
         new (): HTMLOnekeySdkSearchResultElement;
     };
+    interface HTMLOnekeySdkSelectElement extends Components.OnekeySdkSelect, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkSelectElement: {
+        prototype: HTMLOnekeySdkSelectElement;
+        new (): HTMLOnekeySdkSelectElement;
+    };
     interface HTMLOnekeySdkSortElement extends Components.OnekeySdkSort, HTMLStencilElement {
     }
     var HTMLOnekeySdkSortElement: {
@@ -525,6 +538,7 @@ declare global {
         "onekey-sdk-search": HTMLOnekeySdkSearchElement;
         "onekey-sdk-search-address-item": HTMLOnekeySdkSearchAddressItemElement;
         "onekey-sdk-search-result": HTMLOnekeySdkSearchResultElement;
+        "onekey-sdk-select": HTMLOnekeySdkSelectElement;
         "onekey-sdk-sort": HTMLOnekeySdkSortElement;
         "onekey-sdk-switch-view-mode": HTMLOnekeySdkSwitchViewModeElement;
     }
@@ -750,6 +764,12 @@ declare namespace LocalJSX {
     }
     interface OnekeySdkSearchResult {
     }
+    interface OnekeySdkSelect {
+        "loading"?: boolean;
+        "onChange"?: (e: any) => void;
+        "options"?: OptionType[];
+        "value"?: string;
+    }
     interface OnekeySdkSort {
     }
     interface OnekeySdkSwitchViewMode {
@@ -797,6 +817,7 @@ declare namespace LocalJSX {
         "onekey-sdk-search": OnekeySdkSearch;
         "onekey-sdk-search-address-item": OnekeySdkSearchAddressItem;
         "onekey-sdk-search-result": OnekeySdkSearchResult;
+        "onekey-sdk-select": OnekeySdkSelect;
         "onekey-sdk-sort": OnekeySdkSort;
         "onekey-sdk-switch-view-mode": OnekeySdkSwitchViewMode;
     }
@@ -845,6 +866,7 @@ declare module "@stencil/core" {
             "onekey-sdk-search": LocalJSX.OnekeySdkSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchElement>;
             "onekey-sdk-search-address-item": LocalJSX.OnekeySdkSearchAddressItem & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchAddressItemElement>;
             "onekey-sdk-search-result": LocalJSX.OnekeySdkSearchResult & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchResultElement>;
+            "onekey-sdk-select": LocalJSX.OnekeySdkSelect & JSXBase.HTMLAttributes<HTMLOnekeySdkSelectElement>;
             "onekey-sdk-sort": LocalJSX.OnekeySdkSort & JSXBase.HTMLAttributes<HTMLOnekeySdkSortElement>;
             "onekey-sdk-switch-view-mode": LocalJSX.OnekeySdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLOnekeySdkSwitchViewModeElement>;
         }

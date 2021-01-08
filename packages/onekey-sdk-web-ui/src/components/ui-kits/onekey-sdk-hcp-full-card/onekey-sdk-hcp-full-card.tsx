@@ -41,6 +41,15 @@ export class OnekeySdkHCPFullCard {
     this.confirm = answer;
   };
 
+  handleChangeAddress(evt) {
+    if(evt.target.value) {
+      getFullCardDetail({
+        activityId: evt.target.value,
+        activityName: searchMapStore.state.selectedActivity.name,
+      }, 'loadingSwitchAddress');
+    }
+  }
+
   render() {
     const confirmYesClass = cls('info-contact-item', {
       'confirm-yes': this.confirm === true,
@@ -50,8 +59,13 @@ export class OnekeySdkHCPFullCard {
       'confirm-no': this.confirm === false,
     });
 
-    const { individualDetail, loadingIndividualDetail, individualDetailName } = searchMapStore.state;
     const { breakpoint } = uiStore.state;
+    const { 
+      individualDetail, 
+      individualDetailName,
+      loadingSwitchAddress,
+      loadingIndividualDetail
+    } = searchMapStore.state;
 
     const toolbarClass = cls('search-toolbar', {
       'header-block': breakpoint.screenSize === 'mobile',
@@ -117,11 +131,21 @@ export class OnekeySdkHCPFullCard {
                     </div>
 
                     <div class="info-section-body">
-                      {/* <div class="info-section-body__address">
-                        <select>
-                          <option>Address 1: {individualDetail.address}</option>
-                        </select>
-                      </div> */}
+                      {
+                        individualDetail && individualDetail.activitiesList.length >= 2 && (
+                          <div class="info-section-body__address">
+                            <onekey-sdk-select 
+                              value={individualDetail.id}
+                              loading={loadingSwitchAddress}
+                              options={individualDetail.activitiesList.map(({id, workplace}, index: number) => ({
+                                value: id,
+                                label: `Address ${index+1}: ${workplace.address.longLabel}`,
+                              }))}
+                              onChange={this.handleChangeAddress}
+                            />
+                          </div>
+                        )
+                      }
 
                       <div class="info-contact info-section-body__location">
                         <div class="info-contact-item">

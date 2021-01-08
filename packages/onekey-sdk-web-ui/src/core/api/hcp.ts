@@ -2,7 +2,7 @@ import { searchMapStore, historyStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'onekey-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
-import { getSpecialtiesText } from '../../utils/helper';
+import { getMergeMainAndOtherActivities, getSpecialtiesText } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 
 export async function searchLocationWithParams() {
@@ -114,11 +114,10 @@ export async function searchDoctor(variables) {
 }
 
 
-export async function getFullCardDetail({ activityId, activityName }) {
+export async function getFullCardDetail({ activityId, activityName }, keyLoading = 'loadingIndividualDetail') {
   searchMapStore.setState({ 
-    individualDetail: null,
     individualDetailName: activityName,
-    loadingIndividualDetail: true
+    [keyLoading]: true
   });
 
   const { activityByID: activity } = await graphql.activityByID({
@@ -127,6 +126,7 @@ export async function getFullCardDetail({ activityId, activityName }) {
   })
 
   const data = {
+    id: activityId,
     name: activity.individual.mailingName,
     professionalType: activity.individual.professionalType.label,
     specialties: getSpecialtiesText(activity.individual.specialties),
@@ -140,7 +140,8 @@ export async function getFullCardDetail({ activityId, activityName }) {
     phone: activity.phone,
     fax: activity.fax,
     lat: activity.workplace.address.location.lat,
-    lng: activity.workplace.address.location.lon
+    lng: activity.workplace.address.location.lon,
+    activitiesList: getMergeMainAndOtherActivities(activity.individual.mainActivity, activity.individual.otherActivities)
   }
 
   // add to history
@@ -157,6 +158,6 @@ export async function getFullCardDetail({ activityId, activityName }) {
   searchMapStore.setState({ 
     individualDetail: data,
     individualDetailName: '',
-    loadingIndividualDetail: false
+    [keyLoading]: false
   });
 }
