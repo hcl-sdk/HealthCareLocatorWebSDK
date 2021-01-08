@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
+import base.extensions.share
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
@@ -204,6 +205,16 @@ class OneKeyProfileFragment :
             }
 
             R.id.btnShare -> {
+                val obj = addressSpinner.selectedItem as? OtherActivityObject
+                val address = obj?.workplace?.run {
+                    var string = "$name"
+                    if (!address?.buildingLabel.isNullOrEmpty())
+                        string += "\n${address?.buildingLabel}"
+                    if (!address?.longLabel.isNullOrEmpty())
+                        string += "\n${address?.longLabel}"
+                    string
+                } ?: ""
+                activity?.share(address, "Share HCP")
             }
             R.id.mapOverlay -> {
                 val obj = (addressSpinner.selectedItem as? OtherActivityObject) ?: return

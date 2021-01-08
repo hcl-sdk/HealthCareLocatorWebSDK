@@ -1,6 +1,7 @@
 package base.extensions
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +57,15 @@ fun Fragment.addChildFragment(containerId: Int, fragment: Fragment) {
         transaction.replace(containerId, fragment, fragment::class.java.simpleName)
                 .commitAllowingStateLoss()
     }
+}
+
+fun Activity.share(data: String, title: String) {
+    val sharedIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, data)
+        type = "text/plain"
+    }
+    startActivity(Intent.createChooser(sharedIntent, title))
 }
 
 /**

@@ -186,6 +186,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     setError(specialityWrapper, ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
                 }
+                setFocusable(false)
                 oneKeyCustomObject?.also {
                     onItemClicked = true
                     context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
@@ -304,5 +305,15 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     fun clearIndividualData() {
         individualAdapter.clear()
+    }
+
+    fun setFocusable(isFocusable:Boolean){
+        edtName.isFocusableInTouchMode = isFocusable
+        edtName.isFocusable = isFocusable
+        edtWhere.isFocusableInTouchMode = isFocusable
+        edtWhere.isFocusable = isFocusable
+        if (isFocusable){
+            edtName.requestFocus()
+        }
     }
 }

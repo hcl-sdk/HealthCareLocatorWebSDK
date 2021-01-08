@@ -29,7 +29,6 @@ import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.utils.OneKeyConstant
-import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
@@ -266,12 +265,22 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        OneKeyLog.d("LifeCycle: onAttach")
+        setSearchFocusable(false)
     }
 
     override fun onDetach() {
         super.onDetach()
-        OneKeyLog.d("LifeCycle: onDetach")
+        setSearchFocusable(true)
+    }
+
+    private fun setSearchFocusable(focusable: Boolean) {
+        val fragments = activity?.supportFragmentManager?.fragments ?: arrayListOf()
+        if (fragments.size > 1) {
+            val fragment = fragments[fragments.size - 1]
+            if (fragment is SearchFragment && fragment.isResumed) {
+                fragment.setFocusable(focusable)
+            }
+        }
     }
 
     private fun showLoading(state: Boolean) {
