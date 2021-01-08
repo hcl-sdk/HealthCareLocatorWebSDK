@@ -102,7 +102,7 @@ export class OnekeySdkSearchResult {
 
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
-    const className = cls('search-toolbar search-section', {
+    const className = cls('search-toolbar', {
       'header-block': isSmall,
     });
 

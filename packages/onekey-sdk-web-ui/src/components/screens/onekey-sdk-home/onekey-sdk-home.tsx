@@ -1,5 +1,5 @@
 import { Component, h, Host, Listen } from '@stencil/core';
-import { configStore, routerStore, searchMapStore, uiStore } from '../../../core/stores';
+import { routerStore, searchMapStore, uiStore, historyStore } from '../../../core/stores';
 import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-home',
@@ -48,13 +48,19 @@ export class OnekeySdkHome {
   }
 
   render() {
+    const { geoLocation } = searchMapStore.state;
+    const { searchItems, hcpItems } = historyStore.state;
+    const displayHomeMin = geoLocation.status === 'denied' && !searchItems.length && !hcpItems.length;
     return (
       <Host>
         <div class="main-contain">
           {this.renderHeader()}
           <div class="body-block">
-            {configStore.state.homeMode === 'min' && <onekey-sdk-home-min />}
-            {configStore.state.homeMode === 'full' && <onekey-sdk-home-full />}
+            {
+              displayHomeMin 
+                ? <onekey-sdk-home-min />
+                : <onekey-sdk-home-full />
+            }
           </div>
         </div>
       </Host>

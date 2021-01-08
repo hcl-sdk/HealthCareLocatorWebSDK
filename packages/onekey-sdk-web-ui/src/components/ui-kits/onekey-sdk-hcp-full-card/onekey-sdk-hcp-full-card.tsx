@@ -53,7 +53,7 @@ export class OnekeySdkHCPFullCard {
     const { individualDetail, loadingIndividualDetail, individualDetailName } = searchMapStore.state;
     const { breakpoint } = uiStore.state;
 
-    const toolbarClass = cls('search-toolbar search-section', {
+    const toolbarClass = cls('search-toolbar', {
       'header-block': breakpoint.screenSize === 'mobile',
     });
 

@@ -90,27 +90,35 @@ export class OnekeySdkHomeFull {
   }
 
   render() {
+    const { geoLocation } = searchMapStore.state;
     const { searchItems, hcpItems } = historyStore.state;
+    const mapHeight = !searchItems.length && !hcpItems.length ? '200px' : '100px';
+
     return (
       <Host>
-        <div class="card card--near-me">
-          <div class="card__title-wrapper">
-            <h3 class="card__title">{t('hcps_near_me')}</h3>
+        { geoLocation.status === 'granted' && (
+          <div class="card card--near-me">
+            <div class="card__title-wrapper">
+              <h3 class="card__title">{t('hcps_near_me')}</h3>
+            </div>
+            <div class="card__content-wrapper card__content-wrapper--with-padding">
+              <onekey-sdk-map
+                class="info-section-body__map"
+                locations={[{ 
+                  lat: searchMapStore.state.geoLocation.latitude, 
+                  lng: searchMapStore.state.geoLocation.longitude 
+                }]}
+                selectedLocationIdx={0}
+                defaultZoom={5}
+                noCurrentLocation
+                zoomControl={false}
+                mapHeight={mapHeight}
+                dragging={false}
+                interactive={false}
+              />
+            </div>
           </div>
-          <div class="card__content-wrapper card__content-wrapper--with-padding">
-            <onekey-sdk-map
-              class="info-section-body__map hidden-tablet hidden-desktop"
-              locations={[{ lat: searchMapStore.state.currentLocation.lat, lng: searchMapStore.state.currentLocation.lon }]}
-              selectedLocationIdx={0}
-              defaultZoom={5}
-              noCurrentLocation
-              zoomControl={false}
-              mapHeight="100px"
-              dragging={false}
-              interactive={false}
-            />
-          </div>
-        </div>
+        ) }
         {!!searchItems.length && (
           <div class="card">
             <div class="card__title-wrapper">

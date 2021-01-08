@@ -191,18 +191,14 @@ export class OnekeySdkSearch {
   };
 
   renderAutocompleteMobile = (searchDoctorData, addressAutocompletionData) => {
-    const addressResults = [...addressAutocompletionData];
-    const nearMeFound = searchMapStore.state.locationFilter?.id === NEAR_ME;
-    if (!nearMeFound && !searchMapStore.state.searchFields.address.length) {
-      addressResults.unshift(NEAR_ME_ITEM);
-    }
+    const addressResults = this.insertDefaultAddressNearMe([...addressAutocompletionData]);
     if (this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0) {
       return <div class="body-block">{searchDoctorData.length > 0 && this.renderContent(searchDoctorData)}</div>;
     }
     if (this.currentSelectedInput === 'address') {
       return <div class="body-block">{this.renderContent(addressResults)}</div>;
     }
-    if ((!this.currentSelectedInput || !searchMapStore.state.searchFields.name.length) && !nearMeFound && !searchMapStore.state.searchFields.address.length) {
+    if (addressResults.length && addressResults[0].id !== NEAR_ME_ITEM.id) {
       return <div class="body-block">{this.renderContent([NEAR_ME_ITEM])}</div>;
     }
     return null;
@@ -212,18 +208,30 @@ export class OnekeySdkSearch {
     if (fieldName !== this.currentSelectedInput) {
       return null;
     }
+
     if (this.currentSelectedInput === 'name') {
       return <div>{data.length > 0 && this.renderContent(data)}</div>;
-    } else if (this.currentSelectedInput === 'address') {
-      const addressResults = [...data];
-      const nearMeFound = searchMapStore.state.locationFilter?.id === NEAR_ME;
-      if (!nearMeFound && !searchMapStore.state.searchFields.address.length) {
-        addressResults.unshift(NEAR_ME_ITEM);
-      }
+    } 
+    if (this.currentSelectedInput === 'address') {
+      const addressResults = this.insertDefaultAddressNearMe([...data]);
       return <div>{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
     }
     return null;
   };
+
+  insertDefaultAddressNearMe(addressResults: any[]) {
+    const searchMapState = searchMapStore.state;
+
+    const nearMeFound = searchMapState.locationFilter?.id === NEAR_ME;
+    if (
+      !nearMeFound && 
+      !searchMapState.searchFields.address.length && 
+      searchMapState.geoLocation.status === 'denied'
+    ) {
+      return [NEAR_ME_ITEM, ...addressResults];
+    }
+    return addressResults;
+  }
 
   render() {
     const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;

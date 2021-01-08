@@ -94,6 +94,7 @@
 
   .search-toolbar {
     display: flex;
+    align-items: center;
     padding: 5px 10px;
   }
 
@@ -187,10 +188,12 @@
     }
 
     .search-toolbar {
-      display: grid;
-      grid-template-columns: 1fr auto auto;
+      display: flex;
       padding: 10px;
       grid-gap: 10px;
+      .search-filter-wrapper {
+        margin-left: auto;
+      }
     }
 
     onekey-sdk-hcp-full-card {
@@ -289,6 +292,7 @@
       border-radius: 5px;
       display: flex;
       padding: 0 5px;
+      background-color: white;
       .oksdk-btn {
         padding: 0;
       }

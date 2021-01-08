@@ -7,7 +7,6 @@ interface DevSettings {
 
 const defaultSettings = {
   lang: 'en',
-  homeMode: 'min',
   screenLayout: 'desktop',
 };
 
@@ -30,14 +29,6 @@ const optionSets = [
     options: [
       { label: 'English', value: 'en' },
       { label: 'French', value: 'fr' },
-    ],
-  },
-  {
-    key: 'homeMode',
-    label: 'Home mode',
-    options: [
-      { label: 'Min', value: 'min' },
-      { label: 'Full', value: 'full' },
     ],
   },
   {
@@ -64,11 +55,9 @@ export class OneKeySDKViewport {
   }
 
   applySettings() {
-    const oneKeySDK = document.querySelector('onekey-sdk');
     const wrapper = document.querySelector('.onekey-sdk-wrapper');
     wrapper.classList.remove(...optionSets.find(o => o.key === 'screenLayout').options.map(o => o.value));
     wrapper.classList.add(this.settings.screenLayout);
-    oneKeySDK.updateConfig({ homeMode: this.settings.homeMode });
 
     if (this.settings.lang && document.documentElement.lang !== this.settings.lang) {
       document.documentElement.lang = this.settings.lang;
