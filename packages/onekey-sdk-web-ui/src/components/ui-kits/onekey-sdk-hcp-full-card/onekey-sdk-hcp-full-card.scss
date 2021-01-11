@@ -164,19 +164,6 @@
       width: 100%;
     }
 
-    &__address {
-      select {
-        width: 100%;
-        padding: 5px;
-        border: 1px solid var(--onekeysdk-color-card_border);
-        font-size: 13px;
-        border-radius: 5px;
-        padding: 5px;
-
-        @include applyFontStyle("default");
-      }
-    }
-
     &__location {
       .info-contact-item {
         > :first-child {

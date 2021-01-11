@@ -30,6 +30,7 @@
  - [onekey-sdk-search](../../screens/onekey-sdk-search)
  - [onekey-sdk-search-address-item](../onekey-sdk-search-address-item)
  - [onekey-sdk-search-result](../../screens/onekey-sdk-search-result)
+ - [onekey-sdk-select](../onekey-sdk-select)
 
 ### Graph
 ```mermaid
@@ -44,6 +45,7 @@ graph TD;
   onekey-sdk-search --> onekey-sdk-icon
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-search-result --> onekey-sdk-icon
+  onekey-sdk-select --> onekey-sdk-icon
   style onekey-sdk-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -1,6 +1,7 @@
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
 import { Breakpoint } from 'onekey-sdk-web-ui/src/core/types';
 import { BREAKPOINT_MAX_WIDTH } from 'onekey-sdk-web-ui/src/core/constants';
+import { Activity } from 'onekey-sdk-core/src/graphql/types';
 
 const CONTAINER_ELEMENT = 'onekey-sdk';
 
@@ -87,4 +88,14 @@ export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoi
     screenSize,
     orientation
   };
+}
+
+export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActivities: Activity[] = []) {
+  let results: Activity[];
+  if (mainActivity) {
+    results = [mainActivity].concat(otherActivities);
+  } else {
+    results = otherActivities;
+  }
+  return results
 }

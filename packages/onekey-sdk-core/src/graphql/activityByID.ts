@@ -51,9 +51,25 @@ const QUERY_ACTIVITY_BY_ID = gql`
         nickname
         suffixName
         professionalType { label }
-        specialties{
+        specialties {
           code
           label
+        }
+        mainActivity {
+          id
+          workplace {
+            address {
+              longLabel
+            }
+          }
+        }
+        otherActivities {
+          id
+          workplace {
+            address {
+              longLabel
+            }
+          }
         }
       }
     }
