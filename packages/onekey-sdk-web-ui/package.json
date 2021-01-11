@@ -13,8 +13,11 @@
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll",
+    "test": "stencil test --spec",
+    "test.watch": "stencil test --spec --watch",
+    "test.coverage": "stencil test --spec --coverage",
+    "test.e2e": "stencil test --spec --e2e",
+    "test.e2e.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate"
   },
   "devDependencies": {
@@ -23,7 +26,11 @@
     "@stencil/router": "^1.0.1",
     "@stencil/sass": "^1.4.0",
     "@types/leaflet": "^1.5.19",
-    "@types/leaflet.markercluster": "^1.4.3"
+    "@types/leaflet.markercluster": "^1.4.3",
+    "@types/puppeteer": "5.4.0",
+    "jest": "26.6.3",
+    "jest-cli": "26.6.3",
+    "puppeteer": "5.4.1"
   },
   "license": "MIT",
   "dependencies": {

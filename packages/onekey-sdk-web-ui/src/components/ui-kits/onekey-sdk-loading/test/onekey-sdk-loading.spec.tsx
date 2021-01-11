@@ -10,7 +10,7 @@ describe('onekey-sdk-loading', () => {
     expect(page.root).toEqualHtml(`
       <onekey-sdk-loading>
         <mock:shadow-root>
-          <slot></slot>
+        <div class="loader">Loading...</div>
         </mock:shadow-root>
       </onekey-sdk-loading>
     `);
