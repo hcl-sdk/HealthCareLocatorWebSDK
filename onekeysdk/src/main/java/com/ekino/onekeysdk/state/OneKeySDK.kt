@@ -46,7 +46,7 @@ class OneKeySDK private constructor() : OneKeyState {
                             "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 activity!!.changeLocale(config.locale)
                 activity.pushFragment(containerId, OneKeyNearMeFragment.newInstance(config, "", null,
-                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.one_key_near_me)),
+                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.onekey_sdk_near_me)),
                         config.specialities), true)
             }
 //            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)

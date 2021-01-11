@@ -137,7 +137,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/one_key_main_information_label"
+                                android:text="@string/onekey_sdk_main_information_label"
                                 android:textSize="@dimen/default_text_big"
                                 app:OneKeyTextColor="OneKeyColorSecondary"
                                 app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -311,7 +311,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/one_key_specialities_label"
+                            android:text="@string/onekey_sdk_specialities_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -345,7 +345,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/one_key_rate_refunds_label"
+                            android:text="@string/onekey_sdk_rate_refunds_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -379,7 +379,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/one_key_information_label"
+                            android:text="@string/onekey_sdk_information_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -389,7 +389,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/default_padding_smaller"
                             android:layout_weight="1"
-                            android:text="@string/one_key_information_description"
+                            android:text="@string/onekey_sdk_information_description"
                             android:textColor="@color/colorOneKeyText"
                             android:textSize="@dimen/default_text"
                             app:forceTextSize="true" />
@@ -412,7 +412,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/default_padding"
-                                android:text="@string/one_key_information_yes_label"
+                                android:text="@string/onekey_sdk_information_yes_label"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
@@ -428,7 +428,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/default_padding"
-                                android:text="@string/one_key_information_no_label"
+                                android:text="@string/onekey_sdk_information_no_label"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
@@ -452,7 +452,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/one_key_improve_quality_label"
+                            android:text="@string/onekey_sdk_improve_quality_label"
                             android:textSize="@dimen/default_text_big"
                             app:OneKeyTextColor="OneKeyColorSecondary"
                             app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
@@ -466,7 +466,7 @@
                             android:textColor="@color/colorOneKeyText"
                             android:textSize="@dimen/default_text"
                             app:forceTextSize="true"
-                            tools:text="Specialities" />
+                            android:text="@string/onekey_sdk_improve_quality_text" />
 
                         <LinearLayout
                             android:id="@+id/btnSuggestModification"
@@ -492,7 +492,7 @@
                                 android:paddingStart="@dimen/default_padding_tiny"
                                 android:paddingTop="@dimen/default_padding_small"
                                 android:paddingBottom="@dimen/default_padding_small"
-                                android:text="@string/one_key_suggess_modification_button"
+                                android:text="@string/onekey_sdk_suggess_modification_button"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
                                 app:OneKeyTextColor="OneKeyColorSecondary"

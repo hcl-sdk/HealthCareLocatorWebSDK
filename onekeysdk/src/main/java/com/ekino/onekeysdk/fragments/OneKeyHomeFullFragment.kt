@@ -20,7 +20,6 @@ import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.state.OneKeySDK
@@ -177,7 +176,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                             OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
-                                            longitude = "${it.longitude}", displayName = getString(R.string.one_key_near_me)),
+                                            longitude = "${it.longitude}", displayName = getString(R.string.onekey_sdk_near_me)),
                                     oneKeyCustomObject.specialities, currentLocation), true)
                 }
             }
@@ -244,7 +243,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     } as? MapFragment
 
     private fun getViewTagText(tag: Int): String = if (tag == 0)
-        getString(R.string.one_key_view_more) else getString(R.string.one_key_view_less)
+        getString(R.string.onekey_sdk_view_more) else getString(R.string.onekey_sdk_view_less)
 
     private fun checkViewMoreConsulted(size: Int, view: View) {
         view.visibility = (size > 3).getVisibility()

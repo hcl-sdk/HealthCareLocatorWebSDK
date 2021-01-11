@@ -2,6 +2,9 @@ package com.ekino.onekeysdk.extensions
 
 import com.apollographql.apollo.ApolloClient
 import com.ekino.onekeysdk.extensions.ApolloConnector.Instance.apolloClientUrl
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 
 class ApolloConnector private constructor() {
     private object Instance {
@@ -20,6 +23,8 @@ class ApolloConnector private constructor() {
         if (apolloClient == null) {
             apolloClient = ApolloClient.builder()
                     .serverUrl(apolloClientUrl)
+                    .okHttpClient(OkHttpClient.Builder()
+                            .addInterceptor(AuthorizationInterceptor()).build())
                     .build()
         }
         return apolloClient!!
@@ -36,5 +41,15 @@ class ApolloConnector private constructor() {
     fun release() {
         apolloClient?.clearHttpCache()
         apolloClient = null
+    }
+
+    class AuthorizationInterceptor() : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request().newBuilder()
+                    .addHeader("Ocp-Apim-Subscription-Key", "Ocp-Apim-Subscription-Key")
+                    .build()
+
+            return chain.proceed(request)
+        }
     }
 }

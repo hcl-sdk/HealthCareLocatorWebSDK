@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="@string/one_key_find_healthcare_professional"
+                android:hint="@string/onekey_sdk_find_healthcare_professional"
                 android:padding="@dimen/default_padding"
                 app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 

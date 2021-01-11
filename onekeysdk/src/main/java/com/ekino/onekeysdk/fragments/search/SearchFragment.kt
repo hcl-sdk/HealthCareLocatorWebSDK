@@ -242,7 +242,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private fun setNearMeText() {
         currentLocation?.apply {
             selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
-                    longitude = "$longitude", displayName = getString(R.string.one_key_near_me))
+                    longitude = "$longitude", displayName = getString(R.string.onekey_sdk_near_me))
             edtWhere.setText(selectedPlace?.displayName ?: "")
         }
     }

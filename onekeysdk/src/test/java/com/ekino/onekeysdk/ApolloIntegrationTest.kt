@@ -35,7 +35,9 @@ class ApolloIntegrationTest {
     fun setUp() {
         apolloClient = ApolloConnector.getInstance().getApolloClient {
             val builder = ApolloClient.builder()
-            builder.okHttpClient(OkHttpClient.Builder().dispatcher(Dispatcher(Utils.immediateExecutorService())).build())
+            builder.okHttpClient(OkHttpClient.Builder()
+                    .addInterceptor(ApolloConnector.AuthorizationInterceptor())
+                    .dispatcher(Dispatcher(Utils.immediateExecutorService())).build())
                     .normalizedCache(LruNormalizedCacheFactory(EvictionPolicy.NO_EVICTION),
                             CacheKeyResolver.DEFAULT)
                     .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)

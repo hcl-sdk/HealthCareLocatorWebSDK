@@ -62,7 +62,7 @@
                 android:padding="@dimen/default_padding_small"
                 android:paddingStart="85dp"
                 android:paddingEnd="85dp"
-                android:text="@string/one_key_start_new_search"
+                android:text="@string/onekey_sdk_start_new_search"
                 android:textColor="@color/white"
                 android:textSize="@dimen/default_text_big"
                 app:OneKeyTextStyle="OneKeyStyleButton" />

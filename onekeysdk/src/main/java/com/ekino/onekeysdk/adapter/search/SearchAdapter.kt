@@ -35,7 +35,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 tvName.text = data.individual?.mailingName ?: ""
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
-                tvDistance.text = itemView.context.getString(R.string.one_key_distance_unit_android, "${Math.round(data.distance)}")
+                tvDistance.text = itemView.context.getString(R.string.onekey_sdk_distance_unit_android, "${Math.round(data.distance)}")
                 ivArrow.setIconFromDrawableId(themeConfig.iconArrowRight)
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {

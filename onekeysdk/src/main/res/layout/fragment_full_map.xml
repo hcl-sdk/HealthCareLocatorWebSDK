@@ -78,7 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:hint="@string/one_key_find_healthcare_professional"
+                        android:hint="@string/onekey_sdk_find_healthcare_professional"
                         android:padding="@dimen/default_padding"
                         app:OneKeyTextStyle="OneKeyStyleSearchInput" />
 
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/one_key_results_label"
+                        android:text="@string/onekey_sdk_results_label"
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleSearchResultTotal" />
 
@@ -173,7 +173,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_padding_tiny"
                                 android:gravity="center"
-                                android:text="@string/one_key_list_label"
+                                android:text="@string/onekey_sdk_list_label"
                                 android:textColor="@color/white" />
                         </LinearLayout>
 
@@ -201,7 +201,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_padding_tiny"
                                 android:gravity="center"
-                                android:text="@string/one_key_map_label"
+                                android:text="@string/onekey_sdk_map_label"
                                 android:textColor="@color/colorOneKeyText" />
                         </LinearLayout>
                     </LinearLayout>
