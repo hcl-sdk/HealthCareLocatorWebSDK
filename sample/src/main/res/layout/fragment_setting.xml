@@ -95,14 +95,16 @@
             android:layout_marginTop="@dimen/default_padding_x_larger"
             android:text="Home"
             android:textColor="@color/colorOneKeyText"
-            android:textSize="@dimen/default_text" />
+            android:textSize="@dimen/default_text"
+            android:visibility="gone" />
 
         <RadioGroup
             android:id="@+id/homeGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_tiny"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rBtnFull"

@@ -5,41 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="@dimen/default_padding">
-
-        <LinearLayout
-            android:id="@+id/newSearchWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:orientation="horizontal">
-
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                android:id="@+id/edtSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_white_border_corner"
-                android:hint="@string/one_key_find_healthcare_professional"
-                android:padding="@dimen/default_padding"
-                app:OneKeyTextStyle="OneKeyStyleSearchInput" />
-
-            <ImageView
-                android:id="@+id/ivSearch"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="-10dp"
-                android:background="@drawable/bg_main_button_corner"
-                android:padding="@dimen/default_padding_smaller"
-                android:src="@drawable/baseline_search_white_36dp" />
-        </LinearLayout>
-    </LinearLayout>
-
     <com.ekino.onekeysdk.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"

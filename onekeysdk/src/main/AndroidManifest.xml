@@ -19,6 +19,9 @@
         <activity
             android:name=".activities.OneKeyActivity"
             android:theme="@style/OneKeySDKTheme"></activity>
+        <activity
+            android:name=".activities.OneKeyLocationActivity"
+            android:theme="@style/Theme.Transparent" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -93,19 +93,14 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
         oneKeyCustomObject.also {
-            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             nearMeWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastSearchWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastConsultedWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             contentWrapper.setBackgroundColor(it.colorViewBackground.getColor())
-            ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
-            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
-            edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
 
-        newSearchWrapper.setOnClickListener(this)
         viewMoreSearches.setOnClickListener(this)
         viewMoreConsulted.setOnClickListener(this)
         mapOverlay.setOnClickListener(this)
@@ -177,7 +172,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                     viewMoreConsulted.text = getViewTagText(0)
                 }
             }
-            R.id.newSearchWrapper -> startNewSearch()
             R.id.mapOverlay -> {
                 currentLocation?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
@@ -238,14 +232,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         rvLastConsulted.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = lastConsultedAdapter
-        }
-    }
-
-
-    private fun startNewSearch() {
-        oneKeyCustomObject.also {
-            (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                    SearchFragment.newInstance(it), true)
         }
     }
 

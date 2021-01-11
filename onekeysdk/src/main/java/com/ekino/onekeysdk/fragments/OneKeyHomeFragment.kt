@@ -37,18 +37,14 @@ class OneKeyHomeFragment :
     override val viewModel: HomeViewModel = HomeViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
         oneKeyCustomObject.also {
-            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             container.setBackgroundColor(it.colorViewBackground.getColor())
-            ivSearch.setRippleBackground(it.colorPrimary.getColor(), 12f)
-            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             btnStartSearch.setRippleBackground(it.colorPrimary)
-            edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
+
         rvHome.postDelay({
             if (rvHome == null) return@postDelay
             rvHome.apply {

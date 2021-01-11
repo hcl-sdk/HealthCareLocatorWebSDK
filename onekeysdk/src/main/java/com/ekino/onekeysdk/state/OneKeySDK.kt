@@ -9,8 +9,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.activities.OneKeyActivity
 import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.extensions.*
-import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
-import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
+import com.ekino.onekeysdk.fragments.home.OneKeyHomeMainFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -50,8 +49,8 @@ class OneKeySDK private constructor() : OneKeyState {
                         OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.one_key_near_me)),
                         config.specialities), true)
             }
-            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFragment.newInstance(), true)
-            else -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
+//            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
+            else -> activity!!.addFragment(containerId, OneKeyHomeMainFragment.newInstance(), true)
         }
     }
 
