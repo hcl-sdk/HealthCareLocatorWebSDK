@@ -46,11 +46,11 @@ export class OnekeySdkSwitchViewMode {
       <Host>
         <div class={listViewClass} onClick={() => this.onSwitch(ModeViewType.LIST)}>
           <ion-icon name="list"></ion-icon>
-          <span>{!!this.labels[this.typeOfLabel].list && t(this.labels[this.typeOfLabel].list)}</span>
+          {!!this.labels[this.typeOfLabel].list &&<span>{t(this.labels[this.typeOfLabel].list)}</span>}
         </div>
         <div class={mapViewClass} onClick={() => this.onSwitch(ModeViewType.MAP)}>
-          <ion-icon name="map-sharp"></ion-icon>
-          <span>{!!this.labels[this.typeOfLabel].map && t(this.labels[this.typeOfLabel].map)}</span>
+          <ion-icon name="map-sharp" class="mode-item__map-icon"></ion-icon>
+          {!!this.labels[this.typeOfLabel].map && <span>{t(this.labels[this.typeOfLabel].map)}</span>}
         </div>
       </Host>
     );

@@ -14,7 +14,6 @@ import { t } from '../../../utils/i18n';
   shadow: false,
 })
 export class OnekeySdkSearchResult {
-  @State() isListViewMode: boolean = true;
   @State() selectedMarkerIdx: number;
   @State() isOpenPanel: boolean = true;
 
@@ -38,7 +37,8 @@ export class OnekeySdkSearchResult {
     const { locationFilter, specialtyFilter } = searchMapStore.state;
     if (locationFilter === null && specialtyFilter === null) {
       searchMapStore.setState({
-        selectedActivity: null
+        selectedActivity: null,
+        individualDetail: null,
       });
       this.goBackToHome();
       return;
@@ -71,6 +71,7 @@ export class OnekeySdkSearchResult {
   goBackToList = () => {
     searchMapStore.setState({
       selectedActivity: null,
+      individualDetail: null
     });
   };
 
@@ -140,7 +141,8 @@ export class OnekeySdkSearchResult {
       selectedActivity,
       locationFilter,
       searchFields,
-      loadingActivities
+      loadingActivities,
+      individualDetail
     } = searchMapStore.state;
 
     const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
@@ -170,6 +172,7 @@ export class OnekeySdkSearchResult {
       selectedLocationIdx: 0,
       defaultZoom: 5
     }
+    const isShowFullCard = !!individualDetail;
 
     return (
       <Host class={wrapperClass}>
@@ -225,7 +228,7 @@ export class OnekeySdkSearchResult {
             <div class="toggle-panel">
               <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
             </div>
-            {!isListView && (
+            {!isListView && !isShowFullCard && (
               !selectedActivity ? (
                 <onekey-sdk-map
                   key="map-cluster"
