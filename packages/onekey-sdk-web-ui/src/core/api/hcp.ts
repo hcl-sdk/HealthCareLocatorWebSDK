@@ -33,7 +33,6 @@ export async function searchLocation(variables) {
   });
 
   const { activities } = await graphql.activities({
-    apiKey: "1",
     first: 50,
     offset: 0,
     county: "",
@@ -75,14 +74,12 @@ export async function searchDoctor(variables) {
   ] = await Promise.all(
     [
       graphql.individualsByName({
-        apiKey: "1",
         locale: "en",
         first: 5,
         offset: 0,
         ...variables,
       }),
       graphql.codesByLabel({
-        apiKey: "1",
         first: 5,
         offset: 0,
         codeTypes: ["SP"],
@@ -121,7 +118,6 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
   });
 
   const { activityByID: activity } = await graphql.activityByID({
-    apiKey: "1",
     id: activityId,
   })
 

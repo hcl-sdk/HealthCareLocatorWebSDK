@@ -27,7 +27,7 @@ const DEFAULT_VALUES = ALL_PROPS.map(font => ({ key: font.cssKey, value: getDefa
 const COLORS = ALL_PROPS.filter(n => /^color\./.test(n.key)).map(c => c.key);
 
 const defaultSettings = {
-  apiKey: '1234AZERTY',
+  apiKey: '300002938e8ed9e6',
   theme: 'default' as Theme,
   lang: 'en'
 }

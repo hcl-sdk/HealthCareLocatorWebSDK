@@ -7,9 +7,8 @@ interface ActivitiesResult {
 }
 
 const QUERY_ACTIVITIES = gql`
-  query activities($apiKey: String!, $first: Int!, $offset: Int!, $specialties: [String!], $county: String) {
+  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String) {
     activities(
-      apiKey: $apiKey
       first: $first
       offset: $offset
       specialties: $specialties

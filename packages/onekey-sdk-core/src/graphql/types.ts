@@ -203,7 +203,6 @@ export type Mutation = {
 
 
 export type MutationPostDataQualityAssesmentForActivityArgs = {
-  apiKey: Scalars['String'];
   userId?: Maybe<Scalars['String']>;
   activityId: Scalars['ID'];
   grade: DataQualityAssessment;
@@ -263,7 +262,6 @@ export type Query = {
 
 
 export type QueryIndividualByIdArgs = {
-  apiKey: Scalars['String'];
   userId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   locale?: Maybe<Scalars['String']>;
@@ -271,7 +269,6 @@ export type QueryIndividualByIdArgs = {
 
 
 export type QueryActivityByIdArgs = {
-  apiKey: Scalars['String'];
   userId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   locale?: Maybe<Scalars['String']>;
@@ -279,7 +276,6 @@ export type QueryActivityByIdArgs = {
 
 
 export type QueryWorkplaceByIdArgs = {
-  apiKey: Scalars['String'];
   userId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   locale?: Maybe<Scalars['String']>;
@@ -287,7 +283,6 @@ export type QueryWorkplaceByIdArgs = {
 
 
 export type QueryActivitiesArgs = {
-  apiKey: Scalars['String'];
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['String']>;
@@ -301,7 +296,6 @@ export type QueryActivitiesArgs = {
 
 
 export type QueryIndividualsByNameArgs = {
-  apiKey: Scalars['String'];
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['String']>;
@@ -311,7 +305,6 @@ export type QueryIndividualsByNameArgs = {
 
 
 export type QueryCodesByLabelArgs = {
-  apiKey: Scalars['String'];
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['String']>;
@@ -322,7 +315,6 @@ export type QueryCodesByLabelArgs = {
 
 
 export type QueryHistoryArgs = {
-  apiKey: Scalars['String'];
   userId: Scalars['String'];
 };
 

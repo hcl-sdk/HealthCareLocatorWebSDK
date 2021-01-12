@@ -7,9 +7,8 @@ interface ActivityByIdResult {
 }
 
 const QUERY_ACTIVITY_BY_ID = gql`
-  query activityById($apiKey: String!, $id: ID!) {
+  query activityById($id: ID!) {
     activityByID(
-      apiKey: $apiKey
       id: $id
     ) {
       id
