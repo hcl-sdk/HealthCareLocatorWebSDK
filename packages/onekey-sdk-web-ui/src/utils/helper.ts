@@ -28,16 +28,14 @@ export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical 
   let offsetName = 'offsetWidth'
   let itemNewOffset = 0
 
-  console.dir(cardListItem)
-  
   if(isVertical) {
     offsetSize = offsetHeight
     offsetName = 'offsetTop'
-    const cardItemOffset = cardListItem.children[1]?.children[selectedMarkerIdx]?.[offsetName] || 0
+    const cardItemOffset = cardListItem?.children?.[1]?.children?.[selectedMarkerIdx]?.[offsetName] || 0
     const gap = offsetSize / 2;
     itemNewOffset = cardItemOffset - (gap - 100)
   } else {
-    const cardItemOffset = cardListItem.children[selectedMarkerIdx][offsetName];
+    const cardItemOffset = cardListItem?.children?.[selectedMarkerIdx]?.[offsetName];
     const gap = (offsetSize - cardItemOffset) / 2;
     itemNewOffset = cardItemOffset * selectedMarkerIdx - (gap - 5);
   }
