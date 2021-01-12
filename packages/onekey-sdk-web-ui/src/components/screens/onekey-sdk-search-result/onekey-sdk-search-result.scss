@@ -185,12 +185,14 @@
 
     .search-result {
       overflow: hidden;
+      &__wrapper {
+        margin-right: 10px;
+      }
     }
 
     .search-toolbar {
       display: flex;
       padding: 10px;
-      grid-gap: 10px;
       .search-filter-wrapper {
         margin-left: auto;
       }
@@ -207,6 +209,7 @@
         padding-bottom: 0;
         .search-back-large {
           height: auto;
+          margin-right: auto;
         }
         .oksdk-btn {
           padding: 0;

@@ -57,17 +57,16 @@ export class OnekeySdkSearch {
   };
 
   checkValidElm = elm => {
-    if (!elm.value) {
+    if (elm && !elm.value) {
       elm.classList.add('error');
     } else {
       elm.classList.remove('error');
     }
   };
 
-  onChange = debounce(async e => {
-    const inputName = e.path[0].name;
-    const inputValue = e.path[0].value;
-    this.checkValidElm(e.path[0]);
+  onChange = debounce(async (name: string, value: string) => {
+    const inputName = name;
+    const inputValue = value;
     if (inputValue) {
       inputName === 'name'
         ? await searchDoctor({
@@ -77,13 +76,14 @@ export class OnekeySdkSearch {
             id: inputValue,
           });
     }
-  }, 500);
+  }, 500)
 
   handleFieldInput = e => {
     const el = e.target;
     searchMapStore.setSearchFieldValue(el.name, el.value);
+    this.checkValidElm(el);
     this.clearFilter(el.name);
-    this.onChange(e);
+    this.onChange(el.name, el.value);
   };
 
   @Listen('selectAddress')
