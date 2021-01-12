@@ -7,9 +7,8 @@ interface IndividualsByIDResult {
 }
 
 const QUERY_INDIVIDUAL_BY_ID = gql`
-  query individualByID($apiKey: String!, $id: ID!) {
+  query individualByID($id: ID!) {
     individualByID(
-      apiKey: $apiKey
       id: $id
     ) {
       id

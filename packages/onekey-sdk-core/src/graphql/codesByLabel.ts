@@ -7,9 +7,8 @@ interface CodeByLabelResult {
 }
 
 const QUERY_CODE_BY_LABEL = gql`
-  query codesByLabel($apiKey: String!, $first: Int!, $offset: Int!, $criteria: String!, $codeTypes: [String!]!, $locale: String) {
+  query codesByLabel($first: Int!, $offset: Int!, $criteria: String!, $codeTypes: [String!]!, $locale: String) {
     codesByLabel(
-      apiKey: $apiKey
       codeTypes: $codeTypes
       criteria: $criteria
       first: $first
