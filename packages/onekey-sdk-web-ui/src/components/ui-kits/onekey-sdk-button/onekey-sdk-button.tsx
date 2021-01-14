@@ -39,7 +39,12 @@ export class OnekeySdkButton {
     if (this.icon) {
       return (
         <button class={btnClass} type={this.type}>
-          <onekey-sdk-icon color={this.iconColor} name={this.icon} class="oksdk-btn__icon" width={this.iconWidth} height={this.iconHeight} />
+          <onekey-sdk-icon 
+            name={this.icon} 
+            color={this.iconColor}
+            class="oksdk-btn__icon" 
+            width={this.iconWidth} height={this.iconHeight} 
+          />
           <slot></slot>
         </button>
       );

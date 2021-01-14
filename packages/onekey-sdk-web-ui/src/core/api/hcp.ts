@@ -1,4 +1,4 @@
-import { searchMapStore, historyStore } from '../stores';
+import { searchMapStore, historyStore, configStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'onekey-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
@@ -37,7 +37,7 @@ export async function searchLocation(variables) {
     offset: 0,
     county: "",
     ...variables,
-  })
+  }, configStore.configGraphql)
 
   const data = activities.map((item) => ({
     distance: `${item.distance}m`,
@@ -78,14 +78,14 @@ export async function searchDoctor(variables) {
         first: 5,
         offset: 0,
         ...variables,
-      }),
+      }, configStore.configGraphql),
       graphql.codesByLabel({
         first: 5,
         offset: 0,
         codeTypes: ["SP"],
         locale: "en",
         ...variables,
-      })
+      }, configStore.configGraphql)
     ]
   )
 
@@ -119,11 +119,14 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
 
   const { activityByID: activity } = await graphql.activityByID({
     id: activityId,
-  })
+  }, configStore.configGraphql)
 
   const data = {
     id: activityId,
     name: activity.individual.mailingName,
+    firstName: activity.individual.firstName,
+    lastName: activity.individual.lastName,
+    middleName: activity.individual.middleName,
     professionalType: activity.individual.professionalType.label,
     specialties: getSpecialtiesText(activity.individual.specialties),
     addressName: activity.workplace.name,

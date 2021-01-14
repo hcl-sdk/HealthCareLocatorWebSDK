@@ -11,6 +11,20 @@
 | -------------- | ----------- | ------------------ |
 | `applyChanges` |             | `CustomEvent<any>` |
 | `backPressed`  |             | `CustomEvent<any>` |
+| `ready`        |             | `CustomEvent<any>` |
+
+
+## Methods
+
+### `getFields() => Promise<Fields>`
+
+
+
+#### Returns
+
+Type: `Promise<Fields>`
+
+
 
 
 ## Dependencies

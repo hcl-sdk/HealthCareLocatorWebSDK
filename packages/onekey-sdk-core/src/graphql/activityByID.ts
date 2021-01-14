@@ -75,6 +75,6 @@ const QUERY_ACTIVITY_BY_ID = gql`
   }
 `
 
-export default function activityByID(variables: QueryActivityByIdArgs): Promise<ActivityByIdResult> {
-  return graphqlClient(QUERY_ACTIVITY_BY_ID, variables)
+export default function activityByID(variables: QueryActivityByIdArgs, config?): Promise<ActivityByIdResult> {
+  return graphqlClient(QUERY_ACTIVITY_BY_ID, variables, config)
 }

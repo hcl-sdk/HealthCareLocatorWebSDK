@@ -17,6 +17,15 @@ export class OnekeySdkSearchResult {
   @State() selectedMarkerIdx: number;
   @State() isOpenPanel: boolean = true;
 
+  disconnectedCallback() {
+    searchMapStore.setState({
+      selectedActivity: null,
+      individualDetail: null,
+    });
+    configStore.setState({
+      modeView: ModeViewType.LIST
+    })
+  }
   componentWillLoad() {
     if (!searchMapStore.state.selectedActivity) {
       searchLocationWithParams()
@@ -174,6 +183,12 @@ export class OnekeySdkSearchResult {
     }
     const isShowFullCard = !!individualDetail;
 
+    const isShowNoResults = !loadingActivities && specialties && !specialties.length;
+    const isShowToolbar = {
+      mobile: !loadingActivities && isSmall && !selectedActivity,
+      desktop: !loadingActivities && !isSmall,
+    }
+
     return (
       <Host class={wrapperClass}>
         {(!selectedActivity || !isSmall) &&
@@ -207,45 +222,51 @@ export class OnekeySdkSearchResult {
             <onekey-sdk-search searchText={t('search')} showSwitchMode />
           ))}
 
-        <Fragment>
-          {isSmall && !selectedActivity && this.renderToolbar(true)}
-          <div class="body-block">
-            <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
-              {selectedActivity ? <onekey-sdk-hcp-full-card /> : !isSmall && this.renderToolbar()}
-              {!selectedActivity && (
-                <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                  {!loadingActivities && specialties.map((elm, idx) => (
-                    <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
-                  ))}
-                  {loadingActivities && (
-                    <div class="search-result__loading">
-                      <onekey-sdk-icon name="circular" />
+        {
+          isShowNoResults ? (
+            <onekey-sdk-search-no-results />
+          ) : (
+            <Fragment>
+              {isShowToolbar.mobile && this.renderToolbar(true)}
+              <div class="body-block">
+                <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
+                  {selectedActivity ? <onekey-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
+                  {!selectedActivity && (
+                    <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                      {!loadingActivities && specialties.map((elm, idx) => (
+                        <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
+                      ))}
+                      {loadingActivities && (
+                        <div class="search-result__loading">
+                          <onekey-sdk-icon name="circular" />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              )}
-            </div>
-            <div class="toggle-panel">
-              <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
-            </div>
-            {!isListView && !isShowFullCard && (
-              !selectedActivity ? (
-                <onekey-sdk-map
-                  key="map-cluster"
-                  breakpoint={breakpoint} 
-                  locations={specialties}
-                  {...injectedMapProps}
-                />
-              ) : (
-                <onekey-sdk-map 
-                  key="map-single"
-                  locations={[{ lat: selectedActivity.lat, lng: selectedActivity.lng }]}
-                  {...injectedMapProps}
-                />
-              )
-            )}
-          </div>
-        </Fragment>
+                <div class="toggle-panel">
+                  <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
+                </div>
+                {!isListView && !isShowFullCard && (
+                  !selectedActivity ? (
+                    <onekey-sdk-map
+                      key="map-cluster"
+                      breakpoint={breakpoint} 
+                      locations={specialties}
+                      {...injectedMapProps}
+                    />
+                  ) : (
+                    <onekey-sdk-map 
+                      key="map-single"
+                      locations={[{ lat: selectedActivity.lat, lng: selectedActivity.lng }]}
+                      {...injectedMapProps}
+                    />
+                  )
+                )}
+              </div>
+            </Fragment>
+          )
+        }
       </Host>
     );
   }

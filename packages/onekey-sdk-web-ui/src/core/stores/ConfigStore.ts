@@ -1,5 +1,4 @@
 import StoreProvider from './StoreProvider';
-import { DEFAULT_CONFIGURATION, OnekeySDKConfig } from 'onekey-sdk-core';
 
 export enum ModeViewType {
   "LIST" = "LIST",
@@ -15,22 +14,31 @@ export interface Modal {
 export interface OneKeySDKConfigData {
   markerIcon?: string;
   markerIconCurrentLocation?: string;
-  input?: OnekeySDKConfig;
   modeView?: ModeViewType;
   i18nBundlesPath?: string;
   modal?: Modal;
   entry?: any;
   icons: any;
+  apiKey?: string;
 }
 
 export const initStateConfigStore = {
-  // User input config
-  input: DEFAULT_CONFIGURATION,
+  apiKey: '',
   modeView: ModeViewType.LIST,
   modal: undefined,
   icons: {}
 };
 
-class ConfigStore extends StoreProvider<OneKeySDKConfigData> {}
+class ConfigStore extends StoreProvider<OneKeySDKConfigData> {
+
+  get configGraphql() {
+    return {
+      headers: {
+        'Ocp-Apim-Subscription-Key': this.state.apiKey
+      }
+    }
+  }
+
+}
 
 export default ConfigStore;

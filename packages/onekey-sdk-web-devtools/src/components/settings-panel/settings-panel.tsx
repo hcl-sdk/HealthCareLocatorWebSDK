@@ -1,7 +1,8 @@
-import { Component, h, State, Event, EventEmitter, Listen } from '@stencil/core';
+import { Component, h, State, Event, EventEmitter, Listen, Method } from '@stencil/core';
 import { DEFAULT_THEME_PROPERTIES } from 'onekey-sdk-core';
+import { loadSettings, storeSettings } from '../../utils/utils';
+import { Fields } from '../../types';
 import * as icons from './icons'
-// import Prism from 'prismjs';
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
@@ -25,24 +26,6 @@ const DEFAULT_VALUES = ALL_PROPS.map(font => ({ key: font.cssKey, value: getDefa
 );
 
 const COLORS = ALL_PROPS.filter(n => /^color\./.test(n.key)).map(c => c.key);
-
-const defaultSettings = {
-  apiKey: '300002938e8ed9e6',
-  theme: 'default' as Theme,
-  lang: 'en'
-}
-
-const storeSettings = (settings: Fields) => {
-  localStorage.setItem(`__onekey-sdk-dev-settings-fields`, JSON.stringify(settings));
-};
-
-const loadSettings = (): Fields => {
-  const settingsStr = localStorage.getItem(`__onekey-sdk-dev-settings-fields`);
-  if (settingsStr) {
-    return JSON.parse(settingsStr);
-  }
-  return defaultSettings;
-};
 
 function getDefaultValue(key: string) {
   const value = DEFAULT_THEME_PROPERTIES[key];
@@ -118,6 +101,7 @@ function isValidRGBValue(v: string) {
 export class SettingsPanel {
   @Event() applyChanges: EventEmitter<any>;
   @Event() backPressed: EventEmitter<any>;
+  @Event() ready: EventEmitter<any>;
 
   @State() view: 'main' | 'theme' | 'font' | 'icon' | 'color' = 'main';
 
@@ -147,6 +131,11 @@ export class SettingsPanel {
     };
   }
 
+  @Method()
+  async getFields() {
+    return Promise.resolve(this.fields);
+  }
+
   picker: any;
   iconCodePreview: any;
   ICON_STORE_NAME = "__onekeysdk-devtools-custom-icon"
@@ -156,6 +145,7 @@ export class SettingsPanel {
     if (this.fields.theme === 'custom') {
       this.setCustomTheme();
     }
+    this.ready.emit();
   }
 
   updateLanguage = () => {

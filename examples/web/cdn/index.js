@@ -37,25 +37,28 @@ function searchNearMe(specialtyCode) {
 
 // Initialize Onekey SDK
 
-const config = {
-  i18nBundlesPath: '/onekey-sdk/i18n'
-};
-
-var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
-if (matches) {
-  var specialtyCode = matches[1];
-  var specialtyLabel = specialtyLabelByCode[specialtyCode];
-  if (specialtyLabel) {
-    config.entry = {
-      screenName: 'nearMe',
-      specialtyCode,
-      specialtyLabel
+settingPanelEl.addEventListener('ready', function() {
+  settingPanelEl.getFields().then(fields => {
+    const config = {
+      apiKey: fields.apiKey,
+      i18nBundlesPath: '/onekey-sdk/i18n'
+    };
+    
+    var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
+    if (matches) {
+      var specialtyCode = matches[1];
+      var specialtyLabel = specialtyLabelByCode[specialtyCode];
+      if (specialtyLabel) {
+        config.entry = {
+          screenName: 'nearMe',
+          specialtyCode,
+          specialtyLabel
+        }
+      }
     }
-  }
-}
-
-if (onekeySdkEl) {
-  onekeySdkEl.config = config;
-}
-
-
+    
+    if (onekeySdkEl) {
+      onekeySdkEl.config = config;
+    }
+  })
+})

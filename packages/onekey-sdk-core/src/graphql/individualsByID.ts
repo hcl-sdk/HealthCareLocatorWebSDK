@@ -46,6 +46,6 @@ const QUERY_INDIVIDUAL_BY_ID = gql`
   }
 `
 
-export default function individualsByID(variables: QueryIndividualByIdArgs): Promise<IndividualsByIDResult> {
-  return graphqlClient(QUERY_INDIVIDUAL_BY_ID, variables)
+export default function individualsByID(variables: QueryIndividualByIdArgs, config?): Promise<IndividualsByIDResult> {
+  return graphqlClient(QUERY_INDIVIDUAL_BY_ID, variables, config)
 }
