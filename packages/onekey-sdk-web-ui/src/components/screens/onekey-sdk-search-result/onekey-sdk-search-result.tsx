@@ -183,7 +183,7 @@ export class OnekeySdkSearchResult {
     }
     const isShowFullCard = !!individualDetail;
 
-    const isShowNoResults = !loadingActivities && specialties && !specialties.length;
+    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !selectedActivity;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity,
       desktop: !loadingActivities && !isSmall,

@@ -227,7 +227,7 @@ export class OnekeySdkSearch {
     if (
       !nearMeFound && 
       !searchMapState.searchFields.address.length && 
-      searchMapState.geoLocation.status === 'denied'
+      !(searchMapState.geoLocation.status === 'denied')
     ) {
       return [NEAR_ME_ITEM, ...addressResults];
     }
