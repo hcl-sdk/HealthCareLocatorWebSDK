@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.iqvia.onekey.GetIndividualByNameQuery
 import kotlinx.android.synthetic.main.layout_item_individual.view.*
 import kotlinx.android.synthetic.main.layout_one_key_hcp_item.view.*
@@ -69,6 +69,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
                 val address = data.mainActivity().workplace().address()?.run {
                     "${longLabel()}, ${city().label()}"
                 } ?: ""
+                ivArrow.setColorFilter(theme.colorSecondary.getColor())
                 tvHCPSpeciality.visibility = specialty.isNotEmpty().getVisibility()
                 tvHCPAddress.visibility = address.isNotEmpty().getVisibility()
                 tvHCPSpeciality.text = specialty

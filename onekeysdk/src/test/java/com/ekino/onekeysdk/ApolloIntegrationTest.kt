@@ -33,17 +33,18 @@ class ApolloIntegrationTest {
 
     @Before
     fun setUp() {
-        apolloClient = ApolloConnector.getInstance().getApolloClient {
-            val builder = ApolloClient.builder()
-            builder.okHttpClient(OkHttpClient.Builder()
-                    .addInterceptor(ApolloConnector.AuthorizationInterceptor())
-                    .dispatcher(Dispatcher(Utils.immediateExecutorService())).build())
-                    .normalizedCache(LruNormalizedCacheFactory(EvictionPolicy.NO_EVICTION),
-                            CacheKeyResolver.DEFAULT)
-                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
-                    .dispatcher(Utils.immediateExecutor())
-            builder
-        }
+        apolloClient = ApolloConnector.getInstance().getApolloClient()
+//        apolloClient = ApolloConnector.getInstance().getApolloClient {
+//            val builder = ApolloClient.builder()
+//            builder.okHttpClient(OkHttpClient.Builder()
+//                    .addInterceptor(ApolloConnector.AuthorizationInterceptor())
+//                    .dispatcher(Dispatcher(Utils.immediateExecutorService())).build())
+//                    .normalizedCache(LruNormalizedCacheFactory(EvictionPolicy.NO_EVICTION),
+//                            CacheKeyResolver.DEFAULT)
+//                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+//                    .dispatcher(Utils.immediateExecutor())
+//            builder
+//        }
     }
 
     @Test
@@ -66,7 +67,7 @@ class ApolloIntegrationTest {
 
     @Test
     fun getActivitiesWithLocation() {
-        val builder = GetActivitiesQuery.builder().apiKey("1")
+        val builder = GetActivitiesQuery.builder()
                 .locale(Locale.getDefault().language).first(50).offset(0)
         builder.specialties(arrayListOf("SP.WCA.08", "SP.WCA.N2"))
         builder.location(GeopointQuery.builder().lat(45.6309).lon(-72.9830).build())
@@ -84,7 +85,7 @@ class ApolloIntegrationTest {
 
     @Test
     fun getActivitiesWithoutLocation() {
-        val builder = GetActivitiesQuery.builder().apiKey("1")
+        val builder = GetActivitiesQuery.builder()
                 .locale(Locale.getDefault().language).first(50).offset(0)
         builder.specialties(arrayListOf("SP.WCA.08", "SP.WCA.N2"))
         assertResponse(apolloClient.query(builder.build()),
@@ -101,7 +102,7 @@ class ApolloIntegrationTest {
 
     @Test
     fun getActivitiesWithoutSpecialities() {
-        val builder = GetActivitiesQuery.builder().apiKey("1")
+        val builder = GetActivitiesQuery.builder()
                 .locale(Locale.getDefault().language).first(50).offset(0)
         builder.location(GeopointQuery.builder().lat(45.6309).lon(-72.9830).build())
         assertResponse(apolloClient.query(builder.build()),
@@ -119,7 +120,7 @@ class ApolloIntegrationTest {
     @Test
     fun getActivitiesById() {
         val builder = GetActivityByIdQuery.builder().id("WCAP0004386201")
-                .apiKey("1").locale(Locale.getDefault().language)
+                .locale(Locale.getDefault().language)
         assertResponse(apolloClient.query(builder.build()),
                 Predicate<Response<GetActivityByIdQuery.Data>> { response ->
                     val data = response.data?.activityByID()
@@ -134,7 +135,7 @@ class ApolloIntegrationTest {
 
     @Test
     fun getIndividualByName() {
-        assertResponse(apolloClient.query(GetIndividualByNameQuery.builder().apiKey("1")
+        assertResponse(apolloClient.query(GetIndividualByNameQuery.builder()
                 .criteria("gen").first(5).offset(0).locale(Locale.getDefault().language).build()),
                 Predicate<Response<GetIndividualByNameQuery.Data>> { response ->
                     val data = response.data?.individualsByName()?.individuals()
@@ -153,7 +154,7 @@ class ApolloIntegrationTest {
 
     @Test
     fun getSpecialities() {
-        assertResponse(apolloClient.query(GetCodeByLabelQuery.builder().apiKey("1").criteria("gen")
+        assertResponse(apolloClient.query(GetCodeByLabelQuery.builder().criteria("gen")
                 .first(5).offset(0).codeTypes(listOf("SP")).build()),
                 Predicate<Response<GetCodeByLabelQuery.Data>> { response ->
                     val data = response.data?.codesByLabel()?.codes()

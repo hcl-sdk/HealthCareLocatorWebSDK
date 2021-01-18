@@ -20,6 +20,8 @@ class OneKeySDK private constructor() : OneKeyState {
     }
 
     private var config: OneKeyCustomObject = OneKeyCustomObject.Builder().build()
+    private var appName: String = ""
+    private var appDownloadLink: String = ""
 
     companion object {
         @JvmStatic
@@ -28,6 +30,28 @@ class OneKeySDK private constructor() : OneKeyState {
 
     override fun init(customObject: OneKeyCustomObject) {
         this.config = customObject
+    }
+
+    override fun setAppName(appName: String): OneKeyState {
+        this.appName = appName
+        return this
+    }
+
+    override fun setApiKey(apiKey: String): OneKeyState {
+        return this
+    }
+
+    override fun setAppDownloadLink(downloadLink: String): OneKeyState {
+        this.appDownloadLink = downloadLink
+        return this
+    }
+
+    override fun getAppName(): String {
+        return appName
+    }
+
+    override fun getAppDownloadLink(): String {
+        return appDownloadLink
     }
 
     override fun getConfiguration(): OneKeyCustomObject = config

@@ -402,8 +402,8 @@
 
                             <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
                                 android:id="@+id/cbxYes"
-                                android:layout_width="45dp"
-                                android:layout_height="35dp"
+                                android:layout_width="41dp"
+                                android:layout_height="31dp"
                                 android:textColor="@color/colorOneKeyText"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
@@ -419,8 +419,8 @@
 
                             <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
                                 android:id="@+id/cbxNo"
-                                android:layout_width="45dp"
-                                android:layout_height="35dp"
+                                android:layout_width="41dp"
+                                android:layout_height="31dp"
                                 android:textSize="@dimen/default_text"
                                 app:forceTextSize="true" />
 
@@ -463,10 +463,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/default_padding_smaller"
                             android:layout_weight="1"
+                            android:text="@string/onekey_sdk_improve_quality_text"
                             android:textColor="@color/colorOneKeyText"
                             android:textSize="@dimen/default_text"
-                            app:forceTextSize="true"
-                            android:text="@string/onekey_sdk_improve_quality_text" />
+                            app:forceTextSize="true" />
 
                         <LinearLayout
                             android:id="@+id/btnSuggestModification"

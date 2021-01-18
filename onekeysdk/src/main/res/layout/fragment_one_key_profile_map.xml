@@ -75,9 +75,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="0dp">
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:id="@+id/mapContainer"

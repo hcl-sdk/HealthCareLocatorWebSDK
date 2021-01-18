@@ -18,20 +18,6 @@
             "description": "",
             "args": [
               {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "userId",
                 "description": "",
                 "type": {
@@ -78,20 +64,6 @@
             "name": "activityByID",
             "description": "",
             "args": [
-              {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
               {
                 "name": "userId",
                 "description": "",
@@ -140,20 +112,6 @@
             "description": "",
             "args": [
               {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "userId",
                 "description": "",
                 "type": {
@@ -200,20 +158,6 @@
             "name": "activities",
             "description": "",
             "args": [
-              {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
               {
                 "name": "first",
                 "description": "",
@@ -330,20 +274,6 @@
             "description": "",
             "args": [
               {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "first",
                 "description": "",
                 "type": {
@@ -410,20 +340,6 @@
             "name": "codesByLabel",
             "description": "criteria would be on longLbl code types can be Liscode ",
             "args": [
-              {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
               {
                 "name": "first",
                 "description": "",
@@ -510,23 +426,9 @@
             "deprecationReason": null
           },
           {
-            "name": "history",
+            "name": "historyBYQuery",
             "description": "",
             "args": [
-              {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
               {
                 "name": "userId",
                 "description": "",
@@ -543,9 +445,44 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "History",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "HistoryQueryResult",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "historyBYActivityId",
+            "description": "",
+            "args": [
+              {
+                "name": "userId",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "HistoryActivityResult",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -770,7 +707,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Activity",
+                "name": "ActivityList",
                 "ofType": null
               }
             },
@@ -792,7 +729,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "Activity",
+                    "name": "ActivityList",
                     "ofType": null
                   }
                 }
@@ -846,12 +783,17 @@
           },
           {
             "kind": "OBJECT",
-            "name": "Activity",
+            "name": "ActivityList",
             "ofType": null
           },
           {
             "kind": "OBJECT",
             "name": "Workplace",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Activity",
             "ofType": null
           },
           {
@@ -916,7 +858,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Activity",
+        "name": "ActivityList",
         "description": "",
         "fields": [
           {
@@ -931,6 +873,18 @@
                 "name": "ID",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "main_flag",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1569,6 +1523,151 @@
         "fields": null,
         "inputFields": null,
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Activity",
+        "description": "",
+        "fields": [
+          {
+            "name": "id",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "main_flag",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "role",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "KeyedString",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "title",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "KeyedString",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fax",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "webAddress",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "individual",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Individual",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "workplace",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Workplace",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "OneKeyEntity",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2424,29 +2523,65 @@
       },
       {
         "kind": "OBJECT",
-        "name": "History",
-        "description": "",
+        "name": "HistoryQueryResult",
+        "description": "History Query model is to save 5 search criteria for User",
         "fields": [
           {
-            "name": "activities",
+            "name": "queryId",
             "description": "",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ActivityQueryEntry",
-                    "ofType": null
-                  }
-                }
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "subscriptionId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "when",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "filterCriteria",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Criteria",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2459,28 +2594,100 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ActivityQueryEntry",
-        "description": "",
+        "name": "Criteria",
+        "description": "Filter criteria put by User to save History",
         "fields": [
           {
-            "name": "when",
+            "name": "id",
             "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Date",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "activity",
+            "name": "professionalType",
             "description": "",
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "ActivityFragment",
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lat",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "log",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "radius",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "county",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "locale",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "criteria",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2493,12 +2700,61 @@
         "possibleTypes": null
       },
       {
-        "kind": "SCALAR",
-        "name": "Date",
+        "kind": "OBJECT",
+        "name": "HistoryActivityResult",
         "description": "",
-        "fields": null,
+        "fields": [
+          {
+            "name": "userId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "subscriptionId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "when",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "activityId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "inputFields": null,
-        "interfaces": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2511,20 +2767,6 @@
             "name": "postDataQualityAssesmentForActivity",
             "description": "",
             "args": [
-              {
-                "name": "apiKey",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
               {
                 "name": "userId",
                 "description": "",
@@ -2600,41 +2842,46 @@
             "deprecationReason": null
           },
           {
-            "name": "ForgetHistoryEntries",
+            "name": "ForgetHistoryQueryEntry",
             "description": "",
             "args": [
               {
-                "name": "individuals",
+                "name": "query",
                 "description": "",
                 "type": {
-                  "kind": "LIST",
+                  "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
                   }
                 },
                 "defaultValue": null
-              },
+              }
+            ],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ForgetHistoryActivityEntries",
+            "description": "",
+            "args": [
               {
-                "name": "queries",
+                "name": "activityId",
                 "description": "",
                 "type": {
-                  "kind": "LIST",
+                  "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
                   }
                 },
                 "defaultValue": null
@@ -3521,16 +3768,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "SCALAR",
-        "name": "Map",
-        "description": "",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "Translations",
         "description": "This object represents an Individual's activity at a specific Workplace.",
@@ -3566,41 +3803,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
-        "name": "PageInfo",
-        "description": "",
-        "fields": [
-          {
-            "name": "endCursor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "hasNextPage",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "ENUM",
         "name": "QualityGrade",
         "description": "",
@@ -3624,6 +3826,31 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "CountyQuery",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "county",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "GeoAccurracy",
         "description": "",
@@ -3638,6 +3865,49 @@
             "deprecationReason": null
           }
         ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Date",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Map",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "contextKey",
+        "description": "",
+        "fields": [
+          {
+            "name": "name",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -3712,57 +3982,77 @@
         "possibleTypes": null
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "CountyQuery",
+        "kind": "OBJECT",
+        "name": "PageInfo",
         "description": "",
-        "fields": null,
-        "inputFields": [
+        "fields": [
           {
-            "name": "county",
+            "name": "endCursor",
             "description": "",
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "hasNextPage",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
-        "interfaces": null,
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ActivityQueryEntry",
+        "description": "",
+        "fields": [
+          {
+            "name": "when",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Date",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "activity",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ActivityFragment",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       }
     ],
     "directives": [
-      {
-        "name": "include",
-        "description": "The @include directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional inclusion during execution as described by the if argument.",
-        "locations": [
-          "FIELD",
-          "FRAGMENT_SPREAD",
-          "INLINE_FRAGMENT"
-        ],
-        "args": [
-          {
-            "name": "if",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ]
-      },
       {
         "name": "skip",
         "description": "The @skip directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional exclusion during execution as described by the if argument.",
@@ -3805,6 +4095,31 @@
               "ofType": null
             },
             "defaultValue": "\"No longer supported\""
+          }
+        ]
+      },
+      {
+        "name": "include",
+        "description": "The @include directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional inclusion during execution as described by the if argument.",
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
+        "args": [
+          {
+            "name": "if",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
           }
         ]
       }

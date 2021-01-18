@@ -26,7 +26,7 @@ import android.widget.ImageView;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 
 class ColorPaletteAdapter extends BaseAdapter {
 

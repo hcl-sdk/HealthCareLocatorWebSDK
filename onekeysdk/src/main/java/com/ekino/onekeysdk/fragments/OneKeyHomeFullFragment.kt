@@ -252,10 +252,10 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
 //        val l= Location.convert()
         currentLocation = location?.getCurrentLocation(currentLocation)
+        locationProvider?.stopLocationProvider()
         currentLocation?.also {
             viewModel.getNearMeHCP(it) {
-                if (isAdded)
-                    getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
+                getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
             }
         }
     }

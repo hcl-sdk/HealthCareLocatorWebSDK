@@ -5,6 +5,11 @@ import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 
 interface OneKeyState {
+    fun setApiKey(apiKey:String):OneKeyState
+    fun setAppName(appName: String): OneKeyState
+    fun getAppName(): String
+    fun setAppDownloadLink(downloadLink: String): OneKeyState
+    fun getAppDownloadLink(): String
     fun init(customObject: OneKeyCustomObject)
     fun getConfiguration(): OneKeyCustomObject
 

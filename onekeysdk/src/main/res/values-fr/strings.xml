@@ -45,6 +45,6 @@
     <string name="onekey_sdk_information_yes_label">Oui</string>
     <string name="onekey_sdk_information_no_label">Non</string>
     <string name="onekey_sdk_improve_quality_label">Améliorer la qualité des données</string>
-    <string name="onekey_sdk_improve_quality_text">Partagez avec nous plus d'information sur ce professionnel de santé.</string>
+    <string name="onekey_sdk_improve_quality_text">Partagez avec nous plus d\'information sur ce professionnel de santé.</string>
     <string name="onekey_sdk_suggess_modification_button">Suggérer une modification\u0020</string>
 </resources>

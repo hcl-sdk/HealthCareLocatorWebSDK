@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import base.fragments.IFragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.sample.SampleOneKeySDKActivity
 import kotlinx.android.synthetic.main.fragment_drawer_menu.*
 

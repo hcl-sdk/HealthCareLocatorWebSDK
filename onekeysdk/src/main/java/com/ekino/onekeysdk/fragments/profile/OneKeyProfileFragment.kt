@@ -95,6 +95,7 @@ class OneKeyProfileFragment :
         })
         btnBack.setOnClickListener { activity?.onBackPressed() }
         oneKeyCustomObject.apply {
+            container.setBackgroundColor(colorViewBackground.getColor())
             ivLocationOutLine.setIconFromDrawableId(iconLocation, true, colorMarkerSelected.getColor())
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
             ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
@@ -137,6 +138,8 @@ class OneKeyProfileFragment :
         }
         val secondaryColor = oneKeyCustomObject.colorSecondary.getColor()
         ivDirection.setColorFilter(secondaryColor)
+        ivDirection.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 100f, 3)
+        ivCall.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 100f, 3)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
         ivLocationOutLine.setColorFilter(oneKeyCustomObject.colorMarker.getColor())
@@ -151,12 +154,11 @@ class OneKeyProfileFragment :
             tvSpecialities.text = TextUtils.join(",", individual?.specialties
                     ?: arrayListOf<LabelObject>())
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
-            tvModification.text =
-                    "Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan."
         }
 
         val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
         if (activities.size > 1) {
+            spinnerWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 10f, 2)
             spinnerWrapper.visibility = View.VISIBLE
             ArrayAdapter<OtherActivityObject>(context!!, R.layout.layout_one_key_spinner_item, activities).also {
                 it.setDropDownViewResource(R.layout.layout_one_key_drop_down)

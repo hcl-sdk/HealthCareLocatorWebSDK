@@ -54,7 +54,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 import com.jaredrummler.android.colorpicker.interfaces.OnColorPickedListener;
 
 import java.util.Arrays;

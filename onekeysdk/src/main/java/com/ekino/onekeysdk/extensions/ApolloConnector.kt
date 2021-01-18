@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.extensions
 
 import com.apollographql.apollo.ApolloClient
 import com.ekino.onekeysdk.extensions.ApolloConnector.Instance.apolloClientUrl
+import com.ekino.onekeysdk.state.OneKeySDK
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -45,8 +46,9 @@ class ApolloConnector private constructor() {
 
     class AuthorizationInterceptor() : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
+            val config = OneKeySDK.getInstance().getConfiguration()
             val request = chain.request().newBuilder()
-                    .addHeader("Ocp-Apim-Subscription-Key", "Ocp-Apim-Subscription-Key")
+                    .addHeader("Ocp-Apim-Subscription-Key", config.apiKey)
                     .build()
 
             return chain.proceed(request)

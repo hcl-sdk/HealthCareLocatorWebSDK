@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
@@ -211,8 +211,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
+        builder.apiKey("200002c2aaf5b168")
 
-        OneKeySDK.getInstance().init(builder.build())
+        OneKeySDK.getInstance().setAppName("OneKeySample").setAppDownloadLink("google.com.vn").init(builder.build())
         OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
 //        OneKeySDK.getInstance().startOneKeySDKActivity(this)
     }

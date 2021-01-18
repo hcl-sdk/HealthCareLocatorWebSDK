@@ -41,7 +41,7 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
             client.releaseApiClient()
             currentLocation(location)
             query({
-                val builder = GetActivitiesQuery.builder().apiKey(theme.apiKey)
+                val builder = GetActivitiesQuery.builder()
                         .locale(theme.getLocaleCode()).first(50).offset(0)
                 if (specialities.isNotEmpty()) {
                     builder.specialties(specialities)

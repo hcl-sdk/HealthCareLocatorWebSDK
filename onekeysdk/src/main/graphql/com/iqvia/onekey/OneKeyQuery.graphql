@@ -1,5 +1,5 @@
-query getProfile($apiKey: String!, $id: ID!) {
-    individualByID(apiKey: $apiKey, id:$id) {
+query getProfile($id: ID!) {
+    individualByID( id:$id) {
         id
         title
         firstName
@@ -11,8 +11,8 @@ query getProfile($apiKey: String!, $id: ID!) {
 
     }
 }
-query getIndividualByName($apiKey: String!, $criteria:String!, $locale:String, $first:Int!, $offset:Int!){
-    individualsByName(apiKey:$apiKey, criteria:$criteria, locale: $locale, first:$first, offset:$offset){
+query getIndividualByName($criteria:String!, $locale:String, $first:Int!, $offset:Int!){
+    individualsByName(criteria:$criteria, locale: $locale, first:$first, offset:$offset){
         individuals {
             id
             firstName
@@ -44,9 +44,9 @@ query getIndividualByName($apiKey: String!, $criteria:String!, $locale:String, $
     }
 }
 
-query getActivities($apiKey: String!, $locale:String, $first:Int!, $offset:Int!,
+query getActivities($locale:String, $first:Int!, $offset:Int!,
     $criteria:String,$specialties:[String!], $location:GeopointQuery){
-    activities(apiKey:$apiKey,locale: $locale, first: $first, offset:$offset,
+    activities(locale: $locale, first: $first, offset:$offset,
         criteria:$criteria, specialties:$specialties, location:$location){
         distance
         activity{
@@ -85,8 +85,8 @@ query getActivities($apiKey: String!, $locale:String, $first:Int!, $offset:Int!,
     }
 }
 
-query getActivityById($apiKey: String!, $id:ID!, $locale:String){
-    activityByID(apiKey:$apiKey, id:$id, locale: $locale){
+query getActivityById($id:ID!, $locale:String){
+    activityByID(id:$id, locale: $locale){
         id
         phone
         role{
@@ -164,8 +164,8 @@ query getActivityById($apiKey: String!, $id:ID!, $locale:String){
         }
     }
 }
-query getCodeByLabel($apiKey: String!, $first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[String!]!){
-    codesByLabel(apiKey: $apiKey,  first: $first,offset: $offset,
+query getCodeByLabel($first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[String!]!){
+    codesByLabel(  first: $first,offset: $offset,
         criteria: $criteria,
         codeTypes: $codeTypes) {
         codes {

@@ -40,7 +40,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 
 /**
  * Displays a color picker to the user and allow them to select a color. A slider for the alpha channel is also

@@ -178,6 +178,8 @@
                 android:id="@+id/nearMeWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding_smaller"
+                android:layout_marginBottom="@dimen/default_padding_smaller"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -249,6 +251,8 @@
                         android:id="@+id/tvLocationSelected"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_padding_tiny"
+                        android:layout_marginBottom="@dimen/default_padding_tiny"
                         android:layout_weight="1"
                         android:paddingTop="@dimen/default_padding"
                         android:paddingEnd="@dimen/default_padding"

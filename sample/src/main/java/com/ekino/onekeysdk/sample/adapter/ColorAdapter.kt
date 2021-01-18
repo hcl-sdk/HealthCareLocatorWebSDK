@@ -3,11 +3,11 @@ package com.ekino.onekeysdk.sample.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.sample.model.ColorObject
+import com.ekino.sample.onekeysdk.R
 import kotlinx.android.synthetic.main.layout_item_color.view.*
 
 class ColorAdapter : OneKeyAdapter<ColorObject, ColorAdapter.ColorVH>(arrayListOf(R.layout.layout_item_color)) {
