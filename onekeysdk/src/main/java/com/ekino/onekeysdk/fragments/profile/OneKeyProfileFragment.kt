@@ -216,7 +216,24 @@ class OneKeyProfileFragment :
                         string += "\n${address?.longLabel}"
                     string
                 } ?: ""
-                activity?.share(address, "Share HCP")
+                val link = with(OneKeySDK.getInstance().getAppDownloadLink()) {
+                    if (this.isEmpty()) ""
+                    " - ${OneKeySDK.getInstance().getAppDownloadLink()}"
+                }
+                val name = with(activityDetail.individual) {
+                    if (this == null) ""
+                    else {
+                        "$firstName $middleName $lastName"
+                    }
+                }
+                val shareString = "Here is a healthcare professional that I recommend:\n" +
+                        "\n" +
+                        "$name\n" + "${activityDetail.individual?.professionalType?.label}\n\n" +
+                        "$address\n\n" +
+                        "${obj?.phone}\n" +
+                        "\n" +
+                        "I found it on ${OneKeySDK.getInstance().getAppName()}$link."
+                activity?.share(shareString, "Share HCP")
             }
             R.id.mapOverlay -> {
                 val obj = (addressSpinner.selectedItem as? OtherActivityObject) ?: return
