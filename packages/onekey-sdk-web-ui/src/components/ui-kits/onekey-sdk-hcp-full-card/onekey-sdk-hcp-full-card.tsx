@@ -59,7 +59,7 @@ export class OnekeySdkHCPFullCard {
 
     if (navigator.share) {
       navigator.share({
-        text: getTextBodyToShare(individualDetail, '\n', 'Share')
+        text: getTextBodyToShare(individualDetail, '\n')
       }).then(() => {
         // TODO Successfully: 
       })

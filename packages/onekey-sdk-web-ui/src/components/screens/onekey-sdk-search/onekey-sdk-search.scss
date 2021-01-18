@@ -33,15 +33,11 @@
     }
   }
 
-  .reset-search {
-    visibility: hidden;
+  .oksdk-btn-reset-search {
     display: none;
-  }
-
-  .onekey-sdk-home {
-    .reset-search.hide {
-      display: none;
-    }
+    cursor: pointer;
+    margin-left: 20px;
+    text-decoration: underline;
   }
 
   .oksdk-search {
@@ -71,7 +67,6 @@
       &--content {
         flex: 1;
         margin-right: 8px;
-        grid-gap: 8px;
         width: 100%;
         position: relative;
         display: flex;
@@ -79,6 +74,9 @@
         
         &-item {
           position: relative;
+          &:last-child {
+            margin-top: 8px;
+          }
         }
       }
     }
@@ -104,16 +102,11 @@
   
       &__container {
         padding: 0;
-        display: grid;
-        grid-auto-flow: column;
-        justify-content: center;
-        grid-template-columns: auto 145px;
         box-shadow: 0 4px 2px -2px var(--onekeysdk-color-card_border);
       }
   
       &__form {
         display: grid;
-        grid-template-columns: auto 150px;
         justify-content: center;
         align-items: center;
         padding: 20px 0;
@@ -123,6 +116,10 @@
           display: grid;
           grid-auto-flow: column;
           grid-gap: 20px;
+
+          &-item:last-child {
+            margin-top: 0;
+          }
         }
   
         .onekey-sdk-input {
@@ -153,19 +150,8 @@
       }
     }
     
-    .reset-search {
+    .oksdk-btn-reset-search {
       display: block;
-      visibility: visible;
-      cursor: pointer;
-      margin-left: 20px;
-  
-      span {
-        text-decoration: underline;
-      }
-  
-      &.hide {
-        visibility: hidden;
-      }
     }
 
     .oksdk-btn-search-back {
@@ -175,9 +161,35 @@
     // HCP Detail Page
     .map-view-mode,
     .list-view-mode {
-      .oksdk-search__container{
-        padding: 0 17px;
-        justify-content: space-between;
+      .oksdk-search {
+        &__container{
+          padding: 0 17px;
+        }
+        &__form {
+          flex: 0;
+          justify-content: flex-start;
+        }
+      }
+      .oksdk-btn-reset-search {
+        display: block;
+        margin-right: auto;
+      }
+    }
+  }
+
+
+  .size-tablet {
+    .oksdk-search {
+      &__form {
+        grid-template-columns: auto 42px;
+      }
+    }
+  }
+
+  .size-desktop {
+    .oksdk-search {
+      &__form {
+        grid-template-columns: auto 150px;
       }
     }
   }

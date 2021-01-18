@@ -19,19 +19,36 @@ afterEach(() => {
 describe('getTextBodyToShare', () => {
   const indiviualDetail = {
     fax: '780 4615442',
-    name: 'Michael',
+    name: 'Dr Rory Michael Trow',
+    addressName: 'Group Practice 3-480 Harbourfront Dr NE',
+    addressBuildingName: '3-480 Harbourfront Dr NE',
     address: '205-3017 66 St NW',
     phone: '780 4616012',
+    specialties: [],
+    professionalType: 'General Practitioner',
   }
 
   test('should return mail body with the new line character correctly', () => {
     const text = getTextBodyToShare(indiviualDetail)
-    expect(text).toBe(`Name: Michael%0D%0AFax: 780 4615442%0D%0APhone: 780 4616012%0D%0AAddress: 205-3017 66 St NW`)
+    expect(text).toBe(`Here is a healthcare professional that I recommend:%0D%0A%0D%0ADr Rory Michael Trow%0D%0AGeneral Practitioner%0D%0A%0D%0ASpecialties: %0D%0A%0D%0AGroup Practice 3-480 Harbourfront Dr NE%0D%0A3-480 Harbourfront Dr NE%0D%0A205-3017 66 St NW%0D%0A%0D%0A780 4616012%0D%0A%0D%0AI found it on Caretiny - https://apps.apple.com/fr/app/carenity/id1404422803`)
   })
 
   test('should return text with a custom new line character', () => {
     const text = getTextBodyToShare(indiviualDetail, '\n')
-    expect(text).toBe(`Name: Michael\nFax: 780 4615442\nPhone: 780 4616012\nAddress: 205-3017 66 St NW`)
+    expect(text).toBe(`Here is a healthcare professional that I recommend:
+
+Dr Rory Michael Trow
+General Practitioner
+
+Specialties: 
+
+Group Practice 3-480 Harbourfront Dr NE
+3-480 Harbourfront Dr NE
+205-3017 66 St NW
+
+780 4616012
+
+I found it on Caretiny - https://apps.apple.com/fr/app/carenity/id1404422803`)
   })
 
 });
@@ -65,6 +82,7 @@ describe('fallbackShareHCPDetail', () => {
     name: 'Michael',
     address: '205-3017 66 St NW',
     phone: '780 4616012',
+    specialties: []
   }
   test('not throw an error', () => {
     expect(fallbackShareHCPDetail(indiviualDetail)).not.toThrowError

@@ -2,7 +2,6 @@ import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
 import { searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, uiStore, historyStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
-import cls from 'classnames';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
@@ -184,9 +183,11 @@ export class OnekeySdkSearch {
   };
 
   getViewSize = () => {
+    const isTabletView = uiStore.state.breakpoint.screenSize === 'tablet';
     const isSmallView = uiStore.state.breakpoint.screenSize === 'mobile';
     return {
       isSmallView,
+      isTabletView
     };
   };
 
@@ -234,17 +235,12 @@ export class OnekeySdkSearch {
   }
 
   render() {
-    const selectedDoctorName = searchMapStore.state.selectedValues?.name?.name;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
-    const selectedAddressName = searchMapStore.state.selectedValues?.address?.name;
     const addressAutocompletionData = searchMapStore.state.searchGeo;
 
-    const isSmallView = this.getViewSize().isSmallView;
+    const { isSmallView, isTabletView } = this.getViewSize();
     const nameInputLoading = this.currentSelectedInput === 'name' && searchMapStore.state.loading;
     const addressInputLoading = this.currentSelectedInput === 'address' && searchMapStore.state.loading;
-    const resetSearchClass = cls('reset-search', {
-      hide: !selectedDoctorName && !selectedAddressName,
-    });
 
     return (
       <Host>
@@ -295,21 +291,24 @@ export class OnekeySdkSearch {
                 <onekey-sdk-button 
                   primary 
                   type="submit" 
-                  icon={this.searchText ? undefined : 'search'} 
+                  icon={(!this.searchText || isTabletView) ? 'search' : undefined} 
                   class="oksdk-btn-search-address"
-                >{this.searchText}</onekey-sdk-button>
+                  iconWidth={18}
+                  iconHeight={18}
+                >{!isTabletView && this.searchText}</onekey-sdk-button>
               </form>
-              <div class={resetSearchClass} onClick={this.resetInputValue}>
-                <span>Reset search</span>
-              </div>
-              <div>
-                <slot></slot>
-                {this.showSwitchMode && (
-                  <div class="switch-mode">
-                    <onekey-sdk-switch-view-mode typeOfLabel="short" />
-                  </div>
-                )}
-              </div>
+
+              {this.showSwitchMode && !isSmallView && (
+                <div class="oksdk-btn-reset-search" onClick={this.resetInputValue}>
+                  <span>Reset search</span>
+                </div>
+              )}
+                
+              {this.showSwitchMode && (
+                <div class="switch-mode">
+                  <onekey-sdk-switch-view-mode typeOfLabel="short" />
+                </div>
+              )}
             </div>
           </div>
           {isSmallView && this.renderAutocompleteMobile(searchDoctorData, addressAutocompletionData)}

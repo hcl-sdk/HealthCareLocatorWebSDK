@@ -38,5 +38,7 @@
   "improve_quality_label": "Improve the data quality",
   "suggess_modification_button": "Suggest a modification",
   "back_to_search_results": "Back to search results",
-  "back_to_home": "Back to home"
+  "back_to_home": "Back to home",
+  "search_no_results_title": "No Results found",
+  "search_no_results_label": "Oups, it's looks like there is no matches for your search."
 }

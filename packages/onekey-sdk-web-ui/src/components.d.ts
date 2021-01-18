@@ -224,6 +224,8 @@ export namespace Components {
         "currentSearchText"?: string;
         "item": any;
     }
+    interface OnekeySdkSearchNoResults {
+    }
     interface OnekeySdkSearchResult {
     }
     interface OnekeySdkSelect {
@@ -473,6 +475,12 @@ declare global {
         prototype: HTMLOnekeySdkSearchAddressItemElement;
         new (): HTMLOnekeySdkSearchAddressItemElement;
     };
+    interface HTMLOnekeySdkSearchNoResultsElement extends Components.OnekeySdkSearchNoResults, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkSearchNoResultsElement: {
+        prototype: HTMLOnekeySdkSearchNoResultsElement;
+        new (): HTMLOnekeySdkSearchNoResultsElement;
+    };
     interface HTMLOnekeySdkSearchResultElement extends Components.OnekeySdkSearchResult, HTMLStencilElement {
     }
     var HTMLOnekeySdkSearchResultElement: {
@@ -537,6 +545,7 @@ declare global {
         "onekey-sdk-router-link": HTMLOnekeySdkRouterLinkElement;
         "onekey-sdk-search": HTMLOnekeySdkSearchElement;
         "onekey-sdk-search-address-item": HTMLOnekeySdkSearchAddressItemElement;
+        "onekey-sdk-search-no-results": HTMLOnekeySdkSearchNoResultsElement;
         "onekey-sdk-search-result": HTMLOnekeySdkSearchResultElement;
         "onekey-sdk-select": HTMLOnekeySdkSelectElement;
         "onekey-sdk-sort": HTMLOnekeySdkSortElement;
@@ -762,6 +771,8 @@ declare namespace LocalJSX {
         "item"?: any;
         "onSelectAddress"?: (event: CustomEvent<any>) => void;
     }
+    interface OnekeySdkSearchNoResults {
+    }
     interface OnekeySdkSearchResult {
     }
     interface OnekeySdkSelect {
@@ -816,6 +827,7 @@ declare namespace LocalJSX {
         "onekey-sdk-router-link": OnekeySdkRouterLink;
         "onekey-sdk-search": OnekeySdkSearch;
         "onekey-sdk-search-address-item": OnekeySdkSearchAddressItem;
+        "onekey-sdk-search-no-results": OnekeySdkSearchNoResults;
         "onekey-sdk-search-result": OnekeySdkSearchResult;
         "onekey-sdk-select": OnekeySdkSelect;
         "onekey-sdk-sort": OnekeySdkSort;
@@ -865,6 +877,7 @@ declare module "@stencil/core" {
             "onekey-sdk-router-link": LocalJSX.OnekeySdkRouterLink & JSXBase.HTMLAttributes<HTMLOnekeySdkRouterLinkElement>;
             "onekey-sdk-search": LocalJSX.OnekeySdkSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchElement>;
             "onekey-sdk-search-address-item": LocalJSX.OnekeySdkSearchAddressItem & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchAddressItemElement>;
+            "onekey-sdk-search-no-results": LocalJSX.OnekeySdkSearchNoResults & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchNoResultsElement>;
             "onekey-sdk-search-result": LocalJSX.OnekeySdkSearchResult & JSXBase.HTMLAttributes<HTMLOnekeySdkSearchResultElement>;
             "onekey-sdk-select": LocalJSX.OnekeySdkSelect & JSXBase.HTMLAttributes<HTMLOnekeySdkSelectElement>;
             "onekey-sdk-sort": LocalJSX.OnekeySdkSort & JSXBase.HTMLAttributes<HTMLOnekeySdkSortElement>;

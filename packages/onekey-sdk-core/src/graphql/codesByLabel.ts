@@ -25,6 +25,6 @@ const QUERY_CODE_BY_LABEL = gql`
   }
 `
 
-export default function codesByLabel(variables: QueryCodesByLabelArgs): Promise<CodeByLabelResult> {
-  return graphqlClient(QUERY_CODE_BY_LABEL, variables)
+export default function codesByLabel(variables: QueryCodesByLabelArgs, config?): Promise<CodeByLabelResult> {
+  return graphqlClient(QUERY_CODE_BY_LABEL, variables, config)
 }

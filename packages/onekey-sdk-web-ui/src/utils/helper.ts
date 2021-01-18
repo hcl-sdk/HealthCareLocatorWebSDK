@@ -98,19 +98,39 @@ export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActi
   return results
 }
 
-export function getTextBodyToShare({ fax, name, address, phone }, newLine = '%0D%0A', firstLabel = 'Name') {
-  return [
-    `${firstLabel}: ${name}`,
-    `Fax: ${fax}`,
-    `Phone: ${phone}`,
-    `Address: ${address}`
-  ].join(newLine)
+export function getPrimaryAddressIndividuual({ addressName, addressBuildingName, address }) {
+  return [addressName, addressBuildingName, address].filter(s => s);
 }
 
-export function fallbackShareHCPDetail({ fax, name, address, phone }) {
-  const newlineChar = `%0D%0A`;
+export function getTextBodyToShare(individualDetail, newLine = '%0D%0A') {
+  // TODO: get appName and appDownloadLink from config ...
+  const appName = 'Caretiny';
+  const appDownloadLink = 'https://apps.apple.com/fr/app/carenity/id1404422803';
+
+  const { name, phone, professionalType, specialties } = individualDetail;
+  const listText = [
+    'Here is a healthcare professional that I recommend:',
+    `${name}${professionalType && (newLine + professionalType)}`,
+    `Specialties: ${getSpecialtiesText(specialties).join(',')}`,
+    `${getPrimaryAddressIndividuual(individualDetail).join(newLine)}`,
+    `${phone}`
+  ]
+
+  if (appName) {
+    let appText = `I found it on ${appName}`;
+    if (appDownloadLink) {
+      appText += ` - ${appDownloadLink}`;
+    }
+    listText.push(appText);
+  }
+  
+  return listText.join(`${newLine}${newLine}`);
+}
+
+export function fallbackShareHCPDetail(individualDetail) {
+  const { fax, name } = individualDetail;
   const subject = `Share: ${name}`;
-  const mailBody = getTextBodyToShare({ fax, name, address, phone }, newlineChar);
+  const mailBody = getTextBodyToShare(individualDetail);
 
   const link = document.createElement('a');
 

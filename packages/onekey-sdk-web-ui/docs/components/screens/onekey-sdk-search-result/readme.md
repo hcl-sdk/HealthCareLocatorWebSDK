@@ -13,6 +13,7 @@
 - [onekey-sdk-switch-view-mode](../../ui-kits/onekey-sdk-switch-view-mode)
 - [onekey-sdk-icon](../../ui-kits/onekey-sdk-icon)
 - [onekey-sdk-search](../onekey-sdk-search)
+- [onekey-sdk-search-no-results](../../ui-kits/onekey-sdk-search-no-results)
 - [onekey-sdk-hcp-full-card](../../ui-kits/onekey-sdk-hcp-full-card)
 - [onekey-sdk-doctor-card](../../ui-kits/onekey-sdk-doctor-card)
 - [onekey-sdk-map](../../ui-kits/onekey-sdk-map)
@@ -24,6 +25,7 @@ graph TD;
   onekey-sdk-search-result --> onekey-sdk-switch-view-mode
   onekey-sdk-search-result --> onekey-sdk-icon
   onekey-sdk-search-result --> onekey-sdk-search
+  onekey-sdk-search-result --> onekey-sdk-search-no-results
   onekey-sdk-search-result --> onekey-sdk-hcp-full-card
   onekey-sdk-search-result --> onekey-sdk-doctor-card
   onekey-sdk-search-result --> onekey-sdk-map
@@ -38,6 +40,8 @@ graph TD;
   onekey-sdk-search-address-item --> onekey-sdk-icon
   onekey-sdk-input --> onekey-sdk-button
   onekey-sdk-input --> onekey-sdk-icon
+  onekey-sdk-search-no-results --> onekey-sdk-icon
+  onekey-sdk-search-no-results --> onekey-sdk-button
   onekey-sdk-hcp-full-card --> onekey-sdk-button
   onekey-sdk-hcp-full-card --> onekey-sdk-icon
   onekey-sdk-hcp-full-card --> onekey-sdk-map

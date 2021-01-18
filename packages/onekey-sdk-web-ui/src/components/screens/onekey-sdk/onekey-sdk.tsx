@@ -12,6 +12,7 @@ import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
 
 const defaults = {
+  apiKey: '',
   i18nBundlesPath: '/i18n'
 };
 @Component({

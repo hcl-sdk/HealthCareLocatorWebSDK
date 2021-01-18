@@ -38,5 +38,7 @@
   "improve_quality_label": "Améliorer la qualité des données",
   "suggess_modification_button": "Suggérer une modification",
   "back_to_search_results": "Retour aux résultats de recherche",
-  "back_to_home": "Retour à l'accueil"
+  "back_to_home": "Retour à l'accueil",
+  "search_no_results_title": "Aucun résultat trouvé",
+  "search_no_results_label": "Oups, il semble qu'il n'y ait aucune correspondance pour votre recherche."
 }

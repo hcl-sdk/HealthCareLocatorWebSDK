@@ -51,6 +51,6 @@ const QUERY_ACTIVITIES = gql`
   }
 `
 
-export default function activities(variables: QueryActivitiesArgs): Promise<ActivitiesResult> {
-  return graphqlClient(QUERY_ACTIVITIES, variables)
+export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
+  return graphqlClient(QUERY_ACTIVITIES, variables, config)
 }

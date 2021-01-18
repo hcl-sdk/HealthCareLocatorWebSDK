@@ -43,6 +43,6 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
     }
 `
 
-export default function individualsByName(variables: QueryIndividualsByNameArgs): Promise<IndividualByNameResult> {
-  return graphqlClient(QUERY_INDIVIDUAL_BY_NAME, variables)
+export default function individualsByName(variables: QueryIndividualsByNameArgs, config?): Promise<IndividualByNameResult> {
+  return graphqlClient(QUERY_INDIVIDUAL_BY_NAME, variables, config)
 }
