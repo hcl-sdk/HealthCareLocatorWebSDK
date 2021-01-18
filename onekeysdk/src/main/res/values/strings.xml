@@ -39,6 +39,8 @@
     <string name="onekey_sdk_list_label">List</string>
     <string name="onekey_sdk_map_label">Map</string>
     <string name="onekey_sdk_distance_unit_android">%sm</string>
+    <string name="onekey_sdk_no_result_found">No Results found</string>
+    <string name="onekey_sdk_no_result_message">Oups, it\'s looks like there is no matches for your search.</string>
 
     <!--Sort-->
     <string name="onekey_sdk_sort_label">Sort</string>

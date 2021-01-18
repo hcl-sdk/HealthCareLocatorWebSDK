@@ -123,6 +123,9 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     showLoading(it)
                 })
                 activities.observe(this@FullMapFragment, Observer {
+                    if (it.isEmpty()) {
+                        showNoResult()
+                    }
                     this@FullMapFragment.activities = it
                     setModeButtons(activeScreen)
                     initTabs()
@@ -201,6 +204,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                         ), true
                 )
             }
+            R.id.btnStartSearch -> activity?.onBackPressed()
         }
     }
 
@@ -307,5 +311,13 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 fragment::class.java == OneKeyMapResultFragment::class.java
             } as? OneKeyMapResultFragment)?.updateActivities(it)
         }
+    }
+
+    private fun showNoResult() {
+        noResult.visibility = View.VISIBLE
+        noResult.setBackgroundColor(oneKeyCustomObject.colorViewBackground.getColor())
+        btnStartSearch.setRippleBackground(oneKeyCustomObject.colorPrimary)
+        noResultWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 15f, 3)
+        btnStartSearch.setOnClickListener(this)
     }
 }

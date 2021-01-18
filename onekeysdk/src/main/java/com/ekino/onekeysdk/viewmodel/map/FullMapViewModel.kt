@@ -63,6 +63,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
             }
         }, {
             loading.postValue(false)
+            activities.postValue(arrayListOf())
         }, true)
     }
 
