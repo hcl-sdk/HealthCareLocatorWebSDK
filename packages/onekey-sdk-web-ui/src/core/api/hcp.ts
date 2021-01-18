@@ -39,7 +39,7 @@ export async function searchLocation(variables) {
     ...variables,
   }, configStore.configGraphql)
 
-  const data = activities.map((item) => ({
+  const data = (activities || []).map((item) => ({
     distance: `${item.distance}m`,
     name: item.activity.individual.mailingName,
     lastName: item.activity.individual.lastName,
