@@ -9,29 +9,24 @@ import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.custom.CenterLayoutManager
-import com.ekino.onekeysdk.state.OneKeySDK
-import com.ekino.onekeysdk.extensions.getFragmentBy
-import com.ekino.onekeysdk.extensions.getScreenWidth
-import com.ekino.onekeysdk.extensions.postDelay
-import com.ekino.onekeysdk.extensions.setIconFromDrawableId
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.fragment_map_result.*
 
 class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     companion object {
-        fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
-                        activities: ArrayList<ActivityObject>) = OneKeyMapResultFragment().apply {
-            this.activities = activities
-            this.oneKeyCustomObject = oneKeyCustomObject
+        fun newInstance() = OneKeyMapResultFragment().apply {
         }
     }
 
     private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
-        MapFragment.newInstance(oneKeyCustomObject, activities, 0f, true)
+        MapFragment.newInstance(oneKeyCustomObject, activities, 0f, false)
     }
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
@@ -47,12 +42,16 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             fm.beginTransaction().add(R.id.mapContainer, mapFragment, mapFragmentTag)
                     .commit()
         }
+        (parentFragment as? FullMapFragment)?.getActivities()?.also {
+            this.activities = it
+        }
         rvLocations.apply {
             layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter
             searchAdapter.setData(activities)
         }
         rvLocations.postDelay({
+            getRunningMapFragment()?.drawMarkerOnMap(activities)
             getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
                 val selectedPosition = activities.indexOfFirst { it.id == id }
                 if (selectedPosition >= 0) {
@@ -72,7 +71,15 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btnCurrentLocation -> getRunningMapFragment()?.moveToCurrentLocation()
+            R.id.btnCurrentLocation -> {
+                showLoading(true)
+                getRunningMapFragment()?.moveToCurrentLocation() { lat, lng ->
+                    val fragment = parentFragment
+                    if (fragment is FullMapFragment) {
+                        fragment.forceSearch(OneKeyPlace(context!!, lat, lng))
+                    }
+                }
+            }
         }
     }
 
@@ -85,7 +92,13 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
     }
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {
+        showLoading(false)
         this.activities = activities
         searchAdapter.setData(activities)
+        getRunningMapFragment()?.drawMarkerOnMap(activities)
+    }
+
+    fun showLoading(state: Boolean) {
+        loadingCurrentLocation.visibility = state.getVisibility()
     }
 }

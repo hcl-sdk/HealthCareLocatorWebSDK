@@ -4,13 +4,13 @@ import android.Manifest
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.isNotNullable
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
@@ -64,6 +64,39 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         }, {
             loading.postValue(false)
             activities.postValue(arrayListOf())
+        }, true)
+    }
+
+    fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+                      callback: (list: ArrayList<ActivityObject>) -> Unit) {
+        query({
+            val builder = GetActivitiesQuery.builder()
+                    .locale(theme.getLocaleCode()).first(50).offset(0)
+            if (specialities.isNotEmpty()) builder.specialties(specialities)
+            else {
+                if (criteria.isNotEmpty()) builder.criteria(criteria)
+            }
+            if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
+                builder.location(GeopointQuery.builder().lat(place!!.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).build())
+            }
+            builder.build()
+        }, { response ->
+            if (response.data?.activities().isNullable()) {
+                callback(arrayListOf())
+            } else {
+                callback(response.data!!.activities()!!.run {
+                    val list = ArrayList<ActivityObject>()
+                    forEach { act ->
+                        val obj = ActivityObject().parse(act.activity())
+                        obj.distance = act.distance() ?: 0.0
+                        list.add(obj)
+                    }
+                    list
+                })
+            }
+        }, {
+            callback(arrayListOf())
         }, true)
     }
 

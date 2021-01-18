@@ -1,7 +1,9 @@
 package com.ekino.onekeysdk.model.map
 
+import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
+import com.ekino.onekeysdk.R
 import com.google.gson.annotations.SerializedName
 import org.osmdroid.util.GeoPoint
 
@@ -21,6 +23,10 @@ class OneKeyPlace(@SerializedName("place_id") var placeId: String = "",
             parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readParcelable(OneKeyAddress::class.java.classLoader)) {
+    }
+
+    constructor(context: Context, lat: Double, lng: Double) : this("near_me", latitude = "$lat",
+            longitude = "$lng", displayName = context.getString(R.string.onekey_sdk_near_me)) {
     }
 
     fun getGeoPoint(): GeoPoint = GeoPoint(latitude.toDouble(), longitude.toDouble())

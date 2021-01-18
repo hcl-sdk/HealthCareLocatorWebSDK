@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
+import base.extensions.runOnUiThread
 import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
@@ -109,10 +110,8 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     return@Observer
                 }
                 if (this@FullMapFragment.activities.isEmpty())
-                    getActivities(
-                            criteria, if (speciality.isNotNullable())
-                        arrayListOf(speciality!!.id) else specialities, place
-                    )
+                    getActivities(criteria, if (speciality.isNotNullable())
+                        arrayListOf(speciality!!.id) else specialities, place)
                 else {
                     setModeButtons(activeScreen)
                     showLoading(false)
@@ -146,8 +145,8 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     private fun initTabs() {
         viewModel.sortActivities(ArrayList(activities), sorting) {
             resultFragments = arrayListOf(
-                    OneKeyListResultFragment.newInstance(oneKeyCustomObject, it),
-                    OneKeyMapResultFragment.newInstance(oneKeyCustomObject, it)
+                    OneKeyListResultFragment.newInstance(),
+                    OneKeyMapResultFragment.newInstance()
             )
             fragmentState.apply {
                 enableAnim(false)
@@ -310,6 +309,23 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
             (fragmentState.getRootFragments()?.firstOrNull { fragment ->
                 fragment::class.java == OneKeyMapResultFragment::class.java
             } as? OneKeyMapResultFragment)?.updateActivities(it)
+        }
+    }
+
+    fun getActivities(): ArrayList<ActivityObject> = activities
+
+    fun forceSearch(place: OneKeyPlace) {
+        if (!isAdded) return
+        tvAddress.text = place.displayName ?: ""
+        viewModel.getActivities(criteria, if (speciality.isNotNullable())
+            arrayListOf(speciality!!.id) else specialities, place) { activities ->
+            this@FullMapFragment.activities = activities
+            runOnUiThread(Runnable {
+                with(childFragmentManager.fragments) {
+                    (firstOrNull() { it is OneKeyMapResultFragment } as? OneKeyMapResultFragment)?.updateActivities(activities)
+                    (firstOrNull() { it is OneKeyListResultFragment } as? OneKeyListResultFragment)?.updateActivities(activities)
+                }
+            })
         }
     }
 

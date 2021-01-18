@@ -392,15 +392,18 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         }
     }
 
-    fun moveToCurrentLocation(forcedZoom: Boolean = false) {
+    fun moveToCurrentLocation(forcedZoom: Boolean = false,
+                              callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }) {
         locationProvider?.lastKnownLocation?.also { location ->
             if (oneKeyCustomObject.mapService == MapService.OSM) {
                 mMapView?.apply {
                     val position = GeoPoint(location.latitude, location.longitude)
+                    callback(location.latitude, location.longitude)
                     controller.setCenter(position)
                     controller.animateTo(position, if (forcedZoom) 15.0 else zoomLevelDouble, 2000)
                 }
             } else {
+                callback(location.latitude, location.longitude)
                 moveToPosition(location.getLatLng())
             }
         }

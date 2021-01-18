@@ -141,8 +141,8 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
 
     private fun initTabs() {
         viewModel.sortActivities(ArrayList(activities), sorting) {
-            resultFragments = arrayListOf(OneKeyListResultFragment.newInstance(oneKeyCustomObject, it),
-                    OneKeyMapResultFragment.newInstance(oneKeyCustomObject, it))
+            resultFragments = arrayListOf(OneKeyListResultFragment.newInstance(),
+                    OneKeyMapResultFragment.newInstance())
             fragmentState.apply {
                 enableAnim(false)
                 setStacksRootFragment(resultFragments)

@@ -24,8 +24,8 @@ class ApolloConnector private constructor() {
         if (apolloClient == null) {
             apolloClient = ApolloClient.builder()
                     .serverUrl(apolloClientUrl)
-                    .okHttpClient(OkHttpClient.Builder()
-                            .addInterceptor(AuthorizationInterceptor()).build())
+//                    .okHttpClient(OkHttpClient.Builder()
+//                            .addInterceptor(AuthorizationInterceptor()).build())
                     .build()
         }
         return apolloClient!!
