@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import customization.map.CustomCurrentLocationOverlay
+import org.osmdroid.events.MapListener
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.CopyrightOverlay
@@ -57,6 +58,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private var modifyZoomLevel: Float = 0f
     private var boundingBox: Boolean = false
+    var onMapListener: MapListener? = null
 
     var onMarkerSelectionChanged: (id: String) -> Unit = {}
 
@@ -154,6 +156,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         locationProvider = GpsMyLocationProvider(context)
         locationProvider!!.startLocationProvider(this)
         if (oneKeyCustomObject.mapService == MapService.OSM) {
+            onMapListener?.let { mMapView?.addMapListener(it) }
             mPrefs = context!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             mLocationOverlay = CustomCurrentLocationOverlay(
                     locationProvider!!, mMapView, R.drawable.ic_current_location)
@@ -390,6 +393,11 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 cluster.add(oneKeyMarkers[index])
             }
         }
+    }
+
+    fun getOSMCenter(callback: (lat: Double, lng: Double) -> Unit) {
+        val center = mMapView?.mapCenter
+        callback(center?.latitude ?: 0.0, center?.longitude ?: 0.0)
     }
 
     fun moveToCurrentLocation(forcedZoom: Boolean = false,

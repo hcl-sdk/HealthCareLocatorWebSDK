@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
@@ -15,8 +16,12 @@ import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.fragment_map_result.*
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
 
-class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
+
+class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     companion object {
         fun newInstance() = OneKeyMapResultFragment().apply {
@@ -26,8 +31,9 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
     private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
-        MapFragment.newInstance(oneKeyCustomObject, activities, 0f, false)
+        MapFragment.newInstance(oneKeyCustomObject, activities, 0f, true)
     }
+    private var isRelaunch = false
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
 
@@ -42,7 +48,9 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             fm.beginTransaction().add(R.id.mapContainer, mapFragment, mapFragmentTag)
                     .commit()
         }
-        (parentFragment as? FullMapFragment)?.getActivities()?.also {
+        mapFragment.onMapListener = this
+        isRelaunch = getFullMapFragment()?.getRelaunchState() ?: false
+        getFullMapFragment()?.getActivities()?.also {
             this.activities = it
         }
         rvLocations.apply {
@@ -65,7 +73,10 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
             else if (parentFragment is OneKeyNearMeFragment) (parentFragment as OneKeyNearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
+        showRelaunch(isRelaunch)
+        btnRelaunch.setOnClickListener(this)
         btnCurrentLocation.setOnClickListener(this)
+        btnRelaunch.setRippleBackground(oneKeyCustomObject.colorSecondary.getColor(), 50f)
         btnCurrentLocation.setIconFromDrawableId(oneKeyCustomObject.iconMapGeoLoc)
     }
 
@@ -74,13 +85,29 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             R.id.btnCurrentLocation -> {
                 showLoading(true)
                 getRunningMapFragment()?.moveToCurrentLocation() { lat, lng ->
-                    val fragment = parentFragment
-                    if (fragment is FullMapFragment) {
-                        fragment.forceSearch(OneKeyPlace(context!!, lat, lng))
-                    }
+                    getFullMapFragment()?.forceSearch(OneKeyPlace(context!!, lat, lng))
+                }
+            }
+            R.id.btnRelaunch -> {
+                animateRelaunch(true)
+                getRunningMapFragment()?.getOSMCenter() { lat, lng ->
+                    getFullMapFragment()?.forceSearch(OneKeyPlace(context!!, lat, lng))
                 }
             }
         }
+    }
+
+    override fun onScroll(event: ScrollEvent?): Boolean {
+        if (event != null && event.x != 0 && event.y != 0) {
+            isRelaunch = true
+            getFullMapFragment()?.setRelaunchState(true)
+            showRelaunch(isRelaunch)
+        }
+        return true
+    }
+
+    override fun onZoom(event: ZoomEvent?): Boolean {
+        return true
     }
 
     private fun getRunningMapFragment(): MapFragment? {
@@ -93,12 +120,38 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {
         showLoading(false)
+        animateRelaunch(false)
         this.activities = activities
         searchAdapter.setData(activities)
-        getRunningMapFragment()?.drawMarkerOnMap(activities)
+        getRunningMapFragment()?.let {
+            it.drawMarkerOnMap(activities)
+        }
     }
 
-    fun showLoading(state: Boolean) {
+    private fun showLoading(state: Boolean) {
         loadingCurrentLocation.visibility = state.getVisibility()
     }
+
+    private fun animateRelaunch(state: Boolean) {
+        if (state) {
+            showRelaunch(true)
+            btnRelaunch.isEnabled = false
+            context?.also {
+                ivRelaunch.startAnimation(AnimationUtils.loadAnimation(it,
+                        R.anim.onekey_sdk_rotate).apply { fillAfter = true })
+            }
+        } else {
+            btnRelaunch.isEnabled = true
+            ivRelaunch.clearAnimation()
+            ivRelaunch.animate().cancel()
+            getFullMapFragment()?.setRelaunchState(false)
+            showRelaunch(state)
+        }
+    }
+
+    private fun showRelaunch(state: Boolean) {
+        btnRelaunch.visibility = state.getVisibility()
+    }
+
+    private fun getFullMapFragment(): FullMapFragment? = parentFragment as? FullMapFragment
 }

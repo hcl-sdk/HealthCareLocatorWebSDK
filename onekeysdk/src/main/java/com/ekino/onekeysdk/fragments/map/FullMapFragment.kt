@@ -68,6 +68,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 R.id.resultContainer
         )
     }
+    private var isRelaunch = false
     private var place: OneKeyPlace? = null
     private var speciality: OneKeySpecialityObject? = null
     private var criteria: String = ""
@@ -83,6 +84,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
+            isRelaunch = savedInstanceState.getBoolean("isRelaunch", false)
             speciality = savedInstanceState.getParcelable(OneKeyConstant.speciality)
             specialities = savedInstanceState.getStringArrayList("specialities") ?: arrayListOf()
             criteria = savedInstanceState.getString("criteria", "")
@@ -172,6 +174,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         outState.putParcelableArrayList("activities", activities)
         outState.putInt("sorting", sorting)
         outState.putInt("activeScreen", activeScreen)
+        outState.putBoolean("isRelaunch", isRelaunch)
     }
 
     override fun onClick(v: View?) {
@@ -313,6 +316,10 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     }
 
     fun getActivities(): ArrayList<ActivityObject> = activities
+    fun getRelaunchState(): Boolean = isRelaunch
+    fun setRelaunchState(isRelaunch: Boolean) {
+        this.isRelaunch = isRelaunch
+    }
 
     fun forceSearch(place: OneKeyPlace) {
         if (!isAdded) return

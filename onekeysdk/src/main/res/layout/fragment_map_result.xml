@@ -20,6 +20,7 @@
         android:paddingEnd="@dimen/default_padding" />
 
     <FrameLayout
+        android:id="@+id/currentLocationWrapper"
         android:layout_width="@dimen/default_icon_size_big"
         android:layout_height="@dimen/default_icon_size_big"
         android:layout_above="@+id/rvLocations"
@@ -42,4 +43,33 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/btnRelaunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rvLocations"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/default_padding_bigger"
+        android:background="@color/colorOneKeyBlue"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/default_padding_tiny"
+        android:paddingTop="@dimen/default_padding_tiny"
+        android:paddingBottom="@dimen/default_padding_tiny">
+
+        <ImageView
+            android:id="@+id/ivRelaunch"
+            android:layout_width="@dimen/default_icon_size_smaller"
+            android:layout_height="@dimen/default_icon_size_smaller"
+            android:src="@drawable/baseline_refresh_white_24dp" />
+
+        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/default_padding_smaller"
+            android:paddingEnd="@dimen/default_padding_smaller"
+            android:text="@string/onekey_sdk_relaunch" />
+    </LinearLayout>
 </RelativeLayout>

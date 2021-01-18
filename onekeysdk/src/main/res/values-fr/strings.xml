@@ -29,6 +29,7 @@
     <string name="onekey_sdk_distance_unit_android">%sm</string>
     <string name="onekey_sdk_no_result_found">Aucun résultat trouvé</string>
     <string name="onekey_sdk_no_result_message">Oups, il semble qu\'il n\'y ait aucune correspondance pour votre recherche.</string>
+    <string name="onekey_sdk_relaunch">Relaunch</string>
 
     <!--Sort-->
     <string name="onekey_sdk_sort_label">Trier</string>
