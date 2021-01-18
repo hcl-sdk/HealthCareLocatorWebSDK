@@ -37,13 +37,13 @@ function searchNearMe(specialtyCode) {
 
 // Initialize Onekey SDK
 
-settingPanelEl.addEventListener('ready', function() {
-  settingPanelEl.getFields().then(fields => {
+// settingPanelEl.addEventListener('ready', function() {
+//   settingPanelEl.getFields().then(fields => {
     const config = {
-      apiKey: fields.apiKey,
+      apiKey: '',
       i18nBundlesPath: '/onekey-sdk/i18n'
     };
-    
+
     var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
     if (matches) {
       var specialtyCode = matches[1];
@@ -56,9 +56,9 @@ settingPanelEl.addEventListener('ready', function() {
         }
       }
     }
-    
+
     if (onekeySdkEl) {
       onekeySdkEl.config = config;
     }
-  })
-})
+//   })
+// })
