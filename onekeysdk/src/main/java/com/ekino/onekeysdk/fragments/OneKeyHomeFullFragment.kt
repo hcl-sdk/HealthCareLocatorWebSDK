@@ -20,7 +20,6 @@ import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.state.OneKeySDK
@@ -93,19 +92,14 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
         oneKeyCustomObject.also {
-            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             nearMeWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastSearchWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastConsultedWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             contentWrapper.setBackgroundColor(it.colorViewBackground.getColor())
-            ivSearch.setRippleBackground(it.colorPrimary.getColor(), 15f)
-            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             viewMoreSearches.setTextColor(it.colorPrimary.getColor())
             viewMoreConsulted.setTextColor(it.colorPrimary.getColor())
-            edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
 
-        newSearchWrapper.setOnClickListener(this)
         viewMoreSearches.setOnClickListener(this)
         viewMoreConsulted.setOnClickListener(this)
         mapOverlay.setOnClickListener(this)
@@ -177,13 +171,12 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                     viewMoreConsulted.text = getViewTagText(0)
                 }
             }
-            R.id.newSearchWrapper -> startNewSearch()
             R.id.mapOverlay -> {
                 currentLocation?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                             OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
-                                            longitude = "${it.longitude}", displayName = getString(R.string.one_key_near_me)),
+                                            longitude = "${it.longitude}", displayName = getString(R.string.onekey_sdk_near_me)),
                                     oneKeyCustomObject.specialities, currentLocation), true)
                 }
             }
@@ -241,14 +234,6 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         }
     }
 
-
-    private fun startNewSearch() {
-        oneKeyCustomObject.also {
-            (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                    SearchFragment.newInstance(it), true)
-        }
-    }
-
     private fun showNearMeLoading(state: Boolean) {
         nearMeLoading.visibility = state.getVisibility()
     }
@@ -258,7 +243,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     } as? MapFragment
 
     private fun getViewTagText(tag: Int): String = if (tag == 0)
-        getString(R.string.one_key_view_more) else getString(R.string.one_key_view_less)
+        getString(R.string.onekey_sdk_view_more) else getString(R.string.onekey_sdk_view_less)
 
     private fun checkViewMoreConsulted(size: Int, view: View) {
         view.visibility = (size > 3).getVisibility()
@@ -267,10 +252,10 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
 //        val l= Location.convert()
         currentLocation = location?.getCurrentLocation(currentLocation)
+        locationProvider?.stopLocationProvider()
         currentLocation?.also {
             viewModel.getNearMeHCP(it) {
-                if (isAdded)
-                    getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
+                getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
             }
         }
     }

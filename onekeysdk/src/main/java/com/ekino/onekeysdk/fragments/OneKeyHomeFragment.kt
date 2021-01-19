@@ -8,10 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import base.extensions.addFragment
 import base.fragments.AppFragment
-import com.apollographql.apollo.ApolloCall
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.exception.ApolloException
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
 import com.ekino.onekeysdk.extensions.*
@@ -19,9 +15,7 @@ import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.state.OneKeySDK
-import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.home.HomeViewModel
-import com.iqvia.onekey.GetProfileQuery
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class OneKeyHomeFragment :
@@ -37,18 +31,14 @@ class OneKeyHomeFragment :
     override val viewModel: HomeViewModel = HomeViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        newSearchWrapper.setOnClickListener { startNewSearch() }
         btnStartSearch.setOnClickListener { startNewSearch() }
         oneKeyCustomObject.also {
-            edtSearch.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
-            contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
+            contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 15f, 3)
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             container.setBackgroundColor(it.colorViewBackground.getColor())
-            ivSearch.setRippleBackground(it.colorPrimary.getColor(), 12f)
-            ivSearch.setIconFromDrawableId(it.searchIcon, true, Color.WHITE)
             btnStartSearch.setRippleBackground(it.colorPrimary)
-            edtSearch.textSize = it.fontSearchInput.size.toFloat()
         }
+
         rvHome.postDelay({
             if (rvHome == null) return@postDelay
             rvHome.apply {
@@ -65,22 +55,7 @@ class OneKeyHomeFragment :
                 adapter = homeAdapter
             }
         })
-        homeAdapter.setData(getHomeDummy(oneKeyCustomObject.searchIcon, oneKeyCustomObject.iconProfile,
-                oneKeyCustomObject.editIcon))
-
-        val apolloClient = ApolloClient.builder()
-                .serverUrl("https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql/query").build()
-        apolloClient.query(GetProfileQuery.builder().apiKey("1").id("1").build())
-                .enqueue(object : ApolloCall.Callback<GetProfileQuery.Data>() {
-                    override fun onFailure(e: ApolloException) {
-                        OneKeyLog.e("${e.localizedMessage}")
-                    }
-
-                    override fun onResponse(response: Response<GetProfileQuery.Data>) {
-                        OneKeyLog.d("${response.data?.individualByID()?.firstName()}")
-                    }
-
-                })
+        homeAdapter.setData(getHomeDummy(context!!, oneKeyCustomObject.searchIcon, oneKeyCustomObject.iconProfile))
     }
 
     override fun onResume() {

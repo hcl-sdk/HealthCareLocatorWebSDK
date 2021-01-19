@@ -58,7 +58,7 @@ class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
         lockState = true
         loading.postValue(true)
         query({
-            val builder = GetActivitiesQuery.builder().apiKey(config.apiKey)
+            val builder = GetActivitiesQuery.builder()
                     .locale(config.getLocaleCode()).first(10).offset(0)
 //            if (config.favoriteIds.isNotEmpty()) {
 //                builder.specialties(config.favoriteIds)

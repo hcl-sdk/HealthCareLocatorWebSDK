@@ -1,10 +1,11 @@
 package com.ekino.onekeysdk.sample
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ScreenReference
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
@@ -208,11 +209,11 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         if (favoriteNearMe) {
             builder.specialities(arrayListOf("SP.WCA.5B", "SP.WCA.08"))
                     .entryScreen(ScreenReference.SEARCH_NEAR_ME)
-        } else if (homeMode == 1)
-            builder.entryScreen(ScreenReference.HOME_FULL)
+        }
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
+        builder.apiKey("200002c2aaf5b168")
 
-        OneKeySDK.getInstance().init(builder.build())
+        OneKeySDK.getInstance().setAppName("OneKeySample").setAppDownloadLink("google.com.vn").init(builder.build())
         OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
 //        OneKeySDK.getInstance().startOneKeySDKActivity(this)
     }
@@ -231,5 +232,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 
     fun openPreviewFont(font: OneKeyViewFontObject, callback: (font: OneKeyViewFontObject) -> Unit) {
         this.addFragment(R.id.fragmentContainer, PreviewFontFragment.newInstance(font, callback), true)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -8,7 +8,7 @@ import android.widget.AdapterView
 import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.SampleApplication

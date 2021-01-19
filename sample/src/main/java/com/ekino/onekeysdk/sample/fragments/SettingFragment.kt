@@ -10,7 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
 import base.fragments.IFragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.sample.SampleApplication
 import com.ekino.onekeysdk.sample.SampleOneKeySDKActivity
 import com.ekino.onekeysdk.sample.model.FontObject

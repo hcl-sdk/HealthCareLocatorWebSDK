@@ -4,27 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.custom.CenterLayoutManager
-import com.ekino.onekeysdk.state.OneKeySDK
-import com.ekino.onekeysdk.extensions.getFragmentBy
-import com.ekino.onekeysdk.extensions.getScreenWidth
-import com.ekino.onekeysdk.extensions.postDelay
-import com.ekino.onekeysdk.extensions.setIconFromDrawableId
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.fragment_map_result.*
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
 
-class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
+
+class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     companion object {
-        fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
-                        activities: ArrayList<ActivityObject>) = OneKeyMapResultFragment().apply {
-            this.activities = activities
-            this.oneKeyCustomObject = oneKeyCustomObject
+        fun newInstance() = OneKeyMapResultFragment().apply {
         }
     }
 
@@ -33,6 +33,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
     private val mapFragment by lazy {
         MapFragment.newInstance(oneKeyCustomObject, activities, 0f, true)
     }
+    private var isRelaunch = false
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter(getScreenWidth()) }
 
@@ -47,12 +48,18 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             fm.beginTransaction().add(R.id.mapContainer, mapFragment, mapFragmentTag)
                     .commit()
         }
+        mapFragment.onMapListener = this
+        isRelaunch = getFullMapFragment()?.getRelaunchState() ?: false
+        getFullMapFragment()?.getActivities()?.also {
+            this.activities = it
+        }
         rvLocations.apply {
             layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter
             searchAdapter.setData(activities)
         }
         rvLocations.postDelay({
+            getRunningMapFragment()?.drawMarkerOnMap(activities)
             getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
                 val selectedPosition = activities.indexOfFirst { it.id == id }
                 if (selectedPosition >= 0) {
@@ -66,14 +73,41 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
             if (parentFragment is FullMapFragment) (parentFragment as FullMapFragment).navigateToHCPProfile(oneKeyLocation)
             else if (parentFragment is OneKeyNearMeFragment) (parentFragment as OneKeyNearMeFragment).navigateToHCPProfile(oneKeyLocation)
         }
+        showRelaunch(isRelaunch)
+        btnRelaunch.setOnClickListener(this)
         btnCurrentLocation.setOnClickListener(this)
+        btnRelaunch.setRippleBackground(oneKeyCustomObject.colorSecondary.getColor(), 50f)
         btnCurrentLocation.setIconFromDrawableId(oneKeyCustomObject.iconMapGeoLoc)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btnCurrentLocation -> getRunningMapFragment()?.moveToCurrentLocation()
+            R.id.btnCurrentLocation -> {
+                showLoading(true)
+                getRunningMapFragment()?.moveToCurrentLocation() { lat, lng ->
+                    getFullMapFragment()?.forceSearch(OneKeyPlace(context!!, lat, lng))
+                }
+            }
+            R.id.btnRelaunch -> {
+                animateRelaunch(true)
+                getRunningMapFragment()?.getOSMCenter() { lat, lng ->
+                    getFullMapFragment()?.reverseGeoCoding(OneKeyPlace(context!!, lat, lng))
+                }
+            }
         }
+    }
+
+    override fun onScroll(event: ScrollEvent?): Boolean {
+        if (event != null && event.x != 0 && event.y != 0) {
+            isRelaunch = true
+            getFullMapFragment()?.setRelaunchState(true)
+            showRelaunch(isRelaunch)
+        }
+        return true
+    }
+
+    override fun onZoom(event: ZoomEvent?): Boolean {
+        return true
     }
 
     private fun getRunningMapFragment(): MapFragment? {
@@ -85,7 +119,39 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener {
     }
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {
+        showLoading(false)
+        animateRelaunch(false)
         this.activities = activities
         searchAdapter.setData(activities)
+        getRunningMapFragment()?.let {
+            it.drawMarkerOnMap(activities)
+        }
     }
+
+    private fun showLoading(state: Boolean) {
+        loadingCurrentLocation.visibility = state.getVisibility()
+    }
+
+    private fun animateRelaunch(state: Boolean) {
+        if (state) {
+            showRelaunch(true)
+            btnRelaunch.isEnabled = false
+            context?.also {
+                ivRelaunch.startAnimation(AnimationUtils.loadAnimation(it,
+                        R.anim.onekey_sdk_rotate).apply { fillAfter = true })
+            }
+        } else {
+            btnRelaunch.isEnabled = true
+            ivRelaunch.clearAnimation()
+            ivRelaunch.animate().cancel()
+            getFullMapFragment()?.setRelaunchState(false)
+            showRelaunch(state)
+        }
+    }
+
+    private fun showRelaunch(state: Boolean) {
+        btnRelaunch.visibility = state.getVisibility()
+    }
+
+    private fun getFullMapFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>
 }

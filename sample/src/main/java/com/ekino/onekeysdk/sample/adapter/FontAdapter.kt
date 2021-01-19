@@ -3,7 +3,7 @@ package com.ekino.onekeysdk.sample.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject

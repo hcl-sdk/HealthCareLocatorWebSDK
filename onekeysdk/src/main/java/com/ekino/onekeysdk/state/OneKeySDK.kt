@@ -9,8 +9,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.activities.OneKeyActivity
 import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.extensions.*
-import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
-import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
+import com.ekino.onekeysdk.fragments.home.OneKeyHomeMainFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -21,6 +20,8 @@ class OneKeySDK private constructor() : OneKeyState {
     }
 
     private var config: OneKeyCustomObject = OneKeyCustomObject.Builder().build()
+    private var appName: String = ""
+    private var appDownloadLink: String = ""
 
     companion object {
         @JvmStatic
@@ -29,6 +30,28 @@ class OneKeySDK private constructor() : OneKeyState {
 
     override fun init(customObject: OneKeyCustomObject) {
         this.config = customObject
+    }
+
+    override fun setAppName(appName: String): OneKeyState {
+        this.appName = appName
+        return this
+    }
+
+    override fun setApiKey(apiKey: String): OneKeyState {
+        return this
+    }
+
+    override fun setAppDownloadLink(downloadLink: String): OneKeyState {
+        this.appDownloadLink = downloadLink
+        return this
+    }
+
+    override fun getAppName(): String {
+        return appName
+    }
+
+    override fun getAppDownloadLink(): String {
+        return appDownloadLink
     }
 
     override fun getConfiguration(): OneKeyCustomObject = config
@@ -47,11 +70,11 @@ class OneKeySDK private constructor() : OneKeyState {
                             "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 activity!!.changeLocale(config.locale)
                 activity.pushFragment(containerId, OneKeyNearMeFragment.newInstance(config, "", null,
-                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.one_key_near_me)),
+                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.onekey_sdk_near_me)),
                         config.specialities), true)
             }
-            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFragment.newInstance(), true)
-            else -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
+//            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
+            else -> activity!!.addFragment(containerId, OneKeyHomeMainFragment.newInstance(), true)
         }
     }
 

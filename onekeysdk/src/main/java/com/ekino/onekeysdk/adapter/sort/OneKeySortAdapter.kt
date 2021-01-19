@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.model.config.OneKeyCustomObject
 import com.ekino.onekeysdk.model.map.OneKeySortObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.layout_one_key_sort.view.*
 
 class OneKeySortAdapter : OneKeyAdapter<OneKeySortObject, OneKeySortAdapter.OneKeySortVH>(arrayListOf(R.layout.layout_one_key_sort)) {
@@ -26,7 +26,8 @@ class OneKeySortAdapter : OneKeyAdapter<OneKeySortObject, OneKeySortAdapter.OneK
                 tvSortTitle.text = data.title
                 data.selected = selectedPosition == position
                 cbxSort.isChecked = data.selected
-                cbxSort.buttonTintList = ColorStateList.valueOf(theme.colorPrimary.getColor())
+                cbxSort.buttonTintList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)),
+                        intArrayOf(theme.colorGreyLight.getColor(), theme.colorPrimary.getColor()))
                 setOnClickListener {
                     setSelectedPosition(position)
                 }

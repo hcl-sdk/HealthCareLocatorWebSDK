@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/one_key_results_label"
+                        android:text="@string/onekey_sdk_results_label"
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleSearchResultTotal" />
 
@@ -175,7 +175,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_padding_tiny"
                                 android:gravity="center"
-                                android:text="@string/one_key_list_label"
+                                android:text="@string/onekey_sdk_list_label"
                                 android:textColor="@color/white" />
                         </LinearLayout>
 
@@ -203,7 +203,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_padding_tiny"
                                 android:gravity="center"
-                                android:text="@string/one_key_map_label"
+                                android:text="@string/onekey_sdk_map_label"
                                 android:textColor="@color/colorOneKeyText" />
                         </LinearLayout>
                     </LinearLayout>
@@ -239,6 +239,69 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/noResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="true"
+                android:padding="@dimen/default_padding"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/noResultWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/default_padding_larger">
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/onekey_sdk_no_result_found"
+                        app:OneKeyTextColor="OneKeyColorSecondary"
+                        app:OneKeyTextStyle="OneKeyStyleNoResultTitle" />
+
+                    <ImageView
+                        android:layout_width="@dimen/default_icon_size_bigger"
+                        android:layout_height="@dimen/default_icon_size_bigger"
+                        android:layout_marginTop="@dimen/default_padding"
+                        android:background="@drawable/bg_gray_cirle"
+                        android:padding="@dimen/default_padding_smaller"
+                        android:src="@drawable/baseline_search_white_36dp"
+                        app:tint="#d5d5d5" />
+
+                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_padding_x_large"
+                        android:gravity="center"
+                        android:text="@string/onekey_sdk_no_result_message"
+                        app:OneKeyTextColor="OneKeyColorDark"
+                        app:OneKeyTextStyle="OneKeyStyleNoResultDesc" />
+                </LinearLayout>
+
+                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    android:id="@+id/btnStartSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginStart="@dimen/default_padding_bigger"
+                    android:layout_marginTop="@dimen/default_padding"
+                    android:layout_marginEnd="@dimen/default_padding_bigger"
+                    android:layout_marginBottom="@dimen/default_padding_x_large"
+                    android:background="@drawable/bg_main_button_corner"
+                    android:gravity="center"
+                    android:padding="@dimen/default_padding_small"
+                    android:text="@string/onekey_sdk_start_new_search"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_text_big"
+                    app:OneKeyTextStyle="OneKeyStyleButton" />
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/loadingWrapper"

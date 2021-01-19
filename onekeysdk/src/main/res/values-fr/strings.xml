@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="one_key_home_title">Rechercher et localiser\nProfessionnel de la santé</string>
-    <string name="one_key_start_new_search">Démarrer une nouvelle recherche</string>
+    <string name="one_key_home_title">Rechercher et localiser\nProfessionnels de la Santé</string>
+    <string name="onekey_sdk_home_feat_find_hcp_title">Trouver un professionnel de santé</string>
+    <string name="onekey_sdk_home_feat_find_hcp_text">Trouver un professionnel de santé ou un établissement de soin par localisation, nom, spécialité ou à proximité</string>
+    <string name="onekey_sdk_home_feat_consult_profile_title">Consulter le profil d\'un professionnel de santé </string>
+    <string name="onekey_sdk_home_feat_consult_profile_text">Accéder au profil détaillé du professionnel de santé qui inclut ses spécialités, son lieu d\'exercice et ses coordonnées.</string>
+    <string name="onekey_sdk_home_feat_request_info_update_title">Partager le profil d\'un professionnel de santé</string>
+    <string name="onekey_sdk_home_feat_request_info_update_text">Partager les profils par SMS ou par email avec vos proches.</string>
+
+    <string name="onekey_sdk_start_new_search">Démarrer une nouvelle recherche</string>
     <string name="app_name">OneKeySDK</string>
-    <string name="one_key_hcps_near_me">HCP à proximité</string>
-    <string name="one_key_last_searches">Dernières recherches</string>
-    <string name="one_key_view_more">Voir plus</string>
-    <string name="one_key_view_less">Voir moins</string>
-    <string name="one_key_last_hcps_consulted">Derniers HCPs consultés</string>
-    <string name="one_key_find_healthcare_professional">Rechercher un Professionnel de Santé</string>
+    <string name="onekey_sdk_hcps_near_me">Professionnels de santé autour de moi</string>
+    <string name="onekey_sdk_last_searches">Dernières recherches</string>
+    <string name="onekey_sdk_view_more">Voir plus</string>
+    <string name="onekey_sdk_view_less">Voir moins</string>
+    <string name="onekey_sdk_last_hcps_consulted">Derniers profils consultés</string>
+    <string name="onekey_sdk_find_healthcare_professional">Rechercher un Professionnel de Santé</string>
     <!--Search-->
-    <string name="one_key_search_first_field_label">Nom, spécialité</string>
-    <string name="one_key_search_second_field_label">Où? (l\'addresse de la ville…)</string>
-    <string name="one_key_near_me">Proche de moi</string>
+    <string name="onekey_sdk_search_first_field_label">Nom, spécialité</string>
+    <string name="onekey_sdk_search_second_field_label">Où? (adresse, ville…)</string>
+    <string name="onekey_sdk_near_me">Près de moi</string>
 
     <!--Results List View-->
-    <string name="one_key_results_label">Results</string>
-    <string name="one_key_list_label">Liste</string>
-    <string name="one_key_map_label">Carte</string>
-    <string name="one_key_distance_unit_android">%sm</string>
+    <string name="onekey_sdk_results_label">Résultats</string>
+    <string name="onekey_sdk_list_label">Liste</string>
+    <string name="onekey_sdk_map_label">Carte</string>
+    <string name="onekey_sdk_distance_unit_android">%sm</string>
+    <string name="onekey_sdk_no_result_found">Aucun résultat trouvé</string>
+    <string name="onekey_sdk_no_result_message">Oups, il semble qu\'il n\'y ait aucune correspondance pour votre recherche.</string>
+    <string name="onekey_sdk_relaunch">Relaunch</string>
 
     <!--Sort-->
-    <string name="one_key_sort_label">Trier</string>
-    <string name="one_key_relevance_item">Pertinence</string>
-    <string name="one_key_distance_item">Distance</string>
-    <string name="one_key_name_item">Nom</string>
-    <string name="one_key_apply_button">Appliquer</string>
-    <string name="one_key_reset_button">Réinitialiser</string>
+    <string name="onekey_sdk_sort_label">Trier</string>
+    <string name="onekey_sdk_relevance_item">Pertinence</string>
+    <string name="onekey_sdk_distance_item">Distance</string>
+    <string name="onekey_sdk_name_item">Nom</string>
+    <string name="onekey_sdk_apply_button">Appliquer</string>
+    <string name="onekey_sdk_reset_button">Réinitialiser</string>
 
     <!--HCP profile-->
-    <string name="one_key_main_information_label">Informations générales</string>
-    <string name="one_key_rate_refunds_label">Prix et remboursements</string>
-    <string name="one_key_specialities_label">Spécialités</string>
-    <string name="one_key_information_label">Informations</string>
-    <string name="one_key_information_description">Les informations à propos de ce HCP étaient-elles correctes?</string>
-    <string name="one_key_information_yes_label">Oui</string>
-    <string name="one_key_information_no_label">Non</string>
-    <string name="one_key_improve_quality_label">Améliorer la qualité des données</string>
-    <string name="one_key_suggess_modification_button">Suggérer une modification\u0020</string>
+    <string name="onekey_sdk_main_information_label">Informations générales</string>
+    <string name="onekey_sdk_rate_refunds_label">Tarif et remboursements</string>
+    <string name="onekey_sdk_specialities_label">Spécialités</string>
+    <string name="onekey_sdk_information_label">Information</string>
+    <string name="onekey_sdk_information_description">Les informations à propos de ce professionnel de santé sont-elles correctes?</string>
+    <string name="onekey_sdk_information_yes_label">Oui</string>
+    <string name="onekey_sdk_information_no_label">Non</string>
+    <string name="onekey_sdk_improve_quality_label">Améliorer la qualité des données</string>
+    <string name="onekey_sdk_improve_quality_text">Partagez avec nous plus d\'information sur ce professionnel de santé.</string>
+    <string name="onekey_sdk_suggess_modification_button">Suggérer une modification\u0020</string>
 </resources>

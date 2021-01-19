@@ -12,43 +12,55 @@
 
     <string name="app_name">OneKeySDK</string>
     <!--Home-->
-    <string name="one_key_home_title">Find and Locate\nHealthcare Professional</string>
-    <string name="one_key_start_new_search">Start a New Search</string>
+    <string name="one_key_home_title">Find and Locate\nHealthcare Professionals</string>
+    <string name="onekey_sdk_home_feat_find_hcp_title">Find HCPs/HCOs</string>
+    <string name="onekey_sdk_home_feat_find_hcp_text">Find Healthcare providers by location, name, specialty, or by searching nearby</string>
+    <string name="onekey_sdk_home_feat_consult_profile_title">Access to HCPs/HCOs profiles</string>
+    <string name="onekey_sdk_home_feat_consult_profile_text">Review detailed provider profiles, including specialties, location, and contact information</string>
+    <string name="onekey_sdk_home_feat_request_info_update_title">Share HCPs/HCOs</string>
+    <string name="onekey_sdk_home_feat_request_info_update_text">Use SMS or email to share profiles with friends and family</string>
+
+    <string name="onekey_sdk_start_new_search">Start a New Search</string>
     <!--Home Full-->
-    <string name="one_key_hcps_near_me">HCPs near me</string>
-    <string name="one_key_last_searches">Last searches</string>
-    <string name="one_key_view_more">View more</string>
-    <string name="one_key_view_less">one_key_view_less</string>
-    <string name="one_key_last_hcps_consulted">Last HCPs consulted</string>
-    <string name="one_key_find_healthcare_professional">Find Healthcare Professional</string>
+    <string name="onekey_sdk_hcps_near_me">HCPs near me</string>
+    <string name="onekey_sdk_last_searches">Last searches</string>
+    <string name="onekey_sdk_view_more">View more</string>
+    <string name="onekey_sdk_view_less">View less</string>
+    <string name="onekey_sdk_last_hcps_consulted">Last HCPs consulted</string>
+    <string name="onekey_sdk_find_healthcare_professional">Find Healthcare Professional</string>
 
     <!--Search-->
-    <string name="one_key_search_first_field_label">Name, Specialty</string>
-    <string name="one_key_search_second_field_label">Where? (address, city…)</string>
-    <string name="one_key_near_me">Near me</string>
+    <string name="onekey_sdk_search_first_field_label">Name, Specialty</string>
+    <string name="onekey_sdk_search_second_field_label">Where? (address, city…)</string>
+    <string name="onekey_sdk_near_me">Near me</string>
 
     <!--Results List View-->
-    <string name="one_key_results_label">Results</string>
-    <string name="one_key_list_label">List</string>
-    <string name="one_key_map_label">Map</string>
-    <string name="one_key_distance_unit_android">%sm</string>
+    <string name="onekey_sdk_results_label">Results</string>
+    <string name="onekey_sdk_list_label">List</string>
+    <string name="onekey_sdk_map_label">Map</string>
+    <string name="onekey_sdk_distance_unit_android">%sm</string>
+    <string name="onekey_sdk_no_result_found">No Results found</string>
+    <string name="onekey_sdk_no_result_message">Oups, it\'s looks like there is no matches for your search.</string>
+    <string name="onekey_sdk_relaunch">Relaunch</string>
 
     <!--Sort-->
-    <string name="one_key_sort_label">Sort</string>
-    <string name="one_key_relevance_item">Relevance</string>
-    <string name="one_key_distance_item">Distance</string>
-    <string name="one_key_name_item">Name</string>
-    <string name="one_key_apply_button">Apply</string>
-    <string name="one_key_reset_button">Reset</string>
+    <string name="onekey_sdk_sort_label">Sort</string>
+    <string name="onekey_sdk_relevance_item">Relevance</string>
+    <string name="onekey_sdk_distance_item">Distance</string>
+    <string name="onekey_sdk_name_item">Name</string>
+    <string name="onekey_sdk_apply_button">Apply</string>
+    <string name="onekey_sdk_reset_button">Reset</string>
 
     <!--HCP profile-->
-    <string name="one_key_main_information_label">Main Information</string>
-    <string name="one_key_rate_refunds_label">Rate and refunds</string>
-    <string name="one_key_specialities_label">Specialties</string>
-    <string name="one_key_information_label">Information</string>
-    <string name="one_key_information_description">Was the information you were given about this HCP/HCO correct?</string>
-    <string name="one_key_information_yes_label">Yes</string>
-    <string name="one_key_information_no_label">No</string>
-    <string name="one_key_improve_quality_label">Improve the data quality</string>
-    <string name="one_key_suggess_modification_button">Suggest a modification\u0020</string>
+    <string name="onekey_sdk_main_information_label">Main Information</string>
+    <string name="onekey_sdk_rate_refunds_label">Rate and refunds</string>
+    <string name="onekey_sdk_specialities_label">Specialties</string>
+    <string name="onekey_sdk_information_label">Information</string>
+    <string name="onekey_sdk_information_description">Was the information you were given about this HCP/HCO correct?</string>
+    <string name="onekey_sdk_information_yes_label">Yes</string>
+    <string name="onekey_sdk_information_no_label">No</string>
+    <string name="onekey_sdk_improve_quality_label">Improve the data quality</string>
+    <string name="onekey_sdk_improve_quality_text">Share with us more information about this HCP/HCO.</string>
+    <string name="onekey_sdk_suggess_modification_button">Suggest a modification</string>
+
 </resources>

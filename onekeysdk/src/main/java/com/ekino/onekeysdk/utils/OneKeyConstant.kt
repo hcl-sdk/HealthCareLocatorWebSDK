@@ -11,6 +11,10 @@ object OneKeyConstant {
     const val navigateToProfile = "navigateToProfile"
 }
 
+object OneKeyReceiver {
+    const val gpsReceiver = "OneKeyReceiver.gpsReceiver"
+}
+
 object OneKeyLog {
     fun d(text: String) {
         Log.d("OneKeyLog", text)
@@ -18,5 +22,9 @@ object OneKeyLog {
 
     fun e(text: String) {
         Log.e("OneKeyLog", text)
+    }
+
+    fun e(throwable: Throwable) {
+        Log.e("OneKeyLog", "Error::${throwable.localizedMessage}")
     }
 }

@@ -136,7 +136,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private fun getIndividualByName(name: String, callback: (ArrayList<GetIndividualByNameQuery.Individual>) -> Unit) {
         query({
             GetIndividualByNameQuery.builder()
-                    .apiKey(theme.apiKey).criteria(name).first(5).offset(0).locale(theme.getLocaleCode()).build()
+                    .criteria(name).first(5).offset(0).locale(theme.getLocaleCode()).build()
         }, { response ->
             if (response.data?.individualsByName()?.individuals().isNullable())
                 callback(arrayListOf())
@@ -150,8 +150,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     private fun getCodeByLabel(name: String, callback: (ArrayList<OneKeySpecialityObject>) -> Unit) {
         rxQuery({
-            GetCodeByLabelQuery.builder()
-                    .apiKey(theme.apiKey).criteria(name).first(5).offset(0).codeTypes(listOf("SP")).build()
+            GetCodeByLabelQuery.builder().criteria(name).first(5).offset(0).codeTypes(listOf("SP")).build()
         }, { response ->
             if (response.data?.codesByLabel()?.codes().isNullable())
                 arrayListOf<OneKeySpecialityObject>()

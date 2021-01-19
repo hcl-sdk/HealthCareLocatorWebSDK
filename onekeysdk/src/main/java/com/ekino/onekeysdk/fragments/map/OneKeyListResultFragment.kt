@@ -16,11 +16,7 @@ import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class OneKeyListResultFragment : IFragment() {
     companion object {
-        fun newInstance(oneKeyCustomObject: OneKeyCustomObject,
-                        activities: ArrayList<ActivityObject>) = OneKeyListResultFragment().apply {
-            this.oneKeyCustomObject = oneKeyCustomObject
-            this.activities = activities
-        }
+        fun newInstance() = OneKeyListResultFragment().apply {}
     }
 
     private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
@@ -34,6 +30,9 @@ class OneKeyListResultFragment : IFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listContainer.setBackgroundColor(oneKeyCustomObject.colorListBackground.getColor())
+        (parentFragment as? FullMapFragment)?.getActivities()?.also {
+            this.activities = it
+        }
         rvResult.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter

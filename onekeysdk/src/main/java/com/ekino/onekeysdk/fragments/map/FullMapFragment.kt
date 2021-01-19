@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
-import base.fragments.AppFragment
+import base.extensions.runOnUiThread
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
@@ -29,11 +29,10 @@ import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.utils.OneKeyConstant
-import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
-class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
+class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
         fun newInstance(
@@ -68,6 +67,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 R.id.resultContainer
         )
     }
+    private var isRelaunch = false
     private var place: OneKeyPlace? = null
     private var speciality: OneKeySpecialityObject? = null
     private var criteria: String = ""
@@ -83,6 +83,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
+            isRelaunch = savedInstanceState.getBoolean("isRelaunch", false)
             speciality = savedInstanceState.getParcelable(OneKeyConstant.speciality)
             specialities = savedInstanceState.getStringArrayList("specialities") ?: arrayListOf()
             criteria = savedInstanceState.getString("criteria", "")
@@ -110,10 +111,8 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     return@Observer
                 }
                 if (this@FullMapFragment.activities.isEmpty())
-                    getActivities(
-                            criteria, if (speciality.isNotNullable())
-                        arrayListOf(speciality!!.id) else specialities, place
-                    )
+                    getActivities(criteria, if (speciality.isNotNullable())
+                        arrayListOf(speciality!!.id) else specialities, place)
                 else {
                     setModeButtons(activeScreen)
                     showLoading(false)
@@ -124,6 +123,9 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                     showLoading(it)
                 })
                 activities.observe(this@FullMapFragment, Observer {
+                    if (it.isEmpty()) {
+                        showNoResult()
+                    }
                     this@FullMapFragment.activities = it
                     setModeButtons(activeScreen)
                     initTabs()
@@ -144,8 +146,8 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
     private fun initTabs() {
         viewModel.sortActivities(ArrayList(activities), sorting) {
             resultFragments = arrayListOf(
-                    OneKeyListResultFragment.newInstance(oneKeyCustomObject, it),
-                    OneKeyMapResultFragment.newInstance(oneKeyCustomObject, it)
+                    OneKeyListResultFragment.newInstance(),
+                    OneKeyMapResultFragment.newInstance()
             )
             fragmentState.apply {
                 enableAnim(false)
@@ -171,6 +173,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         outState.putParcelableArrayList("activities", activities)
         outState.putInt("sorting", sorting)
         outState.putInt("activeScreen", activeScreen)
+        outState.putBoolean("isRelaunch", isRelaunch)
     }
 
     override fun onClick(v: View?) {
@@ -202,6 +205,7 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                         ), true
                 )
             }
+            R.id.btnStartSearch -> activity?.onBackPressed()
         }
     }
 
@@ -266,12 +270,22 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        OneKeyLog.d("LifeCycle: onAttach")
+        setSearchFocusable(false)
     }
 
     override fun onDetach() {
         super.onDetach()
-        OneKeyLog.d("LifeCycle: onDetach")
+        setSearchFocusable(true)
+    }
+
+    private fun setSearchFocusable(focusable: Boolean) {
+        val fragments = activity?.supportFragmentManager?.fragments ?: arrayListOf()
+        if (fragments.size > 1) {
+            val fragment = fragments[fragments.size - 1]
+            if (fragment is SearchFragment && fragment.isResumed) {
+                fragment.setFocusable(focusable)
+            }
+        }
     }
 
     private fun showLoading(state: Boolean) {
@@ -298,5 +312,41 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
                 fragment::class.java == OneKeyMapResultFragment::class.java
             } as? OneKeyMapResultFragment)?.updateActivities(it)
         }
+    }
+
+    override fun getActivities(): ArrayList<ActivityObject> = activities
+    override fun getRelaunchState(): Boolean = isRelaunch
+    override fun setRelaunchState(isRelaunch: Boolean) {
+        this.isRelaunch = isRelaunch
+    }
+
+    override fun reverseGeoCoding(place: OneKeyPlace) {
+        if (!isAdded) return
+        viewModel.reverseGeoCoding(place) {
+            forceSearch(it)
+        }
+    }
+
+    override fun forceSearch(place: OneKeyPlace) {
+        if (!isAdded) return
+        tvAddress.text = place.displayName
+        viewModel.getActivities(criteria, if (speciality.isNotNullable())
+            arrayListOf(speciality!!.id) else specialities, place) { activities ->
+            this@FullMapFragment.activities = activities
+            runOnUiThread(Runnable {
+                with(childFragmentManager.fragments) {
+                    (firstOrNull() { it is OneKeyMapResultFragment } as? OneKeyMapResultFragment)?.updateActivities(activities)
+                    (firstOrNull() { it is OneKeyListResultFragment } as? OneKeyListResultFragment)?.updateActivities(activities)
+                }
+            })
+        }
+    }
+
+    private fun showNoResult() {
+        noResult.visibility = View.VISIBLE
+        noResult.setBackgroundColor(oneKeyCustomObject.colorViewBackground.getColor())
+        btnStartSearch.setRippleBackground(oneKeyCustomObject.colorPrimary)
+        noResultWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 15f, 3)
+        btnStartSearch.setOnClickListener(this)
     }
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.model.FontObject
 import com.ekino.onekeysdk.sample.utils.getFonts

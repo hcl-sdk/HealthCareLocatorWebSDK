@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.fragment.app.FragmentManager;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 import com.jaredrummler.android.colorpicker.interfaces.ActivityRequestHandler;
 import com.jaredrummler.android.colorpicker.interfaces.ActivityResultHandler;
 import com.jaredrummler.android.colorpicker.interfaces.OnColorPickedListener;

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
-import base.fragments.AppFragment
+import base.extensions.runOnUiThread
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
@@ -34,7 +34,7 @@ import com.ekino.onekeysdk.utils.OneKeyLog
 import com.ekino.onekeysdk.viewmodel.map.NearMeViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
-class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(R.layout.fragment_full_map),
+class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
         fun newInstance(oneKeyCustomObject: OneKeyCustomObject, c: String, s: OneKeySpecialityObject?,
@@ -67,6 +67,7 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
     private var place: OneKeyPlace? = null
     private var criteria: String = ""
     private var activeScreen = 0
+    private var isRelaunch = false
     private var speciality: OneKeySpecialityObject? = null
     override val viewModel: NearMeViewModel = NearMeViewModel()
 
@@ -77,6 +78,7 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.setUpHideSoftKeyboard(activity, container)
         if (savedInstanceState != null) {
+            isRelaunch = savedInstanceState.getBoolean("isRelaunch", false)
             speciality = savedInstanceState.getParcelable(OneKeyConstant.speciality)
             specialities = savedInstanceState.getStringArrayList("specialities") ?: arrayListOf()
             criteria = savedInstanceState.getString(criteria, "")
@@ -141,8 +143,8 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
 
     private fun initTabs() {
         viewModel.sortActivities(ArrayList(activities), sorting) {
-            resultFragments = arrayListOf(OneKeyListResultFragment.newInstance(oneKeyCustomObject, it),
-                    OneKeyMapResultFragment.newInstance(oneKeyCustomObject, it))
+            resultFragments = arrayListOf(OneKeyListResultFragment.newInstance(),
+                    OneKeyMapResultFragment.newInstance())
             fragmentState.apply {
                 enableAnim(false)
                 setStacksRootFragment(resultFragments)
@@ -167,6 +169,7 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
         outState.putParcelableArrayList("activities", activities)
         outState.putInt("sorting", sorting)
         outState.putInt("activeScreen", activeScreen)
+        outState.putBoolean("isRelaunch", isRelaunch)
     }
 
     override fun onClick(v: View?) {
@@ -285,6 +288,37 @@ class OneKeyNearMeFragment : AppFragment<OneKeyNearMeFragment, NearMeViewModel>(
             (fragmentState.getRootFragments()?.firstOrNull { fragment ->
                 fragment::class.java == OneKeyMapResultFragment::class.java
             } as? OneKeyMapResultFragment)?.updateActivities(it)
+        }
+    }
+
+    override fun getActivities(): ArrayList<ActivityObject> = activities
+    override fun getRelaunchState(): Boolean = isRelaunch
+    override fun setRelaunchState(isRelaunch: Boolean) {
+        this.isRelaunch = isRelaunch
+    }
+
+    override fun reverseGeoCoding(place: OneKeyPlace) {
+        if (!isAdded) return
+        viewModel.reverseGeoCoding(place) {
+            forceSearch(it)
+        }
+    }
+
+    override fun forceSearch(place: OneKeyPlace) {
+        if (!isAdded) return
+        tvAddress.text = place.displayName ?: ""
+        viewModel.getActivities(context!!, criteria, if (speciality.isNotNullable())
+            arrayListOf(speciality!!.id) else specialities, place, false,
+                { activities ->
+                    this@OneKeyNearMeFragment.activities = activities
+                    runOnUiThread(Runnable {
+                        with(childFragmentManager.fragments) {
+                            (firstOrNull() { it is OneKeyMapResultFragment } as? OneKeyMapResultFragment)?.updateActivities(activities)
+                            (firstOrNull() { it is OneKeyListResultFragment } as? OneKeyListResultFragment)?.updateActivities(activities)
+                        }
+                    })
+                }) { location ->
+            currentLocation = location
         }
     }
 }

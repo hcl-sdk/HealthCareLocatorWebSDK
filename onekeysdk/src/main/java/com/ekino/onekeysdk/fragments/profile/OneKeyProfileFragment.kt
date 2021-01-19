@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
+import base.extensions.share
 import base.fragments.AppFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.*
@@ -94,6 +95,7 @@ class OneKeyProfileFragment :
         })
         btnBack.setOnClickListener { activity?.onBackPressed() }
         oneKeyCustomObject.apply {
+            container.setBackgroundColor(colorViewBackground.getColor())
             ivLocationOutLine.setIconFromDrawableId(iconLocation, true, colorMarkerSelected.getColor())
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
             ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
@@ -136,6 +138,8 @@ class OneKeyProfileFragment :
         }
         val secondaryColor = oneKeyCustomObject.colorSecondary.getColor()
         ivDirection.setColorFilter(secondaryColor)
+        ivDirection.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 100f, 3)
+        ivCall.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 100f, 3)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
         ivLocationOutLine.setColorFilter(oneKeyCustomObject.colorMarker.getColor())
@@ -150,12 +154,11 @@ class OneKeyProfileFragment :
             tvSpecialities.text = TextUtils.join(",", individual?.specialties
                     ?: arrayListOf<LabelObject>())
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
-            tvModification.text =
-                    "Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan."
         }
 
         val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
         if (activities.size > 1) {
+            spinnerWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 10f, 2)
             spinnerWrapper.visibility = View.VISIBLE
             ArrayAdapter<OtherActivityObject>(context!!, R.layout.layout_one_key_spinner_item, activities).also {
                 it.setDropDownViewResource(R.layout.layout_one_key_drop_down)
@@ -204,6 +207,33 @@ class OneKeyProfileFragment :
             }
 
             R.id.btnShare -> {
+                val obj = addressSpinner.selectedItem as? OtherActivityObject
+                val address = obj?.workplace?.run {
+                    var string = "$name"
+                    if (!address?.buildingLabel.isNullOrEmpty())
+                        string += "\n${address?.buildingLabel}"
+                    if (!address?.longLabel.isNullOrEmpty())
+                        string += "\n${address?.longLabel}"
+                    string
+                } ?: ""
+                val link = with(OneKeySDK.getInstance().getAppDownloadLink()) {
+                    if (this.isEmpty()) ""
+                    " - ${OneKeySDK.getInstance().getAppDownloadLink()}"
+                }
+                val name = with(activityDetail.individual) {
+                    if (this == null) ""
+                    else {
+                        "$firstName $middleName $lastName"
+                    }
+                }
+                val shareString = "Here is a healthcare professional that I recommend:\n" +
+                        "\n" +
+                        "$name\n" + "${activityDetail.individual?.professionalType?.label}\n\n" +
+                        "$address\n\n" +
+                        "${obj?.phone}\n" +
+                        "\n" +
+                        "I found it on ${OneKeySDK.getInstance().getAppName()}$link."
+                activity?.share(shareString, "Share HCP")
             }
             R.id.mapOverlay -> {
                 val obj = (addressSpinner.selectedItem as? OtherActivityObject) ?: return

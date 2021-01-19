@@ -186,6 +186,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     setError(specialityWrapper, ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
                 }
+                setFocusable(false)
                 oneKeyCustomObject?.also {
                     onItemClicked = true
                     context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
@@ -241,7 +242,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private fun setNearMeText() {
         currentLocation?.apply {
             selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
-                    longitude = "$longitude", displayName = getString(R.string.one_key_near_me))
+                    longitude = "$longitude", displayName = getString(R.string.onekey_sdk_near_me))
             edtWhere.setText(selectedPlace?.displayName ?: "")
         }
     }
@@ -304,5 +305,15 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
 
     fun clearIndividualData() {
         individualAdapter.clear()
+    }
+
+    fun setFocusable(isFocusable:Boolean){
+        edtName.isFocusableInTouchMode = isFocusable
+        edtName.isFocusable = isFocusable
+        edtWhere.isFocusableInTouchMode = isFocusable
+        edtWhere.isFocusable = isFocusable
+        if (isFocusable){
+            edtName.requestFocus()
+        }
     }
 }
