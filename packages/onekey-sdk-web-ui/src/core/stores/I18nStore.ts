@@ -3,11 +3,13 @@ import StoreProvider from './StoreProvider';
 interface I18nStoreState {
   labels: {
     [k: string]: string;
-  }
+  },
+  lang: string;
 }
 
 const initialState = {
-  labels: {}
+  labels: {},
+  lang: 'en'
 }
 
 export default class UIStore extends StoreProvider<I18nStoreState> {

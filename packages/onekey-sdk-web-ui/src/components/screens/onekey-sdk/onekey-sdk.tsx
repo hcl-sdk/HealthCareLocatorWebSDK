@@ -3,7 +3,7 @@ import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
-import { configStore, uiStore, searchMapStore, routerStore } from '../../../core/stores';
+import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { NEAR_ME_ITEM } from '../../../core/constants';
@@ -53,7 +53,7 @@ export class OneKeySDK {
     configStore.setState(merge({}, defaults, this.config));
 
     const closestElement = this.el.closest('[lang]') as HTMLElement;
-    const lang = closestElement ? closestElement.lang : 'en';
+    const lang = closestElement ? closestElement.lang : i18nStore.state.lang;
 
     if (closestElement) {
       this.observeChangeLang(closestElement);
@@ -112,21 +112,44 @@ export class OneKeySDK {
     uiStore.setParentDims(this.parentEl.getBoundingClientRect());
   }
 
+  getGeolocationSuccess() {
+    searchMapStore.setState({
+      geoLocation: {
+        ...searchMapStore.state.geoLocation,
+
+        // Using mock data to CA Address, will remove in the future
+        // latitude: result.coords.latitude,
+        // longitude: result.coords.longitude,
+      }
+    });
+  }
+
+  getGeolocationError(err) {
+    console.error("[geolocation] failed: ", err);
+  }
+
   checkGeolocationPermission() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(() => {
-        searchMapStore.setState({
-          geoLocation: {
-            ...searchMapStore.state.geoLocation,
-            status: 'granted',
-            // Using mock data to CA Address, will remove in the future
-            // latitude: evt.coords.latitude,
-            // longitude: evt.coords.longitude,
+    if (navigator.permissions) {
+      navigator.permissions
+        .query({name:'geolocation'})
+        .then(({ state }) => {
+          if( state === 'granted') {
+            searchMapStore.setState({
+              geoLocation: {
+                ...searchMapStore.state.geoLocation,
+                status: 'granted',
+              }
+            });
           }
         })
-      }, (err) => {
-        console.error('[geolocation] ', err);
-      })
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        this.getGeolocationSuccess, 
+        this.getGeolocationError, {
+          timeout: 10000
+        })
     }
   }
 

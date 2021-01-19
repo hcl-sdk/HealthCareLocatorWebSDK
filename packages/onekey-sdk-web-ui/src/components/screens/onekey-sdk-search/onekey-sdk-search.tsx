@@ -34,34 +34,44 @@ export class OnekeySdkSearch {
     e.preventDefault();
 
     const { name } = e.target;
-    this.checkValidElm(name);
 
-    if (name.value) {
-      if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
-        routerStore.push(ROUTER_PATH.SEARCH_RESULT);
-      } else {
-        searchLocationWithParams()
-      }
-      // store search to history
-      const historySearchItem: HistorySearchItem = {
-        id: String(Date.now()),
-        type: 'search',
-        locationFilter: searchMapStore.state.locationFilter,
-        specialtyFilter: searchMapStore.state.specialtyFilter,
-        searchFields: searchMapStore.state.searchFields,
-        timestamp: Date.now()
-      }
-      historyStore.addItem('search', historySearchItem);
+    if (!this.checkIsBasicNearMe() && !this.checkValidElm(name)) {
+      return;
     }
+
+    if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
+      routerStore.push(ROUTER_PATH.SEARCH_RESULT);
+    } else {
+      searchLocationWithParams()
+    }
+    // store search to history
+    const historySearchItem: HistorySearchItem = {
+      id: String(Date.now()),
+      type: 'search',
+      locationFilter: searchMapStore.state.locationFilter,
+      specialtyFilter: searchMapStore.state.specialtyFilter,
+      searchFields: searchMapStore.state.searchFields,
+      timestamp: Date.now()
+    }
+    historyStore.addItem('search', historySearchItem);
   };
 
   checkValidElm = elm => {
     if (elm && !elm.value) {
       elm.classList.add('error');
+      return false;
     } else {
       elm.classList.remove('error');
+      return true;
     }
   };
+
+  checkIsBasicNearMe() {
+    if (searchMapStore.state.locationFilter && searchMapStore.state.locationFilter.id === NEAR_ME) {
+      return true;
+    }
+    return false;
+  }
 
   onChange = debounce(async (name: string, value: string) => {
     const inputName = name;
@@ -94,9 +104,7 @@ export class OnekeySdkSearch {
       searchMapStore.setState({
         locationFilter: item,
       });
-      if (searchMapStore.state.searchFields.name === '') {
-        this.fields.name.querySelector('input').focus();
-      }
+
       return;
     }
     if (this.currentSelectedInput === 'address') {
@@ -130,8 +138,7 @@ export class OnekeySdkSearch {
 
   resetDataResult = () => {
     searchMapStore.setState({
-      searchDoctor: [],
-      specialties: [],
+      searchDoctor: []
     });
   };
 
@@ -198,9 +205,6 @@ export class OnekeySdkSearch {
     }
     if (this.currentSelectedInput === 'address') {
       return <div class="body-block">{this.renderContent(addressResults)}</div>;
-    }
-    if (addressResults.length && addressResults[0].id !== NEAR_ME_ITEM.id) {
-      return <div class="body-block">{this.renderContent([NEAR_ME_ITEM])}</div>;
     }
     return null;
   };

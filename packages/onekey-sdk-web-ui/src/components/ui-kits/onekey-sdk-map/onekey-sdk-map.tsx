@@ -30,7 +30,12 @@ export class OnekeySdkMap {
   @Prop() breakpoint: Breakpoint;
   @Prop() interactive: boolean = true;
   @Event() markerClick: EventEmitter;
-  @State() currentLocation: any;
+
+  // Mock location with CA address
+  @State() currentLocation: any = {
+    lat: 43.7621836,
+    lng: -79.4449289
+  };
   @Event() setCurrentLocation: EventEmitter;
   @Event() mapClicked: EventEmitter;
   mapElm: HTMLInputElement;

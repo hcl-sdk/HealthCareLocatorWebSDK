@@ -1,4 +1,4 @@
-import { searchMapStore, historyStore, configStore } from '../stores';
+import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'onekey-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
@@ -74,7 +74,7 @@ export async function searchDoctor(variables) {
   ] = await Promise.all(
     [
       graphql.individualsByName({
-        locale: "en",
+        locale: i18nStore.state.lang,
         first: 5,
         offset: 0,
         ...variables,
@@ -83,7 +83,7 @@ export async function searchDoctor(variables) {
         first: 5,
         offset: 0,
         codeTypes: ["SP"],
-        locale: "en",
+        locale: i18nStore.state.lang,
         ...variables,
       }, configStore.configGraphql)
     ]

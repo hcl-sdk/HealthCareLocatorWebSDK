@@ -103,7 +103,7 @@ export const initStateSearchMapStore: SearchMapState = {
   locationFilter: null,
   specialtyFilter: null,
   geoLocation: {
-    status: 'denied' as GeoLocationStatus,
+    status: 'granted' as GeoLocationStatus,
 
     // Mock location with CA address
     latitude: 43.7621836,

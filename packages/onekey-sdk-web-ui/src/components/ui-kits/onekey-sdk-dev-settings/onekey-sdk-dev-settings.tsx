@@ -28,7 +28,7 @@ const optionSets = [
     label: 'Language',
     options: [
       { label: 'English', value: 'en' },
-      { label: 'French', value: 'fr' },
+      { label: 'French', value: 'fr_CA' },
     ],
   },
   {
