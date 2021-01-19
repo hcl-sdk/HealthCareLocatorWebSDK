@@ -14,7 +14,6 @@ import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import base.extensions.pushFragment
 import base.extensions.runOnUiThread
-import base.fragments.AppFragment
 import base.fragments.FragmentState
 import base.fragments.IFragment
 import base.fragments.IFragmentState
@@ -321,9 +320,16 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         this.isRelaunch = isRelaunch
     }
 
+    override fun reverseGeoCoding(place: OneKeyPlace) {
+        if (!isAdded) return
+        viewModel.reverseGeoCoding(place) {
+            forceSearch(it)
+        }
+    }
+
     override fun forceSearch(place: OneKeyPlace) {
         if (!isAdded) return
-        tvAddress.text = place.displayName ?: ""
+        tvAddress.text = place.displayName
         viewModel.getActivities(criteria, if (speciality.isNotNullable())
             arrayListOf(speciality!!.id) else specialities, place) { activities ->
             this@FullMapFragment.activities = activities

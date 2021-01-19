@@ -91,7 +91,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             R.id.btnRelaunch -> {
                 animateRelaunch(true)
                 getRunningMapFragment()?.getOSMCenter() { lat, lng ->
-                    getFullMapFragment()?.forceSearch(OneKeyPlace(context!!, lat, lng))
+                    getFullMapFragment()?.reverseGeoCoding(OneKeyPlace(context!!, lat, lng))
                 }
             }
         }

@@ -10,4 +10,5 @@ abstract class AbsMapFragment<T, VM : IViewModel<T>>(private val layoutId: Int) 
     abstract fun getRelaunchState(): Boolean
     abstract fun setRelaunchState(isRelaunch: Boolean)
     abstract fun forceSearch(place: OneKeyPlace)
+    abstract fun reverseGeoCoding(place: OneKeyPlace)
 }

@@ -10,6 +10,8 @@ import com.ekino.onekeysdk.extensions.requestPermission
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.service.location.LocationAPI
+import com.ekino.onekeysdk.service.location.OneKeyMapService
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
@@ -21,6 +23,9 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     val permissionRequested by lazy { MutableLiveData<Boolean>() }
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
     val loading by lazy { MutableLiveData<Boolean>() }
+    private val executor: LocationAPI by lazy {
+        OneKeyMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
+    }
 
     fun requestPermissions(context: Fragment) {
         context.requestPermission({ granted ->
@@ -98,6 +103,16 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         }, {
             callback(arrayListOf())
         }, true)
+    }
+
+    fun reverseGeoCoding(place: OneKeyPlace, callback: (place: OneKeyPlace) -> Unit) {
+        val params = hashMapOf<String, String>()
+        params["lat"] = place.latitude
+        params["lon"] = place.longitude
+        params["format"] = "json"
+        disposable?.add(executor.reverseGeoCoding(params).compose(compose())
+                .subscribe({ callback(it) }, { callback(place) })
+        )
     }
 
     fun sortActivities(list: ArrayList<ActivityObject>, sorting: Int,

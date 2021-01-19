@@ -297,6 +297,13 @@ class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewMode
         this.isRelaunch = isRelaunch
     }
 
+    override fun reverseGeoCoding(place: OneKeyPlace) {
+        if (!isAdded) return
+        viewModel.reverseGeoCoding(place) {
+            forceSearch(it)
+        }
+    }
+
     override fun forceSearch(place: OneKeyPlace) {
         if (!isAdded) return
         tvAddress.text = place.displayName ?: ""
