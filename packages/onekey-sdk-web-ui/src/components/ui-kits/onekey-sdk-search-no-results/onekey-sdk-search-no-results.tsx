@@ -1,5 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import { uiStore, routerStore } from 'onekey-sdk-web-ui/src/core/stores';
+import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { t } from '../../../utils/i18n';
 
 @Component({
@@ -10,7 +11,7 @@ import { t } from '../../../utils/i18n';
 export class OnekeySdkSearchNoResults {
 
   goSearch() {
-    routerStore.push('/search');
+    routerStore.push(ROUTER_PATH.MAIN);
   }
 
   render() {

@@ -21,6 +21,9 @@ export class OnekeySdkSearchResult {
     searchMapStore.setState({
       selectedActivity: null,
       individualDetail: null,
+      searchDoctor: [],
+      specialties: [],
+      searchFields: { name: '', address: '' },
     });
     configStore.setState({
       modeView: ModeViewType.LIST
@@ -99,11 +102,6 @@ export class OnekeySdkSearchResult {
 
   goBackToHome = () => {
     routerStore.back();
-    searchMapStore.setState({
-      searchFields: { name: '', address: '' },
-      locationFilter: null,
-      specialtyFilter: null,
-    });
   };
 
   goToSearch = () => {
@@ -139,6 +137,17 @@ export class OnekeySdkSearchResult {
       </div>
     );
   };
+
+  getLocationsMapSingle() {
+    const { selectedActivity, individualDetail } = searchMapStore.state;
+    if (individualDetail) {
+      return [{ lat: individualDetail.lat, lng: individualDetail.lng }]
+    }
+    if (selectedActivity) {
+      return [{ lat: selectedActivity.lat, lng: selectedActivity.lng }]
+    }
+    return null;
+  }
 
   render() {
     if (!searchMapStore.state.search) {
@@ -181,13 +190,17 @@ export class OnekeySdkSearchResult {
       selectedLocationIdx: 0,
       defaultZoom: 5
     }
-    const isShowFullCard = !!individualDetail;
 
-    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !selectedActivity;
+    const isShowHCPDetail = individualDetail || selectedActivity;
+    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !isShowHCPDetail;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity,
       desktop: !loadingActivities && !isSmall,
     }
+    const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
+    const isShowMapCluster = !isListView && !isShowHCPDetail && specialties && specialties.length;
+    
+    const locationsMapSingle = this.getLocationsMapSingle();
 
     return (
       <Host class={wrapperClass}>
@@ -247,22 +260,28 @@ export class OnekeySdkSearchResult {
                 <div class="toggle-panel">
                   <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
                 </div>
-                {!isListView && !isShowFullCard && (
-                  !selectedActivity ? (
+
+                {
+                  isShowMapCluster && (
                     <onekey-sdk-map
                       key="map-cluster"
-                      breakpoint={breakpoint} 
+                      breakpoint={breakpoint}
                       locations={specialties}
                       {...injectedMapProps}
                     />
-                  ) : (
+                  )
+                }
+
+                {
+                  isShowMapSingle && (
                     <onekey-sdk-map 
                       key="map-single"
-                      locations={[{ lat: selectedActivity.lat, lng: selectedActivity.lng }]}
+                      locations={locationsMapSingle}
+                      noCurrentLocation
                       {...injectedMapProps}
                     />
                   )
-                )}
+                }
               </div>
             </Fragment>
           )

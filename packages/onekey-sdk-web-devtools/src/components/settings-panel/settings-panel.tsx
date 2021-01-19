@@ -486,7 +486,7 @@ export class SettingsPanel {
             <option value="en" selected={this.fields.lang === 'en'}>
               English
             </option>
-            <option value="fr" selected={this.fields.lang === 'fr'}>
+            <option value="fr_CA" selected={this.fields.lang === 'fr_CA'}>
               Français
             </option>
           </select>
