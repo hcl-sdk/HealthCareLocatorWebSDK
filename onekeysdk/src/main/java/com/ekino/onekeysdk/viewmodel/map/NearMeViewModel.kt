@@ -81,6 +81,57 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
         })
     }
 
+    fun getActivities(context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+                      usingCurrentLocation: Boolean, callback: (list: ArrayList<ActivityObject>) -> Unit,
+                      currentLocation: (location: Location) -> Unit) {
+        val client = LocationClient(context)
+        client.requestLastLocation().registerDataCallBack({ location ->
+            client.removeLocationUpdate()
+            client.releaseApiClient()
+            currentLocation(location)
+            query({
+                val builder = GetActivitiesQuery.builder()
+                        .locale(theme.getLocaleCode()).first(50).offset(0)
+                if (specialities.isNotEmpty()) {
+                    builder.specialties(specialities)
+                } else {
+                    if (criteria.isNotEmpty())
+                        builder.criteria(criteria)
+                }
+                if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
+                    if (usingCurrentLocation)
+                        builder.location(GeopointQuery.builder().lat(location.latitude)
+                                .lon(location.longitude).build())
+                    else
+                        builder.location(GeopointQuery.builder().lat(place.latitude.toDouble())
+                                .lon(place.longitude.toDouble()).build())
+                }
+                builder.build()
+            }, { response ->
+                if (response.data?.activities().isNullable()) {
+                    callback(arrayListOf())
+                } else {
+                    callback(response.data!!.activities()!!.run {
+                        val list = ArrayList<ActivityObject>()
+                        forEach { act ->
+                            val obj = ActivityObject().parse(act.activity())
+                            obj.distance = act.distance() ?: 0.0
+                            list.add(obj)
+                        }
+                        list
+                    })
+                }
+            }, {
+                callback(arrayListOf())
+            }, true)
+        }, { isAvailable ->
+            if (!isAvailable)
+                callback(arrayListOf())
+        }, {
+            callback(arrayListOf())
+        })
+    }
+
     fun sortActivities(list: ArrayList<ActivityObject>, sorting: Int,
                        callback: (list: ArrayList<ActivityObject>) -> Unit) {
         Flowable.just(list)

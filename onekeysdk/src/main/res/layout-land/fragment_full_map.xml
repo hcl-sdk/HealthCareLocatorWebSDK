@@ -264,7 +264,7 @@
                         android:gravity="center"
                         android:text="@string/onekey_sdk_no_result_found"
                         app:OneKeyTextColor="OneKeyColorSecondary"
-                        app:OneKeyTextStyle="OneKeyStyleTitleMain" />
+                        app:OneKeyTextStyle="OneKeyStyleNoResultTitle" />
 
                     <ImageView
                         android:layout_width="@dimen/default_icon_size_bigger"
@@ -282,7 +282,7 @@
                         android:gravity="center"
                         android:text="@string/onekey_sdk_no_result_message"
                         app:OneKeyTextColor="OneKeyColorDark"
-                        app:OneKeyTextStyle="OneKeyStyleDefault" />
+                        app:OneKeyTextStyle="OneKeyStyleNoResultDesc" />
                 </LinearLayout>
 
                 <com.ekino.onekeysdk.custom.text.OneKeyTextView

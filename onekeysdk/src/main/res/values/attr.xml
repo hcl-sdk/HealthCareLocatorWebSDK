@@ -27,6 +27,8 @@
             <enum name="OneKeyStyleButton" value="13" />
             <enum name="OneKeyStyleSmall" value="14" />
             <enum name="OneKeyStyleSortCriteria" value="15" />
+            <enum name="OneKeyStyleNoResultTitle" value="16" />
+            <enum name="OneKeyStyleNoResultDesc" value="17" />
         </attr>
         <attr name="OneKeyTextColor" format="enum">
             <enum name="OneKeyColorPrimary" value="0" />

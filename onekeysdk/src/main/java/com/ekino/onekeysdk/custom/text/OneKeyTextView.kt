@@ -21,7 +21,8 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
         OneKeyStyleSearchResultTotal, OneKeyStyleSearchResultTitle, OneKeyStyleResultTitle,
         OneKeyStyleResultSubtitle, OneKeyStyleProfileTitle, OneKeyStyleProfileSubtitle,
         OneKeyStyleProfileTitleSection, OneKeyStyleCardTitle, OneKeyStyleModalTitle,
-        OneKeyStyleSearchInput, OneKeyStyleButton, OneKeyStyleSmall, OneKeyStyleSortCriteria
+        OneKeyStyleSearchInput, OneKeyStyleButton, OneKeyStyleSmall, OneKeyStyleSortCriteria,
+        OneKeyStyleNoResultTitle, OneKeyStyleNoResultDesc
     }
 
     enum class OneKeyColorStyle {
@@ -94,6 +95,10 @@ class OneKeyTextView : AppCompatTextView, IOneKeyView {
                 setFont(OneKeySDK.getInstance().getConfiguration().fontSmall, forceTextSize)
             OneKeyTextStyle.OneKeyStyleSortCriteria ->
                 setFont(OneKeySDK.getInstance().getConfiguration().fontSortCriteria, forceTextSize)
+            OneKeyTextStyle.OneKeyStyleNoResultTitle ->
+                setFont(OneKeySDK.getInstance().getConfiguration().fontNoResultTitle, forceTextSize)
+            OneKeyTextStyle.OneKeyStyleNoResultDesc ->
+                setFont(OneKeySDK.getInstance().getConfiguration().fontNoResultDesc, forceTextSize)
         }
     }
 

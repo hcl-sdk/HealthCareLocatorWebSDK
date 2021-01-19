@@ -153,5 +153,5 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnRelaunch.visibility = state.getVisibility()
     }
 
-    private fun getFullMapFragment(): FullMapFragment? = parentFragment as? FullMapFragment
+    private fun getFullMapFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>
 }

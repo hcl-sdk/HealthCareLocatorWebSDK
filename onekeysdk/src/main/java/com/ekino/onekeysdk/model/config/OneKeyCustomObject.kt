@@ -66,7 +66,7 @@ data class OneKeyCustomObject private constructor(
         val iconMarkerMin: Int, val iconSort: Int, val iconList: Int, val iconMap: Int,
         val iconArrowRight: Int, val iconMapGeoLoc: Int, val iconPhone: Int, val iconFax: Int,
         val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
-        val iconLocation: Int) {
+        val iconLocation: Int, val fontNoResultTitle: OneKeyViewFontObject, val fontNoResultDesc: OneKeyViewFontObject) {
 
     @Suppress
     data class Builder(
@@ -126,7 +126,9 @@ data class OneKeyCustomObject private constructor(
             var iconVoteDown: Int = R.drawable.ic_dislike_gray,
             var iconProfile: Int = R.drawable.ic_profile,
             var iconLocation: Int = R.drawable.outline_location_on_black_36dp,
-            var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp) {
+            var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp,
+            var fontNoResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontNoResultTitle", size = 20).build(),
+            var fontNoResultDesc: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontNoResultDesc", size = 16).build()) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -221,6 +223,14 @@ data class OneKeyCustomObject private constructor(
             this.fontSortCriteria = fontSortCriteria ?: this.fontSortCriteria
         }
 
+        fun fontNoResultTitle(fontNoResultTitle: OneKeyViewFontObject?) = apply {
+            this.fontNoResultTitle = fontNoResultTitle ?: this.fontNoResultTitle
+        }
+
+        fun fontNoResultDesc(fontNoResultDesc: OneKeyViewFontObject?) = apply {
+            this.fontNoResultDesc = fontNoResultDesc ?: this.fontNoResultDesc
+        }
+
         fun colorListBackground(colorListBackground: String) = apply { this.colorListBackground = colorListBackground }
         fun colorGreyLight(color: String) = apply { this.colorGreyLight = color }
         fun colorGrey(color: String) = apply { this.colorGrey = color }
@@ -249,7 +259,7 @@ data class OneKeyCustomObject private constructor(
                 colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities,
                 screenReference, mapService, iconCross, iconGeoLoc, iconMarkerMin, iconSort, iconList,
                 iconMap, iconArrowRight, iconMapGeoLoc, iconPhone, iconFax, iconWebsite, iconVoteUp,
-                iconVoteDown, iconProfile, iconLocation)
+                iconVoteDown, iconProfile, iconLocation, fontNoResultTitle, fontNoResultDesc)
     }
 
     fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language

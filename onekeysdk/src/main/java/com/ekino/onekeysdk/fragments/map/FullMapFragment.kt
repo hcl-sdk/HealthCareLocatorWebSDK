@@ -33,7 +33,7 @@ import com.ekino.onekeysdk.utils.OneKeyConstant
 import com.ekino.onekeysdk.viewmodel.map.FullMapViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
-class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
+class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
         fun newInstance(
@@ -315,13 +315,13 @@ class FullMapFragment : AppFragment<FullMapFragment, FullMapViewModel>(R.layout.
         }
     }
 
-    fun getActivities(): ArrayList<ActivityObject> = activities
-    fun getRelaunchState(): Boolean = isRelaunch
-    fun setRelaunchState(isRelaunch: Boolean) {
+    override fun getActivities(): ArrayList<ActivityObject> = activities
+    override fun getRelaunchState(): Boolean = isRelaunch
+    override fun setRelaunchState(isRelaunch: Boolean) {
         this.isRelaunch = isRelaunch
     }
 
-    fun forceSearch(place: OneKeyPlace) {
+    override fun forceSearch(place: OneKeyPlace) {
         if (!isAdded) return
         tvAddress.text = place.displayName ?: ""
         viewModel.getActivities(criteria, if (speciality.isNotNullable())
