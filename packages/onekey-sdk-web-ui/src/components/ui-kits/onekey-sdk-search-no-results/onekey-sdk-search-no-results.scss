@@ -5,7 +5,7 @@
     display: flex;
     display: -ms-flexbox;
     margin: 10px;
-    padding: 10px;
+    padding: 10px 10px 20px 10px;
     border-radius: 5px;
     background-color: white;
     border: 1px solid var(--onekeysdk-color-card_border);
@@ -14,14 +14,13 @@
     text-align: center;
     align-items: center;
     &__title {
-      font-size: 24px;
       margin-top: 8px;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
       @include applyFontStyle('title_main');
     }
     &__icon {
-      width: 54px;
-      height: 54px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       border: 1px solid var(--onekeysdk-color-card_border);
       display: flex;
@@ -32,8 +31,9 @@
       }
     }
     &__desc {
-      max-width: 260px;
-      margin-top: 30px;
+      max-width: 290px;
+      margin-top: 36px;
+      @include applyFontStyle('card_title');
     }
     &__btn {
       width: 100%;
@@ -42,18 +42,23 @@
 
     &.size-tablet,
     &.size-desktop {
-      width: 640px;
-      margin-left: auto;
-      margin-right: auto;
       height: auto;
-      padding-bottom: 20px;
+      margin: 35px 17px 17px;
+      padding-bottom: 76px;
 
-      & > .oksdk-search-no-results {
+      & > .oksdk-search-no-results {  
+        &__title {
+          margin-top: 28px;
+          margin-bottom: 24px;
+          @include applyFontStyle('title_main_large');
+        }
+        &__desc {
+          max-width: 100%;
+          margin-bottom: 0;
+          @include applyFontStyle('title_main');
+        }
         &__btn {
-          width: auto;
-          margin-top: 30px;
-          padding-left: 20px;
-          padding-right: 20px;
+          display: none;
         }
       }
     }
