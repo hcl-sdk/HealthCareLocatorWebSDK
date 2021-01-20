@@ -14,3 +14,11 @@ export const NEAR_ME_ITEM = {
 
 export const HISTORY_ITEMS_TO_DISPLAY = 3;
 export const HISTORY_MAX_TOTAL_ITEMS = 10;
+
+export const GEOLOC = {
+  MAXAGE: 60000,
+  TIMEOUT: 5 * 1000,
+  TIMEOUT_CODE: 3,
+  MAX_TRIES: 5,
+  MINUTE_HISTORY: 30, 
+}

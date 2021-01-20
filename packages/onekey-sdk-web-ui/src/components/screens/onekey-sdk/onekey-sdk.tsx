@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Method, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Method, Element, State } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
@@ -10,6 +10,9 @@ import { NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
+import { GEOLOC } from '../../../core/constants';
+import { dateUtils } from '../../../utils/dateUtils';
+import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 
 const defaults = {
   apiKey: '',
@@ -23,6 +26,7 @@ const defaults = {
 export class OneKeySDK {
   @Element() el: HTMLStencilElement;
   @Prop() config: OneKeySDKConfigData;
+  @State() retriesCounter: number = 0;
 
   parentEl;
 
@@ -48,7 +52,7 @@ export class OneKeySDK {
   }
 
   async componentWillLoad() {
-    this.checkGeolocationPermission();
+    this.loadCurrentPosition();
 
     configStore.setState(merge({}, defaults, this.config));
 
@@ -111,46 +115,51 @@ export class OneKeySDK {
   updateParentDims() {
     uiStore.setParentDims(this.parentEl.getBoundingClientRect());
   }
+  
+  retryFindGeoloc = (err) => {
+    if (err.code === GEOLOC.TIMEOUT_CODE && this.retriesCounter < GEOLOC.MAX_TRIES) {
+      this.retriesCounter = this.retriesCounter + 1;
+      this.tryFindGeoloc();
+    }
+  }
 
-  getGeolocationSuccess() {
-    searchMapStore.setState({
-      geoLocation: {
-        ...searchMapStore.state.geoLocation,
+  tryFindGeoloc() {
+    navigator.geolocation
+      .getCurrentPosition(data => {
+        const { 
+          coords: { longitude, latitude } 
+        } = data;
+        searchMapStore.setGeoLocation({ longitude, latitude });
+      }, this.retryFindGeoloc, {
+        maximumAge: GEOLOC.MAXAGE,
+        timeout: GEOLOC.TIMEOUT
+      });
+  }
 
-        // Using mock data to CA Address, will remove in the future
-        // latitude: result.coords.latitude,
-        // longitude: result.coords.longitude,
+  findCurrentPosition() {
+    if(!navigator.geolocation) {
+      console.error("[Geolocation] is not supported by your browse")
+    } else {
+      this.tryFindGeoloc();
+    }
+  }
+
+  loadCurrentPosition() {
+    const dataGeolocation = storageUtils.getObject(OKSDK_GEOLOCATION_HISTORY);
+    if (dataGeolocation) {
+      const time = Number(dataGeolocation.time);
+      if (dateUtils(time).diffMinuteFromNow() < GEOLOC.MINUTE_HISTORY) {
+        const { latitude, longitude } = dataGeolocation;
+        searchMapStore.setGeoLocation({ latitude, longitude });
+      } else {
+        storageUtils.remove(OKSDK_GEOLOCATION_HISTORY);
       }
-    });
-  }
-
-  getGeolocationError(err) {
-    console.error("[geolocation] failed: ", err);
-  }
-
-  checkGeolocationPermission() {
-    if (navigator.permissions) {
-      navigator.permissions
-        .query({name:'geolocation'})
-        .then(({ state }) => {
-          if( state === 'granted') {
-            searchMapStore.setState({
-              geoLocation: {
-                ...searchMapStore.state.geoLocation,
-                status: 'granted',
-              }
-            });
-          }
-        })
+    } else {
+      // Using mock data to CA Address
+      searchMapStore.setGeoLocation();
     }
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        this.getGeolocationSuccess, 
-        this.getGeolocationError, {
-          timeout: 10000
-        })
-    }
+    
+    this.findCurrentPosition();
   }
 
   render() {
