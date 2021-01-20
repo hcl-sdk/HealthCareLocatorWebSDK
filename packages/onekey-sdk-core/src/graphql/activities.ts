@@ -7,12 +7,13 @@ interface ActivitiesResult {
 }
 
 const QUERY_ACTIVITIES = gql`
-  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String) {
+  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $location: GeopointQuery) {
     activities(
       first: $first
       offset: $offset
       specialties: $specialties
       county: $county
+      location: $location
     ) {
       distance
       relevance
