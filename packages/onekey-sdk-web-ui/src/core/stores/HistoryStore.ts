@@ -1,3 +1,4 @@
+import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
 import { HISTORY_ITEMS_TO_DISPLAY } from '../constants';
 import StoreProvider from './StoreProvider';
 
@@ -25,23 +26,17 @@ interface HistoryStoreState {
 }
 
 function loadHistory() {
-  const historyStr = window.localStorage.getItem('__onekey-sdk-searchHistory');
-  if (historyStr) {
-    return JSON.parse(historyStr);
-  }
-  return {
+  return storageUtils.getObject(OKSDK_SEARCH_HISTORY, {
     searchItems: [],
     hcpItems: [],
-  };
+  })
 }
 
 function storeHistory(history: HistoryStoreState) {
   if (!history) {
     return;
   }
-  try {
-    window.localStorage.setItem('__onekey-sdk-searchHistory', JSON.stringify(history));
-  } catch (e) {}
+  storageUtils.setObject(OKSDK_SEARCH_HISTORY, history);
 }
 
 const initialData: HistoryStoreState = loadHistory();

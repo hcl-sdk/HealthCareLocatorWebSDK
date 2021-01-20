@@ -1,5 +1,6 @@
 import { Component, Host, h, State } from '@stencil/core';
 import cls from 'classnames';
+import { storageUtils, OKSDK_DEV_SETTINGS } from '../../../utils/storageUtils';
 
 interface DevSettings {
   [k: string]: any;
@@ -11,15 +12,11 @@ const defaultSettings = {
 };
 
 const storeSettings = (settings: DevSettings) => {
-  localStorage.setItem(`__onekey-sdk-dev-settings`, JSON.stringify(settings));
+  storageUtils.setObject(OKSDK_DEV_SETTINGS, settings);
 };
 
 const loadSettings = (): DevSettings => {
-  const settingsStr = localStorage.getItem(`__onekey-sdk-dev-settings`);
-  if (settingsStr) {
-    return JSON.parse(settingsStr);
-  }
-  return defaultSettings;
+  return storageUtils.getObject(OKSDK_DEV_SETTINGS, defaultSettings);
 };
 
 const optionSets = [

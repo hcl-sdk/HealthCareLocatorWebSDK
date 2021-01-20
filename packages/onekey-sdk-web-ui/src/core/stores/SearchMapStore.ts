@@ -1,3 +1,4 @@
+import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import StoreProvider from "./StoreProvider";
 
 export interface SpecialtyItem {
@@ -103,11 +104,9 @@ export const initStateSearchMapStore: SearchMapState = {
   locationFilter: null,
   specialtyFilter: null,
   geoLocation: {
-    status: 'granted' as GeoLocationStatus,
-
-    // Mock location with CA address
-    latitude: 43.7621836,
-    longitude: -79.4449289
+    status: 'denied' as GeoLocationStatus,
+    latitude: 0,
+    longitude: 0
   }
 }
 
@@ -123,6 +122,28 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
         ...this.state.searchFields,
         [key]: value
       }
+    })
+  }
+
+  // Using mock data to CA Address, will remove later
+  setGeoLocation({ 
+    latitude = 43.7621836, 
+    longitude = -79.4449289 
+  } = {}) {
+
+    this.setState({
+      geoLocation: {
+        ...this.state.geoLocation,
+        status: 'granted',
+        latitude,
+        longitude
+      }
+    })
+    
+    storageUtils.setObject(OKSDK_GEOLOCATION_HISTORY, {
+      latitude,
+      longitude,
+      time: Date.now()
     })
   }
 }
