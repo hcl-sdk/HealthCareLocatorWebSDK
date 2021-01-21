@@ -128,7 +128,7 @@ export class OneKeySDK {
 
   tryFindGeoloc() {
     navigator.geolocation
-      .getCurrentPosition(data => {
+      .getCurrentPosition(_ => {
         // TODO unmock to use real location
         // const {
         //   coords: { longitude, latitude }
