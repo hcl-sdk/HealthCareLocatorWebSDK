@@ -2,20 +2,20 @@ export const OKSDK_DEV_SETTINGS = '__onekey-sdk-dev-settings';
 export const OKSDK_SEARCH_HISTORY = '__onekey-sdk-searchHistory';
 export const OKSDK_GEOLOCATION_HISTORY = '__onekey-sdk-currentLocation';
 
-type Key = typeof OKSDK_DEV_SETTINGS 
-  | typeof OKSDK_SEARCH_HISTORY 
+type Key = typeof OKSDK_DEV_SETTINGS
+  | typeof OKSDK_SEARCH_HISTORY
   | typeof OKSDK_GEOLOCATION_HISTORY;
 
 export const storageUtils = {
   setObject(key: Key, value: any) {
     try {
       storageUtils.setItem(key, JSON.stringify(value));
-    } catch(e) { 
-      console.error("[storageUtils]",e.message) 
+    } catch(e) {
+      console.error("[storageUtils]",e.message)
     }
   },
   getObject(key: Key, defaultValue = null) {
-    const obj = storageUtils.get(key);
+    const obj = storageUtils.getItem(key);
     if (obj) {
       try {
         return JSON.parse(obj);
@@ -25,12 +25,12 @@ export const storageUtils = {
     }
     return defaultValue;
   },
-  set(key: Key, value: any) {
+  setItem(key: Key, value: any) {
     try {
       window.localStorage.setItem(key, value);
     } catch (err) {}
   },
-  get(key: Key) {
+  getItem(key: Key) {
     try {
       return window.localStorage.getItem(key);
     } catch (err) {}
