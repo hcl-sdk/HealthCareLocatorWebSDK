@@ -1,9 +1,10 @@
 import { formatDistance } from 'date-fns';
 import { Component, h, Host, State, Listen } from '@stencil/core';
-import { historyStore, routerStore, searchMapStore } from '../../../../core/stores';
+import { configStore, historyStore, routerStore, searchMapStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
 import { NEAR_ME_ITEM, HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
+import { ModeViewType } from '../../../../core/stores/ConfigStore';
 @Component({
   tag: 'onekey-sdk-home-full',
   shadow: false,
@@ -19,6 +20,9 @@ export class OnekeySdkHomeFull {
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: null,
     });
+    configStore.setState({
+      modeView: ModeViewType.MAP
+    })
     routerStore.push('/search-result');
   }
 
@@ -104,9 +108,9 @@ export class OnekeySdkHomeFull {
             <div class="card__content-wrapper card__content-wrapper--with-padding">
               <onekey-sdk-map
                 class="info-section-body__map"
-                locations={[{ 
-                  lat: searchMapStore.state.geoLocation.latitude, 
-                  lng: searchMapStore.state.geoLocation.longitude 
+                locations={[{
+                  lat: searchMapStore.state.geoLocation.latitude,
+                  lng: searchMapStore.state.geoLocation.longitude
                 }]}
                 selectedLocationIdx={0}
                 defaultZoom={10}

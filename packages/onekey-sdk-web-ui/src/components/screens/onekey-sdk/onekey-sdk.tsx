@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'onekey-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
-import { OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
+import { ModeViewType, OneKeySDKConfigData } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
@@ -44,6 +44,9 @@ export class OneKeySDK {
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: { id: specialtyCode },
     });
+    configStore.setState({
+      modeView: ModeViewType.MAP
+    })
     if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push('/search-result');
     } else {
@@ -115,7 +118,7 @@ export class OneKeySDK {
   updateParentDims() {
     uiStore.setParentDims(this.parentEl.getBoundingClientRect());
   }
-  
+
   retryFindGeoloc = (err) => {
     if (err.code === GEOLOC.TIMEOUT_CODE && this.retriesCounter < GEOLOC.MAX_TRIES) {
       this.retriesCounter = this.retriesCounter + 1;
@@ -126,10 +129,15 @@ export class OneKeySDK {
   tryFindGeoloc() {
     navigator.geolocation
       .getCurrentPosition(data => {
-        const { 
-          coords: { longitude, latitude } 
-        } = data;
-        searchMapStore.setGeoLocation({ longitude, latitude });
+        // TODO unmock to use real location
+        // const {
+        //   coords: { longitude, latitude }
+        // } = data;
+        const coords = {
+          latitude: 43.8238936,
+          longitude: -80.0063414
+        }
+        searchMapStore.setGeoLocation(coords);
       }, this.retryFindGeoloc, {
         maximumAge: GEOLOC.MAXAGE,
         timeout: GEOLOC.TIMEOUT
@@ -158,7 +166,7 @@ export class OneKeySDK {
       // Using mock data to CA Address
       searchMapStore.setGeoLocation();
     }
-    
+
     this.findCurrentPosition();
   }
 
