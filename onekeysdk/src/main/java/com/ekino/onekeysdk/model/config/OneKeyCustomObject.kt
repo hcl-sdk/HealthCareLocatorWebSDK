@@ -262,5 +262,7 @@ data class OneKeyCustomObject private constructor(
                 iconVoteDown, iconProfile, iconLocation, fontNoResultTitle, fontNoResultDesc)
     }
 
-    fun getLocaleCode(): String = if (locale.isNotEmpty()) locale else Locale.getDefault().language
+    fun getLocaleCode(): String = if (locale.isNotEmpty()) {
+        if (locale == "fr") "fr_CA" else locale
+    } else Locale.getDefault().language
 }

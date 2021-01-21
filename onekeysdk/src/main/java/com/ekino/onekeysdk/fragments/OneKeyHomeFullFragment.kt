@@ -177,7 +177,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                             OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
                                             longitude = "${it.longitude}", displayName = getString(R.string.onekey_sdk_near_me)),
-                                    oneKeyCustomObject.specialities, currentLocation), true)
+                                    arrayListOf(), currentLocation), true)
                 }
             }
         }

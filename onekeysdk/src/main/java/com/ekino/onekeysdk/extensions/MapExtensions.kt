@@ -160,10 +160,6 @@ fun getReflection(latitude: Double, longitude: Double, distance: Double,
     return arrayOf(latNew, lonNew)
 }
 
-fun getBoundsZoomLevel(){
-
-}
-
 fun deg2rad(deg: Double): Double {
     return deg * (Math.PI / 180)
 }

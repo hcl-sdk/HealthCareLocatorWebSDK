@@ -113,7 +113,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
                     return@Observer
                 }
                 if (this@FullMapFragment.activities.isEmpty())
-                    getActivities(criteria, if (speciality.isNotNullable())
+                    getActivities(criteria, if (speciality.isNotNullable() && speciality!!.id.isNotEmpty())
                         arrayListOf(speciality!!.id) else specialities, place)
                 else {
                     setModeButtons(activeScreen)
@@ -346,7 +346,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
     }
 
     override fun isNearMe(): Boolean = isNearMe
-    override fun setNearMeState(state:Boolean) {
+    override fun setNearMeState(state: Boolean) {
         this.isNearMe = state
     }
 
