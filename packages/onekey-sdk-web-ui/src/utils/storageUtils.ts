@@ -15,20 +15,30 @@ export const storageUtils = {
     }
   },
   getObject(key: Key, defaultValue = null) {
-    try {
-      return JSON.parse(storageUtils.getItem(key));
-    } catch(e) {
-      storageUtils.remove(key);
-      return defaultValue;
+    const obj = storageUtils.get(key);
+    if (obj) {
+      try {
+        return JSON.parse(obj);
+      } catch(e) {
+        storageUtils.remove(key);
+      }
     }
+    return defaultValue;
   },
-  setItem(key: Key, value: any) {
-    localStorage.setItem(key, value);
+  set(key: Key, value: any) {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (err) {}
   },
-  getItem(key: Key) {
-    return localStorage.getItem(key);
+  get(key: Key) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch (err) {}
+    return null;
   },
   remove(key: Key) {
-    localStorage.removeItem(key);
+    try {
+      window.localStorage.removeItem(key);
+    } catch (err) {}
   }
 }
