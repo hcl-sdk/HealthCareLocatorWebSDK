@@ -1,5 +1,6 @@
 import { Component, h, Host, Listen } from '@stencil/core';
-import { routerStore, searchMapStore, uiStore, historyStore } from '../../../core/stores';
+import { routerStore, searchMapStore, uiStore, historyStore, configStore } from '../../../core/stores';
+import { ModeViewType } from '../../../core/stores/ConfigStore';
 import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-home',
@@ -10,6 +11,12 @@ export class OnekeySdkHome {
   @Listen('goSearchScreen')
   goSearchScreen() {
     routerStore.push('/search');
+  }
+
+  async componentWillLoad() {
+    configStore.setState({
+      modeView: ModeViewType.LIST
+    })
   }
 
   inputOnChange = (e: any) => {
@@ -57,7 +64,7 @@ export class OnekeySdkHome {
           {this.renderHeader()}
           <div class="body-block">
             {
-              displayHomeMin 
+              displayHomeMin
                 ? <onekey-sdk-home-min />
                 : <onekey-sdk-home-full />
             }
