@@ -238,9 +238,15 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         nearMeLoading.visibility = state.getVisibility()
     }
 
-    private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.firstOrNull {
-        it::class.java.name == MapFragment::class.java.name
-    } as? MapFragment
+    private fun getRunningMapFragment(): MapFragment? {
+        return try {
+            childFragmentManager.fragments.firstOrNull {
+                it::class.java.name == MapFragment::class.java.name
+            } as? MapFragment
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     private fun getViewTagText(tag: Int): String = if (tag == 0)
         getString(R.string.onekey_sdk_view_more) else getString(R.string.onekey_sdk_view_less)

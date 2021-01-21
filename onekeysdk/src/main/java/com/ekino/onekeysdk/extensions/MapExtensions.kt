@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.osmdroid.util.GeoPoint
+import kotlin.math.*
 
 const val mapZoomInEvent = 0
 const val mapZoomOutEvent = 1
@@ -109,7 +110,60 @@ fun Activity.requestGPS(requestCode: Int, success: () -> Unit = {}, error: (e: E
     }.addOnFailureListener { error(it) }
 }
 
-fun Context.isLocationServiceEnabled():Boolean{
+fun Context.isLocationServiceEnabled(): Boolean {
     val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+}
+
+/**
+ * Calculate the coordinates.
+ */
+const val earthRadius = 6378.1f
+fun getDistanceFromLatLonInKm(flatitude: Double, flongitude: Double, dlatitude: Double, dlongitude: Double): Double {
+    var dLat = deg2rad(dlatitude - flatitude) // deg2rad below
+    var dLon = deg2rad(dlongitude - flongitude)
+    var a = sin(dLat / 2) * sin(dLat / 2) + cos(deg2rad(flatitude)) *
+            cos(deg2rad(dlatitude)) * sin(dLon / 2) * sin(dLon / 2)
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    var d = earthRadius * c // Distance in km
+    return d
+}
+
+fun getReflection(latitude: Double, longitude: Double, distance: Double,
+                  dlatitude: Double, dlongitude: Double,
+                  callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }){
+    val data = getReflection(latitude, longitude, distance, dlatitude, dlongitude)
+    callback(data[0], data[1])
+}
+
+fun getReflection(latitude: Double, longitude: Double, distance: Double,
+                  dlatitude: Double, dlongitude: Double):Array<Double> {
+    val latR = Math.toRadians(latitude)
+    val lonR = Math.toRadians(longitude)
+    val dLatR = Math.toRadians(dlatitude)
+    val longDiff = Math.toRadians(dlongitude - longitude)
+    val y = sin(longDiff) * cos(dLatR)
+    val x = cos(latR) * sin(dLatR) - sin(latR) * cos(dLatR) * cos(longDiff)
+    val b = (Math.toDegrees(atan2(y, x)) + 360) % 360
+    val bearingR = Math.toRadians(b + 180)
+    val distanceToRadius = distance.div(earthRadius)
+    val newLatR = asin(
+            sin(latR) * cos(distanceToRadius) +
+                    cos(latR) * sin(distanceToRadius) * cos(bearingR)
+    )
+    val newLonR = lonR + atan2(
+            sin(bearingR) * sin(distanceToRadius) * cos(latR),
+            cos(distanceToRadius) - sin(latR) * sin(newLatR)
+    )
+    val latNew = Math.toDegrees(newLatR)
+    val lonNew = Math.toDegrees(newLonR)
+    return arrayOf(latNew, lonNew)
+}
+
+fun getBoundsZoomLevel(){
+
+}
+
+fun deg2rad(deg: Double): Double {
+    return deg * (Math.PI / 180)
 }

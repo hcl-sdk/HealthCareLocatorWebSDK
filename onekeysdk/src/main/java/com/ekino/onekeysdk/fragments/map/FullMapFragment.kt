@@ -38,17 +38,18 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         fun newInstance(
                 oneKeyCustomObject: OneKeyCustomObject, c: String, s: OneKeySpecialityObject?,
                 p: OneKeyPlace?, listIds: ArrayList<String> = arrayListOf(),
-                cLocation: Location? = null
-        ) =
-                FullMapFragment().apply {
-                    this.oneKeyCustomObject = oneKeyCustomObject
-                    speciality = s
-                    criteria = c
-                    specialities = listIds
-                    place = p
-                    currentLocation = cLocation
-                    if (p?.placeId == "near_me") activeScreen = 1
-                }
+                cLocation: Location? = null) = FullMapFragment().apply {
+            this.oneKeyCustomObject = oneKeyCustomObject
+            speciality = s
+            criteria = c
+            specialities = listIds
+            place = p
+            currentLocation = cLocation
+            if (p?.placeId == "near_me") {
+                activeScreen = 1
+                isNearMe = true
+            }
+        }
 
         private var navigateToProfile = false
         private var currentLocation: Location? = null
@@ -67,6 +68,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
                 R.id.resultContainer
         )
     }
+    private var isNearMe = false
     private var isRelaunch = false
     private var place: OneKeyPlace? = null
     private var speciality: OneKeySpecialityObject? = null
@@ -329,6 +331,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
 
     override fun forceSearch(place: OneKeyPlace) {
         if (!isAdded) return
+        this.place = place
         tvAddress.text = place.displayName
         viewModel.getActivities(criteria, if (speciality.isNotNullable())
             arrayListOf(speciality!!.id) else specialities, place) { activities ->
@@ -340,6 +343,11 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
                 }
             })
         }
+    }
+
+    override fun isNearMe(): Boolean = isNearMe
+    override fun setNearMeState(state:Boolean) {
+        this.isNearMe = state
     }
 
     private fun showNoResult() {

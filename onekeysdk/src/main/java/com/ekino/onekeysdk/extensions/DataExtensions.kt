@@ -147,3 +147,4 @@ fun SharedPreferences.storeVote(gson: Gson = Gson(), id: String, vote: Int) {
  * [Collections]
  */
 fun <T> List<T>.toArrayList() = ArrayList(this)
+fun Array<Double>.getLocation(): String = "${this[0]},${this[1]}"

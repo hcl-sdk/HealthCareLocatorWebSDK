@@ -46,7 +46,10 @@ class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewMode
                     specialities = listIds
                     place = p
                     currentLocation = cLocation
-                    if (p?.placeId == "near_me") activeScreen = 1
+                    if (p?.placeId == "near_me") {
+                        activeScreen = 1
+                        isNearMe = true
+                    }
                 }
 
         private var navigateToProfile = false
@@ -68,6 +71,7 @@ class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewMode
     private var criteria: String = ""
     private var activeScreen = 0
     private var isRelaunch = false
+    private var isNearMe = false
     private var speciality: OneKeySpecialityObject? = null
     override val viewModel: NearMeViewModel = NearMeViewModel()
 
@@ -304,8 +308,14 @@ class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewMode
         }
     }
 
+    override fun isNearMe(): Boolean = isNearMe
+    override fun setNearMeState(state: Boolean) {
+        this.isNearMe = state
+    }
+
     override fun forceSearch(place: OneKeyPlace) {
         if (!isAdded) return
+        this.place = place
         tvAddress.text = place.displayName ?: ""
         viewModel.getActivities(context!!, criteria, if (speciality.isNotNullable())
             arrayListOf(speciality!!.id) else specialities, place, false,

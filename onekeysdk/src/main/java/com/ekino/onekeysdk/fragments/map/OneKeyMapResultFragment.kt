@@ -49,8 +49,8 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
                     .commit()
         }
         mapFragment.onMapListener = this
-        isRelaunch = getFullMapFragment()?.getRelaunchState() ?: false
-        getFullMapFragment()?.getActivities()?.also {
+        isRelaunch = getAbsFragment()?.getRelaunchState() ?: false
+        getAbsFragment()?.getActivities()?.also {
             this.activities = it
         }
         rvLocations.apply {
@@ -59,7 +59,8 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             searchAdapter.setData(activities)
         }
         rvLocations.postDelay({
-            getRunningMapFragment()?.drawMarkerOnMap(activities)
+            getRunningMapFragment()?.drawMarkerOnMap(activities, false,
+                    getAbsFragment()?.isNearMe() ?: false)
             getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
                 val selectedPosition = activities.indexOfFirst { it.id == id }
                 if (selectedPosition >= 0) {
@@ -85,13 +86,19 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             R.id.btnCurrentLocation -> {
                 showLoading(true)
                 getRunningMapFragment()?.moveToCurrentLocation() { lat, lng ->
-                    getFullMapFragment()?.forceSearch(OneKeyPlace(context!!, lat, lng))
+                    getAbsFragment()?.also {
+                        it.setNearMeState(true)
+                        it.forceSearch(OneKeyPlace(context!!, lat, lng))
+                    }
                 }
             }
             R.id.btnRelaunch -> {
                 animateRelaunch(true)
                 getRunningMapFragment()?.getOSMCenter() { lat, lng ->
-                    getFullMapFragment()?.reverseGeoCoding(OneKeyPlace(context!!, lat, lng))
+                    getAbsFragment()?.also {
+                        it.setNearMeState(false)
+                        it.reverseGeoCoding(OneKeyPlace(context!!, lat, lng))
+                    }
                 }
             }
         }
@@ -100,7 +107,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
     override fun onScroll(event: ScrollEvent?): Boolean {
         if (event != null && event.x != 0 && event.y != 0) {
             isRelaunch = true
-            getFullMapFragment()?.setRelaunchState(true)
+            getAbsFragment()?.setRelaunchState(true)
             showRelaunch(isRelaunch)
         }
         return true
@@ -124,7 +131,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         this.activities = activities
         searchAdapter.setData(activities)
         getRunningMapFragment()?.let {
-            it.drawMarkerOnMap(activities)
+            it.drawMarkerOnMap(activities, false, getAbsFragment()?.isNearMe() ?: false)
         }
     }
 
@@ -144,7 +151,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             btnRelaunch.isEnabled = true
             ivRelaunch.clearAnimation()
             ivRelaunch.animate().cancel()
-            getFullMapFragment()?.setRelaunchState(false)
+            getAbsFragment()?.setRelaunchState(false)
             showRelaunch(state)
         }
     }
@@ -153,5 +160,5 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         btnRelaunch.visibility = state.getVisibility()
     }
 
-    private fun getFullMapFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>
+    private fun getAbsFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>
 }

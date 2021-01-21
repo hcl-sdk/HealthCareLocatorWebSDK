@@ -30,7 +30,7 @@ class OneKeyListResultFragment : IFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listContainer.setBackgroundColor(oneKeyCustomObject.colorListBackground.getColor())
-        (parentFragment as? FullMapFragment)?.getActivities()?.also {
+        getAbsFragment()?.getActivities()?.also {
             this.activities = it
         }
         rvResult.apply {
@@ -48,4 +48,6 @@ class OneKeyListResultFragment : IFragment() {
         this.activities = activities
         searchAdapter.setData(activities)
     }
+
+    private fun getAbsFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>
 }

@@ -3,16 +3,11 @@ package com.ekino.onekeysdk
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.cache.normalized.CacheKeyResolver
-import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
-import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
-import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.ekino.onekeysdk.extensions.ApolloConnector
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
-import com.ekino.onekeysdk.utils.Utils
 import com.google.common.truth.Truth.assertThat
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
@@ -20,8 +15,6 @@ import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.functions.Predicate
-import okhttp3.Dispatcher
-import okhttp3.OkHttpClient
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

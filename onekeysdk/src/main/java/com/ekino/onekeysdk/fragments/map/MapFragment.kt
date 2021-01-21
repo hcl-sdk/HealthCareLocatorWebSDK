@@ -11,7 +11,6 @@ import androidx.core.content.edit
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.map.OneKeyMapView
-import com.ekino.onekeysdk.custom.map.clustering.RadiusMarkerClusterer
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.activity.AddressObject
@@ -20,6 +19,7 @@ import com.ekino.onekeysdk.model.map.OneKeyGoogleMarkerItem
 import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.OneKeyConstant
+import com.ekino.onekeysdk.viewmodel.map.OneKeyMapViewModel
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -53,6 +53,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 }
     }
 
+    private val viewModel by lazy { OneKeyMapViewModel() }
     private var oneKeyCustomObject: OneKeyCustomObject =
             OneKeySDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
@@ -125,6 +126,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.bindView(this)
         if (oneKeyCustomObject.mapService == MapService.OSM) {
             if (savedInstanceState != null) {
                 boundingBox = savedInstanceState.getBoolean("boundingBox", false)
@@ -207,6 +209,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.unbindView()
         mMapView?.onDetach()
         locationProvider?.stopLocationProvider()
     }
@@ -225,16 +228,14 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         return true
     }
 
-    fun drawMarkerOnMap(activities: ArrayList<ActivityObject>, moveCamera: Boolean = false) {
+    fun drawMarkerOnMap(activities: ArrayList<ActivityObject>, moveCamera: Boolean = false,
+                        isNearMe: Boolean = false) {
         if (oneKeyCustomObject.mapService == MapService.OSM) {
             mMapView?.apply {
-                val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>()
+                val clustersFiltered = overlays?.filterIsInstance<OneKeyMarker>()
                         ?: listOf()
                 overlays.removeAll(clustersFiltered)
-                val clusters = RadiusMarkerClusterer(context!!)
-                clusters.textPaint.textSize = 14 * resources.displayMetrics.density
-                clusters.mAnchorV = Marker.ANCHOR_BOTTOM
-                mMapView?.overlays?.add(clusters)
+                oneKeyMarkers.clear()
                 selectedIcon = context!!.getDrawableFilledIcon(
                         R.drawable.ic_location_on_white_36dp,
                         oneKeyCustomObject.colorMarkerSelected.getColor()
@@ -253,8 +254,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                         )
                         title = activity.workplace?.address?.getAddress() ?: ""
                     }
-                    clusters.add(marker)
                     oneKeyMarkers.add(marker)
+                    mMapView?.overlays?.add(marker)
                 }
                 if (moveCamera && activities.size == 1) {
                     val position = activities[0].workplace?.address?.location?.getGeoPoint()
@@ -262,12 +263,11 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     controller.setCenter(position)
                     controller.animateTo(position, 15.0, 2000)
                 }
-                if (this@MapFragment.boundingBox) {
-                    val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint()
-                            ?: return
-                    controller.setCenter(position)
-                    controller.animateTo(position, 10.0, 2000)
-                }
+                if (oneKeyMarkers.isEmpty()) return
+                if (!isNearMe)
+                    viewModel.getOSMBoundLevel(this, oneKeyMarkers)
+                else viewModel.getOSMBoundNearMeLevel(parentFragment!!.parentFragment!!::class.java.simpleName,
+                        context, this, oneKeyMarkers)
             }
         } else {
             this.activities = activities
@@ -290,13 +290,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     fun drawAddressOnMap(listOfAddress: ArrayList<AddressObject>, moveCamera: Boolean = false) {
         if (oneKeyCustomObject.mapService == MapService.OSM) {
             mMapView?.apply {
-                val clustersFiltered = overlays?.filterIsInstance<RadiusMarkerClusterer>()
+                val clustersFiltered = overlays?.filterIsInstance<OneKeyMarker>()
                         ?: listOf()
                 overlays.removeAll(clustersFiltered)
-                val clusters = RadiusMarkerClusterer(context!!)
-                clusters.textPaint.textSize = 14 * resources.displayMetrics.density
-                clusters.mAnchorV = Marker.ANCHOR_BOTTOM
-                mMapView?.overlays?.add(clusters)
+                oneKeyMarkers.clear()
                 selectedIcon = context!!.getDrawableFilledIcon(
                         R.drawable.ic_location_on_white_36dp,
                         oneKeyCustomObject.colorMarkerSelected.getColor()
@@ -315,7 +312,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                         )
                         title = address.getAddress() ?: ""
                     }
-                    clusters.add(marker)
+                    mMapView?.overlays?.add(marker)
                     oneKeyMarkers.add(marker)
                 }
                 if (moveCamera && listOfAddress.size == 1) {
@@ -324,12 +321,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     controller.setCenter(position)
                     controller.animateTo(position, 15.0, 2000)
                 }
-                if (this@MapFragment.boundingBox) {
-                    val position = activities.firstOrNull()?.workplace?.address?.location?.getGeoPoint()
-                            ?: return
-                    controller.setCenter(position)
-                    controller.animateTo(position, 10.0, 2000)
-                }
+                if (oneKeyMarkers.isNotEmpty())
+                    viewModel.getOSMBoundLevel(this, oneKeyMarkers)
             }
         } else if (oneKeyCustomObject.mapService == MapService.GOOGLE_MAP) {
             googleMap?.also { googleMap ->
@@ -377,20 +370,19 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                         mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
                     }
                 }
-        val cluster = (mMapView?.overlays?.firstOrNull { o -> o is RadiusMarkerClusterer }
-                as? RadiusMarkerClusterer)?.items ?: return
+        if (mMapView?.overlays.isNullOrEmpty()) return
 
-        val indexOfOverLay = cluster.indexOf(marker)
+        val indexOfOverLay = mMapView!!.overlays.indexOf(marker)
         val index = oneKeyMarkers.indexOf(marker)
-        if (indexOfOverLay in 0 until cluster.size) {
+        if (indexOfOverLay in 0 until mMapView!!.overlays.size) {
             if (index >= 0) {
                 (marker as? OneKeyMarker)?.apply {
                     marker.icon = selectedIcon
                     selected = true
                     oneKeyMarkers[index] = this
                 }
-                cluster.removeAt(indexOfOverLay)
-                cluster.add(oneKeyMarkers[index])
+                mMapView?.overlays?.removeAt(indexOfOverLay)
+                mMapView?.overlays?.add(oneKeyMarkers[index])
             }
         }
     }
