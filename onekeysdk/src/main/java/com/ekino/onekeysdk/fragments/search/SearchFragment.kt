@@ -182,7 +182,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                 selectedPlace = null
             }
             R.id.btnSearch -> {
-                if (edtName.text.toString().isEmpty()) {
+                if (edtName.text.toString().isEmpty() && selectedPlace?.placeId != "near_me") {
                     setError(specialityWrapper, ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
                     return
                 }
@@ -307,12 +307,12 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         individualAdapter.clear()
     }
 
-    fun setFocusable(isFocusable:Boolean){
+    fun setFocusable(isFocusable: Boolean) {
         edtName.isFocusableInTouchMode = isFocusable
         edtName.isFocusable = isFocusable
         edtWhere.isFocusableInTouchMode = isFocusable
         edtWhere.isFocusable = isFocusable
-        if (isFocusable){
+        if (isFocusable) {
             edtName.requestFocus()
         }
     }
