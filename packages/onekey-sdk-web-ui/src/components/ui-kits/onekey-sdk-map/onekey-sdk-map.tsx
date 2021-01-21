@@ -4,6 +4,9 @@ import { Event, EventEmitter } from '@stencil/core';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
 import { ModeViewType } from 'onekey-sdk-web-ui/src/core/stores/ConfigStore';
 import { Breakpoint } from 'onekey-sdk-web-ui/src/core/types';
+import { searchMapStore } from '../../../core/stores';
+import * as geolib from 'geolib';
+
 @Component({
   tag: 'onekey-sdk-map',
   styleUrl: 'onekey-sdk-map.scss',
@@ -15,6 +18,7 @@ export class OnekeySdkMap {
    * An array of locations
    */
   @State() markers: any = [];
+  @State() mapId: string = String(Date.now());
   @State() selectedMarkerIdx;
   @Prop() mapHeight: string = '100%';
   @Prop() mapWidth: string = '100%';
@@ -30,12 +34,6 @@ export class OnekeySdkMap {
   @Prop() breakpoint: Breakpoint;
   @Prop() interactive: boolean = true;
   @Event() markerClick: EventEmitter;
-
-  // Mock location with CA address
-  @State() currentLocation: any = {
-    lat: 43.7621836,
-    lng: -79.4449289
-  };
   @Event() setCurrentLocation: EventEmitter;
   @Event() mapClicked: EventEmitter;
   mapElm: HTMLInputElement;
@@ -82,18 +80,17 @@ export class OnekeySdkMap {
   }
 
   getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const {
-        coords: { latitude, longitude },
-      } = position;
-      this.currentLocation = { lat: latitude, lng: longitude };
+    
+    if (searchMapStore.isGrantedGeoloc) {
+      const { latitude, longitude } = searchMapStore.getGeoLocation();
 
       L.marker([latitude, longitude], {
         draggable: true,
         autoPan: true,
         icon: this.getIcon(),
       }).addTo(this.map);
-    });
+    }
+
   };
 
   private disableMap() {
@@ -121,13 +118,39 @@ export class OnekeySdkMap {
   }
 
   private setMap = () => {
+    if (!this.locations || this.locations.length === 0) {
+      return;
+    }
+
     const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+
+    let sameLocation = true;
+    let previous;
+    for (const location of this.locations) {
+      if (!previous) {
+        previous = location;
+      } else {
+        if (location.lat !== previous.lat || location.lng !== previous.lng) {
+          sameLocation = false;
+          break;
+        }
+      }
+    }
+
+    const points = this.getPoints();
+
+    const centers = geolib.getCenter(points);
+
+    const center: any = centers ? [centers.latitude, centers.longitude] : [
+      this.locations[0].lat, this.locations[0].lng
+    ];
+
     this.map = L.map(this.mapElm, {
-      center: [this.locations[this.selectedLocationIdx].lat, this.locations[this.selectedLocationIdx].lng],
-      zoom: this.defaultZoom,
+      center,
+      zoom: sameLocation ? 12 : this.defaultZoom,
       minZoom: 1,
-      maxZoom: 10,
+      maxZoom: 20,
       zoomControl: this.zoomControl,
       dragging: this.dragging,
     });
@@ -207,34 +230,62 @@ export class OnekeySdkMap {
   }
 
   private setMarkers = () => {
-    const markers = L.markerClusterGroup({
-      showCoverageOnHover: false,
-    });
-
-    const _markers = [];
-
-    if (this.locations) {
-      for (let i = 0; i < this.locations.length; i++) {
-        const marker = L.marker([this.locations[i].lat, this.locations[i].lng], { icon: this.getIcon() });
-        const layer = markers.addLayer(marker);
-        layer.addTo(this.map);
-        marker.on('click', this.onSelectedMarker);
-        _markers.push(marker);
-      }
+    if (!this.locations || this.locations.length === 0) {
+      return;
     }
 
-    this.markers = [..._markers];
+    const markers = [];
+
+    for (let i = 0; i < this.locations.length; i++) {
+      const { lat, lng } = this.locations[i];
+      const marker = L
+        .marker(
+          [ lat, lng ], 
+          { icon: this.getIcon() }
+        )
+        .addTo(this.map);
+      marker.on('click', this.onSelectedMarker);
+      markers.push(marker);
+    }
+
+    if (this.locations.length > 1) {
+      this.recalculateBoundView();
+    }
+
+    this.markers = [...markers];
   };
 
+  recalculateBoundView = () => {
+    const points = this.getPoints();
+    const bounds = geolib.getBounds(points);
+
+    if (bounds) {
+      this.map.fitBounds([
+        [bounds.maxLat, bounds.maxLng],
+        [bounds.minLat, bounds.minLng],
+      ], [5, 5])
+    }
+  }
+
+  getPoints() {
+    return this.locations.map(location => {
+      return {
+        latitude: location.lat, 
+        longitude: location.lng
+      }
+    })
+  }
+
   moveToCurrentLocation = () => {
-    // this.setCurrentLocation.emit(this.currentLocation) // change label on the top
-    this.map.panTo(this.currentLocation, 16);
+    const currentLocation = searchMapStore.getGeoLocation(true);
+    this.map.panTo(currentLocation, 16);
   };
 
   render() {
+
     return (
       <Host>
-        {!this.noCurrentLocation && (
+        {!this.noCurrentLocation && searchMapStore.isGrantedGeoloc && (
           <div class="current-location" onClick={this.moveToCurrentLocation}>
             <ion-icon name="locate" size="medium"></ion-icon>
           </div>
@@ -243,7 +294,7 @@ export class OnekeySdkMap {
           class={this.zoomControl ? '' : 'map--no-controls'}
           onClick={this.handleMapClick}
           style={{ height: this.mapHeight, width: this.mapWidth, minHeight: this.mapMinHeight }}
-          id={`map-${Date.now()}`}
+          id={`map-${this.mapId}`}
           ref={el => (this.mapElm = el as HTMLInputElement)}
         />
       </Host>

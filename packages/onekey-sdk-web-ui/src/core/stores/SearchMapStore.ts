@@ -127,8 +127,8 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
 
   // Using mock data to CA Address, will remove later
   setGeoLocation({ 
-    latitude = 43.7621836, 
-    longitude = -79.4449289 
+    latitude = 43.8238936,
+    longitude = -80.0063414
   } = {}) {
 
     this.setState({
@@ -145,6 +145,26 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
       longitude,
       time: Date.now()
     })
+  }
+
+  getGeoLocation(shorthand: boolean = false) {
+    const { latitude, longitude } = this.state.geoLocation;
+
+    if (shorthand) {
+      return { 
+        lat: latitude, 
+        lng: longitude 
+      };
+    }
+
+    return {
+      latitude, 
+      longitude
+    }
+  }
+
+  get isGrantedGeoloc() {
+    return this.state.geoLocation.status === 'granted';
   }
 }
 

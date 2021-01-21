@@ -9,7 +9,7 @@ type Key = typeof OKSDK_DEV_SETTINGS
 export const storageUtils = {
   setObject(key: Key, value: any) {
     try {
-      storageUtils.set(key, JSON.stringify(value));
+      storageUtils.setItem(key, JSON.stringify(value));
     } catch(e) { 
       console.error("[storageUtils]",e.message) 
     }
