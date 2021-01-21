@@ -188,7 +188,7 @@ export class OnekeySdkSearchResult {
       class: mapClass, 
       modeView: modeView, 
       selectedLocationIdx: 0,
-      defaultZoom: 5
+      defaultZoom: 15
     }
 
     const isShowHCPDetail = individualDetail || selectedActivity;

@@ -9,23 +9,23 @@ type Key = typeof OKSDK_DEV_SETTINGS
 export const storageUtils = {
   setObject(key: Key, value: any) {
     try {
-      storageUtils.set(key, JSON.stringify(value));
+      storageUtils.setItem(key, JSON.stringify(value));
     } catch(e) { 
       console.error("[storageUtils]",e.message) 
     }
   },
   getObject(key: Key, defaultValue = null) {
     try {
-      return JSON.parse(storageUtils.get(key));
+      return JSON.parse(storageUtils.getItem(key));
     } catch(e) {
       storageUtils.remove(key);
       return defaultValue;
     }
   },
-  set(key: Key, value: any) {
+  setItem(key: Key, value: any) {
     localStorage.setItem(key, value);
   },
-  get(key: Key) {
+  getItem(key: Key) {
     return localStorage.getItem(key);
   },
   remove(key: Key) {

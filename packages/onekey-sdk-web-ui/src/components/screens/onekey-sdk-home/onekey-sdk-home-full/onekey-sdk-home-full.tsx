@@ -109,7 +109,7 @@ export class OnekeySdkHomeFull {
                   lng: searchMapStore.state.geoLocation.longitude 
                 }]}
                 selectedLocationIdx={0}
-                defaultZoom={5}
+                defaultZoom={10}
                 noCurrentLocation
                 zoomControl={false}
                 mapHeight={mapHeight}
