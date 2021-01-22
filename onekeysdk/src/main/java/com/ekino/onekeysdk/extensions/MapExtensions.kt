@@ -6,7 +6,6 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.fragment.app.FragmentActivity
 import com.ekino.onekeysdk.model.OneKeyLocation
-import com.ekino.onekeysdk.model.map.OneKeyGoogleMarkerItem
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
@@ -60,15 +59,6 @@ fun Location?.getCurrentLocation(newLocation: Location?): Location? {
                 this
             else newLocation
         }
-    }
-}
-
-fun Context.showMarkerOnGoogleMap(map: GoogleMap, items: ArrayList<OneKeyGoogleMarkerItem>,
-                                  descriptor: BitmapDescriptor?) {
-    items.forEach { item ->
-        val marker = map.addMarker(MarkerOptions().title(item.title)
-                .position(item.mPosition).icon(descriptor))
-        marker.tag = item.id
     }
 }
 

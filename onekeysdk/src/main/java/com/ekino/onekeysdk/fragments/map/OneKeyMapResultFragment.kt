@@ -94,7 +94,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
             }
             R.id.btnRelaunch -> {
                 animateRelaunch(true)
-                getRunningMapFragment()?.getOSMCenter() { lat, lng ->
+                getRunningMapFragment()?.getCenter() { lat, lng ->
                     getAbsFragment()?.also {
                         it.setNearMeState(false)
                         it.reverseGeoCoding(OneKeyPlace(context!!, lat, lng))
@@ -106,9 +106,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     override fun onScroll(event: ScrollEvent?): Boolean {
         if (event != null && event.x != 0 && event.y != 0) {
-            isRelaunch = true
-            getAbsFragment()?.setRelaunchState(true)
-            showRelaunch(isRelaunch)
+            requestRelaunch()
         }
         return true
     }
@@ -123,6 +121,12 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         } as? MapFragment
         else null
 
+    }
+
+    fun requestRelaunch() {
+        isRelaunch = true
+        getAbsFragment()?.setRelaunchState(true)
+        showRelaunch(isRelaunch)
     }
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {
