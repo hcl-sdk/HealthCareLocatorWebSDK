@@ -99,8 +99,8 @@ class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewMode
             }.map { childFragmentManager.beginTransaction().remove(it).commit() }
         else navigateToProfile = false
 
-        labelWrapper.visibility = View.VISIBLE
-        newSearchWrapper.visibility = View.GONE
+        labelWrapper.visibility = View.GONE
+        newSearchWrapper.visibility = View.VISIBLE
         oneKeyCustomObject.apply {
             tvSpeciality.text = TextUtils.join(", ", specialities)
             newSearchWrapper.setBackgroundWithCorner(Color.WHITE, colorCardBorder.getColor(), 12f, 3)

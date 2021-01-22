@@ -279,9 +279,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 val location = activity.workplace?.address?.location?.getLatLng()
                         ?: LatLng(0.0, 0.0)
                 boundBuilder.include(location)
-                val marker = googleMap!!.addMarker(MarkerOptions()
-                        .title(activity.workplace?.address?.getAddress()
-                                ?: "").icon(markerBitMap)
+                val marker = googleMap!!.addMarker(MarkerOptions().icon(markerBitMap)
                         .position(location))
                 marker.tag = activity.id
                 markers.add(OneKeyMarker(MapView(context)).apply {
@@ -340,8 +338,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 var location: LatLng = LatLng(0.0, 0.0)
                 listOfAddress.forEach { address ->
                     location = address.location?.getLatLng() ?: LatLng(0.0, 0.0)
-                    val marker = googleMap.addMarker(MarkerOptions()
-                            .title(address.getAddress()).icon(markerBitMap)
+                    val marker = googleMap.addMarker(MarkerOptions().icon(markerBitMap)
                             .position(location))
                     marker.tag = address.activityId
                 }

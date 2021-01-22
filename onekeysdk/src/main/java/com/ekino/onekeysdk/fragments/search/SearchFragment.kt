@@ -17,6 +17,7 @@ import com.ekino.onekeysdk.adapter.search.IndividualAdapter
 import com.ekino.onekeysdk.adapter.search.OneKeyPlaceAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
+import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.SearchObject
@@ -196,12 +197,19 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                                     displayName = edtWhere.text.toString()
                                 }))
                     }
-                    (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
-                            FullMapFragment.newInstance(it, edtName.text.toString(), selectedSpeciality,
-                                    selectedPlace ?: OneKeyPlace().apply {
-                                        displayName = edtWhere.text.toString()
-                                    }), true
-                    )
+                    if (selectedPlace?.placeId == "near_me" && edtName.text.toString().isEmpty() && currentLocation != null) {
+                        (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
+                                OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
+                                        OneKeyPlace(placeId = "near_me", latitude = "${currentLocation!!.latitude}",
+                                                longitude = "${currentLocation!!.longitude}",
+                                                displayName = getString(R.string.onekey_sdk_near_me)),
+                                        arrayListOf(), currentLocation), true)
+                    } else
+                        (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
+                                FullMapFragment.newInstance(it, edtName.text.toString(), selectedSpeciality,
+                                        selectedPlace ?: OneKeyPlace().apply {
+                                            displayName = edtWhere.text.toString()
+                                        }), true)
                 }
             }
             R.id.nearMeWrapper -> {
