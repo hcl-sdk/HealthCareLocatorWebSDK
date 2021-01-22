@@ -124,7 +124,7 @@ data class OneKeyCustomObject private constructor(
             var iconWebsite: Int = R.drawable.ic_network,
             var iconVoteUp: Int = R.drawable.ic_like_gray,
             var iconVoteDown: Int = R.drawable.ic_dislike_gray,
-            var iconProfile: Int = R.drawable.ic_profile,
+            var iconProfile: Int = R.drawable.icon_profile,
             var iconLocation: Int = R.drawable.outline_location_on_black_36dp,
             var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp,
             var fontNoResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontNoResultTitle", size = 20).build(),

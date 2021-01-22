@@ -5,8 +5,7 @@ import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import base.fragments.IFragment
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.isNullable
-import com.ekino.onekeysdk.extensions.requestPermission
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.search.SearchFragment
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -14,6 +13,11 @@ import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
 import com.ekino.onekeysdk.state.OneKeySDK
 import com.ekino.onekeysdk.utils.OneKeyLog
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -25,6 +29,8 @@ import kotlin.collections.ArrayList
 
 class SearchViewModel : ApolloViewModel<SearchFragment>() {
     private val theme = OneKeySDK.getInstance().getConfiguration()
+    private var searchGoogleToken: AutocompleteSessionToken? = null
+    private var placeClient: PlacesClient? = null
 
     private var searchDisposable: CompositeDisposable? = null
     val places by lazy { MutableLiveData<ArrayList<OneKeyPlace>>() }
@@ -41,6 +47,14 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     override fun bindView(t: SearchFragment) {
         super.bindView(t)
+        if (OneKeySDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
+            val key = t.activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY")
+            if (key.isNotNullAndEmpty()) {
+                Places.initialize(t.context!!, key!!, Locale(OneKeySDK.getInstance().getConfiguration().getLocaleCode()))
+                searchGoogleToken = AutocompleteSessionToken.newInstance()
+                placeClient = Places.createClient(t.context!!)
+            }
+        }
         searchDisposable = CompositeDisposable()
     }
 
@@ -93,7 +107,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                                 places.postValue(arrayListOf())
                             } else {
                                 searchParameters["q"] = URLEncoder.encode(key, "UTF-8")
-                                searchAddress()
+                                searchAddress(key)
                             }
                         }, {
                             //Do nothing
@@ -101,19 +115,31 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         )
     }
 
-    private fun searchAddress() {
+    private fun searchAddress(query: String) {
         addressState.postValue(true)
-        searchDisposable?.clear()
-        searchDisposable?.add(
-                executor.searchAddress(searchParameters).delay(300, TimeUnit.MILLISECONDS)
-                        .compose(compose()).subscribe({
-                            addressState.postValue(false)
-                            places.postValue(it)
-                        }, {
-                            addressState.postValue(false)
-                            places.postValue(arrayListOf())
-                        })
-        )
+        if (OneKeySDK.getInstance().getConfiguration().mapService == MapService.OSM) {
+            searchDisposable?.clear()
+            searchDisposable?.add(
+                    executor.searchAddress(searchParameters).delay(300, TimeUnit.MILLISECONDS)
+                            .compose(compose()).subscribe({
+                                addressState.postValue(false)
+                                places.postValue(it)
+                            }, {
+                                addressState.postValue(false)
+                                places.postValue(arrayListOf())
+                            }))
+        } else if (OneKeySDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
+            val request = FindAutocompletePredictionsRequest.builder()
+                    .setSessionToken(searchGoogleToken).setTypeFilter(TypeFilter.ADDRESS)
+                    .setQuery(query).build()
+            placeClient?.findAutocompletePredictions(request)
+                    ?.addOnSuccessListener { response ->
+                        OneKeyLog.d("$response")
+                    }
+                    ?.addOnFailureListener { e ->
+                        OneKeyLog.e("Error: ${e.localizedMessage}")
+                    }
+        }
     }
 
     private fun getIndividualByName(ref: SearchFragment, name: String) {

@@ -42,6 +42,7 @@ fun Context?.getMetaDataFromManifest(name: String): String {
 fun Boolean.getVisibility() = if (this) View.VISIBLE else View.GONE
 fun <T> T?.isNullable(): Boolean = this == null
 fun <T> T?.isNotNullable(): Boolean = !this.isNullable()
+fun String?.isNotNullAndEmpty(): Boolean = !this.isNullable() && this!!.isNotEmpty()
 
 /**
  * [TypedArray]
@@ -54,7 +55,7 @@ inline fun <reified T : Enum<T>> TypedArray.getEnum(index: Int, default: T) =
 /**
  * @link [com.ekino.onekeysdk.model.home.OneKeyHomeObject]
  */
-fun getHomeDummy(context: Context, icon1: Int = R.drawable.baseline_search_white_24dp, icon2: Int = R.drawable.ic_profile,
+fun getHomeDummy(context: Context, icon1: Int = R.drawable.baseline_search_white_24dp, icon2: Int = R.drawable.icon_profile,
                  icon3: Int = R.drawable.baseline_share_black_36dp): ArrayList<OneKeyHomeObject> = arrayListOf<OneKeyHomeObject>().apply {
     add(OneKeyHomeObject("0", context.getString(R.string.onekey_sdk_home_feat_find_hcp_title),
             context.getString(R.string.onekey_sdk_home_feat_find_hcp_text), icon1))
