@@ -5,8 +5,9 @@ import { configStore, searchMapStore, uiStore, routerStore } from '../../../core
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import { searchLocationWithParams } from '../../../core/api/hcp';
+import { genSearchLocationParams, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
 import { NEAR_ME } from '../../../core/constants';
+import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
 @Component({
   tag: 'onekey-sdk-search-result',
@@ -16,6 +17,9 @@ import { t } from '../../../utils/i18n';
 export class OnekeySdkSearchResult {
   @State() selectedMarkerIdx: number;
   @State() isOpenPanel: boolean = true;
+  @State() isShowRelaunchBtn: boolean = false;
+  @State() newDragLocation: LatLng;
+  @State() isLoadingRelaunch: boolean;
 
   disconnectedCallback() {
     searchMapStore.setState({
@@ -30,9 +34,10 @@ export class OnekeySdkSearchResult {
     })
   }
   componentWillLoad() {
-    if (!searchMapStore.state.selectedActivity) {
+    if (!searchMapStore.state.selectedActivity && searchMapStore.state.locationFilter) {
       searchLocationWithParams()
     }
+    this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
   }
   searchDataCardList;
   searchDataMapElm;
@@ -75,9 +80,49 @@ export class OnekeySdkSearchResult {
     this.selectedMarkerIdx = selectedMarkerIdx;
   }
 
-  @Listen('setCurrentLocation')
-  setCurrentLocation(e) {
-    getAddressFromGeo(e.detail.lat, e.detail.lng);
+  @Listen('onMapDrag')
+  handleVisibleRelaunchBtn(evt) {
+    if (uiStore.state.breakpoint.screenSize !== 'mobile') {
+      return;
+    }
+
+    if (!this.isShowRelaunchBtn) {
+      this.isShowRelaunchBtn = true;
+    }
+
+    const target = evt.detail.target; // Map Element
+    if (target.getCenter) {
+      this.newDragLocation = target.getCenter();
+    }
+  }
+
+  handleRelaunchSearch = async () => {
+    if (!this.newDragLocation || this.isLoadingRelaunch) {
+      return;
+    }
+
+    try {
+      this.isLoadingRelaunch = true;
+      const result = await getAddressFromGeo(this.newDragLocation.lat, this.newDragLocation.lng);
+      
+      if (result) {
+        searchMapStore.setSearchFieldValue('address', result.shortDisplayName);
+        const params = genSearchLocationParams({
+          locationFilter: {
+            lat: this.newDragLocation.lat,
+            lng: this.newDragLocation.lng,
+          },
+          specialtyFilter: searchMapStore.state.specialtyFilter
+        })
+        await searchLocation(params, false);
+      }
+    } catch(err) {
+
+    }
+    
+    this.isLoadingRelaunch = false;
+    this.isShowRelaunchBtn = false;
+    this.newDragLocation = null;
   }
 
   goBackToList = () => {
@@ -198,9 +243,10 @@ export class OnekeySdkSearchResult {
       desktop: !loadingActivities && !isSmall,
     }
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
-    const isShowMapCluster = !isListView && !isShowHCPDetail && specialties && specialties.length;
+    const isShowMapCluster = !isListView && !isShowHCPDetail && specialties && specialties.length !== 0;
     
     const locationsMapSingle = this.getLocationsMapSingle();
+    const isShowRelaunchBtn = this.isShowRelaunchBtn && isSmall && isShowMapCluster;
 
     return (
       <Host class={wrapperClass}>
@@ -241,13 +287,20 @@ export class OnekeySdkSearchResult {
           ) : (
             <Fragment>
               {isShowToolbar.mobile && this.renderToolbar(true)}
-              <div class="body-block">
+              <div class={cls('body-block', {
+                'body-block--disabled': this.isLoadingRelaunch
+              })}>
                 <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
                   {selectedActivity ? <onekey-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
                   {!selectedActivity && (
                     <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                       {!loadingActivities && specialties.map((elm, idx) => (
-                        <onekey-sdk-doctor-card selected={this.selectedMarkerIdx === idx} {...elm} onClick={() => this.onItemCardClick(elm)} />
+                        <onekey-sdk-doctor-card
+                          selected={this.selectedMarkerIdx === idx} 
+                          {...elm}
+                          key={elm.id}
+                          onClick={() => this.onItemCardClick(elm)} 
+                        />
                       ))}
                       {loadingActivities && (
                         <div class="search-result__loading">
@@ -260,6 +313,26 @@ export class OnekeySdkSearchResult {
                 <div class="toggle-panel">
                   <onekey-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
                 </div>
+                
+                {
+                  isShowRelaunchBtn && (
+                    <div class={cls('oksdk-btn-relaunch', {
+                      'oksdk-btn-relaunch--loading': this.isLoadingRelaunch
+                    })}>
+                      <onekey-sdk-button 
+                        icon="refresh" 
+                        noBorder 
+                        secondary 
+                        iconWidth={12} 
+                        iconHeight={12} 
+                        iconColor="white"
+                        onClick={this.handleRelaunchSearch}
+                      >
+                        Relaunch
+                      </onekey-sdk-button>
+                    </div>
+                  )
+                }
 
                 {
                   isShowMapCluster && (
@@ -267,6 +340,7 @@ export class OnekeySdkSearchResult {
                       key="map-cluster"
                       breakpoint={breakpoint}
                       locations={specialties}
+                      isShowMeMarker={true}
                       {...injectedMapProps}
                     />
                   )

@@ -38,7 +38,7 @@ export class OnekeySdkProfileMap {
               mapMinHeight={'200px'}
               locations={[{ lat: individualDetail.lat, lng: individualDetail.lng }]}
               selectedLocationIdx={0}
-              defaultZoom={5}
+              defaultZoom={12}
               noCurrentLocation
             />
           </div>

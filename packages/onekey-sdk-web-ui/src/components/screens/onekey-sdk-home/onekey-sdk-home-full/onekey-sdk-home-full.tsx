@@ -2,9 +2,11 @@ import { formatDistance } from 'date-fns';
 import { Component, h, Host, State, Listen } from '@stencil/core';
 import { configStore, historyStore, routerStore, searchMapStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
-import { NEAR_ME_ITEM, HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS } from '../../../../core/constants';
+import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
 import { ModeViewType } from '../../../../core/stores/ConfigStore';
+import { searchLocationWithParams } from '../../../../core/api/hcp';
+
 @Component({
   tag: 'onekey-sdk-home-full',
   shadow: false,
@@ -13,11 +15,18 @@ export class OnekeySdkHomeFull {
   @State() showMoreSearchItems: boolean = false;
   @State() showMoreHcpItems: boolean = false;
 
+  componentDidLoad() {
+    if (searchMapStore.isGrantedGeoloc) {
+      // Forced search Near Me, no need to set the input address value
+      searchLocationWithParams(true);
+    }
+  }
+
   @Listen('mapClicked')
   onMapClicked() {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setState({
-      locationFilter: NEAR_ME_ITEM,
+      locationFilter: null,
       specialtyFilter: null,
     });
     configStore.setState({
@@ -97,6 +106,7 @@ export class OnekeySdkHomeFull {
     const { geoLocation } = searchMapStore.state;
     const { searchItems, hcpItems } = historyStore.state;
     const mapHeight = !searchItems.length && !hcpItems.length ? '200px' : '100px';
+    const { specialties } = searchMapStore.state;
 
     return (
       <Host>
@@ -108,17 +118,15 @@ export class OnekeySdkHomeFull {
             <div class="card__content-wrapper card__content-wrapper--with-padding">
               <onekey-sdk-map
                 class="info-section-body__map"
-                locations={[{
-                  lat: searchMapStore.state.geoLocation.latitude,
-                  lng: searchMapStore.state.geoLocation.longitude
-                }]}
+                locations={specialties}
                 selectedLocationIdx={0}
-                defaultZoom={10}
                 noCurrentLocation
                 zoomControl={false}
                 mapHeight={mapHeight}
                 dragging={false}
                 interactive={false}
+                isShowMeMarker={true}
+                isForcedZoomToMe={true}
               />
             </div>
           </div>

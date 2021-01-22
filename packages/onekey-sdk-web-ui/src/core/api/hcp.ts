@@ -5,31 +5,53 @@ import { SelectedIndividual } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 
-export async function searchLocationWithParams() {
+
+export function genSearchLocationParams({
+  forceNearMe = false,
+  locationFilter,
+  specialtyFilter,
+}) {
   const params: any = {};
-  if (searchMapStore.state.locationFilter) {
-    if (searchMapStore.state.locationFilter.id === NEAR_ME) {
+  if (locationFilter) {
+    if (locationFilter.id === NEAR_ME) {
       params.location = {
         lat: searchMapStore.state.geoLocation.latitude,
         lon: searchMapStore.state.geoLocation.longitude,
       };
     } else {
       params.location = {
-        lat: Number(searchMapStore.state.locationFilter.lat),
-        lon: Number(searchMapStore.state.locationFilter.lng),
+        lat: Number(locationFilter.lat),
+        lon: Number(locationFilter.lng),
       };
     }
+  } else if (forceNearMe){
+    params.location = {
+      lat: searchMapStore.state.geoLocation.latitude,
+      lon: searchMapStore.state.geoLocation.longitude,
+    };
   }
-  if (searchMapStore.state.specialtyFilter) {
-    params.specialties = [searchMapStore.state.specialtyFilter.id];
+  if (specialtyFilter) {
+    params.specialties = [specialtyFilter.id];
   }
+  return params;
+}
+
+export async function searchLocationWithParams(forceNearMe: boolean = false) {
+  const { locationFilter, specialtyFilter } = searchMapStore.state;
+  
+  const params = genSearchLocationParams({
+    forceNearMe,
+    locationFilter,
+    specialtyFilter
+  });
+  
   searchLocation(params);
 }
 
-export async function searchLocation(variables) {
+export async function searchLocation(variables, hasLoading: boolean = true) {
   searchMapStore.setState({ 
     individualDetail: null, 
-    loadingActivities: true 
+    loadingActivities: hasLoading 
   });
 
   const { activities } = await graphql.activities({

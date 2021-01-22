@@ -7,6 +7,27 @@
     display: none;
   }
 
+  .oksdk-btn-relaunch {
+    position: absolute;
+    bottom: 145px;
+    left: 50%;
+    display: inline-block;
+    z-index: 99999;
+    transform: translateX(-50%);
+    .oksdk-btn {
+      border-radius: 20px;
+      @include applyFontStyle("small");
+      &__icon {
+        margin-right: 4px;
+      }
+    }
+    &--loading {
+      .oksdk-btn__icon {
+        animation: keyframes-circular-rotate 1.4s linear infinite;
+      }
+    }
+  }
+
   .btn-back {
     font-size: 25px;
     margin-right: 0.5rem;
@@ -96,6 +117,7 @@
     display: flex;
     align-items: center;
     padding: 5px 10px;
+    z-index: 3;
   }
 
   .search-map {
@@ -236,6 +258,16 @@
           border-top: none;
           border-top-right-radius: 0;
           border-top-left-radius: 0;
+        }
+      }
+    }
+
+    // Prevent interaction when re-launching search with new location
+    .body-block {
+      &__disabled {
+        .current-location,
+        .oksdk-btn-relaunch {
+          pointer-events: none;
         }
       }
     }
@@ -395,5 +427,6 @@
     }
   }
 
-
 }
+
+
