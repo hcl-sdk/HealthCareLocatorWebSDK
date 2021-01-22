@@ -19,7 +19,6 @@ export class OnekeySdkMap {
    */
   @State() markers: any = [];
   @State() mapId: string = String(Date.now());
-  @State() selectedMarkerIdx;
   @Prop() mapHeight: string = '100%';
   @Prop() mapWidth: string = '100%';
   @Prop() mapMinHeight: string = '0px';
@@ -33,15 +32,19 @@ export class OnekeySdkMap {
   @Prop() modeView: ModeViewType;
   @Prop() breakpoint: Breakpoint;
   @Prop() interactive: boolean = true;
+  @Prop() isShowMeMarker: boolean = false;
+  @Prop() isForcedZoomToMe: boolean = false;
+
   @Event() markerClick: EventEmitter;
   @Event() setCurrentLocation: EventEmitter;
   @Event() mapClicked: EventEmitter;
+  @Event() onMapDrag: EventEmitter;
   mapElm: HTMLInputElement;
   map;
 
   componentDidLoad() {
     this.setMap();
-    this.getCurrentLocation();
+    this.setMarkerCurrentLocation();
     if (!this.interactive) {
       this.disableMap();
     }
@@ -79,15 +82,18 @@ export class OnekeySdkMap {
     }, 500);
   }
 
-  getCurrentLocation = () => {
-    
-    if (searchMapStore.isGrantedGeoloc) {
+  setMarkerCurrentLocation = () => {
+    if (!this.map) {
+      return;
+    }
+
+    if (searchMapStore.isGrantedGeoloc && this.isShowMeMarker) {
       const { latitude, longitude } = searchMapStore.getGeoLocation();
 
       L.marker([latitude, longitude], {
-        draggable: true,
+        draggable: false,
         autoPan: true,
-        icon: this.getIcon(),
+        icon: this.getIcon(undefined, true),
       }).addTo(this.map);
     }
 
@@ -117,25 +123,13 @@ export class OnekeySdkMap {
     }
   }
 
-  private setMap = () => {
-    if (!this.locations || this.locations.length === 0) {
-      return;
-    }
+  private onMapDragHandler = (evt) => {
+    this.onMapDrag.emit(evt);
+  }
 
-    const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
-    const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-
-    let sameLocation = true;
-    let previous;
-    for (const location of this.locations) {
-      if (!previous) {
-        previous = location;
-      } else {
-        if (location.lat !== previous.lat || location.lng !== previous.lng) {
-          sameLocation = false;
-          break;
-        }
-      }
+  private getCenterInitMap() {
+    if (this.locations.length === 0) {
+      return undefined;
     }
 
     const points = this.getPoints();
@@ -146,14 +140,29 @@ export class OnekeySdkMap {
       this.locations[0].lat, this.locations[0].lng
     ];
 
+    return center;
+  }
+
+  private setMap = () => {
+    if (!this.locations) {
+      return;
+    }
+
+    const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
+    const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+
+    const center = this.getCenterInitMap();
+
     this.map = L.map(this.mapElm, {
       center,
-      zoom: sameLocation ? 12 : this.defaultZoom,
+      zoom: this.isForcedZoomToMe ? 12 : this.defaultZoom,
       minZoom: 1,
       maxZoom: 20,
       zoomControl: this.zoomControl,
       dragging: this.dragging,
     });
+    
+    this.map.on('drag', this.onMapDragHandler)
 
     L.control
       .zoom({
@@ -184,12 +193,33 @@ export class OnekeySdkMap {
     return myIconUrl;
   };
 
-  getIcon = (colorStyle = '--onekeysdk-color-marker') => {
+  generateIconMeURL = () => {
+    const iconString = `
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20">
+      <title>my vector image</title>
+      <rect width="100%" height="100%" x="0" y="0" fill="none" stroke="none" opacity="0" />
+      <g>
+        <title>Layer 1</title>
+        <path fill="#4186f5" fill-opacity="1" stroke="#ffffff" stroke-opacity="1" stroke-width="2" stroke-dasharray="none"
+          stroke-linejoin="miter" stroke-linecap="butt" fill-rule="nonzero" opacity="1"
+          d="M1.1612908244132996,10.032258401922178 C1.1612908244132996,5.13117104614832 5.152825197956179,1.1612902879714966 10.08064541220665,1.1612902879714966 C15.008465626457118,1.1612902879714966 19,5.13117104614832 19,10.032258401922178 C19,14.933345757696033 15.008465626457118,18.90322651587286 10.08064541220665,18.90322651587286 C5.152825197956179,18.90322651587286 1.1612908244132996,14.933345757696033 1.1612908244132996,10.032258401922178 z" />
+      </g>
+    </svg>
+    `;
+
+    const blob = new Blob([iconString], {type: 'image/svg+xml'});
+    return URL.createObjectURL(blob);
+  }
+
+  getIcon = (
+    colorStyle = '--onekeysdk-color-marker', 
+    isCurrent: boolean = false
+  ) => {
     const markerColor = getComputedStyle(document.querySelector('onekey-sdk').shadowRoot.host).getPropertyValue(colorStyle);
 
     const icon = L.icon({
-      iconUrl: this.generateIconURL(markerColor),
-      iconSize: [25, 40],
+      iconUrl: isCurrent ? this.generateIconMeURL() : this.generateIconURL(markerColor),
+      iconSize: isCurrent ? [20, 20] : [25, 40],
     });
     return icon;
   };
@@ -229,26 +259,41 @@ export class OnekeySdkMap {
     this.mapClicked.emit(e);
   }
 
-  private setMarkers = () => {
-    if (!this.locations || this.locations.length === 0) {
+  private removePreviousMarkersIcon() {
+    if (!this.markers || this.markers.length === 0) {
       return;
     }
+    this.markers.forEach(marker => {
+      marker.remove();
+    })
+  }
+
+  private setMarkers = () => {
+    if (!this.locations) {
+      return;
+    }
+    this.removePreviousMarkersIcon();
 
     const markers = [];
 
     for (let i = 0; i < this.locations.length; i++) {
-      const { lat, lng } = this.locations[i];
+      const { lat, lng, isMeLocation } = this.locations[i];
       const marker = L
         .marker(
           [ lat, lng ], 
-          { icon: this.getIcon() }
+          { icon: this.getIcon(undefined, isMeLocation) }
         )
         .addTo(this.map);
       marker.on('click', this.onSelectedMarker);
       markers.push(marker);
     }
 
-    if (this.locations.length > 1) {
+    if (this.isForcedZoomToMe && searchMapStore.isGrantedGeoloc) {
+      this.map.setView([
+        searchMapStore.state.geoLocation.latitude,
+        searchMapStore.state.geoLocation.longitude,
+      ], 10);
+    } else if (this.locations.length > 1) {
       this.recalculateBoundView();
     }
 
@@ -282,7 +327,6 @@ export class OnekeySdkMap {
   };
 
   render() {
-
     return (
       <Host>
         {!this.noCurrentLocation && searchMapStore.isGrantedGeoloc && (

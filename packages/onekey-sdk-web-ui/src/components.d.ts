@@ -136,6 +136,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface OnekeySdkIconRefresh {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface OnekeySdkIconRemove {
         "color": string;
         "height": number;
@@ -179,6 +184,8 @@ export namespace Components {
         "defaultZoom": number;
         "dragging": boolean;
         "interactive": boolean;
+        "isForcedZoomToMe": boolean;
+        "isShowMeMarker": boolean;
         "locations": any[];
         "mapHeight": string;
         "mapMinHeight": string;
@@ -391,6 +398,12 @@ declare global {
         prototype: HTMLOnekeySdkIconPrinterElement;
         new (): HTMLOnekeySdkIconPrinterElement;
     };
+    interface HTMLOnekeySdkIconRefreshElement extends Components.OnekeySdkIconRefresh, HTMLStencilElement {
+    }
+    var HTMLOnekeySdkIconRefreshElement: {
+        prototype: HTMLOnekeySdkIconRefreshElement;
+        new (): HTMLOnekeySdkIconRefreshElement;
+    };
     interface HTMLOnekeySdkIconRemoveElement extends Components.OnekeySdkIconRemove, HTMLStencilElement {
     }
     var HTMLOnekeySdkIconRemoveElement: {
@@ -531,6 +544,7 @@ declare global {
         "onekey-sdk-icon-personal": HTMLOnekeySdkIconPersonalElement;
         "onekey-sdk-icon-phone": HTMLOnekeySdkIconPhoneElement;
         "onekey-sdk-icon-printer": HTMLOnekeySdkIconPrinterElement;
+        "onekey-sdk-icon-refresh": HTMLOnekeySdkIconRefreshElement;
         "onekey-sdk-icon-remove": HTMLOnekeySdkIconRemoveElement;
         "onekey-sdk-icon-search": HTMLOnekeySdkIconSearchElement;
         "onekey-sdk-icon-share": HTMLOnekeySdkIconShareElement;
@@ -679,6 +693,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface OnekeySdkIconRefresh {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface OnekeySdkIconRemove {
         "color"?: string;
         "height"?: number;
@@ -722,6 +741,8 @@ declare namespace LocalJSX {
         "defaultZoom"?: number;
         "dragging"?: boolean;
         "interactive"?: boolean;
+        "isForcedZoomToMe"?: boolean;
+        "isShowMeMarker"?: boolean;
         "locations"?: any[];
         "mapHeight"?: string;
         "mapMinHeight"?: string;
@@ -731,6 +752,7 @@ declare namespace LocalJSX {
         "noCurrentLocation"?: boolean;
         "onMapClicked"?: (event: CustomEvent<any>) => void;
         "onMarkerClick"?: (event: CustomEvent<any>) => void;
+        "onOnMapDrag"?: (event: CustomEvent<any>) => void;
         "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;
         "zoomControl"?: boolean;
@@ -813,6 +835,7 @@ declare namespace LocalJSX {
         "onekey-sdk-icon-personal": OnekeySdkIconPersonal;
         "onekey-sdk-icon-phone": OnekeySdkIconPhone;
         "onekey-sdk-icon-printer": OnekeySdkIconPrinter;
+        "onekey-sdk-icon-refresh": OnekeySdkIconRefresh;
         "onekey-sdk-icon-remove": OnekeySdkIconRemove;
         "onekey-sdk-icon-search": OnekeySdkIconSearch;
         "onekey-sdk-icon-share": OnekeySdkIconShare;
@@ -863,6 +886,7 @@ declare module "@stencil/core" {
             "onekey-sdk-icon-personal": LocalJSX.OnekeySdkIconPersonal & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPersonalElement>;
             "onekey-sdk-icon-phone": LocalJSX.OnekeySdkIconPhone & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPhoneElement>;
             "onekey-sdk-icon-printer": LocalJSX.OnekeySdkIconPrinter & JSXBase.HTMLAttributes<HTMLOnekeySdkIconPrinterElement>;
+            "onekey-sdk-icon-refresh": LocalJSX.OnekeySdkIconRefresh & JSXBase.HTMLAttributes<HTMLOnekeySdkIconRefreshElement>;
             "onekey-sdk-icon-remove": LocalJSX.OnekeySdkIconRemove & JSXBase.HTMLAttributes<HTMLOnekeySdkIconRemoveElement>;
             "onekey-sdk-icon-search": LocalJSX.OnekeySdkIconSearch & JSXBase.HTMLAttributes<HTMLOnekeySdkIconSearchElement>;
             "onekey-sdk-icon-share": LocalJSX.OnekeySdkIconShare & JSXBase.HTMLAttributes<HTMLOnekeySdkIconShareElement>;

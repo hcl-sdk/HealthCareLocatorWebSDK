@@ -10,6 +10,7 @@ export interface SpecialtyItem {
   createdAt?: string;
   lat?: number;
   lng?: number;
+  id: string;
 }
 
 export interface SearchFields {
@@ -60,7 +61,6 @@ export interface SearchMapState {
   search?: SearchResult;
   searchGeo?: any[];
   searchDoctor?: any[];
-  currentLocation?: any;
   selectedValues?: SelectedValues;
   sortValues?: SortValue
   selectedActivity?: SelectedIndividual

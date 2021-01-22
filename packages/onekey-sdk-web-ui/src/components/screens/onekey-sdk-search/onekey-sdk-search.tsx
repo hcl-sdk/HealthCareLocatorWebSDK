@@ -1,4 +1,4 @@
-import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
+import { Component, Host, h, State, Listen, Prop, Element } from '@stencil/core';
 import { searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, uiStore, historyStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
@@ -6,6 +6,7 @@ import { searchGeoMap } from '../../../core/api/searchGeo';
 import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 import { ROUTER_PATH } from '../../onekey-sdk-router/constants';
 import { HistorySearchItem } from '../../../core/stores/HistoryStore';
+import { HTMLStencilElement } from '@stencil/core/internal';
 import { t } from '../../../utils/i18n';
 
 @Component({
@@ -16,7 +17,7 @@ import { t } from '../../../utils/i18n';
 export class OnekeySdkSearch {
   nameInput!: HTMLInputElement;
   addressInput!: HTMLInputElement;
-
+  @Element() el: HTMLStencilElement;
   @State() searchResult = [];
   @State() selectedAddress: any = {};
   @State() selectedDoctor: any = {};
@@ -24,18 +25,56 @@ export class OnekeySdkSearch {
   @Prop() noIcon: boolean;
   @Prop() searchText: string;
   @Prop() showSwitchMode?: boolean = false;
-
+  wrapperEl: HTMLElement;
   fields = {
     name: null,
     address: null,
   };
 
+  componentWillLoad() {
+    this.wrapperEl = this.el.closest('.wrapper');
+
+    if (this.wrapperEl) {
+      this.wrapperEl.addEventListener('click', this.clickOutsideHandler)
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.wrapperEl) {
+      this.wrapperEl.removeEventListener('click', this.clickOutsideHandler)
+    }
+  }
+
+  clickOutsideHandler = (evt) => {
+    if (uiStore.state.breakpoint.screenSize === 'mobile') {
+      return;
+    }
+
+    const target = evt.target;
+    const findFormItem = target.closest('.oksdk-search__form--content-item')
+    if (!findFormItem && this.currentSelectedInput) {
+      this.currentSelectedInput = null;
+    }
+  }
+
   private onSearch = async e => {
     e.preventDefault();
 
-    const { name } = e.target;
+    let checkValidName: boolean;
+    let checkValidAddress: boolean;
+    const { name, address } = e.target;
+    const isBasicNearMe = this.checkIsBasicNearMe();
 
-    if (!this.checkIsBasicNearMe() && !this.checkValidElm(name)) {
+    if (isBasicNearMe) {
+      checkValidName = true;
+      checkValidAddress = true;
+      this.resetErrorElmUI('both');
+    } else {
+      checkValidName = this.checkValidElm(name);
+      checkValidAddress = this.checkValidElm(address);
+    }
+
+    if (!checkValidName || !checkValidAddress) {
       return;
     }
 
@@ -66,8 +105,25 @@ export class OnekeySdkSearch {
     }
   };
 
+  resetErrorElmUI = (type: 'name' | 'address' | 'both') => {
+    const inputName = this.fields.name.querySelector('.onekey-sdk-input');
+    const inputAddress = this.fields.address.querySelector('.onekey-sdk-input');
+    if (type === 'both') {
+      inputName.classList.remove('error');
+      inputAddress.classList.remove('error');
+    } else if (type === 'name') {
+      inputName.classList.remove('error');
+    } else if (type === 'address') {
+      inputAddress.classList.remove('error');
+    }
+  }
+
   checkIsBasicNearMe() {
-    if (searchMapStore.state.locationFilter && searchMapStore.state.locationFilter.id === NEAR_ME) {
+    if (
+      !searchMapStore.state.specialtyFilter && 
+      searchMapStore.state.locationFilter && 
+      searchMapStore.state.locationFilter.id === NEAR_ME
+    ) {
       return true;
     }
     return false;
@@ -100,14 +156,16 @@ export class OnekeySdkSearch {
     const item = e.detail;
     // "Near Me" special Case
     if (item.id === NEAR_ME) {
+      this.resetErrorElmUI('address');
       searchMapStore.setSearchFieldValue('address', t('near_me'));
       searchMapStore.setState({
         locationFilter: item,
       });
-
+      this.currentSelectedInput = null;
       return;
     }
     if (this.currentSelectedInput === 'address') {
+      this.resetErrorElmUI('address');
       searchMapStore.setSearchFieldValue('address', item.name);
       searchMapStore.setState({
         locationFilter: item,
@@ -125,6 +183,7 @@ export class OnekeySdkSearch {
         routerStore.push('/search-result');
       } else {
         // on click Specialty item
+        this.resetErrorElmUI('name');
         searchMapStore.setSearchFieldValue('name', item.name);
         searchMapStore.setState({
           specialtyFilter: item,

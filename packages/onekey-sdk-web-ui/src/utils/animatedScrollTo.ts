@@ -9,27 +9,50 @@ const easeInOutQuad = function (t, b, c, d) {
   return (-c / 2) * (t * (t - 2) - 1) + b;
 };
 
-function animateScrollTo({ element, scrollDirection, to, duration }) {
+type ScrollDir = 'scrollLeft' | 'scrollTop';
+type AnimateScrollTo = {
+  element: any;
+  scrollDirection: ScrollDir,
+  to: number,
+  duration: number
+}
 
-  const isVertical = scrollDirection === "scrollTop"
-  let start = element[scrollDirection],
-    change = isVertical ? to : to - start,
-    currentTime = 0,
-    increment = 20;
+function animateScrollTo({ element, scrollDirection, to, duration }: AnimateScrollTo) {
+
+  let scrollDirType = 'normal'; // ScrollDown (desktop) or ScrollRight (mobile)
+  let fromPosition = element[scrollDirection];
+  let change = to - fromPosition;
+  let currentTime = 0;
+  let increment = 20;
+  
+  if (fromPosition > to) {
+    scrollDirType = 'opposite'; // isScrollUp or isScrollLeft
+    change = change * (-1);
+  }
 
   const animateScroll = function () {
     currentTime += increment;
-    var val = easeInOutQuad(currentTime, start, change, duration);
-    element[scrollDirection] = val;
+    var val = easeInOutQuad(currentTime, fromPosition, change, duration);
+
+    if (scrollDirType === 'normal') {
+      element[scrollDirection] = val;
+    } else {
+      /**
+       * Example: 
+       * fromScrollValue = 600
+       * toScrollValue = 100
+       * changeValue = 500
+       * easeInOutQuad(x, 600, 500, 10000) -> 610, 640, ... -> scrollOpposite to 590, 560, ...
+       */
+      element[scrollDirection] = fromPosition - (val - fromPosition); 
+    }
+
     if (currentTime < duration) {
       setTimeout(animateScroll, increment);
     }
   };
 
   new Promise((resolve) => {
-    if(isVertical) {
-      start = 0
-    }
     resolve(true)
   }).then(() => {
     setTimeout(() => {

@@ -22,9 +22,16 @@ export async function searchGeoMap({ id }) {
   })
 }
 
-export async function getAddressFromGeo(lat, lng) {
-  const res = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&osm_type=R&format=jsonv2`);
-  searchMapStore.setState({
-    currentLocation: res.data
-  })
+export async function getAddressFromGeo(lat: number, lng: number) {
+  try {
+    const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&osm_type=R&format=jsonv2`);
+    const data = response.data;
+    const { road, city, state_district, state, country } = data.address;
+
+    data.shortDisplayName = [road, city, state_district, state, country].join(', ');
+
+    return data;
+  } catch(err) {
+    return null;
+  }
 }
