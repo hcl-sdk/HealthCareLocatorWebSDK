@@ -1,7 +1,26 @@
 package com.ekino.onekeysdk.extensions
 
+import android.app.Activity
+import android.content.Context
+import android.location.Location
+import android.location.LocationManager
+import androidx.fragment.app.FragmentActivity
 import com.ekino.onekeysdk.model.OneKeyLocation
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsStatusCodes
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.osmdroid.util.GeoPoint
+import kotlin.math.*
 
 const val mapZoomInEvent = 0
 const val mapZoomOutEvent = 1
@@ -22,6 +41,115 @@ fun getDummyHCP(): ArrayList<OneKeyLocation> {
 }
 
 /**
- * Geo point
+ * Geo point [GeoPoint]
  */
 fun GeoPoint.getLocationString(): String = "$latitude,$longitude"
+
+fun Location.getLatLng(): LatLng = LatLng(latitude, longitude)
+
+/**
+ * [Location]
+ */
+fun Location?.getCurrentLocation(newLocation: Location?): Location? {
+    return when {
+        this == null -> newLocation
+        newLocation == null -> this
+        else -> {
+            if (newLocation.latitude == this.latitude && newLocation.longitude == this.longitude)
+                this
+            else newLocation
+        }
+    }
+}
+
+
+fun FragmentActivity.isGooglePlayServiceAvailable(success: () -> Unit, error: (message: String) -> Unit) {
+    when (val status = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)) {
+        ConnectionResult.SUCCESS -> success()
+        else -> {
+            GoogleApiAvailability.getInstance().getErrorDialog(this, status, 1001).show()
+            error(GoogleApiAvailability.getInstance().getErrorString(status))
+        }
+    }
+}
+
+fun Activity.requestGPS(requestCode: Int, success: () -> Unit = {}, error: (e: Exception) -> Unit = {}) {
+    val client = GoogleApiClient.Builder(this).addApi(LocationServices.API).build()
+    val builder = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).run {
+        LocationSettingsRequest.Builder().addLocationRequest(this).setAlwaysShow(true)
+    }
+    val result = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build())
+    result.addOnCompleteListener {
+        try {
+            val res = it.getResult(ApiException::class.java)
+            if (res?.locationSettingsStates?.isLocationPresent == true) {
+                success()
+            }
+        } catch (e: ApiException) {
+            error(e)
+            when (e.statusCode) {
+                LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                    try {
+                        (e as? ResolvableApiException)?.startResolutionForResult(this@requestGPS, requestCode)
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            }
+        }
+    }.addOnFailureListener { error(it) }
+}
+
+fun Context.isLocationServiceEnabled(): Boolean {
+    val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+}
+
+/**
+ * Calculate the coordinates.
+ */
+const val earthRadius = 6378.1f
+fun getDistanceFromLatLonInKm(flatitude: Double, flongitude: Double, dlatitude: Double, dlongitude: Double): Double {
+    var dLat = deg2rad(dlatitude - flatitude) // deg2rad below
+    var dLon = deg2rad(dlongitude - flongitude)
+    var a = sin(dLat / 2) * sin(dLat / 2) + cos(deg2rad(flatitude)) *
+            cos(deg2rad(dlatitude)) * sin(dLon / 2) * sin(dLon / 2)
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    var d = earthRadius * c // Distance in km
+    return d
+}
+
+fun getReflection(latitude: Double, longitude: Double, distance: Double,
+                  dlatitude: Double, dlongitude: Double,
+                  callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }){
+    val data = getReflection(latitude, longitude, distance, dlatitude, dlongitude)
+    callback(data[0], data[1])
+}
+
+fun getReflection(latitude: Double, longitude: Double, distance: Double,
+                  dlatitude: Double, dlongitude: Double):Array<Double> {
+    val latR = Math.toRadians(latitude)
+    val lonR = Math.toRadians(longitude)
+    val dLatR = Math.toRadians(dlatitude)
+    val longDiff = Math.toRadians(dlongitude - longitude)
+    val y = sin(longDiff) * cos(dLatR)
+    val x = cos(latR) * sin(dLatR) - sin(latR) * cos(dLatR) * cos(longDiff)
+    val b = (Math.toDegrees(atan2(y, x)) + 360) % 360
+    val bearingR = Math.toRadians(b + 180)
+    val distanceToRadius = distance.div(earthRadius)
+    val newLatR = asin(
+            sin(latR) * cos(distanceToRadius) +
+                    cos(latR) * sin(distanceToRadius) * cos(bearingR)
+    )
+    val newLonR = lonR + atan2(
+            sin(bearingR) * sin(distanceToRadius) * cos(latR),
+            cos(distanceToRadius) - sin(latR) * sin(newLatR)
+    )
+    val latNew = Math.toDegrees(newLatR)
+    val lonNew = Math.toDegrees(newLonR)
+    return arrayOf(latNew, lonNew)
+}
+
+fun deg2rad(deg: Double): Double {
+    return deg * (Math.PI / 180)
+}

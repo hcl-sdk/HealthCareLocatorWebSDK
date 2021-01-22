@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
 import com.ekino.onekeysdk.sample.model.FontObject
 import com.ekino.onekeysdk.sample.utils.getFonts
@@ -35,6 +35,7 @@ class PreviewFontFragment : Fragment(), AdapterView.OnItemSelectedListener, View
         btnBack.setOnClickListener(this)
         initFontName()
         initFontSize()
+        initFontWeight()
     }
 
     private fun initFontName() {
@@ -45,6 +46,16 @@ class PreviewFontFragment : Fragment(), AdapterView.OnItemSelectedListener, View
         }
         fontSpinner.onItemSelectedListener = this
         fontSpinner.setSelection(selectedFont)
+    }
+
+    private fun initFontWeight() {
+        val weights = context!!.resources.getStringArray(R.array.fontWeights)
+        ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, weights).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            fontWeightSpinner.adapter = it
+        }
+        fontWeightSpinner.setSelection(font.weight)
+        fontWeightSpinner.onItemSelectedListener = this
     }
 
     private fun initFontSize() {
@@ -64,7 +75,10 @@ class PreviewFontFragment : Fragment(), AdapterView.OnItemSelectedListener, View
             this@PreviewFontFragment.font.fontName = font
             val fontSize = fontSizeSpinner.selectedItem?.toString()?.toInt()
                     ?: this@PreviewFontFragment.font.size
-            this@PreviewFontFragment.font.size = fontSize
+            this@PreviewFontFragment.font.also{
+                it.size = fontSize
+                it.weight = fontWeightSpinner.selectedItemPosition
+            }
             callback(this@PreviewFontFragment.font)
         }
     }
@@ -77,7 +91,9 @@ class PreviewFontFragment : Fragment(), AdapterView.OnItemSelectedListener, View
         if (parent?.id == fontSizeSpinner.id)
             tvPreview.textSize = (parent?.selectedItem?.toString()?.toInt())?.toFloat() ?: 16f
         else if (parent?.id == fontSpinner.id) {
-            tvPreview.setFont(fonts[position].font)
+            tvPreview.setFont(fonts[position].font, fontWeightSpinner.selectedItemPosition)
+        } else if (parent?.id == fontWeightSpinner.id) {
+            tvPreview.setFont(fonts[fontSpinner.selectedItemPosition].font, position)
         }
     }
 

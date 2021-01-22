@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 import com.jaredrummler.android.colorpicker.utils.ColorUtils;
 import com.jaredrummler.android.colorpicker.utils.InputFilterFloatLimitation;
 import com.jaredrummler.android.colorpicker.utils.InputFilterLimitation;

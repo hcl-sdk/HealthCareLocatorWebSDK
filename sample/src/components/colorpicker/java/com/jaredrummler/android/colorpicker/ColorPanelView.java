@@ -40,7 +40,7 @@ import androidx.annotation.ColorInt;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 
 import java.util.Locale;
 

@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import base.fragments.IFragment
 import com.bumptech.glide.Glide
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
+import com.ekino.onekeysdk.sample.SampleOneKeySDKActivity
 import kotlinx.android.synthetic.main.fragment_landing_page.*
 
-class LandingPageFragment : IFragment() {
+class LandingPageFragment : IFragment(), View.OnClickListener {
     companion object {
         fun newInstance() = LandingPageFragment()
     }
@@ -22,5 +23,13 @@ class LandingPageFragment : IFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Glide.with(this).load(R.drawable.logo_iqvia).into(ivLogo)
+        btnSearchNearMe.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btnSearchNearMe ->
+                (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true)
+        }
     }
 }

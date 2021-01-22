@@ -2,469 +2,522 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/default_padding_small"
-            android:src="@drawable/baseline_arrow_back_black_36dp" />
-
-        <ImageView
-            android:id="@+id/btnShare"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_gravity="end"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/default_padding"
-            android:src="@drawable/baseline_share_black_36dp"
-            app:tint="@color/gray" />
-    </FrameLayout>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/contentWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:clipToPadding="false">
+        android:layout_margin="@dimen/default_padding"
+        android:background="@drawable/bg_white_border_corner"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/default_padding"
-            android:paddingTop="@dimen/default_padding_tiny"
-            android:paddingEnd="@dimen/default_padding"
-            android:paddingBottom="@dimen/default_padding">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/default_padding_small"
+                android:src="@drawable/baseline_arrow_back_black_36dp" />
+
+            <ImageView
+                android:id="@+id/btnShare"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="end"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/default_padding"
+                android:src="@drawable/baseline_share_black_36dp"
+                app:tint="@color/gray" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/viewContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_padding"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/default_icon_size_bigger"
-                    android:layout_height="@dimen/default_icon_size_bigger"
-                    android:layout_marginEnd="@dimen/default_padding"
-                    android:background="@drawable/bg_gray_corner"
-                    android:padding="@dimen/default_padding_smaller"
-                    android:src="@drawable/ic_stethoscope"
-                    app:tint="@color/white" />
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/default_padding_tiny"
+                android:paddingBottom="@dimen/default_padding_tiny"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/default_padding"
+                    android:paddingTop="@dimen/default_padding_tiny"
+                    android:paddingEnd="@dimen/default_padding"
+                    android:paddingBottom="@dimen/default_padding">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:id="@+id/tvDoctorName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Dr."
-                        android:textSize="@dimen/default_text_bigger"
-                        app:forceTextSize="true" />
+                        android:layout_marginBottom="@dimen/default_padding"
+                        android:orientation="horizontal">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:id="@+id/tvSpeciality"
+                        <ImageView
+                            android:layout_width="@dimen/default_icon_size_bigger"
+                            android:layout_height="@dimen/default_icon_size_bigger"
+                            android:layout_marginEnd="@dimen/default_padding"
+                            android:background="@drawable/bg_gray_corner"
+                            android:padding="@dimen/default_padding_smaller"
+                            android:src="@drawable/ic_stethoscope"
+                            app:tint="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:id="@+id/tvDoctorName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Dr."
+                                android:textSize="@dimen/default_text_bigger"
+                                app:OneKeyTextColor="OneKeyColorSecondary"
+                                app:OneKeyTextStyle="OneKeyStyleProfileTitle" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:id="@+id/tvSpeciality"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="General"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text_big"
+                                app:OneKeyTextColor="OneKeyColorDark"
+                                app:OneKeyTextStyle="OneKeyStyleProfileSubtitle" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp">
+
+                        <FrameLayout
+                            android:id="@+id/viewHCPMap"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <View
+                            android:id="@+id/mapOverlay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground" />
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="General"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text_big"
-                        app:forceTextSize="true" />
+                        android:layout_marginTop="@dimen/default_padding"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:id="@+id/tvMainInformation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/onekey_sdk_main_information_label"
+                                android:textSize="@dimen/default_text_big"
+                                app:OneKeyTextColor="OneKeyColorSecondary"
+                                app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
+
+                            <ImageView
+                                android:id="@+id/ivDirection"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
+                                android:layout_marginEnd="@dimen/default_padding"
+                                android:background="@drawable/bg_white_circle_border"
+                                android:padding="@dimen/default_padding_tiny"
+                                android:src="@drawable/baseline_directions_black_36dp" />
+
+                            <ImageView
+                                android:id="@+id/ivCall"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
+                                android:background="@drawable/bg_white_circle_border"
+                                android:padding="8dp"
+                                android:src="@drawable/baseline_call_black_36dp" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/spinnerWrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding"
+                            android:background="@drawable/bg_white_border_corner"
+                            android:visibility="gone">
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/addressSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/default_padding_smaller" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivLocationOutLine"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
+                                android:paddingStart="-5dp"
+                                android:src="@drawable/outline_location_on_black_36dp" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:id="@+id/tvAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/default_padding_smaller"
+                                android:layout_marginTop="@dimen/default_padding_tiny"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text"
+                                app:forceTextSize="true"
+                                app:lineHeight="20dp"
+                                tools:text="Address\nDoc" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/phoneWrapper"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/ivPhone"
+                                    android:layout_width="@dimen/default_icon_size_small"
+                                    android:layout_height="@dimen/default_icon_size_small"
+                                    android:padding="@dimen/default_padding_tiny"
+                                    android:src="@drawable/baseline_call_black_36dp"
+                                    app:tint="@color/gray" />
+
+                                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                    android:id="@+id/tvTelephone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_padding_smaller"
+                                    android:layout_marginEnd="@dimen/default_padding_smaller"
+                                    android:textColor="@color/colorOneKeyText"
+                                    android:textSize="@dimen/default_text"
+                                    app:forceTextSize="true"
+                                    tools:text="01 44 58 56 58" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/fax"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/ivFax"
+                                    android:layout_width="@dimen/default_icon_size_small"
+                                    android:layout_height="@dimen/default_icon_size_small"
+                                    android:padding="@dimen/default_padding_tiny"
+                                    android:src="@drawable/baseline_print_black_36dp"
+                                    app:tint="@color/gray" />
+
+                                <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                    android:id="@+id/tvFax"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_padding_smaller"
+                                    android:textColor="@color/colorOneKeyText"
+                                    android:textSize="@dimen/default_text"
+                                    app:forceTextSize="true"
+                                    tools:text="01 44 56 56 56" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/websiteWrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivBrowser"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
+                                android:padding="@dimen/default_padding_tiny"
+                                android:src="@drawable/ic_network"
+                                app:tint="@color/gray" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:id="@+id/tvWebsite"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/default_padding_smaller"
+                                android:text="www.medicalsoinsparis.com"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text"
+                                app:OneKeyTextColor="OneKeyColorDark" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.ekino.onekeysdk.custom.OneKeyView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/default_padding"
+                        android:layout_marginBottom="@dimen/default_padding"
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvSpecialitiesLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/onekey_sdk_specialities_label"
+                            android:textSize="@dimen/default_text_big"
+                            app:OneKeyTextColor="OneKeyColorSecondary"
+                            app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvSpecialities"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:layout_weight="1"
+                            android:textColor="@color/colorOneKeyText"
+                            android:textSize="@dimen/default_text"
+                            app:forceTextSize="true"
+                            tools:text="Specialities" />
+                    </LinearLayout>
+
+                    <com.ekino.onekeysdk.custom.OneKeyView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/default_padding"
+                        android:layout_marginBottom="@dimen/default_padding"
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvRateRefundLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/onekey_sdk_rate_refunds_label"
+                            android:textSize="@dimen/default_text_big"
+                            app:OneKeyTextColor="OneKeyColorSecondary"
+                            app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvRateRefund"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:layout_weight="1"
+                            android:textColor="@color/colorOneKeyText"
+                            android:textSize="@dimen/default_text"
+                            app:forceTextSize="true"
+                            tools:text="Conventionned Sector 1\n\n25€" />
+                    </LinearLayout>
+
+                    <com.ekino.onekeysdk.custom.OneKeyView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/default_padding"
+                        android:layout_marginBottom="@dimen/default_padding"
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvInformationLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/onekey_sdk_information_label"
+                            android:textSize="@dimen/default_text_big"
+                            app:OneKeyTextColor="OneKeyColorSecondary"
+                            app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:layout_weight="1"
+                            android:text="@string/onekey_sdk_information_description"
+                            android:textColor="@color/colorOneKeyText"
+                            android:textSize="@dimen/default_text"
+                            app:forceTextSize="true" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:orientation="horizontal">
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
+                                android:id="@+id/cbxYes"
+                                android:layout_width="41dp"
+                                android:layout_height="31dp"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text"
+                                app:forceTextSize="true" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/default_padding"
+                                android:text="@string/onekey_sdk_information_yes_label"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text"
+                                app:forceTextSize="true" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
+                                android:id="@+id/cbxNo"
+                                android:layout_width="41dp"
+                                android:layout_height="31dp"
+                                android:textSize="@dimen/default_text"
+                                app:forceTextSize="true" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/default_padding"
+                                android:text="@string/onekey_sdk_information_no_label"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text"
+                                app:forceTextSize="true" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.ekino.onekeysdk.custom.OneKeyView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/default_padding"
+                        android:layout_marginBottom="@dimen/default_padding"
+                        app:OneKeyViewColor="OneKeyColorCardBorder" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvModificationLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/onekey_sdk_improve_quality_label"
+                            android:textSize="@dimen/default_text_big"
+                            app:OneKeyTextColor="OneKeyColorSecondary"
+                            app:OneKeyTextStyle="OneKeyStyleProfileTitleSection" />
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                            android:id="@+id/tvModification"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding_smaller"
+                            android:layout_weight="1"
+                            android:text="@string/onekey_sdk_improve_quality_text"
+                            android:textColor="@color/colorOneKeyText"
+                            android:textSize="@dimen/default_text"
+                            app:forceTextSize="true" />
+
+                        <LinearLayout
+                            android:id="@+id/btnSuggestModification"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_padding"
+                            android:background="@drawable/bg_gray_light_button"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivEdit"
+                                android:layout_width="@dimen/default_icon_size_small"
+                                android:layout_height="@dimen/default_icon_size_small"
+                                android:padding="@dimen/default_padding_tiny"
+                                android:src="@drawable/baseline_edit_white_36dp"
+                                tools:tint="@color/colorOneKeyBlue" />
+
+                            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|end"
+                                android:paddingStart="@dimen/default_padding_tiny"
+                                android:paddingTop="@dimen/default_padding_small"
+                                android:paddingBottom="@dimen/default_padding_small"
+                                android:text="@string/onekey_sdk_suggess_modification_button"
+                                android:textColor="@color/colorOneKeyText"
+                                android:textSize="@dimen/default_text"
+                                app:OneKeyTextColor="OneKeyColorSecondary"
+                                app:OneKeyTextStyle="OneKeyStyleButton" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </ScrollView>
 
             <FrameLayout
-                android:id="@+id/viewHCPMap"
+                android:id="@+id/profileProgressBar"
                 android:layout_width="match_parent"
-                android:layout_height="125dp" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:clickable="true"
+                tools:visibility="gone">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_padding"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:id="@+id/tvMainInformation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Main Information"
-                        android:textSize="@dimen/default_text_big"
-                        app:forceTextSize="true"
-                        app:title2Style="true" />
-
-                    <ImageView
-                        android:id="@+id/ivDirection"
-                        android:layout_width="@dimen/default_icon_size"
-                        android:layout_height="@dimen/default_icon_size"
-                        android:layout_marginEnd="@dimen/default_padding"
-                        android:background="@drawable/bg_white_circle_border"
-                        android:padding="@dimen/default_padding_tiny"
-                        android:src="@drawable/baseline_directions_black_36dp" />
-
-                    <ImageView
-                        android:id="@+id/ivCall"
-                        android:layout_width="@dimen/default_icon_size"
-                        android:layout_height="@dimen/default_icon_size"
-                        android:background="@drawable/bg_white_circle_border"
-                        android:padding="8dp"
-                        android:src="@drawable/baseline_call_black_36dp" />
-                </LinearLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding"
-                    android:background="@drawable/bg_white_border_corner">
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/addressSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/default_padding_smaller" />
-                </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/ivLocationOutLine"
-                        android:layout_width="@dimen/default_icon_size_small"
-                        android:layout_height="@dimen/default_icon_size_small"
-                        android:paddingStart="-5dp"
-                        android:src="@drawable/outline_location_on_black_36dp" />
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:id="@+id/tvAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/default_padding_smaller"
-                        android:layout_marginTop="@dimen/default_padding_tiny"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true"
-                        app:lineHeight="20dp"
-                        tools:text="Address\nDoc" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/default_icon_size_small"
-                            android:layout_height="@dimen/default_icon_size_small"
-                            android:padding="@dimen/default_padding_tiny"
-                            android:src="@drawable/baseline_call_black_36dp"
-                            app:tint="@color/gray" />
-
-                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                            android:id="@+id/tvTelephone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/default_padding_smaller"
-                            android:layout_marginEnd="@dimen/default_padding_smaller"
-                            android:textColor="@color/colorOneKeyText"
-                            android:textSize="@dimen/default_text"
-                            app:forceTextSize="true"
-                            tools:text="01 44 58 56 58" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/fax"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/default_icon_size_small"
-                            android:layout_height="@dimen/default_icon_size_small"
-                            android:padding="@dimen/default_padding_tiny"
-                            android:src="@drawable/baseline_print_black_36dp"
-                            app:tint="@color/gray" />
-
-                        <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                            android:id="@+id/tvFax"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/default_padding_smaller"
-                            android:textColor="@color/colorOneKeyText"
-                            android:textSize="@dimen/default_text"
-                            app:forceTextSize="true"
-                            tools:text="01 44 56 56 56" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/default_icon_size_small"
-                        android:layout_height="@dimen/default_icon_size_small"
-                        android:padding="@dimen/default_padding_tiny"
-                        android:src="@drawable/ic_network"
-                        app:tint="@color/gray" />
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:id="@+id/tvWebsite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/default_padding_smaller"
-                        android:text="www.medicalsoinsparis.com"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_padding"
-                android:layout_marginBottom="@dimen/default_padding"
-                android:background="@color/grayLight" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvSpecialitiesLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Specialities"
-                    android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true"
-                    app:title2Style="true" />
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvSpecialities"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorOneKeyText"
-                    android:textSize="@dimen/default_text"
-                    app:forceTextSize="true"
-                    tools:text="Specialities" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_padding"
-                android:layout_marginBottom="@dimen/default_padding"
-                android:background="@color/grayLight" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvRateRefundLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Rate and refunds"
-                    android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true"
-                    app:title2Style="true" />
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvRateRefund"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorOneKeyText"
-                    android:textSize="@dimen/default_text"
-                    app:forceTextSize="true"
-                    tools:text="Conventionned Sector 1\n\n25€" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_padding"
-                android:layout_marginBottom="@dimen/default_padding"
-                android:background="@color/grayLight" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvInformationLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Information"
-                    android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true"
-                    app:title2Style="true" />
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:layout_weight="1"
-                    android:text="Was the information you were given about this HCP/HCO correct?"
-                    android:textColor="@color/colorOneKeyText"
-                    android:textSize="@dimen/default_text"
-                    app:forceTextSize="true" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:orientation="horizontal">
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
-                        android:id="@+id/cbxYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/default_padding_tiny"
-                        android:button="@drawable/bg_cbx_positive"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true" />
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/default_padding"
-                        android:text="Yes"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true" />
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyCheckBox
-                        android:id="@+id/cbxNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/default_padding_tiny"
-                        android:button="@drawable/bg_cbx_negative"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true" />
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/default_padding"
-                        android:text="No"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_padding"
-                android:layout_marginBottom="@dimen/default_padding"
-                android:background="@color/grayLight" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvModificationLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Improve the data quality"
-                    android:textSize="@dimen/default_text_big"
-                    app:forceTextSize="true"
-                    app:title2Style="true" />
-
-                <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                    android:id="@+id/tvModification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding_smaller"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorOneKeyText"
-                    android:textSize="@dimen/default_text"
-                    app:forceTextSize="true"
-                    tools:text="Specialities" />
-
-                <LinearLayout
-                    android:id="@+id/btnSuggestModification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_padding"
-                    android:background="@drawable/bg_gray_light_button"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/ivEdit"
-                        android:layout_width="@dimen/default_icon_size"
-                        android:layout_height="@dimen/default_icon_size"
-                        android:padding="@dimen/default_padding_tiny"
-                        android:src="@drawable/baseline_edit_white_36dp"
-                        tools:tint="@color/colorOneKeyBlue" />
-
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/default_padding_tiny"
-                        android:paddingTop="@dimen/default_padding"
-                        android:paddingEnd="@dimen/default_padding_tiny"
-                        android:paddingBottom="@dimen/default_padding"
-                        android:text="Suggest a modification"
-                        android:textColor="@color/colorOneKeyText"
-                        android:textSize="@dimen/default_text"
-                        app:forceTextSize="true" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+                <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                    android:layout_width="@dimen/default_icon_size_bigger"
+                    android:layout_height="@dimen/default_icon_size_bigger"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

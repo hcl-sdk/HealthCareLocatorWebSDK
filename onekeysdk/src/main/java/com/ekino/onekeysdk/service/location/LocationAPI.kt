@@ -13,4 +13,7 @@ interface LocationAPI {
     @GET("search.php")
     fun searchAddress(@QueryMap query: HashMap<String, String>): Flowable<ArrayList<OneKeyPlace>>
 
+    @GET("reverse")
+    fun reverseGeoCoding(@QueryMap query: HashMap<String, String>): Flowable<OneKeyPlace>
+
 }

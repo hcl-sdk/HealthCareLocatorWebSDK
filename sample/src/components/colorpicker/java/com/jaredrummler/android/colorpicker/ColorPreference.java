@@ -27,7 +27,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
-import com.ekino.onekeysdk.R;
+import com.ekino.sample.onekeysdk.R;
 
 /**
  * A Preference to select a color

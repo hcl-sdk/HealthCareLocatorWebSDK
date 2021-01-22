@@ -21,8 +21,18 @@
         <item>20</item>
         <item>22</item>
     </string-array>
+    <string-array name="fontWeights">
+        <item>Normal</item>
+        <item>Bold</item>
+        <item>Italic</item>
+        <item>Bold-Italic</item>
+    </string-array>
     <string-array name="home">
         <item>Min</item>
         <item>Full</item>
+    </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>French</item>
     </string-array>
 </resources>

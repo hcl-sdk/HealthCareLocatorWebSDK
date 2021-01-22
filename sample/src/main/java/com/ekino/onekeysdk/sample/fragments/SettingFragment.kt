@@ -1,6 +1,8 @@
 package com.ekino.onekeysdk.sample.fragments
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
 import base.fragments.IFragment
-import com.ekino.onekeysdk.R
+import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.sample.SampleApplication
 import com.ekino.onekeysdk.sample.SampleOneKeySDKActivity
 import com.ekino.onekeysdk.sample.model.FontObject
@@ -17,10 +19,9 @@ import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.SpinnerInteractionListener
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
-import com.ekino.onekeysdk.utils.OneKeyLog
 import kotlinx.android.synthetic.main.fragment_setting.*
 
-class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener {
+class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener, View.OnClickListener {
     companion object {
         fun newInstance() = SettingFragment()
     }
@@ -28,6 +29,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
     private var themeObject: ThemeObject = ThemeObject()
     private val themes by lazy { getThemes() }
     private val fonts by lazy { getFonts() }
+    override fun shouldInterceptBackPress(): Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_setting, container, false)
@@ -53,6 +55,15 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         themeSpinner.setOnTouchListener(listener)
         themeSpinner.setSelection(selectedTheme)
         initHomeSpinner()
+        initMapService()
+        initLanguageSpinner()
+
+        tvResetDefault.text = tvResetDefault.text.run {
+            val span = SpannableString(this)
+            span.setSpan(UnderlineSpan(), 0, this.length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+            span
+        }
+        tvResetDefault.setOnClickListener(this)
     }
 
     private fun initHomeSpinner() {
@@ -67,6 +78,22 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
                 }
             }
         }
+    }
+
+    private fun initMapService() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.mapService, 0)
+        if (selectedPosition == 0) rBtnOpenStreetMap.isChecked = true
+        else rBtnGoogleMap.isChecked = true
+    }
+
+    private fun initLanguageSpinner() {
+        val selectedPosition = SampleApplication.sharedPreferences.getInt(Pref.language, 0)
+        val languages = requireContext().resources.getStringArray(R.array.languages)
+        ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, languages).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            languageSpinner.adapter = it
+        }
+        languageSpinner.setSelection(selectedPosition)
     }
 
     override fun onSpinnerItemSelectedListener(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -94,6 +121,8 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
             putInt(Pref.home, if (homeGroup.checkedRadioButtonId == rBtnFull.id) 0 else 1)
+            putInt(Pref.mapService, if (mapGroup.checkedRadioButtonId == rBtnOpenStreetMap.id) 0 else 1)
+            putInt(Pref.language, languageSpinner.selectedItemPosition)
         }
         super.onPause()
     }
@@ -123,6 +152,35 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             themeObject.markerSelectedHexColor = selectedMarker
             themeObject.fontBase = fontBase
             themeObject.fontTitle = fontTitle
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.tvResetDefault -> {
+                resetDefault()
+            }
+        }
+    }
+
+    private fun resetDefault() {
+        SampleApplication.sharedPreferences.edit {
+            putString(Pref.fontDefault, "")
+            putString(Pref.fontTitle1, "")
+            putString(Pref.fontButton, "")
+            putString(Pref.fontTitle2, "")
+            putString(Pref.fontTitle3, "")
+            putString(Pref.fontSmall, "")
+            putString(Pref.fontSearchInput, "")
+            putString(Pref.fontSearchResultTitle, "")
+            putString(Pref.fontResultTitle, "")
+            putString(Pref.fontResultSubTitle, "")
+            putString(Pref.fontProfileTitle, "")
+            putString(Pref.fontProfileSubTitle, "")
+            putString(Pref.fontProfileTitleSection, "")
+            putString(Pref.fontCardTitle, "")
+            putString(Pref.fontModalTitle, "")
+            putString(Pref.fontSortCriteria, "")
         }
     }
 }

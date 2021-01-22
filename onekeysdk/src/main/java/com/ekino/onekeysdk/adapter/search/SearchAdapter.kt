@@ -1,28 +1,30 @@
 package com.ekino.onekeysdk.adapter.search
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
-import com.ekino.onekeysdk.extensions.ThemeExtension
 import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.extensions.setRippleBackground
-import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
+import com.ekino.onekeysdk.extensions.setIconFromDrawableId
+import com.ekino.onekeysdk.model.activity.ActivityObject
+import com.ekino.onekeysdk.state.OneKeySDK
 import kotlinx.android.synthetic.main.layout_search_item.view.*
 
 class SearchAdapter(private val screenWidth: Int = -1) :
-        OneKeyAdapter<OneKeyLocation, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
+        OneKeyAdapter<ActivityObject, SearchAdapter.SearchVH>(arrayListOf(R.layout.layout_search_item)) {
     private var selectedPosition = -1
-    private val themeConfig by lazy { ThemeExtension.getInstance().getThemeConfiguration() }
-    var onHCPCardClickedListener: (data: OneKeyLocation) -> Unit = {}
+    private val themeConfig by lazy { OneKeySDK.getInstance().getConfiguration() }
+    var onHCPCardClickedListener: (data: ActivityObject) -> Unit = {}
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): SearchVH =
             SearchVH(LayoutInflater.from(parent.context).inflate(layoutIds[0], parent, false))
 
-    inner class SearchVH(itemView: View) : OneKeyViewHolder<OneKeyLocation>(itemView) {
-        override fun bind(position: Int, data: OneKeyLocation) {
+    inner class SearchVH(itemView: View) : OneKeyViewHolder<ActivityObject>(itemView) {
+        override fun bind(position: Int, data: ActivityObject) {
             itemView.apply {
                 if (screenWidth > 0)
                     itemView.post {
@@ -30,18 +32,18 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                         lp.width = (screenWidth * 0.85f).toInt()
                         itemView.layoutParams = lp
                     }
-                tvName.text = data.name
-                tvName.setTextColor(themeConfig.colorSecondary.getColor())
-                tvSpeciality.text = data.speciality
-                tvAddress.text = data.address
-                tvDistance.text = "${data.distance}m"
+                tvName.text = data.individual?.mailingName ?: ""
+                tvSpeciality.text = data.individual?.professionalType?.label ?: ""
+                tvAddress.text = data.workplace?.address?.getAddress() ?: ""
+                tvDistance.text = itemView.context.getString(R.string.onekey_sdk_distance_unit_android, "${Math.round(data.distance)}")
+                ivArrow.setIconFromDrawableId(themeConfig.iconArrowRight)
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {
                     onHCPCardClickedListener(data)
                 }
                 if (selectedPosition == position)
-                    borderContainer.setRippleBackground(themeConfig.colorMarkerSelected.getColor(), 15f)
-                else borderContainer.background = null
+                    setBackgroundWithCorner(Color.WHITE, themeConfig.colorMarkerSelected.getColor(), 12f, 8)
+                else setBackgroundWithCorner(Color.WHITE, themeConfig.colorCardBorder.getColor(), 12f, 3)
             }
         }
     }

@@ -10,41 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/default_padding">
+        android:paddingStart="@dimen/default_padding"
+        android:paddingBottom="@dimen/default_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                android:id="@+id/tvDoctorName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="General"
-                app:title3Style="true" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="General"
-                android:textColor="@color/colorOneKeyText" />
-
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="General"
-                android:textColor="@color/colorOneKeyText" />
+                app:OneKeyTextColor="OneKeyColorSecondary"
+                app:OneKeyTextStyle="OneKeyStyleResultTitle" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="General"
-                android:textColor="@color/gray" />
+                android:layout_marginTop="3dp"
+                android:text=""
+                android:visibility="gone"
+                app:OneKeyTextColor="OneKeyColorGreyDark" />
 
             <com.ekino.onekeysdk.custom.text.OneKeyTextView
                 android:id="@+id/tvCreateAt"
@@ -54,25 +45,25 @@
                 android:text="1 day ago"
                 android:textColor="@color/colorOneKeyText"
                 android:textSize="@dimen/default_text_small"
-                app:smallStyle="true" />
+                app:OneKeyTextStyle="OneKeyStyleSmall" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/ivClear"
             android:layout_width="@dimen/default_icon_size"
             android:layout_height="@dimen/default_icon_size"
-            android:layout_marginTop="-10dp"
-            android:layout_marginEnd="-10dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="-5dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/default_padding_small"
+            android:padding="12dp"
             android:src="@drawable/baseline_close_black_24dp"
             app:tint="@color/gray" />
     </LinearLayout>
 
-    <View
+    <com.ekino.onekeysdk.custom.OneKeyView
         android:id="@+id/bottomLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:background="@color/grayLight" />
+        app:OneKeyViewColor="OneKeyColorCardBorder" />
 </FrameLayout>
