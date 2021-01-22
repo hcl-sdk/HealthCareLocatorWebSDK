@@ -81,4 +81,5 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                 .compose(compose())
                 .subscribe({}, {}))
     }
+    protected val fakeInToronto:Array<Double> = arrayOf(45.4231, -75.7340)
 }

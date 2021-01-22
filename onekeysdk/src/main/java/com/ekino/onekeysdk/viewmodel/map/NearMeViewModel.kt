@@ -40,6 +40,8 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
 
     fun getActivities(context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
                       currentLocation: (location: Location) -> Unit) {
+        place?.latitude = "${fakeInToronto[0]}"
+        place?.longitude = "${fakeInToronto[1]}"
         loading.postValue(true)
         val client = LocationClient(context)
         client.requestLastLocation().registerDataCallBack({ location ->

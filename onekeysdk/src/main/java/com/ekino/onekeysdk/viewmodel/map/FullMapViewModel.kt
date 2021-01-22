@@ -28,17 +28,21 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     }
 
     fun requestPermissions(context: Fragment) {
-        context.requestPermission({ granted ->
-            permissionRequested.postValue(granted)
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+        context.requestPermission(
+            { granted ->
+                permissionRequested.postValue(granted)
+            }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?) {
+        place?.latitude = "${fakeInToronto[0]}"
+        place?.longitude = "${fakeInToronto[1]}"
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder()
-                    .locale(theme.getLocaleCode()).first(50).offset(0)
+                .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty()) {
                 builder.specialties(specialities)
             } else {
@@ -46,8 +50,10 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
                     builder.criteria(criteria)
             }
             if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
-                builder.location(GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).build())
+                builder.location(
+                    GeopointQuery.builder().lat(place!!.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).build()
+                )
             }
             builder.build()
         }, { response ->
@@ -72,18 +78,22 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         }, true)
     }
 
-    fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
-                      callback: (list: ArrayList<ActivityObject>) -> Unit) {
+    fun getActivities(
+        criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+        callback: (list: ArrayList<ActivityObject>) -> Unit
+    ) {
         query({
             val builder = GetActivitiesQuery.builder()
-                    .locale(theme.getLocaleCode()).first(50).offset(0)
+                .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty()) builder.specialties(specialities)
             else {
                 if (criteria.isNotEmpty()) builder.criteria(criteria)
             }
             if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
-                builder.location(GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).build())
+                builder.location(
+                    GeopointQuery.builder().lat(place!!.latitude.toDouble())
+                        .lon(place.longitude.toDouble()).build()
+                )
             }
             builder.build()
         }, { response ->
@@ -110,24 +120,27 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         params["lat"] = place.latitude
         params["lon"] = place.longitude
         params["format"] = "json"
-        disposable?.add(executor.reverseGeoCoding(params).compose(compose())
+        disposable?.add(
+            executor.reverseGeoCoding(params).compose(compose())
                 .subscribe({ callback(it) }, { callback(place) })
         )
     }
 
-    fun sortActivities(list: ArrayList<ActivityObject>, sorting: Int,
-                       callback: (list: ArrayList<ActivityObject>) -> Unit) {
+    fun sortActivities(
+        list: ArrayList<ActivityObject>, sorting: Int,
+        callback: (list: ArrayList<ActivityObject>) -> Unit
+    ) {
         Flowable.just(list)
-                .map {
-                    if (sorting == 0) return@map it
-                    it.sortWith(Comparator { o1, o2 ->
-                        if (sorting == 1) o1.distance.compareTo(o2.distance)
-                        else
-                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
-                    })
-                    it
-                }
-                .compose(compose())
-                .subscribe({ callback(it) }, {})
+            .map {
+                if (sorting == 0) return@map it
+                it.sortWith(Comparator { o1, o2 ->
+                    if (sorting == 1) o1.distance.compareTo(o2.distance)
+                    else
+                        (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                })
+                it
+            }
+            .compose(compose())
+            .subscribe({ callback(it) }, {})
     }
 }
