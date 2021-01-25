@@ -9,6 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-web": "lerna run test --scope onekey-sdk-web-ui",
+    "start-api": "lerna run start --scope onekey-sdk-api",
+    "build-api": "lerna run build --scope onekey-sdk-api",
     "start-web": "lerna run start --scope onekey-sdk-web-ui",
     "build-web": "lerna run build --scope onekey-sdk-web-ui",
     "start-devtools": "lerna run start --scope onekey-sdk-web-devtools",

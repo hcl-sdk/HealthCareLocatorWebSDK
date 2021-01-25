@@ -32,6 +32,7 @@
 | -------------------- | ----------- | ------------------ |
 | `mapClicked`         |             | `CustomEvent<any>` |
 | `markerClick`        |             | `CustomEvent<any>` |
+| `onMapDrag`          |             | `CustomEvent<any>` |
 | `setCurrentLocation` |             | `CustomEvent<any>` |
 
 
