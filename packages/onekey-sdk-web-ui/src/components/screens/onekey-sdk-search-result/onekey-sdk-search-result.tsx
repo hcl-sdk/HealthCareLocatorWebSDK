@@ -15,7 +15,7 @@ import { t } from '../../../utils/i18n';
   shadow: false,
 })
 export class OnekeySdkSearchResult {
-  @State() selectedMarkerIdx: number;
+  @State() selectedMarkerLocation = { lat: 0, lng: 0 };
   @State() isOpenPanel: boolean = true;
   @State() isShowRelaunchBtn: boolean = false;
   @State() newDragLocation: LatLng;
@@ -63,13 +63,13 @@ export class OnekeySdkSearchResult {
     this.goBackToList();
   }
 
-  @Listen('markerClick')
-  onMarkerClick(e) {
+  @Listen('onMarkerClick')
+  handleOnMarkerClick(e) {
     const breakpoint = uiStore.state.breakpoint;
-    const selectedMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
+    const selectedFirstMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
     const isSmall = breakpoint.screenSize === 'mobile';
     const elm = isSmall ? this.searchDataCardList : this.searchDataMapElm
-    const doctorCardOffset = getDoctorCardOffset(elm, selectedMarkerIdx, !isSmall);
+    const doctorCardOffset = getDoctorCardOffset(elm, selectedFirstMarkerIdx, !isSmall);
 
     animateScrollTo({
       element: elm,
@@ -77,7 +77,11 @@ export class OnekeySdkSearchResult {
       to: doctorCardOffset,
       duration: 1000
     });
-    this.selectedMarkerIdx = selectedMarkerIdx;
+
+    this.selectedMarkerLocation = {
+      lat: e.detail.latlng.lat,
+      lng: e.detail.latlng.lng
+    }
   }
 
   @Listen('onMapDrag')
@@ -294,9 +298,9 @@ export class OnekeySdkSearchResult {
                   {selectedActivity ? <onekey-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
                   {!selectedActivity && (
                     <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                      {!loadingActivities && specialties.map((elm, idx) => (
+                      {!loadingActivities && specialties.map(elm => (
                         <onekey-sdk-doctor-card
-                          selected={this.selectedMarkerIdx === idx} 
+                          selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng} 
                           {...elm}
                           key={elm.id}
                           onClick={() => this.onItemCardClick(elm)} 

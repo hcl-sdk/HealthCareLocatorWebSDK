@@ -15,7 +15,7 @@ import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 
 const defaults = {
-  apiKey: '',
+  apiKey: '300002938e8ed9e6',
   i18nBundlesPath: '/i18n'
 };
 @Component({
@@ -128,15 +128,12 @@ export class OneKeySDK {
 
   tryFindGeoloc() {
     navigator.geolocation
-      .getCurrentPosition(_ => {
-        // TODO unmock to use real location
-        // const {
-        //   coords: { longitude, latitude }
-        // } = data;
-        const coords = {
-          latitude: 43.8238936,
-          longitude: -80.0063414
-        }
+      .getCurrentPosition(data => {
+        
+        const {
+          coords //: { longitude, latitude }
+        } = data;
+
         searchMapStore.setGeoLocation(coords);
       }, this.retryFindGeoloc, {
         maximumAge: GEOLOC.MAXAGE,

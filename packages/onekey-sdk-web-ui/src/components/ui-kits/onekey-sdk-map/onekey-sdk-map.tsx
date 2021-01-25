@@ -35,7 +35,7 @@ export class OnekeySdkMap {
   @Prop() isShowMeMarker: boolean = false;
   @Prop() isForcedZoomToMe: boolean = false;
 
-  @Event() markerClick: EventEmitter;
+  @Event() onMarkerClick: EventEmitter;
   @Event() setCurrentLocation: EventEmitter;
   @Event() mapClicked: EventEmitter;
   @Event() onMapDrag: EventEmitter;
@@ -213,9 +213,25 @@ export class OnekeySdkMap {
 
   getIcon = (
     colorStyle = '--onekeysdk-color-marker', 
-    isCurrent: boolean = false
+    isCurrent: boolean = false,
+    clusterNumber: number = 1
   ) => {
     const markerColor = getComputedStyle(document.querySelector('onekey-sdk').shadowRoot.host).getPropertyValue(colorStyle);
+
+    if (clusterNumber > 1) {
+      const icon = L.divIcon({
+          className: 'oksdk-cluster-icon',
+          html: [
+            `<div style="background-color:${markerColor};" class="oksdk-cluster-icon__marker-pin"></div>`,
+            `<span class="oksdk-cluster-icon__number">${clusterNumber}</span>`
+          ].join(''),
+          iconSize: [30, 42],
+          iconAnchor: [15, 42] // half of width, height
+      });
+
+      return icon
+    }
+
 
     const icon = L.icon({
       iconUrl: isCurrent ? this.generateIconMeURL() : this.generateIconURL(markerColor),
@@ -225,8 +241,11 @@ export class OnekeySdkMap {
   };
 
   private onSelectedMarker = marker => {
-    this.markerClick.emit(marker);
+    this.onMarkerClick.emit(marker);
     this.updateMarkerIcon(marker.target);
+  };
+  private onSelectedGroupMarker = marker => {
+    this.onMarkerClick.emit(marker);
   };
 
   private toggleMarkerIcon = (marker, status) => {
@@ -274,6 +293,76 @@ export class OnekeySdkMap {
     }
     this.removePreviousMarkersIcon();
 
+    // const markers = this.generateSeperateMarkers();
+    const markers = this.generateGroupsMarkers();
+
+    if (this.isForcedZoomToMe && searchMapStore.isGrantedGeoloc) {
+      this.map.setView([
+        searchMapStore.state.geoLocation.latitude,
+        searchMapStore.state.geoLocation.longitude,
+      ], 10);
+    } else if (this.locations.length > 1) {
+      this.recalculateBoundView();
+    }
+
+    this.markers = [...markers];
+  };
+
+  generateGroupsMarkers() {
+    const markers = [];
+
+    // Handle for me location
+    this.locations
+      .filter(l => l.isMeLocation)
+      .forEach(({ lat, lng, isMeLocation }) => {
+        const meMarker = L
+          .marker(
+            [ lat, lng ], 
+            { icon: this.getIcon(undefined, isMeLocation) }
+          )
+          .addTo(this.map);
+        meMarker.on('click', this.onSelectedMarker);
+        markers.push(meMarker);
+      });
+
+    // Handle for HCP locations
+    const hashFrequencyLocation = this.locations
+      .filter(l => !l.isMeLocation)
+      .reduce((acc, location) => {
+        const { lat, lng } = location;
+        const groupKey = `[${lat},${lng}]`;
+        const frequencyLocation = acc[groupKey] || {};
+        const dataId = frequencyLocation.dataId || [];
+
+        return {
+          ...acc,
+          [groupKey]: {
+            lat, 
+            lng,
+            dataId: [...dataId, location.id],
+          }
+        }
+      }, {});
+
+    for(const groupKey in hashFrequencyLocation) {
+      const groupLocation = hashFrequencyLocation[groupKey];
+      const { lat, lng, dataId } = groupLocation;
+      const isMeLocation = false;
+      const clusterNumber = dataId.length;
+      const meMarker = L
+          .marker(
+            [ lat, lng ], 
+            { icon: this.getIcon(undefined, isMeLocation, clusterNumber) }
+          )
+          .addTo(this.map);
+        meMarker.on('click', this.onSelectedGroupMarker);
+        markers.push(meMarker);
+    }
+
+    return markers;
+  }
+
+  generateSeperateMarkers() {
     const markers = [];
 
     for (let i = 0; i < this.locations.length; i++) {
@@ -288,17 +377,8 @@ export class OnekeySdkMap {
       markers.push(marker);
     }
 
-    if (this.isForcedZoomToMe && searchMapStore.isGrantedGeoloc) {
-      this.map.setView([
-        searchMapStore.state.geoLocation.latitude,
-        searchMapStore.state.geoLocation.longitude,
-      ], 10);
-    } else if (this.locations.length > 1) {
-      this.recalculateBoundView();
-    }
-
-    this.markers = [...markers];
-  };
+    return markers;
+  }
 
   recalculateBoundView = () => {
     const points = this.getPoints();
