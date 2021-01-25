@@ -71,6 +71,23 @@ export class OnekeySdkHCPFullCard {
     }
   }
 
+  handleClickSuggestEdit() {
+    const { individualDetail } = searchMapStore.state;
+
+    if (!individualDetail) {
+      return;
+    }
+
+    // Demo
+    const hcpId = individualDetail.id
+    const apiKey = configStore.state.apiKey;
+
+    const linkEl = document.createElement('a');
+    linkEl.href = `https://onekeysdk.ekinoffy.com/en/suggest-modification?apiKey=${apiKey}&id=${hcpId}`;
+    linkEl.target = "_blank";
+    linkEl.click();
+  }
+
   render() {
     const confirmYesClass = cls('info-contact-item', {
       'confirm-yes': this.confirm === true,
@@ -274,9 +291,9 @@ export class OnekeySdkHCPFullCard {
                 </div>
 
                 <div class="info-section-body">
-                  <span>Lorem ipsum dolor sit amet, consectetur adipis elit. Vivamus pretium auctor accumsan.</span>
+                  <span>{t('improve_quality_text')}</span>
 
-                  <onekey-sdk-button isFull class="oksdk-btn-suggest-edit">
+                  <onekey-sdk-button isFull class="oksdk-btn-suggest-edit" onClick={this.handleClickSuggestEdit}>
                     <onekey-sdk-icon name="edit" color={getCssColor('--onekeysdk-color-secondary')} />
                     <span>{t('suggess_modification_button')}</span>
                   </onekey-sdk-button>

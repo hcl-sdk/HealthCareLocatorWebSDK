@@ -127,9 +127,13 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
 
   // Using mock data to CA Address, will remove later
   setGeoLocation({ 
-    latitude = 43.8238936,
-    longitude = -80.0063414
+    latitude = 0,
+    longitude = 0,
   } = {}) {
+
+    // Mock with normal data
+    latitude = 43.8238936;
+    longitude = -80.0063414;
 
     this.setState({
       geoLocation: {

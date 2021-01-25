@@ -751,8 +751,8 @@ declare namespace LocalJSX {
         "modeView"?: ModeViewType;
         "noCurrentLocation"?: boolean;
         "onMapClicked"?: (event: CustomEvent<any>) => void;
-        "onMarkerClick"?: (event: CustomEvent<any>) => void;
         "onOnMapDrag"?: (event: CustomEvent<any>) => void;
+        "onOnMarkerClick"?: (event: CustomEvent<any>) => void;
         "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;
         "zoomControl"?: boolean;

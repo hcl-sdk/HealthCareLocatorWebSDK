@@ -24,7 +24,7 @@ export function genSearchLocationParams({
         lon: Number(locationFilter.lng),
       };
     }
-  } else if (forceNearMe){
+  } else if (forceNearMe) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
@@ -38,20 +38,20 @@ export function genSearchLocationParams({
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
   const { locationFilter, specialtyFilter } = searchMapStore.state;
-  
+
   const params = genSearchLocationParams({
     forceNearMe,
     locationFilter,
     specialtyFilter
   });
-  
+
   searchLocation(params);
 }
 
 export async function searchLocation(variables, hasLoading: boolean = true) {
-  searchMapStore.setState({ 
-    individualDetail: null, 
-    loadingActivities: hasLoading 
+  searchMapStore.setState({
+    individualDetail: null,
+    loadingActivities: hasLoading
   });
 
   const { activities } = await graphql.activities({
@@ -74,18 +74,18 @@ export async function searchLocation(variables, hasLoading: boolean = true) {
     id: item.activity.id
   }))
 
-  searchMapStore.setState({ 
-    specialties: data, 
-    specialtiesRaw: data, 
-    searchDoctor: [], 
-    selectedActivity: null, 
-    individualDetail: null, 
-    loadingActivities: false 
+  searchMapStore.setState({
+    specialties: data,
+    specialtiesRaw: data,
+    searchDoctor: [],
+    selectedActivity: null,
+    individualDetail: null,
+    loadingActivities: false
   });
 }
 
 export async function searchDoctor(variables) {
-  if(variables.criteria.length < 3) {
+  if (variables.criteria.length < 3) {
     return null;
   }
   searchMapStore.setState({ loading: true });
@@ -100,14 +100,14 @@ export async function searchDoctor(variables) {
         first: 5,
         offset: 0,
         ...variables,
-      }, configStore.configGraphql),
+      }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } })),
       graphql.codesByLabel({
         first: 5,
         offset: 0,
         codeTypes: ["SP"],
         locale: i18nStore.state.lang,
         ...variables,
-      }, configStore.configGraphql)
+      }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
     ]
   )
 
@@ -134,7 +134,7 @@ export async function searchDoctor(variables) {
 
 
 export async function getFullCardDetail({ activityId, activityName }, keyLoading = 'loadingIndividualDetail') {
-  searchMapStore.setState({ 
+  searchMapStore.setState({
     individualDetailName: activityName,
     [keyLoading]: true
   });
@@ -176,7 +176,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
   historyStore.addItem('hcp', historyItem);
 
 
-  searchMapStore.setState({ 
+  searchMapStore.setState({
     individualDetail: data,
     individualDetailName: '',
     [keyLoading]: false
