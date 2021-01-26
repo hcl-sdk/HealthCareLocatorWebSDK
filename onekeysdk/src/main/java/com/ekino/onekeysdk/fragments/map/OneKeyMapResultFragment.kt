@@ -61,10 +61,12 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         rvLocations.postDelay({
             getRunningMapFragment()?.drawMarkerOnMap(activities, false,
                     getAbsFragment()?.isNearMe() ?: false)
-            getRunningMapFragment()?.onMarkerSelectionChanged = { id ->
-                val selectedPosition = activities.indexOfFirst { it.id == id }
-                if (selectedPosition >= 0) {
-                    rvLocations.smoothScrollToPosition(selectedPosition)
+            getRunningMapFragment()?.onMarkerSelectionChanged = { ids ->
+                val selectedPosition = activities.getIndexes {
+                    ids.indexOf(it.id)>=0
+                }
+                if (selectedPosition.isNotEmpty()) {
+                    rvLocations.smoothScrollToPosition(selectedPosition.first())
                     searchAdapter.setSelectedPosition(selectedPosition)
                 }
             }

@@ -17,7 +17,8 @@ class ActivityObject(@SerializedName("id") var id: String = "",
                      @SerializedName("individual") var individual: ActivityIndividualObject? = null,
                      @SerializedName("distance") var distance: Double = 0.0,
                      @SerializedName("createdAt") var createdAt: Long = System.currentTimeMillis(),
-                     @SerializedName("createdDate") var createdDate: String = "") : Parcelable, Cloneable {
+                     @SerializedName("createdDate") var createdDate: String = "",
+                     var selected: Boolean = false) : Parcelable, Cloneable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",

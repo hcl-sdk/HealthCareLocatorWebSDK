@@ -41,15 +41,22 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 setOnClickListener {
                     onHCPCardClickedListener(data)
                 }
-                if (selectedPosition == position)
+                if (data.selected)
                     setBackgroundWithCorner(Color.WHITE, themeConfig.colorMarkerSelected.getColor(), 12f, 8)
                 else setBackgroundWithCorner(Color.WHITE, themeConfig.colorCardBorder.getColor(), 12f, 3)
             }
         }
     }
 
-    fun setSelectedPosition(selectedPosition: Int) {
-        this.selectedPosition = selectedPosition
+    fun setSelectedPosition(indexes: ArrayList<Int>) {
+        reset()
+        indexes.forEach { index ->
+            getData()[index].selected = true
+        }
         notifyDataSetChanged()
+    }
+
+    private fun reset() {
+        getData().map { it.selected = false }
     }
 }

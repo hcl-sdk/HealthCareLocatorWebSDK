@@ -1,7 +1,10 @@
 query getProfile($id: ID!) {
     individualByID( id:$id) {
         id
-        title
+        title{
+            code
+            label
+        }
         firstName
         lastName
         mailingName
