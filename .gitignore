@@ -27,6 +27,7 @@ UserInterfaceState.xcuserstate
 
 examples/web/cdn/onekey-sdk
 examples/web/cdn/devtools
+examples/web/cdn/onekey-sdk-api
 
 packages/*/onekey-sdk-core
 packages/*/onekey-sdk-web-ui

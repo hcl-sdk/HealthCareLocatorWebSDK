@@ -10,6 +10,8 @@ build_n_deploy:
   script:
     - yarn
     - yarn build-example-web
+    - yarn build-api
+    - cp -R ./packages/onekey-sdk-api/dist/onekey-sdk-api ./examples/web/cdn
     - tar czf ./onekey-sdk-web_build.tar.gz ./examples/web/cdn
     - mkdir -p ~/.ssh/
     - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa

@@ -18,12 +18,19 @@ const QUERY_INDIVIDUAL_BY_ID = gql`
         label
       }
       mailingName
-      title
+      title {
+        code
+        label
+      }
       professionalType {
         label
       }
       webAddress
       mainActivity {
+        title {
+          code
+          label
+        }
         workplace {
           name
           localPhone

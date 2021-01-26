@@ -145,6 +145,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
 
   const data = {
     id: activityId,
+    individualId: activity.individual.id,
     name: activity.individual.mailingName,
     firstName: activity.individual.firstName,
     lastName: activity.individual.lastName,
@@ -162,6 +163,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     fax: activity.fax,
     lat: activity.workplace.address.location.lat,
     lng: activity.workplace.address.location.lon,
+
     activitiesList: getMergeMainAndOtherActivities(activity.individual.mainActivity, activity.individual.otherActivities)
   }
 

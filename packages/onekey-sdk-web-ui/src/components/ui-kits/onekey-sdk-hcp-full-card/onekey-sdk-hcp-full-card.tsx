@@ -79,11 +79,11 @@ export class OnekeySdkHCPFullCard {
     }
 
     // Demo
-    const hcpId = individualDetail.id
+    const individualId = individualDetail.individualId
     const apiKey = configStore.state.apiKey;
 
     const linkEl = document.createElement('a');
-    linkEl.href = `https://onekeysdk.ekinoffy.com/en/suggest-modification?apiKey=${apiKey}&id=${hcpId}`;
+    linkEl.href = `https://onekeysdk.ekinoffy.com/en/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
     linkEl.target = "_blank";
     linkEl.click();
   }
