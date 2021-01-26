@@ -2,11 +2,10 @@ package com.ekino.onekeysdk.viewmodel.map
 
 import android.content.Context
 import base.viewmodel.AppViewModel
-import com.ekino.onekeysdk.extensions.getDistanceFromLatLonInKm
-import com.ekino.onekeysdk.extensions.getReflection
-import com.ekino.onekeysdk.extensions.getScreenWidth
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
+import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyMarker
 import com.ekino.onekeysdk.model.map.compareByDistance
 import com.ekino.onekeysdk.service.location.LocationClient
@@ -172,5 +171,27 @@ class OneKeyMapViewModel : AppViewModel<MapFragment>() {
                     }, { OneKeyLog.e("Error:: ${it.localizedMessage}") })
             )
         }, {}, {})
+    }
+
+    fun groupLocations(activities: ArrayList<ActivityObject>,
+                       callback: (map: HashMap<String, ArrayList<ActivityObject>>) -> Unit) {
+        disposable?.add(Flowable.just(activities)
+                .map { list ->
+                    val map = hashMapOf<String, ArrayList<ActivityObject>>()
+                    list.forEach { activity ->
+                        val location = activity.workplace?.address?.location
+                        if (location.isNotNullable()) {
+                            val obj = map[location!!.getLocationByString()]
+                            if (obj.isNullable()) map[location.getLocationByString()] = arrayListOf(activity)
+                            else {
+                                obj!!.add(activity)
+                                map[location.getLocationByString()] = obj
+                            }
+                        }
+                    }
+                    map
+                }
+                .compose(compose())
+                .subscribe({callback(it)}, {callback(hashMapOf())}))
     }
 }

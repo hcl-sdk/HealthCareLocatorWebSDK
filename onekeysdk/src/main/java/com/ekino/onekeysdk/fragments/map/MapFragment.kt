@@ -60,7 +60,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private var boundingBox: Boolean = false
     var onMapListener: MapListener? = null
 
-    var onMarkerSelectionChanged: (id: String) -> Unit = {}
+    var onMarkerSelectionChanged: (ids: ArrayList<String>) -> Unit = {}
     private var lastItemSelected: com.google.android.gms.maps.model.Marker? = null
 
     // ===========================================================
@@ -88,6 +88,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private var mCopyrightOverlay: CopyrightOverlay? = null
     private lateinit var selectedIcon: Drawable
     private var locationProvider: GpsMyLocationProvider? = null
+    private var groupMap = hashMapOf<String, ArrayList<ActivityObject>>()
 
     /**
      * Variables for google map
@@ -223,7 +224,20 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             return true
         marker?.let {
             validateMarker(marker)
-            onMarkerSelectionChanged(marker.id)
+            if (marker is OneKeyMarker && marker.groupSize > 1) {
+                val obj = groupMap[marker.getLocationInString()]
+                if (obj.isNullable())
+                    onMarkerSelectionChanged(arrayListOf(marker.id))
+                else {
+                    val ids = arrayListOf<String>()
+                    obj!!.forEach {
+                        ids.add(it.id)
+                    }
+                    onMarkerSelectionChanged(ids)
+                }
+            } else {
+                onMarkerSelectionChanged(arrayListOf(marker.id))
+            }
         }
         return true
     }
@@ -240,34 +254,59 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                         R.drawable.ic_location_on_white_36dp,
                         oneKeyCustomObject.colorMarkerSelected.getColor()
                 )!!
-                activities.forEach { activity ->
-                    val marker = OneKeyMarker(mMapView).apply {
-                        id = activity.id
-                        setOnMarkerClickListener(this@MapFragment)
-                        val location = activity.workplace?.address?.location?.getGeoPoint()
-                                ?: GeoPoint(0.0, 0.0)
-                        position = location
-                        setAnchor(Marker.ANCHOR_CENTER, 1f)
-                        icon = context!!.getDrawableFilledIcon(
-                                R.drawable.baseline_location_on_black_36dp,
-                                oneKeyCustomObject.colorMarker.getColor()
-                        )
-                        title = activity.workplace?.address?.getAddress() ?: ""
+                viewModel.groupLocations(activities) { map ->
+                    if (map.size == 0) return@groupLocations
+                    groupMap = map
+                    map.forEach { obj ->
+                        val list = obj.value
+                        list.forEach {
+                            val marker = OneKeyMarker(mMapView).apply {
+                                id = it.id
+                                setOnMarkerClickListener(this@MapFragment)
+                                val location = it.workplace?.address?.location?.getGeoPoint()
+                                        ?: GeoPoint(0.0, 0.0)
+                                groupSize = list.size
+                                position = location
+                                setAnchor(Marker.ANCHOR_CENTER, 1f)
+                                icon = context!!.getDrawableFilledIcon(
+                                        R.drawable.baseline_location_on_black_36dp,
+                                        oneKeyCustomObject.colorMarker.getColor(), groupSize)
+                                title = it.workplace?.address?.getAddress() ?: ""
+                            }
+                            oneKeyMarkers.add(marker)
+                            mMapView?.overlays?.add(marker)
+                        }
                     }
-                    oneKeyMarkers.add(marker)
-                    mMapView?.overlays?.add(marker)
+                    if (moveCamera && activities.size == 1) {
+                        val position = activities[0].workplace?.address?.location?.getGeoPoint()
+                                ?: GeoPoint(0.0, 0.0)
+                        controller.setCenter(position)
+                        controller.animateTo(position, 15.0, 2000)
+                    }
+                    if (oneKeyMarkers.isEmpty()) return@groupLocations
+                    if (!isNearMe)
+                        viewModel.getOSMBoundLevel(this, oneKeyMarkers)
+                    else viewModel.getOSMBoundNearMeLevel(parentFragment!!.parentFragment!!::class.java.simpleName,
+                            context, this, oneKeyMarkers)
                 }
-                if (moveCamera && activities.size == 1) {
-                    val position = activities[0].workplace?.address?.location?.getGeoPoint()
-                            ?: GeoPoint(0.0, 0.0)
-                    controller.setCenter(position)
-                    controller.animateTo(position, 15.0, 2000)
-                }
-                if (oneKeyMarkers.isEmpty()) return
-                if (!isNearMe)
-                    viewModel.getOSMBoundLevel(this, oneKeyMarkers)
-                else viewModel.getOSMBoundNearMeLevel(parentFragment!!.parentFragment!!::class.java.simpleName,
-                        context, this, oneKeyMarkers)
+//                activities.forEach { activity ->
+//                    val marker = OneKeyMarker(mMapView).apply {
+//                        id = activity.id
+//                        setOnMarkerClickListener(this@MapFragment)
+//                        val location = activity.workplace?.address?.location?.getGeoPoint()
+//                                ?: GeoPoint(0.0, 0.0)
+//                        position = location
+//                        setAnchor(Marker.ANCHOR_CENTER, 1f)
+//                        icon = context!!.getDrawableFilledIcon(
+//                                R.drawable.baseline_location_on_black_36dp,
+//                                oneKeyCustomObject.colorMarker.getColor()
+//                        )
+//                        title = activity.workplace?.address?.getAddress() ?: ""
+//                    }
+//                    oneKeyMarkers.add(marker)
+//                    mMapView?.overlays?.add(marker)
+//                }
+
             }
         } else {
             this.activities = activities
@@ -359,6 +398,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     }
 
     private fun validateMarker(marker: Marker) {
+        marker.id
         if (mMapView == null) return
         mMapView?.controller?.apply {
             setCenter(marker.position)
@@ -369,7 +409,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
                     oneKeyMarker.icon = context!!.getDrawableFilledIcon(
                             R.drawable.baseline_location_on_black_36dp,
-                            oneKeyCustomObject.colorMarker.getColor())
+                            oneKeyCustomObject.colorMarker.getColor(), oneKeyMarker.groupSize)
                     oneKeyMarker.selected = false
                     if (lastIndexOfOverLay >= 0) {
                         mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
@@ -382,7 +422,9 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         if (indexOfOverLay in 0 until mMapView!!.overlays.size) {
             if (index >= 0) {
                 (marker as? OneKeyMarker)?.apply {
-                    marker.icon = selectedIcon
+                    marker.icon = context!!.getDrawableFilledIcon(
+                            R.drawable.ic_location_on_white_36dp,
+                            oneKeyCustomObject.colorMarkerSelected.getColor(), marker.groupSize)
                     selected = true
                     oneKeyMarkers[index] = this
                 }
@@ -451,7 +493,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             }
             lastItemSelected = marker
             lastItemSelected?.setIcon(selectedMarkerBitMap)
-            onMarkerSelectionChanged((marker.tag as? String) ?: "")
+            onMarkerSelectionChanged(arrayListOf((marker.tag as? String) ?: ""))
         }
         return false
     }

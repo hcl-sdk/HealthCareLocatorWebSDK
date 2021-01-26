@@ -55,9 +55,9 @@ class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
 
     fun getNearMeHCP(currentLocation: Location, callback: () -> Unit) {
         if (lockState) return
-
-        currentLocation.latitude = fakeInToronto[0]
-        currentLocation.longitude = fakeInToronto[1]
+//
+//        currentLocation.latitude = fakeInToronto[0]
+//        currentLocation.longitude = fakeInToronto[1]
         lockState = true
         loading.postValue(true)
         query({

@@ -149,3 +149,12 @@ fun SharedPreferences.storeVote(gson: Gson = Gson(), id: String, vote: Int) {
  */
 fun <T> List<T>.toArrayList() = ArrayList(this)
 fun Array<Double>.getLocation(): String = "${this[0]},${this[1]}"
+fun <T> ArrayList<T>.getIndexes(condition: (t: T) -> Boolean): ArrayList<Int> {
+    val indexes = arrayListOf<Int>()
+    forEachIndexed { index, t ->
+        if (condition(t)) {
+            indexes.add(index)
+        }
+    }
+    return indexes
+}
