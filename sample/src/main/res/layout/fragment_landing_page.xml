@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <ImageView
@@ -20,4 +21,23 @@
         android:padding="@dimen/default_padding"
         android:visibility="gone"
         android:text="My favorite Near Me Search" />
+
+    <TextView
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_larger"
+        android:background="@drawable/bg_gray_light_button"
+        android:padding="@dimen/default_padding"
+        android:visibility="visible"
+        android:text="Get Label without UI" />
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_larger"
+        android:padding="@dimen/default_padding"
+        android:visibility="visible"
+        android:text="" />
 </LinearLayout>

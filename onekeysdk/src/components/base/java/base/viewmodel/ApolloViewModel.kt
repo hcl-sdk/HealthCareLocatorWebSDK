@@ -45,12 +45,12 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
     protected fun <D : Operation.Data, T, V : Operation.Variables, K>
             rxQuery(query: () -> Query<D, T, V>, map: (response: Response<T>) -> K,
                     onSuccess: (data: K) -> Unit, onError: (e: Throwable) -> Unit) {
-        Rx2Apollo.from(ApolloConnector.getInstance().getApolloClient().query(query()))
+        disposable?.add(Rx2Apollo.from(ApolloConnector.getInstance().getApolloClient().query(query()))
                 .map { map(it) }.compose(composeObservable()).subscribe({
                     onSuccess(it)
                 }, {
                     onError(it)
-                })
+                }))
     }
 
     fun storeConsultedProfile(pref: SharedPreferences, activity: ActivityObject) {
@@ -81,5 +81,4 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                 .compose(compose())
                 .subscribe({}, {}))
     }
-    protected val fakeInToronto:Array<Double> = arrayOf(45.4231, -75.7340)
 }

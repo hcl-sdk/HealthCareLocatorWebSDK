@@ -37,8 +37,6 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     }
 
     fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?) {
-        place?.latitude = "${fakeInToronto[0]}"
-        place?.longitude = "${fakeInToronto[1]}"
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder()

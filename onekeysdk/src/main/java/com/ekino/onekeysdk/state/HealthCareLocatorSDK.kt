@@ -81,7 +81,7 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
                 activity!!.changeLocale(config.locale)
                 activity.pushFragment(
                         containerId, OneKeyNearMeFragment.newInstance(config, "", null,
-                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.onekey_sdk_near_me)),
+                        OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.hcl_near_me)),
                         config.specialities), true)
             }
 //            ScreenReference.HOME_FULL -> activity!!.addFragment(containerId, OneKeyHomeFullFragment.newInstance(), true)
@@ -94,5 +94,9 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
             throw OneKeyException(ErrorReference.ACTIVITY_INVALID,
                     "The provided Activity must NOT be nullable.")
         activity!!.startActivity(Intent(activity, OneKeyActivity::class.java))
+    }
+
+    override fun getServices(): HealthCareLocatorService {
+        return HealthCareLocatorService.getInstance()
     }
 }

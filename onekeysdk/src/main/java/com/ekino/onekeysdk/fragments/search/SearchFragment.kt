@@ -202,7 +202,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                                 OneKeyNearMeFragment.newInstance(healthCareLocatorCustomObject, "", null,
                                         OneKeyPlace(placeId = "near_me", latitude = "${currentLocation!!.latitude}",
                                                 longitude = "${currentLocation!!.longitude}",
-                                                displayName = getString(R.string.onekey_sdk_near_me)),
+                                                displayName = getString(R.string.hcl_near_me)),
                                         arrayListOf(), currentLocation), true)
                     } else
                         (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
@@ -250,7 +250,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private fun setNearMeText() {
         currentLocation?.apply {
             selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
-                    longitude = "$longitude", displayName = getString(R.string.onekey_sdk_near_me))
+                    longitude = "$longitude", displayName = getString(R.string.hcl_near_me))
             edtWhere.setText(selectedPlace?.displayName ?: "")
         }
     }

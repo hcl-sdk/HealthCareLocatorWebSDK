@@ -36,7 +36,7 @@ class OneKeyActivity : AppActivity<ActivityOneKeySdkBinding>(R.layout.activity_o
                             "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 this.changeLocale(config.locale)
                 OneKeyNearMeFragment.newInstance(config, "", null,
-                        OneKeyPlace(placeId = "near_me", displayName = getString(R.string.onekey_sdk_near_me)),
+                        OneKeyPlace(placeId = "near_me", displayName = getString(R.string.hcl_near_me)),
                         config.specialities)
             }
             ScreenReference.HOME_FULL -> OneKeyHomeFragment.newInstance()

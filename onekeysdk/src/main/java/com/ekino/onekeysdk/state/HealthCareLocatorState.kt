@@ -2,6 +2,7 @@ package com.ekino.onekeysdk.state
 
 import androidx.appcompat.app.AppCompatActivity
 import com.ekino.onekeysdk.error.OneKeyException
+import com.ekino.onekeysdk.model.config.HCLQueryObject
 import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 
 interface HealthCareLocatorState {
@@ -25,4 +26,9 @@ interface HealthCareLocatorState {
 
     @Throws(OneKeyException::class)
     fun startSDKActivity(activity: AppCompatActivity?)
+
+    /**
+     * get data from services without UI
+     */
+    fun getServices(): HealthCareLocatorService
 }

@@ -34,9 +34,9 @@ class OneKeySortFragment : AppFragment<OneKeySortFragment, OneKeySortViewModel>(
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         sortList.clear()
-        sortList.addAll(arrayListOf(OneKeySortObject("0", getString(R.string.onekey_sdk_relevance_item)),
-                OneKeySortObject("1", getString(R.string.onekey_sdk_distance_item)),
-                OneKeySortObject("2", getString(R.string.onekey_sdk_name_item))))
+        sortList.addAll(arrayListOf(OneKeySortObject("0", getString(R.string.hcl_relevance_item)),
+                OneKeySortObject("1", getString(R.string.hcl_distance_item)),
+                OneKeySortObject("2", getString(R.string.hcl_name_item))))
         var sort = sortList
 
         if (savedInstanceState != null) {

@@ -37,6 +37,10 @@ class OneKeySpecialityObject(@SerializedName("id") var id: String = "",
         }
     }
 
+    override fun toString(): String {
+        return longLbl
+    }
+
     /**
      * Convert data from GraphQL
      */

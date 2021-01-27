@@ -57,12 +57,12 @@ inline fun <reified T : Enum<T>> TypedArray.getEnum(index: Int, default: T) =
  */
 fun getHomeDummy(context: Context, icon1: Int = R.drawable.baseline_search_white_24dp, icon2: Int = R.drawable.icon_profile,
                  icon3: Int = R.drawable.baseline_share_black_36dp): ArrayList<OneKeyHomeObject> = arrayListOf<OneKeyHomeObject>().apply {
-    add(OneKeyHomeObject("0", context.getString(R.string.onekey_sdk_home_feat_find_hcp_title),
-            context.getString(R.string.onekey_sdk_home_feat_find_hcp_text), icon1))
-    add(OneKeyHomeObject("1", context.getString(R.string.onekey_sdk_home_feat_consult_profile_title),
-            context.getString(R.string.onekey_sdk_home_feat_consult_profile_text), icon2))
-    add(OneKeyHomeObject("0", context.getString(R.string.onekey_sdk_home_feat_request_info_update_title),
-            context.getString(R.string.onekey_sdk_home_feat_request_info_update_text), icon3))
+    add(OneKeyHomeObject("0", context.getString(R.string.hcl_home_feat_find_hcp_title),
+            context.getString(R.string.hcl_home_feat_find_hcp_text), icon1))
+    add(OneKeyHomeObject("1", context.getString(R.string.hcl_home_feat_consult_profile_title),
+            context.getString(R.string.hcl_home_feat_consult_profile_text), icon2))
+    add(OneKeyHomeObject("0", context.getString(R.string.hcl_home_feat_request_info_update_title),
+            context.getString(R.string.hcl_home_feat_request_info_update_text), icon3))
 }
 
 /**

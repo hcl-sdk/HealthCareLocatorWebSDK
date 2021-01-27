@@ -176,7 +176,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
                             OneKeyNearMeFragment.newInstance(healthCareLocatorCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
-                                            longitude = "${it.longitude}", displayName = getString(R.string.onekey_sdk_near_me)),
+                                            longitude = "${it.longitude}", displayName = getString(R.string.hcl_near_me)),
                                     arrayListOf(), currentLocation), true)
                 }
             }
@@ -249,7 +249,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     }
 
     private fun getViewTagText(tag: Int): String = if (tag == 0)
-        getString(R.string.onekey_sdk_view_more) else getString(R.string.onekey_sdk_view_less)
+        getString(R.string.hcl_view_more) else getString(R.string.hcl_view_less)
 
     private fun checkViewMoreConsulted(size: Int, view: View) {
         view.visibility = (size > 3).getVisibility()

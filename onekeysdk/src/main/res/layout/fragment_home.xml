@@ -32,7 +32,7 @@
                 android:layout_marginTop="@dimen/default_padding_bigger"
                 android:layout_marginEnd="@dimen/default_padding_bigger"
                 android:gravity="center"
-                android:text="@string/one_key_home_title"
+                android:text="@string/hcl_home_title"
                 android:textColor="@color/colorOneKeyBlue"
                 android:textSize="@dimen/default_text_large"
                 app:OneKeyTextStyle="OneKeyStyleTitleMain" />
@@ -60,7 +60,7 @@
                 android:background="@drawable/bg_main_button_corner"
                 android:gravity="center"
                 android:padding="@dimen/default_padding_small"
-                android:text="@string/onekey_sdk_start_new_search"
+                android:text="@string/hcl_start_new_search"
                 android:textColor="@color/white"
                 android:textSize="@dimen/default_text_big"
                 app:OneKeyTextStyle="OneKeyStyleButton" />

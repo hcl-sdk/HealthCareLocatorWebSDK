@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/onekey_sdk_sort_label"
+            android:text="@string/hcl_sort_label"
             android:textSize="@dimen/default_text_big"
             app:OneKeyTextColor="OneKeyColorPrimary"
             app:OneKeyTextStyle="OneKeyStyleModalTitle" />
@@ -70,7 +70,7 @@
                 android:background="@color/gray"
                 android:gravity="center"
                 android:padding="@dimen/default_padding_smaller"
-                android:text="@string/onekey_sdk_reset_button"
+                android:text="@string/hcl_reset_button"
                 android:textColor="@color/white"
                 app:OneKeyTextStyle="OneKeyStyleButton" />
 
@@ -83,7 +83,7 @@
                 android:background="@color/gray"
                 android:gravity="center"
                 android:padding="@dimen/default_padding_smaller"
-                android:text="@string/onekey_sdk_apply_button"
+                android:text="@string/hcl_apply_button"
                 android:textColor="@color/white"
                 app:OneKeyTextStyle="OneKeyStyleButton" />
         </LinearLayout>
