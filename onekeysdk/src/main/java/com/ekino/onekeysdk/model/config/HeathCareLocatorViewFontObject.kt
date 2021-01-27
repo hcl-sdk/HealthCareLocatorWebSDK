@@ -10,7 +10,7 @@ import android.os.Parcelable
  * @param fontName is font family path from assets folder.
  * @param size is font size to make the text small or big.
  */
-data class OneKeyViewFontObject
+data class HeathCareLocatorViewFontObject
 private constructor(var id: String = "default", var fontName: String = "fonts/Roboto-Regular.ttf",
                     var size: Int = 14, var title: String = "Default", var weight: Int = Typeface.NORMAL) : Parcelable {
 
@@ -38,15 +38,15 @@ private constructor(var id: String = "default", var fontName: String = "fonts/Ro
         fun title(title: String) = apply { this.title = title }
         fun weight(weight: Int) = apply { this.weight = weight }
 
-        fun build() = OneKeyViewFontObject(id, fontName, size, title, weight)
+        fun build() = HeathCareLocatorViewFontObject(id, fontName, size, title, weight)
     }
 
-    companion object CREATOR : Parcelable.Creator<OneKeyViewFontObject> {
-        override fun createFromParcel(parcel: Parcel): OneKeyViewFontObject {
-            return OneKeyViewFontObject(parcel)
+    companion object CREATOR : Parcelable.Creator<HeathCareLocatorViewFontObject> {
+        override fun createFromParcel(parcel: Parcel): HeathCareLocatorViewFontObject {
+            return HeathCareLocatorViewFontObject(parcel)
         }
 
-        override fun newArray(size: Int): Array<OneKeyViewFontObject?> {
+        override fun newArray(size: Int): Array<HeathCareLocatorViewFontObject?> {
             return arrayOfNulls(size)
         }
     }

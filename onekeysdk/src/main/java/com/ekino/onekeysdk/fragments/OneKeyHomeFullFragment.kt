@@ -20,9 +20,9 @@ import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.viewmodel.home.OneKeyHomFullViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_home_full.*
 import org.osmdroid.util.GeoPoint
@@ -43,11 +43,11 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
     private var consultedTag = 0
 
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
-    private val mapFragment by lazy { MapFragment.newInstance(oneKeyCustomObject, arrayListOf()) }
+    private val mapFragment by lazy { MapFragment.newInstance(healthCareLocatorCustomObject, arrayListOf()) }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
-    private val lastSearchAdapter by lazy { LastSearchAdapter(oneKeyCustomObject) }
-    private val lastConsultedAdapter by lazy { LastConsultedAdapter(oneKeyCustomObject) }
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject = HealthCareLocatorSDK.getInstance().getConfiguration()
+    private val lastSearchAdapter by lazy { LastSearchAdapter(healthCareLocatorCustomObject) }
+    private val lastConsultedAdapter by lazy { LastConsultedAdapter(healthCareLocatorCustomObject) }
 
     override val viewModel = OneKeyHomFullViewModel()
 
@@ -91,7 +91,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         viewMoreSearches.text = getViewTagText(searchTag)
         viewMoreConsulted.text = getViewTagText(consultedTag)
 
-        oneKeyCustomObject.also {
+        healthCareLocatorCustomObject.also {
             nearMeWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastSearchWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
             lastConsultedWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
@@ -174,7 +174,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             R.id.mapOverlay -> {
                 currentLocation?.also {
                     (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                            OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
+                            OneKeyNearMeFragment.newInstance(healthCareLocatorCustomObject, "", null,
                                     OneKeyPlace(placeId = "near_me", latitude = "${it.latitude}",
                                             longitude = "${it.longitude}", displayName = getString(R.string.onekey_sdk_near_me)),
                                     arrayListOf(), currentLocation), true)
@@ -204,7 +204,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         }
         lastSearchAdapter.onItemClickedListener = { obj ->
             (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
-                    FullMapFragment.newInstance(oneKeyCustomObject,
+                    FullMapFragment.newInstance(healthCareLocatorCustomObject,
                             obj.speciality?.longLbl ?: "", obj.speciality, obj.place), true
             )
         }
@@ -223,7 +223,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             }
         }
         lastConsultedAdapter.onItemClickedListener = { obj ->
-            oneKeyCustomObject.also {
+            healthCareLocatorCustomObject.also {
                 (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                         OneKeyProfileFragment.newInstance(it, null, obj.id), true)
             }

@@ -7,10 +7,10 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.custom.IOneKeyView
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getEnum
-import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
+import com.ekino.onekeysdk.model.config.HeathCareLocatorViewFontObject
 import com.ekino.onekeysdk.utils.FontUtil
 import com.ekino.onekeysdk.utils.OneKeyLog
 
@@ -50,39 +50,39 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
     private fun mapFontForView(textStyle: OneKeyTextView.OneKeyTextStyle, forceTextSize: Boolean = false) {
         when (textStyle) {
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleDefault ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontDefault, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontDefault, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleTitleMain ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontTitleMain, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontTitleMain, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleTitleSecondary ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontTitleSecondary, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontTitleSecondary, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchResultTotal ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontSearchResultTotal, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontSearchResultTotal, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchResultTitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontSearchResultTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontSearchResultTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleResultTitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontResultTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontResultTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleResultSubtitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontResultSubTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontResultSubTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileTitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontProfileTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontProfileTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileSubtitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontProfileSubTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontProfileSubTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleProfileTitleSection ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontProfileTitleSection, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontProfileTitleSection, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleCardTitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontCardTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontCardTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleModalTitle ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontModalTitle, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontModalTitle, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSearchInput ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontSearchInput, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontSearchInput, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleButton ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontButton, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontButton, forceTextSize)
             OneKeyTextView.OneKeyTextStyle.OneKeyStyleSmall ->
-                setFont(OneKeySDK.getInstance().getConfiguration().fontSmall, forceTextSize)
+                setFont(HealthCareLocatorSDK.getInstance().getConfiguration().fontSmall, forceTextSize)
         }
     }
 
-    private fun setFont(font: OneKeyViewFontObject, forceTextSize: Boolean = false) {
+    private fun setFont(font: HeathCareLocatorViewFontObject, forceTextSize: Boolean = false) {
         try {
             var f = font.fontName
             if (TextUtils.isEmpty(f)) {
@@ -101,7 +101,7 @@ class OneKeyEditText : AppCompatEditText, IOneKeyView {
     }
 
     private fun mapTextColor(colorStyle: OneKeyTextView.OneKeyColorStyle) {
-        val theme = OneKeySDK.getInstance().getConfiguration()
+        val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
         when (colorStyle) {
             OneKeyTextView.OneKeyColorStyle.OneKeyColorPrimary -> setTextColor(theme.colorPrimary.getColor())
             OneKeyTextView.OneKeyColorStyle.OneKeyColorSecondary -> setTextColor(theme.colorSecondary.getColor())

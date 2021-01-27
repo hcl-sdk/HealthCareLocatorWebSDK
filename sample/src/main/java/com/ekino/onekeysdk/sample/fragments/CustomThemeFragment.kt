@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.extensions.getColor
-import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
+import com.ekino.onekeysdk.model.config.HeathCareLocatorViewFontObject
 import com.ekino.onekeysdk.sample.SampleApplication
 import com.ekino.onekeysdk.sample.SampleOneKeySDKActivity
 import com.ekino.onekeysdk.sample.adapter.ColorAdapter
@@ -36,45 +36,45 @@ class CustomThemeFragment(
                 CustomThemeFragment(themeObject.clone() as ThemeObject, callback)
     }
 
-    private var fontDefault: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "default", title = "Default").build()
-    private var fontTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "titleMain", title = "Title Main").build()
-    private var fontTitle2: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "titleSecondary", title = "Title Secondary").build()
-    private var fontTitle3: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "searchResultTotal", title = "Search Result Total")
+    private var fontDefault: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "default", title = "Default").build()
+    private var fontTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "titleMain", title = "Title Main").build()
+    private var fontTitle2: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "titleSecondary", title = "Title Secondary").build()
+    private var fontTitle3: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "searchResultTotal", title = "Search Result Total")
                     .build()
-    private var fontButton: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "button", title = "Button").build()
-    private var fontSmall: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "small", title = "Small").build()
-    private var fontSearchInput: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
-    private var fontSearchResultTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontSearchResultTitle", title = "Search Result Title")
+    private var fontButton: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "button", title = "Button").build()
+    private var fontSmall: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "small", title = "Small").build()
+    private var fontSearchInput: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "searchInput", title = "Search Input").build()
+    private var fontSearchResultTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontSearchResultTitle", title = "Search Result Title")
                     .build()
-    private var fontResultTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
-    private var fontResultSubTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
-    private var fontProfileTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
-    private var fontProfileSubTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title")
+    private var fontResultTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontResultTitle", title = "Result Title").build()
+    private var fontResultSubTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontResultSubTitle", title = "Result Sub Title").build()
+    private var fontProfileTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontProfileTitle", title = "Profile Title").build()
+    private var fontProfileSubTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontProfileSubTitle", title = "Profile Sub Title")
                     .build()
-    private var fontProfileTitleSection: OneKeyViewFontObject = OneKeyViewFontObject.Builder(
+    private var fontProfileTitleSection: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(
             id = "fontProfileTitleSection",
             title = "Profile Title Section"
     ).build()
-    private var fontCardTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
-    private var fontModalTitle: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
-    private var fontSortCriteria: OneKeyViewFontObject =
-            OneKeyViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
+    private var fontCardTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontCardTitle", title = "Card Title").build()
+    private var fontModalTitle: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontModalTitle", title = "Modal Title").build()
+    private var fontSortCriteria: HeathCareLocatorViewFontObject =
+            HeathCareLocatorViewFontObject.Builder(id = "fontSortCriteria", title = "Sort Criteria").build()
     private val gson by lazy { Gson() }
-    private val fonts by lazy { arrayListOf<OneKeyViewFontObject>() }
+    private val fonts by lazy { arrayListOf<HeathCareLocatorViewFontObject>() }
     private var colors = arrayListOf<ColorObject>()
     private val colorAdapter by lazy { ColorAdapter() }
     private val fontAdapter by lazy { FontAdapter() }
@@ -248,7 +248,7 @@ class CustomThemeFragment(
         }
     }
 
-    private fun getFontSetting(json: String): OneKeyViewFontObject =
-            gson.fromJson(json, object : TypeToken<OneKeyViewFontObject>() {}.type)
+    private fun getFontSetting(json: String): HeathCareLocatorViewFontObject =
+            gson.fromJson(json, object : TypeToken<HeathCareLocatorViewFontObject>() {}.type)
 
 }

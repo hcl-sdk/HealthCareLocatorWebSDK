@@ -11,39 +11,45 @@ import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.home.OneKeyHomeMainFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 
-class OneKeySDK private constructor() : OneKeyState {
+class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
     private object Instance {
-        val instance: OneKeyState = OneKeySDK()
+        val instance: HealthCareLocatorState = HealthCareLocatorSDK()
     }
 
-    private var config: OneKeyCustomObject = OneKeyCustomObject.Builder().build()
+    private var config: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build()
     private var appName: String = ""
     private var appDownloadLink: String = ""
+    private var apiKey: String = ""
 
     companion object {
         @JvmStatic
-        fun getInstance(): OneKeyState = Instance.instance
+        fun getInstance(): HealthCareLocatorState = Instance.instance
     }
 
-    override fun init(customObject: OneKeyCustomObject) {
+    override fun init(customObject: HealthCareLocatorCustomObject) {
         this.config = customObject
     }
 
-    override fun setAppName(appName: String): OneKeyState {
+    override fun setAppName(appName: String): HealthCareLocatorState {
         this.appName = appName
         return this
     }
 
-    override fun setApiKey(apiKey: String): OneKeyState {
+    override fun setApiKey(apiKey: String): HealthCareLocatorState {
+        this.apiKey = apiKey
         return this
     }
 
-    override fun setAppDownloadLink(downloadLink: String): OneKeyState {
+    override fun setAppDownloadLink(downloadLink: String): HealthCareLocatorState {
         this.appDownloadLink = downloadLink
         return this
+    }
+
+    override fun getApiKey(): String {
+        return apiKey
     }
 
     override fun getAppName(): String {
@@ -54,22 +60,27 @@ class OneKeySDK private constructor() : OneKeyState {
         return appDownloadLink
     }
 
-    override fun getConfiguration(): OneKeyCustomObject = config
+    override fun getConfiguration(): HealthCareLocatorCustomObject = config
 
-    override fun startOneKeySDKFragment(activity: AppCompatActivity?, containerId: Int) {
+    override fun startSDKFragment(activity: AppCompatActivity?, containerId: Int) {
         if (activity.isNullable())
-            throw OneKeyException(ErrorReference.ACTIVITY_INVALID, "The provided Activity must NOT be nullable.")
+            throw OneKeyException(ErrorReference.ACTIVITY_INVALID,
+                    "The provided Activity must NOT be nullable.")
         else if (containerId == 0)
-            throw OneKeyException(ErrorReference.ID_INVALID, "The provided containerId must NOT be 0.")
-        if (config.mapService == MapService.GOOGLE_MAP && activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY").isNullOrEmpty())
-            throw OneKeyException(ErrorReference.DATA_INVALID, "Should provide the map API key for google map service.")
+            throw OneKeyException(ErrorReference.ID_INVALID,
+                    "The provided containerId must NOT be 0.")
+        if (config.mapService == MapService.GOOGLE_MAP &&
+                activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY").isNullOrEmpty())
+            throw OneKeyException(ErrorReference.DATA_INVALID,
+                    "Should provide the map API key for google map service.")
         when (config.screenReference) {
             ScreenReference.SEARCH_NEAR_ME -> {
                 if (config.specialities.isEmpty())
                     throw OneKeyException(ErrorReference.DATA_INVALID,
                             "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 activity!!.changeLocale(config.locale)
-                activity.pushFragment(containerId, OneKeyNearMeFragment.newInstance(config, "", null,
+                activity.pushFragment(
+                        containerId, OneKeyNearMeFragment.newInstance(config, "", null,
                         OneKeyPlace(placeId = "near_me", displayName = activity.getString(R.string.onekey_sdk_near_me)),
                         config.specialities), true)
             }
@@ -78,9 +89,10 @@ class OneKeySDK private constructor() : OneKeyState {
         }
     }
 
-    override fun startOneKeySDKActivity(activity: AppCompatActivity?) {
+    override fun startSDKActivity(activity: AppCompatActivity?) {
         if (activity.isNullable())
-            throw OneKeyException(ErrorReference.ACTIVITY_INVALID, "The provided Activity must NOT be nullable.")
+            throw OneKeyException(ErrorReference.ACTIVITY_INVALID,
+                    "The provided Activity must NOT be nullable.")
         activity!!.startActivity(Intent(activity, OneKeyActivity::class.java))
     }
 }

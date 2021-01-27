@@ -3,7 +3,7 @@ package com.ekino.onekeysdk.custom.progressbar
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ProgressBar
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setColorFilter
 
@@ -21,7 +21,7 @@ class OneKeyProgressBar : ProgressBar {
     }
 
     private fun init(attrs: AttributeSet?) {
-        val theme = OneKeySDK.getInstance().getConfiguration()
+        val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
         indeterminateDrawable.setColorFilter(theme.colorPrimary.getColor())
     }
 }

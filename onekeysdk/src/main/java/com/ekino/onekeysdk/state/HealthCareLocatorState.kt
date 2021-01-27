@@ -2,16 +2,17 @@ package com.ekino.onekeysdk.state
 
 import androidx.appcompat.app.AppCompatActivity
 import com.ekino.onekeysdk.error.OneKeyException
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 
-interface OneKeyState {
-    fun setApiKey(apiKey:String):OneKeyState
-    fun setAppName(appName: String): OneKeyState
+interface HealthCareLocatorState {
+    fun setApiKey(apiKey: String): HealthCareLocatorState
+    fun getApiKey(): String
+    fun setAppName(appName: String): HealthCareLocatorState
     fun getAppName(): String
-    fun setAppDownloadLink(downloadLink: String): OneKeyState
+    fun setAppDownloadLink(downloadLink: String): HealthCareLocatorState
     fun getAppDownloadLink(): String
-    fun init(customObject: OneKeyCustomObject)
-    fun getConfiguration(): OneKeyCustomObject
+    fun init(customObject: HealthCareLocatorCustomObject)
+    fun getConfiguration(): HealthCareLocatorCustomObject
 
     /**
      * startOneKeySDKFragment is used to embed OneKeySDK into your Activity.
@@ -20,8 +21,8 @@ interface OneKeyState {
      * @exception [OneKeyException] if data is invalid.
      */
     @Throws(OneKeyException::class)
-    fun startOneKeySDKFragment(activity: AppCompatActivity?, containerId: Int)
+    fun startSDKFragment(activity: AppCompatActivity?, containerId: Int)
 
     @Throws(OneKeyException::class)
-    fun startOneKeySDKActivity(activity: AppCompatActivity?)
+    fun startSDKActivity(activity: AppCompatActivity?)
 }

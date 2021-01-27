@@ -10,12 +10,12 @@ import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import kotlinx.android.synthetic.main.layout_one_key_last_consulted.view.*
 
-class LastConsultedAdapter(private val theme: OneKeyCustomObject =
-                                   OneKeySDK.getInstance().getConfiguration()) :
+class LastConsultedAdapter(private val theme: HealthCareLocatorCustomObject =
+                                   HealthCareLocatorSDK.getInstance().getConfiguration()) :
         OneKeyAdapter<ActivityObject, LastConsultedAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_consulted)) {
     var onItemRemovedListener: (data: ActivityObject, position: Int) -> Unit = { _, _ -> }
     var onItemClickedListener: (data: ActivityObject) -> Unit = {}

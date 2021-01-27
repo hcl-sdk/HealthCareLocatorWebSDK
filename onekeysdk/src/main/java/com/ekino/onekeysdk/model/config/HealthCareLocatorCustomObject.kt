@@ -25,48 +25,48 @@ import java.util.*
  * @param colorMarker Set marker color in colorId which will show on the map (Must start with #).
  * @param colorMarkerSelected Set selected marker color in colorId which will show on the map (Must start with #).
  * @param fontDefault Set default font size in integer.
- * @param fontSmall Set font size for small level in [OneKeyViewFontObject].
+ * @param fontSmall Set font size for small level in [HeathCareLocatorViewFontObject].
  * @param searchIcon Set search icon in drawableId.
  * @param editIcon Set edit icon in drawableId.
  * @param markerIcon Set marker icon in drawableId.
  */
-data class OneKeyCustomObject private constructor(
+data class HealthCareLocatorCustomObject private constructor(
         val colorPrimary: String = "#43b02a",// Color in hex, must start with #
         val colorSecondary: String = "#00a3e0",
         val textColor: String = "#2d3c4d",
         val colorMarker: String = "#fe8a12",
         val colorMarkerSelected: String = "#fd8670",
-        val fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", size = 14).build(),
-        val fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", size = 14).build(),
+        val fontButton: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "button", size = 14).build(),
+        val fontDefault: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "default", size = 14).build(),
         val searchIcon: Int = R.drawable.baseline_search_white_24dp,
         val editIcon: Int = R.drawable.baseline_edit_white_36dp,
         val markerIcon: Int = R.drawable.baseline_location_on_white_36dp,
-        var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
-        val fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
-        val fontTitleMain: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", size = 20).build(),
-        val fontTitleSecondary: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleSecondary", size = 16, weight = Typeface.BOLD).build(),
-        val fontSearchResultTotal: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTotal", size = 14, weight = Typeface.BOLD).build(),
-        val fontSearchResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTitle", size = 16).build(),
-        val fontResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "resultTitle", size = 14).build(),
-        val fontResultSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "resultSubTitle", size = 14).build(),
-        val fontProfileTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "profileTitle", size = 18).build(),
-        val fontProfileSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "profileSubTitle", size = 16).build(),
-        val fontProfileTitleSection: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "profileTitleSection", size = 16).build(),
-        val fontCardTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "cardTitle", size = 16, weight = Typeface.BOLD).build(),
-        val fontModalTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "modalTitle", size = 18).build(),
-        val fontSortCriteria: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "sortCriteria", size = 16).build(),
+        var fontSearchInput: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "searchInput", size = 16).build(),
+        val fontSmall: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "small", size = 12).build(),
+        val fontTitleMain: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "titleMain", size = 20).build(),
+        val fontTitleSecondary: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "titleSecondary", size = 16, weight = Typeface.BOLD).build(),
+        val fontSearchResultTotal: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "searchResultTotal", size = 14, weight = Typeface.BOLD).build(),
+        val fontSearchResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "searchResultTitle", size = 16).build(),
+        val fontResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "resultTitle", size = 14).build(),
+        val fontResultSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "resultSubTitle", size = 14).build(),
+        val fontProfileTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "profileTitle", size = 18).build(),
+        val fontProfileSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "profileSubTitle", size = 16).build(),
+        val fontProfileTitleSection: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "profileTitleSection", size = 16).build(),
+        val fontCardTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "cardTitle", size = 16, weight = Typeface.BOLD).build(),
+        val fontModalTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "modalTitle", size = 18).build(),
+        val fontSortCriteria: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "sortCriteria", size = 16).build(),
         val colorListBackground: String = "#f8f9fa", val colorDark: String, val colorGrey: String,
         val colorGreyDark: String, val colorGreyDarker: String, val colorGreyLight: String,
         val colorGreyLighter: String, val colorVoteUp: String, val colorVoteDown: String,
         val colorViewBackground: String, val colorCardBorder: String, val colorButtonBorder: String,
         val colorButtonBackground: String, val colorButtonAcceptBackground: String,
-        val colorButtonDiscardBackground: String, val apiKey: String, val locale: String,
+        val colorButtonDiscardBackground: String, val locale: String,
         val specialities: ArrayList<String>, @ScreenReference val screenReference: Int,
         @MapService val mapService: Int, val iconCross: Int, val iconGeoLoc: Int,
         val iconMarkerMin: Int, val iconSort: Int, val iconList: Int, val iconMap: Int,
         val iconArrowRight: Int, val iconMapGeoLoc: Int, val iconPhone: Int, val iconFax: Int,
         val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
-        val iconLocation: Int, val fontNoResultTitle: OneKeyViewFontObject, val fontNoResultDesc: OneKeyViewFontObject) {
+        val iconLocation: Int, val fontNoResultTitle: HeathCareLocatorViewFontObject, val fontNoResultDesc: HeathCareLocatorViewFontObject) {
 
     @Suppress
     data class Builder(
@@ -75,25 +75,25 @@ data class OneKeyCustomObject private constructor(
             var textColor: String = "#2d3c4d",
             var colorMarker: String = "#fe8a12",
             var colorMarkerSelected: String = "#fd8670",
-            var fontButton: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "button", size = 16).build(),
-            var fontDefault: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "default", size = 14).build(),
+            var fontButton: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "button", size = 16).build(),
+            var fontDefault: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "default", size = 14).build(),
             var searchIcon: Int = R.drawable.baseline_search_white_24dp,
             var editIcon: Int = R.drawable.baseline_edit_white_36dp,
             var markerIcon: Int = R.drawable.baseline_location_on_black_36dp,
-            var fontSearchInput: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchInput", size = 16).build(),
-            var fontSmall: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "small", size = 12).build(),
-            var fontTitleMain: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleMain", size = 20).build(),
-            var fontTitleSecondary: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "titleSecondary", size = 16, weight = Typeface.BOLD).build(),
-            var fontSearchResultTotal: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTotal", size = 14, weight = Typeface.BOLD).build(),
-            var fontSearchResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "searchResultTitle", size = 16).build(),
-            var fontResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "resultTitle", size = 14).build(),
-            var fontResultSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "resultSubTitle", size = 14).build(),
-            var fontProfileTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "profileTitle", size = 18).build(),
-            var fontProfileSubTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "profileSubTitle", size = 16).build(),
-            var fontProfileTitleSection: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "profileTitleSection", size = 16).build(),
-            var fontCardTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "cardTitle", size = 16, weight = Typeface.BOLD).build(),
-            var fontModalTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "modalTitle", size = 18).build(),
-            var fontSortCriteria: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "sortCriteria", size = 16).build(),
+            var fontSearchInput: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "searchInput", size = 16).build(),
+            var fontSmall: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "small", size = 12).build(),
+            var fontTitleMain: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "titleMain", size = 20).build(),
+            var fontTitleSecondary: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "titleSecondary", size = 16, weight = Typeface.BOLD).build(),
+            var fontSearchResultTotal: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "searchResultTotal", size = 14, weight = Typeface.BOLD).build(),
+            var fontSearchResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "searchResultTitle", size = 16).build(),
+            var fontResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "resultTitle", size = 14).build(),
+            var fontResultSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "resultSubTitle", size = 14).build(),
+            var fontProfileTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "profileTitle", size = 18).build(),
+            var fontProfileSubTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "profileSubTitle", size = 16).build(),
+            var fontProfileTitleSection: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "profileTitleSection", size = 16).build(),
+            var fontCardTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "cardTitle", size = 16, weight = Typeface.BOLD).build(),
+            var fontModalTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "modalTitle", size = 18).build(),
+            var fontSortCriteria: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "sortCriteria", size = 16).build(),
             var colorListBackground: String = "#f8f9fa",
             var colorGreyLight: String = "#b8b8b8", var colorDark: String = "#2b3c4d",
             var colorGrey: String = "#a1a1a1",
@@ -106,7 +106,6 @@ data class OneKeyCustomObject private constructor(
             var colorButtonBorder: String = "#dedede",
             var colorButtonBackground: String = "#fcfcfc",
             var colorButtonDiscardBackground: String = "#9aa0a7",
-            var apiKey: String = "1",
             var locale: String = "en",
             var specialities: ArrayList<String> = arrayListOf(),
             @ScreenReference var screenReference: Int = ScreenReference.HOME,
@@ -127,19 +126,19 @@ data class OneKeyCustomObject private constructor(
             var iconProfile: Int = R.drawable.icon_profile,
             var iconLocation: Int = R.drawable.outline_location_on_black_36dp,
             var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp,
-            var fontNoResultTitle: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontNoResultTitle", size = 20).build(),
-            var fontNoResultDesc: OneKeyViewFontObject = OneKeyViewFontObject.Builder(id = "fontNoResultDesc", size = 16).build()) {
+            var fontNoResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultTitle", size = 20).build(),
+            var fontNoResultDesc: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultDesc", size = 16).build()) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
         fun textColor(textColor: String) = apply { this.textColor = textColor }
         fun colorMarker(markerColor: String) = apply { this.colorMarker = markerColor }
         fun colorMarkerSelected(markerSelectedColor: String) = apply { this.colorMarkerSelected = markerSelectedColor }
-        fun fontButton(fontButton: OneKeyViewFontObject?) = apply {
+        fun fontButton(fontButton: HeathCareLocatorViewFontObject?) = apply {
             this.fontButton = fontButton ?: this.fontButton
         }
 
-        fun fontDefault(fontDefaultSize: OneKeyViewFontObject?) = apply {
+        fun fontDefault(fontDefaultSize: HeathCareLocatorViewFontObject?) = apply {
             this.fontDefault = fontDefaultSize ?: this.fontDefault
         }
 
@@ -162,72 +161,72 @@ data class OneKeyCustomObject private constructor(
         fun iconMarkerMin(iconMarkerMin: Int) = apply { this.iconMarkerMin = iconMarkerMin }
         fun iconLocation(iconLocation: Int) = apply { this.iconLocation = iconLocation }
 
-        fun fontSearchInput(fontSearchInput: OneKeyViewFontObject?) = apply {
+        fun fontSearchInput(fontSearchInput: HeathCareLocatorViewFontObject?) = apply {
             if (fontSearchInput.isNullable()) return@apply
             this.fontSearchInput = fontSearchInput!!
         }
 
-        fun fontSmall(fontSmallSize: OneKeyViewFontObject?) = apply {
+        fun fontSmall(fontSmallSize: HeathCareLocatorViewFontObject?) = apply {
             if (fontSmallSize.isNullable()) return@apply
             this.fontSmall = fontSmallSize!!
         }
 
-        fun fontTitleMain(fontTitleMain: OneKeyViewFontObject?) = apply {
+        fun fontTitleMain(fontTitleMain: HeathCareLocatorViewFontObject?) = apply {
             if (fontTitleMain.isNullable()) return@apply
             this.fontTitleMain = fontTitleMain!!
         }
 
-        fun fontTitleSecondary(fontTitleSecondary: OneKeyViewFontObject?) = apply {
+        fun fontTitleSecondary(fontTitleSecondary: HeathCareLocatorViewFontObject?) = apply {
             if (fontTitleSecondary.isNullable()) return@apply
             this.fontTitleSecondary = fontTitleSecondary!!
         }
 
-        fun fontSearchResultTotal(fontSearchResultTotal: OneKeyViewFontObject?) = apply {
+        fun fontSearchResultTotal(fontSearchResultTotal: HeathCareLocatorViewFontObject?) = apply {
             this.fontSearchResultTotal = fontSearchResultTotal ?: this.fontSearchResultTotal
         }
 
-        fun fontSearchResultTitle(fontSearchResultTitle: OneKeyViewFontObject?) = apply {
+        fun fontSearchResultTitle(fontSearchResultTitle: HeathCareLocatorViewFontObject?) = apply {
             if (fontSearchResultTitle.isNullable()) return@apply
             this.fontSearchResultTitle = fontSearchResultTitle!!
         }
 
-        fun fontResultTitle(fontResultTitle: OneKeyViewFontObject?) = apply {
+        fun fontResultTitle(fontResultTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontResultTitle = fontResultTitle ?: this.fontResultTitle
         }
 
-        fun fontResultSubTitle(fontResultSubTitle: OneKeyViewFontObject?) = apply {
+        fun fontResultSubTitle(fontResultSubTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontResultSubTitle = fontResultSubTitle ?: this.fontResultSubTitle
         }
 
-        fun fontProfileTitle(fontProfileTitle: OneKeyViewFontObject?) = apply {
+        fun fontProfileTitle(fontProfileTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontProfileTitle = fontProfileTitle ?: this.fontProfileTitle
         }
 
-        fun fontProfileSubTitle(fontProfileSubTitle: OneKeyViewFontObject?) = apply {
+        fun fontProfileSubTitle(fontProfileSubTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontProfileSubTitle = fontProfileSubTitle ?: this.fontProfileSubTitle
         }
 
-        fun fontProfileTitleSection(fontProfileTitleSection: OneKeyViewFontObject?) = apply {
+        fun fontProfileTitleSection(fontProfileTitleSection: HeathCareLocatorViewFontObject?) = apply {
             this.fontProfileTitleSection = fontProfileTitleSection ?: this.fontProfileTitleSection
         }
 
-        fun fontCardTitle(fontCardTitle: OneKeyViewFontObject?) = apply {
+        fun fontCardTitle(fontCardTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontCardTitle = fontCardTitle ?: this.fontCardTitle
         }
 
-        fun fontModalTitle(fontModalTitle: OneKeyViewFontObject?) = apply {
+        fun fontModalTitle(fontModalTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontModalTitle = fontModalTitle ?: this.fontModalTitle
         }
 
-        fun fontSortCriteria(fontSortCriteria: OneKeyViewFontObject?) = apply {
+        fun fontSortCriteria(fontSortCriteria: HeathCareLocatorViewFontObject?) = apply {
             this.fontSortCriteria = fontSortCriteria ?: this.fontSortCriteria
         }
 
-        fun fontNoResultTitle(fontNoResultTitle: OneKeyViewFontObject?) = apply {
+        fun fontNoResultTitle(fontNoResultTitle: HeathCareLocatorViewFontObject?) = apply {
             this.fontNoResultTitle = fontNoResultTitle ?: this.fontNoResultTitle
         }
 
-        fun fontNoResultDesc(fontNoResultDesc: OneKeyViewFontObject?) = apply {
+        fun fontNoResultDesc(fontNoResultDesc: HeathCareLocatorViewFontObject?) = apply {
             this.fontNoResultDesc = fontNoResultDesc ?: this.fontNoResultDesc
         }
 
@@ -243,20 +242,19 @@ data class OneKeyCustomObject private constructor(
         fun colorButtonBorder(color: String) = apply { this.colorButtonBorder = color }
         fun colorButtonBackground(color: String) = apply { this.colorButtonBackground = color }
         fun colorButtonDiscardBackground(color: String) = apply { this.colorButtonDiscardBackground = color }
-        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
         fun locale(locale: String) = apply { this.locale = locale }
         fun specialities(specialities: ArrayList<String>) = apply { this.specialities = specialities }
         fun entryScreen(@ScreenReference screenReference: Int) = apply { this.screenReference = screenReference }
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
 
-        fun build() = OneKeyCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
+        fun build() = HealthCareLocatorCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon,
                 fontSearchInput, fontSmall, fontTitleMain, fontTitleSecondary, fontSearchResultTotal,
                 fontSearchResultTitle, fontResultTitle, fontResultSubTitle, fontProfileTitle,
                 fontProfileSubTitle, fontProfileTitleSection, fontCardTitle, fontModalTitle, fontSortCriteria,
                 colorListBackground, colorDark, colorGrey, colorGreyDark, colorGreyDarker, colorGreyLight,
                 colorGreyLighter, colorPrimary, colorVoteDown, colorViewBackground, colorCardBorder, colorButtonBorder,
-                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, apiKey, locale, specialities,
+                colorButtonBackground, colorPrimary, colorButtonDiscardBackground, locale, specialities,
                 screenReference, mapService, iconCross, iconGeoLoc, iconMarkerMin, iconSort, iconList,
                 iconMap, iconArrowRight, iconMapGeoLoc, iconPhone, iconFax, iconWebsite, iconVoteUp,
                 iconVoteDown, iconProfile, iconLocation, fontNoResultTitle, fontNoResultDesc)

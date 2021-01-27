@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.extensions.runOnUiThread
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
 import com.ekino.onekeysdk.model.SearchObject
@@ -20,7 +20,7 @@ import io.reactivex.Flowable
 
 class OneKeyHomFullViewModel : ApolloViewModel<OneKeyHomeFullFragment>() {
     private val gson by lazy { Gson() }
-    private val config = OneKeySDK.getInstance().getConfiguration()
+    private val config = HealthCareLocatorSDK.getInstance().getConfiguration()
     val consultedProfiles by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
     val lastSearches by lazy { MutableLiveData<ArrayList<SearchObject>>() }
     val permissionGranted by lazy { MutableLiveData<Boolean>() }

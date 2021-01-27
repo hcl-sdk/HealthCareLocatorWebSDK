@@ -12,7 +12,7 @@ import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.model.OneKeySpecialityObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetIndividualByNameQuery
 import kotlinx.android.synthetic.main.layout_item_individual.view.*
 import kotlinx.android.synthetic.main.layout_one_key_hcp_item.view.*
@@ -22,7 +22,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
     private val speciality = 0
     private val hcp = 1
     private var keyword: String = ""
-    private val theme = OneKeySDK.getInstance().getConfiguration()
+    private val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
     var onIndividualClickedListener: OnIndividualClickedListener? = null
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =

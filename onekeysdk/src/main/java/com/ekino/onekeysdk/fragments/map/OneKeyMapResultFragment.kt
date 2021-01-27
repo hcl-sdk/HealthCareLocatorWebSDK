@@ -12,9 +12,9 @@ import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.custom.CenterLayoutManager
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import kotlinx.android.synthetic.main.fragment_map_result.*
 import org.osmdroid.events.MapListener
 import org.osmdroid.events.ScrollEvent
@@ -28,10 +28,10 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         }
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject = HealthCareLocatorSDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
-        MapFragment.newInstance(oneKeyCustomObject, activities, 0f, true)
+        MapFragment.newInstance(healthCareLocatorCustomObject, activities, 0f, true)
     }
     private var isRelaunch = false
     private var activities: ArrayList<ActivityObject> = arrayListOf()
@@ -79,8 +79,8 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         showRelaunch(isRelaunch)
         btnRelaunch.setOnClickListener(this)
         btnCurrentLocation.setOnClickListener(this)
-        btnRelaunch.setRippleBackground(oneKeyCustomObject.colorSecondary.getColor(), 50f)
-        btnCurrentLocation.setIconFromDrawableId(oneKeyCustomObject.iconMapGeoLoc)
+        btnRelaunch.setRippleBackground(healthCareLocatorCustomObject.colorSecondary.getColor(), 50f)
+        btnCurrentLocation.setIconFromDrawableId(healthCareLocatorCustomObject.iconMapGeoLoc)
     }
 
     override fun onClick(v: View?) {

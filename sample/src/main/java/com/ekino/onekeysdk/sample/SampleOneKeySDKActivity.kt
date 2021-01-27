@@ -5,17 +5,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
-import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ScreenReference
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
+import com.ekino.onekeysdk.model.config.HeathCareLocatorViewFontObject
 import com.ekino.onekeysdk.sample.fragments.*
 import com.ekino.onekeysdk.sample.model.ColorObject
 import com.ekino.onekeysdk.sample.model.ThemeObject
 import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
+import com.ekino.sample.onekeysdk.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_sample.*
@@ -85,22 +85,22 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                 ?: selectedTheme.markerHexColor
         val selectedMarker = SampleApplication.sharedPreferences.getString(Pref.selectedMarkerColorPref, selectedTheme.markerSelectedHexColor)
                 ?: selectedTheme.markerSelectedHexColor
-        var fontDefault: OneKeyViewFontObject? = null
-        var fontTitle1: OneKeyViewFontObject? = null
-        var fontButton: OneKeyViewFontObject? = null
-        var fontTitle2: OneKeyViewFontObject? = null
-        var fontTitle3: OneKeyViewFontObject? = null
-        var fontSmall: OneKeyViewFontObject? = null
-        var fontSearchInput: OneKeyViewFontObject? = null
-        var fontSearchResultTitle: OneKeyViewFontObject? = null
-        var fontResultTitle: OneKeyViewFontObject? = null
-        var fontResultSubTitle: OneKeyViewFontObject? = null
-        var fontProfileTitle: OneKeyViewFontObject? = null
-        var fontProfileSubTitle: OneKeyViewFontObject? = null
-        var fontProfileTitleSection: OneKeyViewFontObject? = null
-        var fontCardTitle: OneKeyViewFontObject? = null
-        var fontModalTitle: OneKeyViewFontObject? = null
-        var fontSortCriteria: OneKeyViewFontObject? = null
+        var fontDefault: HeathCareLocatorViewFontObject? = null
+        var fontTitle1: HeathCareLocatorViewFontObject? = null
+        var fontButton: HeathCareLocatorViewFontObject? = null
+        var fontTitle2: HeathCareLocatorViewFontObject? = null
+        var fontTitle3: HeathCareLocatorViewFontObject? = null
+        var fontSmall: HeathCareLocatorViewFontObject? = null
+        var fontSearchInput: HeathCareLocatorViewFontObject? = null
+        var fontSearchResultTitle: HeathCareLocatorViewFontObject? = null
+        var fontResultTitle: HeathCareLocatorViewFontObject? = null
+        var fontResultSubTitle: HeathCareLocatorViewFontObject? = null
+        var fontProfileTitle: HeathCareLocatorViewFontObject? = null
+        var fontProfileSubTitle: HeathCareLocatorViewFontObject? = null
+        var fontProfileTitleSection: HeathCareLocatorViewFontObject? = null
+        var fontCardTitle: HeathCareLocatorViewFontObject? = null
+        var fontModalTitle: HeathCareLocatorViewFontObject? = null
+        var fontSortCriteria: HeathCareLocatorViewFontObject? = null
         SampleApplication.sharedPreferences.also {
             (it.getString(Pref.fontDefault, "") ?: "").apply {
                 if (this.isNotEmpty())
@@ -173,7 +173,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         /**
          * Add OneKey screen into parent application
          */
-        val builder = OneKeyCustomObject.Builder()
+        val builder = HealthCareLocatorCustomObject.Builder()
                 .fontTitleMain(fontTitle1)
                 .fontTitleSecondary(fontTitle2)
                 .fontSearchResultTotal(fontTitle3)
@@ -211,15 +211,14 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
-        builder.apiKey("200002c2aaf5b168")
 
-        OneKeySDK.getInstance().setAppName("OneKeySample").setAppDownloadLink("google.com.vn").init(builder.build())
-        OneKeySDK.getInstance().startOneKeySDKFragment(this, R.id.fragmentContainer)
-//        OneKeySDK.getInstance().startOneKeySDKActivity(this)
+        HealthCareLocatorSDK.getInstance().setAppName("OneKeySample").setApiKey("").setAppDownloadLink("google.com.vn").init(builder.build())
+        HealthCareLocatorSDK.getInstance().startSDKFragment(this, R.id.fragmentContainer)
+//        OneKeySDK.getInstance().startSDKActivity(this)
     }
 
-    private fun getFontSetting(json: String): OneKeyViewFontObject =
-            gson.fromJson(json, object : TypeToken<OneKeyViewFontObject>() {}.type)
+    private fun getFontSetting(json: String): HeathCareLocatorViewFontObject =
+            gson.fromJson(json, object : TypeToken<HeathCareLocatorViewFontObject>() {}.type)
 
     fun openSettingsPage() {
         resetStack()
@@ -230,7 +229,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         this.addFragment(R.id.fragmentContainer, CustomThemeFragment.newInstance(themeObject, callback), true)
     }
 
-    fun openPreviewFont(font: OneKeyViewFontObject, callback: (font: OneKeyViewFontObject) -> Unit) {
+    fun openPreviewFont(font: HeathCareLocatorViewFontObject, callback: (font: HeathCareLocatorViewFontObject) -> Unit) {
         this.addFragment(R.id.fragmentContainer, PreviewFontFragment.newInstance(font, callback), true)
     }
 

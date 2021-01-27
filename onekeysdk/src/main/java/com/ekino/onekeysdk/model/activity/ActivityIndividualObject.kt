@@ -69,7 +69,6 @@ class ActivityIndividualObject(var id: String = "", var firstName: String = "", 
         }
         this.otherActivities = arrayListOf<OtherActivityObject>().apply {
             add(activity)
-            add(OtherActivityObject().addMock())
             data.otherActivities().forEach {
                 add(OtherActivityObject(it.id(), it.phone() ?: "", null, it.fax() ?: "",
                         it.webAddress()

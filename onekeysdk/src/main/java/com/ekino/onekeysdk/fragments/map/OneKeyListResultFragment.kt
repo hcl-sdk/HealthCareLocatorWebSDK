@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
 
 class OneKeyListResultFragment : IFragment() {
@@ -19,7 +19,7 @@ class OneKeyListResultFragment : IFragment() {
         fun newInstance() = OneKeyListResultFragment().apply {}
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject = HealthCareLocatorSDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private val searchAdapter by lazy { SearchAdapter() }
 
@@ -29,7 +29,7 @@ class OneKeyListResultFragment : IFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listContainer.setBackgroundColor(oneKeyCustomObject.colorListBackground.getColor())
+        listContainer.setBackgroundColor(healthCareLocatorCustomObject.colorListBackground.getColor())
         getAbsFragment()?.getActivities()?.also {
             this.activities = it
         }

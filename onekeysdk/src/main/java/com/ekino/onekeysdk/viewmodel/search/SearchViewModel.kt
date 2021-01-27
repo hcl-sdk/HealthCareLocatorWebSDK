@@ -11,7 +11,7 @@ import com.ekino.onekeysdk.model.OneKeySpecialityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.OneKeyLog
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class SearchViewModel : ApolloViewModel<SearchFragment>() {
-    private val theme = OneKeySDK.getInstance().getConfiguration()
+    private val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
     private var searchGoogleToken: AutocompleteSessionToken? = null
     private var placeClient: PlacesClient? = null
 
@@ -47,10 +47,10 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     override fun bindView(t: SearchFragment) {
         super.bindView(t)
-        if (OneKeySDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
+        if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
             val key = t.activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY")
             if (key.isNotNullAndEmpty()) {
-                Places.initialize(t.context!!, key!!, Locale(OneKeySDK.getInstance().getConfiguration().getLocaleCode()))
+                Places.initialize(t.context!!, key!!, Locale(HealthCareLocatorSDK.getInstance().getConfiguration().getLocaleCode()))
                 searchGoogleToken = AutocompleteSessionToken.newInstance()
                 placeClient = Places.createClient(t.context!!)
             }
@@ -117,7 +117,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
 
     private fun searchAddress(query: String) {
         addressState.postValue(true)
-        if (OneKeySDK.getInstance().getConfiguration().mapService == MapService.OSM) {
+        if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.OSM) {
             searchDisposable?.clear()
             searchDisposable?.add(
                     executor.searchAddress(searchParameters).delay(300, TimeUnit.MILLISECONDS)
@@ -128,7 +128,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                                 addressState.postValue(false)
                                 places.postValue(arrayListOf())
                             }))
-        } else if (OneKeySDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
+        } else if (HealthCareLocatorSDK.getInstance().getConfiguration().mapService == MapService.GOOGLE_MAP) {
             val request = FindAutocompletePredictionsRequest.builder()
                     .setSessionToken(searchGoogleToken).setTypeFilter(TypeFilter.ADDRESS)
                     .setQuery(query).build()
