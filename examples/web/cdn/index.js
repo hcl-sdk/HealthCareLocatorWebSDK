@@ -37,10 +37,20 @@ function searchNearMe(specialtyCode) {
 
 // Initialize Onekey SDK
 
+function getApiKeyFromLocal() {
+  const settingsStr = localStorage.getItem(`__onekey-sdk-dev-settings-fields`);
+  if (settingsStr) {
+    try {
+      return JSON.parse(settingsStr).apiKey;
+    } catch (err) { }
+  }
+  return '';
+}
+
 // settingPanelEl.addEventListener('ready', function() {
 //   settingPanelEl.getFields().then(fields => {
     const config = {
-      apiKey: '',
+      apiKey: getApiKeyFromLocal(),
       i18nBundlesPath: '/onekey-sdk/i18n'
     };
 
