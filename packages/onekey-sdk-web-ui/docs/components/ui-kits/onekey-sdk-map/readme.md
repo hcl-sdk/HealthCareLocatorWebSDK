@@ -31,8 +31,8 @@
 | Event                | Description | Type               |
 | -------------------- | ----------- | ------------------ |
 | `mapClicked`         |             | `CustomEvent<any>` |
-| `markerClick`        |             | `CustomEvent<any>` |
 | `onMapDrag`          |             | `CustomEvent<any>` |
+| `onMarkerClick`      |             | `CustomEvent<any>` |
 | `setCurrentLocation` |             | `CustomEvent<any>` |
 
 
