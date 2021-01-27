@@ -27,6 +27,8 @@ const QUERY_INDIVIDUAL_BY_ID = gql`
       }
       webAddress
       mainActivity {
+        phone
+        fax
         title {
           code
           label
@@ -39,11 +41,42 @@ const QUERY_INDIVIDUAL_BY_ID = gql`
           address {
             postalCode
             longLabel
+            buildingLabel
             county {
+              code
               label
             }
             country
             city {
+              code
+              label
+            }
+          }
+        }
+      }
+      otherActivities {
+        phone
+        fax
+        title {
+          code
+          label
+        }
+        workplace {
+          name
+          localPhone
+          intlFax
+          webAddress
+          address {
+            postalCode
+            longLabel
+            buildingLabel
+            county {
+              code
+              label
+            }
+            country
+            city {
+              code
               label
             }
           }
