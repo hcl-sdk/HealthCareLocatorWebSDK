@@ -9,11 +9,11 @@ import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.extensions.setRippleCircleBackground
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import kotlinx.android.synthetic.main.layout_one_key_place.view.*
 
-class OneKeyPlaceAdapter(private val oneKeyCustomObject: OneKeyCustomObject?,
+class OneKeyPlaceAdapter(private val healthCareLocatorCustomObject: HealthCareLocatorCustomObject?,
                          private val onPlaceClickedListener: OnOneKeyPlaceClickedListener) :
         OneKeyAdapter<OneKeyPlace, OneKeyPlaceAdapter.OneKeyPlaceViewHolder>(
                 arrayListOf(R.layout.layout_one_key_place)) {
@@ -23,12 +23,12 @@ class OneKeyPlaceAdapter(private val oneKeyCustomObject: OneKeyCustomObject?,
 
     inner class OneKeyPlaceViewHolder(itemView: View) : OneKeyViewHolder<OneKeyPlace>(itemView) {
         override fun bind(position: Int, data: OneKeyPlace) {
-            oneKeyCustomObject?.also {
+            healthCareLocatorCustomObject?.also {
                 itemView.apply {
                     tvAddress.text = data.displayName
-                    ivLocation.setIconFromDrawableId(oneKeyCustomObject.iconMarkerMin)
-                    ivLocation.setRippleCircleBackground(oneKeyCustomObject.colorPrimary)
-                    ivLocation.setColorFilter(oneKeyCustomObject.colorPrimary.getColor())
+                    ivLocation.setIconFromDrawableId(healthCareLocatorCustomObject.iconMarkerMin)
+                    ivLocation.setRippleCircleBackground(healthCareLocatorCustomObject.colorPrimary)
+                    ivLocation.setColorFilter(healthCareLocatorCustomObject.colorPrimary.getColor())
                     setOnClickListener { onPlaceClickedListener.onPlaceClickedListener(data) }
                 }
             }

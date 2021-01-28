@@ -37,7 +37,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/default_padding"
-                        android:text="@string/onekey_sdk_hcps_near_me"
+                        android:text="@string/hcl_hcps_near_me"
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleCardTitle" />
 
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/default_padding"
-                        android:text="@string/onekey_sdk_last_searches"
+                        android:text="@string/hcl_last_searches"
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleCardTitle"
                         app:title2Style="true" />
@@ -106,7 +106,7 @@
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:padding="@dimen/default_padding_small"
                         android:tag="0"
-                        android:text="@string/onekey_sdk_view_more"
+                        android:text="@string/hcl_view_more"
                         android:textColor="@color/colorOneKeyGreen"
                         app:OneKeyTextStyle="OneKeyStyleSmall" />
                 </LinearLayout>
@@ -140,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/default_padding"
-                        android:text="@string/onekey_sdk_last_hcps_consulted"
+                        android:text="@string/hcl_last_hcps_consulted"
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleCardTitle" />
 
@@ -151,7 +151,7 @@
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:padding="@dimen/default_padding_small"
                         android:tag="0"
-                        android:text="@string/onekey_sdk_view_more"
+                        android:text="@string/hcl_view_more"
                         android:textColor="@color/colorOneKeyGreen"
                         app:OneKeyTextStyle="OneKeyStyleSmall" />
                 </LinearLayout>

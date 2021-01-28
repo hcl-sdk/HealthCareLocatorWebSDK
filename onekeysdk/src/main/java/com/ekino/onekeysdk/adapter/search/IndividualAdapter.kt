@@ -11,8 +11,8 @@ import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetIndividualByNameQuery
 import kotlinx.android.synthetic.main.layout_item_individual.view.*
 import kotlinx.android.synthetic.main.layout_one_key_hcp_item.view.*
@@ -22,7 +22,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
     private val speciality = 0
     private val hcp = 1
     private var keyword: String = ""
-    private val theme = OneKeySDK.getInstance().getConfiguration()
+    private val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
     var onIndividualClickedListener: OnIndividualClickedListener? = null
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -32,13 +32,13 @@ class IndividualAdapter : OneKeyAdapter<Any,
             }
 
     override fun getItemViewType(position: Int): Int {
-        return if (getData()[position] is OneKeySpecialityObject) speciality
+        return if (getData()[position] is HealthCareLocatorSpecialityObject) speciality
         else hcp
     }
 
     inner class IndividualVH(itemView: View) :
-            OneKeyViewHolder<OneKeySpecialityObject>(itemView) {
-        override fun bind(position: Int, data: OneKeySpecialityObject) {
+            OneKeyViewHolder<HealthCareLocatorSpecialityObject>(itemView) {
+        override fun bind(position: Int, data: HealthCareLocatorSpecialityObject) {
             itemView.apply {
                 val name: String = data.longLbl
                 tvSpeciality.text = SpannableStringBuilder(name).apply {
@@ -86,7 +86,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
     }
 
     interface OnIndividualClickedListener {
-        fun onIndividualClickedListener(data: OneKeySpecialityObject)
+        fun onIndividualClickedListener(data: HealthCareLocatorSpecialityObject)
         fun onHCPClickedListener(data: GetIndividualByNameQuery.Individual)
     }
 }

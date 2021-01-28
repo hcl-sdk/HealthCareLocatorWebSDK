@@ -24,8 +24,8 @@ import com.ekino.onekeysdk.model.OneKeyLocation
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.activity.ActivityWorkplaceObject
 import com.ekino.onekeysdk.model.activity.OtherActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile.*
@@ -36,11 +36,11 @@ class OneKeyProfileFragment :
         View.OnClickListener, AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
-                theme: OneKeyCustomObject = OneKeyCustomObject.Builder().build(),
+                theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
                 oneKeyLocation: OneKeyLocation?, activityId: String = ""
         ) =
                 OneKeyProfileFragment().apply {
-                    this.oneKeyCustomObject = theme
+                    this.healthCareLocatorCustomObject = theme
                     this.oneKeyLocation = oneKeyLocation
                     this.activityId = activityId
                 }
@@ -48,8 +48,8 @@ class OneKeyProfileFragment :
     }
 
     private var oneKeyLocation: OneKeyLocation? = null
-    private var oneKeyCustomObject: OneKeyCustomObject =
-            OneKeySDK.getInstance().getConfiguration()
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject =
+            HealthCareLocatorSDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private var mapFragment: MapFragment? = null
     private var activityDetail: ActivityObject = ActivityObject()
@@ -60,7 +60,7 @@ class OneKeyProfileFragment :
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
-        contentWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorCardBorder.getColor(), 12f, 3)
+        contentWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 12f, 3)
         if (savedInstanceState != null) {
             activityDetail = savedInstanceState.getParcelable("activityDetail") ?: ActivityObject()
             activityId = savedInstanceState.getString("activityId", "") ?: ""
@@ -94,7 +94,7 @@ class OneKeyProfileFragment :
             showLoading(it)
         })
         btnBack.setOnClickListener { activity?.onBackPressed() }
-        oneKeyCustomObject.apply {
+        healthCareLocatorCustomObject.apply {
             container.setBackgroundColor(colorViewBackground.getColor())
             ivLocationOutLine.setIconFromDrawableId(iconLocation, true, colorMarkerSelected.getColor())
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
@@ -112,7 +112,7 @@ class OneKeyProfileFragment :
     private fun fillData(savedInstanceState: Bundle?) {
         if (mapFragment == null)
             mapFragment =
-                    MapFragment.newInstance(oneKeyCustomObject, arrayListOf(activityDetail), 2f)
+                    MapFragment.newInstance(healthCareLocatorCustomObject, arrayListOf(activityDetail), 2f)
         val fm = this@OneKeyProfileFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
             fm.beginTransaction().add(R.id.viewHCPMap, mapFragment!!, mapFragmentTag)
@@ -136,15 +136,15 @@ class OneKeyProfileFragment :
             selectedAddress = savedInstanceState.getInt("selectedAddress", 0)
             oneKeyLocation = savedInstanceState.getParcelable("selectedLocation")
         }
-        val secondaryColor = oneKeyCustomObject.colorSecondary.getColor()
+        val secondaryColor = healthCareLocatorCustomObject.colorSecondary.getColor()
         ivDirection.setColorFilter(secondaryColor)
-        ivDirection.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 100f, 3)
-        ivCall.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 100f, 3)
+        ivDirection.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorButtonBorder.getColor(), 100f, 3)
+        ivCall.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorButtonBorder.getColor(), 100f, 3)
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
-        ivLocationOutLine.setColorFilter(oneKeyCustomObject.colorMarker.getColor())
-        btnSuggestModification.setBackgroundWithCorner(oneKeyCustomObject.colorButtonBackground.getColor(),
-                oneKeyCustomObject.colorButtonBorder.getColor(), 8f, 3)
+        ivLocationOutLine.setColorFilter(healthCareLocatorCustomObject.colorMarker.getColor())
+        btnSuggestModification.setBackgroundWithCorner(healthCareLocatorCustomObject.colorButtonBackground.getColor(),
+                healthCareLocatorCustomObject.colorButtonBorder.getColor(), 8f, 3)
 
         activityDetail.apply {
             this@OneKeyProfileFragment.phone = phone
@@ -158,7 +158,7 @@ class OneKeyProfileFragment :
 
         val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
         if (activities.size > 1) {
-            spinnerWrapper.setBackgroundWithCorner(Color.WHITE, oneKeyCustomObject.colorButtonBorder.getColor(), 10f, 2)
+            spinnerWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorButtonBorder.getColor(), 10f, 2)
             spinnerWrapper.visibility = View.VISIBLE
             ArrayAdapter<OtherActivityObject>(context!!, R.layout.layout_one_key_spinner_item, activities).also {
                 it.setDropDownViewResource(R.layout.layout_one_key_drop_down)
@@ -166,6 +166,8 @@ class OneKeyProfileFragment :
             }
             addressSpinner.setSelection(selectedAddress)
             addressSpinner.onItemSelectedListener = this
+        }else{
+            activities.firstOrNull()?.apply { changeAddress(this) }
         }
 
         applyStyles()
@@ -216,9 +218,9 @@ class OneKeyProfileFragment :
                         string += "\n${address?.longLabel}"
                     string
                 } ?: ""
-                val link = with(OneKeySDK.getInstance().getAppDownloadLink()) {
+                val link = with(HealthCareLocatorSDK.getInstance().getAppDownloadLink()) {
                     if (this.isEmpty()) ""
-                    " - ${OneKeySDK.getInstance().getAppDownloadLink()}"
+                    " - ${HealthCareLocatorSDK.getInstance().getAppDownloadLink()}"
                 }
                 val name = with(activityDetail.individual) {
                     if (this == null) ""
@@ -232,7 +234,7 @@ class OneKeyProfileFragment :
                         "$address\n\n" +
                         "${obj?.phone}\n" +
                         "\n" +
-                        "I found it on ${OneKeySDK.getInstance().getAppName()}$link."
+                        "I found it on ${HealthCareLocatorSDK.getInstance().getAppName()}$link."
                 activity?.share(shareString, "Share HCP")
             }
             R.id.mapOverlay -> {
@@ -263,12 +265,15 @@ class OneKeyProfileFragment :
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         (addressSpinner.selectedItem as? OtherActivityObject)?.also {
-            setAddress(it.workplace, it.webAddress, it.phone, it.fax)
-            this.phone = it.phone
-            val address = it.workplace?.address
-            if (address.isNotNullable())
-                getRunningMapFragment()?.drawAddressOnMap(arrayListOf(address!!), true)
+            changeAddress(it)
         }
+    }
+    private fun changeAddress(it:OtherActivityObject){
+        setAddress(it.workplace, it.webAddress, it.phone, it.fax)
+        this.phone = it.phone
+        val address = it.workplace?.address
+        if (address.isNotNullable())
+            getRunningMapFragment()?.drawAddressOnMap(arrayListOf(address!!), true)
     }
 
     private fun callToPhone() {
@@ -279,7 +284,7 @@ class OneKeyProfileFragment :
     }
 
     private fun applyStyles() {
-        btnShare.setColorFilter(oneKeyCustomObject.colorGrey.getColor())
+        btnShare.setColorFilter(healthCareLocatorCustomObject.colorGrey.getColor())
     }
 
     private fun getRunningMapFragment(): MapFragment? = childFragmentManager.fragments.firstOrNull {

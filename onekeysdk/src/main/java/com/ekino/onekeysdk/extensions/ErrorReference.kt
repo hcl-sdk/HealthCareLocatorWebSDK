@@ -11,5 +11,6 @@ annotation class ErrorReference {
         const val ID_INVALID = "OKE-200"
         const val DATA_INVALID = "OKE-300"
         const val UNKNOWN = "OKE-UNKNOWN"
+        const val API_KEY_INVALID = "OKE-API_KEY_INVALID"
     }
 }

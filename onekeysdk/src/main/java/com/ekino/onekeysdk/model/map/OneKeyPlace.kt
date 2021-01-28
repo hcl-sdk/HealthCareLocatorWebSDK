@@ -26,7 +26,7 @@ class OneKeyPlace(@SerializedName("place_id") var placeId: String = "",
     }
 
     constructor(context: Context, lat: Double, lng: Double) : this("near_me", latitude = "$lat",
-            longitude = "$lng", displayName = context.getString(R.string.onekey_sdk_near_me)) {
+            longitude = "$lng", displayName = context.getString(R.string.hcl_near_me)) {
     }
 
     fun getGeoPoint(): GeoPoint = GeoPoint(latitude.toDouble(), longitude.toDouble())

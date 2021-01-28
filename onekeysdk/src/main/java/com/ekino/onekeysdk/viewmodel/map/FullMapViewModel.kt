@@ -12,13 +12,13 @@ import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
 class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
-    private val theme = OneKeySDK.getInstance().getConfiguration()
+    private val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
 
     val permissionRequested by lazy { MutableLiveData<Boolean>() }
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
@@ -37,8 +37,6 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     }
 
     fun getActivities(criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?) {
-        place?.latitude = "${fakeInToronto[0]}"
-        place?.longitude = "${fakeInToronto[1]}"
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder()

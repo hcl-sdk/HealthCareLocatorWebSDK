@@ -10,14 +10,14 @@ import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.extensions.storeVote
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.OneKeyLog
 import com.google.gson.Gson
 import com.iqvia.onekey.GetActivityByIdQuery
 import io.reactivex.Flowable
 
 class OneKeyProfileViewModel : ApolloViewModel<OneKeyProfileFragment>() {
-    private val theme = OneKeySDK.getInstance().getConfiguration()
+    private val theme = HealthCareLocatorSDK.getInstance().getConfiguration()
     private val gson by lazy { Gson() }
     val activity by lazy { MutableLiveData<ActivityObject>() }
     val loading by lazy { MutableLiveData<Boolean>() }

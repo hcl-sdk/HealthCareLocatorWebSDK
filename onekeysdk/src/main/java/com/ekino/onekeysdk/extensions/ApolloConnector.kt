@@ -1,16 +1,17 @@
 package com.ekino.onekeysdk.extensions
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.ekino.onekeysdk.extensions.ApolloConnector.Instance.apolloClientUrl
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import okhttp3.Response
 
 class ApolloConnector private constructor() {
     private object Instance {
         val instance = ApolloConnector()
         const val apolloClientUrl = "https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query"
+//        const val apolloClientUrl = "https://apim-prod-westeu-onekey.azure-api.net/api/graphql/query"
     }
 
     private var apolloClient: ApolloClient? = null
@@ -24,6 +25,7 @@ class ApolloConnector private constructor() {
         if (apolloClient == null) {
             apolloClient = ApolloClient.builder()
                     .serverUrl(apolloClientUrl)
+                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
 //                    .okHttpClient(OkHttpClient.Builder()
 //                            .addInterceptor(AuthorizationInterceptor()).build())
                     .build()
@@ -46,9 +48,9 @@ class ApolloConnector private constructor() {
 
     class AuthorizationInterceptor() : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-            val config = OneKeySDK.getInstance().getConfiguration()
+            val config = HealthCareLocatorSDK.getInstance()
             val request = chain.request().newBuilder()
-                    .addHeader("Ocp-Apim-Subscription-Key", config.apiKey)
+                    .addHeader("Ocp-Apim-Subscription-Key", config.getApiKey())
                     .build()
 
             return chain.proceed(request)

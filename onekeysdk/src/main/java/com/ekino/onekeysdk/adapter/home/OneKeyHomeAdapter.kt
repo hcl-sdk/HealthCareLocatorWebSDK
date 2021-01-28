@@ -12,11 +12,11 @@ import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getDrawableById
 import com.ekino.onekeysdk.extensions.setBackgroundWithCorner
 import com.ekino.onekeysdk.extensions.setRippleCircleBackground
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.home.OneKeyHomeObject
 import kotlinx.android.synthetic.main.layout_one_key_home.view.*
 
-class OneKeyHomeAdapter(private val oneKeyCustomObject: OneKeyCustomObject?) : OneKeyAdapter<OneKeyHomeObject,
+class OneKeyHomeAdapter(private val healthCareLocatorCustomObject: HealthCareLocatorCustomObject?) : OneKeyAdapter<OneKeyHomeObject,
         OneKeyHomeAdapter.OneKeyHomeVH>(arrayListOf(R.layout.layout_one_key_home)) {
 
 
@@ -26,15 +26,15 @@ class OneKeyHomeAdapter(private val oneKeyCustomObject: OneKeyCustomObject?) : O
 
     inner class OneKeyHomeVH(itemView: View) : OneKeyViewHolder<OneKeyHomeObject>(itemView) {
         override fun bind(position: Int, data: OneKeyHomeObject) {
-            oneKeyCustomObject?.also {
+            healthCareLocatorCustomObject?.also {
                 itemView.apply {
                     if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 12f, 3)
                     } else
                         setBackgroundColor(Color.WHITE)
                     ivFind.setImageDrawable(context.getDrawableById(data.drawableId))
-                    ivFind.setRippleCircleBackground(oneKeyCustomObject.colorPrimary.getColor(), 26)
-                    ivFind.setColorFilter(oneKeyCustomObject.colorPrimary.getColor())
+                    ivFind.setRippleCircleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 26)
+                    ivFind.setColorFilter(healthCareLocatorCustomObject.colorPrimary.getColor())
                     tvTitle.text = data.title
                     tvDescription.text = data.description
                 }

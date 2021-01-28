@@ -9,8 +9,8 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.MapFragment
 import com.ekino.onekeysdk.fragments.map.StarterMapFragment
 import com.ekino.onekeysdk.model.activity.OtherActivityObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.viewmodel.profile.OneKeyProfileMapViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_profile_map.*
 
@@ -24,10 +24,10 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
                 }
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject = HealthCareLocatorSDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private val mapFragment by lazy {
-        MapFragment.newInstance(oneKeyCustomObject, arrayListOf(), 0f, true)
+        MapFragment.newInstance(healthCareLocatorCustomObject, arrayListOf(), 0f, true)
     }
     private var activityObject: OtherActivityObject? = null
 
@@ -43,8 +43,8 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
                     .commit()
         }
         mapWrapper.setBackgroundWithCorner(Color.WHITE,
-                oneKeyCustomObject.colorCardBorder.getColor(), 16f, 3)
-        btnClose.setColorFilter(oneKeyCustomObject.colorGreyDark.getColor())
+                healthCareLocatorCustomObject.colorCardBorder.getColor(), 16f, 3)
+        btnClose.setColorFilter(healthCareLocatorCustomObject.colorGreyDark.getColor())
         mapContainer.postDelay({ _ ->
             activityObject?.apply {
                 val address = workplace?.address
@@ -53,7 +53,7 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
             }
         }, 500L)
         initView()
-        oneKeyCustomObject.apply {
+        healthCareLocatorCustomObject.apply {
             btnCurrentLocation.setIconFromDrawableId(iconMapGeoLoc)
             btnClose.setIconFromDrawableId(iconCross, true, colorGrey.getColor())
         }
@@ -77,7 +77,7 @@ class OneKeyProfileMapFragment : AppFragment<OneKeyProfileMapFragment,
         activityObject?.apply {
             tvBuilding.text = workplace?.name ?: ""
             tvAddress.text = workplace?.address?.getAddress() ?: ""
-            ivLocation.setColorFilter(oneKeyCustomObject.colorMarker.getColor())
+            ivLocation.setColorFilter(healthCareLocatorCustomObject.colorMarker.getColor())
         }
     }
 

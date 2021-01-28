@@ -1,17 +1,17 @@
 package com.ekino.onekeysdk
 
 import com.ekino.onekeysdk.extensions.ScreenReference
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 
 class ConfigurationTest {
-    private lateinit var config: OneKeyCustomObject
+    private lateinit var config: HealthCareLocatorCustomObject
 
     @Before
     fun init() {
-        config = OneKeyCustomObject.Builder().build()
+        config = HealthCareLocatorCustomObject.Builder().build()
     }
 
     @Test

@@ -5,12 +5,12 @@ import android.os.Parcelable
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.google.gson.annotations.SerializedName
 
-class SearchObject(@SerializedName("speciality") var speciality: OneKeySpecialityObject? = null,
+class SearchObject(@SerializedName("speciality") var speciality: HealthCareLocatorSpecialityObject? = null,
                    @SerializedName("place") var place: OneKeyPlace? = null,
                    @SerializedName("createdAt") var createdAt: Long = System.currentTimeMillis(),
                    @SerializedName("createdDate") var createdDate: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readParcelable(OneKeySpecialityObject::class.java.classLoader),
+            parcel.readParcelable(HealthCareLocatorSpecialityObject::class.java.classLoader),
             parcel.readParcelable(OneKeyPlace::class.java.classLoader),
             parcel.readLong(),
             parcel.readString() ?: "") {

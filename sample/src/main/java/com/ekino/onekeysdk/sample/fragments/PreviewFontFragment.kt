@@ -8,21 +8,21 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.ekino.sample.onekeysdk.R
-import com.ekino.onekeysdk.model.config.OneKeyViewFontObject
+import com.ekino.onekeysdk.model.config.HeathCareLocatorViewFontObject
 import com.ekino.onekeysdk.sample.model.FontObject
 import com.ekino.onekeysdk.sample.utils.getFonts
 import kotlinx.android.synthetic.main.fragment_preview_font.*
 
 class PreviewFontFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
     companion object {
-        fun newInstance(font: OneKeyViewFontObject, callback: (font: OneKeyViewFontObject) -> Unit) = PreviewFontFragment().apply {
+        fun newInstance(font: HeathCareLocatorViewFontObject, callback: (font: HeathCareLocatorViewFontObject) -> Unit) = PreviewFontFragment().apply {
             this.callback = callback
             this.font = font
         }
     }
 
-    private var callback: (font: OneKeyViewFontObject) -> Unit = {}
-    private var font: OneKeyViewFontObject = OneKeyViewFontObject.Builder().build()
+    private var callback: (font: HeathCareLocatorViewFontObject) -> Unit = {}
+    private var font: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder().build()
     private val fonts by lazy { getFonts() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

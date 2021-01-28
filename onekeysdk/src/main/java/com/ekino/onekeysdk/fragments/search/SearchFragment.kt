@@ -19,11 +19,11 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.model.SearchObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.onekeysdk.viewmodel.search.SearchViewModel
 import com.iqvia.onekey.GetIndividualByNameQuery
@@ -38,10 +38,10 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         View.OnFocusChangeListener, IndividualAdapter.OnIndividualClickedListener {
 
     companion object {
-        fun newInstance(oneKeyCustomObject: OneKeyCustomObject, isUseNearMe: Boolean = false,
+        fun newInstance(healthCareLocatorCustomObject: HealthCareLocatorCustomObject, isUseNearMe: Boolean = false,
                         currentLocation: Location? = null) =
                 SearchFragment().apply {
-                    this.oneKeyCustomObject = oneKeyCustomObject
+                    this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
                     this.currentLocation = currentLocation
                     useNearMe = isUseNearMe
                 }
@@ -49,14 +49,14 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         private var useNearMe: Boolean = false
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject =
-            OneKeySDK.getInstance().getConfiguration()
-    private val placeAdapter by lazy { OneKeyPlaceAdapter(oneKeyCustomObject, this) }
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject =
+            HealthCareLocatorSDK.getInstance().getConfiguration()
+    private val placeAdapter by lazy { OneKeyPlaceAdapter(healthCareLocatorCustomObject, this) }
     private val individualAdapter by lazy { IndividualAdapter() }
     private var selectedPlace: OneKeyPlace? = null
     private var locationProvider: GpsMyLocationProvider? = null
     private var currentLocation: Location? = null
-    private var selectedSpeciality: OneKeySpecialityObject? = null
+    private var selectedSpeciality: HealthCareLocatorSpecialityObject? = null
     private var isExpand = false
     var onItemClicked = false
 
@@ -96,7 +96,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
             setNearMeText()
         }
 
-        oneKeyCustomObject?.also {
+        healthCareLocatorCustomObject?.also {
             val primaryColor = it.colorPrimary.getColor()
             btnSearch.setRippleBackground(primaryColor, 20f)
             edtName.textSize = it.fontSearchInput.size.toFloat()
@@ -188,21 +188,21 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     return
                 }
                 setFocusable(false)
-                oneKeyCustomObject?.also {
+                healthCareLocatorCustomObject?.also {
                     onItemClicked = true
                     context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
                         viewModel.storeSearch(this, SearchObject(selectedSpeciality
-                                ?: OneKeySpecialityObject(longLbl = edtName.text.toString()), selectedPlace
+                                ?: HealthCareLocatorSpecialityObject(longLbl = edtName.text.toString()), selectedPlace
                                 ?: OneKeyPlace().apply {
                                     displayName = edtWhere.text.toString()
                                 }))
                     }
                     if (selectedPlace?.placeId == "near_me" && edtName.text.toString().isEmpty() && currentLocation != null) {
                         (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                                OneKeyNearMeFragment.newInstance(oneKeyCustomObject, "", null,
+                                OneKeyNearMeFragment.newInstance(healthCareLocatorCustomObject, "", null,
                                         OneKeyPlace(placeId = "near_me", latitude = "${currentLocation!!.latitude}",
                                                 longitude = "${currentLocation!!.longitude}",
-                                                displayName = getString(R.string.onekey_sdk_near_me)),
+                                                displayName = getString(R.string.hcl_near_me)),
                                         arrayListOf(), currentLocation), true)
                     } else
                         (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
@@ -250,7 +250,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private fun setNearMeText() {
         currentLocation?.apply {
             selectedPlace = OneKeyPlace(placeId = "near_me", latitude = "$latitude",
-                    longitude = "$longitude", displayName = getString(R.string.onekey_sdk_near_me))
+                    longitude = "$longitude", displayName = getString(R.string.hcl_near_me))
             edtWhere.setText(selectedPlace?.displayName ?: "")
         }
     }
@@ -263,7 +263,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         ivAddressClear.visibility = state.getVisibility()
     }
 
-    private fun setError(view: View, strokeColor: Int = oneKeyCustomObject.colorCardBorder.getColor()) {
+    private fun setError(view: View, strokeColor: Int = healthCareLocatorCustomObject.colorCardBorder.getColor()) {
         view.setBackgroundWithCorner(Color.WHITE, strokeColor, 12f, 3)
     }
 
@@ -280,7 +280,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         }
     }
 
-    override fun onIndividualClickedListener(data: OneKeySpecialityObject) {
+    override fun onIndividualClickedListener(data: HealthCareLocatorSpecialityObject) {
         this.selectedSpeciality = data
         onItemClicked = true
         edtName.setText(data.longLbl)
@@ -290,7 +290,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     override fun onHCPClickedListener(data: GetIndividualByNameQuery.Individual) {
         onItemClicked = true
         (activity as? AppCompatActivity)?.addFragment(R.id.fragmentContainer,
-                OneKeyProfileFragment.newInstance(oneKeyCustomObject, null, data.mainActivity().id()), true)
+                OneKeyProfileFragment.newInstance(healthCareLocatorCustomObject, null, data.mainActivity().id()), true)
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {

@@ -19,7 +19,7 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.OneKeyReceiver
 import com.ekino.onekeysdk.viewmodel.home.OneKeyHomeMainViewModel
 import kotlinx.android.synthetic.main.fragment_one_key_home_main.*
@@ -30,7 +30,7 @@ class OneKeyHomeMainFragment :
         fun newInstance(): OneKeyHomeMainFragment = OneKeyHomeMainFragment()
     }
 
-    private val config = OneKeySDK.getInstance().getConfiguration()
+    private val config = HealthCareLocatorSDK.getInstance().getConfiguration()
 
     override val viewModel = OneKeyHomeMainViewModel()
 

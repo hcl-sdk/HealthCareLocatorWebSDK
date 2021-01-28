@@ -14,7 +14,7 @@ import com.ekino.onekeysdk.fragments.OneKeyHomeFragment
 import com.ekino.onekeysdk.fragments.OneKeyHomeFullFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.model.map.OneKeyPlace
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import org.osmdroid.config.Configuration
 import java.util.*
 
@@ -28,7 +28,7 @@ class OneKeyActivity : AppActivity<ActivityOneKeySdkBinding>(R.layout.activity_o
     }
 
     override val stackFragment: ArrayList<IFragment> by lazy {
-        val config = OneKeySDK.getInstance().getConfiguration()
+        val config = HealthCareLocatorSDK.getInstance().getConfiguration()
         val fragment: IFragment = when (config.screenReference) {
             ScreenReference.SEARCH_NEAR_ME -> {
                 if (config.specialities.isEmpty())
@@ -36,7 +36,7 @@ class OneKeyActivity : AppActivity<ActivityOneKeySdkBinding>(R.layout.activity_o
                             "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 this.changeLocale(config.locale)
                 OneKeyNearMeFragment.newInstance(config, "", null,
-                        OneKeyPlace(placeId = "near_me", displayName = getString(R.string.onekey_sdk_near_me)),
+                        OneKeyPlace(placeId = "near_me", displayName = getString(R.string.hcl_near_me)),
                         config.specialities)
             }
             ScreenReference.HOME_FULL -> OneKeyHomeFragment.newInstance()

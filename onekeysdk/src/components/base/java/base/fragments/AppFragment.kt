@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import base.activity.AppActivity
 import base.extensions.changeLocale
 import base.viewmodel.IViewModel
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 
 /**
  * This class will be used for the fragments where the binding functions are called already.
@@ -39,7 +39,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        changeLocale(OneKeySDK.getInstance().getConfiguration().getLocaleCode())
+        changeLocale(HealthCareLocatorSDK.getInstance().getConfiguration().getLocaleCode())
         val view = inflater.inflate(layoutId, container, false)
         viewModel.bindView(this as T)
         return view

@@ -13,8 +13,8 @@ import com.ekino.onekeysdk.adapter.home.OneKeyHomeAdapter
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -24,15 +24,15 @@ class OneKeyHomeFragment :
         fun newInstance(): OneKeyHomeFragment = OneKeyHomeFragment()
     }
 
-    private var oneKeyCustomObject: OneKeyCustomObject = OneKeySDK.getInstance().getConfiguration()
+    private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject = HealthCareLocatorSDK.getInstance().getConfiguration()
 
-    private val homeAdapter by lazy { OneKeyHomeAdapter(oneKeyCustomObject) }
+    private val homeAdapter by lazy { OneKeyHomeAdapter(healthCareLocatorCustomObject) }
 
     override val viewModel: HomeViewModel = HomeViewModel()
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         btnStartSearch.setOnClickListener { startNewSearch() }
-        oneKeyCustomObject.also {
+        healthCareLocatorCustomObject.also {
             contentWrapper.setBackgroundWithCorner(Color.WHITE, it.colorCardBorder.getColor(), 15f, 3)
             tvHomeHeader.setTextColor(it.colorSecondary.getColor())
             container.setBackgroundColor(it.colorViewBackground.getColor())
@@ -55,7 +55,7 @@ class OneKeyHomeFragment :
                 adapter = homeAdapter
             }
         })
-        homeAdapter.setData(getHomeDummy(context!!, oneKeyCustomObject.searchIcon, oneKeyCustomObject.iconProfile))
+        homeAdapter.setData(getHomeDummy(context!!, healthCareLocatorCustomObject.searchIcon, healthCareLocatorCustomObject.iconProfile))
     }
 
     override fun onResume() {
@@ -64,7 +64,7 @@ class OneKeyHomeFragment :
     }
 
     private fun startNewSearch() {
-        oneKeyCustomObject?.also {
+        healthCareLocatorCustomObject?.also {
             (activity as? AppCompatActivity)?.addFragment(
                     R.id.fragmentContainer,
                     SearchFragment.newInstance(it), true

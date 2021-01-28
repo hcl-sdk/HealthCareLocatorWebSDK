@@ -1,6 +1,5 @@
 package com.ekino.onekeysdk.adapter.home
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,12 @@ import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
 import com.ekino.onekeysdk.extensions.setIconFromDrawableId
 import com.ekino.onekeysdk.model.SearchObject
-import com.ekino.onekeysdk.model.config.OneKeyCustomObject
-import com.ekino.onekeysdk.state.OneKeySDK
+import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import kotlinx.android.synthetic.main.layout_one_key_last_search.view.*
 
-class LastSearchAdapter(private val theme: OneKeyCustomObject =
-                                OneKeySDK.getInstance().getConfiguration()) :
+class LastSearchAdapter(private val theme: HealthCareLocatorCustomObject =
+                                HealthCareLocatorSDK.getInstance().getConfiguration()) :
         OneKeyAdapter<SearchObject, LastSearchAdapter.LastSearchVH>(arrayListOf(R.layout.layout_one_key_last_search)) {
     var onItemRemovedListener: (data: SearchObject) -> Unit = {}
     var onItemClickedListener: (data: SearchObject) -> Unit = {}
