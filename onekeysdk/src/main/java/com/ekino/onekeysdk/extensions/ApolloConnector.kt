@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.extensions
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.ekino.onekeysdk.extensions.ApolloConnector.Instance.apolloClientUrl
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import okhttp3.Interceptor
@@ -24,6 +25,7 @@ class ApolloConnector private constructor() {
         if (apolloClient == null) {
             apolloClient = ApolloClient.builder()
                     .serverUrl(apolloClientUrl)
+                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
 //                    .okHttpClient(OkHttpClient.Builder()
 //                            .addInterceptor(AuthorizationInterceptor()).build())
                     .build()

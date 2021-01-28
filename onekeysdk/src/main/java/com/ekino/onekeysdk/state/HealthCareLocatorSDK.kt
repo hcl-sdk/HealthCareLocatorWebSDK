@@ -97,6 +97,8 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
     }
 
     override fun getServices(): HealthCareLocatorService {
+        if (getApiKey().isEmpty()) throw OneKeyException(ErrorReference.API_KEY_INVALID,
+                "The provided API key must NOT be nullable or emtpy.")
         return HealthCareLocatorService.getInstance()
     }
 }

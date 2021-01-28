@@ -11,7 +11,7 @@ import com.ekino.onekeysdk.adapter.OneKeyAdapter
 import com.ekino.onekeysdk.adapter.OneKeyViewHolder
 import com.ekino.onekeysdk.extensions.getColor
 import com.ekino.onekeysdk.extensions.getVisibility
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetIndividualByNameQuery
 import kotlinx.android.synthetic.main.layout_item_individual.view.*
@@ -32,13 +32,13 @@ class IndividualAdapter : OneKeyAdapter<Any,
             }
 
     override fun getItemViewType(position: Int): Int {
-        return if (getData()[position] is OneKeySpecialityObject) speciality
+        return if (getData()[position] is HealthCareLocatorSpecialityObject) speciality
         else hcp
     }
 
     inner class IndividualVH(itemView: View) :
-            OneKeyViewHolder<OneKeySpecialityObject>(itemView) {
-        override fun bind(position: Int, data: OneKeySpecialityObject) {
+            OneKeyViewHolder<HealthCareLocatorSpecialityObject>(itemView) {
+        override fun bind(position: Int, data: HealthCareLocatorSpecialityObject) {
             itemView.apply {
                 val name: String = data.longLbl
                 tvSpeciality.text = SpannableStringBuilder(name).apply {
@@ -86,7 +86,7 @@ class IndividualAdapter : OneKeyAdapter<Any,
     }
 
     interface OnIndividualClickedListener {
-        fun onIndividualClickedListener(data: OneKeySpecialityObject)
+        fun onIndividualClickedListener(data: HealthCareLocatorSpecialityObject)
         fun onHCPClickedListener(data: GetIndividualByNameQuery.Individual)
     }
 }

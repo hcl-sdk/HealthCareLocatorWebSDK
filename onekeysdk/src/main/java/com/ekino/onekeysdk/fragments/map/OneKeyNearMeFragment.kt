@@ -23,7 +23,7 @@ import com.ekino.onekeysdk.custom.text.OneKeyTextView
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.fragment_full_map.*
 class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewModel>(R.layout.fragment_full_map),
         View.OnClickListener {
     companion object {
-        fun newInstance(healthCareLocatorCustomObject: HealthCareLocatorCustomObject, c: String, s: OneKeySpecialityObject?,
+        fun newInstance(healthCareLocatorCustomObject: HealthCareLocatorCustomObject, c: String, s: HealthCareLocatorSpecialityObject?,
                         p: OneKeyPlace?, listIds: ArrayList<String> = arrayListOf(), cLocation: Location? = null) =
                 OneKeyNearMeFragment().apply {
                     this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
@@ -72,7 +72,7 @@ class OneKeyNearMeFragment : AbsMapFragment<OneKeyNearMeFragment, NearMeViewMode
     private var activeScreen = 0
     private var isRelaunch = false
     private var isNearMe = false
-    private var speciality: OneKeySpecialityObject? = null
+    private var speciality: HealthCareLocatorSpecialityObject? = null
     override val viewModel: NearMeViewModel = NearMeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

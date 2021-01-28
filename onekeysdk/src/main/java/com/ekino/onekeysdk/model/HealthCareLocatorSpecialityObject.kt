@@ -6,9 +6,9 @@ import com.ekino.onekeysdk.extensions.isNullable
 import com.google.gson.annotations.SerializedName
 import com.iqvia.onekey.GetCodeByLabelQuery
 
-class OneKeySpecialityObject(@SerializedName("id") var id: String = "",
-                             @SerializedName("lisCode") var lisCode: String = "",
-                             @SerializedName("longLbl") var longLbl: String = "") : Parcelable {
+class HealthCareLocatorSpecialityObject(@SerializedName("id") var id: String = "",
+                                        @SerializedName("lisCode") var lisCode: String = "",
+                                        @SerializedName("longLbl") var longLbl: String = "") : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -27,12 +27,12 @@ class OneKeySpecialityObject(@SerializedName("id") var id: String = "",
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<OneKeySpecialityObject> {
-        override fun createFromParcel(parcel: Parcel): OneKeySpecialityObject {
-            return OneKeySpecialityObject(parcel)
+    companion object CREATOR : Parcelable.Creator<HealthCareLocatorSpecialityObject> {
+        override fun createFromParcel(parcel: Parcel): HealthCareLocatorSpecialityObject {
+            return HealthCareLocatorSpecialityObject(parcel)
         }
 
-        override fun newArray(size: Int): Array<OneKeySpecialityObject?> {
+        override fun newArray(size: Int): Array<HealthCareLocatorSpecialityObject?> {
             return arrayOfNulls(size)
         }
     }
@@ -44,7 +44,7 @@ class OneKeySpecialityObject(@SerializedName("id") var id: String = "",
     /**
      * Convert data from GraphQL
      */
-    fun parse(data: GetCodeByLabelQuery.Code?): OneKeySpecialityObject {
+    fun parse(data: GetCodeByLabelQuery.Code?): HealthCareLocatorSpecialityObject {
         if (data.isNullable()) return this
         this.id = data!!.id() ?: ""
         this.lisCode = data.lisCode()

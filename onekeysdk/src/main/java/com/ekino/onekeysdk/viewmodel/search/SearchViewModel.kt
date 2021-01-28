@@ -7,7 +7,7 @@ import base.fragments.IFragment
 import base.viewmodel.ApolloViewModel
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
@@ -174,16 +174,17 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
         })
     }
 
-    private fun getCodeByLabel(name: String, callback: (ArrayList<OneKeySpecialityObject>) -> Unit) {
+    private fun getCodeByLabel(name: String, callback: (ArrayList<HealthCareLocatorSpecialityObject>) -> Unit) {
         rxQuery({
-            GetCodeByLabelQuery.builder().criteria(name).first(5).offset(0).codeTypes(listOf("SP")).build()
+            GetCodeByLabelQuery.builder().criteria(name).first(5).offset(0).locale(theme.locale)
+                    .codeTypes(listOf("SP")).build()
         }, { response ->
             if (response.data?.codesByLabel()?.codes().isNullable())
-                arrayListOf<OneKeySpecialityObject>()
+                arrayListOf<HealthCareLocatorSpecialityObject>()
             else {
-                val list = arrayListOf<OneKeySpecialityObject>()
+                val list = arrayListOf<HealthCareLocatorSpecialityObject>()
                 response.data!!.codesByLabel()!!.codes()!!.forEach {
-                    list.add(OneKeySpecialityObject().parse(it))
+                    list.add(HealthCareLocatorSpecialityObject().parse(it))
                 }
                 list
             }

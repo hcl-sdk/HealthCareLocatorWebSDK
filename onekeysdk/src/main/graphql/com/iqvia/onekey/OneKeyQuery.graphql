@@ -167,8 +167,8 @@ query getActivityById($id:ID!, $locale:String){
         }
     }
 }
-query getCodeByLabel($first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[String!]!){
-    codesByLabel(  first: $first,offset: $offset,
+query getCodeByLabel($first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[String!]!, $locale:String){
+    codesByLabel(  first: $first,offset: $offset,locale:$locale,
         criteria: $criteria,
         codeTypes: $codeTypes) {
         codes {

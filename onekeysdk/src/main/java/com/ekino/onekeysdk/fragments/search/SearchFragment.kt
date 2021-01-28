@@ -19,7 +19,7 @@ import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.fragments.map.OneKeyNearMeFragment
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -56,7 +56,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
     private var selectedPlace: OneKeyPlace? = null
     private var locationProvider: GpsMyLocationProvider? = null
     private var currentLocation: Location? = null
-    private var selectedSpeciality: OneKeySpecialityObject? = null
+    private var selectedSpeciality: HealthCareLocatorSpecialityObject? = null
     private var isExpand = false
     var onItemClicked = false
 
@@ -192,7 +192,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     onItemClicked = true
                     context?.getSharedPreferences("OneKeySDK", Context.MODE_PRIVATE)?.apply {
                         viewModel.storeSearch(this, SearchObject(selectedSpeciality
-                                ?: OneKeySpecialityObject(longLbl = edtName.text.toString()), selectedPlace
+                                ?: HealthCareLocatorSpecialityObject(longLbl = edtName.text.toString()), selectedPlace
                                 ?: OneKeyPlace().apply {
                                     displayName = edtWhere.text.toString()
                                 }))
@@ -280,7 +280,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
         }
     }
 
-    override fun onIndividualClickedListener(data: OneKeySpecialityObject) {
+    override fun onIndividualClickedListener(data: HealthCareLocatorSpecialityObject) {
         this.selectedSpeciality = data
         onItemClicked = true
         edtName.setText(data.longLbl)

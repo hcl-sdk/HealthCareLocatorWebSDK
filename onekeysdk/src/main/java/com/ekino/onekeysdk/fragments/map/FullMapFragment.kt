@@ -22,7 +22,7 @@ import com.ekino.onekeysdk.custom.text.OneKeyTextView
 import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.profile.OneKeyProfileFragment
 import com.ekino.onekeysdk.fragments.search.SearchFragment
-import com.ekino.onekeysdk.model.OneKeySpecialityObject
+import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -36,7 +36,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         View.OnClickListener {
     companion object {
         fun newInstance(
-                healthCareLocatorCustomObject: HealthCareLocatorCustomObject, c: String, s: OneKeySpecialityObject?,
+                healthCareLocatorCustomObject: HealthCareLocatorCustomObject, c: String, s: HealthCareLocatorSpecialityObject?,
                 p: OneKeyPlace?, listIds: ArrayList<String> = arrayListOf(),
                 cLocation: Location? = null) = FullMapFragment().apply {
             this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
@@ -71,7 +71,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
     private var isNearMe = false
     private var isRelaunch = false
     private var place: OneKeyPlace? = null
-    private var speciality: OneKeySpecialityObject? = null
+    private var speciality: HealthCareLocatorSpecialityObject? = null
     private var criteria: String = ""
     private var activeScreen = 0
     private var resultFragments: ArrayList<IFragment> = arrayListOf()
