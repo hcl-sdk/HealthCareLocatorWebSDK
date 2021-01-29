@@ -33,8 +33,8 @@ class LandingPageFragment : IFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btnSearchNearMe ->
-                (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true)
+            R.id.btnSearchNearMe ->{}
+//                (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true)
             R.id.btnSearch -> {
                 val builder = HCLQueryObject.Builder(criteria = "gen", codeTypes = arrayListOf("SP"))
                 val service = HealthCareLocatorSDK.getInstance().setApiKey("200002c2aaf5b168").getServices()

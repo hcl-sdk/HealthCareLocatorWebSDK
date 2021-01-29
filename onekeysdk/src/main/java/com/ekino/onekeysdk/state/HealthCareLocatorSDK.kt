@@ -75,9 +75,6 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
                     "Should provide the map API key for google map service.")
         when (config.screenReference) {
             ScreenReference.SEARCH_NEAR_ME -> {
-                if (config.specialities.isEmpty())
-                    throw OneKeyException(ErrorReference.DATA_INVALID,
-                            "In SEARCH_NEAR_ME mode, the specialities must NOT be empty.")
                 activity!!.changeLocale(config.locale)
                 activity.pushFragment(
                         containerId, OneKeyNearMeFragment.newInstance(config, "", null,

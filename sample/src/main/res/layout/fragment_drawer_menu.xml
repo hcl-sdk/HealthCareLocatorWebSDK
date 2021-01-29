@@ -75,5 +75,23 @@
             android:layout_height="1dp"
             android:alpha="0.3"
             android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/btnSearchSpeciality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+            android:text="Search a Cardiologist near me"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_text_bigger" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.3"
+            android:background="@color/white" />
     </LinearLayout>
 </LinearLayout>

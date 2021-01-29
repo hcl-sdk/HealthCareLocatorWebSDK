@@ -32,7 +32,11 @@ class DrawerMenuFragment : IFragment() {
         }
         btnNearMeSearch.setOnClickListener {
             closeDrawer()
-            (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true, false)
+            (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true, false, false)
+        }
+        btnSearchSpeciality.setOnClickListener {
+            closeDrawer()
+            (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(false, true, false)
         }
     }
 
