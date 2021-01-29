@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">Über</string>
+    <string name="about_message">Diese Software benutzt Kartenmaterial von OpenStreetMap.org</string>
+    <string name="base">OSM Basislayer</string>
+    <string name="cyclemap">Fahrradkarte</string>
+    <string name="hills">Relief</string>
+    <string name="map_mode">Kartenmodus</string>
+    <string name="my_location">Standort</string>
+    <string name="topo">Topographisch</string>
+    <string name="unknown">Unbekannt</string>
+</resources>
