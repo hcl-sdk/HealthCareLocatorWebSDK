@@ -166,7 +166,7 @@ class OneKeyProfileFragment :
             }
             addressSpinner.setSelection(selectedAddress)
             addressSpinner.onItemSelectedListener = this
-        }else{
+        } else {
             activities.firstOrNull()?.apply { changeAddress(this) }
         }
 
@@ -238,7 +238,9 @@ class OneKeyProfileFragment :
                 activity?.share(shareString, "Share HCP")
             }
             R.id.mapOverlay -> {
-                val obj = (addressSpinner.selectedItem as? OtherActivityObject) ?: return
+                val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
+                val obj = (if (activities.size > 1) (addressSpinner.selectedItem as? OtherActivityObject)
+                else activities.firstOrNull()) ?: return
                 (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                         OneKeyProfileMapFragment.newInstance(obj), true)
             }
@@ -268,7 +270,8 @@ class OneKeyProfileFragment :
             changeAddress(it)
         }
     }
-    private fun changeAddress(it:OtherActivityObject){
+
+    private fun changeAddress(it: OtherActivityObject) {
         setAddress(it.workplace, it.webAddress, it.phone, it.fax)
         this.phone = it.phone
         val address = it.workplace?.address
