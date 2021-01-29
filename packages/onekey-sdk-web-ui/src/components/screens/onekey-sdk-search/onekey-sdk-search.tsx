@@ -258,11 +258,11 @@ export class OnekeySdkSearch {
   };
 
   renderAutocompleteMobile = (searchDoctorData, addressAutocompletionData) => {
-    const addressResults = this.insertDefaultAddressNearMe([...addressAutocompletionData]);
     if (this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0) {
       return <div class="body-block">{searchDoctorData.length > 0 && this.renderContent(searchDoctorData)}</div>;
     }
     if (this.currentSelectedInput === 'address') {
+      const addressResults = this.insertDefaultAddressNearMe([...addressAutocompletionData]);
       return <div class="body-block">{this.renderContent(addressResults)}</div>;
     }
     return null;
