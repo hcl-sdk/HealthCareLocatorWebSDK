@@ -27,6 +27,8 @@ export class OnekeySdkSearchResult {
       individualDetail: null,
       searchDoctor: [],
       specialties: [],
+      specialtyFilter: null,
+      locationFilter: null,
       searchFields: { name: '', address: '' },
     });
     configStore.setState({
@@ -213,6 +215,8 @@ export class OnekeySdkSearchResult {
     } = searchMapStore.state;
 
     const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
+    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && searchFields.name === '';
+
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
     const isListView = configStore.state.modeView === ModeViewType.LIST;
@@ -229,7 +233,7 @@ export class OnekeySdkSearchResult {
 
     const wrapperClass = cls('search-result main-contain', `${modeView.toLowerCase()}-view-mode`, {
       'hcp-details': !!selectedActivity,
-      'with-nearme': locationFilter?.id === NEAR_ME && searchFields.name === '',
+      'with-nearme': isShowHeaderNearmeMobile,
     });
 
     const injectedMapProps = {
@@ -268,7 +272,7 @@ export class OnekeySdkSearchResult {
                 onClick={() => this.goBackToHome()}
               ></onekey-sdk-button>
               <div class="header-infos">
-                {locationFilter?.id === NEAR_ME && searchFields.name === '' ? (
+                {isShowHeaderNearmeMobile ? (
                   <div class="search-home-hpc" onClick={this.goToSearch}>
                     <input class="search-input" placeholder="Find Healthcare Professional" />
                     <onekey-sdk-button primary icon="search" class="oksdk-btn-search-address" />
