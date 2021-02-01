@@ -10,7 +10,7 @@
     <string name="impact" translatable="false">fonts/impact.ttf</string>
     <string name="montserrat_regular" translatable="false">fonts/Montserrat-Regular.ttf</string>
 
-    <string name="app_name">HealthCare Locator SDK</string>
+    <string name="app_name">HealthCareLocator SDK</string>
     <!--Home-->
     <string name="hcl_home_title">Find and Locate\nHealthcare Professionals</string>
     <string name="hcl_home_feat_find_hcp_title">Find HCPs/HCOs</string>

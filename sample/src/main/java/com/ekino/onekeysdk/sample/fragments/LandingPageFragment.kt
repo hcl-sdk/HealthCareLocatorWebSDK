@@ -46,6 +46,7 @@ class LandingPageFragment : IFragment(), View.OnClickListener {
 
                             override fun onServiceResponse(data: ArrayList<GetCodeByLabelQuery.Code>) {
                                 //TODO: Handle response
+                                tvResult.text = data.toString()
                             }
                         })
             }

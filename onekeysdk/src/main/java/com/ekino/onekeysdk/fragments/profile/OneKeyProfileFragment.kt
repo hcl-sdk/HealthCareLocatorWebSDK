@@ -32,24 +32,24 @@ import kotlinx.android.synthetic.main.fragment_one_key_profile.*
 
 
 class OneKeyProfileFragment :
-    AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile),
-    View.OnClickListener, AdapterView.OnItemSelectedListener {
+        AppFragment<OneKeyProfileFragment, OneKeyProfileViewModel>(R.layout.fragment_one_key_profile),
+        View.OnClickListener, AdapterView.OnItemSelectedListener {
     companion object {
         fun newInstance(
-            theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
-            oneKeyLocation: OneKeyLocation?, activityId: String = ""
+                theme: HealthCareLocatorCustomObject = HealthCareLocatorCustomObject.Builder().build(),
+                oneKeyLocation: OneKeyLocation?, activityId: String = ""
         ) =
-            OneKeyProfileFragment().apply {
-                this.healthCareLocatorCustomObject = theme
-                this.oneKeyLocation = oneKeyLocation
-                this.activityId = activityId
-            }
+                OneKeyProfileFragment().apply {
+                    this.healthCareLocatorCustomObject = theme
+                    this.oneKeyLocation = oneKeyLocation
+                    this.activityId = activityId
+                }
 
     }
 
     private var oneKeyLocation: OneKeyLocation? = null
     private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject =
-        HealthCareLocatorSDK.getInstance().getConfiguration()
+            HealthCareLocatorSDK.getInstance().getConfiguration()
     private val mapFragmentTag: String = StarterMapFragment::class.java.name
     private var mapFragment: MapFragment? = null
     private var activityDetail: ActivityObject = ActivityObject()
@@ -61,10 +61,10 @@ class OneKeyProfileFragment :
     override fun initView(view: View, savedInstanceState: Bundle?) {
         KeyboardUtils.hideSoftKeyboard(activity)
         contentWrapper.setBackgroundWithCorner(
-            Color.WHITE,
-            healthCareLocatorCustomObject.colorCardBorder.getColor(),
-            12f,
-            3
+                Color.WHITE,
+                healthCareLocatorCustomObject.colorCardBorder.getColor(),
+                12f,
+                3
         )
         if (savedInstanceState != null) {
             activityDetail = savedInstanceState.getParcelable("activityDetail") ?: ActivityObject()
@@ -100,30 +100,31 @@ class OneKeyProfileFragment :
         })
         btnBack.setOnClickListener { activity?.onBackPressed() }
         healthCareLocatorCustomObject.apply {
+            modificationWrapper.visibility = showModificationForm.getVisibility()
             container.setBackgroundColor(colorViewBackground.getColor())
             ivLocationOutLine.setIconFromDrawableId(
-                iconLocation,
-                true,
-                colorMarkerSelected.getColor()
+                    iconLocation,
+                    true,
+                    colorMarkerSelected.getColor()
             )
             ivPhone.setIconFromDrawableId(iconPhone, true, colorGrey.getColor())
             ivFax.setIconFromDrawableId(iconFax, true, colorGrey.getColor())
             ivBrowser.setIconFromDrawableId(iconWebsite, true, colorGrey.getColor())
             cbxYes.setLayerListFromDrawable(
-                Color.WHITE,
-                colorPrimary.getColor(),
-                colorGreyLight.getColor(),
-                3,
-                context!!.getDrawableFilledIcon(iconVoteUp, colorGreyLight.getColor()),
-                context!!.getDrawableFilledIcon(iconVoteUp, Color.WHITE)
+                    Color.WHITE,
+                    colorPrimary.getColor(),
+                    colorGreyLight.getColor(),
+                    3,
+                    context!!.getDrawableFilledIcon(iconVoteUp, colorGreyLight.getColor()),
+                    context!!.getDrawableFilledIcon(iconVoteUp, Color.WHITE)
             )
             cbxNo.setLayerListFromDrawable(
-                Color.WHITE,
-                colorVoteDown.getColor(),
-                colorGreyLight.getColor(),
-                3,
-                context!!.getDrawableFilledIcon(iconVoteDown, colorGreyLight.getColor()),
-                context!!.getDrawableFilledIcon(iconVoteDown, Color.WHITE)
+                    Color.WHITE,
+                    colorVoteDown.getColor(),
+                    colorGreyLight.getColor(),
+                    3,
+                    context!!.getDrawableFilledIcon(iconVoteDown, colorGreyLight.getColor()),
+                    context!!.getDrawableFilledIcon(iconVoteDown, Color.WHITE)
             )
         }
     }
@@ -131,15 +132,15 @@ class OneKeyProfileFragment :
     private fun fillData(savedInstanceState: Bundle?) {
         if (mapFragment == null)
             mapFragment =
-                MapFragment.newInstance(
-                    healthCareLocatorCustomObject,
-                    arrayListOf(activityDetail),
-                    2f
-                )
+                    MapFragment.newInstance(
+                            healthCareLocatorCustomObject,
+                            arrayListOf(activityDetail),
+                            2f
+                    )
         val fm = this@OneKeyProfileFragment.childFragmentManager
         if (fm.findFragmentByTag(mapFragmentTag) == null && savedInstanceState == null) {
             fm.beginTransaction().add(R.id.viewHCPMap, mapFragment!!, mapFragmentTag)
-                .commit()
+                    .commit()
         }
         initProfile(savedInstanceState)
     }
@@ -162,23 +163,23 @@ class OneKeyProfileFragment :
         val secondaryColor = healthCareLocatorCustomObject.colorSecondary.getColor()
         ivDirection.setColorFilter(secondaryColor)
         ivDirection.setBackgroundWithCorner(
-            Color.WHITE,
-            healthCareLocatorCustomObject.colorButtonBorder.getColor(),
-            100f,
-            3
+                Color.WHITE,
+                healthCareLocatorCustomObject.colorButtonBorder.getColor(),
+                100f,
+                3
         )
         ivCall.setBackgroundWithCorner(
-            Color.WHITE,
-            healthCareLocatorCustomObject.colorButtonBorder.getColor(),
-            100f,
-            3
+                Color.WHITE,
+                healthCareLocatorCustomObject.colorButtonBorder.getColor(),
+                100f,
+                3
         )
         ivCall.setColorFilter(secondaryColor)
         ivEdit.setColorFilter(secondaryColor)
         ivLocationOutLine.setColorFilter(healthCareLocatorCustomObject.colorMarker.getColor())
         btnSuggestModification.setBackgroundWithCorner(
-            healthCareLocatorCustomObject.colorButtonBackground.getColor(),
-            healthCareLocatorCustomObject.colorButtonBorder.getColor(), 8f, 3
+                healthCareLocatorCustomObject.colorButtonBackground.getColor(),
+                healthCareLocatorCustomObject.colorButtonBorder.getColor(), 8f, 3
         )
 
         activityDetail.apply {
@@ -187,7 +188,7 @@ class OneKeyProfileFragment :
             tvSpeciality.text = individual?.professionalType?.label ?: ""
 
             tvSpecialities.text = TextUtils.join(
-                ",", individual?.specialties
+                    ",", individual?.specialties
                     ?: arrayListOf<LabelObject>()
             )
             tvRateRefund.text = "Conventionned Sector 1\n\n25€"
@@ -196,16 +197,16 @@ class OneKeyProfileFragment :
         val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
         if (activities.size > 1) {
             spinnerWrapper.setBackgroundWithCorner(
-                Color.WHITE,
-                healthCareLocatorCustomObject.colorButtonBorder.getColor(),
-                10f,
-                2
+                    Color.WHITE,
+                    healthCareLocatorCustomObject.colorButtonBorder.getColor(),
+                    10f,
+                    2
             )
             spinnerWrapper.visibility = View.VISIBLE
             ArrayAdapter<OtherActivityObject>(
-                context!!,
-                R.layout.layout_one_key_spinner_item,
-                activities
+                    context!!,
+                    R.layout.layout_one_key_spinner_item,
+                    activities
             ).also {
                 it.setDropDownViewResource(R.layout.layout_one_key_drop_down)
                 addressSpinner.adapter = it
@@ -236,24 +237,32 @@ class OneKeyProfileFragment :
             R.id.ivDirection -> {
                 val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
                 val obj =
-                    (if (activities.size > 1) (addressSpinner.selectedItem as? OtherActivityObject)
-                    else activities.firstOrNull()) ?: return
+                        (if (activities.size > 1) (addressSpinner.selectedItem as? OtherActivityObject)
+                        else activities.firstOrNull()) ?: return
                 if (obj.workplace?.address?.location.isNotNullable()) {
                     val location = obj.workplace?.address?.location!!
                     val lastLocation = getRunningMapFragment()?.getLastLocation()
-                        ?.getLocationString() ?: ""
+                            ?.getLocationString() ?: ""
                     val uri =
-                        "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
+                            "http://maps.google.com/maps?saddr=${lastLocation}&daddr=${location.getLocationByString()}"
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     startActivity(intent)
                 }
             }
             R.id.btnSuggestModification -> {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
-                startActivity(browserIntent)
+                with(healthCareLocatorCustomObject) {
+                    val url = getString(R.string.modificationUrl, this.locale,
+                            HealthCareLocatorSDK.getInstance().getApiKey(),
+                            activityDetail.individual?.id ?: "")
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(browserIntent)
+                }
             }
             R.id.tvWebsite -> {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+                val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
+                val obj = (if (activities.size > 1) (addressSpinner.selectedItem as? OtherActivityObject)
+                else activities.firstOrNull()) ?: return
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(obj.webAddress))
                 startActivity(browserIntent)
             }
 
@@ -289,11 +298,11 @@ class OneKeyProfileFragment :
             R.id.mapOverlay -> {
                 val activities = activityDetail.individual?.otherActivities ?: arrayListOf()
                 val obj =
-                    (if (activities.size > 1) (addressSpinner.selectedItem as? OtherActivityObject)
-                    else activities.firstOrNull()) ?: return
+                        (if (activities.size > 1) (addressSpinner.selectedItem as? OtherActivityObject)
+                        else activities.firstOrNull()) ?: return
                 (activity as? AppCompatActivity)?.pushFragment(
-                    R.id.fragmentContainer,
-                    OneKeyProfileMapFragment.newInstance(obj), true
+                        R.id.fragmentContainer,
+                        OneKeyProfileMapFragment.newInstance(obj), true
                 )
             }
             R.id.cbxYes -> {
@@ -358,8 +367,8 @@ class OneKeyProfileFragment :
     }
 
     private fun setAddress(
-        workplace: ActivityWorkplaceObject?, webAddress: String,
-        phone: String, fax: String
+            workplace: ActivityWorkplaceObject?, webAddress: String,
+            phone: String, fax: String
     ) {
         tvAddress.text = workplace?.run {
             var string = "$name"
@@ -375,8 +384,8 @@ class OneKeyProfileFragment :
         if (webAddress.isNotEmpty())
             tvWebsite.text = SpannableString(webAddress).apply {
                 setSpan(
-                    UnderlineSpan(), 0, webAddress.length,
-                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                        UnderlineSpan(), 0, webAddress.length,
+                        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
         tvTelephone.text = phone
