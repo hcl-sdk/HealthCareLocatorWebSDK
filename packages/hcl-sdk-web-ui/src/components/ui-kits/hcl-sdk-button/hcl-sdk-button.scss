@@ -1,0 +1,84 @@
+@import '../../../global/scss/variables.scss';
+
+:host {
+  .hclsdk-btn {
+    opacity: 1;
+    mix-blend-mode: normal;
+    border-radius: 5px;
+    font-weight: normal;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include applyFontStyle("button");
+
+    &--icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &--primary {
+      background-color: var(--hcl-color-primary);
+      color: white;
+
+      .icon {
+        fill: white;
+      }
+    }
+
+    &--secondary {
+      background-color: var(--hcl-color-secondary);
+      color: white;
+
+      .icon {
+        fill: white;
+      }
+    }
+
+    &--full {
+      width: 100%;
+    }
+
+    &.disabled, &[disabled], fieldset[disabled] {
+      cursor: not-allowed;
+      filter: alpha(opacity=65);
+      opacity: .65;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+
+    &--no-background {
+      background-color: transparent;
+    }
+
+    &--no-border {
+      border: none;
+    }
+
+    &--no-text-color {
+      color: white
+    }
+
+    &--round {
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+    }
+
+    &--icon {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}

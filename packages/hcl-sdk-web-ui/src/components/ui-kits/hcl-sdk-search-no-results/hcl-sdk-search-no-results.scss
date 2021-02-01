@@ -1,0 +1,66 @@
+@import '../../../global/scss/variables.scss';
+
+:host {
+  .hclsdk-search-no-results {
+    display: flex;
+    display: -ms-flexbox;
+    margin: 10px;
+    padding: 10px 10px 20px 10px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid var(--hcl-color-card_border);
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    &__title {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      @include applyFontStyle('title_main');
+    }
+    &__icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 1px solid var(--hcl-color-card_border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon {
+        fill: #666666;
+      }
+    }
+    &__desc {
+      max-width: 290px;
+      margin-top: 36px;
+      @include applyFontStyle('card_title');
+    }
+    &__btn {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    &.size-tablet,
+    &.size-desktop {
+      height: auto;
+      margin: 35px 17px 17px;
+      padding-bottom: 76px;
+
+      & > .hclsdk-search-no-results {  
+        &__title {
+          margin-top: 28px;
+          margin-bottom: 24px;
+          @include applyFontStyle('title_main_large');
+        }
+        &__desc {
+          max-width: 100%;
+          margin-bottom: 0;
+          @include applyFontStyle('title_main');
+        }
+        &__btn {
+          display: none;
+        }
+      }
+    }
+  }
+}

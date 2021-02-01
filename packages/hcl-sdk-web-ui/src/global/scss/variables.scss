@@ -1,0 +1,7 @@
+$color-white: #fff;
+
+@mixin applyFontStyle($fontKey) {
+  font-family: var(--hcl-font-#{$fontKey}-name);
+  font-size: var(--hcl-font-#{$fontKey}-size);
+  font-weight: var(--hcl-font-#{$fontKey}-weight);
+}

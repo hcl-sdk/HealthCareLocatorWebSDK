@@ -1,11 +1,11 @@
 var sidebarEl = document.querySelector('.sidebar');
 var settingPanelEl = document.querySelector('settings-panel');
-var onekeySdkEl = document.querySelector('onekey-sdk');
+var hclSdkEl = document.querySelector('hcl-sdk');
 var burgerEl = document.querySelector('.burger');
 
 var specialtyLabelByCode = {
-  'SP.WCA.08': 'Cardiologist',
-  'SP.WCA.75': 'Dentist',
+  '1SP.7500': 'Dentistry',
+  '1SP.0800': 'Cardiology',
 }
 
 for (let i = 0; i < 3; i++) {
@@ -28,17 +28,17 @@ function searchNearMe(specialtyCode) {
   document.body.classList.remove('menu-opened');
   var specialtyLabel = specialtyLabelByCode[specialtyCode];
   if (specialtyLabel) {
-    onekeySdkEl.searchNearMe({
+    hclSdkEl.searchNearMe({
       specialtyCode,
       specialtyLabel
     });
   }
 }
 
-// Initialize Onekey SDK
+// Initialize Hcl SDK
 
 function getApiKeyFromLocal() {
-  const settingsStr = localStorage.getItem(`__onekey-sdk-dev-settings-fields`);
+  const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings-fields`);
   if (settingsStr) {
     try {
       return JSON.parse(settingsStr).apiKey;
@@ -51,7 +51,7 @@ function getApiKeyFromLocal() {
 //   settingPanelEl.getFields().then(fields => {
     const config = {
       apiKey: getApiKeyFromLocal(),
-      i18nBundlesPath: '/onekey-sdk/i18n'
+      i18nBundlesPath: '/hcl-sdk/i18n'
     };
 
     var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
@@ -67,8 +67,8 @@ function getApiKeyFromLocal() {
       }
     }
 
-    if (onekeySdkEl) {
-      onekeySdkEl.config = config;
+    if (hclSdkEl) {
+      hclSdkEl.config = config;
     }
 //   })
 // })

@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+  padding: 2px;
+  cursor: pointer;
+
+  .mode-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    color: #5c5c5c;
+
+    span {
+      margin-left: 5px;
+      font-weight: 300;
+    }
+
+    &.active {
+      background: var(--hcl-color-primary);
+      color: white;
+      border-radius: 2rem;
+    }
+    &__map-icon {
+      width: 0.9em;
+      height: 0.9em;
+    }
+  }
+}

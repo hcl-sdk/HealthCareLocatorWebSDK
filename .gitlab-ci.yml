@@ -11,8 +11,8 @@ build_n_deploy:
     - yarn
     - yarn build-example-web
     - yarn build-api
-    - cp -R ./packages/onekey-sdk-api/dist/onekey-sdk-api ./examples/web/cdn
-    - tar czf ./onekey-sdk-web_build.tar.gz ./examples/web/cdn
+    - cp -R ./packages/hcl-sdk-api/dist/hcl-sdk-api ./examples/web/cdn
+    - tar czf ./hcl-sdk-web_build.tar.gz ./examples/web/cdn
     - mkdir -p ~/.ssh/
     - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
@@ -23,5 +23,5 @@ build_n_deploy:
     - touch ~/.ssh/known_hosts
     - ssh-keyscan -p 2233 -t rsa dev.ekinoffy.com >> ~/.ssh/known_hosts
     - ssh -p 2233 webadmin@dev.ekinoffy.com ssh-keyscan -t rsa 10.161.207.90 >> ~/.ssh/known_hosts
-    - scp ./onekey-sdk-web_build.tar.gz webadmin@10.161.207.90:/tmp/onekey-sdk-web_build.tar.gz
+    - scp ./hcl-sdk-web_build.tar.gz webadmin@10.161.207.90:/tmp/onekey-sdk-web_build.tar.gz
     - ssh webadmin@10.161.207.90 "./web/onekey/deploy_sdk.sh"

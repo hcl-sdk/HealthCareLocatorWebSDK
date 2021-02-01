@@ -25,10 +25,10 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 .env
 
-examples/web/cdn/onekey-sdk
+examples/web/cdn/hcl-sdk
 examples/web/cdn/devtools
-examples/web/cdn/onekey-sdk-api
+examples/web/cdn/hcl-sdk-api
 
-packages/*/onekey-sdk-core
-packages/*/onekey-sdk-web-ui
-packages/*/onekey-sdk-web-devtools
+packages/*/hcl-sdk-core
+packages/*/hcl-sdk-web-ui
+packages/*/hcl-sdk-web-devtools
