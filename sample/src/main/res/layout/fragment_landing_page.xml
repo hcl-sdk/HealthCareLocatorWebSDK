@@ -29,7 +29,7 @@
         android:layout_marginTop="@dimen/default_padding_larger"
         android:background="@drawable/bg_gray_light_button"
         android:padding="@dimen/default_padding"
-        android:visibility="gone"
+        android:visibility="visible"
         android:text="Get Label without UI" />
 
     <TextView
@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_padding_larger"
         android:padding="@dimen/default_padding"
-        android:visibility="gone"
+        android:visibility="visible"
         android:text="" />
 </LinearLayout>

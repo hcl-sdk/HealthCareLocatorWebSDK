@@ -1,6 +1,3 @@
-include ':rxpermissions-0.10.2'
-include ':apollo-android-support-2.4.4'
-include ':osmdroid-android-6.1.8'
 include ':onekeysdk'
 include ':sample'
 rootProject.name = "OneKey SDK"

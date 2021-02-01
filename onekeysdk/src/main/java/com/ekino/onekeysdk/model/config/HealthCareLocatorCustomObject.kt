@@ -66,7 +66,9 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconMarkerMin: Int, val iconSort: Int, val iconList: Int, val iconMap: Int,
         val iconArrowRight: Int, val iconMapGeoLoc: Int, val iconPhone: Int, val iconFax: Int,
         val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
-        val iconLocation: Int, val fontNoResultTitle: HeathCareLocatorViewFontObject, val fontNoResultDesc: HeathCareLocatorViewFontObject) {
+        val iconLocation: Int, val fontNoResultTitle: HeathCareLocatorViewFontObject,
+        val fontNoResultDesc: HeathCareLocatorViewFontObject,
+        val showModificationForm: Boolean) {
 
     @Suppress
     data class Builder(
@@ -127,7 +129,8 @@ data class HealthCareLocatorCustomObject private constructor(
             var iconLocation: Int = R.drawable.outline_location_on_black_36dp,
             var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp,
             var fontNoResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultTitle", size = 20).build(),
-            var fontNoResultDesc: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultDesc", size = 16).build()) {
+            var fontNoResultDesc: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultDesc", size = 16).build(),
+            var showModificationForm: Boolean = false) {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -246,6 +249,7 @@ data class HealthCareLocatorCustomObject private constructor(
         fun specialities(specialities: ArrayList<String>) = apply { this.specialities = specialities }
         fun entryScreen(@ScreenReference screenReference: Int) = apply { this.screenReference = screenReference }
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
+        fun showModificationForm(showModificationForm: Boolean) = apply { this.showModificationForm = showModificationForm }
 
         fun build() = HealthCareLocatorCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon,
@@ -257,7 +261,8 @@ data class HealthCareLocatorCustomObject private constructor(
                 colorButtonBackground, colorPrimary, colorButtonDiscardBackground, locale, specialities,
                 screenReference, mapService, iconCross, iconGeoLoc, iconMarkerMin, iconSort, iconList,
                 iconMap, iconArrowRight, iconMapGeoLoc, iconPhone, iconFax, iconWebsite, iconVoteUp,
-                iconVoteDown, iconProfile, iconLocation, fontNoResultTitle, fontNoResultDesc)
+                iconVoteDown, iconProfile, iconLocation, fontNoResultTitle, fontNoResultDesc,
+                showModificationForm)
     }
 
     fun getLocaleCode(): String = if (locale.isNotEmpty()) {

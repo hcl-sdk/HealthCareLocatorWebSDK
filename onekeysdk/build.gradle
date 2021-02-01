@@ -4,10 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.apollographql.apollo'
-ext {
-    GROUP_ID = 'custom.group.id'
-    ARTIFACT_ID = 'artifactid'
-}
+apply plugin: 'maven'
 
 android {
     compileSdkVersion build_versions.compile_sdk_version
@@ -32,6 +29,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "modificationUrl", "https://onekeysdk.ekinoffy.com/%s/suggest-modification?apiKey=%s&id=%s"
+        }
+        debug{
+            resValue "string", "modificationUrl", "https://onekeysdk.ekinoffy.com/%s/suggest-modification?apiKey=%s&id=%s"
         }
     }
 
@@ -85,34 +86,30 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(":osmdroid-android-6.1.8")
-    implementation files("libs/apollo-runtime-2.4.4.jar")
-    implementation project(":apollo-android-support-2.4.4")
-    implementation files("libs/apollo-rx2-support-2.4.4.jar")
-    implementation files('libs/apollo-api-jvm-2.4.4.jar')
-    implementation files('libs/apollo-http-cache-api-2.4.4.jar')
-    implementation files('libs/apollo-normalized-cache-api-jvm-2.4.4.jar')
-    implementation files('libs/apollo-normalized-cache-jvm-2.4.4.jar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation "androidx.cardview:cardview:1.0.0"
+    implementation('androidx.recyclerview:recyclerview:1.1.0') { transitive(true) }
+    implementation("androidx.cardview:cardview:1.0.0") { transitive(true) }
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.16"
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation("org.osmdroid:osmdroid-android:6.1.8") { transitive(true) }
+    implementation("io.reactivex.rxjava2:rxjava:2.2.16") { transitive(true) }
+    implementation('com.github.tbruyelle:rxpermissions:0.10.2') { transitive(true) }
 
-    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
-    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$versions.rxJavaAdapter"
-    implementation "com.squareup.okhttp3:okhttp:4.9.0"
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
-    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttpIntercepter"
-    implementation "io.reactivex.rxjava2:rxandroid:$versions.rxAndroidVersion"
-    implementation "com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding"
+    implementation("com.squareup.retrofit2:retrofit:$versions.retrofit") { transitive(true) }
+    implementation("com.squareup.retrofit2:converter-gson:$versions.retrofit") { transitive(true) }
+    implementation("com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$versions.rxJavaAdapter") { transitive(true) }
+    implementation("com.squareup.okhttp3:okhttp:4.9.0") { transitive(true) }
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0") { transitive(true) }
+    implementation("com.squareup.okhttp3:logging-interceptor:$versions.okHttpIntercepter") { transitive(true) }
+    implementation("io.reactivex.rxjava2:rxandroid:$versions.rxAndroidVersion") { transitive(true) }
+    implementation("com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding") { transitive(true) }
+    implementation("com.apollographql.apollo:apollo-runtime:2.4.4") { transitive(true) }
+    implementation("com.apollographql.apollo:apollo-android-support:2.4.4") { transitive(true) }
+    implementation("com.apollographql.apollo:apollo-rx2-support:2.4.4") { transitive(true) }
 
     /**
      * Google services
@@ -125,7 +122,17 @@ dependencies {
     testImplementation "com.google.truth:truth:1.0.1"
 
 }
-
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://localhost/Users/thanh-nguyen.dang/Library/Android/sdk"
+                    + "/extras/android/m2repository/")
+            pom.version = '1.0.0'
+            pom.groupId = 'com.iqvia.healthcare-locator'
+            pom.artifactId = 'healthcare-locator-sdk'
+        }
+    }
+}
 afterEvaluate {
 //    publishing {
 //        //TODO: implement release later
