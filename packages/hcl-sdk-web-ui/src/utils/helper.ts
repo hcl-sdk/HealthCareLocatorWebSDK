@@ -102,10 +102,11 @@ export function getPrimaryAddressIndividuual({ addressName, addressBuildingName,
   return [addressName, addressBuildingName, address].filter(s => s);
 }
 
-export function getTextBodyToShare(individualDetail, newLine = '%0D%0A') {
-  // TODO: get appName and appDownloadLink from config ...
-  const appName = 'Caretiny';
-  const appDownloadLink = 'https://apps.apple.com/fr/app/carenity/id1404422803';
+export function getTextBodyToShare(individualDetail, {
+  newLine = '%0D%0A',
+  appName = '',
+  appDownloadLink = ''
+} = {}) {
 
   const { name, phone, professionalType, specialties } = individualDetail;
   const listText = [
@@ -127,10 +128,10 @@ export function getTextBodyToShare(individualDetail, newLine = '%0D%0A') {
   return listText.join(`${newLine}${newLine}`);
 }
 
-export function fallbackShareHCPDetail(individualDetail) {
+export function fallbackShareHCPDetail(individualDetail, config) {
   const { fax, name } = individualDetail;
   const subject = `Share: ${name}`;
-  const mailBody = getTextBodyToShare(individualDetail);
+  const mailBody = getTextBodyToShare(individualDetail, config);
 
   const link = document.createElement('a');
 

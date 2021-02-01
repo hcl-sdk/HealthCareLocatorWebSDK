@@ -4,4 +4,6 @@ export interface Fields {
   apiKey: string;
   theme: Theme;
   lang: string;
+  appName: string;
+  appDownloadLink: string;
 }
