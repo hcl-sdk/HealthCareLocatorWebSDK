@@ -1,0 +1,56 @@
+@import '../../../global/scss/variables.scss';
+
+:host {
+  display: block;
+
+  hcl-sdk-doctor-card:last-child .doctor-card {
+    margin-bottom: 10px;
+  }
+
+  .doctor-card {
+    cursor: pointer;
+    border: 1px solid var(--hcl-color-card_border);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 10px 0 10px;
+    background-color: white;
+    line-height: 1.3rem;
+    display: flex;
+    align-items: center;
+
+    &.selected {
+      border: 2px solid var(--hcl-color-marker_selected);
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    &-arrow-icon {
+      justify-self: flex-end;
+      color: var(--hcl-color-secondary);
+    }
+
+    .name {
+      color: var(--hcl-color-secondary);
+      font-weight: 500;
+    }
+
+    .address {
+      color: var(--hcl-color-grey_dark);
+      @include applyFontStyle("default");
+    }
+
+    .gp {
+      color: var(--hcl-color-dark);
+      @include applyFontStyle("default");
+    }
+
+    .distance {
+      color: var(--hcl-color-dark);
+      @include applyFontStyle("default");
+    }
+  }
+}

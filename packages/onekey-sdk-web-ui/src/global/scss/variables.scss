@@ -1,7 +1,0 @@
-$color-white: #fff;
-
-@mixin applyFontStyle($fontKey) {
-  font-family: var(--onekeysdk-font-#{$fontKey}-name);
-  font-size: var(--onekeysdk-font-#{$fontKey}-size);
-  font-weight: var(--onekeysdk-font-#{$fontKey}-weight);
-}
