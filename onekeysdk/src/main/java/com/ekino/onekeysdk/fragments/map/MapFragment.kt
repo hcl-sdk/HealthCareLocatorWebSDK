@@ -37,24 +37,27 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
-class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener, OnMapReadyCallback,
-        GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraMoveStartedListener {
+class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener,
+    OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraMoveStartedListener {
 
     companion object {
-        fun newInstance(healthCareLocatorCustomObject: HealthCareLocatorCustomObject,
-                        activities: ArrayList<ActivityObject>, modifyZoomLevel: Float = 0f,
-                        boundingBox: Boolean = false) =
-                MapFragment().apply {
-                    this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
-                    this.activities = activities
-                    this.modifyZoomLevel = modifyZoomLevel
-                    this.boundingBox = boundingBox
-                }
+        fun newInstance(
+            healthCareLocatorCustomObject: HealthCareLocatorCustomObject,
+            activities: ArrayList<ActivityObject>, modifyZoomLevel: Float = 0f,
+            boundingBox: Boolean = false
+        ) =
+            MapFragment().apply {
+                this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
+                this.activities = activities
+                this.modifyZoomLevel = modifyZoomLevel
+                this.boundingBox = boundingBox
+            }
     }
 
     private val viewModel by lazy { OneKeyMapViewModel() }
     private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject =
-            HealthCareLocatorSDK.getInstance().getConfiguration()
+        HealthCareLocatorSDK.getInstance().getConfiguration()
     private var activities: ArrayList<ActivityObject> = arrayListOf()
     private var modifyZoomLevel: Float = 0f
     private var boundingBox: Boolean = false
@@ -97,7 +100,11 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     private var markerBitMap: BitmapDescriptor? = null
     private var googleMap: GoogleMap? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (healthCareLocatorCustomObject.mapService == MapService.OSM) {
             mMapView = OneKeyMapView(inflater.context)
             mMapView!!.setDestroyMode(false)
@@ -109,7 +116,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                             if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) mMapView!!.controller.zoomOut() else {
                                 //this part just centers the map on the current mouse location before the zoom action occurs
                                 val iGeoPoint =
-                                        mMapView!!.projection.fromPixels(event.x.toInt(), event.y.toInt())
+                                    mMapView!!.projection.fromPixels(
+                                        event.x.toInt(),
+                                        event.y.toInt()
+                                    )
                                 mMapView!!.controller.animateTo(iGeoPoint)
                                 mMapView!!.controller.zoomIn()
                             }
@@ -132,7 +142,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             if (savedInstanceState != null) {
                 boundingBox = savedInstanceState.getBoolean("boundingBox", false)
                 val list =
-                        savedInstanceState.getParcelableArrayList<ActivityObject>(OneKeyConstant.locations)
+                    savedInstanceState.getParcelableArrayList<ActivityObject>(OneKeyConstant.locations)
                 if (!list.isNullOrEmpty())
                     activities = list
             }
@@ -162,7 +172,8 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             onMapListener?.let { mMapView?.addMapListener(it) }
             mPrefs = context!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             mLocationOverlay = CustomCurrentLocationOverlay(
-                    locationProvider!!, mMapView, R.drawable.ic_current_location)
+                locationProvider!!, mMapView, R.drawable.ic_current_location
+            )
             mLocationOverlay!!.enableMyLocation()
             mMapView!!.overlays.add(mLocationOverlay)
             mRotationGestureOverlay = RotationGestureOverlay(mMapView)
@@ -171,14 +182,14 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             mMapView!!.mapOrientation = 0f
             mMapView!!.setMultiTouchControls(true)
             mMapView!!.isTilesScaledToDpi = true
-            val zoomLevel = mPrefs!!.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1f)
-            mMapView!!.controller.setZoom(if (modifyZoomLevel > 0f) modifyZoomLevel.toDouble() else zoomLevel.toDouble())
-            val orientation = mPrefs!!.getFloat(PREFS_ORIENTATION, 0f)
-            val latitudeString = mPrefs!!.getString(PREFS_LATITUDE_STRING, "1.0")
-            val longitudeString = mPrefs!!.getString(PREFS_LONGITUDE_STRING, "1.0")
-            val latitude = java.lang.Double.valueOf(latitudeString)
-            val longitude = java.lang.Double.valueOf(longitudeString)
-            mMapView!!.setExpectedCenter(GeoPoint(latitude, longitude))
+//            val zoomLevel = mPrefs!!.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1f)
+//            mMapView!!.controller.setZoom(5.0)
+//            val orientation = mPrefs!!.getFloat(PREFS_ORIENTATION, 0f)
+//            val latitudeString = mPrefs!!.getString(PREFS_LATITUDE_STRING, "1.0")
+//            val longitudeString = mPrefs!!.getString(PREFS_LONGITUDE_STRING, "1.0")
+//            val latitude = java.lang.Double.valueOf(latitudeString)
+//            val longitude = java.lang.Double.valueOf(longitudeString)
+//            mMapView!!.setExpectedCenter(GeoPoint(latitude, longitude))
         }
     }
 
@@ -242,17 +253,19 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         return true
     }
 
-    fun drawMarkerOnMap(activities: ArrayList<ActivityObject>, moveCamera: Boolean = false,
-                        isNearMe: Boolean = false) {
+    fun drawMarkerOnMap(
+        activities: ArrayList<ActivityObject>, moveCamera: Boolean = false,
+        isNearMe: Boolean = false
+    ) {
         if (healthCareLocatorCustomObject.mapService == MapService.OSM) {
             mMapView?.apply {
                 val clustersFiltered = overlays?.filterIsInstance<OneKeyMarker>()
-                        ?: listOf()
+                    ?: listOf()
                 overlays.removeAll(clustersFiltered)
                 oneKeyMarkers.clear()
                 selectedIcon = context!!.getDrawableFilledIcon(
-                        R.drawable.ic_location_on_white_36dp,
-                        healthCareLocatorCustomObject.colorMarkerSelected.getColor()
+                    R.drawable.ic_location_on_white_36dp,
+                    healthCareLocatorCustomObject.colorMarkerSelected.getColor()
                 )!!
                 viewModel.groupLocations(activities) { map ->
                     if (map.size == 0) return@groupLocations
@@ -264,13 +277,14 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                                 id = it.id
                                 setOnMarkerClickListener(this@MapFragment)
                                 val location = it.workplace?.address?.location?.getGeoPoint()
-                                        ?: GeoPoint(0.0, 0.0)
+                                    ?: GeoPoint(0.0, 0.0)
                                 groupSize = list.size
                                 position = location
                                 setAnchor(Marker.ANCHOR_CENTER, 1f)
                                 icon = context!!.getDrawableFilledIcon(
-                                        R.drawable.baseline_location_on_black_36dp,
-                                        healthCareLocatorCustomObject.colorMarker.getColor(), groupSize)
+                                    R.drawable.baseline_location_on_black_36dp,
+                                    healthCareLocatorCustomObject.colorMarker.getColor(), groupSize
+                                )
                                 title = it.workplace?.address?.getAddress() ?: ""
                             }
                             oneKeyMarkers.add(marker)
@@ -279,34 +293,18 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                     }
                     if (moveCamera && activities.size == 1) {
                         val position = activities[0].workplace?.address?.location?.getGeoPoint()
-                                ?: GeoPoint(0.0, 0.0)
+                            ?: GeoPoint(0.0, 0.0)
                         controller.setCenter(position)
                         controller.animateTo(position, 15.0, 2000)
                     }
                     if (oneKeyMarkers.isEmpty()) return@groupLocations
                     if (!isNearMe)
                         viewModel.getOSMBoundLevel(this, oneKeyMarkers)
-                    else viewModel.getOSMBoundNearMeLevel(parentFragment!!.parentFragment!!::class.java.simpleName,
-                            context, this, oneKeyMarkers)
+                    else viewModel.getOSMBoundNearMeLevel(
+                        parentFragment!!.parentFragment!!::class.java.simpleName,
+                        context, this, oneKeyMarkers
+                    )
                 }
-//                activities.forEach { activity ->
-//                    val marker = OneKeyMarker(mMapView).apply {
-//                        id = activity.id
-//                        setOnMarkerClickListener(this@MapFragment)
-//                        val location = activity.workplace?.address?.location?.getGeoPoint()
-//                                ?: GeoPoint(0.0, 0.0)
-//                        position = location
-//                        setAnchor(Marker.ANCHOR_CENTER, 1f)
-//                        icon = context!!.getDrawableFilledIcon(
-//                                R.drawable.baseline_location_on_black_36dp,
-//                                oneKeyCustomObject.colorMarker.getColor()
-//                        )
-//                        title = activity.workplace?.address?.getAddress() ?: ""
-//                    }
-//                    oneKeyMarkers.add(marker)
-//                    mMapView?.overlays?.add(marker)
-//                }
-
             }
         } else {
             this.activities = activities
@@ -316,10 +314,12 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             val markers = arrayListOf<OneKeyMarker>()
             activities.forEach { activity ->
                 val location = activity.workplace?.address?.location?.getLatLng()
-                        ?: LatLng(0.0, 0.0)
+                    ?: LatLng(0.0, 0.0)
                 boundBuilder.include(location)
-                val marker = googleMap!!.addMarker(MarkerOptions().icon(markerBitMap)
-                        .position(location))
+                val marker = googleMap!!.addMarker(
+                    MarkerOptions().icon(markerBitMap)
+                        .position(location)
+                )
                 marker.tag = activity.id
                 markers.add(OneKeyMarker(MapView(context)).apply {
                     position = GeoPoint(location.latitude, location.longitude)
@@ -338,24 +338,24 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         if (healthCareLocatorCustomObject.mapService == MapService.OSM) {
             mMapView?.apply {
                 val clustersFiltered = overlays?.filterIsInstance<OneKeyMarker>()
-                        ?: listOf()
+                    ?: listOf()
                 overlays.removeAll(clustersFiltered)
                 oneKeyMarkers.clear()
                 selectedIcon = context!!.getDrawableFilledIcon(
-                        R.drawable.ic_location_on_white_36dp,
-                        healthCareLocatorCustomObject.colorMarkerSelected.getColor()
+                    R.drawable.ic_location_on_white_36dp,
+                    healthCareLocatorCustomObject.colorMarkerSelected.getColor()
                 )!!
                 listOfAddress.forEach { address ->
                     val marker = OneKeyMarker(mMapView).apply {
                         id = address.activityId
                         setOnMarkerClickListener(this@MapFragment)
                         val location = address.location?.getGeoPoint()
-                                ?: GeoPoint(0.0, 0.0)
+                            ?: GeoPoint(0.0, 0.0)
                         position = location
                         setAnchor(Marker.ANCHOR_CENTER, 1f)
                         icon = context!!.getDrawableFilledIcon(
-                                R.drawable.baseline_location_on_black_36dp,
-                                healthCareLocatorCustomObject.colorMarker.getColor()
+                            R.drawable.baseline_location_on_black_36dp,
+                            healthCareLocatorCustomObject.colorMarker.getColor()
                         )
                         title = address.getAddress() ?: ""
                     }
@@ -364,12 +364,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 }
                 if (moveCamera && listOfAddress.size == 1) {
                     val position = listOfAddress[0].location?.getGeoPoint()
-                            ?: GeoPoint(0.0, 0.0)
+                        ?: GeoPoint(0.0, 0.0)
                     controller.setCenter(position)
                     controller.animateTo(position, 15.0, 2000)
                 }
-                if (oneKeyMarkers.isNotEmpty())
-                    viewModel.getOSMBoundLevel(this, oneKeyMarkers)
             }
         } else if (healthCareLocatorCustomObject.mapService == MapService.GOOGLE_MAP) {
             googleMap?.also { googleMap ->
@@ -377,8 +375,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 var location: LatLng = LatLng(0.0, 0.0)
                 listOfAddress.forEach { address ->
                     location = address.location?.getLatLng() ?: LatLng(0.0, 0.0)
-                    val marker = googleMap.addMarker(MarkerOptions().icon(markerBitMap)
-                            .position(location))
+                    val marker = googleMap.addMarker(
+                        MarkerOptions().icon(markerBitMap)
+                            .position(location)
+                    )
                     marker.tag = address.activityId
                 }
                 animateCameraGoogleMap(CameraUpdateFactory.newLatLngZoom(location, 13f))
@@ -405,16 +405,17 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             animateTo(marker.position, mMapView!!.zoomLevelDouble.toDouble(), 2000)
         }
         oneKeyMarkers.filter { oneKeyMarker -> oneKeyMarker.selected }
-                .mapIndexed { _, oneKeyMarker ->
-                    val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
-                    oneKeyMarker.icon = context!!.getDrawableFilledIcon(
-                            R.drawable.baseline_location_on_black_36dp,
-                            healthCareLocatorCustomObject.colorMarker.getColor(), oneKeyMarker.groupSize)
-                    oneKeyMarker.selected = false
-                    if (lastIndexOfOverLay >= 0) {
-                        mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
-                    }
+            .mapIndexed { _, oneKeyMarker ->
+                val lastIndexOfOverLay = mMapView!!.overlays.indexOf(oneKeyMarker)
+                oneKeyMarker.icon = context!!.getDrawableFilledIcon(
+                    R.drawable.baseline_location_on_black_36dp,
+                    healthCareLocatorCustomObject.colorMarker.getColor(), oneKeyMarker.groupSize
+                )
+                oneKeyMarker.selected = false
+                if (lastIndexOfOverLay >= 0) {
+                    mMapView!!.overlays[lastIndexOfOverLay] = oneKeyMarker
                 }
+            }
         if (mMapView?.overlays.isNullOrEmpty()) return
 
         val indexOfOverLay = mMapView!!.overlays.indexOf(marker)
@@ -423,8 +424,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
             if (index >= 0) {
                 (marker as? OneKeyMarker)?.apply {
                     marker.icon = context!!.getDrawableFilledIcon(
-                            R.drawable.ic_location_on_white_36dp,
-                            healthCareLocatorCustomObject.colorMarkerSelected.getColor(), marker.groupSize)
+                        R.drawable.ic_location_on_white_36dp,
+                        healthCareLocatorCustomObject.colorMarkerSelected.getColor(),
+                        marker.groupSize
+                    )
                     selected = true
                     oneKeyMarkers[index] = this
                 }
@@ -444,8 +447,10 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         }
     }
 
-    fun moveToCurrentLocation(forcedZoom: Boolean = false,
-                              callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }) {
+    fun moveToCurrentLocation(
+        forcedZoom: Boolean = false,
+        callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }
+    ) {
         locationProvider?.lastKnownLocation?.also { location ->
             if (healthCareLocatorCustomObject.mapService == MapService.OSM) {
                 mMapView?.apply {
@@ -462,7 +467,7 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
     }
 
     fun getLastLocation(): GeoPoint? =
-            locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
+        locationProvider?.lastKnownLocation?.run { GeoPoint(latitude, longitude) }
 
     /**
      * ================================
@@ -476,10 +481,14 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
         googleMap?.apply {
             isMyLocationEnabled = true
             uiSettings.isMyLocationButtonEnabled = false
-            selectedMarkerBitMap = context!!.getDrawableFilledIcon(healthCareLocatorCustomObject.markerIcon,
-                    healthCareLocatorCustomObject.colorMarkerSelected.getColor()).getBitmapDescriptor()
-            markerBitMap = context!!.getDrawableFilledIcon(healthCareLocatorCustomObject.markerIcon,
-                    healthCareLocatorCustomObject.colorMarker.getColor()).getBitmapDescriptor()
+            selectedMarkerBitMap = context!!.getDrawableFilledIcon(
+                healthCareLocatorCustomObject.markerIcon,
+                healthCareLocatorCustomObject.colorMarkerSelected.getColor()
+            ).getBitmapDescriptor()
+            markerBitMap = context!!.getDrawableFilledIcon(
+                healthCareLocatorCustomObject.markerIcon,
+                healthCareLocatorCustomObject.colorMarker.getColor()
+            ).getBitmapDescriptor()
             setOnMarkerClickListener(this@MapFragment)
             setOnCameraMoveStartedListener(this@MapFragment)
             drawMarkerOnMap(activities)

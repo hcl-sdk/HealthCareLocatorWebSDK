@@ -81,7 +81,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
                 }
             })
             activities.observe(this@OneKeyHomeFullFragment, Observer { list ->
-                getRunningMapFragment()?.drawMarkerOnMap(list, true)
+                getRunningMapFragment()?.drawMarkerOnMap(list, true, true)
             })
             loading.observe(this@OneKeyHomeFullFragment, Observer { state ->
                 showNearMeLoading(state)
@@ -261,7 +261,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
         locationProvider?.stopLocationProvider()
         currentLocation?.also {
             viewModel.getNearMeHCP(it) {
-                getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
+//                getRunningMapFragment()?.moveToPosition(GeoPoint(it.latitude, it.longitude))
             }
         }
     }
