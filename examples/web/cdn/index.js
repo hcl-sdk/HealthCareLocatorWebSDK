@@ -37,20 +37,24 @@ function searchNearMe(specialtyCode) {
 
 // Initialize Hcl SDK
 
-function getApiKeyFromLocal() {
+function getSettingsFromLocal() {
   const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings-fields`);
   if (settingsStr) {
     try {
-      return JSON.parse(settingsStr).apiKey;
+      return JSON.parse(settingsStr);
     } catch (err) { }
   }
-  return '';
+  return {
+    apiKey: '',
+    appName: 'Caretiny',
+    appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+  };
 }
 
 // settingPanelEl.addEventListener('ready', function() {
 //   settingPanelEl.getFields().then(fields => {
     const config = {
-      apiKey: getApiKeyFromLocal(),
+      ...getSettingsFromLocal(),
       i18nBundlesPath: '/hcl-sdk/i18n'
     };
 

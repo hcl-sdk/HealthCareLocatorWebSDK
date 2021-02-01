@@ -57,17 +57,25 @@ export class HclSdkHCPFullCard {
       return null;
     }
 
+    const config = {
+      appName: configStore.state.appName,
+      appDownloadLink: configStore.state.appDownloadLink
+    }
+
     if (navigator.share) {
       navigator.share({
-        text: getTextBodyToShare(individualDetail, '\n')
+        text: getTextBodyToShare(individualDetail, {
+          newLine: '\n',
+          ...config
+        })
       }).then(() => {
         // TODO Successfully: 
       })
       .catch(() => {
-        fallbackShareHCPDetail(individualDetail)
+        fallbackShareHCPDetail(individualDetail, config)
       });
     } else {
-      fallbackShareHCPDetail(individualDetail)
+      fallbackShareHCPDetail(individualDetail, config)
     }
   }
 

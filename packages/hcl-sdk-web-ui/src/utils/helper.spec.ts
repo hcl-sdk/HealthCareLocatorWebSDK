@@ -27,14 +27,21 @@ describe('getTextBodyToShare', () => {
     specialties: [],
     professionalType: 'General Practitioner',
   }
+  const config = {
+    appName: 'Caretiny',
+    appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+  }
 
   test('should return mail body with the new line character correctly', () => {
-    const text = getTextBodyToShare(indiviualDetail)
+    const text = getTextBodyToShare(indiviualDetail, config)
     expect(text).toBe(`Here is a healthcare professional that I recommend:%0D%0A%0D%0ADr Rory Michael Trow%0D%0AGeneral Practitioner%0D%0A%0D%0ASpecialties: %0D%0A%0D%0AGroup Practice 3-480 Harbourfront Dr NE%0D%0A3-480 Harbourfront Dr NE%0D%0A205-3017 66 St NW%0D%0A%0D%0A780 4616012%0D%0A%0D%0AI found it on Caretiny - https://apps.apple.com/fr/app/carenity/id1404422803`)
   })
 
   test('should return text with a custom new line character', () => {
-    const text = getTextBodyToShare(indiviualDetail, '\n')
+    const text = getTextBodyToShare(indiviualDetail, {
+      newLine: '\n',
+      ...config
+    })
     expect(text).toBe(`Here is a healthcare professional that I recommend:
 
 Dr Rory Michael Trow
@@ -85,7 +92,10 @@ describe('fallbackShareHCPDetail', () => {
     specialties: []
   }
   test('not throw an error', () => {
-    expect(fallbackShareHCPDetail(indiviualDetail)).not.toThrowError
+    expect(fallbackShareHCPDetail(indiviualDetail, {
+      appName: 'Caretiny',
+      appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+    })).not.toThrowError
   })
 })
 

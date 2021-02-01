@@ -3,7 +3,9 @@ import { Fields, Theme } from '../types';
 const defaultSettings = {
   apiKey: '300002938e8ed9e6', // temporarly. TODO unset this value
   theme: 'default' as Theme,
-  lang: 'en'
+  lang: 'en',
+  appName: 'Caretiny',
+  appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
 }
 
 export function format(first: string, middle: string, last: string): string {

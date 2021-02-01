@@ -19,14 +19,18 @@ export interface HclSDKConfigData {
   modal?: Modal;
   entry?: any;
   icons: any;
-  apiKey?: string;
+  apiKey: string;
+  appName?: string;
+  appDownloadLink?: string;
 }
 
 export const initStateConfigStore = {
   apiKey: '',
   modeView: ModeViewType.LIST,
   modal: undefined,
-  icons: {}
+  icons: {},
+  appName: '',
+  appDownloadLink: ''
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {

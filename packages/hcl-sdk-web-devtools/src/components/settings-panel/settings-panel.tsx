@@ -491,6 +491,14 @@ export class SettingsPanel {
             </option>
           </select>
         </div>
+        <div class="row">
+          <label>App Name</label>
+          <input name="appName" type="text" value={this.fields.appName} onChange={this.handleChange('appName')} />
+        </div>
+        <div class="row">
+          <label>App Download Link</label>
+          <input name="appDownloadLink" type="text" value={this.fields.appDownloadLink} onChange={this.handleChange('appDownloadLink')} />
+        </div>
       </section>
     );
   }
