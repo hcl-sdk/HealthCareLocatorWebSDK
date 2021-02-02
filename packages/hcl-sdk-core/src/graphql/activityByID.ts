@@ -23,7 +23,6 @@ const QUERY_ACTIVITY_BY_ID = gql`
         id
         name
         address{
-          id
           longLabel
           country
           postalCode

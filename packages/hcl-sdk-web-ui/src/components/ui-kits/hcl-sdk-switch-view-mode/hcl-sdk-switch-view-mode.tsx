@@ -31,6 +31,7 @@ export class HclSdkSwitchViewMode {
     configStore.setState({
       modeView: mode
     })
+    this.switchViewMode.emit(mode);
   }
 
   render() {
