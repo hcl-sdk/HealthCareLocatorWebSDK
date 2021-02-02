@@ -7,12 +7,11 @@ import com.ekino.onekeysdk.model.LabelObject
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
 
-class AddressObject(var id: String = "", var longLabel: String = "", var country: String = "",
+class AddressObject(var longLabel: String = "", var country: String = "",
                     var postalCode: String = "", var buildingLabel: String = "", var county: LabelObject? = null,
                     var city: LabelObject? = null, var location: LocationObject? = null,
                     var activityId: String = "") : Parcelable {
-    constructor(parcel: Parcel) : this(
-            parcel.readString() ?: "", parcel.readString() ?: "", parcel.readString() ?: "",
+    constructor(parcel: Parcel) : this(parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readParcelable(LabelObject::class.java.classLoader),
             parcel.readParcelable(LabelObject::class.java.classLoader),
@@ -22,7 +21,6 @@ class AddressObject(var id: String = "", var longLabel: String = "", var country
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.apply {
-            writeString(id)
             writeString(longLabel)
             writeString(country)
             writeString(postalCode)
@@ -56,8 +54,7 @@ class AddressObject(var id: String = "", var longLabel: String = "", var country
 
     fun parse(data: GetActivityByIdQuery.Address?): AddressObject {
         if (data.isNullable()) return this
-        this.id = data!!.id()
-        this.longLabel = data.longLabel()
+        this.longLabel = data!!.longLabel()
         this.country = data.country()
         this.postalCode = data.postalCode()
         this.buildingLabel = data.buildingLabel() ?: ""
@@ -69,8 +66,7 @@ class AddressObject(var id: String = "", var longLabel: String = "", var country
 
     fun parse(data: GetActivitiesQuery.Address?): AddressObject {
         if (data.isNullable()) return this
-        this.id = data!!.id()
-        this.longLabel = data.longLabel()
+        this.longLabel = data!!.longLabel()
         this.country = data.country()
         this.postalCode = data.postalCode()
         this.county = LabelObject().parse(data.county())
@@ -81,8 +77,7 @@ class AddressObject(var id: String = "", var longLabel: String = "", var country
 
     fun parse(data: GetActivityByIdQuery.Address1?, activityId: String): AddressObject {
         if (data.isNullable()) return this
-        this.id = data!!.id()
-        this.longLabel = data.longLabel()
+        this.longLabel = data!!.longLabel()
         this.country = data.country()
         this.postalCode = data.postalCode()
         this.county = LabelObject().parse(data.county())

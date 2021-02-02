@@ -53,7 +53,7 @@ class OtherActivityObject(@SerializedName("id") var id: String = "",
         return OtherActivityObject(UUID.randomUUID().toString(), "012345678", null,
                 "01234598", "mocked.abc", ActivityWorkplaceObject(UUID.randomUUID().toString(),
                 "Pharmasave Casselman Pharmacy Mocked", "012345678", "mock.data@abc.com",
-                AddressObject(UUID.randomUUID().toString(), "MOCKED rue Principale", "CA",
+                AddressObject("MOCKED rue Principale", "CA",
                         "K0A 1M0", "The Emporium", LabelObject("", "Ontario"),
                         LabelObject("", "Casselman"), LocationObject(45.6464, -73.3013))))
     }
