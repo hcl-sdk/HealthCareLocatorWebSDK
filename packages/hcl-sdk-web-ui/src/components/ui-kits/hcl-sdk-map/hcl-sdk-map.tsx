@@ -301,7 +301,7 @@ export class HclSdkMap {
         searchMapStore.state.geoLocation.latitude,
         searchMapStore.state.geoLocation.longitude,
       ], 10);
-    } else if (this.locations.length > 1) {
+    } else if (this.locations.length >= 1) {
       this.recalculateBoundView();
     }
 
