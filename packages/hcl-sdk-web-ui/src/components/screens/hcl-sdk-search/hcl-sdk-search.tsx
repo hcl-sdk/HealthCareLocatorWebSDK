@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Listen, Prop, Element } from '@stencil/core';
-import { searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
+import { getFullCardDetail, searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
 import { searchMapStore, routerStore, uiStore, historyStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import { searchGeoMap } from '../../../core/api/searchGeo';
@@ -180,7 +180,14 @@ export class HclSdkSearch {
             lng: item.activity.workplace.address.location.lon
           }
         });
-        routerStore.push('/search-result');
+        if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
+          routerStore.push('/search-result');
+        } else {
+          getFullCardDetail({
+            activityId: item.activity.id,
+            activityName: item.name,
+          });
+        }
       } else {
         // on click Specialty item
         this.resetErrorElmUI('name');
