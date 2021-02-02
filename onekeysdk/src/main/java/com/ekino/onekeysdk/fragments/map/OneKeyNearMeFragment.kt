@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -154,6 +155,9 @@ class OneKeyNearMeFragment :
                     showLoading(it)
                 })
                 activities.observe(this@OneKeyNearMeFragment, Observer {
+                    if (it.isEmpty()) {
+                        showNoResult()
+                    }
                     this@OneKeyNearMeFragment.activities = it
                     setModeButtons(activeScreen)
                     initTabs()
@@ -386,5 +390,13 @@ class OneKeyNearMeFragment :
             }) { location ->
             currentLocation = location
         }
+    }
+
+    private fun showNoResult() {
+        noResult.visibility = View.VISIBLE
+        noResult.setBackgroundColor(healthCareLocatorCustomObject.colorViewBackground.getColor())
+        btnStartSearch.setRippleBackground(healthCareLocatorCustomObject.colorPrimary)
+        noResultWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 15f, 3)
+        btnStartSearch.setOnClickListener(this)
     }
 }

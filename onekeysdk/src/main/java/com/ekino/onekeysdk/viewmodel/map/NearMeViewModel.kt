@@ -78,6 +78,7 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
                 }
             }, {
                 loading.postValue(false)
+                activities.postValue(arrayListOf())
             }, true)
         }, { isAvailable ->
             if (!isAvailable)
