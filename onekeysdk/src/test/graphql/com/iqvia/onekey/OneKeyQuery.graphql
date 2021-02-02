@@ -30,7 +30,6 @@ query getIndividualByName($criteria:String!, $locale:String, $first:Int!, $offse
                 id
                 workplace {
                     address {
-                        id
                         longLabel
                         country
                         postalCode

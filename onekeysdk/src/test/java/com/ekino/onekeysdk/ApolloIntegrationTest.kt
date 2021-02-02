@@ -3,11 +3,17 @@ package com.ekino.onekeysdk
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.cache.normalized.CacheKeyResolver
+import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
+import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
+import com.apollographql.apollo.exception.ApolloParseException
+import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.ekino.onekeysdk.extensions.ApolloConnector
 import com.ekino.onekeysdk.extensions.isNullable
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
+import com.ekino.onekeysdk.utils.Utils
 import com.google.common.truth.Truth.assertThat
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.GetActivityByIdQuery
@@ -15,6 +21,8 @@ import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.functions.Predicate
+import okhttp3.Dispatcher
+import okhttp3.OkHttpClient
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -26,18 +34,18 @@ class ApolloIntegrationTest {
 
     @Before
     fun setUp() {
-        apolloClient = ApolloConnector.getInstance().getApolloClient()
-//        apolloClient = ApolloConnector.getInstance().getApolloClient {
-//            val builder = ApolloClient.builder()
-//            builder.okHttpClient(OkHttpClient.Builder()
-//                    .addInterceptor(ApolloConnector.AuthorizationInterceptor())
-//                    .dispatcher(Dispatcher(Utils.immediateExecutorService())).build())
-//                    .normalizedCache(LruNormalizedCacheFactory(EvictionPolicy.NO_EVICTION),
-//                            CacheKeyResolver.DEFAULT)
-//                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
-//                    .dispatcher(Utils.immediateExecutor())
-//            builder
-//        }
+//        apolloClient = ApolloConnector.getInstance().getApolloClient()
+        apolloClient = ApolloConnector.getInstance().getApolloClient {
+            val builder = ApolloClient.builder()
+            builder.okHttpClient(OkHttpClient.Builder()
+                    .addInterceptor(ApolloConnector.AuthorizationInterceptor())
+                    .dispatcher(Dispatcher(Utils.immediateExecutorService())).build())
+                    .normalizedCache(LruNormalizedCacheFactory(EvictionPolicy.NO_EVICTION),
+                            CacheKeyResolver.DEFAULT)
+                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+                    .dispatcher(Utils.immediateExecutor())
+            builder
+        }
     }
 
     @Test
@@ -62,7 +70,7 @@ class ApolloIntegrationTest {
     fun getActivitiesWithLocation() {
         val builder = GetActivitiesQuery.builder()
                 .locale(Locale.getDefault().language).first(50).offset(0)
-        builder.specialties(arrayListOf("SP.WCA.08", "SP.WCA.N2"))
+        builder.specialties(arrayListOf("1SP.0800"))
         builder.location(GeopointQuery.builder().lat(45.6309).lon(-72.9830).build())
         assertResponse(apolloClient.query(builder.build()),
                 Predicate<Response<GetActivitiesQuery.Data>> { response ->
@@ -80,7 +88,7 @@ class ApolloIntegrationTest {
     fun getActivitiesWithoutLocation() {
         val builder = GetActivitiesQuery.builder()
                 .locale(Locale.getDefault().language).first(50).offset(0)
-        builder.specialties(arrayListOf("SP.WCA.08", "SP.WCA.N2"))
+        builder.specialties(arrayListOf("1SP.0800"))
         assertResponse(apolloClient.query(builder.build()),
                 Predicate<Response<GetActivitiesQuery.Data>> { response ->
                     val data = response.data?.activities()
@@ -107,7 +115,10 @@ class ApolloIntegrationTest {
                     assertThat(data!!.filter { it.distance() == 0.0 }).isEmpty()
                     println("getActivitiesWithoutSpecialities() has passed.")
                     true
-                })
+                }, Predicate {
+            println("Error: ${it.localizedMessage}")
+            false
+        })
     }
 
     @Test
@@ -128,8 +139,10 @@ class ApolloIntegrationTest {
 
     @Test
     fun getIndividualByName() {
-        assertResponse(apolloClient.query(GetIndividualByNameQuery.builder()
-                .criteria("gen").first(5).offset(0).locale(Locale.getDefault().language).build()),
+        assertResponse(apolloClient.query(
+                GetIndividualByNameQuery.builder()
+                        .criteria("gen").first(5).offset(0).locale(Locale.getDefault().language).build()
+        ),
                 Predicate<Response<GetIndividualByNameQuery.Data>> { response ->
                     val data = response.data?.individualsByName()?.individuals()
                     Assert.assertNotNull(data)
@@ -147,8 +160,10 @@ class ApolloIntegrationTest {
 
     @Test
     fun getSpecialities() {
-        assertResponse(apolloClient.query(GetCodeByLabelQuery.builder().criteria("gen")
-                .first(5).offset(0).codeTypes(listOf("SP")).build()),
+        assertResponse(apolloClient.query(
+                GetCodeByLabelQuery.builder().criteria("gen")
+                        .first(5).offset(0).codeTypes(listOf("SP")).build()
+        ),
                 Predicate<Response<GetCodeByLabelQuery.Data>> { response ->
                     val data = response.data?.codesByLabel()?.codes()
                     Assert.assertNotNull(data)
@@ -161,4 +176,12 @@ class ApolloIntegrationTest {
 
     private fun <T> assertResponse(call: ApolloCall<T>, predicate: Predicate<Response<T>>) =
             Rx2Apollo.from(call).test().assertValue(predicate)
+
+    private fun <T> assertResponse(call: ApolloCall<T>, predicate: Predicate<Response<T>>,
+                                   error: Predicate<Throwable>) =
+            Rx2Apollo.from(call).test().assertValue(predicate).assertError {
+                val e =  it as ApolloParseException
+                println("Error: ${it.localizedMessage}")
+                true
+            }
 }

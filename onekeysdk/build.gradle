@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.apollographql.apollo'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion build_versions.compile_sdk_version
@@ -125,24 +126,27 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file://localhost/Users/thanh-nguyen.dang/Library/Android/sdk"
-                    + "/extras/android/m2repository/")
+            repository(url: "file:" + System.getenv("HOME") + "/.m2/repository")
             pom.version = '1.0.0'
             pom.groupId = 'com.iqvia.healthcare-locator'
             pom.artifactId = 'healthcare-locator-sdk'
         }
     }
 }
-afterEvaluate {
-//    publishing {
-//        //TODO: implement release later
-//        publications {
-//            debug(MavenPublication) {
-//                from components.debug
-//                groupId = 'com.iqvia.onekey'
-//                artifactId = 'onekeysdk'
-//                version = '1.0.0'
-//            }
-//        }
-//    }
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId 'com.iqvia.healthcare-locator'
+            artifactId 'healthcare-locator-sdk'
+            version '1.0.0'
+
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            url("file:" + System.getenv("HOME") + "/.m2/repository")
+        }
+    }
 }
