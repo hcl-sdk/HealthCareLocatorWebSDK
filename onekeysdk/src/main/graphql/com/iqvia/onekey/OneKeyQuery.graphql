@@ -30,7 +30,6 @@ query getIndividualByName($criteria:String!, $locale:String, $first:Int!, $offse
                 id
                 workplace {
                     address {
-                        id
                         longLabel
                         country
                         postalCode
@@ -58,7 +57,6 @@ query getActivities($locale:String, $first:Int!, $offset:Int!,
                 id
                 name
                 address{
-                    id
                     longLabel
                     country
                     postalCode
@@ -146,7 +144,6 @@ query getActivityById($id:ID!, $locale:String){
                     localPhone
                     emailAddress
                     address{
-                        id
                         longLabel
                         country
                         postalCode
