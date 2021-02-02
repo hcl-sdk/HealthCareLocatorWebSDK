@@ -102,6 +102,14 @@ export class HclSdkSearchResult {
     }
   }
 
+  @Listen('switchViewMode')
+  handleOnSwitchViewMode(evt) {
+    if (evt.detail === ModeViewType.LIST && !this.isOpenPanel) {
+      this.isOpenPanel = true;
+    }
+  }
+
+
   handleRelaunchSearch = async () => {
     if (!this.newDragLocation || this.isLoadingRelaunch) {
       return;
@@ -241,7 +249,8 @@ export class HclSdkSearchResult {
       class: mapClass, 
       modeView: modeView, 
       selectedLocationIdx: 0,
-      defaultZoom: 15
+      defaultZoom: 15,
+      zoomControl: true
     }
 
     const isShowHCPDetail = individualDetail || selectedActivity;

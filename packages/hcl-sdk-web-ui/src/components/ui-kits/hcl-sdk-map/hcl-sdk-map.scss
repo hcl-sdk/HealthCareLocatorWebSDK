@@ -42,6 +42,42 @@
     justify-content: center;
     align-items: center;
   }
+
+  .leaflet-left {
+    display: none;
+  }
+  .leaflet-top .leaflet-control {
+    margin-top: 20px;
+  }
+  .leaflet-right .leaflet-control {
+    margin-right: 25px;
+  }
+  .leaflet-touch {
+    .leaflet-bar a {
+      width: 38px;
+      height: 38px;
+      border: 2px solid #cccccc;
+      border-radius: 5px;
+      font-weight: 200;
+      line-height: 30px;
+      font-size: 24px;
+    }
+    .leaflet-bar,
+    .leaflet-control-layers {
+      border: 0;
+    }
+  }
+  
+  .leaflet-control-zoom-out {
+    margin-top: 10px;
+  }
+  
+  .size-mobile {
+    .leaflet-left,
+    .leaflet-right {
+      display: none;
+    }
+  }
 }
 
 

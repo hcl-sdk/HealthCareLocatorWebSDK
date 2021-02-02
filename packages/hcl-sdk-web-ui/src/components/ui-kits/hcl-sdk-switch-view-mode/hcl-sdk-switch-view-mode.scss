@@ -1,7 +1,7 @@
 :host {
   display: flex;
   border: 1px solid #ddd;
-  border-radius: 2rem;
+  border-radius: 32px;
   padding: 2px;
   cursor: pointer;
 
@@ -9,7 +9,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.2rem 0.8rem;
+    padding: 4px 12px;
     color: #5c5c5c;
 
     span {
@@ -20,7 +20,7 @@
     &.active {
       background: var(--hcl-color-primary);
       color: white;
-      border-radius: 2rem;
+      border-radius: 32px;
     }
     &__map-icon {
       width: 0.9em;

@@ -14,6 +14,7 @@ const QUERY_INDIVIDUAL_BY_ID = gql`
       id
       firstName
       lastName
+      middleName
       specialties {
         label
       }
