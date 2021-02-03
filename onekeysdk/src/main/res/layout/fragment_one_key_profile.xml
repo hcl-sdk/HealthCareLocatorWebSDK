@@ -331,11 +331,13 @@
                     <com.ekino.onekeysdk.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/default_padding"
                         android:layout_marginBottom="@dimen/default_padding"
                         app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">

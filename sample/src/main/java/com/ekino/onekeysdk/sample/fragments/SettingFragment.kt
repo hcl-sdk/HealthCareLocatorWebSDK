@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
 import base.fragments.IFragment
-import com.ekino.sample.onekeysdk.R
 import com.ekino.onekeysdk.sample.SampleApplication
 import com.ekino.onekeysdk.sample.SampleOneKeySDKActivity
 import com.ekino.onekeysdk.sample.model.FontObject
@@ -19,9 +18,11 @@ import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.SpinnerInteractionListener
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
+import com.ekino.sample.onekeysdk.R
 import kotlinx.android.synthetic.main.fragment_setting.*
 
-class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener, View.OnClickListener {
+class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSelectedListener,
+    View.OnClickListener {
     companion object {
         fun newInstance() = SettingFragment()
     }
@@ -31,7 +32,11 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
     private val fonts by lazy { getFonts() }
     override fun shouldInterceptBackPress(): Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_setting, container, false)
     }
 
@@ -41,8 +46,10 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         edtAPIKey.setText(apiKey)
 
-        val selectedTheme = (SampleApplication.sharedPreferences.getString(Pref.theme,
-                "G") ?: "G").run {
+        val selectedTheme = (SampleApplication.sharedPreferences.getString(
+            Pref.theme,
+            "G"
+        ) ?: "G").run {
             themes.indexOfFirst { it.id == this }
         }
 
@@ -78,6 +85,9 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
                 }
             }
         }
+        val modificationForm = SampleApplication.sharedPreferences.getInt(Pref.modification, 0)
+        if (modificationForm == 0) rBtnModificationEnabled.isChecked = true
+        else rBtnModificationDisabled.isChecked = false
     }
 
     private fun initMapService() {
@@ -96,7 +106,12 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         languageSpinner.setSelection(selectedPosition)
     }
 
-    override fun onSpinnerItemSelectedListener(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    override fun onSpinnerItemSelectedListener(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
         if (position == 3) {
             this.themeObject = (themeSpinner.selectedItem as? ThemeObject) ?: ThemeObject()
             setThemeData()
@@ -121,7 +136,11 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
             putInt(Pref.home, if (homeGroup.checkedRadioButtonId == rBtnFull.id) 0 else 1)
-            putInt(Pref.mapService, if (mapGroup.checkedRadioButtonId == rBtnOpenStreetMap.id) 0 else 1)
+            putInt(Pref.modification, if (modificationGroup.checkedRadioButtonId == rBtnModificationEnabled.id) 0 else 1)
+            putInt(
+                Pref.mapService,
+                if (mapGroup.checkedRadioButtonId == rBtnOpenStreetMap.id) 0 else 1
+            )
             putInt(Pref.language, languageSpinner.selectedItemPosition)
         }
         super.onPause()
@@ -129,16 +148,28 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
 
     private fun setThemeData() {
         if (themeObject.id == "C") {
-            val primary = SampleApplication.sharedPreferences.getString(Pref.primaryColorPref, themeObject.primaryHexColor)
-                    ?: themeObject.primaryHexColor
-            val secondary = SampleApplication.sharedPreferences.getString(Pref.secondaryColorPref, themeObject.secondaryHexColor)
-                    ?: themeObject.secondaryHexColor
-            val marker = SampleApplication.sharedPreferences.getString(Pref.markerColorPref, themeObject.markerHexColor)
-                    ?: themeObject.markerHexColor
-            val selectedMarker = SampleApplication.sharedPreferences.getString(Pref.selectedMarkerColorPref, themeObject.markerSelectedHexColor)
-                    ?: themeObject.markerSelectedHexColor
+            val primary = SampleApplication.sharedPreferences.getString(
+                Pref.primaryColorPref,
+                themeObject.primaryHexColor
+            )
+                ?: themeObject.primaryHexColor
+            val secondary = SampleApplication.sharedPreferences.getString(
+                Pref.secondaryColorPref,
+                themeObject.secondaryHexColor
+            )
+                ?: themeObject.secondaryHexColor
+            val marker = SampleApplication.sharedPreferences.getString(
+                Pref.markerColorPref,
+                themeObject.markerHexColor
+            )
+                ?: themeObject.markerHexColor
+            val selectedMarker = SampleApplication.sharedPreferences.getString(
+                Pref.selectedMarkerColorPref,
+                themeObject.markerSelectedHexColor
+            )
+                ?: themeObject.markerSelectedHexColor
             val selectedFont = (SampleApplication.sharedPreferences.getString(Pref.fontId, "Roboto")
-                    ?: "Roboto").run {
+                ?: "Roboto").run {
                 fonts.firstOrNull { it.id == this }
             } ?: FontObject()
 

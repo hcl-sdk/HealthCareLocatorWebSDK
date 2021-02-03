@@ -12,7 +12,7 @@ interface HealthCareLocatorState {
     fun getAppName(): String
     fun setAppDownloadLink(downloadLink: String): HealthCareLocatorState
     fun getAppDownloadLink(): String
-    fun init(customObject: HealthCareLocatorCustomObject)
+    fun setCustomObject(customObject: HealthCareLocatorCustomObject)
     fun getConfiguration(): HealthCareLocatorCustomObject
 
     /**

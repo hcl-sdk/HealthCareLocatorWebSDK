@@ -145,16 +145,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_x_larger"
-            android:text="Map"
+            android:text="Suggest Edit"
             android:textColor="@color/colorOneKeyText"
             android:textSize="@dimen/default_text" />
+
+        <RadioGroup
+            android:id="@+id/modificationGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_tiny"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rBtnModificationEnabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_padding"
+                android:text="Enabled" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rBtnModificationDisabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disable" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_x_larger"
+            android:text="Map"
+            android:textColor="@color/colorOneKeyText"
+            android:textSize="@dimen/default_text"
+            android:visibility="gone" />
 
         <RadioGroup
             android:id="@+id/mapGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding_tiny"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rBtnOpenStreetMap"

@@ -37,6 +37,7 @@ object Pref {
     const val colors = "Pref.colors"
 
     const val home = "Pref.home"
+    const val modification = "Pref.modification"
     const val language = "Pref.language"
     const val mapService = "Pref.mapService"
 }
