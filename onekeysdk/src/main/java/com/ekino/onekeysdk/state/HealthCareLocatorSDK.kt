@@ -27,9 +27,12 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
     companion object {
         @JvmStatic
         fun getInstance(): HealthCareLocatorState = Instance.instance
+
+        @JvmStatic
+        fun init(apiKey: String): HealthCareLocatorState = Instance.instance.apply { this.setApiKey(apiKey) }
     }
 
-    override fun init(customObject: HealthCareLocatorCustomObject) {
+    override fun setCustomObject(customObject: HealthCareLocatorCustomObject) {
         this.config = customObject
     }
 

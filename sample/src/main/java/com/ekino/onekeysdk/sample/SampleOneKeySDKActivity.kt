@@ -231,13 +231,13 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
-        builder.showModificationForm(true)
+        builder.showModificationForm(SampleApplication.sharedPreferences.getInt(Pref.modification, 0) == 0)
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
 
-        HealthCareLocatorSDK.getInstance().setAppName("OneKeySample").setApiKey("")
-                .setAppDownloadLink("google.com.vn").init(builder.build())
+        HealthCareLocatorSDK.init("<Your api key>").setAppName("<Your app name>")
+                .setAppDownloadLink("<Your download link>").setCustomObject(builder.build())
         HealthCareLocatorSDK.getInstance().startSDKFragment(this, R.id.fragmentContainer)
-//        OneKeySDK.getInstance().startSDKActivity(this)
+//        HealthCareLocatorSDK.getInstance().startSDKActivity(this)
     }
 
     private fun getFontSetting(json: String): HeathCareLocatorViewFontObject =

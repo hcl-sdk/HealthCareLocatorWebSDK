@@ -341,12 +341,14 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/default_padding"
                         android:layout_marginBottom="@dimen/default_padding"
+                        android:visibility="gone"
                         app:OneKeyViewColor="OneKeyColorCardBorder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         android:weightSum="9.5">
 
                         <com.ekino.onekeysdk.custom.text.OneKeyTextView
