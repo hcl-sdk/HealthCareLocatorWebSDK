@@ -5,6 +5,7 @@ const defaultSettings = {
   theme: 'default' as Theme,
   lang: 'en',
   appName: 'Caretiny',
+  appShowSuggestModification: true,
   appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
 }
 
@@ -18,7 +19,10 @@ export const storeSettings = (settings: Fields) => {
 export const loadSettings = (): Fields => {
   const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings-fields`);
   if (settingsStr) {
-    return JSON.parse(settingsStr);
+    return {
+      ...defaultSettings,
+      ...JSON.parse(settingsStr)
+    };
   }
   return defaultSettings;
 };

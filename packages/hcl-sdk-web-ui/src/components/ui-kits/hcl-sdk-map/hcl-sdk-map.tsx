@@ -301,8 +301,14 @@ export class HclSdkMap {
         searchMapStore.state.geoLocation.latitude,
         searchMapStore.state.geoLocation.longitude,
       ], 10);
-    } else if (this.locations.length >= 1) {
+    } else if (this.locations.length > 1) {
       this.recalculateBoundView();
+    } else if (this.locations.length === 1) {
+      this.map.setZoom(16);
+      this.map.panTo([
+        this.locations[0].lat, 
+        this.locations[0].lng
+      ])
     }
 
     this.markers = [...markers];

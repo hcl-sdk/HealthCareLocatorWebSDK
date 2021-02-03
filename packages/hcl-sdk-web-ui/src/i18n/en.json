@@ -1,8 +1,8 @@
 {
   "home_title": "Find and Locate<br />Healthcare Professional",
-  "home_feat_find_hcp_title": "Find HCPs/HCOs",
-  "home_feat_consult_profile_title": "Access to HCPs/HCOs profiles",
-  "home_feat_request_info_update_title": "Share HCPs/HCOs",
+  "home_feat_find_hcp_title": "Find HCPs",
+  "home_feat_consult_profile_title": "Access to HCPs profiles",
+  "home_feat_request_info_update_title": "Share HCPs",
   "home_feat_find_hcp_text": "Find Healthcare providers by location, name, specialty, or by searching nearby",
   "home_feat_consult_profile_text": "Review detailed provider profiles, including specialties, location, and contact information",
   "home_feat_request_info_update_text": "Use SMS or email to share profiles with friends and family",
@@ -36,10 +36,11 @@
   "information_yes_label": "Yes",
   "information_no_label": "No",
   "improve_quality_label": "Improve the data quality",
-  "improve_quality_text": "Share with us more information about this HCP/HCO.",
+  "improve_quality_text": "Share with us more information about this HCP.",
   "suggess_modification_button": "Suggest a modification",
   "back_to_search_results": "Back to search results",
   "back_to_home": "Back to home",
-  "search_no_results_title": "No Results found",
-  "search_no_results_label": "Oups, it's looks like there is no matches for your search."
+  "no_result_found": "No Results found",
+  "no_result_message": "Oups, it's looks like there is no matches for your search.",
+  "relaunch": "Relaunch"
 }

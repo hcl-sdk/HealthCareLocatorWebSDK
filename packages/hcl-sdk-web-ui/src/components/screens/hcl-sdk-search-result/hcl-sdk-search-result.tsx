@@ -345,7 +345,7 @@ export class HclSdkSearchResult {
                         iconColor="white"
                         onClick={this.handleRelaunchSearch}
                       >
-                        Relaunch
+                        {t('relaunch')}
                       </hcl-sdk-button>
                     </div>
                   )

@@ -6,4 +6,5 @@ export interface Fields {
   lang: string;
   appName: string;
   appDownloadLink: string;
+  appShowSuggestModification: boolean;
 }
