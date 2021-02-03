@@ -18,11 +18,11 @@ export class HclSdkSearchNoResults {
 
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize} hclsdk-search-no-results`}>
-        <h3 class="hclsdk-search-no-results__title">{t('search_no_results_title')}</h3>
+        <h3 class="hclsdk-search-no-results__title">{t('no_result_found')}</h3>
         <div class="hclsdk-search-no-results__icon">
           <hcl-sdk-icon name="search" width={22} height={22} />
         </div>
-        <p class="hclsdk-search-no-results__desc">{t('search_no_results_label')}</p>
+        <p class="hclsdk-search-no-results__desc">{t('no_result_message')}</p>
         <hcl-sdk-button 
           isFull 
           primary 

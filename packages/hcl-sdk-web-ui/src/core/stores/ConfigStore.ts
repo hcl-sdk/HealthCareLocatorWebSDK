@@ -22,6 +22,7 @@ export interface HclSDKConfigData {
   apiKey: string;
   appName?: string;
   appDownloadLink?: string;
+  appShowSuggestModification?: boolean;
 }
 
 export const initStateConfigStore = {
@@ -30,7 +31,8 @@ export const initStateConfigStore = {
   modal: undefined,
   icons: {},
   appName: '',
-  appDownloadLink: ''
+  appDownloadLink: '',
+  appShowSuggestModification: true
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {

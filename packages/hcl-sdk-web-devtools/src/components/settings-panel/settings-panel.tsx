@@ -7,7 +7,7 @@ import * as icons from './icons'
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
 const ALL_PROPS = Object.keys(DEFAULT_THEME_PROPERTIES).map(k => ({
-  key: k.replace(/--hclsdk-([a-z]+)-/, (_, p) => p + '.'),
+  key: k.replace(/--hcl-([a-z]+)-/, (_, p) => p + '.'),
   cssKey: k,
   defaultValue: DEFAULT_THEME_PROPERTIES[k],
 }));
@@ -173,13 +173,15 @@ export class SettingsPanel {
 
   handleChange(fieldName: keyof Fields) {
     return (evt: InputEvent) => {
-      const value = (evt.target as any).value as any;
+      let value = (evt.target as any).value as any;
       if (fieldName === 'theme') {
         if (value === 'custom') {
           this.setCustomTheme();
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
+      } else if (fieldName === 'appShowSuggestModification') {
+        value = (evt.target as any).checked as boolean;
       }
       this.fields = {
         ...this.fields,
@@ -498,6 +500,13 @@ export class SettingsPanel {
         <div class="row">
           <label>App Download Link</label>
           <input name="appDownloadLink" type="text" value={this.fields.appDownloadLink} onChange={this.handleChange('appDownloadLink')} />
+        </div>
+        <div class="row">
+          <label>Show HCP Suggest Modification</label>
+          <div class="hcl-switch-btn">
+            <input name="appShowSuggestModification" type="checkbox" class="checkbox-switch" onChange={this.handleChange('appShowSuggestModification')} checked={this.fields.appShowSuggestModification}/>
+            <div class="hcl-switch-btn__slider"></div>
+          </div>
         </div>
       </section>
     );

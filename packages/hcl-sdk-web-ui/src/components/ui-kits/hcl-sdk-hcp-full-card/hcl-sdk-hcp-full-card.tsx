@@ -25,10 +25,12 @@ export class HclSdkHCPFullCard {
   }
 
   componentWillLoad() {
-    getFullCardDetail({
-      activityId: searchMapStore.state.selectedActivity.id,
-      activityName: searchMapStore.state.selectedActivity.name,
-    });
+    if (searchMapStore.state.selectedActivity) {
+      getFullCardDetail({
+        activityId: searchMapStore.state.selectedActivity.id,
+        activityName: searchMapStore.state.selectedActivity.name,
+      });
+    }
   }
 
   disconnectedCallback() {
@@ -117,6 +119,7 @@ export class HclSdkHCPFullCard {
       loadingSwitchAddress,
       loadingIndividualDetail
     } = searchMapStore.state;
+    const { appShowSuggestModification } = configStore.state;
 
     const toolbarClass = cls('search-toolbar', {
       'header-block': breakpoint.screenSize === 'mobile',
@@ -264,7 +267,7 @@ export class HclSdkHCPFullCard {
                 </div>
               )}
               {/* Block Rate and refunds */}
-              <div class="info-section">
+              {/* <div class="info-section">
                 <div class="info-section-header">
                   <span class="info-section-header__title">{t('rate_refunds_label')}</span>
                 </div>
@@ -273,7 +276,7 @@ export class HclSdkHCPFullCard {
                   <span>Conventionned Sector 1</span>
                   <span>25€</span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Block Information */}
               <div class="info-section">
@@ -297,21 +300,24 @@ export class HclSdkHCPFullCard {
               </div>
 
               {/* Block */}
+              {
+                appShowSuggestModification && (
+                  <div class="info-section">
+                    <div class="info-section-header">
+                      <span class="info-section-header__title">{t('improve_quality_label')}</span>
+                    </div>
 
-              <div class="info-section">
-                <div class="info-section-header">
-                  <span class="info-section-header__title">{t('improve_quality_label')}</span>
-                </div>
+                    <div class="info-section-body">
+                      <span>{t('improve_quality_text')}</span>
 
-                <div class="info-section-body">
-                  <span>{t('improve_quality_text')}</span>
-
-                  <hcl-sdk-button isFull class="hclsdk-btn-suggest-edit" onClick={this.handleClickSuggestEdit}>
-                    <hcl-sdk-icon name="edit" color={getCssColor('--hcl-color-secondary')} />
-                    <span>{t('suggess_modification_button')}</span>
-                  </hcl-sdk-button>
-                </div>
-              </div>
+                      <hcl-sdk-button isFull class="hclsdk-btn-suggest-edit" onClick={this.handleClickSuggestEdit}>
+                        <hcl-sdk-icon name="edit" color={getCssColor('--hcl-color-secondary')} />
+                        <span>{t('suggess_modification_button')}</span>
+                      </hcl-sdk-button>
+                    </div>
+                  </div>
+                )
+              }
               {/* Block */}
             </div>
           </div>
