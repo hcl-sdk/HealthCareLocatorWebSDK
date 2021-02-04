@@ -35,8 +35,3 @@ steps:
     targetFolder: '$(build.artifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
     
-- task: GooglePlayRelease@2
-  inputs:
-    apkFile: '**/*.apk'
-    serviceEndpoint: 'yourGooglePlayServiceConnectionName'
-    track: 'internal'
