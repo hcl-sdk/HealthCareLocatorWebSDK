@@ -27,4 +27,16 @@ steps:
     apksignerKeystorePassword: '$(keystorepassword)'
     apksignerKeystoreAlias: 'upload'
     apksignerKeyPassword: '$(keypassword)'
+    zipalign: false
     
+- task: CopyFiles@2
+  inputs:
+    contents: '**/*.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+    
+- task: GooglePlayRelease@2
+  inputs:
+    apkFile: '**/*.apk'
+    serviceEndpoint: 'yourGooglePlayServiceConnectionName'
+    track: 'internal'
