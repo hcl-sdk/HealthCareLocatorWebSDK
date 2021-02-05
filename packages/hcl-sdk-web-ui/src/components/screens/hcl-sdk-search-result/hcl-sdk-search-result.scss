@@ -425,6 +425,19 @@
         }
       }
     }
+
+    .hclsdk-btn-relaunch {
+      bottom: 25px;
+      margin-left: 180px;
+    }
+
+    .search-map-wrapper {
+      &.hide {
+        & ~ .hclsdk-btn-relaunch {
+          margin-left: 0;
+        }
+      }
+    }
   }
 
 }

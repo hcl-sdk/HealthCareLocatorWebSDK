@@ -88,10 +88,6 @@ export class HclSdkSearchResult {
 
   @Listen('onMapDrag')
   handleVisibleRelaunchBtn(evt) {
-    if (uiStore.state.breakpoint.screenSize !== 'mobile') {
-      return;
-    }
-
     if (!this.isShowRelaunchBtn) {
       this.isShowRelaunchBtn = true;
     }
@@ -263,7 +259,7 @@ export class HclSdkSearchResult {
     const isShowMapCluster = !isListView && !isShowHCPDetail && specialties && specialties.length !== 0;
     
     const locationsMapSingle = this.getLocationsMapSingle();
-    const isShowRelaunchBtn = this.isShowRelaunchBtn && isSmall && isShowMapCluster;
+    const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
 
     return (
       <Host class={wrapperClass}>
@@ -330,7 +326,7 @@ export class HclSdkSearchResult {
                 <div class="toggle-panel">
                   <hcl-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
                 </div>
-                
+
                 {
                   isShowRelaunchBtn && (
                     <div class={cls('hclsdk-btn-relaunch', {
