@@ -1,0 +1,45 @@
+# Android
+
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+trigger:
+- main
+
+pool:
+  vmImage: 'macos-latest'
+
+steps:
+- task: Gradle@2
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'assembleDebug'
+
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.apk'
+    apksignerKeystoreFile: 'android_keystore'
+    apksignerKeystorePassword: '$(keystorepassword)'
+    apksignerKeystoreAlias: 'upload'
+    apksignerKeyPassword: '$(keypassword)'
+    zipalign: false
+    
+- task: CopyFiles@2
+  inputs:
+    contents: '**/*.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+    
+- task: AppCenterDistribute@3
+  inputs:
+    serverEndpoint: 'AppCenter_HCLApp'
+    appSlug: 'EValentin-fr.imshealth.com/HCLApp'
+    appFile: '**/*.apk'
+    releaseNotesOption: 'input'
+    releaseNotesInput: 'New version'
+    destinationType: 'groups'
