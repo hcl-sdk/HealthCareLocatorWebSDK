@@ -8,7 +8,7 @@ android {
     buildToolsVersion build_versions.build_tool_version
 
     defaultConfig {
-        applicationId "com.ekino.openkeysdk.sample"
+        applicationId "com.iqvia.onekey.hclapp"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
