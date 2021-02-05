@@ -43,3 +43,9 @@ steps:
     releaseNotesOption: 'input'
     releaseNotesInput: 'New version'
     destinationType: 'groups'
+
+- task: GooglePlayRelease@3
+  inputs:
+    serviceConnection: 'IQVIA_GooglePlay'
+    apkFile: '**/*.apk'
+    track: 'beta'
