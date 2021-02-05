@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.state
 
+import android.content.Context
 import androidx.annotation.NonNull
 import com.ekino.onekeysdk.model.config.HCLQueryObject
 import com.iqvia.onekey.GetActivitiesQuery
@@ -13,33 +14,36 @@ class HealthCareLocatorService {
     }
 
     private val runner by lazy { HealthCareLocatorServiceRunner() }
+    private var context: Context? = null
 
     companion object {
         @JvmStatic
-        fun getInstance(): HealthCareLocatorService = Instance.instance
+        fun getInstance(context: Context): HealthCareLocatorService = Instance.instance.apply {
+            this.context = context
+        }
     }
 
     fun getCodeByLabel(parameters: HCLQueryObject, @NonNull callback: HealthCareLocatorServiceCallback<ArrayList<GetCodeByLabelQuery.Code>>) {
         runner.bindView(this)
-        runner.getCodeByLabel(this, parameters, callback)
+        runner.getCodeByLabel(this, parameters, context, callback)
     }
 
     fun getIndividualByName(parameters: HCLQueryObject,
                             @NonNull callback: HealthCareLocatorServiceCallback<ArrayList<GetIndividualByNameQuery.Individual>>) {
         runner.bindView(this)
-        runner.getIndividualByName(this, parameters, callback)
+        runner.getIndividualByName(this, parameters, context, callback)
     }
 
     fun getActivities(parameters: HCLQueryObject,
-                            @NonNull callback: HealthCareLocatorServiceCallback<ArrayList<GetActivitiesQuery.Activity>>) {
+                      @NonNull callback: HealthCareLocatorServiceCallback<ArrayList<GetActivitiesQuery.Activity>>) {
         runner.bindView(this)
-        runner.getActivities(this, parameters, callback)
+        runner.getActivities(this, parameters, context, callback)
     }
 
     fun getDetailActivity(parameters: HCLQueryObject,
-                            @NonNull callback: HealthCareLocatorServiceCallback<GetActivityByIdQuery.ActivityByID>) {
+                          @NonNull callback: HealthCareLocatorServiceCallback<GetActivityByIdQuery.ActivityByID>) {
         runner.bindView(this)
-        runner.getDetailActivity(this, parameters, callback)
+        runner.getDetailActivity(this, parameters, context, callback)
     }
 
     fun unbindRunner() {

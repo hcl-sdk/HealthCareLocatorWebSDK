@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.state
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import base.extensions.addFragment
@@ -96,9 +97,9 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
         activity!!.startActivity(Intent(activity, OneKeyActivity::class.java))
     }
 
-    override fun getServices(): HealthCareLocatorService {
+    override fun getServices(context: Context): HealthCareLocatorService {
         if (getApiKey().isEmpty()) throw OneKeyException(ErrorReference.API_KEY_INVALID,
                 "The provided API key must NOT be nullable or emtpy.")
-        return HealthCareLocatorService.getInstance()
+        return HealthCareLocatorService.getInstance(context)
     }
 }

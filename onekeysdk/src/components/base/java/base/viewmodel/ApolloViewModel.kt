@@ -1,5 +1,6 @@
 package base.viewmodel
 
+import android.content.Context
 import android.content.SharedPreferences
 import base.extensions.runOnUiThread
 import com.apollographql.apollo.ApolloCall
@@ -8,6 +9,7 @@ import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.rx2.Rx2Apollo
+import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ApolloConnector
 import com.ekino.onekeysdk.extensions.removeConsultedProfile
 import com.ekino.onekeysdk.extensions.storeConsultedProfiles
@@ -20,9 +22,13 @@ import io.reactivex.Flowable
 abstract class ApolloViewModel<T> : AppViewModel<T>() {
 
     protected fun <D : Operation.Data, T, V : Operation.Variables>
-            query(query: () -> Query<D, T, V>, success: (response: Response<T>) -> Unit,
-                  error: (e: Exception) -> Unit, runOnThread: Boolean = false) {
-        ApolloConnector.getInstance().getApolloClient().query(query())
+            query(
+            query: () -> Query<D, T, V>, success: (response: Response<T>) -> Unit,
+            error: (e: Exception) -> Unit, runOnThread: Boolean = false, context: Context? = null) {
+        ApolloConnector.getInstance()
+                .getApolloClient(getFragmentReference()?.getString(R.string.clientHCLUrl)
+                        ?: context?.getString(R.string.clientHCLUrl) ?: "https://www.blank.org/")
+                .query(query())
                 .enqueue(object : ApolloCall.Callback<T>() {
                     override fun onFailure(e: ApolloException) {
                         runOnUiThread(Runnable { error(e) })
@@ -43,14 +49,23 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
     }
 
     protected fun <D : Operation.Data, T, V : Operation.Variables, K>
-            rxQuery(query: () -> Query<D, T, V>, map: (response: Response<T>) -> K,
-                    onSuccess: (data: K) -> Unit, onError: (e: Throwable) -> Unit) {
-        disposable?.add(Rx2Apollo.from(ApolloConnector.getInstance().getApolloClient().query(query()))
-                .map { map(it) }.compose(composeObservable()).subscribe({
-                    onSuccess(it)
-                }, {
-                    onError(it)
-                }))
+            rxQuery(
+            query: () -> Query<D, T, V>, map: (response: Response<T>) -> K,
+            onSuccess: (data: K) -> Unit, onError: (e: Throwable) -> Unit, context: Context? = null) {
+        disposable?.add(Rx2Apollo.from(
+                ApolloConnector.getInstance()
+                        .getApolloClient(
+                                getFragmentReference()?.getString(R.string.clientHCLUrl)
+                                        ?: context?.getString(R.string.clientHCLUrl)
+                                        ?: "https://www.blank.org/"
+                        )
+                        .query(query())
+        ).map { map(it) }.compose(composeObservable()).subscribe({
+            onSuccess(it)
+        }, {
+            onError(it)
+        })
+        )
     }
 
     fun storeConsultedProfile(pref: SharedPreferences, activity: ActivityObject) {
@@ -60,7 +75,8 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                     pref.storeConsultedProfiles(Gson(), activity)
                 }
                 .compose(compose())
-                .subscribe({}, {}))
+                .subscribe({}, {})
+        )
     }
 
     fun storeSearch(pref: SharedPreferences, obj: SearchObject) {
@@ -70,7 +86,8 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                     pref.storeLastSearch(Gson(), obj)
                 }
                 .compose(compose())
-                .subscribe({}, {}))
+                .subscribe({}, {})
+        )
     }
 
     fun removeConsultedProfile(pref: SharedPreferences, activity: ActivityObject) {
@@ -79,6 +96,7 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
                     pref.removeConsultedProfile(Gson(), activity)
                 }
                 .compose(compose())
-                .subscribe({}, {}))
+                .subscribe({}, {})
+        )
     }
 }

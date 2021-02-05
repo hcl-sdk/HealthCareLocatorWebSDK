@@ -30,9 +30,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", 'clientHCLUrl', 'https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query'
             resValue "string", "modificationUrl", "https://onekeysdk.ekinoffy.com/%s/suggest-modification?apiKey=%s&id=%s"
         }
         debug{
+            resValue "string", 'clientHCLUrl', 'https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query'
             resValue "string", "modificationUrl", "https://onekeysdk.ekinoffy.com/%s/suggest-modification?apiKey=%s&id=%s"
         }
     }
