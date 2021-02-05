@@ -39,7 +39,7 @@ abstract class AppFragment<T, VM : IViewModel<T>>(private val layoutId: Int) :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        changeLocale(HealthCareLocatorSDK.getInstance().getConfiguration().getLocaleCode())
+        changeLocale(HealthCareLocatorSDK.getInstance().getConfiguration().locale)
         val view = inflater.inflate(layoutId, container, false)
         viewModel.bindView(this as T)
         return view
