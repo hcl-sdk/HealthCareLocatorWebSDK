@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.state
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.ekino.onekeysdk.error.OneKeyException
 import com.ekino.onekeysdk.model.config.HCLQueryObject
@@ -30,5 +31,5 @@ interface HealthCareLocatorState {
     /**
      * get data from services without UI
      */
-    fun getServices(): HealthCareLocatorService
+    fun getServices(context: Context): HealthCareLocatorService
 }

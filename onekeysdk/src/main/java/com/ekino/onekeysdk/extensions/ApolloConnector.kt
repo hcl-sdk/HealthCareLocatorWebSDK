@@ -11,7 +11,6 @@ class ApolloConnector private constructor() {
     private object Instance {
         val instance = ApolloConnector()
         const val apolloClientUrl = "https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query"
-//        const val apolloClientUrl = "https://apim-prod-westeu-onekey.azure-api.net/api/graphql/query"
     }
 
     private var apolloClient: ApolloClient? = null
@@ -21,14 +20,14 @@ class ApolloConnector private constructor() {
         fun getInstance(): ApolloConnector = ApolloConnector.Instance.instance
     }
 
-    fun getApolloClient(): ApolloClient {
+    fun getApolloClient(apolloClientUrl: String): ApolloClient {
         if (apolloClient == null) {
             apolloClient = ApolloClient.builder()
-                    .serverUrl(apolloClientUrl)
-                    .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+                .serverUrl(apolloClientUrl)
+                .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
 //                    .okHttpClient(OkHttpClient.Builder()
 //                            .addInterceptor(AuthorizationInterceptor()).build())
-                    .build()
+                .build()
         }
         return apolloClient!!
     }
@@ -36,7 +35,7 @@ class ApolloConnector private constructor() {
     fun getApolloClient(builder: () -> ApolloClient.Builder): ApolloClient {
         if (apolloClient == null) {
             apolloClient = builder().serverUrl(apolloClientUrl)
-                    .build()
+                .build()
         }
         return apolloClient!!
     }
@@ -50,8 +49,8 @@ class ApolloConnector private constructor() {
         override fun intercept(chain: Interceptor.Chain): Response {
             val config = HealthCareLocatorSDK.getInstance()
             val request = chain.request().newBuilder()
-                    .addHeader("Ocp-Apim-Subscription-Key", config.getApiKey())
-                    .build()
+                .addHeader("Ocp-Apim-Subscription-Key", config.getApiKey())
+                .build()
 
             return chain.proceed(request)
         }

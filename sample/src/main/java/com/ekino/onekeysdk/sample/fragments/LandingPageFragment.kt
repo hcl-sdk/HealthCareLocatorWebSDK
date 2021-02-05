@@ -37,7 +37,7 @@ class LandingPageFragment : IFragment(), View.OnClickListener {
 //                (activity as? SampleOneKeySDKActivity)?.launchOneKeySDK(true)
             R.id.btnSearch -> {
                 val builder = HCLQueryObject.Builder(criteria = "gen", codeTypes = arrayListOf("SP"))
-                val service = HealthCareLocatorSDK.init("200002c2aaf5b168").getServices()
+                val service = HealthCareLocatorSDK.init("200002c2aaf5b168").getServices(context!!)
                 service.getCodeByLabel(builder.build(),
                         object : HealthCareLocatorServiceCallback<ArrayList<GetCodeByLabelQuery.Code>>() {
                             override fun onServiceFailed(message: String, e: Throwable) {

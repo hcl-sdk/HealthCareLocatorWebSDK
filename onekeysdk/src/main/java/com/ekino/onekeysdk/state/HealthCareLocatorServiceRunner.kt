@@ -1,5 +1,6 @@
 package com.ekino.onekeysdk.state
 
+import android.content.Context
 import base.viewmodel.ApolloViewModel
 import com.ekino.onekeysdk.extensions.StatusReference
 import com.ekino.onekeysdk.extensions.isNullable
@@ -11,7 +12,7 @@ import com.iqvia.onekey.GetIndividualByNameQuery
 import com.iqvia.onekey.type.GeopointQuery
 
 class HealthCareLocatorServiceRunner : ApolloViewModel<HealthCareLocatorService>() {
-    fun getCodeByLabel(service: HealthCareLocatorService, params: HCLQueryObject,
+    fun getCodeByLabel(service: HealthCareLocatorService, params: HCLQueryObject, context: Context?,
                        callback: HealthCareLocatorServiceCallback<ArrayList<GetCodeByLabelQuery.Code>>) {
         rxQuery({
             GetCodeByLabelQuery.builder().criteria(params.criteria).first(params.first).locale(params.locale)
@@ -28,10 +29,10 @@ class HealthCareLocatorServiceRunner : ApolloViewModel<HealthCareLocatorService>
         }, {
             callback.onServiceFailed("${StatusReference.ERROR}:: ${it.localizedMessage}", it)
             service.unbindRunner()
-        })
+        }, context)
     }
 
-    fun getIndividualByName(service: HealthCareLocatorService, params: HCLQueryObject,
+    fun getIndividualByName(service: HealthCareLocatorService, params: HCLQueryObject, context: Context?,
                             callback: HealthCareLocatorServiceCallback<ArrayList<GetIndividualByNameQuery.Individual>>) {
         rxQuery({
             GetIndividualByNameQuery.builder().criteria(params.criteria).first(params.first)
@@ -50,10 +51,10 @@ class HealthCareLocatorServiceRunner : ApolloViewModel<HealthCareLocatorService>
                 {
                     callback.onServiceFailed("${StatusReference.ERROR}:: ${it.localizedMessage}", it)
                     service.unbindRunner()
-                })
+                }, context)
     }
 
-    fun getActivities(service: HealthCareLocatorService, params: HCLQueryObject,
+    fun getActivities(service: HealthCareLocatorService, params: HCLQueryObject, context: Context?,
                       callback: HealthCareLocatorServiceCallback<ArrayList<GetActivitiesQuery.Activity>>) {
         if (params.criteria.isEmpty() && params.specialities.isEmpty() &&
                 params.latitude == 0.0 && params.longitude == 0.0) {
@@ -85,10 +86,10 @@ class HealthCareLocatorServiceRunner : ApolloViewModel<HealthCareLocatorService>
         }, {
             callback.onServiceFailed("${StatusReference.ERROR}:: ${it.localizedMessage}", it)
             service.unbindRunner()
-        })
+        }, context)
     }
 
-    fun getDetailActivity(service: HealthCareLocatorService, params: HCLQueryObject,
+    fun getDetailActivity(service: HealthCareLocatorService, params: HCLQueryObject, context: Context?,
                           callback: HealthCareLocatorServiceCallback<GetActivityByIdQuery.ActivityByID>) {
         if (params.id.isEmpty()) {
             callback.onServiceFailed("${StatusReference.ERROR}:: Activity ID is invalid",
@@ -107,6 +108,6 @@ class HealthCareLocatorServiceRunner : ApolloViewModel<HealthCareLocatorService>
                 {
                     callback.onServiceFailed("${StatusReference.ERROR}:: ${it.localizedMessage}", it)
                     service.unbindRunner()
-                })
+                }, context)
     }
 }
