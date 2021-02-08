@@ -180,7 +180,7 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
-      } else if (fieldName === 'appShowSuggestModification') {
+      } else if (fieldName === 'showSuggestModification') {
         value = (evt.target as any).checked as boolean;
       }
       this.fields = {
@@ -504,7 +504,7 @@ export class SettingsPanel {
         <div class="row">
           <label>Show HCP Suggest Modification</label>
           <div class="hcl-switch-btn">
-            <input name="appShowSuggestModification" type="checkbox" class="checkbox-switch" onChange={this.handleChange('appShowSuggestModification')} checked={this.fields.appShowSuggestModification}/>
+            <input name="showSuggestModification" type="checkbox" class="checkbox-switch" onChange={this.handleChange('showSuggestModification')} checked={this.fields.showSuggestModification}/>
             <div class="hcl-switch-btn__slider"></div>
           </div>
         </div>

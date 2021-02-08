@@ -119,7 +119,7 @@ export class HclSdkHCPFullCard {
       loadingSwitchAddress,
       loadingIndividualDetail
     } = searchMapStore.state;
-    const { appShowSuggestModification } = configStore.state;
+    const { showSuggestModification } = configStore.state;
 
     const toolbarClass = cls('search-toolbar', {
       'header-block': breakpoint.screenSize === 'mobile',
@@ -301,7 +301,7 @@ export class HclSdkHCPFullCard {
 
               {/* Block */}
               {
-                appShowSuggestModification && (
+                showSuggestModification && (
                   <div class="info-section">
                     <div class="info-section-header">
                       <span class="info-section-header__title">{t('improve_quality_label')}</span>

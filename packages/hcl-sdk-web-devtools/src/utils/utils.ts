@@ -5,7 +5,7 @@ const defaultSettings = {
   theme: 'default' as Theme,
   lang: 'en',
   appName: 'Caretiny',
-  appShowSuggestModification: true,
+  showSuggestModification: true,
   appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
 }
 

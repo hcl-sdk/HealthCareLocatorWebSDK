@@ -89,7 +89,7 @@ export class HclSDK {
     ro.observe(parent);
 
     // Search near me entry
-    if (this.config && this.config.entry && this.config.entry.screenName === 'nearMe') {
+    if (this.config && this.config.entry && this.config.entry.screenName === 'searchNearMe') {
       const { specialtyCode } = this.config.entry;
       if (!specialtyCode) {
         console.error('missing specialtyCode for "near me" search');

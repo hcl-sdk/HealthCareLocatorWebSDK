@@ -63,7 +63,7 @@ if (matches) {
   var specialtyLabel = specialtyLabelByCode[specialtyCode];
   if (specialtyLabel) {
     config.entry = {
-      screenName: 'nearMe',
+      screenName: 'searchNearMe',
       specialtyCode
     }
   }

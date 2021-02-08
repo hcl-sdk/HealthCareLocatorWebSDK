@@ -6,5 +6,5 @@ export interface Fields {
   lang: string;
   appName: string;
   appURL: string;
-  appShowSuggestModification: boolean;
+  showSuggestModification: boolean;
 }

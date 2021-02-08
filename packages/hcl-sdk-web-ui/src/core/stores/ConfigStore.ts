@@ -22,7 +22,7 @@ export interface HclSDKConfigData {
   apiKey: string;
   appName?: string;
   appURL?: string;
-  appShowSuggestModification?: boolean;
+  showSuggestModification?: boolean;
 }
 
 export const initStateConfigStore = {
@@ -32,7 +32,7 @@ export const initStateConfigStore = {
   icons: {},
   appName: '',
   appURL: '',
-  appShowSuggestModification: true
+  showSuggestModification: true
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {
