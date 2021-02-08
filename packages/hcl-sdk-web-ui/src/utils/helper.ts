@@ -105,7 +105,7 @@ export function getPrimaryAddressIndividuual({ addressName, addressBuildingName,
 export function getTextBodyToShare(individualDetail, {
   newLine = '%0D%0A',
   appName = '',
-  appDownloadLink = ''
+  appURL = ''
 } = {}) {
 
   const { name, phone, professionalType, specialties } = individualDetail;
@@ -119,12 +119,12 @@ export function getTextBodyToShare(individualDetail, {
 
   if (appName) {
     let appText = `I found it on ${appName}`;
-    if (appDownloadLink) {
-      appText += ` - ${appDownloadLink}`;
+    if (appURL) {
+      appText += ` - ${appURL}`;
     }
     listText.push(appText);
   }
-  
+
   return listText.join(`${newLine}${newLine}`);
 }
 

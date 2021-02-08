@@ -37,9 +37,9 @@ export class HclSDK {
   }
 
   @Method()
-  searchNearMe({ specialtyCode, specialtyLabel }) {
+  searchNearMe({ specialtyCode }) {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
-    searchMapStore.setSearchFieldValue('name', specialtyLabel);
+    searchMapStore.setSearchFieldValue('name', specialtyCode);
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: { id: specialtyCode },
@@ -90,16 +90,12 @@ export class HclSDK {
 
     // Search near me entry
     if (this.config && this.config.entry && this.config.entry.screenName === 'nearMe') {
-      const { specialtyCode, specialtyLabel } = this.config.entry;
+      const { specialtyCode } = this.config.entry;
       if (!specialtyCode) {
         console.error('missing specialtyCode for "near me" search');
         return;
       }
-      if (!specialtyLabel) {
-        console.error('missing specialtyLabel for "near me" search');
-        return;
-      }
-      this.searchNearMe({ specialtyCode, specialtyLabel });
+      this.searchNearMe({ specialtyCode });
     }
   }
 
@@ -129,7 +125,7 @@ export class HclSDK {
   tryFindGeoloc() {
     navigator.geolocation
       .getCurrentPosition(data => {
-        
+
         const {
           coords //: { longitude, latitude }
         } = data;

@@ -46,33 +46,29 @@ function getSettingsFromLocal() {
   }
   return {
     apiKey: '',
-    appName: 'Caretiny',
-    appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+    appName: 'Carenity',
+    appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
   };
 }
 
-// settingPanelEl.addEventListener('ready', function() {
-//   settingPanelEl.getFields().then(fields => {
-    const config = {
-      ...getSettingsFromLocal(),
-      i18nBundlesPath: '/hcl-sdk/i18n'
-    };
 
-    var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
-    if (matches) {
-      var specialtyCode = matches[1];
-      var specialtyLabel = specialtyLabelByCode[specialtyCode];
-      if (specialtyLabel) {
-        config.entry = {
-          screenName: 'nearMe',
-          specialtyCode,
-          specialtyLabel
-        }
-      }
-    }
+const config = {
+  ...getSettingsFromLocal(),
+  i18nBundlesPath: '/hcl-sdk/i18n'
+};
 
-    if (hclSdkEl) {
-      hclSdkEl.config = config;
+var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
+if (matches) {
+  var specialtyCode = matches[1];
+  var specialtyLabel = specialtyLabelByCode[specialtyCode];
+  if (specialtyLabel) {
+    config.entry = {
+      screenName: 'nearMe',
+      specialtyCode
     }
-//   })
-// })
+  }
+}
+
+if (hclSdkEl) {
+  hclSdkEl.config = config;
+}

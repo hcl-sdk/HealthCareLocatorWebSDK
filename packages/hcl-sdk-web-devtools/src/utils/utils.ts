@@ -6,7 +6,7 @@ const defaultSettings = {
   lang: 'en',
   appName: 'Caretiny',
   appShowSuggestModification: true,
-  appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+  appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
 }
 
 export function format(first: string, middle: string, last: string): string {

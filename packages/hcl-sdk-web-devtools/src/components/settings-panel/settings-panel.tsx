@@ -113,7 +113,7 @@ export class SettingsPanel {
 
   @State() editedFont: null | SelectedFont = null;
   @State() editedColor: null | SelectedColor = null;
-  @State() editedIcon: null | SelectedIcon = null; 
+  @State() editedIcon: null | SelectedIcon = null;
   @State() isFontsExpanded: boolean = false;
   @State() isColorsExpanded: boolean = false;
   @State() isIconsExpanded: boolean = false;
@@ -282,7 +282,7 @@ export class SettingsPanel {
   };
 
   applyCustomIcon = (prop: string, value: string) => {
-    
+
     const customizedIcon = window.localStorage.getItem(this.ICON_STORE_NAME);
     const trimValue = value.replace(/(\r\n|\n|\r)/gm, "").replace(/>\s+|\s+</g, (m) => m.trim())
     let newCustomizedIcon = {}
@@ -498,8 +498,8 @@ export class SettingsPanel {
           <input name="appName" type="text" value={this.fields.appName} onChange={this.handleChange('appName')} />
         </div>
         <div class="row">
-          <label>App Download Link</label>
-          <input name="appDownloadLink" type="text" value={this.fields.appDownloadLink} onChange={this.handleChange('appDownloadLink')} />
+          <label>App URL</label>
+          <input name="appURL" type="text" value={this.fields.appURL} onChange={this.handleChange('appURL')} />
         </div>
         <div class="row">
           <label>Show HCP Suggest Modification</label>
