@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: onekey-sample-web-app
-          image: onekeyprodregistry.azurecr.io/onekey-sdk-web-lib:5e7f98d
+          image: onekeyprodregistry.azurecr.io/onekey-sdk-web-lib:bc2c6cf
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -36,22 +36,3 @@ spec:
       targetPort: 5000
   selector:
     app: onekey-sample-web-app
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: onekey-sample-web-app
-  namespace: onekey-web
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /sample/$2
-    kubernetes.io/ingress.class: onekey-web
-spec:
-  rules:
-    - host: frontdoor-prod-westeu-onekey.azurefd.net 
-    - http:
-        paths:
-        - backend:
-            serviceName: onekey-sample-web-app
-            servicePort: 80
-          path: "/sample"
-          pathType: Prefix

@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN npm install
+
 RUN yarn install
 
 RUN yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn 
