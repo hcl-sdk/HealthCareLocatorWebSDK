@@ -35,17 +35,17 @@ steps:
     targetFolder: '$(build.artifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
     
-#- task: AppCenterDistribute@3
-#  inputs:
-#    serverEndpoint: 'AppCenter_HCLApp'
-#    appSlug: 'EValentin-fr.imshealth.com/HCLApp'
-#    appFile: '**/*.apk'
-#    releaseNotesOption: 'input'
-#    releaseNotesInput: 'New version'
-#    destinationType: 'groups'
-
-- task: GooglePlayRelease@3
+- task: AppCenterDistribute@3
   inputs:
-    serviceConnection: 'IQVIA_GooglePlay'
-    apkFile: '**/*.apk'
-    track: 'beta'
+    serverEndpoint: 'AppCenter_HCLApp'
+    appSlug: 'EValentin-fr.imshealth.com/HCLApp'
+    appFile: '**/*.apk'
+    releaseNotesOption: 'input'
+    releaseNotesInput: 'New version'
+    destinationType: 'groups'
+
+#- task: GooglePlayRelease@3
+#  inputs:
+#    serviceConnection: 'IQVIA_GooglePlay'
+#    apkFile: '**/*.apk'
+#    track: 'beta'
