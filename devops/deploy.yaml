@@ -43,7 +43,7 @@ metadata:
   name: onekey-sample-web-app
   namespace: onekey-web
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /sample/$2
     kubernetes.io/ingress.class: onekey-web
 spec:
   rules:

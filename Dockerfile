@@ -10,4 +10,4 @@ RUN cd ./app && yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sd
 
 EXPOSE 5000
 
-CMD [ "npx", "serve", "./app/examples/web/cdn" ]
+CMD [ "npx", "serve", "./app/examples/web/cdn", "-serve-path", "sample"]
