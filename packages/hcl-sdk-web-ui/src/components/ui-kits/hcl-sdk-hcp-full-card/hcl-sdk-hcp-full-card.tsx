@@ -12,7 +12,7 @@ import { t } from '../../../utils/i18n';
 export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() confirm: boolean;
-  
+
   @Listen('mapClicked')
   onMapClicked() {
     configStore.setState({
@@ -61,7 +61,7 @@ export class HclSdkHCPFullCard {
 
     const config = {
       appName: configStore.state.appName,
-      appDownloadLink: configStore.state.appDownloadLink
+      appURL: configStore.state.appURL
     }
 
     if (navigator.share) {
@@ -71,7 +71,7 @@ export class HclSdkHCPFullCard {
           ...config
         })
       }).then(() => {
-        // TODO Successfully: 
+        // TODO Successfully:
       })
       .catch(() => {
         fallbackShareHCPDetail(individualDetail, config)
@@ -113,8 +113,8 @@ export class HclSdkHCPFullCard {
     });
 
     const { breakpoint } = uiStore.state;
-    const { 
-      individualDetail, 
+    const {
+      individualDetail,
       individualDetailName,
       loadingSwitchAddress,
       loadingIndividualDetail
@@ -132,20 +132,20 @@ export class HclSdkHCPFullCard {
         <div class="main-contain">
           <div class={toolbarClass}>
             <div class="search-back-large">
-              <hcl-sdk-button 
-                noBorder 
-                noBackground 
-                icon="arrow" 
-                iconColor={getCssColor('--hcl-color-dark')} 
+              <hcl-sdk-button
+                noBorder
+                noBackground
+                icon="arrow"
+                iconColor={getCssColor('--hcl-color-dark')}
                 onClick={this.backFromHcpFullCard.emit}>
                 <span class="hidden-mobile">{t('back_to_search_results')}</span>
               </hcl-sdk-button>
             </div>
-            <hcl-sdk-button 
-              noBorder 
-              noBackground 
-              icon="share" 
-              iconColor={getCssColor('--hcl-color-grey_dark')} 
+            <hcl-sdk-button
+              noBorder
+              noBackground
+              icon="share"
+              iconColor={getCssColor('--hcl-color-grey_dark')}
               onClick={this.handleShareHCPDetail}
             />
           </div>
@@ -199,7 +199,7 @@ export class HclSdkHCPFullCard {
                       {
                         individualDetail && individualDetail.activitiesList.length >= 2 && (
                           <div class="info-section-body__address">
-                            <hcl-sdk-select 
+                            <hcl-sdk-select
                               value={individualDetail.id}
                               loading={loadingSwitchAddress}
                               options={individualDetail.activitiesList.map(({id, workplace}, index: number) => ({

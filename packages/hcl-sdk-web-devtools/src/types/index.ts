@@ -5,6 +5,6 @@ export interface Fields {
   theme: Theme;
   lang: string;
   appName: string;
-  appDownloadLink: string;
+  appURL: string;
   appShowSuggestModification: boolean;
 }

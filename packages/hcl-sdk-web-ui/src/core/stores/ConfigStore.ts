@@ -21,7 +21,7 @@ export interface HclSDKConfigData {
   icons: any;
   apiKey: string;
   appName?: string;
-  appDownloadLink?: string;
+  appURL?: string;
   appShowSuggestModification?: boolean;
 }
 
@@ -31,7 +31,7 @@ export const initStateConfigStore = {
   modal: undefined,
   icons: {},
   appName: '',
-  appDownloadLink: '',
+  appURL: '',
   appShowSuggestModification: true
 };
 

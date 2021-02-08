@@ -29,7 +29,7 @@ describe('getTextBodyToShare', () => {
   }
   const config = {
     appName: 'Caretiny',
-    appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+    appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
   }
 
   test('should return mail body with the new line character correctly', () => {
@@ -47,7 +47,7 @@ describe('getTextBodyToShare', () => {
 Dr Rory Michael Trow
 General Practitioner
 
-Specialties: 
+Specialties:
 
 Group Practice 3-480 Harbourfront Dr NE
 3-480 Harbourfront Dr NE
@@ -94,7 +94,7 @@ describe('fallbackShareHCPDetail', () => {
   test('not throw an error', () => {
     expect(fallbackShareHCPDetail(indiviualDetail, {
       appName: 'Caretiny',
-      appDownloadLink: 'https://apps.apple.com/fr/app/carenity/id1404422803'
+      appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
     })).not.toThrowError
   })
 })
@@ -187,7 +187,7 @@ describe('getContainerHeightWidthOffset', () => {
   test('should return the right offset of element', () => {
     const container = document.createElement('hcl-sdk');
     document.body.append(container);
-    
+
     //@ts-ignore
     container.offsetWidth = 1366;
     //@ts-ignore
@@ -216,7 +216,7 @@ describe('getCssColor', () => {
     })
 
     document.body.append(container);
-    
+
     const color = getCssColor('--hcl-color-dark')
     expect(color).toMatch('');
   })
