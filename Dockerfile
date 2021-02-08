@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY package.json ./app/
 COPY lerna.json ./app/
-COPY package-lock.json ./app/
 COPY yarn*.json ./app/
 
 RUN cd ./app && yarn install
