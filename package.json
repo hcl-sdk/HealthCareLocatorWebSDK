@@ -32,5 +32,8 @@
   },
   "resolutions": {
     "leaflet": "1.6.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

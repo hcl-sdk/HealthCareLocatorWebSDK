@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: onekey-sample-web-app
-          image: onekeyprodregistry.azurecr.io/onekey-sdk-web-lib:b26d70e
+          image: onekeyprodregistry.azurecr.io/onekey-sdk-web-lib:5e7f98d
           imagePullPolicy: Always
           ports:
             - containerPort: 5000

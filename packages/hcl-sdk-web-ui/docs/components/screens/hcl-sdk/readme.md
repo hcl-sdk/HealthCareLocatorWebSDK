@@ -14,7 +14,7 @@
 
 ## Methods
 
-### `searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: any; specialtyLabel: any; }) => Promise<void>`
+### `searchNearMe({ specialtyCode }: { specialtyCode: any; }) => Promise<void>`
 
 
 

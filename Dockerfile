@@ -2,12 +2,15 @@ FROM node:15
 
 WORKDIR /app
 
-COPY . ./app/
+COPY . .
 
-RUN cd ./app && yarn install
+RUN npm install
 
-RUN cd ./app && yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn 
+RUN yarn install
 
-EXPOSE 5000
+RUN yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn 
 
-CMD [ "npx", "serve", "./app/examples/web/cdn", "-serve-path", "sample"]
+
+EXPOSE 3000
+
+CMD [ "node", "./examples/web/cdn/app.js"]
