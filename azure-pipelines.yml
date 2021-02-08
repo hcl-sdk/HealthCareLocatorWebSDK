@@ -52,7 +52,7 @@ steps:
       containerRegistry: $(azcrconnection)
       repository: $(Build.Repository.Name)
       command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
+      Dockerfile: 'Dockerfile'
       tags: $(buildSHA)
 
   - task: Docker@2
@@ -61,5 +61,5 @@ steps:
       containerRegistry: $(azcrconnection)
       repository: $(Build.Repository.Name)
       command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
+      Dockerfile: 'Dockerfile'
       tags: latest
