@@ -234,8 +234,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         builder.showModificationForm(SampleApplication.sharedPreferences.getInt(Pref.modification, 0) == 0)
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
 
-        HealthCareLocatorSDK.init("<Your api key>").setAppName("<Your app name>")
-                .setAppDownloadLink("<Your download link>").setCustomObject(builder.build())
+        val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "")?:""
+        HealthCareLocatorSDK.init(apiKey).setAppName("Sample")
+                .setAppDownloadLink("http://google.com").setCustomObject(builder.build())
         HealthCareLocatorSDK.getInstance().startSDKFragment(this, R.id.fragmentContainer)
 //        HealthCareLocatorSDK.getInstance().startSDKActivity(this)
     }
