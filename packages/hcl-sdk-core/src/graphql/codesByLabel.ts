@@ -1,19 +1,20 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
-import { CodeResult, QueryCodesByLabelArgs } from './types';
+import { CodeResult, QueryCodesArgs } from './types';
 
 interface CodeByLabelResult {
   codesByLabel: CodeResult
 }
 
 const QUERY_CODE_BY_LABEL = gql`
-  query codesByLabel($first: Int!, $offset: Int!, $criteria: String!, $codeTypes: [String!]!, $locale: String) {
+  query codesByLabel($first: Int!, $offset: Int!, $criteria: String, $codeTypes: [String!]!, $locale: String, $country: String) {
     codesByLabel(
       codeTypes: $codeTypes
       criteria: $criteria
       first: $first
       offset: $offset
       locale: $locale
+      country: $country
     )  {
       codes {
         id
@@ -25,6 +26,6 @@ const QUERY_CODE_BY_LABEL = gql`
   }
 `
 
-export default function codesByLabel(variables: QueryCodesByLabelArgs, config?): Promise<CodeByLabelResult> {
+export default function codesByLabel(variables: QueryCodesArgs, config?): Promise<CodeByLabelResult> {
   return graphqlClient(QUERY_CODE_BY_LABEL, variables, config)
 }

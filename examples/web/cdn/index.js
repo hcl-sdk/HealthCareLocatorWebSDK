@@ -69,6 +69,6 @@ if (matches) {
   }
 }
 
-if (hclSdkEl) {
-  hclSdkEl.config = config;
-}
+customElements.whenDefined('hcl-sdk').then(function() {
+  hclSdkEl.init(config);
+})

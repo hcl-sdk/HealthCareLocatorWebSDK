@@ -11,12 +11,13 @@ import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { GEOLOC } from '../../../core/constants';
+import { graphql } from 'hcl-sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 
 const defaults = {
   apiKey: '',
-  i18nBundlesPath: '/i18n'
+  i18nBundlesPath: '/i18n',
 };
 @Component({
   tag: 'hcl-sdk',
@@ -37,16 +38,24 @@ export class HclSDK {
   }
 
   @Method()
-  searchNearMe({ specialtyCode }) {
+  async searchNearMe({ specialtyCode }) {
+    let specialtyLabel = specialtyCode;
+    try {
+      const res = await graphql.labelsByCode({ first: 1, criteria: specialtyCode, codeTypes: ['SP'], country: 'ca', locale: i18nStore.state.lang }, configStore.configGraphql);
+      if (res.labelsByCode && res.labelsByCode.codes && res.labelsByCode.codes.length > 0) {
+        specialtyLabel = res.labelsByCode.codes[0].longLbl;
+      }
+    } catch (err) {}
+
     searchMapStore.setSearchFieldValue('address', t('near_me'));
-    searchMapStore.setSearchFieldValue('name', specialtyCode);
+    searchMapStore.setSearchFieldValue('name', specialtyLabel);
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: { id: specialtyCode },
     });
     configStore.setState({
-      modeView: ModeViewType.MAP
-    })
+      modeView: ModeViewType.MAP,
+    });
     if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push('/search-result');
     } else {
@@ -54,10 +63,15 @@ export class HclSDK {
     }
   }
 
-  async componentWillLoad() {
+  @Method()
+  async init(config: any = {}) {
+    if (config.apiKey === undefined) {
+      throw new Error('Please provide an apiKey to the configuration object.');
+    }
+
     this.loadCurrentPosition();
 
-    configStore.setState(merge({}, defaults, this.config));
+    configStore.setState(merge({}, defaults, config));
 
     const closestElement = this.el.closest('[lang]') as HTMLElement;
     const lang = closestElement ? closestElement.lang : i18nStore.state.lang;
@@ -115,31 +129,33 @@ export class HclSDK {
     uiStore.setParentDims(this.parentEl.getBoundingClientRect());
   }
 
-  retryFindGeoloc = (err) => {
+  retryFindGeoloc = err => {
     if (err.code === GEOLOC.TIMEOUT_CODE && this.retriesCounter < GEOLOC.MAX_TRIES) {
       this.retriesCounter = this.retriesCounter + 1;
       this.tryFindGeoloc();
     }
-  }
+  };
 
   tryFindGeoloc() {
-    navigator.geolocation
-      .getCurrentPosition(data => {
-
+    navigator.geolocation.getCurrentPosition(
+      data => {
         const {
-          coords //: { longitude, latitude }
+          coords, //: { longitude, latitude }
         } = data;
 
         searchMapStore.setGeoLocation(coords);
-      }, this.retryFindGeoloc, {
+      },
+      this.retryFindGeoloc,
+      {
         maximumAge: GEOLOC.MAXAGE,
-        timeout: GEOLOC.TIMEOUT
-      });
+        timeout: GEOLOC.TIMEOUT,
+      },
+    );
   }
 
   findCurrentPosition() {
-    if(!navigator.geolocation) {
-      console.error("[Geolocation] is not supported by your browse")
+    if (!navigator.geolocation) {
+      console.error('[Geolocation] is not supported by your browse');
     } else {
       this.tryFindGeoloc();
     }

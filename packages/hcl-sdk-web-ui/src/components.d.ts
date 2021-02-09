@@ -12,7 +12,8 @@ import { OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "config": HclSDKConfigData;
-        "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: any; specialtyLabel: any; }) => Promise<void>;
+        "init": (config?: any) => Promise<void>;
+        "searchNearMe": ({ specialtyCode }: { specialtyCode: any; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
     }
     interface HclSdkButton {

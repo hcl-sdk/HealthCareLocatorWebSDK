@@ -304,13 +304,14 @@ export type QueryIndividualsByNameArgs = {
 };
 
 
-export type QueryCodesByLabelArgs = {
+export type QueryCodesArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['String']>;
   criteria: Scalars['String'];
   codeTypes: Array<Scalars['String']>;
   locale?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
 };
 
 
