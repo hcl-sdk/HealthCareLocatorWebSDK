@@ -110,6 +110,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                                 searchAddress(key)
                             }
                         }, {
+                            (getFragmentReference() as? SearchFragment)?.showMessage("Error:: ${it.localizedMessage}")
                             //Do nothing
                         })
         )

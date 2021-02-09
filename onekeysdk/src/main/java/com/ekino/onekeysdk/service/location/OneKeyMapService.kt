@@ -15,7 +15,7 @@ class OneKeyMapService<T> private constructor() {
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().run {
                 addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-//                    println(it)
+                    println(it)
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 build()
             })
