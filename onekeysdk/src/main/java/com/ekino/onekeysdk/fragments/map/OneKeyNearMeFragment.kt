@@ -5,9 +5,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -87,6 +85,7 @@ class OneKeyNearMeFragment :
     private var isRelaunch = false
     private var isNearMe = false
     private var speciality: HealthCareLocatorSpecialityObject? = null
+    private var specialityName: String = ""
     override val viewModel: NearMeViewModel = NearMeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,7 +116,6 @@ class OneKeyNearMeFragment :
         labelWrapper.visibility = (isSpeciality).getVisibility()
         newSearchWrapper.visibility = (!isSpeciality).getVisibility()
         healthCareLocatorCustomObject.apply {
-            tvSpeciality.text = TextUtils.join(", ", specialities)
             newSearchWrapper.setBackgroundWithCorner(
                 Color.WHITE,
                 colorCardBorder.getColor(),
@@ -133,6 +131,13 @@ class OneKeyNearMeFragment :
 
         viewModel.apply {
             requestPermissions(this@OneKeyNearMeFragment)
+            if (healthCareLocatorCustomObject.specialities.isNotEmpty() && specialityName.isEmpty()) {
+                getSpecialityNameByCode(healthCareLocatorCustomObject.specialities.first())
+            }
+            specialityLabel.observe(this@OneKeyNearMeFragment, Observer {
+                specialityName = it
+                setSpecialityName()
+            })
             permissionRequested.observe(this@OneKeyNearMeFragment, Observer { granted ->
                 if (!granted) {
                     showLoading(false)
@@ -233,6 +238,11 @@ class OneKeyNearMeFragment :
                 )
             }
         }
+    }
+
+    private fun setSpecialityName() {
+        if (healthCareLocatorCustomObject.specialities.isNotEmpty())
+            tvSpeciality.text = specialityName
     }
 
     private fun initHeader() {
@@ -396,7 +406,12 @@ class OneKeyNearMeFragment :
         noResult.visibility = View.VISIBLE
         noResult.setBackgroundColor(healthCareLocatorCustomObject.colorViewBackground.getColor())
         btnStartSearch.setRippleBackground(healthCareLocatorCustomObject.colorPrimary)
-        noResultWrapper.setBackgroundWithCorner(Color.WHITE, healthCareLocatorCustomObject.colorCardBorder.getColor(), 15f, 3)
+        noResultWrapper.setBackgroundWithCorner(
+            Color.WHITE,
+            healthCareLocatorCustomObject.colorCardBorder.getColor(),
+            15f,
+            3
+        )
         btnStartSearch.setOnClickListener(this)
     }
 }

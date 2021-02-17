@@ -16,7 +16,9 @@ import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.LocationClient
 import com.ekino.onekeysdk.service.location.OneKeyMapService
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
+import com.ekino.onekeysdk.utils.OneKeyLog
 import com.iqvia.onekey.GetActivitiesQuery
+import com.iqvia.onekey.GetLabelByCodeQuery
 import com.iqvia.onekey.type.GeopointQuery
 import io.reactivex.Flowable
 
@@ -26,6 +28,7 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
     val permissionRequested by lazy { MutableLiveData<Boolean>() }
     val activities by lazy { MutableLiveData<ArrayList<ActivityObject>>() }
     val loading by lazy { MutableLiveData<Boolean>() }
+    val specialityLabel by lazy { MutableLiveData<String>() }
 
     private val executor: LocationAPI by lazy {
         OneKeyMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
@@ -33,16 +36,24 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
 
     fun requestPermissions(context: Fragment) {
         context.requestPermission(
-                { granted ->
-                    permissionRequested.postValue(granted)
-                }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+            { granted ->
+                permissionRequested.postValue(granted)
+            }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
         )
     }
 
+    fun getSpecialityNameByCode(code: String) {
+        rxQuery({ GetLabelByCodeQuery.builder().codeTypes(listOf("SP")).criteria(code).build() }, {
+            it.data?.labelsByCode()?.codes()?.firstOrNull()?.longLbl() ?: ""
+        }, {
+            specialityLabel.postValue(it)
+        }, { OneKeyLog.e("Error:: ${it.localizedMessage}") })
+    }
+
     fun getActivities(
-            context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
-            currentLocation: (location: Location) -> Unit
+        context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+        currentLocation: (location: Location) -> Unit
     ) {
         loading.postValue(true)
         val client = LocationClient(context)
@@ -52,15 +63,17 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
             currentLocation(location)
             query({
                 val builder = GetActivitiesQuery.builder()
-                        .locale(theme.getLocaleCode()).first(50).offset(0)
+                    .locale(theme.getLocaleCode()).first(50).offset(0)
                 if (specialities.isNotEmpty()) {
                     builder.specialties(specialities)
                 } else {
                     if (criteria.isNotEmpty())
                         builder.criteria(criteria)
                 }
-                builder.location(GeopointQuery.builder().lat(location.latitude)
-                        .lon(location.longitude).build())
+                builder.location(
+                    GeopointQuery.builder().lat(location.latitude)
+                        .lon(location.longitude).build()
+                )
                 builder.build()
             }, { response ->
                 if (response.data?.activities().isNullable()) {
@@ -91,9 +104,9 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
     }
 
     fun getActivities(
-            context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
-            usingCurrentLocation: Boolean, callback: (list: ArrayList<ActivityObject>) -> Unit,
-            currentLocation: (location: Location) -> Unit
+        context: Context, criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+        usingCurrentLocation: Boolean, callback: (list: ArrayList<ActivityObject>) -> Unit,
+        currentLocation: (location: Location) -> Unit
     ) {
         val client = LocationClient(context)
         client.requestLastLocation().registerDataCallBack({ location ->
@@ -102,7 +115,7 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
             currentLocation(location)
             query({
                 val builder = GetActivitiesQuery.builder()
-                        .locale(theme.getLocaleCode()).first(50).offset(0)
+                    .locale(theme.getLocaleCode()).first(50).offset(0)
                 if (specialities.isNotEmpty()) {
                     builder.specialties(specialities)
                 } else {
@@ -112,13 +125,13 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
                 if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
                     if (usingCurrentLocation)
                         builder.location(
-                                GeopointQuery.builder().lat(location.latitude)
-                                        .lon(location.longitude).build()
+                            GeopointQuery.builder().lat(location.latitude)
+                                .lon(location.longitude).build()
                         )
                     else
                         builder.location(
-                                GeopointQuery.builder().lat(place.latitude.toDouble())
-                                        .lon(place.longitude.toDouble()).build()
+                            GeopointQuery.builder().lat(place.latitude.toDouble())
+                                .lon(place.longitude.toDouble()).build()
                         )
                 }
                 builder.build()
@@ -153,26 +166,26 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
         params["lon"] = place.longitude
         params["format"] = "json"
         disposable?.add(
-                executor.reverseGeoCoding(params).compose(compose())
-                        .subscribe({ callback(it) }, { callback(place) })
+            executor.reverseGeoCoding(params).compose(compose())
+                .subscribe({ callback(it) }, { callback(place) })
         )
     }
 
     fun sortActivities(
-            list: ArrayList<ActivityObject>, sorting: Int,
-            callback: (list: ArrayList<ActivityObject>) -> Unit
+        list: ArrayList<ActivityObject>, sorting: Int,
+        callback: (list: ArrayList<ActivityObject>) -> Unit
     ) {
         Flowable.just(list)
-                .map {
-                    if (sorting == 0) return@map it
-                    it.sortWith(Comparator { o1, o2 ->
-                        if (sorting == 1) o1.distance.compareTo(o2.distance)
-                        else
-                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
-                    })
-                    it
-                }
-                .compose(compose())
-                .subscribe({ callback(it) }, {})
+            .map {
+                if (sorting == 0) return@map it
+                it.sortWith(Comparator { o1, o2 ->
+                    if (sorting == 1) o1.distance.compareTo(o2.distance)
+                    else
+                        (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                })
+                it
+            }
+            .compose(compose())
+            .subscribe({ callback(it) }, {})
     }
 }

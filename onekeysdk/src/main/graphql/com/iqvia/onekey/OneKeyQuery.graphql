@@ -175,3 +175,13 @@ query getCodeByLabel($first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[S
         }
     }
 }
+
+query getLabelByCode($codeTypes:[String!]!, $criteria:String!){
+    labelsByCode(criteria:$criteria, codeTypes:$codeTypes){
+        codes{
+            id
+            longLbl
+            shortLbl
+        }
+    }
+}
