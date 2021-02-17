@@ -87,7 +87,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         }
         val modificationForm = SampleApplication.sharedPreferences.getInt(Pref.modification, 0)
         if (modificationForm == 0) rBtnModificationEnabled.isChecked = true
-        else rBtnModificationDisabled.isChecked = false
+        else rBtnModificationDisabled.isChecked = true
     }
 
     private fun initMapService() {
@@ -136,7 +136,10 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putInt(Pref.fontBase, themeObject.fontBase)
             putInt(Pref.fontTitle, themeObject.fontTitle)
             putInt(Pref.home, if (homeGroup.checkedRadioButtonId == rBtnFull.id) 0 else 1)
-            putInt(Pref.modification, if (modificationGroup.checkedRadioButtonId == rBtnModificationEnabled.id) 0 else 1)
+            putInt(
+                Pref.modification,
+                if (modificationGroup.checkedRadioButtonId == rBtnModificationEnabled.id) 0 else 1
+            )
             putInt(
                 Pref.mapService,
                 if (mapGroup.checkedRadioButtonId == rBtnOpenStreetMap.id) 0 else 1
@@ -213,5 +216,9 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.fontModalTitle, "")
             putString(Pref.fontSortCriteria, "")
         }
+        themeSpinner.setSelection(0)
+        languageSpinner.setSelection(0)
+        rBtnModificationEnabled.isChecked = true
+        edtAPIKey.setText("")
     }
 }

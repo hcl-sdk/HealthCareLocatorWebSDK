@@ -49,7 +49,7 @@ query getIndividualByName($criteria:String!, $locale:String, $first:Int!, $offse
 query getActivities($locale:String, $first:Int!, $offset:Int!,
     $criteria:String,$specialties:[String!], $location:GeopointQuery){
     activities(locale: $locale, first: $first, offset:$offset,
-        criteria:$criteria, specialties:$specialties, location:$location){
+        criteria:$criteria, specialties:$specialties, location:$location, county:""){
         distance
         activity{
             id
@@ -172,6 +172,16 @@ query getCodeByLabel($first:Int!, $offset:Int!, $criteria:String!, $codeTypes:[S
             id
             lisCode
             longLbl
+        }
+    }
+}
+
+query getLabelByCode($codeTypes:[String!]!, $criteria:String!){
+    labelsByCode(criteria:$criteria, codeTypes:$codeTypes){
+        codes{
+            id
+            longLbl
+            shortLbl
         }
     }
 }
