@@ -17,7 +17,6 @@ steps:
 - task: Yarn@3
   inputs:
     arguments: 'yarn install'
-    productionMode: true
 
 - task: Yarn@3
   inputs:
