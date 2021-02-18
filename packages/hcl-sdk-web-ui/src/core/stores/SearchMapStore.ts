@@ -52,7 +52,7 @@ export interface SelectedIndividual {
 
 export interface SearchMapState {
   loading?: boolean;
-  loadingActivities?: boolean;
+  loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading';
   loadingIndividualDetail?: boolean;
   loadingSwitchAddress?: boolean;
   specialties?: SpecialtyItem[];
@@ -81,7 +81,7 @@ export interface GeoLocation {
 
 export const initStateSearchMapStore: SearchMapState = {
   loading: false,
-  loadingActivities: false,
+  loadingActivitiesStatus: 'idle',
   loadingIndividualDetail: false,
   loadingSwitchAddress: false,
   specialties: [],

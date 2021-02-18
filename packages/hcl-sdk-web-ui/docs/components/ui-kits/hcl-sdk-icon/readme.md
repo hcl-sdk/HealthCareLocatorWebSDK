@@ -29,6 +29,7 @@
  - [hcl-sdk-profile-map](../hcl-sdk-profile-map)
  - [hcl-sdk-search](../../screens/hcl-sdk-search)
  - [hcl-sdk-search-address-item](../hcl-sdk-search-address-item)
+ - [hcl-sdk-search-no-data-available](../hcl-sdk-search-no-data-available)
  - [hcl-sdk-search-no-results](../hcl-sdk-search-no-results)
  - [hcl-sdk-search-result](../../screens/hcl-sdk-search-result)
  - [hcl-sdk-select](../hcl-sdk-select)
@@ -45,6 +46,7 @@ graph TD;
   hcl-sdk-profile-map --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-icon
   hcl-sdk-search-address-item --> hcl-sdk-icon
+  hcl-sdk-search-no-data-available --> hcl-sdk-icon
   hcl-sdk-search-no-results --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon

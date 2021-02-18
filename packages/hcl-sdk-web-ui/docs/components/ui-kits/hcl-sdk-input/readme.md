@@ -21,6 +21,7 @@
 | `onPostfixClick` | --              |             | `(e: any) => void` | `undefined` |
 | `placeholder`    | `placeholder`   |             | `string`           | `undefined` |
 | `postfixIcon`    | `postfix-icon`  |             | `string`           | `undefined` |
+| `readOnly`       | `read-only`     |             | `boolean`          | `false`     |
 | `type`           | `type`          |             | `string`           | `"text"`    |
 | `value`          | `value`         |             | `any`              | `undefined` |
 

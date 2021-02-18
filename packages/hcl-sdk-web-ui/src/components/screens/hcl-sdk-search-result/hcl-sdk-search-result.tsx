@@ -105,6 +105,14 @@ export class HclSdkSearchResult {
     }
   }
 
+  @Listen('moveCurrentLocation')
+  handleMoveToCurrentLocation(evt) {
+    this.newDragLocation = {
+      lat: evt.detail.lat,
+      lng: evt.detail.lng
+    } as any
+    this.handleRelaunchSearch()
+  }
 
   handleRelaunchSearch = async () => {
     if (!this.newDragLocation || this.isLoadingRelaunch) {
@@ -124,7 +132,7 @@ export class HclSdkSearchResult {
           },
           specialtyFilter: searchMapStore.state.specialtyFilter
         })
-        await searchLocation(params, false);
+        await searchLocation(params, 'idle');
       }
     } catch(err) {
 
@@ -214,7 +222,7 @@ export class HclSdkSearchResult {
       selectedActivity,
       locationFilter,
       searchFields,
-      loadingActivities,
+      loadingActivitiesStatus,
       individualDetail
     } = searchMapStore.state;
 
@@ -250,9 +258,11 @@ export class HclSdkSearchResult {
     }
 
     const isShowHCPDetail = individualDetail || selectedActivity;
-    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !isShowHCPDetail;
+    const loadingActivities = loadingActivitiesStatus === 'loading';
+    const isNoDataAvailable = loadingActivitiesStatus === 'error';
+    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
-      mobile: !loadingActivities && isSmall && !selectedActivity,
+      mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,
       desktop: !loadingActivities && !isSmall,
     }
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
@@ -261,42 +271,47 @@ export class HclSdkSearchResult {
     const locationsMapSingle = this.getLocationsMapSingle();
     const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
 
+    const isShowHeaderBlockMobile = !isNoDataAvailable;
+
     return (
       <Host class={wrapperClass}>
         {(!selectedActivity || !isSmall) &&
           (isSmall ? (
-            <div class="header-block search-header search-section">
-              <hcl-sdk-button
-                class="btn-back"
-                iconWidth={27}
-                iconHeight={27}
-                noBorder
-                noBackground
-                icon="arrow"
-                iconColor={getCssColor('--hcl-color-dark')}
-                onClick={() => this.goBackToHome()}
-              ></hcl-sdk-button>
-              <div class="header-infos">
-                {isShowHeaderNearmeMobile ? (
-                  <div class="search-home-hpc" onClick={this.goToSearch}>
-                    <input class="search-input" placeholder="Find Healthcare Professional" />
-                    <hcl-sdk-button primary icon="search" class="hclsdk-btn-search-address" />
-                  </div>
-                ) : (
-                  <Fragment>
-                    <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
-                    <div class="search-result-address">{selectedAddressName || 'Canada'}</div>
-                  </Fragment>
-                )}
+            isShowHeaderBlockMobile && (
+              <div class="header-block search-header search-section">
+                <hcl-sdk-button
+                  class="btn-back"
+                  iconWidth={27}
+                  iconHeight={27}
+                  noBorder
+                  noBackground
+                  icon="arrow"
+                  iconColor={getCssColor('--hcl-color-dark')}
+                  onClick={() => this.goBackToHome()}
+                ></hcl-sdk-button>
+                <div class="header-infos">
+                  {isShowHeaderNearmeMobile ? (
+                    <div class="search-home-hpc" onClick={this.goToSearch}>
+                      <input class="search-input" placeholder="Find Healthcare Professional" />
+                      <hcl-sdk-button primary icon="search" class="hclsdk-btn-search-address" />
+                    </div>
+                  ) : (
+                    <Fragment>
+                      <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
+                      <div class="search-result-address">{selectedAddressName || 'Canada'}</div>
+                    </Fragment>
+                  )}
+                </div>
               </div>
-            </div>
+            )
           ) : (
             <hcl-sdk-search searchText={t('search')} showSwitchMode />
           ))}
 
         {
-          isShowNoResults ? (
-            <hcl-sdk-search-no-results />
+          (isShowNoResults || isNoDataAvailable) ? (
+            (isShowNoResults && <hcl-sdk-search-no-results />) ||
+            (isNoDataAvailable && <hcl-sdk-search-no-data-available />)
           ) : (
             <Fragment>
               {isShowToolbar.mobile && this.renderToolbar(true)}

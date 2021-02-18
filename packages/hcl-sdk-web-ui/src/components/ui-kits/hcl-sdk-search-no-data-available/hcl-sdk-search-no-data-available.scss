@@ -1,7 +1,7 @@
 @import '../../../global/scss/variables.scss';
 
 :host {
-  .hclsdk-search-no-results {
+  .hclsdk-search-no-data-available {
     display: flex;
     display: -ms-flexbox;
     margin: 10px;
@@ -13,27 +13,44 @@
     flex-direction: column;
     text-align: center;
     align-items: center;
+    position: relative;
+
+    &__back {
+      border: 0;
+      background-color: transparent;
+      box-shadow: none;
+      position: absolute;
+      top: 5px;
+      left: 0;
+      cursor: pointer;
+    }
     &__title {
-      margin-top: 8px;
-      margin-bottom: 16px;
+      margin-top: 22px;
+      margin-bottom: 8px;
       @include applyFontStyle('title_main');
+      color: var(--hcl-color-secondary);
+    }
+    &__sub-title {
+      @include applyFontStyle('card_title');
+      font-weight: 600;
+      color: var(--hcl-color-dark);
     }
     &__icon {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      border: 1px solid var(--hcl-color-card_border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 70px;
+      height: 70px;
       .icon {
         fill: #c2c2c2;
       }
     }
     &__desc {
-      max-width: 290px;
-      margin-top: 36px;
+      max-width: 240px;
+      margin-top: 0;
+      margin-bottom: 18px;
       @include applyFontStyle('card_title');
+
+      &.second {
+        max-width: 265px;
+      }
     }
     &__btn {
       width: 100%;
@@ -46,19 +63,22 @@
       margin: 35px 17px 17px;
       padding-bottom: 76px;
 
-      & > .hclsdk-search-no-results {  
+      & > .hclsdk-search-no-data-available { 
+        &__back {
+          display: none;
+        }
         &__title {
           margin-top: 28px;
-          margin-bottom: 24px;
+          margin-bottom: 16px;
           @include applyFontStyle('title_main_large');
+        }
+        &__sub-title {
+          font-size: var(--hcl-font-title_main-size);
         }
         &__desc {
           max-width: 100%;
           margin-bottom: 0;
           @include applyFontStyle('title_main');
-        }
-        &__btn {
-          display: none;
         }
       }
     }

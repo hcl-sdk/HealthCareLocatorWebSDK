@@ -48,41 +48,53 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
   searchLocation(params);
 }
 
-export async function searchLocation(variables, hasLoading: boolean = true) {
+export async function searchLocation(variables, hasLoading: string = 'loading') {
   searchMapStore.setState({
     individualDetail: null,
-    loadingActivities: hasLoading
+    loadingActivitiesStatus: hasLoading as any
   });
 
-  const { activities } = await graphql.activities({
-    first: 50,
-    offset: 0,
-    county: "",
-    locale: i18nStore.state.lang,
-    ...variables,
-  }, configStore.configGraphql)
+  try {
+    const { activities } = await graphql.activities({
+      first: 50,
+      offset: 0,
+      county: "",
+      locale: i18nStore.state.lang,
+      ...variables,
+    }, configStore.configGraphql)
+  
+    const data = (activities || []).map((item) => ({
+      distance: `${item.distance}m`,
+      name: item.activity.individual.mailingName,
+      lastName: item.activity.individual.lastName,
+      professionalType: item.activity.individual.professionalType.label,
+      specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
+      specialties: getSpecialtiesText(item.activity.individual.specialties)[0],
+      address: `${item.activity.workplace.address.longLabel},${item.activity.workplace.address.city.label}`,
+      lat: item.activity.workplace.address.location.lat,
+      lng: item.activity.workplace.address.location.lon,
+      id: item.activity.id
+    }))
+  
+    searchMapStore.setState({
+      specialties: data,
+      specialtiesRaw: data,
+      searchDoctor: [],
+      selectedActivity: null,
+      individualDetail: null,
+      loadingActivitiesStatus: 'success'
+    });
+  } catch(e) {
 
-  const data = (activities || []).map((item) => ({
-    distance: `${item.distance}m`,
-    name: item.activity.individual.mailingName,
-    lastName: item.activity.individual.lastName,
-    professionalType: item.activity.individual.professionalType.label,
-    specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
-    specialties: getSpecialtiesText(item.activity.individual.specialties)[0],
-    address: `${item.activity.workplace.address.longLabel},${item.activity.workplace.address.city.label}`,
-    lat: item.activity.workplace.address.location.lat,
-    lng: item.activity.workplace.address.location.lon,
-    id: item.activity.id
-  }))
-
-  searchMapStore.setState({
-    specialties: data,
-    specialtiesRaw: data,
-    searchDoctor: [],
-    selectedActivity: null,
-    individualDetail: null,
-    loadingActivities: false
-  });
+    searchMapStore.setState({
+      specialties: [],
+      specialtiesRaw: [],
+      searchDoctor: [],
+      selectedActivity: null,
+      individualDetail: null,
+      loadingActivitiesStatus: 'error'
+    });
+  }
 }
 
 export async function searchDoctor(variables) {

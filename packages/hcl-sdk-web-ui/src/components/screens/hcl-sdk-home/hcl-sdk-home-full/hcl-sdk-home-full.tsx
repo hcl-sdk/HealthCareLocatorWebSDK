@@ -103,14 +103,13 @@ export class HclSdkHomeFull {
   }
 
   render() {
-    const { geoLocation } = searchMapStore.state;
     const { searchItems, hcpItems } = historyStore.state;
     const mapHeight = !searchItems.length && !hcpItems.length ? '200px' : '100px';
     const { specialties } = searchMapStore.state;
 
     return (
       <Host>
-        { geoLocation.status === 'granted' && (
+        { searchMapStore.isGrantedGeoloc && (
           <div class="card card--near-me">
             <div class="card__title-wrapper">
               <h3 class="card__title">{t('hcps_near_me')}</h3>

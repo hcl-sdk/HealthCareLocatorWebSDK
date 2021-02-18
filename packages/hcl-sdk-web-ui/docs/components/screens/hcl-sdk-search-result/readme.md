@@ -14,6 +14,7 @@
 - [hcl-sdk-icon](../../ui-kits/hcl-sdk-icon)
 - [hcl-sdk-search](../hcl-sdk-search)
 - [hcl-sdk-search-no-results](../../ui-kits/hcl-sdk-search-no-results)
+- [hcl-sdk-search-no-data-available](../../ui-kits/hcl-sdk-search-no-data-available)
 - [hcl-sdk-hcp-full-card](../../ui-kits/hcl-sdk-hcp-full-card)
 - [hcl-sdk-doctor-card](../../ui-kits/hcl-sdk-doctor-card)
 - [hcl-sdk-map](../../ui-kits/hcl-sdk-map)
@@ -26,6 +27,7 @@ graph TD;
   hcl-sdk-search-result --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-search
   hcl-sdk-search-result --> hcl-sdk-search-no-results
+  hcl-sdk-search-result --> hcl-sdk-search-no-data-available
   hcl-sdk-search-result --> hcl-sdk-hcp-full-card
   hcl-sdk-search-result --> hcl-sdk-doctor-card
   hcl-sdk-search-result --> hcl-sdk-map
@@ -42,6 +44,7 @@ graph TD;
   hcl-sdk-input --> hcl-sdk-icon
   hcl-sdk-search-no-results --> hcl-sdk-icon
   hcl-sdk-search-no-results --> hcl-sdk-button
+  hcl-sdk-search-no-data-available --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-button
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-map
