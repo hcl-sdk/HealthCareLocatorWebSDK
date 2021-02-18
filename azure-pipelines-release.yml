@@ -9,4 +9,4 @@ steps:
      azureSubscription: 'Onekey'
      scriptType: 'ps'
      scriptLocation: 'inlineScript'
-     inlineScript: 'az storage blob upload-batch — account-name $(storagename) account-key $(storagekey) — destination ‘$web’ — source $(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
+     inlineScript: 'az storage blob upload-batch — account-name $(storagename) account-key $(storagekey) — destination ‘$web’ — source $(Build.ArtifactStagingDirectory)\hcl-sdk-web-ui-$(Build.BuildId).zip'
