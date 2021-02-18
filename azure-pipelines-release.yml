@@ -39,18 +39,18 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'dir $(pipeline.workspace)/s/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist/' 
+    script: 'dir ./packages/hcl-sdk-web-ui/dist/' 
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s $(pipeline.workspace)/s/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist/"
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s ./packages/hcl-sdk-web-ui/dist/"
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s $(pipeline.workspace)/s/onekey-sdk-web-lib/packages/hcl-sdk-api/dist/"
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./packages/hcl-sdk-api/dist/"
