@@ -1,0 +1,25 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-default
+
+steps:
+- task: YarnInstaller@3
+  inputs:
+    versionSpec: '1.x'
+
+- task: Yarn@3
+  inputs:
+    arguments: 'yarn build-web'
+    productionMode: true
+    
+- task: Yarn@3
+  inputs:
+    arguments: 'yarn build-api'
+    productionMode: true
