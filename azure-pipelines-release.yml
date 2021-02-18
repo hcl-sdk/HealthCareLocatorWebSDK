@@ -14,13 +14,15 @@ steps:
      azureSubscription: 'Onekey'
      scriptType: 'ps'
      scriptLocation: 'inlineScript'
-     inlineScript: 'az storage blob upload-batch --account-name $1 --account-key $2 --destination $web --destination-path hcl-sdk-api --source $(Build.ArtifactStagingDirectory)/hcl-sdk-api'
-     arguments:  $(storage_name) $(storage_key)
+     inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name $1 --account-key $2 -s ./hcl-sdk-web-ui/"
+     workingDirectory: $(Build.ArtifactStagingDirectory)
+     arguments: $(storage_name) $(storage_key)
 
  - task: AzureCLI@2
    inputs:
      azureSubscription: 'Onekey'
      scriptType: 'ps'
      scriptLocation: 'inlineScript'
-     inlineScript: 'az storage blob upload-batch --account-name $1 --account-key $2 --destination $web --destination-path hcl-sdk-web-ui --source $(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui'
-     arguments:  $(storage_name) $(storage_key)
+     inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name $1 --account-key $2 -s ./hcl-sdk-api/"
+     workingDirectory: $(Build.ArtifactStagingDirectory)
+     arguments: $(storage_name) $(storage_key)
