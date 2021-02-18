@@ -27,13 +27,11 @@ steps:
   displayName: 'Build Web UI'
   inputs:
     arguments: 'build-web'
-    productionMode: true
     
 - task: Yarn@3
   displayName: 'Build API'
   inputs:
     arguments: 'build-api'
-    productionMode: true
 
 - task: CopyFiles@2
   displayName: 'Copy Web UI'
