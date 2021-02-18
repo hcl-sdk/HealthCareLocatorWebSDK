@@ -33,14 +33,6 @@ steps:
     arguments: 'build-api'
     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: CmdLine@2
-  inputs:
-    script: 'tree /f' 
-
-- task: CmdLine@2
-  inputs:
-    script: 'dir .\\packages\\hcl-sdk-web-ui\\dist' 
-
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
