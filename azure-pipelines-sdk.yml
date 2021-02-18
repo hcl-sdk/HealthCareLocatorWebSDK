@@ -33,52 +33,11 @@ steps:
   inputs:
     arguments: 'build-api'
 
-- task: CopyFiles@2
-  displayName: 'Copy Web UI'
+- task: AzureFileCopy@4
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/packages/hcl-sdk-web-ui/dist'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui'
-    CleanTargetFolder: true
-    OverWrite: true
-
-- task: CopyFiles@2
-  displayName: 'Copy API'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/packages/hcl-sdk-api/dist'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api'
-    CleanTargetFolder: true
-    OverWrite: true
-
-- task: ArchiveFiles@2
-  displayName: 'Archive Web UI'
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api-$(Build.BuildId).zip'
-    replaceExistingArchive: true
-
-- task: ArchiveFiles@2
-  displayName: 'Archive API'
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
-    replaceExistingArchive: true
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Web UI'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
-    ArtifactName: 'sdk-js-ui-dist'
-    publishLocation: 'Container'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish API'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api-$(Build.BuildId).zip'
-    ArtifactName: 'sdk-js-api-dist'
-    publishLocation: 'Container'
+    SourcePath: '$(Build.SourcesDirectory)/packages/hcl-sdk-web-ui/dist'
+    azureSubscription: 'Onekey'
+    Destination: 'AzureBlob'
+    ContainerName: 'onekeydataprodwesteu'
+    BlobPrefix: '$web/hcl-sdk-web-ui'
+    
