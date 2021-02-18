@@ -10,6 +10,7 @@ import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.adapter.search.SearchAdapter
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.extensions.getColor
+import com.ekino.onekeysdk.extensions.isNotNullAndEmpty
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.config.HealthCareLocatorCustomObject
 import kotlinx.android.synthetic.main.fragment_one_key_list_result.*
@@ -36,6 +37,7 @@ class OneKeyListResultFragment : IFragment() {
         rvResult.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter
+            showDistance()
             searchAdapter.setData(activities)
         }
         searchAdapter.onHCPCardClickedListener = { oneKeyLocation ->
@@ -45,8 +47,13 @@ class OneKeyListResultFragment : IFragment() {
     }
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {
+        showDistance()
         this.activities = activities
         searchAdapter.setData(activities)
+    }
+
+    private fun showDistance(){
+        searchAdapter.isPlaceAvailable = getAbsFragment()?.getPlaceDetail()?.placeId?.isNotNullAndEmpty()?:false
     }
 
     private fun getAbsFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>

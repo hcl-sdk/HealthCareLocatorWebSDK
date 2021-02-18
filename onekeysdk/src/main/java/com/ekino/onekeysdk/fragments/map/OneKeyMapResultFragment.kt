@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import base.fragments.IFragment
 import com.ekino.onekeysdk.R
@@ -56,6 +57,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
         rvLocations.apply {
             layoutManager = CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = searchAdapter
+            showDistance()
             searchAdapter.setData(activities)
         }
         rvLocations.postDelay({
@@ -132,6 +134,7 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
     }
 
     fun updateActivities(activities: ArrayList<ActivityObject>) {
+        showDistance()
         showLoading(false)
         animateRelaunch(false)
         this.activities = activities
@@ -164,6 +167,10 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
 
     private fun showRelaunch(state: Boolean) {
         btnRelaunch.visibility = state.getVisibility()
+    }
+
+    private fun showDistance(){
+        searchAdapter.isPlaceAvailable = getAbsFragment()?.getPlaceDetail()?.placeId?.isNotNullAndEmpty()?:false
     }
 
     private fun getAbsFragment(): AbsMapFragment<*, *>? = parentFragment as? AbsMapFragment<*, *>

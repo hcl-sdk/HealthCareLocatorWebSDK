@@ -21,6 +21,7 @@
     <string name="hcl_search_first_field_label">Nom, spécialité</string>
     <string name="hcl_search_second_field_label">Où? (adresse, ville…)</string>
     <string name="hcl_near_me">Près de moi</string>
+    <string name="hcl_anywhere">N\'importe où</string>
 
     <!--Results List View-->
     <string name="hcl_results_label">Résultats</string>
