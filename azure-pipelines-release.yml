@@ -8,6 +8,8 @@ variables:
 
 
 steps:
+- checkout: self
+  path: s/onekey-sdk-web-lib
 
 - task: YarnInstaller@3
   inputs:
@@ -34,13 +36,14 @@ steps:
     azureSubscription: 'Onekey'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./hcl-sdk-web-ui/"
-    workingDirectory: $(Build.ArtifactStagingDirectory)
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./"
+    workingDirectory: $(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./hcl-sdk-api/"
-    workingDirectory: $(Build.ArtifactStagingDirectory)
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./"
+    workingDirectory: $(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-api/dist
+ 
