@@ -4,20 +4,9 @@ pool:
 
 steps:
 
-  - task: AzureFileCopy@4
-    inputs:
-      SourcePath: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
-      azureSubscription: 'Onekey'
-      Destination: 'AzureBlob'
-      storage: 'onekeydataprodwesteu'
-      ContainerName: '$web'
-      BlobPrefix: 'hcl-sdk-web-ui'
-    
-  - task: AzureFileCopy@4
-    inputs:
-      SourcePath: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api-ui-$(Build.BuildId).zip'
-      azureSubscription: 'Onekey'
-      Destination: 'AzureBlob'
-      storage: 'onekeydataprodwesteu'
-      ContainerName: '$web'
-      BlobPrefix: '$hcl-sdk-api'
+ - task: AzureCLI@2
+   inputs:
+     azureSubscription: 'Onekey'
+     scriptType: 'ps'
+     scriptLocation: 'inlineScript'
+     inlineScript: 'az storage blob upload-batch — account-name $(storagename) account-key $(storagekey) — destination ‘$web’ — source $(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
