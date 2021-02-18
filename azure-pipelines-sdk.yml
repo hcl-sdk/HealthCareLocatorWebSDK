@@ -16,14 +16,14 @@ steps:
 
 - task: Yarn@3
   inputs:
-    arguments: 'yarn install'
+    arguments: 'install'
 
 - task: Yarn@3
   inputs:
-    arguments: 'yarn build-web'
+    arguments: 'build-web'
     productionMode: true
     
 - task: Yarn@3
   inputs:
-    arguments: 'yarn build-api'
+    arguments: 'build-api'
     productionMode: true
