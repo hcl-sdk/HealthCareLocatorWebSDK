@@ -10,44 +10,77 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-  - checkout: self
-    path: s/onekey-sdk-web-lib
 
+- checkout: self
+  path: s/onekey-sdk-web-lib
+    
 - task: YarnInstaller@3
   inputs:
     versionSpec: '1.x'
 
 - task: Yarn@3
+  displayName: 'Install dependencies'
   inputs:
     arguments: 'install'
 
 - task: Yarn@3
+  displayName: 'Build Web UI'
   inputs:
     arguments: 'build-web'
     productionMode: true
     
 - task: Yarn@3
+  displayName: 'Build API'
   inputs:
     arguments: 'build-api'
     productionMode: true
 
 - task: CopyFiles@2
+  displayName: 'Copy Web UI'
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui'
     CleanTargetFolder: true
     OverWrite: true
-- task: ArchiveFiles@2
+
+- task: CopyFiles@2
+  displayName: 'Copy API'
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    SourceFolder: '$(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-api/dist'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api'
+    CleanTargetFolder: true
+    OverWrite: true
+
+- task: ArchiveFiles@2
+  displayName: 'Archive Web UI'
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api-$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: ArchiveFiles@2
+  displayName: 'Archive API'
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
     replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish Web UI'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'sdk-js-dist'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
+    ArtifactName: 'sdk-js-ui-dist'
+    publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish API'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api-$(Build.BuildId).zip'
+    ArtifactName: 'sdk-js-api-dist'
     publishLocation: 'Container'
