@@ -21,6 +21,7 @@ export class HclSdkInput {
   @Prop() checked?: boolean = false;
   @Prop() onFocus?: (e: any) => void;
   @Prop() onBlur?: (e: any) => void;
+  @Prop() readOnly?: boolean = false;
 
   textInput!: HTMLInputElement;
 
@@ -35,7 +36,7 @@ export class HclSdkInput {
     if(this.type === "checkbox") {
       return (
         <Host class="input-checkbox">
-          <input type={this.type} name={this.name} checked={this.checked} onInput={this.onInput} />
+          <input type={this.type} name={this.name} checked={this.checked} onInput={this.onInput} readOnly={this.readOnly} />
           <span class="checkmark" />
         </Host>
       )
@@ -54,6 +55,7 @@ export class HclSdkInput {
           autoComplete={this.autoComplete}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
+          readOnly={this.readOnly}
         />
         {!this.loading && this.postfixIcon && <hcl-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} type="button" />}
         {this.loading && <hcl-sdk-icon name="circular" class="input-postfix input-postfix__loader" width={15} height={15} />}

@@ -59,10 +59,6 @@
     &.with-nearme .search-section {
       padding: 10px;
       grid-gap: 0;
-
-      .btn-back .icon svg {
-        margin-top: 5px;
-      }
     }
 
     &__total-value {
@@ -189,6 +185,10 @@
   }
 
   .size-mobile {
+    .search-header {
+      align-items: center;
+    }
+    
     .map-view-mode {
       .search-data {
         position: absolute;

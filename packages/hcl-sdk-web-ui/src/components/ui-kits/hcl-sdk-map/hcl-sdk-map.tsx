@@ -36,7 +36,7 @@ export class HclSdkMap {
   @Prop() isForcedZoomToMe: boolean = false;
 
   @Event() onMarkerClick: EventEmitter;
-  @Event() setCurrentLocation: EventEmitter;
+  @Event() moveCurrentLocation: EventEmitter;
   @Event() mapClicked: EventEmitter;
   @Event() onMapDrag: EventEmitter;
   mapElm: HTMLInputElement;
@@ -410,6 +410,7 @@ export class HclSdkMap {
   moveToCurrentLocation = () => {
     const currentLocation = searchMapStore.getGeoLocation(true);
     this.map.panTo(currentLocation, 16);
+    this.moveCurrentLocation.emit(currentLocation)
   };
 
   render() {

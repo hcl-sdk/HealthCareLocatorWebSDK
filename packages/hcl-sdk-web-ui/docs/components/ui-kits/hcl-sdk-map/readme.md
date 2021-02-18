@@ -28,12 +28,12 @@
 
 ## Events
 
-| Event                | Description | Type               |
-| -------------------- | ----------- | ------------------ |
-| `mapClicked`         |             | `CustomEvent<any>` |
-| `onMapDrag`          |             | `CustomEvent<any>` |
-| `onMarkerClick`      |             | `CustomEvent<any>` |
-| `setCurrentLocation` |             | `CustomEvent<any>` |
+| Event                 | Description | Type               |
+| --------------------- | ----------- | ------------------ |
+| `mapClicked`          |             | `CustomEvent<any>` |
+| `moveCurrentLocation` |             | `CustomEvent<any>` |
+| `onMapDrag`           |             | `CustomEvent<any>` |
+| `onMarkerClick`       |             | `CustomEvent<any>` |
 
 
 ## Dependencies

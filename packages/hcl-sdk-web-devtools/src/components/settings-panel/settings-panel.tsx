@@ -715,7 +715,6 @@ export class SettingsPanel {
   }
 
   render() {
-    console.log(this.iconCodePreview);
     if(this.iconCodePreview) {
       (window as any).hljs.highlightBlock(this.iconCodePreview)
     }
