@@ -25,7 +25,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": ">14"
+    "node": ">=14"
   },
   "devDependencies": {
     "lerna": "^3.22.1"

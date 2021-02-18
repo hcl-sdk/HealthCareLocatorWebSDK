@@ -120,8 +120,8 @@ export class HclSdkSearch {
 
   checkIsBasicNearMe() {
     if (
-      !searchMapStore.state.specialtyFilter && 
-      searchMapStore.state.locationFilter && 
+      !searchMapStore.state.specialtyFilter &&
+      searchMapStore.state.locationFilter &&
       searchMapStore.state.locationFilter.id === NEAR_ME
     ) {
       return true;
@@ -282,7 +282,7 @@ export class HclSdkSearch {
 
     if (this.currentSelectedInput === 'name') {
       return <div>{data.length > 0 && this.renderContent(data)}</div>;
-    } 
+    }
     if (this.currentSelectedInput === 'address') {
       const addressResults = this.insertDefaultAddressNearMe([...data]);
       return <div>{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
@@ -295,8 +295,8 @@ export class HclSdkSearch {
 
     const nearMeFound = searchMapState.locationFilter?.id === NEAR_ME;
     if (
-      !nearMeFound && 
-      !searchMapState.searchFields.address.length && 
+      !nearMeFound &&
+      !searchMapState.searchFields.address.length &&
       !(searchMapState.geoLocation.status === 'denied')
     ) {
       return [NEAR_ME_ITEM, ...addressResults];
@@ -358,10 +358,10 @@ export class HclSdkSearch {
                     </hcl-sdk-input>
                   </div>
                 </div>
-                <hcl-sdk-button 
-                  primary 
-                  type="submit" 
-                  icon={(!this.searchText || isTabletView) ? 'search' : undefined} 
+                <hcl-sdk-button
+                  primary
+                  type="submit"
+                  icon={(!this.searchText || isTabletView) ? 'search' : undefined}
                   class="hclsdk-btn-search-address"
                   iconWidth={18}
                   iconHeight={18}
@@ -370,10 +370,10 @@ export class HclSdkSearch {
 
               {this.showSwitchMode && !isSmallView && (
                 <div class="hclsdk-btn-reset-search" onClick={this.resetInputValue}>
-                  <span>Reset search</span>
+                  <span>{t('search_reset')}</span>
                 </div>
               )}
-                
+
               {this.showSwitchMode && (
                 <div class="switch-mode">
                   <hcl-sdk-switch-view-mode typeOfLabel="short" />
