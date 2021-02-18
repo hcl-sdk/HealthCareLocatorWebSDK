@@ -30,6 +30,13 @@ steps:
   inputs:
     arguments: 'build-api'
 
+- task: CmdLine@2
+  inputs:
+    script: 'tree /f' 
+
+- task: CmdLine@2
+  inputs:
+    script: 'dir $(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist/' 
 
 - task: AzureCLI@2
   inputs:
