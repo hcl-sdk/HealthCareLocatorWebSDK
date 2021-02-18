@@ -33,6 +33,10 @@ steps:
     arguments: 'build-api'
     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
+- task: CmdLine@2
+  inputs:
+    script: 'ipconfig /all' 
+
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
