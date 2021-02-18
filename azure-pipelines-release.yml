@@ -34,7 +34,7 @@ steps:
   inputs:
     sourcePath: onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist
     azureSubscription: 'Onekey'
-    destination: 'AzureBlob'
+    destination: 'onekeySDK'
     storage: $(storagename)
     containerName: $web
     blobPrefix: 'hcl-sdk-web-ui'
@@ -43,7 +43,7 @@ steps:
   inputs:
     sourcePath: onekey-sdk-web-lib/packages/hcl-sdk-api/dist
     azureSubscription: 'Onekey'
-    destination: 'AzureBlob'
+    destination: 'onekeySDK'
     storage: $(storagename)
     containerName: $web
     blobPrefix: 'hcl-sdk-api'
