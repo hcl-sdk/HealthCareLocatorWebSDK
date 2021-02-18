@@ -1,5 +1,3 @@
-trigger:
-- master
 
 pool:
   vmImage: windows-latest
@@ -11,13 +9,15 @@ steps:
       SourcePath: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui-$(Build.BuildId).zip'
       azureSubscription: 'Onekey'
       Destination: 'AzureBlob'
-      ContainerName: 'onekeydataprodwesteu'
-      BlobPrefix: '$web/hcl-sdk-web-ui'
+      storage: 'onekeydataprodwesteu'
+      ContainerName: '$web'
+      BlobPrefix: 'hcl-sdk-web-ui'
     
   - task: AzureFileCopy@4
     inputs:
       SourcePath: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api-ui-$(Build.BuildId).zip'
       azureSubscription: 'Onekey'
       Destination: 'AzureBlob'
-      ContainerName: 'onekeydataprodwesteu'
-      BlobPrefix: '$web/hcl-sdk-web-ui'
+      storage: 'onekeydataprodwesteu'
+      ContainerName: '$web'
+      BlobPrefix: '$hcl-sdk-api'
