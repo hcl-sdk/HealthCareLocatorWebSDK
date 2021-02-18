@@ -1,10 +1,10 @@
-import { Component, Host, h, Prop, Method, Element, State } from '@stencil/core';
+import { Component, Host, h, Method, Element, State } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'hcl-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
-import { ModeViewType, HclSDKConfigData } from '../../../core/stores/ConfigStore';
+import { ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
@@ -26,19 +26,21 @@ const defaults = {
 })
 export class HclSDK {
   @Element() el: HTMLStencilElement;
-  @Prop() config: HclSDKConfigData;
   @State() retriesCounter: number = 0;
+  @State() loading = false;
 
   parentEl;
 
   @Method()
   updateConfig(patch: any) {
-    configStore.setState(merge({}, this.config, patch));
+    configStore.setState(merge({}, configStore.state, patch));
     return Promise.resolve(configStore.state);
   }
 
   @Method()
   async searchNearMe({ specialtyCode }) {
+    this.loading = true;
+
     let specialtyLabel = specialtyCode;
     try {
       const res = await graphql.labelsByCode({ first: 1, criteria: specialtyCode, codeTypes: ['SP'], country: 'ca', locale: i18nStore.state.lang }, configStore.configGraphql);
@@ -46,6 +48,8 @@ export class HclSDK {
         specialtyLabel = res.labelsByCode.codes[0].longLbl;
       }
     } catch (err) {}
+
+    this.loading = false;
 
     searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setSearchFieldValue('name', specialtyLabel);
@@ -103,8 +107,8 @@ export class HclSDK {
     ro.observe(parent);
 
     // Search near me entry
-    if (this.config && this.config.entry && this.config.entry.screenName === 'searchNearMe') {
-      const { specialtyCode } = this.config.entry;
+    if (config && config.entry && config.entry.screenName === 'searchNearMe') {
+      const { specialtyCode } = config.entry;
       if (!specialtyCode) {
         console.error('missing specialtyCode for "near me" search');
         return;
@@ -181,7 +185,7 @@ export class HclSDK {
 
   render() {
     const { screenSize, orientation } = uiStore.state.breakpoint;
-    if (screenSize === 'unknown') {
+    if (screenSize === 'unknown' || this.loading) {
       return null;
     }
 

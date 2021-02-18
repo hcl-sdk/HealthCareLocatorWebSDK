@@ -5,16 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HclSDKConfigData } from "./core/stores/ConfigStore";
 import { Modal, ModeViewType } from "hcl-sdk-web-ui/src/core/stores/ConfigStore";
 import { Breakpoint } from "hcl-sdk-web-ui/src/core/types";
 import { OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
-        "config": HclSDKConfigData;
         "init": (config?: any) => Promise<void>;
         "searchNearMe": ({ specialtyCode }: { specialtyCode: any; }) => Promise<void>;
-        "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
+        "updateConfig": (patch: any) => Promise<import("/Users/fbarrailla/dev/ekino/iqvia/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>;
     }
     interface HclSdkButton {
         "class": string;
@@ -569,7 +567,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface HclSdk {
-        "config"?: HclSDKConfigData;
     }
     interface HclSdkButton {
         "class"?: string;
