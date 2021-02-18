@@ -30,20 +30,18 @@ steps:
   inputs:
     arguments: 'build-api'
 
-- task: AzureFileCopy@4
-  inputs:
-    sourcePath: onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist
-    azureSubscription: 'Onekey'
-    destination: 'onekeySDK'
-    storage: $(storagename)
-    containerName: $web
-    blobPrefix: 'hcl-sdk-web-ui'
 
-- task: AzureFileCopy@4
+- task: AzureCLI@2
   inputs:
-    sourcePath: onekey-sdk-web-lib/packages/hcl-sdk-api/dist
     azureSubscription: 'Onekey'
-    destination: 'onekeySDK'
-    storage: $(storagename)
-    containerName: $web
-    blobPrefix: 'hcl-sdk-api'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s $(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist/"
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Onekey'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s $(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-api/dist/"
+    workingDirectory: $(Build.ArtifactStagingDirectory)
