@@ -30,7 +30,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/packages/hcl-sdk-web-ui/dist'
+    SourceFolder: '$(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     CleanTargetFolder: true
