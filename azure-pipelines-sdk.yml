@@ -38,7 +38,7 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy Web UI'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/dist'
+    SourceFolder: '$(Build.SourcesDirectory)/packages/hcl-sdk-web-ui/dist'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/hcl-sdk-web-ui'
     CleanTargetFolder: true
@@ -47,7 +47,7 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy API'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/onekey-sdk-web-lib/packages/hcl-sdk-api/dist'
+    SourceFolder: '$(Build.SourcesDirectory)/packages/hcl-sdk-api/dist'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/hcl-sdk-api'
     CleanTargetFolder: true
