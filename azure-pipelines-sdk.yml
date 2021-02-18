@@ -10,6 +10,9 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+  - checkout: self
+    path: s/onekey-sdk-web-lib
+
 - task: YarnInstaller@3
   inputs:
     versionSpec: '1.x'
