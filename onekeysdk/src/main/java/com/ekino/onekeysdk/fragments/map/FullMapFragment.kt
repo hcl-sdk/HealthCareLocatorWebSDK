@@ -345,6 +345,10 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         }
     }
 
+    override fun getPlaceDetail(): OneKeyPlace? {
+        return place
+    }
+
     override fun isNearMe(): Boolean = isNearMe
     override fun setNearMeState(state: Boolean) {
         this.isNearMe = state

@@ -11,6 +11,7 @@ abstract class AbsMapFragment<T, VM : IViewModel<T>>(layoutId: Int) : AppFragmen
     abstract fun setRelaunchState(isRelaunch: Boolean)
     abstract fun forceSearch(place: OneKeyPlace)
     abstract fun reverseGeoCoding(place: OneKeyPlace)
-    abstract fun isNearMe():Boolean
-    abstract fun setNearMeState(state:Boolean)
+    abstract fun isNearMe(): Boolean
+    abstract fun setNearMeState(state: Boolean)
+    abstract fun getPlaceDetail(): OneKeyPlace?
 }

@@ -19,6 +19,7 @@ class SearchAdapter(private val screenWidth: Int = -1) :
     private var selectedPosition = -1
     private val themeConfig by lazy { HealthCareLocatorSDK.getInstance().getConfiguration() }
     var onHCPCardClickedListener: (data: ActivityObject) -> Unit = {}
+    var isPlaceAvailable: Boolean = false
 
     override fun initViewHolder(parent: ViewGroup, viewType: Int): SearchVH =
             SearchVH(LayoutInflater.from(parent.context).inflate(layoutIds[0], parent, false))
@@ -35,7 +36,10 @@ class SearchAdapter(private val screenWidth: Int = -1) :
                 tvName.text = data.individual?.mailingName ?: ""
                 tvSpeciality.text = data.individual?.professionalType?.label ?: ""
                 tvAddress.text = data.workplace?.address?.getAddress() ?: ""
-                tvDistance.text = itemView.context.getString(R.string.hcl_distance_unit_android, "${Math.round(data.distance)}")
+                if (isPlaceAvailable) {
+                    tvDistance.visibility = View.VISIBLE
+                    tvDistance.text = itemView.context.getString(R.string.hcl_distance_unit_android, "${Math.round(data.distance)}")
+                } else tvDistance.visibility = View.GONE
                 ivArrow.setIconFromDrawableId(themeConfig.iconArrowRight)
                 ivArrow.setColorFilter(themeConfig.colorSecondary.getColor())
                 setOnClickListener {

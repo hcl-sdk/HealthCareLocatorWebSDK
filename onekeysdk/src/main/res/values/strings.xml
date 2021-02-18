@@ -33,6 +33,7 @@
     <string name="hcl_search_first_field_label">Name, Specialty</string>
     <string name="hcl_search_second_field_label">Where? (address, city…)</string>
     <string name="hcl_near_me">Near me</string>
+    <string name="hcl_anywhere">Anywhere</string>
 
     <!--Results List View-->
     <string name="hcl_results_label">Results</string>

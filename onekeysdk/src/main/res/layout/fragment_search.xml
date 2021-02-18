@@ -42,20 +42,32 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyEditText
-                        android:id="@+id/edtName"
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/transparent"
-                        android:focusable="true"
-                        android:hint="@string/hcl_search_first_field_label"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:padding="@dimen/default_padding_smaller"
-                        app:OneKeyTextColor="OneKeyColorDark"
-                        app:OneKeyTextStyle="OneKeyStyleSearchInput" />
+                        android:layout_weight="1">
+
+                        <com.ekino.onekeysdk.custom.text.OneKeyEditText
+                            android:id="@+id/edtName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:focusable="true"
+                            android:hint="@string/hcl_search_first_field_label"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:padding="@dimen/default_padding_smaller"
+                            app:OneKeyTextColor="OneKeyColorDark"
+                            app:OneKeyTextStyle="OneKeyStyleSearchInput" />
+
+                        <FrameLayout
+                            android:id="@+id/viewBlockedEditable"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            android:clickable="true" />
+                    </FrameLayout>
 
                     <FrameLayout
                         android:layout_width="@dimen/default_icon_size"

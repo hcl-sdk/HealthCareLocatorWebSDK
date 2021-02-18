@@ -402,6 +402,10 @@ class OneKeyNearMeFragment :
         }
     }
 
+    override fun getPlaceDetail(): OneKeyPlace? {
+        return place
+    }
+
     private fun showNoResult() {
         noResult.visibility = View.VISIBLE
         noResult.setBackgroundColor(healthCareLocatorCustomObject.colorViewBackground.getColor())
