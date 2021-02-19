@@ -27,7 +27,7 @@ Type: `Promise<void>`
 
 
 
-### `updateConfig(patch: any) => Promise<import("/Users/fbarrailla/dev/ekino/iqvia/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>`
+### `updateConfig(patch: any) => Promise<import("/Users/cong-luc.tran/Desktop/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>`
 
 
 

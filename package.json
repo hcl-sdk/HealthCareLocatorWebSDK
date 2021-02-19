@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "if [ ! -f .env -a -f .env.example ]; then cp -R .env.example .env; fi",
     "test-web": "lerna run test --scope hcl-sdk-web-ui",
     "start-api": "lerna run start --scope hcl-sdk-api",
     "build-api": "lerna run build --scope hcl-sdk-api",

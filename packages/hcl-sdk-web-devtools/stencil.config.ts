@@ -1,4 +1,11 @@
 import { Config } from '@stencil/core';
+import replace from 'rollup-plugin-replace';
+import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: path.resolve(process.cwd(), '../../.env')
+});
 
 export const config: Config = {
   namespace: 'devtools',
@@ -19,5 +26,11 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null, // disable service workers
     },
+  ],
+  plugins: [
+    replace({
+      exclude: 'node_modules/**',
+      'process.env.API_GRAPHQL_HOST': JSON.stringify(process.env.API_GRAPHQL_HOST)
+    }),
   ],
 };

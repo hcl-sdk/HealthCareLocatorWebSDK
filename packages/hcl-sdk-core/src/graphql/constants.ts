@@ -1,1 +1,1 @@
-export const ENDPOINT = "https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query"
+export const ENDPOINT = process.env.API_GRAPHQL_HOST;
