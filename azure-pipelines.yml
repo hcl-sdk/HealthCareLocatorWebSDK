@@ -46,7 +46,10 @@ steps:
       appFile: '**/*.apk'
       releaseNotesOption: 'input'
       releaseNotesInput: 'New version'
+      isMandatory: true
       destinationType: 'groups'
+      distributionGroupId: '2dfa22b3-cdd0-41d5-bfaf-a6e7d32c922d'
+      isSilent: true
 
 
 #- task: GooglePlayRelease@3
