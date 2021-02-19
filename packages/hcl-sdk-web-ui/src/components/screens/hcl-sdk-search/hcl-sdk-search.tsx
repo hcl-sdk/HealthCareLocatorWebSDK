@@ -1,6 +1,6 @@
 import { Component, Host, h, State, Listen, Prop, Element } from '@stencil/core';
 import { getFullCardDetail, searchDoctor, searchLocationWithParams } from '../../../core/api/hcp';
-import { searchMapStore, routerStore, uiStore, historyStore } from '../../../core/stores';
+import { searchMapStore, routerStore, uiStore, historyStore, configStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
@@ -8,6 +8,7 @@ import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { HistorySearchItem } from '../../../core/stores/HistoryStore';
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { t } from '../../../utils/i18n';
+import { ModeViewType } from '../../../core/stores/ConfigStore';
 
 @Component({
   tag: 'hcl-sdk-search',
@@ -61,33 +62,28 @@ export class HclSdkSearch {
     e.preventDefault();
 
     let checkValidName: boolean;
-    let checkValidAddress: boolean; // Hold on
-    const { name, address } = e.target;
+    const { name } = e.target;
     const isBasicNearMe = this.checkIsBasicNearMe();
 
     if (isBasicNearMe) {
       checkValidName = true;
-      checkValidAddress = true; // Hold on
       this.resetErrorElmUI('both');
+      configStore.setState({
+        modeView: ModeViewType.MAP
+      })
     } else {
-      checkValidName = this.checkValidElm(name);
-      checkValidAddress = this.checkValidElm(address); // Hold on
+      checkValidName = this.checkValidElm(name)
     }
 
-    if (!checkValidName || !checkValidAddress) {
+    if (!checkValidName) {
       return;
     }
-    // if (!checkValidName) {
-    //   return;
-    // } else if (!address.value.trim() && searchMapStore.isGrantedGeoloc) {
-    //   searchMapStore.state.locationFilter = NEAR_ME_ITEM
-    // }
 
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
-      // if (!searchMapStore.state.locationFilter) {
-      //   searchLocationWithParams()
-      // }
+      if (!searchMapStore.state.locationFilter) {
+        searchLocationWithParams()
+      }
     } else {
       searchLocationWithParams()
     }
