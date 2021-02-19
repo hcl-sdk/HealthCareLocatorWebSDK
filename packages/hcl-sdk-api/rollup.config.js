@@ -5,8 +5,14 @@ import typescript from 'typescript';
 import json from '@rollup/plugin-json';
 import { getBabelOutputPlugin } from '@rollup/plugin-babel';
 import { terser } from "rollup-plugin-terser";
-
+import dotenv from 'dotenv';
 import appPkg from './package.json';
+import replace from 'rollup-plugin-replace';
+import path from 'path';
+
+dotenv.config({
+  path: path.resolve(process.cwd(), '../../.env')
+});
 
 const GLOBAL_NAME = 'HclAPI';
 
@@ -25,7 +31,11 @@ const plugins = [
     allowAllFormats: true,
     presets: [['@babel/preset-env', { modules: 'umd' }]],
   }),
-  terser()
+  terser(),
+  replace({
+    exclude: 'node_modules/**',
+    'process.env.API_GRAPHQL_HOST': JSON.stringify(process.env.API_GRAPHQL_HOST),
+  }),
 ];
 
 export default [

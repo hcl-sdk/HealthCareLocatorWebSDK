@@ -4,6 +4,8 @@ import { uiStore, searchMapStore, configStore, i18nStore } from 'hcl-sdk-web-ui/
 import { getFullCardDetail } from 'hcl-sdk-web-ui/src/core/api/hcp';
 import { getCssColor, fallbackShareHCPDetail, getTextBodyToShare } from 'hcl-sdk-web-ui/src/utils/helper';
 import { t } from '../../../utils/i18n';
+import { HCL_WEBSITE_HOST } from '../../../core/constants';
+
 @Component({
   tag: 'hcl-sdk-hcp-full-card',
   styleUrl: 'hcl-sdk-hcp-full-card.scss',
@@ -98,7 +100,7 @@ export class HclSdkHCPFullCard {
     const apiKey = configStore.state.apiKey;
 
     const linkEl = document.createElement('a');
-    linkEl.href = `https://onekeysdk.ekinoffy.com/${mapLang[i18nStore.state.lang]}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
+    linkEl.href = `${HCL_WEBSITE_HOST}/${mapLang[i18nStore.state.lang]}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
     linkEl.target = "_blank";
     linkEl.click();
   }

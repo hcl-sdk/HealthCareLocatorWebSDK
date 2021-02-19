@@ -36,8 +36,14 @@ export class HclSdkSearchResult {
     })
   }
   componentWillLoad() {
-    if (!searchMapStore.state.selectedActivity && searchMapStore.state.locationFilter) {
+    const { selectedActivity, locationFilter, specialtyFilter } = searchMapStore.state
+    if (!selectedActivity && locationFilter) {
       searchLocationWithParams()
+    }
+    if (!specialtyFilter && locationFilter && locationFilter.id === NEAR_ME) {
+      configStore.setState({
+        modeView: ModeViewType.MAP
+      })
     }
     this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
   }
@@ -91,7 +97,7 @@ export class HclSdkSearchResult {
     const { selectedActivity, individualDetail } = searchMapStore.state;
     const isShowHCPDetail = individualDetail || selectedActivity;
 
-    if (!isShowHCPDetail) {
+    if (isShowHCPDetail) {
       return
     }
 

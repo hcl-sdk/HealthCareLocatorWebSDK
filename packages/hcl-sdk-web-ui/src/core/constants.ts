@@ -22,3 +22,5 @@ export const GEOLOC = {
   MAX_TRIES: 5,
   MINUTE_HISTORY: 30, 
 }
+
+export const HCL_WEBSITE_HOST = process.env.HCL_WEBSITE_HOST
