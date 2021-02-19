@@ -68,4 +68,5 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'devops/Dockerfile.deploy'
     tags: $(buildSHA)
+    buildContext: '.'
  
