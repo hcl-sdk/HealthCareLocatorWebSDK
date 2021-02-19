@@ -67,6 +67,27 @@ steps:
     repository: $(Build.Repository.Name)-deploy
     command: 'buildAndPush'
     Dockerfile: 'devops/Dockerfile.deploy'
-    tags: $(buildSHA)
+    tags: 'latest'
     buildContext: '.'
  
+- task: Kubernetes@1
+  displayName: Login to Kubernetes
+  inputs:
+    connectionType: Kubernetes Service Connection
+    kubernetesServiceEndpoint: $(azWestEUkubeservice)
+    command: login
+
+- task: Kubernetes@1
+  displayName: Delete previous Job if any
+  inputs:
+    kubernetesServiceEndpoint: $(azWestEUkubeservice)
+    command: delete
+    arguments: job deploy-js-sdk --ignore-not-found true
+
+
+- task: Kubernetes@1
+  displayName: Deploy and Run Copy Job
+  inputs:
+    kubernetesServiceEndpoint: $(azWestEUkubeservice)
+    command: apply
+    arguments: -n argo -f src/devops/job.yaml
