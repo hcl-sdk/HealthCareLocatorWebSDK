@@ -54,6 +54,7 @@ steps:
       command: 'buildAndPush'
       Dockerfile: 'devops/Dockerfile.app'
       tags: $(buildSHA)
+      buildContext: '.'
 
   - task: Docker@2
     displayName: Build latest
@@ -61,5 +62,6 @@ steps:
       containerRegistry: $(azcrconnection)
       repository: $(Build.Repository.Name)
       command: 'buildAndPush'
-      Dockerfile: 'Dockerfile'
+      Dockerfile: 'devops/Dockerfile.app'
+      buildContext: '.'
       tags: latest
