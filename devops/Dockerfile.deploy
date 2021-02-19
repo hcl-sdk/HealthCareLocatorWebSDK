@@ -1,0 +1,8 @@
+from mcr.microsoft.com/azure-cli
+
+
+COPY packages/hcl-sdk-web-ui/dist/hcl-sdk /dist/hcl-sdk-web-ui
+COPY packages/hcl-sdk-api/dist/hcl-sdk-api /dist/hcl-sdk-api
+COPY devops/copy.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/copy.sh
+

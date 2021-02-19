@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: onekey-sample-web-app
+  namespace: onekey-web
+  labels:
+    name: onekey-sample-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: onekey-sample-web-app
+  template:
+    metadata:
+      labels:
+        app: onekey-sample-web-app
+    spec:
+      containers:
+        - name: onekey-sample-web-app
+          image: onekeyprodregistry.azurecr.io/onekey-sdk-web-lib:7c09cf7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+  name:  onekey-sample-web-app
+  namespace: onekey-web
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: onekey-sample-web-app

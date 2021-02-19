@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: deploy_js_sdk 
+spec:
+  template:
+    spec:
+      containers:
+      - name: deploy-js-sdk
+        image: perl
+        command: ["copy.sh"]
+      restartPolicy: Never
+  backoffLimit: 1
