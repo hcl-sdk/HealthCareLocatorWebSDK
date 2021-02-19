@@ -3,9 +3,14 @@
 # Build your Android project with Gradle.
 # Add steps that test, sign, and distribute the APK, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/android
-
 trigger:
   - main
+
+variables:
+  - ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
+      buildVariant: uat
+  - ${{ if ne(variables['build.SourceBranchName'], 'dev') }}:
+      - group: staging
 
 pool:
   vmImage: 'macos-latest'
@@ -19,6 +24,7 @@ steps:
       publishJUnitResults: false
       testResultsFiles: '**/TEST-*.xml'
       tasks: 'assembleDebug'
+      when: ${{variables.group == 'staging'}}
 
   - task: AndroidSigning@3
     inputs:
@@ -34,19 +40,19 @@ steps:
       contents: '**/*.apk'
       targetFolder: '$(build.artifactStagingDirectory)'
   - task: PublishBuildArtifacts@1
-      -
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+
   - task: AppCenterDistribute@3
     inputs:
       serverEndpoint: 'HCL_Dev'
       appSlug: 'contact-c08l/OneKeySample-Android'
       appFile: '**/*.apk'
-        releaseNotesOption: 'input'
-        releaseNotesInput: 'New version'
-        destinationType: 'groups'
-
-
-#- task: GooglePlayRelease@3
-#  inputs:
-#    serviceConnection: 'IQVIA_GooglePlay'
-#    apkFile: '**/*.apk'
-#    track: 'beta'
+      releaseNotesOption: 'input'
+      releaseNotesInput: 'New version'
+      isMandatory: true
+      destinationType: 'groups'
+      distributionGroupId: '2dfa22b3-cdd0-41d5-bfaf-a6e7d32c922d'
+      isSilent: true
