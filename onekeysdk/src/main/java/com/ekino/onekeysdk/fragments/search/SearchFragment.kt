@@ -222,8 +222,7 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                         (activity as? AppCompatActivity)?.pushFragment(R.id.fragmentContainer,
                                 FullMapFragment.newInstance(it, edtName.text.toString(),
                                         selectedSpeciality, selectedPlace ?: OneKeyPlace().apply {
-                                    displayName = if (currentLocation == null)
-                                        getString(R.string.hcl_anywhere) else edtWhere.text.toString()
+                                    displayName = getString(R.string.hcl_anywhere)
                                 }), true)
                     }
                 }
