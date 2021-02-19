@@ -34,7 +34,11 @@ steps:
       contents: '**/*.apk'
       targetFolder: '$(build.artifactStagingDirectory)'
   - task: PublishBuildArtifacts@1
-      -
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+
   - task: AppCenterDistribute@3
     inputs:
       serverEndpoint: 'HCL_Dev'
