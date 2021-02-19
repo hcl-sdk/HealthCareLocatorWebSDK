@@ -60,7 +60,10 @@ export class HclSdkMap {
   }
 
   @Watch('locations')
-  handleChange() {
+  handleChange(newValue, oldValue) {
+    if (newValue.length === 1 && JSON.stringify(newValue) === JSON.stringify(oldValue)) {
+      return
+    }
     this.setMarkers();
   }
 

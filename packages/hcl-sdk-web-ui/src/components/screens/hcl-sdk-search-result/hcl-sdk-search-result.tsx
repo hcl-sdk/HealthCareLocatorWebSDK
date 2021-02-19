@@ -15,7 +15,7 @@ import { t } from '../../../utils/i18n';
   shadow: false,
 })
 export class HclSdkSearchResult {
-  @State() selectedMarkerLocation = { lat: 0, lng: 0 };
+  @State() selectedMarkerLocation = { lat: -1, lng: -1 };
   @State() isOpenPanel: boolean = true;
   @State() isShowRelaunchBtn: boolean = false;
   @State() newDragLocation: LatLng;
@@ -88,6 +88,13 @@ export class HclSdkSearchResult {
 
   @Listen('onMapDrag')
   handleVisibleRelaunchBtn(evt) {
+    const { selectedActivity, individualDetail } = searchMapStore.state;
+    const isShowHCPDetail = individualDetail || selectedActivity;
+
+    if (!isShowHCPDetail) {
+      return
+    }
+
     if (!this.isShowRelaunchBtn) {
       this.isShowRelaunchBtn = true;
     }
@@ -298,7 +305,7 @@ export class HclSdkSearchResult {
                   ) : (
                     <Fragment>
                       <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
-                      <div class="search-result-address">{selectedAddressName || 'Canada'}</div>
+                      <div class="search-result-address">{selectedAddressName || t('anywhere')}</div>
                     </Fragment>
                   )}
                 </div>
