@@ -90,4 +90,4 @@ steps:
   inputs:
     kubernetesServiceEndpoint: $(azWestEUkubeservice)
     command: apply
-    arguments: -n argo -f src/devops/job.yaml
+    arguments: -n argo -f devops/job.yaml
