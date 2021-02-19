@@ -52,7 +52,7 @@ steps:
       containerRegistry: $(azcrconnection)
       repository: $(Build.Repository.Name)
       command: 'buildAndPush'
-      Dockerfile: 'Dockerfile'
+      Dockerfile: 'devops/Dockerfile.app'
       tags: $(buildSHA)
 
   - task: Docker@2
