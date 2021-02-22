@@ -72,4 +72,4 @@ steps:
     azureSubscription: 'Onekey'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-api\\dist\\"
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-api\\dist\\hcl-sdk-api"
