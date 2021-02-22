@@ -23,14 +23,17 @@
     }
 
     &-content {
-      display: flex;
-      flex-direction: column;
       flex: 1;
+      min-width: 0;
     }
 
     &-arrow-icon {
       justify-self: flex-end;
       color: var(--hcl-color-secondary);
+    }
+
+    .text {
+      display: block;
     }
 
     .name {
@@ -51,6 +54,16 @@
     .distance {
       color: var(--hcl-color-dark);
       @include applyFontStyle("default");
+    }
+  }
+
+  .size-mobile {
+    .doctor-card {
+      .address {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
   }
 }

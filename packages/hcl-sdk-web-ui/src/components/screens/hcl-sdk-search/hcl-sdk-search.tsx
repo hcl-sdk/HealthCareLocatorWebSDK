@@ -337,7 +337,7 @@ export class HclSdkSearch {
                       autoComplete="off"
                       loading={nameInputLoading}
                       onPostfixClick={() => this.resetValue('name', !searchMapStore.state.specialtyFilter)}
-                      autoFocus
+                      autoFocus={routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT}
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
                       readOnly={!!searchMapStore.state.specialtyFilter}

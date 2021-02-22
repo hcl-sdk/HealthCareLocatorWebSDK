@@ -37,10 +37,11 @@ export class HclSdkSearchResult {
   }
   componentWillLoad() {
     const { selectedActivity, locationFilter, specialtyFilter } = searchMapStore.state
+    const { name } = searchMapStore.state.searchFields
     if (!selectedActivity && locationFilter) {
       searchLocationWithParams()
     }
-    if (!specialtyFilter && locationFilter && locationFilter.id === NEAR_ME) {
+    if (!specialtyFilter && !name && locationFilter && locationFilter.id === NEAR_ME) {
       configStore.setState({
         modeView: ModeViewType.MAP
       })
@@ -340,7 +341,8 @@ export class HclSdkSearchResult {
                           selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng} 
                           {...elm}
                           key={elm.id}
-                          onClick={() => this.onItemCardClick(elm)} 
+                          onClick={() => this.onItemCardClick(elm)}
+                          showDistance={!!selectedAddressName}
                         />
                       ))}
                       {loadingActivities && (

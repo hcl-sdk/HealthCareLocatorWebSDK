@@ -15,6 +15,7 @@ export class HclSdkDoctorCard {
   @Prop() distance: string;
   @Prop() selected: boolean;
   @Prop() viewMode: string;
+  @Prop() showDistance: boolean = true;
 
   render() {
     const doctorClass = cn("doctor-card", {
@@ -28,7 +29,7 @@ export class HclSdkDoctorCard {
             <span class="text name">{this.name}</span>
             <span class="text gp">{this.professionalType}</span>
             <span class="text address">{this.address}</span>
-            <span class="text distance">{this.distance}</span>
+            { this.showDistance && <span class="text distance">{this.distance}</span> }
           </div>
           <hcl-sdk-icon name="chevron-arrow" color={getCssColor("--hcl-color-secondary")}/>
         </div>
