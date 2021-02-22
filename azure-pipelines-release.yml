@@ -1,6 +1,6 @@
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 parameters:
   - name: azcrconnectionparam
@@ -60,16 +60,19 @@ steps:
     arguments: 'build-api'
     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: AzureCLI@2
+- task: AzureFileCopy@4
   inputs:
-    azureSubscription: 'Onekey'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-web-ui\\dist\\hcl-sdk"
-
-- task: AzureCLI@2
+    SourcePath: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
+    azureSubscription: 'onekeySDK'
+    Destination: 'AzureBlob'
+    storage: 'onekeystaticdataprod'
+    ContainerName: '$web'
+    BlobPrefix: 'v1/hcl-sdk-web-ui'
+- task: AzureFileCopy@4
   inputs:
-    azureSubscription: 'Onekey'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-api\\dist\\hcl-sdk-api"
+    SourcePath: 'packages/hcl-sdk-api/dist/hcl-sdk-api'
+    azureSubscription: 'onekeySDK'
+    Destination: 'AzureBlob'
+    storage: 'onekeystaticdataprod'
+    ContainerName: '$web'
+    BlobPrefix: 'v1/hcl-sdk-api'
