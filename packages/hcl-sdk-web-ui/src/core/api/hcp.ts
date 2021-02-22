@@ -2,7 +2,7 @@ import { searchMapStore, historyStore, configStore, i18nStore } from '../stores'
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'hcl-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
-import { getMergeMainAndOtherActivities, getSpecialtiesText } from '../../utils/helper';
+import { getHcpFullname, getMergeMainAndOtherActivities, getSpecialtiesText } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 
 
@@ -45,6 +45,10 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
     specialtyFilter
   });
 
+  if (!specialtyFilter) {
+    params.criteria = searchMapStore.state.searchFields.name
+  }
+
   searchLocation(params);
 }
 
@@ -65,7 +69,7 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
   
     const data = (activities || []).map((item) => ({
       distance: `${item.distance}m`,
-      name: item.activity.individual.mailingName,
+      name: getHcpFullname(item.activity.individual),
       lastName: item.activity.individual.lastName,
       professionalType: item.activity.individual.professionalType.label,
       specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
@@ -125,7 +129,7 @@ export async function searchDoctor(variables) {
   )
 
   const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({
-    name: item.mailingName,
+    name: getHcpFullname(item),
     professionalType: item.professionalType.label,
     specialties: getSpecialtiesText(item.specialties),
     address: `${item.mainActivity.workplace.address.longLabel},${item.mainActivity.workplace.address.city.label}`,
@@ -160,7 +164,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
   const data = {
     id: activityId,
     individualId: activity.individual.id,
-    name: activity.individual.mailingName,
+    name: getHcpFullname(activity.individual),
     firstName: activity.individual.firstName,
     lastName: activity.individual.lastName,
     middleName: activity.individual.middleName,

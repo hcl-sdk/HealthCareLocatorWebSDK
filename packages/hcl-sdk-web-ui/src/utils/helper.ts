@@ -1,7 +1,7 @@
 import { DEFAULT_THEME_PROPERTIES } from 'hcl-sdk-core';
 import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
 import { BREAKPOINT_MAX_WIDTH } from 'hcl-sdk-web-ui/src/core/constants';
-import { Activity } from 'hcl-sdk-core/src/graphql/types';
+import { Activity, Individual, IndividualFragment } from 'hcl-sdk-core/src/graphql/types';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -138,4 +138,10 @@ export function fallbackShareHCPDetail(individualDetail, config) {
   link.href = `mailto:${fax}?subject=${subject}&body=${mailBody}`;
   link.target = '_blank';
   link.click();
+}
+
+export function getHcpFullname(individual: Individual | IndividualFragment) {
+  const { firstName, lastName, middleName } = individual;
+
+  return [firstName, middleName, lastName].filter(s => !!s).join(' ');
 }

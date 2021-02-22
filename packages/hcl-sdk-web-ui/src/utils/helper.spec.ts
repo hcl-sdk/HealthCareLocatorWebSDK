@@ -8,7 +8,8 @@ import {
   getTextBodyToShare,
   fallbackShareHCPDetail,
   getBreakpointFromParentClientRect,
-  getMergeMainAndOtherActivities
+  getMergeMainAndOtherActivities,
+  getHcpFullname
 } from './helper';
 
 afterEach(() => {
@@ -47,7 +48,7 @@ describe('getTextBodyToShare', () => {
 Dr Rory Michael Trow
 General Practitioner
 
-Specialties:
+Specialties: 
 
 Group Practice 3-480 Harbourfront Dr NE
 3-480 Harbourfront Dr NE
@@ -228,5 +229,27 @@ describe('getDoctorCardOffset', () => {
     expect(getDoctorCardOffset(null, null, true)).not.toThrowError
     expect(getDoctorCardOffset({}, {})).not.toThrowError
     expect(getDoctorCardOffset({}, {}, true)).not.toThrowError
+  })
+})
+
+describe('getHcpFullname', () => {
+  test('should be correctly concatenated', () => {
+    const individual = {
+      firstName: 'Hans-Jürgen', 
+      lastName: 'Gentzen', 
+      middleName: 'Bergen'
+    } as any
+
+    expect(getHcpFullname(individual)).toEqual('Hans-Jürgen Bergen Gentzen')
+  })
+
+  test('should be correctly concatenated and ignore empty string', () => {
+    const individual = {
+      firstName: 'Hans-Jürgen', 
+      lastName: 'Gentzen', 
+      middleName: ''
+    } as any
+
+    expect(getHcpFullname(individual)).toEqual('Hans-Jürgen Gentzen')
   })
 })

@@ -38,6 +38,7 @@ export namespace Components {
         "name": string;
         "professionalType": string;
         "selected": boolean;
+        "showDistance": boolean;
         "viewMode": string;
     }
     interface HclSdkHcpFullCard {
@@ -626,6 +627,7 @@ declare namespace LocalJSX {
         "name"?: string;
         "professionalType"?: string;
         "selected"?: boolean;
+        "showDistance"?: boolean;
         "viewMode"?: string;
     }
     interface HclSdkHcpFullCard {

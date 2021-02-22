@@ -15,9 +15,9 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
         offset: $offset
       ) {
         individuals {
-          mailingName
           id
           firstName
+          middleName
           lastName
           professionalType { label }
           specialties {
