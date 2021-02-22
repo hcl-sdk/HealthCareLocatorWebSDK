@@ -6,7 +6,6 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion build_versions.compile_sdk_version
     buildToolsVersion build_versions.build_tool_version
-
     defaultConfig {
         applicationId "com.iqvia.onekey.hclapp"
         minSdkVersion build_versions.min_sdk
@@ -25,6 +24,7 @@ android {
         unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
     }
+
     flavorDimensions "default"
 
     buildTypes {
@@ -36,6 +36,15 @@ android {
 
     buildFeatures {
         dataBinding true
+    }
+
+    productFlavors {
+        dev {
+            buildConfigField('String', 'env', '"dev"')
+        }
+        uat {
+            buildConfigField('String', 'env', '"uat"')
+        }
     }
 
     compileOptions {

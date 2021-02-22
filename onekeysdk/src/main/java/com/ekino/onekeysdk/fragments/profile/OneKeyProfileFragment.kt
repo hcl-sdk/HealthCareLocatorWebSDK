@@ -251,8 +251,8 @@ class OneKeyProfileFragment :
             }
             R.id.btnSuggestModification -> {
                 with(healthCareLocatorCustomObject) {
-                    val url = getString(R.string.modificationUrl, this.locale,
-                            HealthCareLocatorSDK.getInstance().getApiKey(),
+                    val url = String.format((HealthCareLocatorSDK.getInstance() as HealthCareLocatorSDK)
+                            .getModificationUrl(), this.locale, HealthCareLocatorSDK.getInstance().getApiKey(),
                             activityDetail.individual?.id ?: "")
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     startActivity(browserIntent)
