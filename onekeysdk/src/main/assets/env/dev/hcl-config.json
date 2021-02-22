@@ -1,0 +1,5 @@
+{
+  "clientHCLUrl": "https://apim-dev-eastus-onekey.azure-api.net/api/graphql/query",
+  "modificationUrl": "https://onekeysdk.ekinoffy.com/%s/suggest-modification?apiKey=%s&id=%s",
+  "env": "dev"
+}

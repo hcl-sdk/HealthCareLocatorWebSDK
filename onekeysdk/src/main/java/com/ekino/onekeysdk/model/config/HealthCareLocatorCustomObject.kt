@@ -68,7 +68,7 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
         val iconLocation: Int, val fontNoResultTitle: HeathCareLocatorViewFontObject,
         val fontNoResultDesc: HeathCareLocatorViewFontObject,
-        val showModificationForm: Boolean) {
+        val showModificationForm: Boolean, val env: String = "dev") {
 
     @Suppress
     data class Builder(
@@ -130,7 +130,8 @@ data class HealthCareLocatorCustomObject private constructor(
             var iconMapMarker: Int = R.drawable.baseline_location_on_black_36dp,
             var fontNoResultTitle: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultTitle", size = 20).build(),
             var fontNoResultDesc: HeathCareLocatorViewFontObject = HeathCareLocatorViewFontObject.Builder(id = "fontNoResultDesc", size = 16).build(),
-            var showModificationForm: Boolean = false) {
+            var showModificationForm: Boolean = false,
+            var env: String = "dev") {
 
         fun colorPrimary(@Size(min = 7) primaryColor: String) = apply { this.colorPrimary = primaryColor }
         fun colorSecondary(secondaryColor: String) = apply { this.colorSecondary = secondaryColor }
@@ -250,6 +251,7 @@ data class HealthCareLocatorCustomObject private constructor(
         fun entryScreen(@ScreenReference screenReference: Int) = apply { this.screenReference = screenReference }
         fun mapService(@MapService mapService: Int) = apply { this.mapService = mapService }
         fun showModificationForm(showModificationForm: Boolean) = apply { this.showModificationForm = showModificationForm }
+        fun env(env: String) = apply { this.env = env }
 
         fun build() = HealthCareLocatorCustomObject(colorPrimary, colorSecondary, textColor, colorMarker,
                 colorMarkerSelected, fontButton, fontDefault, searchIcon, editIcon, markerIcon,
@@ -262,7 +264,7 @@ data class HealthCareLocatorCustomObject private constructor(
                 screenReference, mapService, iconCross, iconGeoLoc, iconMarkerMin, iconSort, iconList,
                 iconMap, iconArrowRight, iconMapGeoLoc, iconPhone, iconFax, iconWebsite, iconVoteUp,
                 iconVoteDown, iconProfile, iconLocation, fontNoResultTitle, fontNoResultDesc,
-                showModificationForm)
+                showModificationForm, env)
     }
 
     fun getLocaleCode(): String = if (locale.isNotEmpty()) {
