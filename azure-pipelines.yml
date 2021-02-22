@@ -52,7 +52,7 @@ steps:
       publishLocation: 'Container'
 
 
-  - ${{ if eq(variables.buildVariant, 'assembleDebug') }}:
+  - ${{ if eq(variables.buildVariant, 'assembleDevDebug') }}:
       - task: AppCenterDistribute@3
         inputs:
           serverEndpoint: 'HCL_Dev'
@@ -65,7 +65,7 @@ steps:
           distributionGroupId: '2dfa22b3-cdd0-41d5-bfaf-a6e7d32c922d'
           isSilent: true
 
-  - ${{ if eq(variables.buildVariant, 'assembleRelease') }}:
+  - ${{ if eq(variables.buildVariant, 'assembleUatDebug') }}:
       - task: AppCenterDistribute@3
         inputs:
           serverEndpoint: 'AppCenter_HCLApp'
