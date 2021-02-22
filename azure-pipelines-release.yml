@@ -60,34 +60,16 @@ steps:
     arguments: 'build-api'
     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: Docker@2
-  displayName: Build image
+- task: AzureCLI@2
   inputs:
-    containerRegistry: $(azcrconnection)
-    repository: $(Build.Repository.Name)-deploy
-    command: 'buildAndPush'
-    Dockerfile: 'devops/Dockerfile.deploy'
-    tags: 'latest'
-    buildContext: '.'
- 
-- task: Kubernetes@1
-  displayName: Login to Kubernetes
-  inputs:
-    connectionType: Kubernetes Service Connection
-    kubernetesServiceEndpoint: $(azWestEUkubeservice)
-    command: login
+    azureSubscription: 'Onekey'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-web-ui\\dist\\"
 
-- task: Kubernetes@1
-  displayName: Delete previous Job if any
+- task: AzureCLI@2
   inputs:
-    kubernetesServiceEndpoint: $(azWestEUkubeservice)
-    command: delete
-    arguments: job deploy-js-sdk --ignore-not-found true
-
-
-- task: Kubernetes@1
-  displayName: Deploy and Run Copy Job
-  inputs:
-    kubernetesServiceEndpoint: $(azWestEUkubeservice)
-    command: apply
-    arguments: -n argo -f devops/job.yaml
+    azureSubscription: 'Onekey'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s .\\packages\\hcl-sdk-api\\dist\\"
