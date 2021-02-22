@@ -37,11 +37,6 @@ steps:
     echo 'buildSHA set to '$(buildSHA)''
   displayName: Get build git SHA
   workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
-- task: CmdLine@2
-  displayName: 'Install Az Powershell Modules'
-  inputs:
-    script: |
-      sudo /usr/bin/pwsh -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -File "devops/install-az.ps1" 
 
 - task: YarnInstaller@3
   inputs:
@@ -68,13 +63,11 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
-    scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-web-ui\\dist\\hcl-sdk"
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
-    scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key $(storagekey) -s .\\packages\\hcl-sdk-api\\dist\\"
