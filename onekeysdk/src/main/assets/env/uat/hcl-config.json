@@ -1,0 +1,5 @@
+{
+  "clientHCLUrl": "https://google.com.vn",
+  "modificationUrl": "https://onekeysdk.ekinoffy.com/%s/suggest-modification?apiKey=%s&id=%s",
+  "env": "uat"
+}

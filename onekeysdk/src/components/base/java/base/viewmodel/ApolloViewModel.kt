@@ -9,13 +9,13 @@ import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.ekino.onekeysdk.R
 import com.ekino.onekeysdk.extensions.ApolloConnector
 import com.ekino.onekeysdk.extensions.removeConsultedProfile
 import com.ekino.onekeysdk.extensions.storeConsultedProfiles
 import com.ekino.onekeysdk.extensions.storeLastSearch
 import com.ekino.onekeysdk.model.SearchObject
 import com.ekino.onekeysdk.model.activity.ActivityObject
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.google.gson.Gson
 import io.reactivex.Flowable
 
@@ -26,8 +26,7 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
             query: () -> Query<D, T, V>, success: (response: Response<T>) -> Unit,
             error: (e: Exception) -> Unit, runOnThread: Boolean = false, context: Context? = null) {
         ApolloConnector.getInstance()
-                .getApolloClient(getFragmentReference()?.getString(R.string.clientHCLUrl)
-                        ?: context?.getString(R.string.clientHCLUrl) ?: "https://www.blank.org/")
+                .getApolloClient((HealthCareLocatorSDK.getInstance() as HealthCareLocatorSDK).getClientUrl())
                 .query(query())
                 .enqueue(object : ApolloCall.Callback<T>() {
                     override fun onFailure(e: ApolloException) {
@@ -54,11 +53,7 @@ abstract class ApolloViewModel<T> : AppViewModel<T>() {
             onSuccess: (data: K) -> Unit, onError: (e: Throwable) -> Unit, context: Context? = null) {
         disposable?.add(Rx2Apollo.from(
                 ApolloConnector.getInstance()
-                        .getApolloClient(
-                                getFragmentReference()?.getString(R.string.clientHCLUrl)
-                                        ?: context?.getString(R.string.clientHCLUrl)
-                                        ?: "https://www.blank.org/"
-                        )
+                        .getApolloClient((HealthCareLocatorSDK.getInstance() as HealthCareLocatorSDK).getClientUrl())
                         .query(query())
         ).map { map(it) }.compose(composeObservable()).subscribe({
             onSuccess(it)

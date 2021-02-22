@@ -15,6 +15,7 @@ import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
+import com.ekino.sample.onekeysdk.BuildConfig
 import com.ekino.sample.onekeysdk.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -231,10 +232,11 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
+        builder.env(BuildConfig.env)
         builder.showModificationForm(SampleApplication.sharedPreferences.getInt(Pref.modification, 0) == 0)
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
 
-        val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "")?:""
+        val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         HealthCareLocatorSDK.init(apiKey).setAppName("Sample")
                 .setAppDownloadLink("http://google.com").setCustomObject(builder.build())
         HealthCareLocatorSDK.getInstance().startSDKFragment(this, R.id.fragmentContainer)
