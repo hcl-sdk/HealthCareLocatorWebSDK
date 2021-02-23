@@ -60,6 +60,12 @@ steps:
     arguments: 'build-api'
     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
+- task: Yarn@3
+  displayName: 'Build Devtools'
+  inputs:
+    arguments: 'build-devtools'
+    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
