@@ -1,7 +1,6 @@
 import { Component, Prop, h, Host, Watch, State } from '@stencil/core';
 import * as L from 'leaflet';
 import { Event, EventEmitter } from '@stencil/core';
-import 'leaflet.markercluster/dist/leaflet.markercluster';
 import { ModeViewType } from 'hcl-sdk-web-ui/src/core/stores/ConfigStore';
 import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
 import { searchMapStore } from '../../../core/stores';
@@ -329,8 +328,8 @@ export class HclSdkMap {
             [ lat, lng ], 
             { icon: this.getIcon(undefined, isMeLocation) }
           )
-          .addTo(this.map);
-        meMarker.on('click', this.onSelectedMarker);
+          .addTo(this.map)
+          .on('click', this.onSelectedMarker);
         markers.push(meMarker);
       });
 
@@ -358,14 +357,14 @@ export class HclSdkMap {
       const { lat, lng, dataId } = groupLocation;
       const isMeLocation = false;
       const clusterNumber = dataId.length;
-      const meMarker = L
+      const groupMarker = L
           .marker(
             [ lat, lng ], 
             { icon: this.getIcon(undefined, isMeLocation, clusterNumber) }
           )
-          .addTo(this.map);
-        meMarker.on('click', this.onSelectedGroupMarker);
-        markers.push(meMarker);
+          .addTo(this.map)
+          .on('click', this.onSelectedGroupMarker);
+        markers.push(groupMarker);
     }
 
     return markers;
