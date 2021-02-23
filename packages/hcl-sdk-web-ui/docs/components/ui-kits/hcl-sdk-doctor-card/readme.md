@@ -14,6 +14,7 @@
 | `name`             | `name`              |             | `string`  | `undefined` |
 | `professionalType` | `professional-type` |             | `string`  | `undefined` |
 | `selected`         | `selected`          |             | `boolean` | `undefined` |
+| `showDistance`     | `show-distance`     |             | `boolean` | `true`      |
 | `viewMode`         | `view-mode`         |             | `string`  | `undefined` |
 
 
