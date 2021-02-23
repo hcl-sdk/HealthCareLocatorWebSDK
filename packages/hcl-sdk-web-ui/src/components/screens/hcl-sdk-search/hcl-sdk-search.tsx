@@ -61,25 +61,33 @@ export class HclSdkSearch {
     e.preventDefault();
 
     let checkValidName: boolean;
-    let checkValidAddress: boolean;
+    let checkValidAddress: boolean; // Hold on
     const { name, address } = e.target;
     const isBasicNearMe = this.checkIsBasicNearMe();
 
     if (isBasicNearMe) {
       checkValidName = true;
-      checkValidAddress = true;
+      checkValidAddress = true; // Hold on
       this.resetErrorElmUI('both');
     } else {
       checkValidName = this.checkValidElm(name);
-      checkValidAddress = this.checkValidElm(address);
+      checkValidAddress = this.checkValidElm(address); // Hold on
     }
 
     if (!checkValidName || !checkValidAddress) {
       return;
     }
+    // if (!checkValidName) {
+    //   return;
+    // } else if (!address.value.trim() && searchMapStore.isGrantedGeoloc) {
+    //   searchMapStore.state.locationFilter = NEAR_ME_ITEM
+    // }
 
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
+      // if (!searchMapStore.state.locationFilter) {
+      //   searchLocationWithParams()
+      // }
     } else {
       searchLocationWithParams()
     }
@@ -120,8 +128,8 @@ export class HclSdkSearch {
 
   checkIsBasicNearMe() {
     if (
-      !searchMapStore.state.specialtyFilter && 
-      searchMapStore.state.locationFilter && 
+      !searchMapStore.state.specialtyFilter &&
+      searchMapStore.state.locationFilter &&
       searchMapStore.state.locationFilter.id === NEAR_ME
     ) {
       return true;
@@ -282,7 +290,7 @@ export class HclSdkSearch {
 
     if (this.currentSelectedInput === 'name') {
       return <div>{data.length > 0 && this.renderContent(data)}</div>;
-    } 
+    }
     if (this.currentSelectedInput === 'address') {
       const addressResults = this.insertDefaultAddressNearMe([...data]);
       return <div>{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
@@ -297,7 +305,7 @@ export class HclSdkSearch {
     if (
       !nearMeFound && 
       !searchMapState.searchFields.address.length && 
-      !(searchMapState.geoLocation.status === 'denied')
+      searchMapStore.isGrantedGeoloc
     ) {
       return [NEAR_ME_ITEM, ...addressResults];
     }
@@ -332,10 +340,11 @@ export class HclSdkSearch {
                       onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={nameInputLoading}
-                      onPostfixClick={() => this.resetValue('name', true)}
+                      onPostfixClick={() => this.resetValue('name', !searchMapStore.state.specialtyFilter)}
                       autoFocus
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
+                      readOnly={!!searchMapStore.state.specialtyFilter}
                     >
                       {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
                     </hcl-sdk-input>
@@ -358,10 +367,10 @@ export class HclSdkSearch {
                     </hcl-sdk-input>
                   </div>
                 </div>
-                <hcl-sdk-button 
-                  primary 
-                  type="submit" 
-                  icon={(!this.searchText || isTabletView) ? 'search' : undefined} 
+                <hcl-sdk-button
+                  primary
+                  type="submit"
+                  icon={(!this.searchText || isTabletView) ? 'search' : undefined}
                   class="hclsdk-btn-search-address"
                   iconWidth={18}
                   iconHeight={18}
@@ -370,10 +379,10 @@ export class HclSdkSearch {
 
               {this.showSwitchMode && !isSmallView && (
                 <div class="hclsdk-btn-reset-search" onClick={this.resetInputValue}>
-                  <span>Reset search</span>
+                  <span>{t('search_reset')}</span>
                 </div>
               )}
-                
+
               {this.showSwitchMode && (
                 <div class="switch-mode">
                   <hcl-sdk-switch-view-mode typeOfLabel="short" />

@@ -55,9 +55,8 @@ export class HclSdkHome {
   }
 
   render() {
-    const { geoLocation } = searchMapStore.state;
     const { searchItems, hcpItems } = historyStore.state;
-    const displayHomeMin = geoLocation.status === 'denied' && !searchItems.length && !hcpItems.length;
+    const displayHomeMin = !searchMapStore.isGrantedGeoloc && !searchItems.length && !hcpItems.length;
     return (
       <Host>
         <div class="main-contain">

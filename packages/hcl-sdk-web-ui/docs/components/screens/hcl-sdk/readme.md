@@ -5,14 +5,17 @@
 <!-- Auto Generated Below -->
 
 
-## Properties
-
-| Property | Attribute | Description | Type               | Default     |
-| -------- | --------- | ----------- | ------------------ | ----------- |
-| `config` | --        |             | `HclSDKConfigData` | `undefined` |
-
-
 ## Methods
+
+### `init(config?: any) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
 
 ### `searchNearMe({ specialtyCode }: { specialtyCode: any; }) => Promise<void>`
 
@@ -24,7 +27,7 @@ Type: `Promise<void>`
 
 
 
-### `updateConfig(patch: any) => Promise<HclSDKConfigData>`
+### `updateConfig(patch: any) => Promise<import("/Users/fbarrailla/dev/ekino/iqvia/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>`
 
 
 

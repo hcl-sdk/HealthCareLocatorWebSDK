@@ -17,6 +17,7 @@
   "since_format": "%@ ago",
   "search_first_field_label": "Name, Specialty",
   "search_second_field_label": "Where? (address, city...)",
+  "search_reset": "Reset search",
   "near_me": "Near me",
   "results_label": "Results",
   "list_label": "List",

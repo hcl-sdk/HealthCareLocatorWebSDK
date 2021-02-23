@@ -63,12 +63,14 @@ if (matches) {
   var specialtyLabel = specialtyLabelByCode[specialtyCode];
   if (specialtyLabel) {
     config.entry = {
-      screenName: 'nearMe',
+      screenName: 'searchNearMe',
       specialtyCode
     }
   }
 }
 
-if (hclSdkEl) {
-  hclSdkEl.config = config;
-}
+console.log(config)
+
+customElements.whenDefined('hcl-sdk').then(function() {
+  hclSdkEl.init(config);
+})

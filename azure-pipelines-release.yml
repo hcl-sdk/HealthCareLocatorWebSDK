@@ -1,0 +1,75 @@
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+  - name: azcrconnectionparam
+    displayName: Docker connection
+    type: string
+    default: onekeyprodregistry.azurecr.io-onekey-sdk-web-lib
+  - name: azcrhostparam
+    displayName: Docker host
+    type: string
+    default: onekeyprodregistry.azurecr.io-onekey-sdk-web-lib
+  - name: azkubeserviceparam
+    displayName: Kubernetes Service Connection
+    type: string
+    default: argo.aks-dev-eastus-onekey-sdk-web-lib
+  - name: azkubeserviceWestEUparam
+    displayName: Kubernetes Service Connection westEU
+    type: string
+    default: aks-prod-westeu-onekey-k8s-onekey-sdk-web-lib
+
+variables:
+  azcrconnection: ${{ parameters.azcrconnectionparam }}
+  azkubeservice: ${{ parameters.azkubeserviceparam }}
+  azWestEUkubeservice: ${{ parameters.azkubeserviceWestEUparam }}
+  azcrimage: $(azcrhost)/$(Build.Repository.Name)
+  storage_key: $(storagekey)
+  storage_name: $(storagename)
+
+steps:
+- checkout: self
+  path: s/onekey-sdk-web-lib  
+
+- script: |
+    echo '##vso[task.setvariable variable=buildSHA]'$(git rev-parse --short HEAD)''
+    echo 'buildSHA set to '$(buildSHA)''
+  displayName: Get build git SHA
+  workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+- task: YarnInstaller@3
+  inputs:
+    versionSpec: '1.x'
+
+- task: Yarn@3
+  displayName: 'Install dependencies'
+  inputs:
+    arguments: 'install'
+    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+- task: Yarn@3
+  displayName: 'Build Web UI'
+  inputs:
+    arguments: 'build-web'
+    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+    
+- task: Yarn@3
+  displayName: 'Build API'
+  inputs:
+    arguments: 'build-api'
+    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Onekey'
+    scriptType: bash
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-web-ui' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-web-ui/dist/hcl-sdk'"
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Onekey'
+    scriptType: bash
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-api/dist'"

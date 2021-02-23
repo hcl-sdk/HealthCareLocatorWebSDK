@@ -5,15 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HclSDKConfigData } from "./core/stores/ConfigStore";
 import { Modal, ModeViewType } from "hcl-sdk-web-ui/src/core/stores/ConfigStore";
 import { Breakpoint } from "hcl-sdk-web-ui/src/core/types";
 import { OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
-        "config": HclSDKConfigData;
+        "init": (config?: any) => Promise<void>;
         "searchNearMe": ({ specialtyCode }: { specialtyCode: any; }) => Promise<void>;
-        "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
+        "updateConfig": (patch: any) => Promise<import("/Users/cong-luc.tran/Desktop/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>;
     }
     interface HclSdkButton {
         "class": string;
@@ -121,6 +120,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface HclSdkIconNoAccounts {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkIconPersonal {
         "color": string;
         "height": number;
@@ -151,6 +155,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface HclSdkIconSearchOff {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkIconShare {
         "color": string;
         "height": number;
@@ -174,6 +183,7 @@ export namespace Components {
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
+        "readOnly"?: boolean;
         "type"?: string;
         "value"?: any;
     }
@@ -230,6 +240,8 @@ export namespace Components {
         "activated": boolean;
         "currentSearchText"?: string;
         "item": any;
+    }
+    interface HclSdkSearchNoDataAvailable {
     }
     interface HclSdkSearchNoResults {
     }
@@ -380,6 +392,12 @@ declare global {
         prototype: HTMLHclSdkIconMapElement;
         new (): HTMLHclSdkIconMapElement;
     };
+    interface HTMLHclSdkIconNoAccountsElement extends Components.HclSdkIconNoAccounts, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconNoAccountsElement: {
+        prototype: HTMLHclSdkIconNoAccountsElement;
+        new (): HTMLHclSdkIconNoAccountsElement;
+    };
     interface HTMLHclSdkIconPersonalElement extends Components.HclSdkIconPersonal, HTMLStencilElement {
     }
     var HTMLHclSdkIconPersonalElement: {
@@ -415,6 +433,12 @@ declare global {
     var HTMLHclSdkIconSearchElement: {
         prototype: HTMLHclSdkIconSearchElement;
         new (): HTMLHclSdkIconSearchElement;
+    };
+    interface HTMLHclSdkIconSearchOffElement extends Components.HclSdkIconSearchOff, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconSearchOffElement: {
+        prototype: HTMLHclSdkIconSearchOffElement;
+        new (): HTMLHclSdkIconSearchOffElement;
     };
     interface HTMLHclSdkIconShareElement extends Components.HclSdkIconShare, HTMLStencilElement {
     }
@@ -488,6 +512,12 @@ declare global {
         prototype: HTMLHclSdkSearchAddressItemElement;
         new (): HTMLHclSdkSearchAddressItemElement;
     };
+    interface HTMLHclSdkSearchNoDataAvailableElement extends Components.HclSdkSearchNoDataAvailable, HTMLStencilElement {
+    }
+    var HTMLHclSdkSearchNoDataAvailableElement: {
+        prototype: HTMLHclSdkSearchNoDataAvailableElement;
+        new (): HTMLHclSdkSearchNoDataAvailableElement;
+    };
     interface HTMLHclSdkSearchNoResultsElement extends Components.HclSdkSearchNoResults, HTMLStencilElement {
     }
     var HTMLHclSdkSearchNoResultsElement: {
@@ -541,12 +571,14 @@ declare global {
         "hcl-sdk-icon-list": HTMLHclSdkIconListElement;
         "hcl-sdk-icon-location": HTMLHclSdkIconLocationElement;
         "hcl-sdk-icon-map": HTMLHclSdkIconMapElement;
+        "hcl-sdk-icon-no-accounts": HTMLHclSdkIconNoAccountsElement;
         "hcl-sdk-icon-personal": HTMLHclSdkIconPersonalElement;
         "hcl-sdk-icon-phone": HTMLHclSdkIconPhoneElement;
         "hcl-sdk-icon-printer": HTMLHclSdkIconPrinterElement;
         "hcl-sdk-icon-refresh": HTMLHclSdkIconRefreshElement;
         "hcl-sdk-icon-remove": HTMLHclSdkIconRemoveElement;
         "hcl-sdk-icon-search": HTMLHclSdkIconSearchElement;
+        "hcl-sdk-icon-search-off": HTMLHclSdkIconSearchOffElement;
         "hcl-sdk-icon-share": HTMLHclSdkIconShareElement;
         "hcl-sdk-icon-sort": HTMLHclSdkIconSortElement;
         "hcl-sdk-input": HTMLHclSdkInputElement;
@@ -559,6 +591,7 @@ declare global {
         "hcl-sdk-router-link": HTMLHclSdkRouterLinkElement;
         "hcl-sdk-search": HTMLHclSdkSearchElement;
         "hcl-sdk-search-address-item": HTMLHclSdkSearchAddressItemElement;
+        "hcl-sdk-search-no-data-available": HTMLHclSdkSearchNoDataAvailableElement;
         "hcl-sdk-search-no-results": HTMLHclSdkSearchNoResultsElement;
         "hcl-sdk-search-result": HTMLHclSdkSearchResultElement;
         "hcl-sdk-select": HTMLHclSdkSelectElement;
@@ -568,7 +601,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface HclSdk {
-        "config"?: HclSDKConfigData;
     }
     interface HclSdkButton {
         "class"?: string;
@@ -678,6 +710,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface HclSdkIconNoAccounts {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface HclSdkIconPersonal {
         "color"?: string;
         "height"?: number;
@@ -708,6 +745,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface HclSdkIconSearchOff {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface HclSdkIconShare {
         "color"?: string;
         "height"?: number;
@@ -731,6 +773,7 @@ declare namespace LocalJSX {
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
+        "readOnly"?: boolean;
         "type"?: string;
         "value"?: any;
     }
@@ -751,9 +794,9 @@ declare namespace LocalJSX {
         "modeView"?: ModeViewType;
         "noCurrentLocation"?: boolean;
         "onMapClicked"?: (event: CustomEvent<any>) => void;
+        "onMoveCurrentLocation"?: (event: CustomEvent<any>) => void;
         "onOnMapDrag"?: (event: CustomEvent<any>) => void;
         "onOnMarkerClick"?: (event: CustomEvent<any>) => void;
-        "onSetCurrentLocation"?: (event: CustomEvent<any>) => void;
         "selectedLocationIdx"?: number;
         "zoomControl"?: boolean;
     }
@@ -792,6 +835,8 @@ declare namespace LocalJSX {
         "currentSearchText"?: string;
         "item"?: any;
         "onSelectAddress"?: (event: CustomEvent<any>) => void;
+    }
+    interface HclSdkSearchNoDataAvailable {
     }
     interface HclSdkSearchNoResults {
     }
@@ -832,12 +877,14 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-list": HclSdkIconList;
         "hcl-sdk-icon-location": HclSdkIconLocation;
         "hcl-sdk-icon-map": HclSdkIconMap;
+        "hcl-sdk-icon-no-accounts": HclSdkIconNoAccounts;
         "hcl-sdk-icon-personal": HclSdkIconPersonal;
         "hcl-sdk-icon-phone": HclSdkIconPhone;
         "hcl-sdk-icon-printer": HclSdkIconPrinter;
         "hcl-sdk-icon-refresh": HclSdkIconRefresh;
         "hcl-sdk-icon-remove": HclSdkIconRemove;
         "hcl-sdk-icon-search": HclSdkIconSearch;
+        "hcl-sdk-icon-search-off": HclSdkIconSearchOff;
         "hcl-sdk-icon-share": HclSdkIconShare;
         "hcl-sdk-icon-sort": HclSdkIconSort;
         "hcl-sdk-input": HclSdkInput;
@@ -850,6 +897,7 @@ declare namespace LocalJSX {
         "hcl-sdk-router-link": HclSdkRouterLink;
         "hcl-sdk-search": HclSdkSearch;
         "hcl-sdk-search-address-item": HclSdkSearchAddressItem;
+        "hcl-sdk-search-no-data-available": HclSdkSearchNoDataAvailable;
         "hcl-sdk-search-no-results": HclSdkSearchNoResults;
         "hcl-sdk-search-result": HclSdkSearchResult;
         "hcl-sdk-select": HclSdkSelect;
@@ -883,12 +931,14 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-list": LocalJSX.HclSdkIconList & JSXBase.HTMLAttributes<HTMLHclSdkIconListElement>;
             "hcl-sdk-icon-location": LocalJSX.HclSdkIconLocation & JSXBase.HTMLAttributes<HTMLHclSdkIconLocationElement>;
             "hcl-sdk-icon-map": LocalJSX.HclSdkIconMap & JSXBase.HTMLAttributes<HTMLHclSdkIconMapElement>;
+            "hcl-sdk-icon-no-accounts": LocalJSX.HclSdkIconNoAccounts & JSXBase.HTMLAttributes<HTMLHclSdkIconNoAccountsElement>;
             "hcl-sdk-icon-personal": LocalJSX.HclSdkIconPersonal & JSXBase.HTMLAttributes<HTMLHclSdkIconPersonalElement>;
             "hcl-sdk-icon-phone": LocalJSX.HclSdkIconPhone & JSXBase.HTMLAttributes<HTMLHclSdkIconPhoneElement>;
             "hcl-sdk-icon-printer": LocalJSX.HclSdkIconPrinter & JSXBase.HTMLAttributes<HTMLHclSdkIconPrinterElement>;
             "hcl-sdk-icon-refresh": LocalJSX.HclSdkIconRefresh & JSXBase.HTMLAttributes<HTMLHclSdkIconRefreshElement>;
             "hcl-sdk-icon-remove": LocalJSX.HclSdkIconRemove & JSXBase.HTMLAttributes<HTMLHclSdkIconRemoveElement>;
             "hcl-sdk-icon-search": LocalJSX.HclSdkIconSearch & JSXBase.HTMLAttributes<HTMLHclSdkIconSearchElement>;
+            "hcl-sdk-icon-search-off": LocalJSX.HclSdkIconSearchOff & JSXBase.HTMLAttributes<HTMLHclSdkIconSearchOffElement>;
             "hcl-sdk-icon-share": LocalJSX.HclSdkIconShare & JSXBase.HTMLAttributes<HTMLHclSdkIconShareElement>;
             "hcl-sdk-icon-sort": LocalJSX.HclSdkIconSort & JSXBase.HTMLAttributes<HTMLHclSdkIconSortElement>;
             "hcl-sdk-input": LocalJSX.HclSdkInput & JSXBase.HTMLAttributes<HTMLHclSdkInputElement>;
@@ -901,6 +951,7 @@ declare module "@stencil/core" {
             "hcl-sdk-router-link": LocalJSX.HclSdkRouterLink & JSXBase.HTMLAttributes<HTMLHclSdkRouterLinkElement>;
             "hcl-sdk-search": LocalJSX.HclSdkSearch & JSXBase.HTMLAttributes<HTMLHclSdkSearchElement>;
             "hcl-sdk-search-address-item": LocalJSX.HclSdkSearchAddressItem & JSXBase.HTMLAttributes<HTMLHclSdkSearchAddressItemElement>;
+            "hcl-sdk-search-no-data-available": LocalJSX.HclSdkSearchNoDataAvailable & JSXBase.HTMLAttributes<HTMLHclSdkSearchNoDataAvailableElement>;
             "hcl-sdk-search-no-results": LocalJSX.HclSdkSearchNoResults & JSXBase.HTMLAttributes<HTMLHclSdkSearchNoResultsElement>;
             "hcl-sdk-search-result": LocalJSX.HclSdkSearchResult & JSXBase.HTMLAttributes<HTMLHclSdkSearchResultElement>;
             "hcl-sdk-select": LocalJSX.HclSdkSelect & JSXBase.HTMLAttributes<HTMLHclSdkSelectElement>;

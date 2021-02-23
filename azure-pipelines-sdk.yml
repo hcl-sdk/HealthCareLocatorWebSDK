@@ -1,0 +1,52 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- checkout: self
+  path: s/onekey-sdk-web-lib
+    
+- task: YarnInstaller@3
+  inputs:
+    versionSpec: '1.x'
+
+- task: Yarn@3
+  displayName: 'Install dependencies'
+  inputs:
+    arguments: 'install'
+
+- task: Yarn@3
+  displayName: 'Build Web UI'
+  inputs:
+    arguments: 'build-web'
+    
+- task: Yarn@3
+  displayName: 'Build API'
+  inputs:
+    arguments: 'build-api'
+
+- task: AzureCLI@2
+  displayName: 'Copy Web UI'
+  inputs:
+    azureSubscription: 'Onekey'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-web-ui' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./hcl-sdk-api/dist/"
+    workingDirectory: $(Build.SourcesDirectory)/packages
+
+- task: AzureCLI@2
+  displayName: 'Copy API'
+  inputs:
+    azureSubscription: 'Onekey'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'hcl-sdk-api' --account-name ${env:STORAGENAME} --account-key ${env:STORAGEKEY} -s ./hcl-sdk-web-ui/dist/"
+    workingDirectory: $(Build.ArtifactStagingDirectory)

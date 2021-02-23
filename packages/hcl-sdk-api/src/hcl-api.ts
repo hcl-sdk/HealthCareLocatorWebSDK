@@ -1,5 +1,5 @@
 import { graphql } from 'hcl-sdk-core';
-import { QueryActivityByIdArgs, QueryCodesByLabelArgs, QueryIndividualByIdArgs } from 'hcl-sdk-core/src/graphql/types';
+import { QueryActivityByIdArgs, QueryCodesArgs, QueryIndividualByIdArgs } from 'hcl-sdk-core/src/graphql/types';
 import { HclAPIConfig } from './hcl-types';
 
 
@@ -30,7 +30,11 @@ export class HclSDKApi {
     return graphql.individualsByID(params, this.config);
   }
 
-  codesByLabel(params: QueryCodesByLabelArgs) {
+  codesByLabel(params: QueryCodesArgs) {
     return graphql.codesByLabel(params, this.config);
+  }
+
+  labelsByCode(params: QueryCodesArgs) {
+    return graphql.labelsByCode(params, this.config);
   }
 }

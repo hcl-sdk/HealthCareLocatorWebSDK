@@ -1,76 +1,85 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>HealthCare Locator SDK</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <meta name="theme-color" content="#16161d">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta http-equiv="x-ua-compatible" content="IE=Edge">
+  <head>
+    <meta charset="utf-8" />
+    <title>HealthCare Locator SDK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#16161d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
 
-  <script type="module" src="/build/hcl-sdk.esm.js"></script>
-  <script nomodule src="/build/hcl-sdk.js"></script>
+    <script type="module" src="/build/hcl-sdk.esm.js"></script>
+    <script nomodule src="/build/hcl-sdk.js"></script>
 
-  <link rel="apple-touch-icon" href="/assets/icon/icon.png">
-  <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico">
-  <link rel="manifest" href="/manifest.json">
-  <style>
-    html {
-      background: rgb(82, 82, 82);
-      font-family: 'Roboto', Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    hcl-sdk {
-      --hcl-color-primary: #001f3f;
-      --hcl-color-secondary: #39CCCC;
-    }
-
-    .hcl-sdk-wrapper.desktop {
-      width: 100%;
-      height: 100vh;
-    }
-    .hcl-sdk-wrapper.desktop {
-      width: 100%;
-      height: 100vh;
-    }
-    .hcl-sdk-wrapper.mobile,
-    .hcl-sdk-wrapper.tablet {
-      margin: 20px auto;
-    }
-    .hcl-sdk-wrapper.mobile {
-      width: 375px;
-      height: 667px;
-    }
-    .hcl-sdk-wrapper.tablet {
-      width: 1024px;
-      height: 768px;
-    }
-
-    @media screen and (max-width: 1024px) {
-      hcl-sdk-dev-settings {
-        display: none;
+    <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
+    <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <style>
+      html {
+        background: rgb(82, 82, 82);
+        font-family: 'Roboto', Arial, Helvetica, sans-serif;
       }
-      .hcl-sdk-wrapper.mobile,
-      .hcl-sdk-wrapper.tablet {
+
+      body {
         margin: 0;
+        padding: 0;
+      }
+
+      hcl-sdk {
+        --hcl-color-primary: #001f3f;
+        --hcl-color-secondary: #39cccc;
+      }
+
+      .hcl-sdk-wrapper.desktop {
         width: 100%;
         height: 100vh;
       }
-    }
-  </style>
-</head>
-<body>
-  
-  <div class="hcl-sdk-wrapper">
-    <hcl-sdk />
-  </div>
+      .hcl-sdk-wrapper.desktop {
+        width: 100%;
+        height: 100vh;
+      }
+      .hcl-sdk-wrapper.mobile,
+      .hcl-sdk-wrapper.tablet {
+        margin: 20px auto;
+      }
+      .hcl-sdk-wrapper.mobile {
+        width: 375px;
+        height: 667px;
+      }
+      .hcl-sdk-wrapper.tablet {
+        width: 1024px;
+        height: 768px;
+      }
 
-  <hcl-sdk-dev-settings />
+      @media screen and (max-width: 1024px) {
+        hcl-sdk-dev-settings {
+          display: none;
+        }
+        .hcl-sdk-wrapper.mobile,
+        .hcl-sdk-wrapper.tablet {
+          margin: 0;
+          width: 100%;
+          height: 100vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hcl-sdk-wrapper">
+      <hcl-sdk />
+    </div>
 
-</body>
+    <hcl-sdk-dev-settings />
+
+    <script>
+      (async function () {
+        await customElements.whenDefined('hcl-sdk');
+        const HCLSDK = document.querySelector('hcl-sdk');
+
+        HCLSDK.init({
+          apiKey: '300002938e8ed9e6',
+        });
+      })();
+    </script>
+  </body>
 </html>
