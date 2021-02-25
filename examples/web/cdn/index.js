@@ -54,7 +54,7 @@ function getSettingsFromLocal() {
 
 const config = {
   ...getSettingsFromLocal(),
-  i18nBundlesPath: '/hcl-sdk/i18n'
+  i18nBundlesPath: 'https://static.healthcarelocator.com/v1/hcl-sdk-web-ui/i18n'
 };
 
 var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);

@@ -1,21 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: deploy-js-sdk 
+  name: deploy_js_sdk 
 spec:
-  ttlSecondsAfterFinished: 5
   template:
-    spec: 
+    spec:
       containers:
-      - name: onekey-sdk-web-lib-deploy
-        image: onekeyprodregistry.azurecr.io/onekey-sdk-web-lib-deploy:544c66a
-        imagePullPolicy: Always 
-        env:
-        - name: CONTAINER
-          value: "$web"        
-        envFrom:
-          - secretRef:
-              name: storage
+      - name: deploy-js-sdk
+        image: perl
         command: ["copy.sh"]
       restartPolicy: Never
   backoffLimit: 1

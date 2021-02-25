@@ -1,7 +1,7 @@
 name: $(Build.SourceBranch)
 
 trigger:
-  - development
+  - release/1.0.0
 
 parameters:
   - name: azcrconnectionparam
@@ -29,6 +29,7 @@ variables:
   azkubeservice: ${{ parameters.azkubeserviceparam }}
   azWestEUkubeservice: ${{ parameters.azkubeserviceWestEUparam }}
   azcrimage: $(azcrhost)/$(Build.Repository.Name)
+  cdnUrl: $(cdn.url)
 
 steps:
   - checkout: self
@@ -39,6 +40,20 @@ steps:
       echo 'buildSHA set to '$(buildSHA)''
     displayName: Get build git SHA
     workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+  - task: RegExMatchReplace@2
+    inputs:
+      PathToFile: 'examples/web/cdn/index.html'
+      RegEx: '<script src="\.'
+      ValueToReplace: "<script src=\"$(cdnUrl)"
+      Global: true
+
+  - task: RegExMatchReplace@2
+    inputs:
+      PathToFile: 'examples/web/cdn/search.html'
+      RegEx: '<script src="\.'
+      ValueToReplace: "<script src=\"$(cdnUrl)"
+      Global: true
 
   - task: Docker@2
     displayName: Docker login
@@ -52,8 +67,9 @@ steps:
       containerRegistry: $(azcrconnection)
       repository: $(Build.Repository.Name)
       command: 'buildAndPush'
-      Dockerfile: 'Dockerfile'
+      Dockerfile: 'devops/Dockerfile.app'
       tags: $(buildSHA)
+      buildContext: '.'
 
   - task: Docker@2
     displayName: Build latest
@@ -61,5 +77,18 @@ steps:
       containerRegistry: $(azcrconnection)
       repository: $(Build.Repository.Name)
       command: 'buildAndPush'
-      Dockerfile: 'Dockerfile'
+      Dockerfile: 'devops/Dockerfile.app'
+      buildContext: '.'
       tags: latest
+
+  - task: CopyFiles@2
+    inputs:
+      contents: "examples/web/cdn/*"
+      targetFolder: "$(build.artifactStagingDirectory)"
+      overWrite: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: "$(build.artifactStagingDirectory)"
+      artifactName: "sample-app"
+      publishLocation: "Container"

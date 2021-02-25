@@ -1,4 +1,7 @@
 
+trigger:
+  - release/1.0.0
+
 pool:
   vmImage: ubuntu-latest
 
@@ -30,7 +33,7 @@ variables:
 
 steps:
 - checkout: self
-  path: s/onekey-sdk-web-lib  
+  path: s/onekey-sdk-web-lib
 
 - script: |
     echo '##vso[task.setvariable variable=buildSHA]'$(git rev-parse --short HEAD)''
@@ -53,7 +56,7 @@ steps:
   inputs:
     arguments: 'build-web'
     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
-    
+
 - task: Yarn@3
   displayName: 'Build API'
   inputs:
@@ -78,11 +81,11 @@ steps:
     azureSubscription: 'Onekey'
     scriptType: bash
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-api/dist'"
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-api/dist/hcl-sdk-api'"
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Onekey'
     scriptType: bash
     scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-tools' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-web-devtools/dist'"
+    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-tools' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-web-devtools/dist/devtools'"
