@@ -175,9 +175,6 @@ export class HclSDK {
       } else {
         storageUtils.remove(OKSDK_GEOLOCATION_HISTORY);
       }
-    } else {
-      // Using mock data to CA Address
-      searchMapStore.setGeoLocation();
     }
 
     this.findCurrentPosition();
