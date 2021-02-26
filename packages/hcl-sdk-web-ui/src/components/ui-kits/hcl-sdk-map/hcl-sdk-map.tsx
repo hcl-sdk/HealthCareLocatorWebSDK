@@ -302,7 +302,7 @@ export class HclSdkMap {
       this.map.setView([
         searchMapStore.state.geoLocation.latitude,
         searchMapStore.state.geoLocation.longitude,
-      ], 10);
+      ], 14);
     } else if (this.locations.length > 1) {
       this.recalculateBoundView();
     } else if (this.locations.length === 1) {
