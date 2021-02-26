@@ -15,6 +15,7 @@ import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
+import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.sample.onekeysdk.BuildConfig
 import com.ekino.sample.onekeysdk.R
 import com.google.gson.Gson
@@ -35,6 +36,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             this.addFragment(R.id.fragmentContainer, LandingPageFragment.newInstance(), true)
         }
         btnMenu.setOnClickListener {
+            KeyboardUtils.hideSoftKeyboard(this)
             if (drawer.isDrawerOpen(GravityCompat.START))
                 drawer.closeDrawer(GravityCompat.START)
             else drawer.openDrawer(GravityCompat.START)
