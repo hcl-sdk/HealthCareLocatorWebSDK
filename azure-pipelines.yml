@@ -81,14 +81,3 @@ steps:
       buildContext: '.'
       tags: latest
 
-  - task: CopyFiles@2
-    inputs:
-      contents: "examples/web/cdn/*"
-      targetFolder: "$(build.artifactStagingDirectory)"
-      overWrite: true
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: "$(build.artifactStagingDirectory)"
-      artifactName: "sample-app"
-      publishLocation: "Container"
