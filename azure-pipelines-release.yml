@@ -75,15 +75,15 @@ stages:
 
       - task: PublishPipelineArtifact@1
         inputs:
-          artifactName: 'web-ui'
+          artifactName: 'hcl-sdk-web'
           path: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
 
       - task: PublishPipelineArtifact@1
         inputs:
-          artifactName: 'api'
+          artifactName: 'hcl-sdk-api'
           path: 'packages/hcl-sdk-api/dist'
 
       - task: PublishPipelineArtifact@1
         inputs:
-          artifactName: 'devtools'
+          artifactName: 'hcl-sdk-devtools'
           path: 'packages/hcl-sdk-web-devtools/dist'
