@@ -57,6 +57,20 @@ stages:
 
       - task: RegExMatchReplace@2
         inputs:
+          PathToFile: 'examples/web/cdn/index.html'
+          RegEx: '<a href="./'
+          ValueToReplace: '<a href="./sample/"'
+          Global: true
+
+      - task: RegExMatchReplace@2
+        inputs:
+          PathToFile: 'examples/web/cdn/search.html'
+          RegEx: '<a href="./'
+          ValueToReplace: '<a href="./sample/"'
+          Global: true
+
+      - task: RegExMatchReplace@2
+        inputs:
           PathToFile: 'examples/web/cdn/search.html'
           RegEx: '<script src="\.'
           ValueToReplace: "<script src=\"$(cdnUrl)"
