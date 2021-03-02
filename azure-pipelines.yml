@@ -81,6 +81,7 @@ steps:
       buildContext: '.'
       tags: latest
 
+<<<<<<< HEAD
   - task: CopyFiles@2
     inputs:
       contents: "examples/web/cdn/*"
@@ -92,3 +93,5 @@ steps:
       pathtoPublish: "$(build.artifactStagingDirectory)"
       artifactName: "sample-app"
       publishLocation: "Container"
+=======
+>>>>>>> 8cff8552bf123a0188275bedcb2f16822a44dbd3
