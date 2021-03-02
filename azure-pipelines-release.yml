@@ -1,88 +1,89 @@
 
+name: $(Build.SourceBranch)
+
+trigger:
+  branches:
+   include:
+   - release/*
+  tags: 
+   include:
+   - v*
+
 pool:
   vmImage: ubuntu-latest
 
-parameters:
-  - name: azcrconnectionparam
-    displayName: Docker connection
-    type: string
-    default: onekeyprodregistry.azurecr.io-onekey-sdk-web-lib
-  - name: azcrhostparam
-    displayName: Docker host
-    type: string
-    default: onekeyprodregistry.azurecr.io-onekey-sdk-web-lib
-  - name: azkubeserviceparam
-    displayName: Kubernetes Service Connection
-    type: string
-    default: argo.aks-dev-eastus-onekey-sdk-web-lib
-  - name: azkubeserviceWestEUparam
-    displayName: Kubernetes Service Connection westEU
-    type: string
-    default: aks-prod-westeu-onekey-k8s-onekey-sdk-web-lib
+stages:
+  - stage: BuildNumberGenerator  
+    displayName: Build Version Tag
+    jobs:
+    - job: GenerateReleaseVersionTag
+      condition: startsWith(variables['build.sourceBranch'], 'refs/heads/release/')
+      variables: 
+        revision: $[counter(variables['build.sourcebranchname'], 0)]
+      steps:
+      - bash: echo '##vso[build.updatebuildnumber]r$(build.sourcebranchname)-$(revision)'
 
-variables:
-  azcrconnection: ${{ parameters.azcrconnectionparam }}
-  azkubeservice: ${{ parameters.azkubeserviceparam }}
-  azWestEUkubeservice: ${{ parameters.azkubeserviceWestEUparam }}
-  azcrimage: $(azcrhost)/$(Build.Repository.Name)
-  storage_key: $(storagekey)
-  storage_name: $(storagename)
+    - job: GenerateMasterVersionTag
+      condition: startsWith(variables['build.sourceBranch'], 'refs/tags/')
+      variables: 
+        revision: $[counter(variables['build.sourceBranch'], 0)]
+      steps:
+      - bash: echo '##vso[build.updatebuildnumber]$(build.sourcebranchname)-$(revision)'
 
-steps:
-- checkout: self
-  path: s/onekey-sdk-web-lib  
+  - stage: BuildSteps
+    jobs:
+    - job: Build 
+      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/release/'), startsWith(variables['build.sourceBranch'], 'refs/tags/')) 
+      steps:
 
-- script: |
-    echo '##vso[task.setvariable variable=buildSHA]'$(git rev-parse --short HEAD)''
-    echo 'buildSHA set to '$(buildSHA)''
-  displayName: Get build git SHA
-  workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      - checkout: self
+        path: s/onekey-sdk-web-lib  
 
-- task: YarnInstaller@3
-  inputs:
-    versionSpec: '1.x'
+      - script: |
+          echo '##vso[task.setvariable variable=buildSHA]'$(git rev-parse --short HEAD)''
+          echo 'buildSHA set to '$(buildSHA)''
+        displayName: Get build git SHA
+        workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: Yarn@3
-  displayName: 'Install dependencies'
-  inputs:
-    arguments: 'install'
-    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      - task: YarnInstaller@3
+        inputs:
+          versionSpec: '1.x'
 
-- task: Yarn@3
-  displayName: 'Build Web UI'
-  inputs:
-    arguments: 'build-web'
-    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
-    
-- task: Yarn@3
-  displayName: 'Build API'
-  inputs:
-    arguments: 'build-api'
-    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      - task: Yarn@3
+        displayName: 'Install dependencies'
+        inputs:
+          arguments: 'install'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: Yarn@3
-  displayName: 'Build Devtools'
-  inputs:
-    arguments: 'build-devtools'
-    projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      - task: Yarn@3
+        displayName: 'Build Web UI'
+        inputs:
+          arguments: 'build-web'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+          
+      - task: Yarn@3
+        displayName: 'Build API'
+        inputs:
+          arguments: 'build-api'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Onekey'
-    scriptType: bash
-    scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-web-ui' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-web-ui/dist/hcl-sdk'"
+      - task: Yarn@3
+        displayName: 'Build Devtools'
+        inputs:
+          arguments: 'build-devtools'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Onekey'
-    scriptType: bash
-    scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-api' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-api/dist'"
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'web-ui'
+          path: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Onekey'
-    scriptType: bash
-    scriptLocation: 'inlineScript'
-    inlineScript: "az storage blob upload-batch -d '$web' --destination-path 'v1/hcl-sdk-tools' --account-name $(storagename) --account-key $(storagekey) -s 'packages/hcl-sdk-web-devtools/dist'"
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'api'
+          path: 'packages/hcl-sdk-api/dist'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'devtools'
+          path: 'packages/hcl-sdk-web-devtools/dist'
