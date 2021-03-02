@@ -91,3 +91,8 @@ stages:
           Dockerfile: 'devops/Dockerfile.app'
           tags: $(build.buildnumber)
           buildContext: '.'
+      
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'manifests'
+          path: 'devops'
