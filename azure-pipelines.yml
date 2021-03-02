@@ -59,7 +59,7 @@ stages:
         inputs:
           PathToFile: 'examples/web/cdn/index.html'
           RegEx: '<a href="/search'
-          ValueToReplace: '<a href="./sample/search"'
+          ValueToReplace: '<a href="./sample/search'
           Global: true
 
       - task: RegExMatchReplace@2
