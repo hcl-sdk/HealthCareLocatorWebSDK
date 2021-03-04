@@ -72,7 +72,7 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
                 }
                 builder.location(
                     GeopointQuery.builder().lat(location.latitude)
-                        .lon(location.longitude).build()
+                        .lon(location.longitude).distanceMeter(2000.0).build()
                 )
                 builder.build()
             }, { response ->
@@ -126,12 +126,12 @@ class NearMeViewModel : ApolloViewModel<OneKeyNearMeFragment>() {
                     if (usingCurrentLocation)
                         builder.location(
                             GeopointQuery.builder().lat(location.latitude)
-                                .lon(location.longitude).build()
+                                .lon(location.longitude).distanceMeter(2000.0).build()
                         )
                     else
                         builder.location(
                             GeopointQuery.builder().lat(place.latitude.toDouble())
-                                .lon(place.longitude.toDouble()).build()
+                                .lon(place.longitude.toDouble()).distanceMeter(2000.0).build()
                         )
                 }
                 builder.build()

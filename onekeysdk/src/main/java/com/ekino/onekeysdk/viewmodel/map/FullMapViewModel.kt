@@ -50,7 +50,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
             if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
                 builder.location(
                     GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).build()
+                        .lon(place.longitude.toDouble()).distanceMeter(5000.0).build()
                 )
             }
             builder.build()
@@ -90,7 +90,7 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
             if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
                 builder.location(
                     GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).build()
+                        .lon(place.longitude.toDouble()).distanceMeter(5000.0).build()
                 )
             }
             builder.build()
