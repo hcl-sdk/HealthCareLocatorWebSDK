@@ -7,4 +7,5 @@ export interface Fields {
   appName: string;
   appURL: string;
   showSuggestModification: boolean;
+  countries: string[];
 }

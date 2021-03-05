@@ -4,33 +4,67 @@ import { graphql } from 'hcl-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
+import { getDistance } from 'geolib';
+
+function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
+  if (addressDetails.road) {
+    // Precise Address
+    return {
+      distanceMeter: DISTANCE_METER.DEFAULT
+    }
+  }
+
+  if (addressDetails.country && (addressDetails.city || addressDetails.state)) {
+    // City
+    const bbox = boundingbox.map(strNum => Number(strNum)); 
+    const hashBBox = {
+      south: bbox[0],
+      north: bbox[1],
+      west: bbox[2],
+      east: bbox[3]
+    }
+    const point = {
+      bottomRight: { latitude: hashBBox.south, longitude: hashBBox.east },
+      topLeft: { latitude: hashBBox.north, longitude: hashBBox.west },
+      // bottomLeft: { latitude: hashBBox.south, longitude: hashBBox.west },
+      // topRight: { latitude: hashBBox.north, longitude: hashBBox.east }
+    }
+    const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
+    return {
+      distanceMeter: maxDistanceMeter
+    }
+  }
+
+  if (!addressDetails.city && addressDetails.country && addressDetails.country_code) {
+    return {
+      country: addressDetails.country_code
+    }
+  }
+}
 
 export function genSearchLocationParams({
   forceNearMe = false,
   locationFilter,
   specialtyFilter,
 }) {
-  const params: any = {};
-  if (locationFilter) {
-    if (locationFilter.id === NEAR_ME) {
-      params.location = {
-        lat: searchMapStore.state.geoLocation.latitude,
-        lon: searchMapStore.state.geoLocation.longitude,
-        distanceMeter: DISTANCE_METER.NEAR_ME
-      };
-    } else {
-      params.location = {
-        lat: Number(locationFilter.lat),
-        lon: Number(locationFilter.lng),
-        distanceMeter: DISTANCE_METER.DEFAULT
-      };
-    }
-  } else if (forceNearMe) {
+  let params: any = {};
+  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
       distanceMeter: DISTANCE_METER.NEAR_ME
     };
+  } else if (locationFilter) {
+    const { addressDetails, boundingbox } = locationFilter;
+    const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox)
+    params = {
+      location: {
+        lat: Number(locationFilter.lat),
+        lon: Number(locationFilter.lng),
+        distanceMeter: distanceMeter
+      },
+      ...extraParams // country, ...
+    }
   }
   if (specialtyFilter) {
     params.specialties = [specialtyFilter.id];
@@ -40,6 +74,7 @@ export function genSearchLocationParams({
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
   const { locationFilter, specialtyFilter } = searchMapStore.state;
+  const { countries } = configStore.state
 
   const params = genSearchLocationParams({
     forceNearMe,
@@ -49,6 +84,10 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
 
   if (!specialtyFilter) {
     params.criteria = searchMapStore.state.searchFields.name
+  }
+
+  if (!params.country && countries && countries.length !== 0) {
+    params.country = String(countries)
   }
 
   searchLocation(params);
@@ -64,7 +103,6 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
     const { activities } = await graphql.activities({
       first: 50,
       offset: 0,
-      county: "",
       locale: i18nStore.state.lang,
       ...variables,
     }, configStore.configGraphql)

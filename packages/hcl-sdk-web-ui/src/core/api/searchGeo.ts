@@ -7,12 +7,19 @@ export async function searchGeoMap({ id }) {
   searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] })
   const provider = new OpenStreetMapProvider();
 
-  const results = await provider.search({ query: id });
+  const results = await provider.search({ 
+    query: {
+      q: id,
+      addressdetails: 1
+    }
+  });
 
   const data = results.map(elm => ({
     name: elm.raw.display_name,
     lat: elm.raw.lat,
     lng: elm.raw.lon,
+    addressDetails: elm.raw.address,
+    boundingbox: elm.raw.boundingbox,
     type: "location"
   }))
 
