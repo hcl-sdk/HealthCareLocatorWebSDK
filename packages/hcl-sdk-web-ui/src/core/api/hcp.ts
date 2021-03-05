@@ -2,9 +2,8 @@ import { searchMapStore, historyStore, configStore, i18nStore } from '../stores'
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'hcl-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
-import { getHcpFullname, getMergeMainAndOtherActivities, getSpecialtiesText } from '../../utils/helper';
-import { NEAR_ME } from '../constants';
-
+import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } from '../../utils/helper';
+import { NEAR_ME, DISTANCE_METER } from '../constants';
 
 export function genSearchLocationParams({
   forceNearMe = false,
@@ -17,17 +16,20 @@ export function genSearchLocationParams({
       params.location = {
         lat: searchMapStore.state.geoLocation.latitude,
         lon: searchMapStore.state.geoLocation.longitude,
+        distanceMeter: DISTANCE_METER.NEAR_ME
       };
     } else {
       params.location = {
         lat: Number(locationFilter.lat),
         lon: Number(locationFilter.lng),
+        distanceMeter: DISTANCE_METER.DEFAULT
       };
     }
   } else if (forceNearMe) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
+      distanceMeter: DISTANCE_METER.NEAR_ME
     };
   }
   if (specialtyFilter) {
