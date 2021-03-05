@@ -4,9 +4,7 @@ import android.Manifest
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.viewmodel.ApolloViewModel
-import com.ekino.onekeysdk.extensions.isNotNullable
-import com.ekino.onekeysdk.extensions.isNullable
-import com.ekino.onekeysdk.extensions.requestPermission
+import com.ekino.onekeysdk.extensions.*
 import com.ekino.onekeysdk.fragments.map.FullMapFragment
 import com.ekino.onekeysdk.model.activity.ActivityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
@@ -29,10 +27,10 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
 
     fun requestPermissions(context: Fragment) {
         context.requestPermission(
-            { granted ->
-                permissionRequested.postValue(granted)
-            }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+                { granted ->
+                    permissionRequested.postValue(granted)
+                }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
         )
     }
 
@@ -40,19 +38,14 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         loading.postValue(true)
         query({
             val builder = GetActivitiesQuery.builder()
-                .locale(theme.getLocaleCode()).first(50).offset(0)
+                    .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty()) {
                 builder.specialties(specialities)
             } else {
                 if (criteria.isNotEmpty())
                     builder.criteria(criteria)
             }
-            if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
-                builder.location(
-                    GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).distanceMeter(5000.0).build()
-                )
-            }
+            builder.getQuery(place)
             builder.build()
         }, { response ->
             if (response.data?.activities().isNullable()) {
@@ -77,22 +70,18 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
     }
 
     fun getActivities(
-        criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
-        callback: (list: ArrayList<ActivityObject>) -> Unit
+            criteria: String, specialities: ArrayList<String>, place: OneKeyPlace?,
+            callback: (list: ArrayList<ActivityObject>) -> Unit
     ) {
         query({
             val builder = GetActivitiesQuery.builder()
-                .locale(theme.getLocaleCode()).first(50).offset(0)
+                    .locale(theme.getLocaleCode()).first(50).offset(0)
             if (specialities.isNotEmpty()) builder.specialties(specialities)
             else {
                 if (criteria.isNotEmpty()) builder.criteria(criteria)
             }
-            if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
-                builder.location(
-                    GeopointQuery.builder().lat(place!!.latitude.toDouble())
-                        .lon(place.longitude.toDouble()).distanceMeter(5000.0).build()
-                )
-            }
+
+            builder.getQuery(place)
             builder.build()
         }, { response ->
             if (response.data?.activities().isNullable()) {
@@ -119,26 +108,33 @@ class FullMapViewModel : ApolloViewModel<FullMapFragment>() {
         params["lon"] = place.longitude
         params["format"] = "json"
         disposable?.add(
-            executor.reverseGeoCoding(params).compose(compose())
-                .subscribe({ callback(it) }, { callback(place) })
+                executor.reverseGeoCoding(params).map {
+                    if (it.address != null) {
+                        if (it.address!!.road.isNotEmpty() || it.address!!.city.isNotEmpty()) {
+                            val box = it.getBox()
+                            it.distance = getDistanceFromBoundingBox(box[0], box[2], box[1], box[3])
+                        }
+                    }
+                    it
+                }.compose(compose()).subscribe({ callback(it) }, { callback(place) })
         )
     }
 
     fun sortActivities(
-        list: ArrayList<ActivityObject>, sorting: Int,
-        callback: (list: ArrayList<ActivityObject>) -> Unit
+            list: ArrayList<ActivityObject>, sorting: Int,
+            callback: (list: ArrayList<ActivityObject>) -> Unit
     ) {
         Flowable.just(list)
-            .map {
-                if (sorting == 0) return@map it
-                it.sortWith(Comparator { o1, o2 ->
-                    if (sorting == 1) o1.distance.compareTo(o2.distance)
-                    else
-                        (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
-                })
-                it
-            }
-            .compose(compose())
-            .subscribe({ callback(it) }, {})
+                .map {
+                    if (sorting == 0) return@map it
+                    it.sortWith(Comparator { o1, o2 ->
+                        if (sorting == 1) o1.distance.compareTo(o2.distance)
+                        else
+                            (o1.individual?.lastName ?: "").compareTo(o2.individual?.lastName ?: "")
+                    })
+                    it
+                }
+                .compose(compose())
+                .subscribe({ callback(it) }, {})
     }
 }

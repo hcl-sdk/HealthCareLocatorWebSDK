@@ -234,6 +234,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
+        builder.countries(arrayListOf("ca"))
         builder.env(BuildConfig.env)
         builder.showModificationForm(SampleApplication.sharedPreferences.getInt(Pref.modification, 0) == 0)
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))

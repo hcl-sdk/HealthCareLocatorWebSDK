@@ -34,29 +34,29 @@ import com.ekino.onekeysdk.viewmodel.map.NearMeViewModel
 import kotlinx.android.synthetic.main.fragment_full_map.*
 
 class OneKeyNearMeFragment :
-    AbsMapFragment<OneKeyNearMeFragment, NearMeViewModel>(R.layout.fragment_full_map),
-    View.OnClickListener {
+        AbsMapFragment<OneKeyNearMeFragment, NearMeViewModel>(R.layout.fragment_full_map),
+        View.OnClickListener {
     companion object {
         fun newInstance(
-            healthCareLocatorCustomObject: HealthCareLocatorCustomObject,
-            c: String,
-            s: HealthCareLocatorSpecialityObject?,
-            p: OneKeyPlace?,
-            listIds: ArrayList<String> = arrayListOf(),
-            cLocation: Location? = null
+                healthCareLocatorCustomObject: HealthCareLocatorCustomObject,
+                c: String,
+                s: HealthCareLocatorSpecialityObject?,
+                p: OneKeyPlace?,
+                listIds: ArrayList<String> = arrayListOf(),
+                cLocation: Location? = null
         ) =
-            OneKeyNearMeFragment().apply {
-                this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
-                speciality = s
-                criteria = c
-                specialities = listIds
-                place = p
-                currentLocation = cLocation
-                if (p?.placeId == "near_me") {
-                    activeScreen = 1
-                    isNearMe = true
+                OneKeyNearMeFragment().apply {
+                    this.healthCareLocatorCustomObject = healthCareLocatorCustomObject
+                    speciality = s
+                    criteria = c
+                    specialities = listIds
+                    place = p
+                    currentLocation = cLocation
+                    if (p?.placeId == "near_me") {
+                        activeScreen = 1
+                        isNearMe = true
+                    }
                 }
-            }
 
         private var navigateToProfile = false
         private var currentLocation: Location? = null
@@ -69,11 +69,11 @@ class OneKeyNearMeFragment :
     }
 
     private var healthCareLocatorCustomObject: HealthCareLocatorCustomObject =
-        HealthCareLocatorSDK.getInstance().getConfiguration()
+            HealthCareLocatorSDK.getInstance().getConfiguration()
     private val fragmentState: IFragmentState by lazy {
         FragmentState(
-            childFragmentManager,
-            R.id.resultContainer
+                childFragmentManager,
+                R.id.resultContainer
         )
     }
     private var resultFragments: ArrayList<IFragment> = arrayListOf()
@@ -117,10 +117,10 @@ class OneKeyNearMeFragment :
         newSearchWrapper.visibility = (!isSpeciality).getVisibility()
         healthCareLocatorCustomObject.apply {
             newSearchWrapper.setBackgroundWithCorner(
-                Color.WHITE,
-                colorCardBorder.getColor(),
-                12f,
-                3
+                    Color.WHITE,
+                    colorCardBorder.getColor(),
+                    12f,
+                    3
             )
             ivSearch.setRippleBackground(colorPrimary.getColor(), 15f)
             sortWrapper.setBackgroundWithCorner(Color.WHITE, colorCardBorder.getColor(), 50f, 3)
@@ -145,8 +145,8 @@ class OneKeyNearMeFragment :
                 }
                 if (this@OneKeyNearMeFragment.activities.isEmpty())
                     getActivities(
-                        context!!, criteria, if (speciality.isNotNullable())
-                            arrayListOf(speciality!!.id) else specialities, place
+                            context!!, criteria, if (speciality.isNotNullable())
+                        arrayListOf(speciality!!.id) else specialities, place
                     ) { location ->
                         currentLocation = location
                     }
@@ -178,8 +178,8 @@ class OneKeyNearMeFragment :
     private fun initTabs() {
         viewModel.sortActivities(ArrayList(activities), sorting) {
             resultFragments = arrayListOf(
-                OneKeyListResultFragment.newInstance(),
-                OneKeyMapResultFragment.newInstance()
+                    OneKeyListResultFragment.newInstance(),
+                    OneKeyMapResultFragment.newInstance()
             )
             fragmentState.apply {
                 enableAnim(false)
@@ -224,17 +224,17 @@ class OneKeyNearMeFragment :
             R.id.ivSort -> {
                 navigateToProfile = true
                 (activity as? AppCompatActivity)?.pushFragment(
-                    R.id.fragmentContainer,
-                    OneKeySortFragment.newInstance(healthCareLocatorCustomObject, sorting), true
+                        R.id.fragmentContainer,
+                        OneKeySortFragment.newInstance(healthCareLocatorCustomObject, sorting), true
                 )
             }
             R.id.newSearchWrapper -> {
                 (activity as? AppCompatActivity)?.pushFragment(
-                    R.id.fragmentContainer,
-                    SearchFragment.newInstance(
-                        healthCareLocatorCustomObject,
-                        true, currentLocation
-                    ), true
+                        R.id.fragmentContainer,
+                        SearchFragment.newInstance(
+                                healthCareLocatorCustomObject,
+                                true, currentLocation
+                        ), true
                 )
             }
         }
@@ -249,20 +249,20 @@ class OneKeyNearMeFragment :
         tvAddress.text = place?.displayName ?: ""
         mapViewMode.setRippleBackground(healthCareLocatorCustomObject.colorPrimary.getColor(), 50f)
         sortWrapper.setBackgroundWithCorner(
-            Color.WHITE,
-            healthCareLocatorCustomObject.colorCardBorder.getColor(),
-            50f,
-            3
+                Color.WHITE,
+                healthCareLocatorCustomObject.colorCardBorder.getColor(),
+                50f,
+                3
         )
         modeWrapper.setBackgroundWithCorner(
-            Color.WHITE,
-            healthCareLocatorCustomObject.colorCardBorder.getColor(),
-            50f,
-            3
+                Color.WHITE,
+                healthCareLocatorCustomObject.colorCardBorder.getColor(),
+                50f,
+                3
         )
         ivSort.setRippleCircleBackground(
-            healthCareLocatorCustomObject.colorSecondary.getColor(),
-            255
+                healthCareLocatorCustomObject.colorSecondary.getColor(),
+                255
         )
         ivSort.setIconFromDrawableId(healthCareLocatorCustomObject.iconSort, true, Color.WHITE)
         ivSearch.setIconFromDrawableId(healthCareLocatorCustomObject.searchIcon, true, Color.WHITE)
@@ -277,8 +277,8 @@ class OneKeyNearMeFragment :
         val result = "${activities.size}"
         tvResult.text = SpannableStringBuilder(result).apply {
             setSpan(
-                ForegroundColorSpan(healthCareLocatorCustomObject.colorPrimary.getColor()),
-                0, result.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                    ForegroundColorSpan(healthCareLocatorCustomObject.colorPrimary.getColor()),
+                    0, result.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
     }
@@ -288,8 +288,8 @@ class OneKeyNearMeFragment :
             listViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
                 it.setRippleCircleBackground(
-                    healthCareLocatorCustomObject.colorPrimary.getColor(),
-                    255
+                        healthCareLocatorCustomObject.colorPrimary.getColor(),
+                        255
                 )
                 setViewModeColor(listViewMode, color)
             })
@@ -302,8 +302,8 @@ class OneKeyNearMeFragment :
             mapViewMode.postDelay({
                 val color = context!!.getColor(R.color.white)
                 it.setRippleCircleBackground(
-                    healthCareLocatorCustomObject.colorPrimary.getColor(),
-                    255
+                        healthCareLocatorCustomObject.colorPrimary.getColor(),
+                        255
                 )
                 setViewModeColor(mapViewMode, color)
             })
@@ -319,8 +319,8 @@ class OneKeyNearMeFragment :
         navigateToProfile = true
         healthCareLocatorCustomObject.also {
             (activity as? AppCompatActivity)?.pushFragment(
-                R.id.fragmentContainer,
-                OneKeyProfileFragment.newInstance(it, null, obj.id), true
+                    R.id.fragmentContainer,
+                    OneKeyProfileFragment.newInstance(it, null, obj.id), true
             )
         }
     }
@@ -367,10 +367,12 @@ class OneKeyNearMeFragment :
         this.isRelaunch = isRelaunch
     }
 
-    override fun reverseGeoCoding(place: OneKeyPlace) {
+    override fun reverseGeoCoding(place: OneKeyPlace, distance: Double) {
         if (!isAdded) return
         viewModel.reverseGeoCoding(place) {
-            forceSearch(it)
+            if (distance > 0.0 && it.distance < distance)
+                it.distance = distance
+            forceSearch(it, distance)
         }
     }
 
@@ -379,25 +381,26 @@ class OneKeyNearMeFragment :
         this.isNearMe = state
     }
 
-    override fun forceSearch(place: OneKeyPlace) {
+    override fun forceSearch(place: OneKeyPlace, distance: Double) {
         if (!isAdded) return
         this.place = place
         tvAddress.text = place.displayName ?: ""
         viewModel.getActivities(context!!, criteria, if (speciality.isNotNullable())
             arrayListOf(speciality!!.id) else specialities, place, false,
-            { activities ->
-                this@OneKeyNearMeFragment.activities = activities
-                runOnUiThread(Runnable {
-                    with(childFragmentManager.fragments) {
-                        (firstOrNull() { it is OneKeyMapResultFragment } as? OneKeyMapResultFragment)?.updateActivities(
-                            activities
-                        )
-                        (firstOrNull() { it is OneKeyListResultFragment } as? OneKeyListResultFragment)?.updateActivities(
-                            activities
-                        )
-                    }
-                })
-            }) { location ->
+                { activities ->
+                    this@OneKeyNearMeFragment.activities = activities
+                    runOnUiThread(Runnable {
+                        setResult()
+                        with(childFragmentManager.fragments) {
+                            (firstOrNull() { it is OneKeyMapResultFragment } as? OneKeyMapResultFragment)?.updateActivities(
+                                    activities
+                            )
+                            (firstOrNull() { it is OneKeyListResultFragment } as? OneKeyListResultFragment)?.updateActivities(
+                                    activities
+                            )
+                        }
+                    })
+                }) { location ->
             currentLocation = location
         }
     }
@@ -411,10 +414,10 @@ class OneKeyNearMeFragment :
         noResult.setBackgroundColor(healthCareLocatorCustomObject.colorViewBackground.getColor())
         btnStartSearch.setRippleBackground(healthCareLocatorCustomObject.colorPrimary)
         noResultWrapper.setBackgroundWithCorner(
-            Color.WHITE,
-            healthCareLocatorCustomObject.colorCardBorder.getColor(),
-            15f,
-            3
+                Color.WHITE,
+                healthCareLocatorCustomObject.colorCardBorder.getColor(),
+                15f,
+                3
         )
         btnStartSearch.setOnClickListener(this)
     }

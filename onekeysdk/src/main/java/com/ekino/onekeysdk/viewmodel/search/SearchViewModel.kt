@@ -106,7 +106,7 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
                             if (key.isEmpty()) {
                                 places.postValue(arrayListOf())
                             } else {
-                                searchParameters["q"] = URLEncoder.encode(key, "UTF-8")
+                                searchParameters["q"] = key
                                 searchAddress(key)
                             }
                         }, {
@@ -122,6 +122,17 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
             searchDisposable?.clear()
             searchDisposable?.add(
                     executor.searchAddress(searchParameters).delay(300, TimeUnit.MILLISECONDS)
+                            .map {
+                                it.forEach { place ->
+                                    if (place.address != null) {
+                                        if (place.address!!.road.isNotEmpty() || place.address!!.city.isNotEmpty()) {
+                                            val box = place.getBox()
+                                            place.distance = getDistanceFromBoundingBox(box[0], box[2], box[1], box[3])
+                                        }
+                                    }
+                                }
+                                it
+                            }
                             .compose(compose()).subscribe({
                                 addressState.postValue(false)
                                 places.postValue(it)

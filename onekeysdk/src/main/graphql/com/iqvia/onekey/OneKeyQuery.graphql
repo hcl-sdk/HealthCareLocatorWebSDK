@@ -47,9 +47,9 @@ query getIndividualByName($criteria:String!, $locale:String, $first:Int!, $offse
 }
 
 query getActivities($locale:String, $first:Int!, $offset:Int!,
-    $criteria:String,$specialties:[String!], $location:GeopointQuery){
+    $criteria:String,$specialties:[String!], $location:GeopointQuery, $country:String){
     activities(locale: $locale, first: $first, offset:$offset,
-        criteria:$criteria, specialties:$specialties, location:$location, county:""){
+        criteria:$criteria, specialties:$specialties, location:$location, county:"", country:$country){
         distance
         activity{
             id

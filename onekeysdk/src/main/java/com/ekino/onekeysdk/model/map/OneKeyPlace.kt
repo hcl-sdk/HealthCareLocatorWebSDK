@@ -4,7 +4,10 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import com.ekino.onekeysdk.R
+import com.ekino.onekeysdk.extensions.isNotNullAndEmpty
+import com.ekino.onekeysdk.extensions.isNotNullable
 import com.google.gson.annotations.SerializedName
+import com.iqvia.onekey.type.GeopointQuery
 import org.osmdroid.util.GeoPoint
 
 class OneKeyPlace(@SerializedName("place_id") var placeId: String = "",
@@ -16,13 +19,15 @@ class OneKeyPlace(@SerializedName("place_id") var placeId: String = "",
                   @SerializedName("class") var className: String = "",
                   @SerializedName("type") var type: String = "",
                   @SerializedName("icon") var icon: String = "",
-                  @SerializedName("address") var address: OneKeyAddress? = null) : Parcelable {
+                  @SerializedName("address") var address: OneKeyAddress? = null,
+                  var distance: Double = 0.0,
+                  @SerializedName("boundingbox") var boundingBox: ArrayList<String> = arrayListOf()) : Parcelable {
 
     constructor(parcel: Parcel) : this(parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString() ?: "", parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString() ?: "", parcel.readString() ?: "",
-            parcel.readParcelable(OneKeyAddress::class.java.classLoader)) {
+            parcel.readParcelable(OneKeyAddress::class.java.classLoader), parcel.readDouble()) {
     }
 
     constructor(context: Context, lat: Double, lng: Double) : this("near_me", latitude = "$lat",
@@ -42,6 +47,7 @@ class OneKeyPlace(@SerializedName("place_id") var placeId: String = "",
             writeString(className)
             writeString(type)
             writeString(icon)
+            writeDouble(distance)
         }
     }
 
@@ -56,4 +62,17 @@ class OneKeyPlace(@SerializedName("place_id") var placeId: String = "",
             return arrayOfNulls(size)
         }
     }
+
+    fun getBox(): DoubleArray = doubleArrayOf(0.0, 0.0, 0.0, 0.0).apply {
+        boundingBox.forEachIndexed { index, position ->
+            if (index <= this.size - 1) {
+                this[index] = position.toDouble()
+            }
+        }
+    }
+
+    fun getDistanceMeter(): Double = if (address.isNotNullable() &&
+            (address!!.road.isNotNullAndEmpty() || address!!.city.isNotNullAndEmpty())) {
+        distance
+    } else 0.0
 }

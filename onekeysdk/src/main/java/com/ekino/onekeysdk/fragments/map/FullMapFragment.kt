@@ -322,14 +322,16 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
         this.isRelaunch = isRelaunch
     }
 
-    override fun reverseGeoCoding(place: OneKeyPlace) {
+    override fun reverseGeoCoding(place: OneKeyPlace, distance: Double) {
         if (!isAdded) return
         viewModel.reverseGeoCoding(place) {
-            forceSearch(it)
+            if (distance > 0.0 && it.distance < distance)
+                it.distance = distance
+            forceSearch(it, distance)
         }
     }
 
-    override fun forceSearch(place: OneKeyPlace) {
+    override fun forceSearch(place: OneKeyPlace, distance: Double) {
         if (!isAdded) return
         this.place = place
         tvAddress.text = place.displayName
@@ -337,6 +339,7 @@ class FullMapFragment : AbsMapFragment<FullMapFragment, FullMapViewModel>(R.layo
             arrayListOf(speciality!!.id) else specialities, place) { activities ->
             this@FullMapFragment.activities = activities
             runOnUiThread(Runnable {
+                setResult()
                 with(childFragmentManager.fragments) {
                     (firstOrNull() { it is OneKeyMapResultFragment } as? OneKeyMapResultFragment)?.updateActivities(activities)
                     (firstOrNull() { it is OneKeyListResultFragment } as? OneKeyListResultFragment)?.updateActivities(activities)

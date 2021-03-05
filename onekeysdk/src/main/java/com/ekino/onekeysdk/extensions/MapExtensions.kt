@@ -4,8 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
+import android.text.TextUtils
 import androidx.fragment.app.FragmentActivity
 import com.ekino.onekeysdk.model.OneKeyLocation
+import com.ekino.onekeysdk.model.map.OneKeyPlace
+import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
@@ -15,10 +18,9 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.iqvia.onekey.GetActivitiesQuery
+import com.iqvia.onekey.type.GeopointQuery
 import org.osmdroid.util.GeoPoint
 import kotlin.math.*
 
@@ -121,13 +123,13 @@ fun getDistanceFromLatLonInKm(flatitude: Double, flongitude: Double, dlatitude: 
 
 fun getReflection(latitude: Double, longitude: Double, distance: Double,
                   dlatitude: Double, dlongitude: Double,
-                  callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }){
+                  callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }) {
     val data = getReflection(latitude, longitude, distance, dlatitude, dlongitude)
     callback(data[0], data[1])
 }
 
 fun getReflection(latitude: Double, longitude: Double, distance: Double,
-                  dlatitude: Double, dlongitude: Double):Array<Double> {
+                  dlatitude: Double, dlongitude: Double): Array<Double> {
     val latR = Math.toRadians(latitude)
     val lonR = Math.toRadians(longitude)
     val dLatR = Math.toRadians(dlatitude)
@@ -153,3 +155,43 @@ fun getReflection(latitude: Double, longitude: Double, distance: Double,
 fun deg2rad(deg: Double): Double {
     return deg * (Math.PI / 180)
 }
+
+const val EARTH_RADIUS_IN_METERS = 6371007.177356707
+fun getDistanceFromBoundingBox(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
+    val latDiff = Math.toRadians(abs(lat2 - lat1))
+    val lngDiff = Math.toRadians(abs(lng2 - lng1))
+    val a = sin(latDiff / 2) * sin(latDiff / 2) +
+            cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
+            sin(lngDiff / 2) * sin(lngDiff / 2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return EARTH_RADIUS_IN_METERS * c
+}
+
+fun GetActivitiesQuery.Builder.getQuery(place: OneKeyPlace?): GetActivitiesQuery.Builder {
+    val geoBuilder = GeopointQuery.builder()
+    if (place.isNotNullable() && place!!.placeId.isNotEmpty() && place.placeId != "near_me") {
+        geoBuilder.lat(place.latitude.toDouble())
+                .lon(place.longitude.toDouble())
+        if (place.address.isNotNullable() && (place.address!!.road.isNotEmpty()
+                        || place.address!!.city.isNotEmpty())) {
+            val distanceMeter = place.getDistanceMeter()
+            geoBuilder.distanceMeter(distanceMeter)
+        }else if(place.address.isNotNullable() && place.address!!.countryCode.isNotEmpty()) {
+            this@getQuery.country(place.address!!.countryCode)
+        }
+    }else if(place.isNotNullable() && place!!.placeId.isNotEmpty()){
+        geoBuilder.lat(place.latitude.toDouble())
+                .lon(place.longitude.toDouble())
+    }else{
+        val countries = HealthCareLocatorSDK.getInstance().getConfiguration().countries
+        if (countries.isNotEmpty()){
+            this.country(TextUtils.join(",", countries))
+        }
+    }
+    return this.location(geoBuilder.build())
+}
+//fun getDistanceFromBoundingBox(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
+//    val results = FloatArray(1)
+//    Location.distanceBetween(lat1, lng1, lat2, lng2, results)
+//    return results[0].toDouble()
+//}

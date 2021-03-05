@@ -15,7 +15,8 @@ class OneKeyAddress(
         @SerializedName("district") var district: String = "",
         @SerializedName("postcode") var postcode: String = "",
         @SerializedName("country") var country: String = "",
-        @SerializedName("country_code") var countryCode: String = ""
+        @SerializedName("country_code") var countryCode: String = "",
+        @SerializedName("city") var city: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
@@ -28,7 +29,7 @@ class OneKeyAddress(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
-            parcel.readString() ?: "") {
+            parcel.readString() ?: "", parcel.readString() ?: "") {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -44,6 +45,7 @@ class OneKeyAddress(
             writeString(postcode)
             writeString(country)
             writeString(countryCode)
+            writeString(city)
         }
     }
 

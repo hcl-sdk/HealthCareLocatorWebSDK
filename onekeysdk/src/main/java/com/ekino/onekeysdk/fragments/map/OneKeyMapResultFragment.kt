@@ -92,16 +92,16 @@ class OneKeyMapResultFragment : IFragment(), View.OnClickListener, MapListener {
                 getRunningMapFragment()?.moveToCurrentLocation() { lat, lng ->
                     getAbsFragment()?.also {
                         it.setNearMeState(true)
-                        it.forceSearch(OneKeyPlace(context!!, lat, lng))
+                        it.forceSearch(OneKeyPlace(context!!, lat, lng), -1.0)
                     }
                 }
             }
             R.id.btnRelaunch -> {
                 animateRelaunch(true)
-                getRunningMapFragment()?.getCenter() { lat, lng ->
+                getRunningMapFragment()?.getCenter() { lat, lng, distance ->
                     getAbsFragment()?.also {
                         it.setNearMeState(false)
-                        it.reverseGeoCoding(OneKeyPlace(context!!, lat, lng))
+                        it.reverseGeoCoding(OneKeyPlace(context!!, lat, lng), distance)
                     }
                 }
             }
