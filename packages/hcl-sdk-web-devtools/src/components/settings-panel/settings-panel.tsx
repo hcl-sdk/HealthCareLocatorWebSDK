@@ -182,6 +182,8 @@ export class SettingsPanel {
         }
       } else if (fieldName === 'showSuggestModification') {
         value = (evt.target as any).checked as boolean;
+      } else if (fieldName === 'countries') {
+        value = (evt.target as any).value.trim().split(',');
       }
       this.fields = {
         ...this.fields,
@@ -500,6 +502,10 @@ export class SettingsPanel {
         <div class="row">
           <label>App URL</label>
           <input name="appURL" type="text" value={this.fields.appURL} onChange={this.handleChange('appURL')} />
+        </div>
+        <div class="row">
+          <label>Countries</label>
+          <input name="countries" type="text" value={this.fields.countries} onChange={this.handleChange('countries')} placeholder="fr,en,..." />
         </div>
         <div class="row">
           <label>Show HCP Suggest Modification</label>
