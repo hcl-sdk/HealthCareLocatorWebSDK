@@ -17,7 +17,7 @@ import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageU
 
 const defaults = {
   apiKey: '',
-  i18nBundlesPath: '/i18n',
+  i18nBundlesPath: process.env.DEFAULT_I18N_BUNDLE_PATH,
 };
 @Component({
   tag: 'hcl-sdk',
