@@ -4,7 +4,7 @@ trigger:
   branches:
    include:
    - release/*
-  tags: 
+  tags:
    include:
    - v*
 
@@ -22,27 +22,27 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: BuildNumberGenerator  
+  - stage: BuildNumberGenerator
     displayName: Build Version Tag
     jobs:
     - job: GenerateReleaseVersionTag
       condition: startsWith(variables['build.sourceBranch'], 'refs/heads/release/')
-      variables: 
+      variables:
         revision: $[counter(variables['build.sourcebranchname'], 0)]
       steps:
       - bash: echo '##vso[build.updatebuildnumber]r$(build.sourcebranchname)-$(revision)'
 
     - job: GenerateMasterVersionTag
       condition: startsWith(variables['build.sourceBranch'], 'refs/tags/')
-      variables: 
+      variables:
         revision: $[counter(variables['build.sourceBranch'], 0)]
       steps:
       - bash: echo '##vso[build.updatebuildnumber]$(build.sourcebranchname)-$(revision)'
 
   - stage: BuildSteps
     jobs:
-    - job: Build 
-      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/release/'), startsWith(variables['build.sourceBranch'], 'refs/tags/')) 
+    - job: Build
+      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/release/'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
       steps:
 
       - checkout: self
@@ -60,13 +60,6 @@ stages:
           PathToFile: 'examples/web/cdn/index.html'
           RegEx: '<a href="/search'
           ValueToReplace: '<a href="./sample/search'
-          Global: true
-
-      - task: RegExMatchReplace@2
-        inputs:
-          PathToFile: 'examples/web/cdn/search.html'
-          RegEx: '<a href="./'
-          ValueToReplace: '<a href="./sample/"'
           Global: true
 
       - task: RegExMatchReplace@2
@@ -91,7 +84,7 @@ stages:
           Dockerfile: 'devops/Dockerfile.app'
           tags: $(build.buildnumber)
           buildContext: '.'
-      
+
       - task: PublishPipelineArtifact@1
         inputs:
           artifactName: 'manifests'
