@@ -199,7 +199,7 @@ class OneKeyHomeFullFragment : AppFragment<OneKeyHomeFullFragment,
             if (lastSearchAdapter.getData().isEmpty())
                 lastSearchWrapper.visibility = View.GONE
             else {
-                lastSearchAdapter.setData(list.take(if (consultedTag == 0) 3 else 10).toArrayList())
+                lastSearchAdapter.setData(list.take(if (searchTag == 0) 3 else 10).toArrayList())
             }
         }
         lastSearchAdapter.onItemClickedListener = { obj ->
