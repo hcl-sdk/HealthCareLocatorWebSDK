@@ -4,6 +4,7 @@ import StoreProvider from "./StoreProvider";
 export interface SpecialtyItem {
   name: string;
   distance?: string;
+  distanceNumber?: number;
   specialties?: string;
   title?: string;
   address?: string;

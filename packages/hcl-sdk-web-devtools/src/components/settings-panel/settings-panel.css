@@ -202,6 +202,7 @@ select {
   font-family: inherit;
   border-radius: 3px;
   border: none;
+  cursor: pointer;
 }
 
 .var-buttons {
