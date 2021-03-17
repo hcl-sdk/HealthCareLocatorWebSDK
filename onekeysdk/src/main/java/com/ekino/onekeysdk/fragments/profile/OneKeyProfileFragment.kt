@@ -134,7 +134,7 @@ class OneKeyProfileFragment :
             mapFragment =
                     MapFragment.newInstance(
                             healthCareLocatorCustomObject,
-                            arrayListOf(activityDetail),
+                            arrayListOf(),
                             2f
                     )
         val fm = this@OneKeyProfileFragment.childFragmentManager
