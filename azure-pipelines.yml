@@ -8,9 +8,9 @@ trigger:
   - main
 
 variables:
-  ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
+  ${{ if eq(variables['build.SourceBranchName'], 'release/1.0.0') }}:
     buildVariant: 'assembleUatDebug'
-  ${{ if ne(variables['build.SourceBranchName'], 'develop') }}:
+  ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
     buildVariant: 'assembleDevDebug'
 
 pool:
