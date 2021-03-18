@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { id } from 'date-fns/locale';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import { searchMapStore } from '../stores';
+import { searchMapStore, configStore } from '../stores';
 
 export async function searchGeoMap({ id }) {
   searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] })
@@ -10,7 +10,8 @@ export async function searchGeoMap({ id }) {
   const results = await provider.search({ 
     query: {
       q: id,
-      addressdetails: 1
+      addressdetails: 1,
+      countrycodes: configStore.state.countries.join(',')
     }
   });
 
