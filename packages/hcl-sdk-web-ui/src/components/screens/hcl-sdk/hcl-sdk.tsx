@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { NEAR_ME_ITEM } from '../../../core/constants';
+import { COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -75,7 +75,16 @@ export class HclSDK {
 
     this.loadCurrentPosition();
 
-    configStore.setState(merge({}, defaults, config));
+    const initConfig = merge({}, defaults, config)
+    initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
+    initConfig.countries = initConfig.countries.filter(countryCode => {
+      if (COUNTRY_CODES.includes((countryCode).toUpperCase())) {
+        return true;
+      }
+      console.error(`Country code [${countryCode}] invalid!`)
+      return false;
+    })
+    configStore.setState(initConfig);
 
     const closestElement = this.el.closest('[lang]') as HTMLElement;
     const lang = closestElement ? closestElement.lang : i18nStore.state.lang;
