@@ -342,7 +342,7 @@ export class HclSdkSearchResult {
                           {...elm}
                           key={elm.id}
                           onClick={() => this.onItemCardClick(elm)}
-                          showDistance={!!selectedAddressName}
+                          showDistance={elm.distanceNumber > 0}
                         />
                       ))}
                       {loadingActivities && (

@@ -118,6 +118,7 @@ export class SettingsPanel {
   @State() isColorsExpanded: boolean = false;
   @State() isIconsExpanded: boolean = false;
   @State() colorPickerField: null | string = null;
+  @State() isSavedMainSettings: boolean = true;
 
   @Listen('jeepColorpickerGetColor')
   onColorHandler(event: CustomEvent) {
@@ -146,6 +147,19 @@ export class SettingsPanel {
       this.setCustomTheme();
     }
     this.ready.emit();
+  }
+
+  componentDidLoad() {
+    window.addEventListener("beforeunload", (e) => {
+      if (this.isSavedMainSettings) {
+          return undefined;
+      }
+
+      var confirmationMessage = 'Changes you made may not be saved.';
+
+      (e || window.event).returnValue = confirmationMessage;
+      return confirmationMessage;
+    });
   }
 
   updateLanguage = () => {
@@ -189,7 +203,7 @@ export class SettingsPanel {
         ...this.fields,
         [fieldName]: value,
       };
-      storeSettings(this.fields);
+      this.isSavedMainSettings = false;
       this.updateLanguage();
     };
   }
@@ -452,7 +466,7 @@ export class SettingsPanel {
         </div>
         <div class="row">
           <label>API Key</label>
-          <input name="api-key" type="text" value={this.fields.apiKey} onChange={this.handleChange('apiKey')} />
+          <input name="api-key" type="text" value={this.fields.apiKey} onInput={this.handleChange('apiKey')} />
         </div>
         <div class="row">
           <label>
@@ -497,15 +511,15 @@ export class SettingsPanel {
         </div>
         <div class="row">
           <label>App Name</label>
-          <input name="appName" type="text" value={this.fields.appName} onChange={this.handleChange('appName')} />
+          <input name="appName" type="text" value={this.fields.appName} onInput={this.handleChange('appName')} />
         </div>
         <div class="row">
           <label>App URL</label>
-          <input name="appURL" type="text" value={this.fields.appURL} onChange={this.handleChange('appURL')} />
+          <input name="appURL" type="text" value={this.fields.appURL} onInput={this.handleChange('appURL')} />
         </div>
         <div class="row">
           <label>Countries</label>
-          <input name="countries" type="text" value={this.fields.countries} onChange={this.handleChange('countries')} placeholder="fr,en,..." />
+          <input name="countries" type="text" value={this.fields.countries} onInput={this.handleChange('countries')} placeholder="fr,en,..." />
         </div>
         <div class="row">
           <label>Show HCP Suggest Modification</label>
@@ -514,6 +528,15 @@ export class SettingsPanel {
             <div class="hcl-switch-btn__slider"></div>
           </div>
         </div>
+        {
+          !this.isSavedMainSettings && (
+            <button class="btn-full save-theme" onClick={() => {
+              this.isSavedMainSettings = true;
+              storeSettings(this.fields);
+              location.reload();
+            }}>Apply</button>
+          )
+        }
       </section>
     );
   }

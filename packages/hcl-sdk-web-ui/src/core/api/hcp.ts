@@ -109,6 +109,7 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
   
     const data = (activities || []).map((item) => ({
       distance: `${item.distance}m`,
+      distanceNumber: item.distance,
       name: getHcpFullname(item.activity.individual),
       lastName: item.activity.individual.lastName,
       professionalType: item.activity.individual.professionalType.label,
