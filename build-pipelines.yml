@@ -1,0 +1,76 @@
+# Android
+
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+trigger:
+  - main
+
+variables:
+  ${{ if eq(variables['build.SourceBranchName'], 'release/1.0.0') }}:
+    buildVariant: 'assembleUatDebug'
+  ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
+    buildVariant: 'assembleDevDebug'
+
+pool:
+  vmImage: 'macos-latest'
+
+steps:
+  - script: |
+      echo "======================================"
+      echo ${{variables['build.SourceBranchName']}}
+      echo ${{variables.buildVariant}}
+      echo "======================================"
+
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: ${{variables.buildVariant}}
+
+  - task: AndroidSigning@3
+    inputs:
+      apkFiles: '**/*.apk'
+      apksignerKeystoreFile: 'android_keystore'
+      apksignerKeystorePassword: '$(keystorepassword)'
+      apksignerKeystoreAlias: 'upload'
+      apksignerKeyPassword: '$(keypassword)'
+      zipalign: false
+
+  - task: CopyFiles@2
+    inputs:
+      contents: '**/*.apk'
+      targetFolder: '$(build.artifactStagingDirectory)'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+
+
+  - ${{ if eq(variables.buildVariant, 'assembleDevDebug') }}:
+      - task: AppCenterDistribute@3
+        inputs:
+          serverEndpoint: 'HCL_Dev'
+          appSlug: 'contact-c08l/OneKeySample-Android'
+          appFile: '**/*.apk'
+          releaseNotesOption: 'input'
+          releaseNotesInput: 'New version'
+          isMandatory: true
+          destinationType: 'groups'
+          distributionGroupId: '2dfa22b3-cdd0-41d5-bfaf-a6e7d32c922d'
+          isSilent: true
+
+  - ${{ if eq(variables.buildVariant, 'assembleUatDebug') }}:
+      - task: AppCenterDistribute@3
+        inputs:
+          serverEndpoint: 'AppCenter_HCLApp'
+          appSlug: 'EValentin-fr.imshealth.com/HCLApp'
+          appFile: '**/*.apk'
+          releaseNotesOption: 'input'
+          releaseNotesInput: 'New version'
+          destinationType: 'groups'
