@@ -3,6 +3,8 @@ package com.ekino.onekeysdk
 import com.ekino.onekeysdk.extensions.getDistanceFromBoundingBox
 import com.ekino.onekeysdk.extensions.getDistanceFromLatLonInKm
 import com.ekino.onekeysdk.extensions.getReflection
+import com.ekino.onekeysdk.service.location.getValidCountryCodes
+import com.ekino.onekeysdk.service.location.isValidCountryCode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -40,5 +42,10 @@ class LocationTest {
                 boundingBox[3]
             )}"
         )
+    }
+
+    @Test
+    fun checkCountryCode(){
+        println("checkCountryCode: ${"Kr ".getValidCountryCodes()}")
     }
 }
