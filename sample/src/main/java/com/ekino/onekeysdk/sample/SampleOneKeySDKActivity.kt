@@ -14,6 +14,7 @@ import com.ekino.onekeysdk.sample.model.ThemeObject
 import com.ekino.onekeysdk.sample.utils.Pref
 import com.ekino.onekeysdk.sample.utils.getFonts
 import com.ekino.onekeysdk.sample.utils.getThemes
+import com.ekino.onekeysdk.service.location.getCountryCodes
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.KeyboardUtils
 import com.ekino.sample.onekeysdk.BuildConfig
@@ -234,7 +235,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
-        builder.countries(arrayListOf("ca"))
+        val countryCodeString =
+                SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""
+        builder.countries(countryCodeString.getCountryCodes())
         builder.env(BuildConfig.env)
         builder.showModificationForm(SampleApplication.sharedPreferences.getInt(Pref.modification, 0) == 0)
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))

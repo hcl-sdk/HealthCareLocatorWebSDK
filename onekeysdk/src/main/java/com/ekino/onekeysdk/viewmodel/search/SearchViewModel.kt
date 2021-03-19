@@ -1,6 +1,7 @@
 package com.ekino.onekeysdk.viewmodel.search
 
 import android.Manifest
+import android.text.TextUtils
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import base.fragments.IFragment
@@ -11,6 +12,7 @@ import com.ekino.onekeysdk.model.HealthCareLocatorSpecialityObject
 import com.ekino.onekeysdk.model.map.OneKeyPlace
 import com.ekino.onekeysdk.service.location.LocationAPI
 import com.ekino.onekeysdk.service.location.OneKeyMapService
+import com.ekino.onekeysdk.service.location.getValidCountryCodes
 import com.ekino.onekeysdk.state.HealthCareLocatorSDK
 import com.ekino.onekeysdk.utils.OneKeyLog
 import com.google.android.libraries.places.api.Places
@@ -22,7 +24,6 @@ import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.disposables.CompositeDisposable
-import java.net.URLEncoder
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -76,6 +77,8 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
             put("accept-language", Locale.getDefault().language)
             put("addressdetails", "1")
             put("limit", "10")
+            put("countrycodes", TextUtils.join(",", HealthCareLocatorSDK.getInstance()
+                    .getConfiguration().countries).getValidCountryCodes())
         }
     }
 

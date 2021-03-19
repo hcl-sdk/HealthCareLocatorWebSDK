@@ -45,6 +45,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
         btnBack.setOnClickListener { activity?.onBackPressed() }
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         edtAPIKey.setText(apiKey)
+        edtCountryCode.setText(SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: "")
 
         val selectedTheme = (SampleApplication.sharedPreferences.getString(
             Pref.theme,
@@ -145,6 +146,7 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
                 if (mapGroup.checkedRadioButtonId == rBtnOpenStreetMap.id) 0 else 1
             )
             putInt(Pref.language, languageSpinner.selectedItemPosition)
+            putString(Pref.countryCodes, edtCountryCode.text.toString())
         }
         super.onPause()
     }
@@ -215,10 +217,12 @@ class SettingFragment : IFragment(), SpinnerInteractionListener.OnSpinnerItemSel
             putString(Pref.fontCardTitle, "")
             putString(Pref.fontModalTitle, "")
             putString(Pref.fontSortCriteria, "")
+            putString(Pref.countryCodes, "")
         }
         themeSpinner.setSelection(0)
         languageSpinner.setSelection(0)
         rBtnModificationEnabled.isChecked = true
         edtAPIKey.setText("")
+        edtCountryCode.setText("")
     }
 }
