@@ -86,7 +86,7 @@ stages:
       - task: PublishPipelineArtifact@1
         inputs:
           artifactName: 'hcl-sdk-devtools'
-          path: 'packages/hcl-sdk-web-devtools/dist'
+          path: 'packages/hcl-sdk-web-devtools/dist/devtools'
 
       - task: PublishPipelineArtifact@1
         inputs:
