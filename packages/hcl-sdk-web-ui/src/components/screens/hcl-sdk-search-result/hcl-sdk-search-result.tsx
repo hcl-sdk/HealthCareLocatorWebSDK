@@ -136,20 +136,22 @@ export class HclSdkSearchResult {
     try {
       this.isLoadingRelaunch = true;
       const result = await getAddressFromGeo(this.newDragLocation.lat, this.newDragLocation.lng);
-      
+
       if (result) {
         searchMapStore.setSearchFieldValue('address', result.shortDisplayName);
         const params = genSearchLocationParams({
           locationFilter: {
             lat: this.newDragLocation.lat,
             lng: this.newDragLocation.lng,
+            boundingbox: result.boundingbox,
+            addressDetails: result.addressDetails
           },
           specialtyFilter: searchMapStore.state.specialtyFilter
         })
         await searchLocation(params, 'idle');
       }
     } catch(err) {
-
+      console.error(err);
     }
     
     this.isLoadingRelaunch = false;

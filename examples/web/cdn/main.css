@@ -161,6 +161,9 @@ body {
   .sidebar .sidenav-settings {
     display: none;
   }
+  body.menu-opened {
+    overflow: hidden;
+  }
   .menu-opened .sidebar {
     bottom: 0;
   }
