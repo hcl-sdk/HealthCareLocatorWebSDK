@@ -7,6 +7,12 @@ import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 
 function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
+  if (!addressDetails) {
+    return {
+      distanceMeter: DISTANCE_METER.DEFAULT
+    }
+  }
+
   if (addressDetails.road) {
     // Precise Address
     return {

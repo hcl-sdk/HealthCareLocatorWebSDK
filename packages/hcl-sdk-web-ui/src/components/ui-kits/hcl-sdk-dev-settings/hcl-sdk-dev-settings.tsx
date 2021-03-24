@@ -23,6 +23,7 @@ const optionSets = [
   {
     key: 'lang',
     label: 'Language',
+    type: 'select',
     options: [
       { label: 'English', value: 'en' },
       { label: 'French', value: 'fr_CA' },
@@ -31,12 +32,18 @@ const optionSets = [
   {
     key: 'screenLayout',
     label: 'Screen Layout',
+    type: 'select',
     options: [
       { label: 'Desktop', value: 'desktop' },
       { label: 'Mobile', value: 'mobile' },
       { label: 'Tablet', value: 'tablet' },
     ],
   },
+  {
+    key: 'apiKey',
+    label: 'API Key',
+    type: 'text'
+  }
 ];
 
 @Component({
@@ -78,13 +85,25 @@ export class HclSDKViewport {
     return (
       <div class="setting">
         <label>{setting.label}</label>
-        <select onChange={e => this.changeSetting(setting.key, (e.target as any).value)}>
-          {setting.options.map(option => (
-            <option value={option.value} selected={this.settings[setting.key] === option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        {
+          setting.type === 'select' && (
+            <select onChange={e => this.changeSetting(setting.key, (e.target as any).value)}>
+              {setting.options.map(option => (
+                <option value={option.value} selected={this.settings[setting.key] === option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          )
+        }
+        {
+          setting.type === 'text' && (
+            <input 
+              value={this.settings[setting.key]}
+              onChange={e => this.changeSetting(setting.key, (e.target as any).value)} 
+            />
+          )
+        }
       </div>
     );
   }

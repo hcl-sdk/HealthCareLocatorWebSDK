@@ -463,6 +463,15 @@ export class SettingsPanel {
             <i class="icono-arrow1-right"></i>
           </button>
           <h2>Settings</h2>
+          {
+            !this.isSavedMainSettings && (
+              <button class="btn-full save-theme" onClick={() => {
+                this.isSavedMainSettings = true;
+                storeSettings(this.fields);
+                location.reload();
+              }}>Apply</button>
+            )
+          }
         </div>
         <div class="row">
           <label>API Key</label>
@@ -528,15 +537,6 @@ export class SettingsPanel {
             <div class="hcl-switch-btn__slider"></div>
           </div>
         </div>
-        {
-          !this.isSavedMainSettings && (
-            <button class="btn-full save-theme" onClick={() => {
-              this.isSavedMainSettings = true;
-              storeSettings(this.fields);
-              location.reload();
-            }}>Apply</button>
-          )
-        }
       </section>
     );
   }
