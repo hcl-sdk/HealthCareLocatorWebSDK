@@ -60,10 +60,6 @@
       display: flex;
       flex: 1;
   
-      .error {
-        border: 1px solid red;
-      }
-  
       &--content {
         flex: 1;
         margin-right: 8px;
@@ -84,6 +80,16 @@
     &__dropdown {
       padding: 0 15px;
       background-color: white;
+    }
+
+    .hclsdk-open-address .error {
+      border-color: var(--hcl-color-grey_dark);
+    }
+  }
+
+  .hclsdk-error {
+    input {
+      border: 1px solid red;
     }
   }
   
