@@ -9,6 +9,7 @@ import { HistorySearchItem } from '../../../core/stores/HistoryStore';
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { t } from '../../../utils/i18n';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
+import cls from 'classnames';
 
 @Component({
   tag: 'hcl-sdk-search',
@@ -31,6 +32,10 @@ export class HclSdkSearch {
     name: null,
     address: null,
   };
+  fieldsValid = {
+    name: true,
+    address: true,
+  }
 
   componentWillLoad() {
     this.wrapperEl = this.el.closest('.wrapper');
@@ -62,20 +67,23 @@ export class HclSdkSearch {
     e.preventDefault();
 
     let checkValidName: boolean;
-    const { name } = e.target;
+    let checkValidAddress: boolean;
+    const { name, address } = e.target;
     const isBasicNearMe = this.checkIsBasicNearMe();
 
     if (isBasicNearMe) {
       checkValidName = true;
+      checkValidAddress = true;
       this.resetErrorElmUI('both');
       configStore.setState({
         modeView: ModeViewType.MAP
       })
     } else {
       checkValidName = this.checkValidElm(name)
+      checkValidAddress = this.checkValidElm(address);
     }
 
-    if (!checkValidName) {
+    if (!checkValidName || !checkValidAddress) {
       return;
     }
 
@@ -100,25 +108,38 @@ export class HclSdkSearch {
   };
 
   checkValidElm = elm => {
-    if (elm && !elm.value) {
-      elm.classList.add('error');
-      return false;
-    } else {
-      elm.classList.remove('error');
-      return true;
+    if (!elm) {
+      return;
     }
+    let isValid = this.fieldsValid[elm.name];
+  
+    switch (elm.name) {
+      case 'name':
+        isValid = Boolean(elm.value);
+        break;
+      case 'address':
+        isValid = !elm.value || Boolean(elm.value && searchMapStore.state.locationFilter);
+        break;
+    }
+    
+    this.fieldsValid = {
+      ...this.fieldsValid,
+      [elm.name]: isValid
+    }
+    return isValid;
   };
 
   resetErrorElmUI = (type: 'name' | 'address' | 'both') => {
-    const inputName = this.fields.name.querySelector('.hcl-sdk-input');
-    const inputAddress = this.fields.address.querySelector('.hcl-sdk-input');
     if (type === 'both') {
-      inputName.classList.remove('error');
-      inputAddress.classList.remove('error');
-    } else if (type === 'name') {
-      inputName.classList.remove('error');
-    } else if (type === 'address') {
-      inputAddress.classList.remove('error');
+      this.fieldsValid = {
+        name: true,
+        address: true
+      }
+    } else {
+      this.fieldsValid = {
+        ...this.fieldsValid,
+        [type]: true
+      }   
     }
   }
 
@@ -341,6 +362,9 @@ export class HclSdkSearch {
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
                       readOnly={!!searchMapStore.state.specialtyFilter}
+                      class={cls({
+                        'hclsdk-error': !this.fieldsValid.name
+                      })}
                     >
                       {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
                     </hcl-sdk-input>
@@ -358,6 +382,10 @@ export class HclSdkSearch {
                       onPostfixClick={() => this.resetValue('address', true)}
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
+                      class={cls({
+                        'hclsdk-error': !this.fieldsValid.address,
+                        'hclsdk-open-address': this.currentSelectedInput === 'address'
+                      })}
                     >
                       {!isSmallView && this.renderAutocompleteField('address', addressAutocompletionData)}
                     </hcl-sdk-input>
