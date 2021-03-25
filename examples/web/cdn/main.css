@@ -122,7 +122,7 @@ body {
   text-decoration: none;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   body {
     padding-top: 40px;
   }
