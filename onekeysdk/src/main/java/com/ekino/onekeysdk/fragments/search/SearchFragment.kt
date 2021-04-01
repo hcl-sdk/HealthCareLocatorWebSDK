@@ -200,6 +200,11 @@ class SearchFragment : AppFragment<SearchFragment, SearchViewModel>(R.layout.fra
                     )
                     return
                 }
+                if (selectedPlace == null && selectedPlace?.placeId.isNullOrEmpty() && edtWhere.text.toString().isNotEmpty()) {
+                    setError(addressWrapper,
+                            ContextCompat.getColor(context!!, R.color.colorOneKeyRed))
+                    return
+                }
                 setFocusable(false)
                 healthCareLocatorCustomObject?.also {
                     onItemClicked = true
