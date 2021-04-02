@@ -1,4 +1,5 @@
 import { i18nStore, configStore } from '../core/stores'
+import messagesEn from '../i18n/en_us.json';
 
 const mapFilenameByLang = {
   'en': 'en_us',
@@ -19,7 +20,7 @@ export async function getI18nLabels(lang: string) {
     const i18nLabels = await resp.json();
     i18nStore.setState({ labels: i18nLabels, lang });
   } catch (err) {
-    console.log('error loading i18n labels');
+    i18nStore.setState({ labels: messagesEn, lang: 'en' });
   }
 }
 
