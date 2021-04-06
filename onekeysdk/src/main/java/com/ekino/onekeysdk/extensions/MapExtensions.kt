@@ -29,16 +29,134 @@ const val mapZoomOutEvent = 1
 fun getDummyHCP(): ArrayList<OneKeyLocation> {
     return ArrayList<OneKeyLocation>(
     ).apply {
-        add(OneKeyLocation("0", "Dr. 1", "General practitioner", "184 Le Dai Hanh, W.15, D.11, HCMC", 10, 10.764329, 106.655959, "1 day ago"))
-        add(OneKeyLocation("1", "Dr. 2", "General practitioner", "182 Le Dai Hanh, W.15, D.11, HCMC", 100, 10.763676, 106.656367, "1 day ago", "Cabinet Médical Beaujon-Etoile", true))
-        add(OneKeyLocation("2", "Dr. 4", "General practitioner", "555, Lanh Binh Thang, W.12, D.11, HCMC", 500, 10.762842, 106.651708, "2 days ago"))
-        add(OneKeyLocation("3", "Dr. 3", "General practitioner", "01, Lu Gia, W.15, D.11, HCMC", 750, 10.771141, 106.653514, "3 days ago"))
-        add(OneKeyLocation("4", "Dr. Dao Duy Tu", "General practitioner", "Đào Duy Từ, Phường 7, Quận 10, Thành phố Hồ Chí Minh, Việt Nam", 750, 10.759533, 106.6602585, "3 days ago", "Cabinet Médical Beaujon-Etoile", true))
-        add(OneKeyLocation("5", "Dr. NCT", "General practitioner", "616, Nguyễn Chí Thanh, Phường 12, Quận 5, Thành phố Hồ Chí Minh, Việt Nam", 750, 10.7579726, 106.6585543, "3 days ago"))
-        add(OneKeyLocation("6", "Dr. CLX", "General practitioner", "Lý Thường Kiệt, Phường 7, Quận 5, Thành phố Hồ Chí Minh, Việt Nam", 750, 10.7619478, 106.6600624, "3 days ago", "Cabinet Médical Beaujon-Etoile", true))
-        add(OneKeyLocation("7", "Dr. 32", "General practitioner", "Đường 3/2, P14, Quận 10, Thành phố Hồ Chí Minh, Việt Nam", 750, 10.7642785, 106.6597811, "3 days ago", "Cabinet Médical Beaujon-Etoile", true))
-        add(OneKeyLocation("8", "Dr. VVStar", "General practitioner", "252/2 Lý Thường Kiệt, Phường 14, Quận 11, Thành phố Hồ Chí Minh, Việt Nam", 750, 10.7667392, 106.6579213, "3 days ago"))
-        add(OneKeyLocation("9", "Dr. TCH", "General practitioner", "249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Việt Nam", 750, 10.7699863, 106.6558073, "3 days ago"))
+        add(
+                OneKeyLocation(
+                        "0",
+                        "Dr. 1",
+                        "General practitioner",
+                        "184 Le Dai Hanh, W.15, D.11, HCMC",
+                        10,
+                        10.764329,
+                        106.655959,
+                        "1 day ago"
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "1",
+                        "Dr. 2",
+                        "General practitioner",
+                        "182 Le Dai Hanh, W.15, D.11, HCMC",
+                        100,
+                        10.763676,
+                        106.656367,
+                        "1 day ago",
+                        "Cabinet Médical Beaujon-Etoile",
+                        true
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "2",
+                        "Dr. 4",
+                        "General practitioner",
+                        "555, Lanh Binh Thang, W.12, D.11, HCMC",
+                        500,
+                        10.762842,
+                        106.651708,
+                        "2 days ago"
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "3",
+                        "Dr. 3",
+                        "General practitioner",
+                        "01, Lu Gia, W.15, D.11, HCMC",
+                        750,
+                        10.771141,
+                        106.653514,
+                        "3 days ago"
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "4",
+                        "Dr. Dao Duy Tu",
+                        "General practitioner",
+                        "Đào Duy Từ, Phường 7, Quận 10, Thành phố Hồ Chí Minh, Việt Nam",
+                        750,
+                        10.759533,
+                        106.6602585,
+                        "3 days ago",
+                        "Cabinet Médical Beaujon-Etoile",
+                        true
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "5",
+                        "Dr. NCT",
+                        "General practitioner",
+                        "616, Nguyễn Chí Thanh, Phường 12, Quận 5, Thành phố Hồ Chí Minh, Việt Nam",
+                        750,
+                        10.7579726,
+                        106.6585543,
+                        "3 days ago"
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "6",
+                        "Dr. CLX",
+                        "General practitioner",
+                        "Lý Thường Kiệt, Phường 7, Quận 5, Thành phố Hồ Chí Minh, Việt Nam",
+                        750,
+                        10.7619478,
+                        106.6600624,
+                        "3 days ago",
+                        "Cabinet Médical Beaujon-Etoile",
+                        true
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "7",
+                        "Dr. 32",
+                        "General practitioner",
+                        "Đường 3/2, P14, Quận 10, Thành phố Hồ Chí Minh, Việt Nam",
+                        750,
+                        10.7642785,
+                        106.6597811,
+                        "3 days ago",
+                        "Cabinet Médical Beaujon-Etoile",
+                        true
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "8",
+                        "Dr. VVStar",
+                        "General practitioner",
+                        "252/2 Lý Thường Kiệt, Phường 14, Quận 11, Thành phố Hồ Chí Minh, Việt Nam",
+                        750,
+                        10.7667392,
+                        106.6579213,
+                        "3 days ago"
+                )
+        )
+        add(
+                OneKeyLocation(
+                        "9",
+                        "Dr. TCH",
+                        "General practitioner",
+                        "249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Việt Nam",
+                        750,
+                        10.7699863,
+                        106.6558073,
+                        "3 days ago"
+                )
+        )
     }
 }
 
@@ -65,7 +183,10 @@ fun Location?.getCurrentLocation(newLocation: Location?): Location? {
 }
 
 
-fun FragmentActivity.isGooglePlayServiceAvailable(success: () -> Unit, error: (message: String) -> Unit) {
+fun FragmentActivity.isGooglePlayServiceAvailable(
+        success: () -> Unit,
+        error: (message: String) -> Unit
+) {
     when (val status = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)) {
         ConnectionResult.SUCCESS -> success()
         else -> {
@@ -75,7 +196,11 @@ fun FragmentActivity.isGooglePlayServiceAvailable(success: () -> Unit, error: (m
     }
 }
 
-fun Activity.requestGPS(requestCode: Int, success: () -> Unit = {}, error: (e: Exception) -> Unit = {}) {
+fun Activity.requestGPS(
+        requestCode: Int,
+        success: () -> Unit = {},
+        error: (e: Exception) -> Unit = {}
+) {
     val client = GoogleApiClient.Builder(this).addApi(LocationServices.API).build()
     val builder = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).run {
         LocationSettingsRequest.Builder().addLocationRequest(this).setAlwaysShow(true)
@@ -92,7 +217,10 @@ fun Activity.requestGPS(requestCode: Int, success: () -> Unit = {}, error: (e: E
             when (e.statusCode) {
                 LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
                     try {
-                        (e as? ResolvableApiException)?.startResolutionForResult(this@requestGPS, requestCode)
+                        (e as? ResolvableApiException)?.startResolutionForResult(
+                                this@requestGPS,
+                                requestCode
+                        )
                     } catch (ex: Exception) {
 
                     }
@@ -111,7 +239,12 @@ fun Context.isLocationServiceEnabled(): Boolean {
  * Calculate the coordinates.
  */
 const val earthRadius = 6378.1f
-fun getDistanceFromLatLonInKm(flatitude: Double, flongitude: Double, dlatitude: Double, dlongitude: Double): Double {
+fun getDistanceFromLatLonInKm(
+        flatitude: Double,
+        flongitude: Double,
+        dlatitude: Double,
+        dlongitude: Double
+): Double {
     var dLat = deg2rad(dlatitude - flatitude) // deg2rad below
     var dLon = deg2rad(dlongitude - flongitude)
     var a = sin(dLat / 2) * sin(dLat / 2) + cos(deg2rad(flatitude)) *
@@ -121,15 +254,19 @@ fun getDistanceFromLatLonInKm(flatitude: Double, flongitude: Double, dlatitude: 
     return d
 }
 
-fun getReflection(latitude: Double, longitude: Double, distance: Double,
-                  dlatitude: Double, dlongitude: Double,
-                  callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }) {
+fun getReflection(
+        latitude: Double, longitude: Double, distance: Double,
+        dlatitude: Double, dlongitude: Double,
+        callback: (lat: Double, lng: Double) -> Unit = { _, _ -> }
+) {
     val data = getReflection(latitude, longitude, distance, dlatitude, dlongitude)
     callback(data[0], data[1])
 }
 
-fun getReflection(latitude: Double, longitude: Double, distance: Double,
-                  dlatitude: Double, dlongitude: Double): Array<Double> {
+fun getReflection(
+        latitude: Double, longitude: Double, distance: Double,
+        dlatitude: Double, dlongitude: Double
+): Array<Double> {
     val latR = Math.toRadians(latitude)
     val lonR = Math.toRadians(longitude)
     val dLatR = Math.toRadians(dlatitude)
@@ -172,19 +309,24 @@ fun GetActivitiesQuery.Builder.getQuery(place: OneKeyPlace?): GetActivitiesQuery
     if (place.isNotNullable() && place!!.placeId.isNotEmpty() && place.placeId != "near_me") {
         geoBuilder.lat(place.latitude.toDouble())
                 .lon(place.longitude.toDouble())
-        if (place.address.isNotNullable() && (place.address!!.road.isNotEmpty()
+        if (place.address.isNotNullable() && place.address!!.houseNumber.isNotEmpty()) {
+            geoBuilder.distanceMeter(5000.0)
+        } else if (place.address.isNotNullable() && (place.address!!.road.isNotEmpty()
                         || place.address!!.city.isNotEmpty())) {
             val distanceMeter = place.getDistanceMeter()
             geoBuilder.distanceMeter(distanceMeter)
-        }else if(place.address.isNotNullable() && place.address!!.countryCode.isNotEmpty()) {
+        } else if (place.address.isNotNullable() && place.address!!.countryCode.isNotEmpty()) {
             this@getQuery.country(place.address!!.countryCode)
         }
-    }else if(place.isNotNullable() && place!!.placeId.isNotEmpty()){
+    } else if (place.isNotNullable() && place!!.placeId.isNotEmpty()) {
+        if (place.placeId == "near_me") {
+            geoBuilder.distanceMeter(2000.0)
+        }
         geoBuilder.lat(place.latitude.toDouble())
                 .lon(place.longitude.toDouble())
-    }else{
+    } else {
         val countries = HealthCareLocatorSDK.getInstance().getConfiguration().countries
-        if (countries.isNotEmpty()){
+        if (countries.isNotEmpty()) {
             this.country(TextUtils.join(",", countries))
         }
     }
