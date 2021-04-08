@@ -1,6 +1,8 @@
 import { Component, Host, h, State } from '@stencil/core';
 import cls from 'classnames';
 import { storageUtils, OKSDK_DEV_SETTINGS } from '../../../utils/storageUtils';
+import { getI18nLabels } from '../../../utils/i18n';
+import { configStore } from '../../../core/stores';
 
 interface DevSettings {
   [k: string]: any;
@@ -65,6 +67,9 @@ export class HclSDKViewport {
 
     if (this.settings.lang && document.documentElement.lang !== this.settings.lang) {
       document.documentElement.lang = this.settings.lang;
+      if (configStore.state.lang) {
+        getI18nLabels(this.settings.lang);
+      }
     }
   }
 
