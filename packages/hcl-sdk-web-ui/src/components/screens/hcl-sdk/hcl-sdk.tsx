@@ -88,18 +88,18 @@ export class HclSDK {
     configStore.setState(initConfig);
 
     const lang = (() => {
-      if (config.lang) {
-        return config.lang;
+      if (config.locale) {
+        return config.locale;
       }
 
       const closestElement = this.el.closest('[lang]') as HTMLElement;
       const _lang = closestElement ? closestElement.lang : i18nStore.state.lang
-      if (closestElement && !config.lang) {
+      if (closestElement) {
         this.observeChangeLang(closestElement);
       }
       return _lang;
     })();
-  
+
     await getI18nLabels(lang);
 
     applyDefaultTheme();

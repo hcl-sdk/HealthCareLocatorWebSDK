@@ -67,7 +67,7 @@ export class HclSDKViewport {
 
     if (this.settings.lang && document.documentElement.lang !== this.settings.lang) {
       document.documentElement.lang = this.settings.lang;
-      if (configStore.state.lang) {
+      if (configStore.state.locale) {
         getI18nLabels(this.settings.lang);
       }
     }
@@ -103,9 +103,9 @@ export class HclSDKViewport {
         }
         {
           setting.type === 'text' && (
-            <input 
+            <input
               value={this.settings[setting.key]}
-              onChange={e => this.changeSetting(setting.key, (e.target as any).value)} 
+              onChange={e => this.changeSetting(setting.key, (e.target as any).value)}
             />
           )
         }
