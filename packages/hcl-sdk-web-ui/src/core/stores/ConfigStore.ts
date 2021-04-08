@@ -22,6 +22,7 @@ export interface HclSDKConfigData {
   apiKey: string;
   appName?: string;
   appURL?: string;
+  lang?: string;
   countries?: string[];
   showSuggestModification?: boolean;
 }

@@ -14,6 +14,7 @@ import { GEOLOC } from '../../../core/constants';
 import { graphql } from 'hcl-sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
+import { getAddressFromGeo } from '../../../core/api/searchGeo';
 
 const defaults = {
   apiKey: '',
@@ -86,13 +87,19 @@ export class HclSDK {
     })
     configStore.setState(initConfig);
 
-    const closestElement = this.el.closest('[lang]') as HTMLElement;
-    const lang = closestElement ? closestElement.lang : i18nStore.state.lang;
+    const lang = (() => {
+      if (config.lang) {
+        return config.lang;
+      }
 
-    if (closestElement) {
-      this.observeChangeLang(closestElement);
-    }
-
+      const closestElement = this.el.closest('[lang]') as HTMLElement;
+      const _lang = closestElement ? closestElement.lang : i18nStore.state.lang
+      if (closestElement && !config.lang) {
+        this.observeChangeLang(closestElement);
+      }
+      return _lang;
+    })();
+  
     await getI18nLabels(lang);
 
     applyDefaultTheme();
@@ -155,7 +162,14 @@ export class HclSDK {
         const {
           coords, //: { longitude, latitude }
         } = data;
-
+        getAddressFromGeo(coords.latitude, coords.longitude)
+          .then(res => {
+            if (res?.address?.country_code) {
+              configStore.setState({
+                countries: [res.address.country_code]
+              })
+            }
+          });
         searchMapStore.setGeoLocation(coords);
       },
       this.retryFindGeoloc,
