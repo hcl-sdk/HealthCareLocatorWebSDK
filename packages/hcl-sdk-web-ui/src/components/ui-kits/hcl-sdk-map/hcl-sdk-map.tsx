@@ -224,7 +224,7 @@ export class HclSdkMap {
       const icon = L.divIcon({
           className: 'hclsdk-cluster-icon',
           html: [
-            `<div style="background-color:${markerColor};" class="hclsdk-cluster-icon__marker-pin"></div>`,
+            `<div style="background-color:${markerColor};" class="hclsdk-cluster-icon__marker-pin" title="${clusterNumber}"></div>`,
             `<span class="hclsdk-cluster-icon__number">${clusterNumber}</span>`
           ].join(''),
           iconSize: [30, 42],

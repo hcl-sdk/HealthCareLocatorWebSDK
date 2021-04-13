@@ -22,7 +22,7 @@ export function getContainerHeightWidthOffset() {
   };
 }
 
-export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical = false) {
+export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical = false, isCentered = false) {
   const { offsetWidth, offsetHeight } = getContainerHeightWidthOffset();
   let offsetSize = offsetWidth
   let offsetName = 'offsetWidth'
@@ -33,7 +33,7 @@ export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical 
     offsetName = 'offsetTop'
     const cardItemOffset = cardListItem?.children?.[1]?.children?.[selectedMarkerIdx]?.[offsetName] || 0
     const gap = offsetSize / 2;
-    itemNewOffset = cardItemOffset - (gap - 100)
+    itemNewOffset = isCentered ? cardItemOffset - (gap - 100) : cardItemOffset;
   } else {
     const cardItemOffset = cardListItem?.children?.[selectedMarkerIdx]?.[offsetName];
     const gap = (offsetSize - cardItemOffset) / 2;

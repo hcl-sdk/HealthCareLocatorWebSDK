@@ -225,21 +225,25 @@ export class HclSdkHCPFullCard {
                         </div>
                       </div>
 
-                      <div class="info-contact info-section-body__contact">
-                        {individualDetail.phone && (
-                          <div class="info-contact-item">
-                            <hcl-sdk-icon name="phone" color={getCssColor('--hcl-color-grey')} />
-                            <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
+                      {
+                        (individualDetail.phone || individualDetail.fax) && (
+                          <div class="info-contact info-section-body__contact">
+                            {individualDetail.phone && (
+                              <div class="info-contact-item">
+                                <hcl-sdk-icon name="phone" color={getCssColor('--hcl-color-grey')} />
+                                <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
+                              </div>
+                            )}
+    
+                            {individualDetail.fax && (
+                              <div class="info-contact-item">
+                                <hcl-sdk-icon name="printer" height={15} color={getCssColor('--hcl-color-grey')} />
+                                <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
+                              </div>
+                            )}
                           </div>
-                        )}
-
-                        {individualDetail.fax && (
-                          <div class="info-contact-item">
-                            <hcl-sdk-icon name="printer" height={15} color={getCssColor('--hcl-color-grey')} />
-                            <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
-                          </div>
-                        )}
-                      </div>
+                        )
+                      }
 
                       {individualDetail.webAddress && (
                         <div class="info-contact info-section-body__website">
