@@ -1,11 +1,11 @@
-import { formatDistance } from 'date-fns';
 import { Component, h, Host, State, Listen } from '@stencil/core';
-import { configStore, historyStore, routerStore, searchMapStore } from '../../../../core/stores';
+import { configStore, historyStore, routerStore, searchMapStore, i18nStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
 import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
 import { ModeViewType } from '../../../../core/stores/ConfigStore';
 import { searchLocationWithParams } from '../../../../core/api/hcp';
+import { formatDistance } from '../../../../utils/dateUtils';
 
 @Component({
   tag: 'hcl-sdk-home-full',
@@ -85,7 +85,7 @@ export class HclSdkHomeFull {
         <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('search', searchItem.id)} />
         <p class="history-item__criteria">{searchItem.searchFields.name}</p>
         <p class="history-item__address">{searchItem.locationFilter?.longLabel || searchItem.searchFields.address}</p>
-        <p class="history-item__time-from">{formatDistance(searchItem.timestamp, Date.now())}</p>
+        <p class="history-item__time-from">{formatDistance(searchItem.timestamp, i18nStore.state.lang)}</p>
       </div>
     ));
   }
@@ -97,7 +97,7 @@ export class HclSdkHomeFull {
         <p class="history-item__name">{hcpItem.activity.individual.mailingName}</p>
         <p class="history-item__specialty">{hcpItem.activity.individual.professionalType.label}</p>
         <p class="history-item__address">{hcpItem.activity.workplace.address.longLabel}</p>
-        <p class="history-item__time-from">{formatDistance(hcpItem.timestamp, Date.now())}</p>
+        <p class="history-item__time-from">{formatDistance(hcpItem.timestamp, i18nStore.state.lang)}</p>
       </div>
     ));
   }
