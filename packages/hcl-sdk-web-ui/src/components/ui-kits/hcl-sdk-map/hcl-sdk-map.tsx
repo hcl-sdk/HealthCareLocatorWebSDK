@@ -248,6 +248,7 @@ export class HclSdkMap {
   };
   private onSelectedGroupMarker = marker => {
     this.onMarkerClick.emit(marker);
+    this.updateMarkerIcon(marker.target);
   };
 
   private toggleMarkerIcon = (marker, status) => {
@@ -354,13 +355,13 @@ export class HclSdkMap {
 
     for(const groupKey in hashFrequencyLocation) {
       const groupLocation = hashFrequencyLocation[groupKey];
-      const { lat, lng, dataId } = groupLocation;
+      const { lat, lng } = groupLocation;
       const isMeLocation = false;
-      const clusterNumber = dataId.length;
+
       const groupMarker = L
           .marker(
             [ lat, lng ], 
-            { icon: this.getIcon(undefined, isMeLocation, clusterNumber) }
+            { icon: this.getIcon(undefined, isMeLocation) }
           )
           .addTo(this.map)
           .on('click', this.onSelectedGroupMarker);
