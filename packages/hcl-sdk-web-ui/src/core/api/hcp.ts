@@ -5,6 +5,7 @@ import { SelectedIndividual } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
+import sortBy from 'lodash.sortby';
 
 function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
   if (!addressDetails) {
@@ -116,6 +117,7 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
     const data = (activities || []).map((item) => ({
       distance: `${item.distance}m`,
       distanceNumber: item.distance,
+      relevance: item.relevance,
       name: getHcpFullname(item.activity.individual),
       lastName: item.activity.individual.lastName,
       professionalType: item.activity.individual.professionalType.label,
@@ -126,9 +128,14 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
       lng: item.activity.workplace.address.location.lon,
       id: item.activity.id
     }))
+
+    // Handle Sort the data
+    const sortValues = searchMapStore.state.sortValues;
+    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm]);
+    const specialties = sortBy(data, sortByField)
   
     searchMapStore.setState({
-      specialties: data,
+      specialties,
       specialtiesRaw: data,
       searchDoctor: [],
       selectedActivity: null,

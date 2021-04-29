@@ -33,7 +33,7 @@ export class HclSdkInput {
 
   render() {
     const inputClass = cls('hcl-sdk-input', this.class);
-    if(this.type === "checkbox") {
+    if(this.type === "checkbox" || this.type === "radio") {
       return (
         <Host class="input-checkbox">
           <input type={this.type} name={this.name} checked={this.checked} onInput={this.onInput} readOnly={this.readOnly} />
