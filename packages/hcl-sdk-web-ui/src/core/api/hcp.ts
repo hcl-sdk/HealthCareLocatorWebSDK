@@ -60,6 +60,12 @@ export function genSearchLocationParams({
       lon: searchMapStore.state.geoLocation.longitude,
       distanceMeter: DISTANCE_METER.NEAR_ME
     };
+
+    if (forceNearMe) {
+      // Basic search near me don't have `specialties` in params
+      // In case we keep the data specialtyFilter exist in across the pages
+      return params;
+    }
   } else if (locationFilter) {
     const { addressDetails, boundingbox } = locationFilter;
     const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox)
