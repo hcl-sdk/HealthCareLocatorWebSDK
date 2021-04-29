@@ -27,9 +27,6 @@ export class HclSdkSearchResult {
       individualDetail: null,
       searchDoctor: [],
       specialties: [],
-      specialtyFilter: null,
-      locationFilter: null,
-      searchFields: { name: '', address: '' },
     });
     configStore.setState({
       modeView: ModeViewType.LIST
