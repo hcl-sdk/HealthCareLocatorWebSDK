@@ -15,8 +15,9 @@
   </script>
   <script src="dist/hcl-sdk-api/hcl-sdk-api.js"></script>
   <script>
+    const apiKey = '300002938e8ed9e6';
     const config = {
-      apiKey: '0bdaa1ee779d49958be12d62e307f9ca',
+      apiKey,
     }
     const api = new HclAPI(config);
     
@@ -60,7 +61,85 @@
       .catch(err => {
         alert('individualsByID error', err.message);
       })
-
+    
+    /* ===== suggestModification ===== */
+    const hcpData = {
+      "apiKey": apiKey,
+      "userid": "WCAM00009288",
+      "individual": {
+        "profile": {
+          "mailingName": "Dr Michael S Hayden",
+          "professionalType": {
+            "label": "Physician"
+          }
+        },
+        "titleAndName": {
+          "title": {
+            "code": "TIT.WCA.03",
+            "label": "Doctor"
+          },
+          "firstName": "Michael",
+          "middleName": "",
+          "lastName": "Hayden"
+        },
+        "listAddress": [
+          {
+            "isClosed": false,
+            "isShowOpeningHours": false,
+            "phoneNumber": "50 66 23 31 55",
+            "addressFirstline": "500 Water St",
+            "addressSecondLine": "",
+            "zipcode": "E1V 3G5",
+            "city": {
+              "code": "CA004099",
+              "label": "Miramichi"
+            },
+            "country": "CA",
+            "openHours": [
+              {
+                "morning": {
+                  "isClosed": false,
+                  "openTime": "08:30"
+                }
+              },
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "morning": {
+                  "isClosed": true,
+                  "openTime": "08:30",
+                  "closingTime": "12:00"
+                },
+                "afternoon": {
+                  "isClosed": false,
+                  "openTime": "01:00",
+                  "closingTime": "05:30"
+                }
+              }
+            ]
+          }
+        ],
+        "listSpecialty": [
+          {
+            "label": "General Medicine",
+            "required": true
+          }
+        ],
+        "yourComment": "",
+        "rateAndRefunds": {
+          "sector": "",
+          "rate": "",
+          "currency": "$"
+        }
+      }
+    }
+    api.suggestModification(hcpData)
+      .then(res => res.json())
+      .then(res => console.log('Suggest Modification: ', res))
+      .catch(err => console.log('Suggest Modification failed: ', err))
   </script>
 
 </html>
