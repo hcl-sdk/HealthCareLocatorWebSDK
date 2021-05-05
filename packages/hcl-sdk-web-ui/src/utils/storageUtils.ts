@@ -1,10 +1,12 @@
 export const OKSDK_DEV_SETTINGS = '__hcl-sdk-dev-settings';
 export const OKSDK_SEARCH_HISTORY = '__hcl-sdk-searchHistory';
 export const OKSDK_GEOLOCATION_HISTORY = '__hcl-sdk-currentLocation';
+export const OKSDK_MAP_HCP_VOTED = '__hcl-sdk-map-hcp-voted';
 
 type Key = typeof OKSDK_DEV_SETTINGS
   | typeof OKSDK_SEARCH_HISTORY
-  | typeof OKSDK_GEOLOCATION_HISTORY;
+  | typeof OKSDK_GEOLOCATION_HISTORY
+  | typeof OKSDK_MAP_HCP_VOTED;
 
 export const storageUtils = {
   setObject(key: Key, value: any) {

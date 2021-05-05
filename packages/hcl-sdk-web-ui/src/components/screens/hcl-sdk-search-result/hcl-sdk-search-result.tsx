@@ -51,17 +51,17 @@ export class HclSdkSearchResult {
   onItemCardClick = async item => {
     searchMapStore.setState({
       selectedActivity: item,
-      individualDetail: null,
+      individualDetail: null
     });
   };
 
   @Listen('backFromHcpFullCard')
   backFromHcpFullCardHandler() {
-    const { locationFilter, specialtyFilter } = searchMapStore.state;
-    if (locationFilter === null && specialtyFilter === null) {
+    const { navigatedFromHome } = searchMapStore.state;
+
+    if (navigatedFromHome) {
       searchMapStore.setState({
-        selectedActivity: null,
-        individualDetail: null,
+        navigatedFromHome: false
       });
       this.goBackToHome();
       return;

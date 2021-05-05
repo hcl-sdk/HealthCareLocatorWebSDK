@@ -5,6 +5,7 @@ import { getFullCardDetail } from 'hcl-sdk-web-ui/src/core/api/hcp';
 import { getCssColor, fallbackShareHCPDetail, getTextBodyToShare } from 'hcl-sdk-web-ui/src/utils/helper';
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
+import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 
 @Component({
   tag: 'hcl-sdk-hcp-full-card',
@@ -13,7 +14,7 @@ import { HCL_WEBSITE_HOST } from '../../../core/constants';
 })
 export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
-  @State() confirm: boolean;
+  @State() mapHcpVoted: Record<string, boolean> = {};
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -33,6 +34,8 @@ export class HclSdkHCPFullCard {
         activityName: searchMapStore.state.selectedActivity.name,
       });
     }
+
+    this.mapHcpVoted = storageUtils.getObject(OKSDK_MAP_HCP_VOTED, {})
   }
 
   disconnectedCallback() {
@@ -41,9 +44,30 @@ export class HclSdkHCPFullCard {
     });
   }
 
-  onConfirm = answer => {
-    this.confirm = answer;
+  onVoteHCP = (answer: boolean) => {
+    if (!searchMapStore.state.individualDetail) {
+      return
+    }
+    const { individualDetail } = searchMapStore.state
+    const { individualId } = individualDetail
+
+    this.mapHcpVoted = {
+      ...this.mapHcpVoted,
+      [individualId]: answer
+    }
+    storageUtils.setObject(OKSDK_MAP_HCP_VOTED, this.mapHcpVoted)
   };
+
+  isVotedHCP = () => {
+    if (!searchMapStore.state.individualDetail) {
+      return undefined;
+    }
+
+    const { individualDetail } = searchMapStore.state;
+    const { individualId } = individualDetail;
+
+    return this.mapHcpVoted[individualId];
+  }
 
   handleChangeAddress(evt) {
     if(evt.target.value) {
@@ -106,12 +130,14 @@ export class HclSdkHCPFullCard {
   }
 
   render() {
-    const confirmYesClass = cls('info-contact-item', {
-      'confirm-yes': this.confirm === true,
+    const isVotedHCP = this.isVotedHCP();
+
+    const voteHcpYesClass = cls('info-contact-item', {
+      'confirm-yes': isVotedHCP,
     });
 
-    const confirmNoClass = cls('info-contact-item', {
-      'confirm-no': this.confirm === false,
+    const voteHcpNoClass = cls('info-contact-item', {
+      'confirm-no': isVotedHCP === false, // undefined -> Not voted yet
     });
 
     const { breakpoint } = uiStore.state;
@@ -293,11 +319,11 @@ export class HclSdkHCPFullCard {
                 <div class="info-section-body">
                   <span>{t('information_description')}</span>
                   <div class="info-contact info-section-body__correct">
-                    <div class={confirmYesClass} onClick={() => this.onConfirm(true)}>
+                    <div class={voteHcpYesClass} onClick={() => this.onVoteHCP(true)}>
                       <hcl-sdk-button class="hclsdk-btn-rate" iconWidth={15} iconHeight={14} icon="like" />
                       <span>{t('information_yes_label')}</span>
                     </div>
-                    <div class={confirmNoClass} onClick={() => this.onConfirm(false)}>
+                    <div class={voteHcpNoClass} onClick={() => this.onVoteHCP(false)}>
                       <hcl-sdk-button class="hclsdk-btn-rate" iconWidth={15} iconHeight={14} icon="dislike" />
                       <span>{t('information_no_label')}</span>
                     </div>

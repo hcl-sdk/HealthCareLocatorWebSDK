@@ -27,7 +27,7 @@ export class HclSdkHomeFull {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setState({
       locationFilter: null,
-      specialtyFilter: null,
+      specialtyFilter: null
     });
     configStore.setState({
       modeView: ModeViewType.MAP
@@ -50,6 +50,7 @@ export class HclSdkHomeFull {
         lat: hcpItem.activity.workplace.address.location.lat,
         lng: hcpItem.activity.workplace.address.location.lon,
       },
+      navigatedFromHome: true
     });
     routerStore.push('/search-result');
   };
