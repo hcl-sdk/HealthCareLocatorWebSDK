@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { NEAR_ME_ITEM } from '../../../core/constants';
+import { COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -14,10 +14,12 @@ import { GEOLOC } from '../../../core/constants';
 import { graphql } from 'hcl-sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
+import { getAddressFromGeo } from '../../../core/api/searchGeo';
 
 const defaults = {
   apiKey: '',
-  i18nBundlesPath: '/i18n',
+  isShowcase: false,
+  i18nBundlesPath: process.env.DEFAULT_I18N_BUNDLE_PATH,
 };
 @Component({
   tag: 'hcl-sdk',
@@ -72,17 +74,33 @@ export class HclSDK {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
+    
+    const initConfig = merge({}, defaults, config);
 
-    this.loadCurrentPosition();
+    this.loadCurrentPosition(initConfig);
 
-    configStore.setState(merge({}, defaults, config));
+    initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
+    initConfig.countries = initConfig.countries.filter(countryCode => {
+      if (COUNTRY_CODES.includes((countryCode).toUpperCase())) {
+        return true;
+      }
+      console.error(`Country code [${countryCode}] invalid!`)
+      return false;
+    })
+    configStore.setState(initConfig);
 
-    const closestElement = this.el.closest('[lang]') as HTMLElement;
-    const lang = closestElement ? closestElement.lang : i18nStore.state.lang;
+    const lang = (() => {
+      if (config.locale) {
+        return config.locale;
+      }
 
-    if (closestElement) {
-      this.observeChangeLang(closestElement);
-    }
+      const closestElement = this.el.closest('[lang]') as HTMLElement;
+      const _lang = closestElement ? closestElement.lang : i18nStore.state.lang
+      if (closestElement) {
+        this.observeChangeLang(closestElement);
+      }
+      return _lang;
+    })();
 
     await getI18nLabels(lang);
 
@@ -146,7 +164,14 @@ export class HclSDK {
         const {
           coords, //: { longitude, latitude }
         } = data;
-
+        getAddressFromGeo(coords.latitude, coords.longitude)
+          .then(res => {
+            if (res?.address?.country_code) {
+              configStore.setState({
+                countries: [res.address.country_code]
+              })
+            }
+          });
         searchMapStore.setGeoLocation(coords);
       },
       this.retryFindGeoloc,
@@ -165,7 +190,16 @@ export class HclSDK {
     }
   }
 
-  loadCurrentPosition() {
+  loadCurrentPosition({ isShowcase }) {
+    if (isShowcase) {
+      // Canada - Toronto Geolocation
+      searchMapStore.setGeoLocation({ 
+        latitude: 43.6534817,
+        longitude: -79.3839347 
+      });
+      return;
+    }
+
     const dataGeolocation = storageUtils.getObject(OKSDK_GEOLOCATION_HISTORY);
     if (dataGeolocation) {
       const time = Number(dataGeolocation.time);
@@ -175,9 +209,6 @@ export class HclSDK {
       } else {
         storageUtils.remove(OKSDK_GEOLOCATION_HISTORY);
       }
-    } else {
-      // Using mock data to CA Address
-      searchMapStore.setGeoLocation();
     }
 
     this.findCurrentPosition();

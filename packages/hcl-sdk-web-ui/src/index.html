@@ -72,12 +72,24 @@
     <hcl-sdk-dev-settings />
 
     <script>
+      function getSettingsUIFields() {
+        const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings`);
+        if (settingsStr) {
+          try {
+            return JSON.parse(settingsStr);
+          } catch (err) { }
+        }
+        return {
+          apiKey: ''
+        };
+      }
       (async function () {
         await customElements.whenDefined('hcl-sdk');
         const HCLSDK = document.querySelector('hcl-sdk');
+        const settingsUI = getSettingsUIFields();
 
         HCLSDK.init({
-          apiKey: '300002938e8ed9e6',
+          apiKey: settingsUI.apiKey
         });
       })();
     </script>

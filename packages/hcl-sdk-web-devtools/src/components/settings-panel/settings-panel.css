@@ -90,6 +90,14 @@ h2.title-var {
   align-items: center;
 }
 
+.title-wrapper .save-theme {
+  width: auto;
+  margin-left: auto;
+  margin-top: 0;
+  text-transform: capitalize;
+  padding: 8px 14px;
+}
+
 .wrapper {
   padding: 20px;
   height: 100%;
@@ -128,6 +136,8 @@ input, select {
 
 select {
   border-radius: 3px;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .edit-link {
@@ -202,6 +212,7 @@ select {
   font-family: inherit;
   border-radius: 3px;
   border: none;
+  cursor: pointer;
 }
 
 .var-buttons {

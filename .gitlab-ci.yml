@@ -6,7 +6,7 @@ stages:
 build_n_deploy:
   tags: [baremetal]
   stage: build_n_deploy
-  only: [master]
+  only: [master, 'release/1.0.0']
   script:
     - yarn
     - yarn build-example-web

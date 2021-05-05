@@ -1,6 +1,8 @@
 import { Component, Host, h, State } from '@stencil/core';
 import cls from 'classnames';
 import { storageUtils, OKSDK_DEV_SETTINGS } from '../../../utils/storageUtils';
+import { getI18nLabels } from '../../../utils/i18n';
+import { configStore } from '../../../core/stores';
 
 interface DevSettings {
   [k: string]: any;
@@ -23,6 +25,7 @@ const optionSets = [
   {
     key: 'lang',
     label: 'Language',
+    type: 'select',
     options: [
       { label: 'English', value: 'en' },
       { label: 'French', value: 'fr_CA' },
@@ -31,12 +34,18 @@ const optionSets = [
   {
     key: 'screenLayout',
     label: 'Screen Layout',
+    type: 'select',
     options: [
       { label: 'Desktop', value: 'desktop' },
       { label: 'Mobile', value: 'mobile' },
       { label: 'Tablet', value: 'tablet' },
     ],
   },
+  {
+    key: 'apiKey',
+    label: 'API Key',
+    type: 'text'
+  }
 ];
 
 @Component({
@@ -58,6 +67,9 @@ export class HclSDKViewport {
 
     if (this.settings.lang && document.documentElement.lang !== this.settings.lang) {
       document.documentElement.lang = this.settings.lang;
+      if (configStore.state.locale) {
+        getI18nLabels(this.settings.lang);
+      }
     }
   }
 
@@ -78,13 +90,25 @@ export class HclSDKViewport {
     return (
       <div class="setting">
         <label>{setting.label}</label>
-        <select onChange={e => this.changeSetting(setting.key, (e.target as any).value)}>
-          {setting.options.map(option => (
-            <option value={option.value} selected={this.settings[setting.key] === option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        {
+          setting.type === 'select' && (
+            <select onChange={e => this.changeSetting(setting.key, (e.target as any).value)}>
+              {setting.options.map(option => (
+                <option value={option.value} selected={this.settings[setting.key] === option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          )
+        }
+        {
+          setting.type === 'text' && (
+            <input
+              value={this.settings[setting.key]}
+              onChange={e => this.changeSetting(setting.key, (e.target as any).value)}
+            />
+          )
+        }
       </div>
     );
   }

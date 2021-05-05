@@ -22,6 +22,8 @@ export interface HclSDKConfigData {
   apiKey: string;
   appName?: string;
   appURL?: string;
+  locale?: string;
+  countries?: string[];
   showSuggestModification?: boolean;
 }
 
@@ -32,6 +34,7 @@ export const initStateConfigStore = {
   icons: {},
   appName: '',
   appURL: '',
+  countries: [],
   showSuggestModification: true
 };
 

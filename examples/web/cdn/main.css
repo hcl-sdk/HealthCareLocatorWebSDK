@@ -122,7 +122,7 @@ body {
   text-decoration: none;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   body {
     padding-top: 40px;
   }
@@ -160,6 +160,9 @@ body {
   .sidebar .menu,
   .sidebar .sidenav-settings {
     display: none;
+  }
+  body.menu-opened {
+    overflow: hidden;
   }
   .menu-opened .sidebar {
     bottom: 0;

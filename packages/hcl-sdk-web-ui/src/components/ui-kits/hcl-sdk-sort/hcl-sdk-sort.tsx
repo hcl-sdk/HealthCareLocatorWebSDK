@@ -30,7 +30,9 @@ export class HclSdkSort {
 
     searchMapStore.setState({
       sortValues: {
-        ...searchMapStore.state.sortValues,
+        relevance: false,
+        distanceNumber: false,
+        lastName: false,
         [name]: checked,
       },
     });
@@ -39,8 +41,8 @@ export class HclSdkSort {
   onReset = () => {
     searchMapStore.setState({
       sortValues: {
-        relevance: false,
-        distance: false,
+        relevance: true,
+        distanceNumber: false,
         lastName: false,
       },
     });
@@ -48,7 +50,7 @@ export class HclSdkSort {
 
   render() {
     const hclSDKSortClass = cn('hcl-sdk-sort', {});
-    const { lastName, relevance, distance } = searchMapStore.state.sortValues;
+    const { lastName, relevance, distanceNumber } = searchMapStore.state.sortValues;
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class={hclSDKSortClass}>
@@ -61,7 +63,7 @@ export class HclSdkSort {
 
               <div class="sort-option-item">
                 <label htmlFor="distance">{t('distance_item')}</label>
-                <hcl-sdk-input type="checkbox" id="distance" name="distance" checked={distance} onInput={this.onChange} />
+                <hcl-sdk-input type="checkbox" id="distanceNumber" name="distanceNumber" checked={distanceNumber} onInput={this.onChange} />
               </div>
 
               <div class="sort-option-item">

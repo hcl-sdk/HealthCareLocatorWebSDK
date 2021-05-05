@@ -27,9 +27,6 @@ export class HclSdkSearchResult {
       individualDetail: null,
       searchDoctor: [],
       specialties: [],
-      specialtyFilter: null,
-      locationFilter: null,
-      searchFields: { name: '', address: '' },
     });
     configStore.setState({
       modeView: ModeViewType.LIST
@@ -54,17 +51,17 @@ export class HclSdkSearchResult {
   onItemCardClick = async item => {
     searchMapStore.setState({
       selectedActivity: item,
-      individualDetail: null,
+      individualDetail: null
     });
   };
 
   @Listen('backFromHcpFullCard')
   backFromHcpFullCardHandler() {
-    const { locationFilter, specialtyFilter } = searchMapStore.state;
-    if (locationFilter === null && specialtyFilter === null) {
+    const { navigatedFromHome } = searchMapStore.state;
+
+    if (navigatedFromHome) {
       searchMapStore.setState({
-        selectedActivity: null,
-        individualDetail: null,
+        navigatedFromHome: false
       });
       this.goBackToHome();
       return;
@@ -136,20 +133,22 @@ export class HclSdkSearchResult {
     try {
       this.isLoadingRelaunch = true;
       const result = await getAddressFromGeo(this.newDragLocation.lat, this.newDragLocation.lng);
-      
+
       if (result) {
         searchMapStore.setSearchFieldValue('address', result.shortDisplayName);
         const params = genSearchLocationParams({
           locationFilter: {
             lat: this.newDragLocation.lat,
             lng: this.newDragLocation.lng,
+            boundingbox: result.boundingbox,
+            addressDetails: result.addressDetails
           },
           specialtyFilter: searchMapStore.state.specialtyFilter
         })
         await searchLocation(params, 'idle');
       }
     } catch(err) {
-
+      console.error(err);
     }
     
     this.isLoadingRelaunch = false;
@@ -342,7 +341,7 @@ export class HclSdkSearchResult {
                           {...elm}
                           key={elm.id}
                           onClick={() => this.onItemCardClick(elm)}
-                          showDistance={!!selectedAddressName}
+                          showDistance={elm.distanceNumber > 0}
                         />
                       ))}
                       {loadingActivities && (

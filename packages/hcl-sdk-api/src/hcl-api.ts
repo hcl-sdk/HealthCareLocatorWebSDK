@@ -1,7 +1,10 @@
 import { graphql } from 'hcl-sdk-core';
 import { QueryActivityByIdArgs, QueryCodesArgs, QueryIndividualByIdArgs } from 'hcl-sdk-core/src/graphql/types';
+import { ENDPOINT } from 'hcl-sdk-core/src/graphql/constants';
 import { HclAPIConfig } from './hcl-types';
 
+const graphqlUrl = new URL(ENDPOINT);
+const graphqlUrlOrigin = graphqlUrl.origin;
 
 export class HclSDKApi {
   private readonly _options: HclAPIConfig;
@@ -36,5 +39,17 @@ export class HclSDKApi {
 
   labelsByCode(params: QueryCodesArgs) {
     return graphql.labelsByCode(params, this.config);
+  }
+
+  suggestModification(data) {
+    const headers = Object.assign({
+      'Content-Type': 'application/json'
+    }, this.config.headers);
+
+    return fetch(graphqlUrlOrigin + '/api/changerequest/modifieddata', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    });
   }
 }

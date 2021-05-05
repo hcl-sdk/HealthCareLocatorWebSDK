@@ -16,8 +16,8 @@
     "build-web": "lerna run build --scope hcl-sdk-web-ui",
     "start-devtools": "lerna run start --scope hcl-sdk-web-devtools",
     "build-devtools": "lerna run build --scope hcl-sdk-web-devtools",
-    "start-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn && npx serve ./examples/web/cdn",
-    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn"
+    "start-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools && npx serve ./examples/web/cdn",
+    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,9 @@
     "lerna": "^3.22.1"
   },
   "resolutions": {
-    "leaflet": "1.6.0"
+    "leaflet": "^1.7.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

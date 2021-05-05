@@ -6,7 +6,8 @@ const defaultSettings = {
   lang: 'en',
   appName: '',
   showSuggestModification: true,
-  appURL: ''
+  appURL: '',
+  countries: ['ca','fr']
 }
 
 export function format(first: string, middle: string, last: string): string {

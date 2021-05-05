@@ -53,8 +53,7 @@ function getSettingsFromLocal() {
 
 
 const config = {
-  ...getSettingsFromLocal(),
-  i18nBundlesPath: '/hcl-sdk/i18n'
+  ...getSettingsFromLocal()
 };
 
 var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);

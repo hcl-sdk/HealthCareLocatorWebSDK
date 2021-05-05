@@ -4,6 +4,7 @@ import StoreProvider from "./StoreProvider";
 export interface SpecialtyItem {
   name: string;
   distance?: string;
+  distanceNumber?: number;
   specialties?: string;
   title?: string;
   address?: string;
@@ -36,7 +37,7 @@ export interface SelectedValues {
 
 export interface SortValue {
   relevance?: boolean;
-  distance?: boolean;
+  distanceNumber?: boolean;
   lastName?: boolean;
 }
 
@@ -69,7 +70,8 @@ export interface SearchMapState {
   searchFields: SearchFields;
   locationFilter: any;
   specialtyFilter: any;
-  geoLocation?: GeoLocation
+  geoLocation?: GeoLocation;
+  navigatedFromHome?: boolean;
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -93,8 +95,8 @@ export const initStateSearchMapStore: SearchMapState = {
   selectedActivity: null,
   individualDetail: null,
   sortValues: {
-    relevance: false,
-    distance: false,
+    relevance: true, // Default sort by relevance
+    distanceNumber: false,
     lastName: false
   },
   searchFields: {
@@ -107,7 +109,8 @@ export const initStateSearchMapStore: SearchMapState = {
     status: 'denied' as GeoLocationStatus,
     latitude: 0,
     longitude: 0
-  }
+  },
+  navigatedFromHome: false
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
@@ -125,15 +128,10 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     })
   }
 
-  // Using mock data to CA Address, will remove later
   setGeoLocation({ 
     latitude = 0,
     longitude = 0,
   } = {}) {
-
-    // Mock with normal data
-    latitude = 43.8238936;
-    longitude = -80.0063414;
 
     this.setState({
       geoLocation: {

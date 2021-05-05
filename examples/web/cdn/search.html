@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HealthCare Locator SDK Sample App</title>
     <link rel="stylesheet" href="main.css" />
-    <script src='./hcl-sdk/hcl-sdk.js'></script>
-    <script src='./devtools/devtools.js'></script>
+    <script src="./hcl-sdk-web-ui/hcl-sdk.js"></script>
   </head>
   <body>
     <section class="sidebar">
@@ -16,10 +15,10 @@
       </header>
       <ul class="menu">
         <li class="menu-item">
-          <a href="/" class="active">Home</a>
+          <a href="./" class="active">Home</a>
         </li>
         <li class="menu-item">
-          <a href="/search.html">Search for HCPs</a>
+          <a href="./search.html">Search for HCPs</a>
         </li>
         <li class="menu-item">
           <a href="javascript:void(0)" onclick="searchNearMe('1SP.7500')">Find a dentist near me</a>
@@ -39,6 +38,6 @@
       <hcl-sdk></hcl-sdk>
     </section>
     <script src="index.js"></script>
-    <script src="./devtools/devtools.js"></script>
+    <script src="./hcl-sdk-tools/devtools.js"></script>
   </body>
 </html>

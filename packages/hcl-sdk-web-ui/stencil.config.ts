@@ -39,6 +39,7 @@ export const config: Config = {
       exclude: 'node_modules/**',
       'process.env.API_GRAPHQL_HOST': JSON.stringify(process.env.API_GRAPHQL_HOST),
       'process.env.HCL_WEBSITE_HOST': JSON.stringify(process.env.HCL_WEBSITE_HOST),
+      'process.env.DEFAULT_I18N_BUNDLE_PATH': JSON.stringify(process.env.DEFAULT_I18N_BUNDLE_PATH),
     }),
     sass({
       injectGlobalPaths: [

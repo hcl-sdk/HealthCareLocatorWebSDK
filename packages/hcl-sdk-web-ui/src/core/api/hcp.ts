@@ -2,33 +2,82 @@ import { searchMapStore, historyStore, configStore, i18nStore } from '../stores'
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'hcl-sdk-core'
 import { SelectedIndividual } from '../stores/SearchMapStore';
-import { getHcpFullname, getMergeMainAndOtherActivities, getSpecialtiesText } from '../../utils/helper';
-import { NEAR_ME } from '../constants';
+import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } from '../../utils/helper';
+import { NEAR_ME, DISTANCE_METER } from '../constants';
+import { getDistance } from 'geolib';
+import sortBy from 'lodash.sortby';
 
+function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
+  if (!addressDetails) {
+    return {
+      distanceMeter: DISTANCE_METER.DEFAULT
+    }
+  }
+
+  if (addressDetails.road) {
+    // Precise Address
+    return {
+      distanceMeter: DISTANCE_METER.DEFAULT
+    }
+  }
+
+  if (addressDetails.country && (addressDetails.city || addressDetails.state)) {
+    // City
+    const bbox = boundingbox.map(strNum => Number(strNum)); 
+    const hashBBox = {
+      south: bbox[0],
+      north: bbox[1],
+      west: bbox[2],
+      east: bbox[3]
+    }
+    const point = {
+      bottomRight: { latitude: hashBBox.south, longitude: hashBBox.east },
+      topLeft: { latitude: hashBBox.north, longitude: hashBBox.west },
+      // bottomLeft: { latitude: hashBBox.south, longitude: hashBBox.west },
+      // topRight: { latitude: hashBBox.north, longitude: hashBBox.east }
+    }
+    const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
+    return {
+      distanceMeter: maxDistanceMeter
+    }
+  }
+
+  if (!addressDetails.city && addressDetails.country && addressDetails.country_code) {
+    return {
+      country: addressDetails.country_code
+    }
+  }
+}
 
 export function genSearchLocationParams({
   forceNearMe = false,
   locationFilter,
   specialtyFilter,
 }) {
-  const params: any = {};
-  if (locationFilter) {
-    if (locationFilter.id === NEAR_ME) {
-      params.location = {
-        lat: searchMapStore.state.geoLocation.latitude,
-        lon: searchMapStore.state.geoLocation.longitude,
-      };
-    } else {
-      params.location = {
-        lat: Number(locationFilter.lat),
-        lon: Number(locationFilter.lng),
-      };
-    }
-  } else if (forceNearMe) {
+  let params: any = {};
+  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
+      distanceMeter: DISTANCE_METER.NEAR_ME
     };
+
+    if (forceNearMe) {
+      // Basic search near me don't have `specialties` in params
+      // In case we keep the data specialtyFilter exist in across the pages
+      return params;
+    }
+  } else if (locationFilter) {
+    const { addressDetails, boundingbox } = locationFilter;
+    const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox)
+    params = {
+      location: {
+        lat: Number(locationFilter.lat),
+        lon: Number(locationFilter.lng),
+        distanceMeter: distanceMeter
+      },
+      ...extraParams // country, ...
+    }
   }
   if (specialtyFilter) {
     params.specialties = [specialtyFilter.id];
@@ -38,6 +87,7 @@ export function genSearchLocationParams({
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
   const { locationFilter, specialtyFilter } = searchMapStore.state;
+  const { countries } = configStore.state
 
   const params = genSearchLocationParams({
     forceNearMe,
@@ -47,6 +97,10 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
 
   if (!specialtyFilter) {
     params.criteria = searchMapStore.state.searchFields.name
+  }
+
+  if (!params.country && countries && countries.length !== 0) {
+    params.country = String(countries)
   }
 
   searchLocation(params);
@@ -62,13 +116,14 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
     const { activities } = await graphql.activities({
       first: 50,
       offset: 0,
-      county: "",
       locale: i18nStore.state.lang,
       ...variables,
     }, configStore.configGraphql)
   
     const data = (activities || []).map((item) => ({
       distance: `${item.distance}m`,
+      distanceNumber: item.distance,
+      relevance: item.relevance,
       name: getHcpFullname(item.activity.individual),
       lastName: item.activity.individual.lastName,
       professionalType: item.activity.individual.professionalType.label,
@@ -79,9 +134,14 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
       lng: item.activity.workplace.address.location.lon,
       id: item.activity.id
     }))
+
+    // Handle Sort the data
+    const sortValues = searchMapStore.state.sortValues;
+    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm]);
+    const specialties = sortBy(data, sortByField)
   
     searchMapStore.setState({
-      specialties: data,
+      specialties,
       specialtiesRaw: data,
       searchDoctor: [],
       selectedActivity: null,
