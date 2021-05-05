@@ -18,6 +18,7 @@ import { getAddressFromGeo } from '../../../core/api/searchGeo';
 
 const defaults = {
   apiKey: '',
+  isShowcase: false,
   i18nBundlesPath: process.env.DEFAULT_I18N_BUNDLE_PATH,
 };
 @Component({
@@ -73,10 +74,11 @@ export class HclSDK {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
+    
+    const initConfig = merge({}, defaults, config);
 
-    this.loadCurrentPosition();
+    this.loadCurrentPosition(initConfig);
 
-    const initConfig = merge({}, defaults, config)
     initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
     initConfig.countries = initConfig.countries.filter(countryCode => {
       if (COUNTRY_CODES.includes((countryCode).toUpperCase())) {
@@ -188,7 +190,16 @@ export class HclSDK {
     }
   }
 
-  loadCurrentPosition() {
+  loadCurrentPosition({ isShowcase }) {
+    if (isShowcase) {
+      // Canada - Toronto Geolocation
+      searchMapStore.setGeoLocation({ 
+        latitude: 43.6534817,
+        longitude: -79.3839347 
+      });
+      return;
+    }
+
     const dataGeolocation = storageUtils.getObject(OKSDK_GEOLOCATION_HISTORY);
     if (dataGeolocation) {
       const time = Number(dataGeolocation.time);
