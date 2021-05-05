@@ -70,7 +70,8 @@ export interface SearchMapState {
   searchFields: SearchFields;
   locationFilter: any;
   specialtyFilter: any;
-  geoLocation?: GeoLocation
+  geoLocation?: GeoLocation;
+  navigatedFromHome?: boolean;
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -108,7 +109,8 @@ export const initStateSearchMapStore: SearchMapState = {
     status: 'denied' as GeoLocationStatus,
     latitude: 0,
     longitude: 0
-  }
+  },
+  navigatedFromHome: false
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
