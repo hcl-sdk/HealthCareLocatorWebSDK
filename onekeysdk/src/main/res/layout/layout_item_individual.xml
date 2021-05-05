@@ -6,14 +6,14 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
-    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+    <com.healthcarelocator.custom.text.OneKeyTextView
         android:id="@+id/tvSpeciality"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/default_padding"
         android:paddingBottom="@dimen/default_padding" />
 
-    <com.ekino.onekeysdk.custom.OneKeyView
+    <com.healthcarelocator.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:OneKeyViewColor="OneKeyColorCardBorder"/>

@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <com.ekino.onekeysdk.custom.text.OneKeyEditText
+                        <com.healthcarelocator.custom.text.OneKeyEditText
                             android:id="@+id/edtName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                             android:src="@drawable/baseline_close_black_24dp"
                             app:tint="@color/gray" />
 
-                        <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                        <com.healthcarelocator.custom.progressbar.OneKeyProgressBar
                             android:id="@+id/nameBar"
                             android:layout_width="@dimen/default_icon_size_small"
                             android:layout_height="@dimen/default_icon_size_small"
@@ -107,7 +107,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyEditText
+                    <com.healthcarelocator.custom.text.OneKeyEditText
                         android:id="@+id/edtWhere"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                             app:tint="@color/gray" />
 
 
-                        <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                        <com.healthcarelocator.custom.progressbar.OneKeyProgressBar
                             android:id="@+id/addressLoading"
                             android:layout_width="@dimen/default_icon_size_small"
                             android:layout_height="@dimen/default_icon_size_small"
@@ -159,7 +159,7 @@
     </LinearLayout>
 
 
-    <com.ekino.onekeysdk.custom.OneKeyView
+    <com.healthcarelocator.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/default_padding"
@@ -174,7 +174,7 @@
         android:paddingEnd="@dimen/default_padding"
         android:visibility="gone" />
 
-    <com.ekino.onekeysdk.custom.ExpandableLayout
+    <com.healthcarelocator.custom.ExpandableLayout
         android:id="@+id/selectionWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:id="@+id/tvNearMe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -253,13 +253,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.ekino.onekeysdk.custom.OneKeyView
+                    <com.healthcarelocator.custom.OneKeyView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginEnd="@dimen/default_padding"
                         app:OneKeyViewColor="OneKeyColorCardBorder" />
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:id="@+id/tvLocationSelected"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                 android:layout_marginBottom="@dimen/default_padding_tiny"
                 android:background="@color/colorOneKeyGreen" />
         </LinearLayout>
-    </com.ekino.onekeysdk.custom.ExpandableLayout>
+    </com.healthcarelocator.custom.ExpandableLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAddress"

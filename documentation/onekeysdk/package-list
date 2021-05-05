@@ -1,9 +1,9 @@
 $dokka.format:html
 $dokka.linkExtension:html
 
-com.ekino.onekeysdk.model
-com.ekino.onekeysdk.model.activity
-com.ekino.onekeysdk.model.config
-com.ekino.onekeysdk.model.home
-com.ekino.onekeysdk.model.map
+com.healthcarelocator.model
+com.healthcarelocator.model.activity
+com.healthcarelocator.model.config
+com.healthcarelocator.model.home
+com.healthcarelocator.model.map
 customization.map

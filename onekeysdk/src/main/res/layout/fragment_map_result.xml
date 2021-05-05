@@ -37,7 +37,7 @@
             android:src="@drawable/baseline_my_location_black_24dp"
             app:tint="@color/colorOneKeyText" />
 
-        <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+        <com.healthcarelocator.custom.progressbar.OneKeyProgressBar
             android:id="@+id/loadingCurrentLocation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -64,7 +64,7 @@
             android:layout_height="@dimen/default_icon_size_smaller"
             android:src="@drawable/baseline_refresh_white_24dp" />
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+        <com.healthcarelocator.custom.text.OneKeyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+        <com.healthcarelocator.custom.text.OneKeyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Results:" />

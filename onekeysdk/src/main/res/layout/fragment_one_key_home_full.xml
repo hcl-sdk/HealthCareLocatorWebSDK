@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.ekino.onekeysdk.custom.OneKeyView
+    <com.healthcarelocator.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:OneKeyViewColor="OneKeyColorCardBorder" />
@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/default_padding"
@@ -41,7 +41,7 @@
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleCardTitle" />
 
-                    <com.ekino.onekeysdk.custom.progressbar.OneKeyProgressBar
+                    <com.healthcarelocator.custom.progressbar.OneKeyProgressBar
                         android:id="@+id/nearMeLoading"
                         android:layout_width="@dimen/default_icon_size_smaller"
                         android:layout_height="@dimen/default_icon_size_smaller"
@@ -51,7 +51,7 @@
                 </FrameLayout>
 
 
-                <com.ekino.onekeysdk.custom.OneKeyView
+                <com.healthcarelocator.custom.OneKeyView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:OneKeyViewColor="OneKeyColorCardBorder" />
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -99,7 +99,7 @@
                         app:OneKeyTextStyle="OneKeyStyleCardTitle"
                         app:title2Style="true" />
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreSearches"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                         app:OneKeyTextStyle="OneKeyStyleSmall" />
                 </LinearLayout>
 
-                <com.ekino.onekeysdk.custom.OneKeyView
+                <com.healthcarelocator.custom.OneKeyView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:OneKeyViewColor="OneKeyColorCardBorder" />
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -144,7 +144,7 @@
                         android:textColor="@color/colorOneKeyText"
                         app:OneKeyTextStyle="OneKeyStyleCardTitle" />
 
-                    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+                    <com.healthcarelocator.custom.text.OneKeyTextView
                         android:id="@+id/viewMoreConsulted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                         app:OneKeyTextStyle="OneKeyStyleSmall" />
                 </LinearLayout>
 
-                <com.ekino.onekeysdk.custom.OneKeyView
+                <com.healthcarelocator.custom.OneKeyView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:OneKeyViewColor="OneKeyColorCardBorder" />

@@ -14,7 +14,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+        <com.healthcarelocator.custom.text.OneKeyTextView
             android:id="@+id/tvSort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.ekino.onekeysdk.custom.OneKeyView
+        <com.healthcarelocator.custom.OneKeyView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/default_padding"
@@ -61,7 +61,7 @@
             android:gravity="center|bottom"
             android:orientation="horizontal">
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/btnReset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 android:textColor="@color/white"
                 app:OneKeyTextStyle="OneKeyStyleButton" />
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/btnApply"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

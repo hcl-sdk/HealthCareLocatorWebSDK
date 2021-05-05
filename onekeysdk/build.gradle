@@ -7,6 +7,11 @@ apply plugin: 'com.apollographql.apollo'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
+
+group = "com.healthcarelocator"
+version = "1.0.0"
+
+
 android {
     compileSdkVersion build_versions.compile_sdk_version
     buildToolsVersion build_versions.build_tool_version
@@ -73,11 +78,11 @@ android {
         outputFormat = 'html'
         outputDirectory = "documentation"
         packageOptions {
-            prefix = "com.ekino.onekeysdk"
+            prefix = "com.healthcarelocator"
             suppress = true
         }
         packageOptions {
-            prefix = "com.ekino.onekeysdk.model"
+            prefix = "com.healthcarelocator.model"
             suppress = false
         }
         packageOptions {
@@ -130,20 +135,46 @@ uploadArchives {
         mavenDeployer {
             repository(url: "file:" + System.getenv("HOME") + "/.m2/repository")
             pom.version = '1.0.0'
-            pom.groupId = 'com.iqvia.healthcare-locator'
-            pom.artifactId = 'healthcare-locator-sdk'
+            pom.groupId = 'com.healthcarelocator'
+            pom.artifactId = 'client-stack-sdk'
         }
     }
 }
+
 publishing {
     publications {
         aar(MavenPublication) {
-            groupId 'com.iqvia.healthcare-locator'
-            artifactId 'healthcare-locator-sdk'
+            groupId 'com.healthcarelocator'
+            artifactId 'client-stack-sdk'
             version '1.0.0'
 
             // Tell maven to prepare the generated "*.aar" file for publishing
             artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+
+            pom {
+                name = 'Heahtcare Locator Android Client Stack'
+                description = 'this lib contains the entire stack ( UI + Service ) to access healthcarelocator API'
+                url = 'https://www.healthcarelocator.com'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'contact'
+                        name = 'Contact'
+                        email = 'contact@healthcarelocator.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+                    developerConnection = 'scm:git:git@github.com:hcl-sdk/HealthCareLocatorAndroidSDK.git'
+                    url = 'https://www.healthcarelocator.com'
+                }
+            }
+
         }
     }
     repositories {

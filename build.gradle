@@ -20,6 +20,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+}
+
 allprojects {
     repositories {
         google()
@@ -29,9 +33,22 @@ allprojects {
     }
 }
 
+nexusPublishing {
+    repositories {
+        sonatype {
+            packageGroup = "com.healthcarelocator"
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = "009pTJaB"
+            password = "SttXDMEWCGTVQjFXVdXrszalcZGjr2uhPtrbNqnLsRej"
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
 tasks.register("downloadSchema", com.apollographql.apollo.gradle.internal.ApolloDownloadSchemaTask) {
     endpoint = "https://dev-eastus-onekey-sdk-apim.azure-api.net/api/graphql"
     schemaRelativeToProject = "onekeysdk/src/main/graphql/schema.json"
