@@ -1,5 +1,5 @@
 import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
-import { HISTORY_ITEMS_TO_DISPLAY } from '../constants';
+import { HISTORY_MAX_TOTAL_ITEMS } from '../constants';
 import StoreProvider from './StoreProvider';
 
 type HistoryItemType = 'search' | 'hcp';
@@ -53,8 +53,8 @@ export default class HistoryStore extends StoreProvider<HistoryStoreState> {
         const found = this.state.hcpItems.filter(i => i.activityId === hcpItem.activityId)[0];
         if (!found) {
           this.state.hcpItems.unshift(item as HistoryHcpItem);
-          if (this.state.hcpItems.length > HISTORY_ITEMS_TO_DISPLAY) {
-            this.state.hcpItems.length = HISTORY_ITEMS_TO_DISPLAY;
+          if (this.state.hcpItems.length > HISTORY_MAX_TOTAL_ITEMS) {
+            this.state.hcpItems.length = HISTORY_MAX_TOTAL_ITEMS;
           }
         } else {
           // Item already exists, update and move to top
@@ -72,8 +72,8 @@ export default class HistoryStore extends StoreProvider<HistoryStoreState> {
         })[0];
         if (!found) {
           this.state.searchItems.unshift(item as HistorySearchItem);
-          if (this.state.searchItems.length > HISTORY_ITEMS_TO_DISPLAY) {
-            this.state.searchItems.length = HISTORY_ITEMS_TO_DISPLAY;
+          if (this.state.searchItems.length > HISTORY_MAX_TOTAL_ITEMS) {
+            this.state.searchItems.length = HISTORY_MAX_TOTAL_ITEMS;
           }
         } else {
           // Item already exists, update and move to top
