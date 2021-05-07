@@ -72,10 +72,10 @@ export class HclSdkHomeFull {
 
   renderViewMore(items: any[], showMoreState: string) {
     if (this[showMoreState]) {
-      return <button onClick={() => (this[showMoreState] = false)}>View less</button>;
+      return <button onClick={() => (this[showMoreState] = false)}>{t('view_less')}</button>;
     }
     if (!this[showMoreState] && items.length > HISTORY_ITEMS_TO_DISPLAY) {
-      return <button onClick={() => (this[showMoreState] = true)}>View more</button>;
+      return <button onClick={() => (this[showMoreState] = true)}>{t('view_more')}</button>;
     }
     return null;
   }

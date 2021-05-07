@@ -32,6 +32,7 @@ export class HclSdkSearch {
     name: null,
     address: null,
   };
+  @State()
   fieldsValid = {
     name: true,
     address: true,
@@ -77,8 +78,13 @@ export class HclSdkSearch {
       this.resetErrorElmUI('both');
       configStore.setState({
         modeView: ModeViewType.MAP
-      })
+      });
     } else {
+      if (searchMapStore.state.locationFilter.id === NEAR_ME) {
+        configStore.setState({
+          modeView: ModeViewType.MAP
+        });
+      }
       checkValidName = this.checkValidElm(name)
       checkValidAddress = this.checkValidElm(address);
     }
@@ -112,7 +118,7 @@ export class HclSdkSearch {
       return;
     }
     let isValid = this.fieldsValid[elm.name];
-  
+
     switch (elm.name) {
       case 'name':
         isValid = Boolean(elm.value);
@@ -121,7 +127,7 @@ export class HclSdkSearch {
         isValid = !elm.value || Boolean(elm.value && searchMapStore.state.locationFilter);
         break;
     }
-    
+
     this.fieldsValid = {
       ...this.fieldsValid,
       [elm.name]: isValid
@@ -139,7 +145,7 @@ export class HclSdkSearch {
       this.fieldsValid = {
         ...this.fieldsValid,
         [type]: true
-      }   
+      }
     }
   }
 
@@ -320,8 +326,8 @@ export class HclSdkSearch {
 
     const nearMeFound = searchMapState.locationFilter?.id === NEAR_ME;
     if (
-      !nearMeFound && 
-      !searchMapState.searchFields.address.length && 
+      !nearMeFound &&
+      !searchMapState.searchFields.address.length &&
       searchMapStore.isGrantedGeoloc
     ) {
       return [NEAR_ME_ITEM, ...addressResults];

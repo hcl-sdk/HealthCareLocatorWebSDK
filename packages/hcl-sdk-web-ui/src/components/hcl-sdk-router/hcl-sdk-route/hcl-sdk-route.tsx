@@ -4,7 +4,6 @@ import { routerStore } from '../../../core/stores';
 @Component({
   tag: 'hcl-sdk-route',
   styleUrl: 'hcl-sdk-route.css',
-  // shadow: true,
 })
 export class HclSDKRoute {
   @Prop({ reflect: true }) component: string;

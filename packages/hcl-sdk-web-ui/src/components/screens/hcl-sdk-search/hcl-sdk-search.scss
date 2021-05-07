@@ -4,7 +4,7 @@
       align-self: flex-start;
       display: flex;
       padding: 5px 0;
-  
+
       a {
         color: var(--hcl-color-dark);
         margin-right: 8px;
@@ -50,16 +50,16 @@
     border-radius: 0px;
     border-bottom: 1px solid var(--hcl-color-card_border);
     padding: 10px;
-  
+
     &__container {
       display: flex;
       align-items: center;
     }
-  
+
     &__form {
       display: flex;
       flex: 1;
-  
+
       &--content {
         flex: 1;
         margin-right: 8px;
@@ -67,7 +67,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        
+
         &-item {
           position: relative;
           &:last-child {
@@ -76,7 +76,7 @@
         }
       }
     }
-  
+
     &__dropdown {
       padding: 0 15px;
       background-color: white;
@@ -92,32 +92,32 @@
       border: 1px solid red;
     }
   }
-  
+
   .size-tablet,
   .size-desktop {
     hcl-sdk-search {
       z-index: 100000;
     }
-  
+
     .hclsdk-search {
       display: grid;
       grid-gap: 31px;
       grid-auto-flow: row;
       border: none;
       padding: 0;
-  
+
       &__container {
         padding: 0;
         box-shadow: 0 4px 2px -2px var(--hcl-color-card_border);
       }
-  
+
       &__form {
         display: grid;
         justify-content: center;
         align-items: center;
         padding: 20px 0;
         grid-gap: 20px;
-  
+
         &--content {
           display: grid;
           grid-auto-flow: column;
@@ -127,11 +127,10 @@
             margin-top: 0;
           }
         }
-  
+
         .hcl-sdk-input {
           z-index: 1;
           position: relative;
-          min-width: 258px;
           margin: 0;
           margin-bottom: 0;
         }
@@ -142,7 +141,7 @@
           width: 100%;
         }
       }
-  
+
       &__dropdown {
         position: absolute;
         margin: -2px 0 0 0;
@@ -155,7 +154,7 @@
         z-index: 0;
       }
     }
-    
+
     .hclsdk-btn-reset-search {
       display: block;
     }
@@ -190,6 +189,9 @@
         grid-template-columns: auto 42px;
       }
     }
+    .hcl-sdk-input {
+      min-width: 210px;
+    }
   }
 
   .size-desktop {
@@ -197,6 +199,9 @@
       &__form {
         grid-template-columns: auto 150px;
       }
+    }
+    .hcl-sdk-input {
+      min-width: 258px;
     }
   }
 }

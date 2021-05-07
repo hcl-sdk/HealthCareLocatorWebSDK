@@ -4,8 +4,8 @@ var hclSdkEl = document.querySelector('hcl-sdk');
 var burgerEl = document.querySelector('.burger');
 
 var specialtyLabelByCode = {
-  '1SP.7500': 'Dentistry',
-  '1SP.0800': 'Cardiology',
+  'SP.WCA.75': 'Dentistry',
+  'SP.WCA.08': 'Cardiology',
 }
 
 for (let i = 0; i < 3; i++) {
@@ -50,7 +50,6 @@ function getSettingsFromLocal() {
     appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
   };
 }
-
 
 const config = {
   ...getSettingsFromLocal()
