@@ -32,6 +32,7 @@ export class HclSdkSearch {
     name: null,
     address: null,
   };
+  @State()
   fieldsValid = {
     name: true,
     address: true,
