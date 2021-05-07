@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.ekino.onekeysdk.custom.OneKeyView
+    <com.healthcarelocator.custom.OneKeyView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:OneKeyViewColor="OneKeyColorCardBorder" />
@@ -24,7 +24,7 @@
             android:minHeight="300dp"
             android:orientation="vertical">
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvHomeHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:paddingStart="@dimen/default_padding_bigger" />
 
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/btnStartSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

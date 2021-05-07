@@ -38,7 +38,7 @@
         android:minHeight="120dp"
         android:orientation="vertical">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+        <com.healthcarelocator.custom.text.OneKeyTextView
             android:id="@+id/tvPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

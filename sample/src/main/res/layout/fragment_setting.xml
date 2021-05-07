@@ -105,7 +105,7 @@
             android:layout_marginTop="@dimen/default_padding_tiny"
             android:background="@drawable/bg_white_border_corner">
 
-            <com.ekino.onekeysdk.sample.view.SSpinner
+            <com.healthcarelocator.sample.view.SSpinner
                 android:id="@+id/themeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
             android:layout_marginTop="@dimen/default_padding_tiny"
             android:background="@drawable/bg_white_border_corner">
 
-            <com.ekino.onekeysdk.sample.view.SSpinner
+            <com.healthcarelocator.sample.view.SSpinner
                 android:id="@+id/languageSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

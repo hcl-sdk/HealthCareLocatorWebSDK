@@ -23,7 +23,7 @@
         android:layout_marginStart="@dimen/default_padding"
         android:orientation="vertical">
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+        <com.healthcarelocator.custom.text.OneKeyTextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             app:OneKeyTextStyle="OneKeyStyleTitleSecondary"
             app:OneKeyTextColor="OneKeyColorDark"/>
 
-        <com.ekino.onekeysdk.custom.text.OneKeyTextView
+        <com.healthcarelocator.custom.text.OneKeyTextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

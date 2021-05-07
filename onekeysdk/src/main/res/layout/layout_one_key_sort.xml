@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/default_padding_smaller"
     android:paddingBottom="@dimen/default_padding_smaller">
 
-    <com.ekino.onekeysdk.custom.text.OneKeyTextView
+    <com.healthcarelocator.custom.text.OneKeyTextView
         android:id="@+id/tvSortTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -9,13 +9,13 @@ import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.ekino.onekeysdk.extensions.ApolloConnector
-import com.ekino.onekeysdk.extensions.removeConsultedProfile
-import com.ekino.onekeysdk.extensions.storeConsultedProfiles
-import com.ekino.onekeysdk.extensions.storeLastSearch
-import com.ekino.onekeysdk.model.SearchObject
-import com.ekino.onekeysdk.model.activity.ActivityObject
-import com.ekino.onekeysdk.state.HealthCareLocatorSDK
+import com.healthcarelocator.extensions.ApolloConnector
+import com.healthcarelocator.extensions.removeConsultedProfile
+import com.healthcarelocator.extensions.storeConsultedProfiles
+import com.healthcarelocator.extensions.storeLastSearch
+import com.healthcarelocator.model.SearchObject
+import com.healthcarelocator.model.activity.ActivityObject
+import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.google.gson.Gson
 import io.reactivex.Flowable
 

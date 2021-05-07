@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ekino.onekeysdk.custom.text.OneKeyTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.healthcarelocator.custom.text.OneKeyTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"

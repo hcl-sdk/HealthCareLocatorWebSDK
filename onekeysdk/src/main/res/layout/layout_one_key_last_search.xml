@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                 app:OneKeyTextColor="OneKeyColorSecondary"
                 app:OneKeyTextStyle="OneKeyStyleResultTitle" />
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:visibility="gone"
                 app:OneKeyTextColor="OneKeyColorGreyDark" />
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvCreateAt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             app:tint="@color/gray" />
     </LinearLayout>
 
-    <com.ekino.onekeysdk.custom.OneKeyView
+    <com.healthcarelocator.custom.OneKeyView
         android:id="@+id/bottomLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"

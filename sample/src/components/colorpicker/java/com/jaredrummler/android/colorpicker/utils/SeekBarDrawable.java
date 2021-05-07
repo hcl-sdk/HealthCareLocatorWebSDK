@@ -1,6 +1,7 @@
 package com.jaredrummler.android.colorpicker.utils;
 
 import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,6 +24,6 @@ class SeekBarDrawable extends ClipDrawable {
     }
 
     public int getOpacity() {
-        return -3;
+        return PixelFormat.TRANSLUCENT;
     }
 }

@@ -7,7 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.ekino.onekeysdk.R
+import com.healthcarelocator.R
 import java.util.*
 
 fun AppCompatActivity.addFragment(

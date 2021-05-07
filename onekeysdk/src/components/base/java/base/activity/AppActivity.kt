@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import base.fragments.*
-import com.ekino.onekeysdk.R
-import com.ekino.onekeysdk.extensions.mapZoomInEvent
-import com.ekino.onekeysdk.extensions.mapZoomOutEvent
+import com.healthcarelocator.R
+import com.healthcarelocator.extensions.mapZoomInEvent
+import com.healthcarelocator.extensions.mapZoomOutEvent
 import java.util.*
 
 abstract class AppActivity<BINDING : ViewDataBinding>(private val layoutId: Int) :

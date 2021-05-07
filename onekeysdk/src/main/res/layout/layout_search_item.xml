@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 app:OneKeyTextStyle="OneKeyStyleResultTitle"
                 tools:text="Dr." />
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:OneKeyTextStyle="OneKeyStyleResultSubtitle"
                 tools:text="Dr." />
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 app:OneKeyTextColor="OneKeyColorGreyLight"
                 tools:text="Dr." />
 
-            <com.ekino.onekeysdk.custom.text.OneKeyTextView
+            <com.healthcarelocator.custom.text.OneKeyTextView
                 android:id="@+id/tvDistance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
