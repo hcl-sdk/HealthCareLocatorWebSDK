@@ -1,7 +1,7 @@
 import { Component, h, Host, State, Listen } from '@stencil/core';
 import { configStore, historyStore, routerStore, searchMapStore, i18nStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
-import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS } from '../../../../core/constants';
+import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
 import { ModeViewType } from '../../../../core/stores/ConfigStore';
 import { searchLocationWithParams } from '../../../../core/api/hcp';
@@ -62,6 +62,13 @@ export class HclSdkHomeFull {
       specialtyFilter,
       searchFields,
     });
+
+    if (locationFilter && locationFilter.id === NEAR_ME) {
+      configStore.setState({
+        modeView: ModeViewType.MAP
+      });
+    }
+
     routerStore.push('/search-result');
   };
 
