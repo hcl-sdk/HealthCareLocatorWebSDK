@@ -80,7 +80,7 @@ export class HclSdkSearch {
         modeView: ModeViewType.MAP
       });
     } else {
-      if (searchMapStore.state.locationFilter.id === NEAR_ME) {
+      if (searchMapStore.state.locationFilter && searchMapStore.state.locationFilter.id === NEAR_ME) {
         configStore.setState({
           modeView: ModeViewType.MAP
         });
