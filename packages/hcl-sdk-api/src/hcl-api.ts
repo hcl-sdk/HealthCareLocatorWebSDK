@@ -1,5 +1,10 @@
 import { graphql } from 'hcl-sdk-core';
-import { QueryActivityByIdArgs, QueryCodesArgs, QueryIndividualByIdArgs } from 'hcl-sdk-core/src/graphql/types';
+import { 
+  QueryActivitiesArgs, 
+  QueryActivityByIdArgs, 
+  QueryCodesArgs, 
+  QueryIndividualByIdArgs 
+} from 'hcl-sdk-core/src/graphql/types';
 import { ENDPOINT } from 'hcl-sdk-core/src/graphql/constants';
 import { HclAPIConfig } from './hcl-types';
 
@@ -23,6 +28,10 @@ export class HclSDKApi {
         'Ocp-Apim-Subscription-Key': this.options.apiKey
       }
     }
+  }
+
+  activities(params: QueryActivitiesArgs) {
+    return graphql.activities(params, this.config);
   }
 
   activityByID(params: QueryActivityByIdArgs) {
