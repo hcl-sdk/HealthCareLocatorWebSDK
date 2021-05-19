@@ -229,7 +229,7 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
                     .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
         }
         if (favoriteNearMe) {
-            builder.specialities(arrayListOf("1SP.0800"))
+            builder.specialities(arrayListOf("SP.WCA.08"))
                     .entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
         if (nearMe) {
