@@ -5,6 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import base.extensions.addFragment
+import com.ekino.sample.onekeysdk.BuildConfig
+import com.ekino.sample.onekeysdk.R
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.healthcarelocator.extensions.ScreenReference
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.model.config.HeathCareLocatorViewFontObject
@@ -17,10 +21,6 @@ import com.healthcarelocator.sample.utils.getThemes
 import com.healthcarelocator.service.location.getCountryCodes
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.KeyboardUtils
-import com.ekino.sample.onekeysdk.BuildConfig
-import com.ekino.sample.onekeysdk.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_sample.*
 import java.util.*
 
@@ -64,9 +64,9 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
     }
 
     fun launchOneKeySDK(
-            nearMe: Boolean = false,
-            favoriteNearMe: Boolean = false,
-            resetStack: Boolean = true
+        nearMe: Boolean = false,
+        favoriteNearMe: Boolean = false,
+        resetStack: Boolean = true
     ) {
         if (resetStack)
             resetStack()
@@ -78,35 +78,35 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
             themes.firstOrNull { it.id == this }
         } ?: ThemeObject()
         val font = SampleApplication.sharedPreferences.getString(
-                Pref.fontRef,
-                "fonts/Roboto-Regular.ttf"
+            Pref.fontRef,
+            "fonts/Roboto-Regular.ttf"
         ) ?: "fonts/Roboto-Regular.ttf"
         val colors = (SampleApplication.sharedPreferences.getString(Pref.colors, "[]")
-                ?: "[]").run {
+            ?: "[]").run {
             if (this.isNotEmpty() && this != "[]")
                 gson.fromJson(this, object : TypeToken<ArrayList<ColorObject>>() {}.type)
             else arrayListOf<ColorObject>()
         }
         val primary = if (theme != "C") SampleApplication.sharedPreferences.getString(
-                Pref.primaryColorPref,
-                selectedTheme.primaryHexColor
+            Pref.primaryColorPref,
+            selectedTheme.primaryHexColor
         )
-                ?: selectedTheme.primaryHexColor else colors
+            ?: selectedTheme.primaryHexColor else colors
         val secondary = SampleApplication.sharedPreferences.getString(
-                Pref.secondaryColorPref,
-                selectedTheme.secondaryHexColor
+            Pref.secondaryColorPref,
+            selectedTheme.secondaryHexColor
         )
-                ?: selectedTheme.secondaryHexColor
+            ?: selectedTheme.secondaryHexColor
         val marker = SampleApplication.sharedPreferences.getString(
-                Pref.markerColorPref,
-                selectedTheme.markerHexColor
+            Pref.markerColorPref,
+            selectedTheme.markerHexColor
         )
-                ?: selectedTheme.markerHexColor
+            ?: selectedTheme.markerHexColor
         val selectedMarker = SampleApplication.sharedPreferences.getString(
-                Pref.selectedMarkerColorPref,
-                selectedTheme.markerSelectedHexColor
+            Pref.selectedMarkerColorPref,
+            selectedTheme.markerSelectedHexColor
         )
-                ?: selectedTheme.markerSelectedHexColor
+            ?: selectedTheme.markerSelectedHexColor
         var fontDefault: HeathCareLocatorViewFontObject? = null
         var fontTitle1: HeathCareLocatorViewFontObject? = null
         var fontButton: HeathCareLocatorViewFontObject? = null
@@ -196,22 +196,22 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
          * Add OneKey screen into parent application
          */
         val builder = HealthCareLocatorCustomObject.Builder()
-                .fontTitleMain(fontTitle1)
-                .fontTitleSecondary(fontTitle2)
-                .fontSearchResultTotal(fontTitle3)
-                .fontButton(fontButton)
-                .fontDefault(fontDefault)
-                .fontSmall(fontSmall)
-                .fontSearchInput(fontSearchInput)
-                .fontSearchResultTitle(fontSearchResultTitle)
-                .fontResultTitle(fontResultTitle)
-                .fontResultSubTitle(fontResultSubTitle)
-                .fontProfileTitle(fontProfileTitle)
-                .fontProfileSubTitle(fontProfileSubTitle)
-                .fontProfileTitleSection(fontProfileTitleSection)
-                .fontCardTitle(fontCardTitle)
-                .fontModalTitle(fontModalTitle)
-                .fontSortCriteria(fontSortCriteria)
+            .fontTitleMain(fontTitle1)
+            .fontTitleSecondary(fontTitle2)
+            .fontSearchResultTotal(fontTitle3)
+            .fontButton(fontButton)
+            .fontDefault(fontDefault)
+            .fontSmall(fontSmall)
+            .fontSearchInput(fontSearchInput)
+            .fontSearchResultTitle(fontSearchResultTitle)
+            .fontResultTitle(fontResultTitle)
+            .fontResultSubTitle(fontResultSubTitle)
+            .fontProfileTitle(fontProfileTitle)
+            .fontProfileSubTitle(fontProfileSubTitle)
+            .fontProfileTitleSection(fontProfileTitleSection)
+            .fontCardTitle(fontCardTitle)
+            .fontModalTitle(fontModalTitle)
+            .fontSortCriteria(fontSortCriteria)
 //                .iconSearch(R.drawable.baseline_location_on_white_36dp)
 //                .iconProfile(R.drawable.baseline_map_white_24dp)
 //                .iconCross(R.drawable.baseline_share_black_36dp)
@@ -219,38 +219,48 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 //                .iconSort(R.drawable.baseline_location_on_white_36dp)
 //                .iconMapGeoLoc(R.drawable.baseline_print_black_36dp)
 //                .iconLocation(R.drawable.baseline_list_white_24dp)
-                .locale(if (language == 0) "en" else "fr")
+            .locale(if (language == 0) "en" else "fr")
         if (theme == "C") {
             builder.colorPrimary(colors.first { it.id == "colorPrimary" }.color)
-                    .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
-                    .colorMarker(colors.first { it.id == "colorMarker" }.color)
-                    .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
-                    .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
-                    .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
+                .colorSecondary(colors.first { it.id == "colorSecondary" }.color)
+                .colorMarker(colors.first { it.id == "colorMarker" }.color)
+                .colorMarkerSelected(colors.first { it.id == "colorMarkerSelected" }.color)
+                .colorListBackground(colors.first { it.id == "colorListBackground" }.color)
+                .colorCardBorder(colors.first { it.id == "colorCardBorder" }.color)
+        } else if (theme == "B" || theme == "R") {
+            builder.colorPrimary(selectedTheme.primaryHexColor)
+                .colorSecondary(selectedTheme.secondaryHexColor)
+                .colorMarker(selectedTheme.markerHexColor)
+                .colorMarkerSelected(selectedTheme.markerSelectedHexColor)
         }
         if (favoriteNearMe) {
             builder.specialities(arrayListOf("SP.WCA.08"))
-                    .entryScreen(ScreenReference.SEARCH_NEAR_ME)
+                .entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
         if (nearMe) {
             builder.entryScreen(ScreenReference.SEARCH_NEAR_ME)
         }
         val countryCodeString =
-                SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""
+            SampleApplication.sharedPreferences.getString(Pref.countryCodes, "") ?: ""
         builder.countries(countryCodeString.getCountryCodes())
         builder.env(BuildConfig.env)
-        builder.showModificationForm(SampleApplication.sharedPreferences.getInt(Pref.modification, 0) == 0)
+        builder.showModificationForm(
+            SampleApplication.sharedPreferences.getInt(
+                Pref.modification,
+                0
+            ) == 0
+        )
         builder.mapService(SampleApplication.sharedPreferences.getInt(Pref.mapService, 0))
 
         val apiKey = SampleApplication.sharedPreferences.getString(Pref.apiKey, "") ?: ""
         HealthCareLocatorSDK.init(apiKey).setAppName("Sample")
-                .setAppDownloadLink("http://google.com").setCustomObject(builder.build())
+            .setAppDownloadLink("http://google.com").setCustomObject(builder.build())
         HealthCareLocatorSDK.getInstance().startSDKFragment(this, R.id.fragmentContainer)
 //        HealthCareLocatorSDK.getInstance().startSDKActivity(this)
     }
 
     private fun getFontSetting(json: String): HeathCareLocatorViewFontObject =
-            gson.fromJson(json, object : TypeToken<HeathCareLocatorViewFontObject>() {}.type)
+        gson.fromJson(json, object : TypeToken<HeathCareLocatorViewFontObject>() {}.type)
 
     fun openSettingsPage() {
         resetStack()
@@ -259,20 +269,20 @@ class SampleOneKeySDKActivity : AppCompatActivity() {
 
     fun openCustomThemePage(themeObject: ThemeObject, callback: (theme: ThemeObject) -> Unit) {
         this.addFragment(
-                R.id.fragmentContainer,
-                CustomThemeFragment.newInstance(themeObject, callback),
-                true
+            R.id.fragmentContainer,
+            CustomThemeFragment.newInstance(themeObject, callback),
+            true
         )
     }
 
     fun openPreviewFont(
-            font: HeathCareLocatorViewFontObject,
-            callback: (font: HeathCareLocatorViewFontObject) -> Unit
+        font: HeathCareLocatorViewFontObject,
+        callback: (font: HeathCareLocatorViewFontObject) -> Unit
     ) {
         this.addFragment(
-                R.id.fragmentContainer,
-                PreviewFontFragment.newInstance(font, callback),
-                true
+            R.id.fragmentContainer,
+            PreviewFontFragment.newInstance(font, callback),
+            true
         )
     }
 
