@@ -5,10 +5,12 @@ import { configStore, searchMapStore, uiStore, routerStore } from '../../../core
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import { genSearchLocationParams, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
+import { genSearchLocationParams, groupPointFromBoundingBox, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
 import { NEAR_ME } from '../../../core/constants';
 import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
+import { getDistance } from 'geolib';
+
 @Component({
   tag: 'hcl-sdk-search-result',
   styleUrl: 'hcl-sdk-search-result.scss',
@@ -19,6 +21,7 @@ export class HclSdkSearchResult {
   @State() isOpenPanel: boolean = true;
   @State() isShowRelaunchBtn: boolean = false;
   @State() newDragLocation: LatLng;
+  @State() newDragBoundingBox: string[]; // [south, north, west, east]
   @State() isLoadingRelaunch: boolean;
 
   disconnectedCallback() {
@@ -107,6 +110,15 @@ export class HclSdkSearchResult {
     if (target.getCenter) {
       this.newDragLocation = target.getCenter();
     }
+    if (target.getBounds) {
+      const bounds = target.getBounds()
+      this.newDragBoundingBox = [
+        bounds.getSouth(),
+        bounds.getNorth(),
+        bounds.getWest(),
+        bounds.getEast()
+      ]
+    }
   }
 
   @Listen('switchViewMode')
@@ -145,7 +157,17 @@ export class HclSdkSearchResult {
           },
           specialtyFilter: searchMapStore.state.specialtyFilter
         })
-        await searchLocation(params, 'idle');
+
+        if (params.location && this.newDragBoundingBox.length === 4) {
+          const { point } = groupPointFromBoundingBox(this.newDragBoundingBox)
+          const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
+          params.location.distanceMeter = maxDistanceMeter
+        }
+
+        await searchLocation(params, {
+          hasLoading: 'idle',
+          isAcceptEmptyData: false // No redirect to no results screen when relaunch is empty
+        });
       }
     } catch(err) {
       console.error(err);
