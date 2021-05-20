@@ -8,9 +8,9 @@ trigger:
   - release/1.0.0
 
 variables:
-  ${{ if eq(variables['build.SourceBranchName'], 'release/1.0.0') }}:
+  ${{ if eq(variables['build.SourceBranch'], 'refs/heads/release/1.0.0') }}:
     buildVariant: 'assembleUatDebug'
-  ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
+  ${{ if eq(variables['build.SourceBranch'], 'refs/heads/develop') }}:
     buildVariant: 'assembleDevDebug'
 
 pool:
@@ -19,8 +19,8 @@ pool:
 steps:
   - script: |
       echo "======================================"
-      echo ${{variables['build.SourceBranchName']}}
-      echo ${{variables.buildVariant}}
+      echo Source branch: ${{variables['build.SourceBranch']}}
+      echo Build variant: ${{variables.buildVariant}}
       echo "======================================"
 
   - task: Gradle@2
