@@ -6,9 +6,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.text.TextUtils
 import androidx.fragment.app.FragmentActivity
-import com.healthcarelocator.model.OneKeyLocation
-import com.healthcarelocator.model.map.OneKeyPlace
-import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
@@ -19,6 +16,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.maps.model.LatLng
+import com.healthcarelocator.model.OneKeyLocation
+import com.healthcarelocator.model.map.OneKeyPlace
+import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.iqvia.onekey.GetActivitiesQuery
 import com.iqvia.onekey.type.GeopointQuery
 import org.osmdroid.util.GeoPoint
@@ -326,6 +326,7 @@ fun GetActivitiesQuery.Builder.getQuery(place: OneKeyPlace?): GetActivitiesQuery
                 .lon(place.longitude.toDouble())
     } else {
         val countries = HealthCareLocatorSDK.getInstance().getConfiguration().countries
+                .filter { it.isNotEmpty() }.distinctBy { it }
         if (countries.isNotEmpty()) {
             this.country(TextUtils.join(",", countries))
         }

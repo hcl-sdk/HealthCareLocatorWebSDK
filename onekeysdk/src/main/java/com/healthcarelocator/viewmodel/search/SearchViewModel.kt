@@ -6,6 +6,11 @@ import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import base.fragments.IFragment
 import base.viewmodel.ApolloViewModel
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.healthcarelocator.extensions.*
 import com.healthcarelocator.fragments.search.SearchFragment
 import com.healthcarelocator.model.HealthCareLocatorSpecialityObject
@@ -15,11 +20,6 @@ import com.healthcarelocator.service.location.OneKeyMapService
 import com.healthcarelocator.service.location.getValidCountryCodes
 import com.healthcarelocator.state.HealthCareLocatorSDK
 import com.healthcarelocator.utils.OneKeyLog
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.iqvia.onekey.GetCodeByLabelQuery
 import com.iqvia.onekey.GetIndividualByNameQuery
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -77,8 +77,11 @@ class SearchViewModel : ApolloViewModel<SearchFragment>() {
             put("accept-language", Locale.getDefault().language)
             put("addressdetails", "1")
             put("limit", "10")
-            put("countrycodes", TextUtils.join(",", HealthCareLocatorSDK.getInstance()
-                    .getConfiguration().countries).getValidCountryCodes())
+            put("countrycodes", HealthCareLocatorSDK.getInstance().getConfiguration().run {
+                if (defaultCountry.isNotEmpty()) defaultCountry
+                else TextUtils.join(",", countries.filter { it.isNotEmpty() }
+                        .distinctBy { it }).getValidCountryCodes()
+            })
         }
     }
 

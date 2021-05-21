@@ -37,6 +37,7 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
+import java.lang.Exception
 
 class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListener,
         OnMapReadyCallback,
@@ -260,11 +261,16 @@ class MapFragment : IFragment(), IMyLocationConsumer, Marker.OnMarkerClickListen
                 val filtered = overlays?.filterIsInstance<CurrentPositionMarker>()
                         ?: listOf()
                 overlays.removeAll(filtered)
-                overlays?.add(CurrentPositionMarker(mMapView).apply {
-                    position = GeoPoint(currentLocation.latitude, currentLocation.longitude)
-                    setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-                    icon = ContextCompat.getDrawable(context!!, R.drawable.ic_current_location)
-                })
+                try {
+                    overlays?.add(CurrentPositionMarker(mMapView).apply {
+                        setInfoWindow(null)
+                        position = GeoPoint(currentLocation.latitude, currentLocation.longitude)
+                        setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+                        icon = ContextCompat.getDrawable(context!!, R.drawable.ic_current_location)
+                    })
+                }catch (e:Exception){
+
+                }
             }
         }, {}, {})
     }

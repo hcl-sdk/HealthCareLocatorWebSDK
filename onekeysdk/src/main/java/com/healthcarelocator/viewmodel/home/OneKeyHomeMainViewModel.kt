@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import base.viewmodel.AppViewModel
+import com.google.gson.Gson
 import com.healthcarelocator.extensions.getConsultedProfiles
 import com.healthcarelocator.extensions.getLastSearches
 import com.healthcarelocator.extensions.isNotNullable
@@ -13,7 +14,6 @@ import com.healthcarelocator.extensions.requestPermission
 import com.healthcarelocator.fragments.home.OneKeyHomeMainFragment
 import com.healthcarelocator.service.location.LocationClient
 import com.healthcarelocator.utils.OneKeyLog
-import com.google.gson.Gson
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
@@ -66,4 +66,5 @@ class OneKeyHomeMainViewModel : AppViewModel<OneKeyHomeMainFragment>() {
                     it.onComplete()
                 }
             }, BackpressureStrategy.LATEST)
+
 }
