@@ -36,7 +36,7 @@ export async function getAddressFromGeo(lat: number, lng: number) {
     const data = response.data;
     const { road, city, state_district, state, country } = data.address;
 
-    data.shortDisplayName = [road, city, state_district, state, country].join(', ');
+    data.shortDisplayName = [road, city, state_district, state, country].filter(str => !!str).join(', ');
 
     return data;
   } catch(err) {

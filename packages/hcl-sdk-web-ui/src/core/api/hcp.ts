@@ -7,6 +7,22 @@ import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 
+export function groupPointFromBoundingBox(boundingbox: string[]) {
+  const bbox = boundingbox.map(strNum => Number(strNum)); 
+  const hashBBox = {
+    south: bbox[0],
+    north: bbox[1],
+    west: bbox[2],
+    east: bbox[3]
+  }
+  const point = {
+    bottomRight: { latitude: hashBBox.south, longitude: hashBBox.east },
+    topLeft: { latitude: hashBBox.north, longitude: hashBBox.west },
+    // bottomLeft: { latitude: hashBBox.south, longitude: hashBBox.west },
+    // topRight: { latitude: hashBBox.north, longitude: hashBBox.east }
+  }
+  return { bbox, hashBBox, point }
+}
 function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
   if (!addressDetails) {
     return {
@@ -23,19 +39,8 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
 
   if (addressDetails.country && (addressDetails.city || addressDetails.state)) {
     // City
-    const bbox = boundingbox.map(strNum => Number(strNum)); 
-    const hashBBox = {
-      south: bbox[0],
-      north: bbox[1],
-      west: bbox[2],
-      east: bbox[3]
-    }
-    const point = {
-      bottomRight: { latitude: hashBBox.south, longitude: hashBBox.east },
-      topLeft: { latitude: hashBBox.north, longitude: hashBBox.west },
-      // bottomLeft: { latitude: hashBBox.south, longitude: hashBBox.west },
-      // topRight: { latitude: hashBBox.north, longitude: hashBBox.east }
-    }
+    const { point } = groupPointFromBoundingBox(boundingbox)
+    
     const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
     return {
       distanceMeter: maxDistanceMeter
@@ -106,7 +111,10 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
   searchLocation(params);
 }
 
-export async function searchLocation(variables, hasLoading: string = 'loading') {
+export async function searchLocation(variables, { 
+  hasLoading = 'loading', 
+  isAcceptEmptyData = true 
+} = {}) {
   searchMapStore.setState({
     individualDetail: null,
     loadingActivitiesStatus: hasLoading as any
@@ -134,6 +142,10 @@ export async function searchLocation(variables, hasLoading: string = 'loading') 
       lng: item.activity.workplace.address.location.lon,
       id: item.activity.id
     }))
+
+    if (!isAcceptEmptyData && data.length === 0) {
+      return
+    }
 
     // Handle Sort the data
     const sortValues = searchMapStore.state.sortValues;
