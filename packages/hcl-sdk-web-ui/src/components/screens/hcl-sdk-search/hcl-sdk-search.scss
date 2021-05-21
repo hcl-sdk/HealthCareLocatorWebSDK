@@ -82,9 +82,6 @@
       background-color: white;
     }
 
-    .hclsdk-open-address .hclsdk-error {
-      border-color: var(--hcl-color-grey_dark);
-    }
   }
 
   .hclsdk-error {
@@ -152,6 +149,10 @@
         overflow-y: auto;
         max-height: 250px;
         z-index: 0;
+      }
+
+      .hclsdk-open-address .hclsdk-error {
+        border-color: var(--hcl-color-grey_dark);
       }
     }
 
