@@ -1,8 +1,11 @@
 package com.healthcarelocator.state
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import base.extensions.addFragment
 import base.extensions.changeLocale
 import base.extensions.pushFragment
@@ -14,6 +17,11 @@ import com.healthcarelocator.fragments.home.OneKeyHomeMainFragment
 import com.healthcarelocator.fragments.map.OneKeyNearMeFragment
 import com.healthcarelocator.model.config.HealthCareLocatorCustomObject
 import com.healthcarelocator.model.map.OneKeyPlace
+import com.healthcarelocator.service.location.LocationAPI
+import com.healthcarelocator.service.location.LocationClient
+import com.healthcarelocator.service.location.OneKeyMapService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import java.io.IOException
 
@@ -29,6 +37,9 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
     private val defaultClientUrl = "https://www.blank.org/"
     private var clientUrl: String = ""
     private var modificationUrl: String = ""
+    private val executor: LocationAPI by lazy {
+        OneKeyMapService.Builder(LocationAPI.mapUrl, LocationAPI::class.java).build()
+    }
 
     companion object {
         @JvmStatic
@@ -81,6 +92,7 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
         else if (containerId == 0)
             throw OneKeyException(ErrorReference.ID_INVALID,
                     "The provided containerId must NOT be 0.")
+        reverseGeoCoding(activity!!)
         readConfig(activity)
         if (config.mapService == MapService.GOOGLE_MAP &&
                 activity?.getMetaDataFromManifest("com.google.android.geo.API_KEY").isNullOrEmpty())
@@ -103,6 +115,7 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
         if (activity.isNullable())
             throw OneKeyException(ErrorReference.ACTIVITY_INVALID,
                     "The provided Activity must NOT be nullable.")
+        reverseGeoCoding(activity!!)
         activity!!.startActivity(Intent(activity, OneKeyActivity::class.java))
     }
 
@@ -128,5 +141,28 @@ class HealthCareLocatorSDK private constructor() : HealthCareLocatorState {
         } ?: JSONObject()
         clientUrl = json.getString("clientHCLUrl")
         modificationUrl = json.getString("modificationUrl")
+    }
+
+    override fun reverseGeoCoding(context: Context) {
+        if (ContextCompat.checkSelfPermission(context,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            val client = LocationClient(context)
+            client.requestLastLocation().registerDataCallBack({ location ->
+                client.removeLocationUpdate()
+                client.releaseApiClient()
+                val params = hashMapOf<String, String>()
+                params["lat"] = "${location.latitude}"
+                params["lon"] = "${location.longitude}"
+                params["format"] = "json"
+                executor.reverseGeoCoding(params).map {
+                    it.address?.countryCode ?: ""
+                }.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    if (it.isNotEmpty()) {
+                        getConfiguration().defaultCountry = it
+                    }
+                }, { })
+            }, {}, {})
+
+        }
     }
 }

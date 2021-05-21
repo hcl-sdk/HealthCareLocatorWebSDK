@@ -14,6 +14,7 @@ interface HealthCareLocatorState {
     fun getAppDownloadLink(): String
     fun setCustomObject(customObject: HealthCareLocatorCustomObject)
     fun getConfiguration(): HealthCareLocatorCustomObject
+    fun reverseGeoCoding(context: Context)
 
     /**
      * startOneKeySDKFragment is used to embed OneKeySDK into your Activity.

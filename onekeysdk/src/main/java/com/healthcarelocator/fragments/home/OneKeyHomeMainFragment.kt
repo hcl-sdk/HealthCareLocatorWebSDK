@@ -75,6 +75,7 @@ class OneKeyHomeMainFragment :
                     pushFragment(OneKeyHomeFragment.newInstance())
                     return
                 }
+                context?.let { HealthCareLocatorSDK.getInstance().reverseGeoCoding(it) }
                 if (bundle!!.getBoolean("granted", false)) {
                     viewModel.checkHomeFullPage(context!!) { screen ->
                         pushFragment(if (screen == 1) OneKeyHomeFullFragment.newInstance()

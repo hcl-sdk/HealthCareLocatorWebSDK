@@ -17,9 +17,9 @@ fun Context.getDrawableFilledIcon(drawableId: Int, color: Int, size: Int = 1): D
     return unWrappedDrawable?.run {
         val wrappedDrawable = DrawableCompat.wrap(this)
         DrawableCompat.setTint(wrappedDrawable, color)
-        if (size > 1)
-            drawOnDrawable(this, size)
-        else this
+//        if (size > 1)
+//            drawOnDrawable(this, size)
+        this
     }
 }
 
