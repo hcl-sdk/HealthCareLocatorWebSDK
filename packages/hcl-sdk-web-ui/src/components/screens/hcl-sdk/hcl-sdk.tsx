@@ -61,6 +61,7 @@ export class HclSDK {
     });
     configStore.setState({
       modeView: ModeViewType.MAP,
+      modal: undefined
     });
     if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push('/search-result');
