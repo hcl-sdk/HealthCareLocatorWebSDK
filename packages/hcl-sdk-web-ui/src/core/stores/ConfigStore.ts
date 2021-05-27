@@ -5,6 +5,11 @@ export enum ModeViewType {
   "MAP" = "MAP"
 }
 
+export enum MapProvider {
+  GOOGLE_MAP = 'GOOGLE_MAP',
+  OPEN_STREETMAP = 'OPEN_STREETMAP'
+}
+
 export interface Modal {
   title: string;
   component: string;
@@ -25,10 +30,16 @@ export interface HclSDKConfigData {
   locale?: string;
   countries?: string[];
   showSuggestModification?: boolean;
+  mapProvider: MapProvider;
+  googleMapApiKey: string;
+  googleMapId: string;
 }
 
 export const initStateConfigStore = {
+  mapProvider: MapProvider.OPEN_STREETMAP,
   apiKey: '',
+  googleMapApiKey: '',
+  googleMapId: '',
   modeView: ModeViewType.LIST,
   modal: undefined,
   icons: {},

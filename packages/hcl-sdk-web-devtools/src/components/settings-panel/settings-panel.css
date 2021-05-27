@@ -85,9 +85,22 @@ h2.title-var {
   transform: rotate(-135deg) scale(0.6);
 }
 
+.view-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.view-content {
+  flex: 1;
+  overflow: auto;
+  padding: 0 20px;
+}
+
 .title-wrapper {
   display: flex;
   align-items: center;
+  padding: 0 20px;
 }
 
 .title-wrapper .save-theme {
@@ -99,9 +112,8 @@ h2.title-var {
 }
 
 .wrapper {
-  padding: 20px;
+  padding: 20px 0;
   height: 100%;
-  overflow: auto;
 }
 
 .link {

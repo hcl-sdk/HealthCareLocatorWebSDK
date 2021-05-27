@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'hcl-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
-import { ModeViewType } from '../../../core/stores/ConfigStore';
+import { MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
@@ -75,8 +75,15 @@ export class HclSDK {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
     
-    const initConfig = merge({}, defaults, config);
+    if (config.useGoogleMap === true) {
+      if (!config.googleMapApiKey) {
+        throw new Error('Please provide Google Map API key')
+      }
 
+      config.mapProvider = MapProvider.GOOGLE_MAP;
+    }
+
+    const initConfig = merge({}, defaults, config);
     this.loadCurrentPosition(initConfig);
 
     initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;

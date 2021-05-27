@@ -194,10 +194,10 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
-      } else if (fieldName === 'showSuggestModification') {
+      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap') {
         value = (evt.target as any).checked as boolean;
       } else if (fieldName === 'countries') {
-        value = (evt.target as any).value.trim().split(',');
+        value = (evt.target as any).value.trim().split(',').filter(val => !!val);
       }
       this.fields = {
         ...this.fields,
@@ -457,7 +457,7 @@ export class SettingsPanel {
 
   renderMainView() {
     return (
-      <section>
+      <section class="view-container">
         <div class="title-wrapper">
           <button onClick={this.handleBackButton} class="back">
             <i class="icono-arrow1-right"></i>
@@ -473,69 +473,90 @@ export class SettingsPanel {
             )
           }
         </div>
-        <div class="row">
-          <label>API Key</label>
-          <input name="api-key" type="text" value={this.fields.apiKey} onInput={this.handleChange('apiKey')} />
-        </div>
-        <div class="row">
-          <label>
-            <span>Theme</span>{' '}
-            {this.fields.theme === 'custom' && (
-              <a class="edit-link link" href="javascript:;" onClick={this.editTheme}>
-                Edit
-              </a>
-            )}
-          </label>
-          <select name="theme" onChange={this.handleChange('theme')}>
-            <option value="default" selected={this.fields.theme === 'default'}>
-              Default
-            </option>
-            {/* <option value="green" selected={this.fields.theme === 'green'}>
-              Green
-            </option>
-            <option value="blue" selected={this.fields.theme === 'blue'}>
-              Blue
-            </option>
-            <option value="red" selected={this.fields.theme === 'red'}>
-              Red
-            </option>
-            <option value="purple" selected={this.fields.theme === 'purple'}>
-              Purple
-            </option> */}
-            <option value="custom" selected={this.fields.theme === 'custom'}>
-              Custom
-            </option>
-          </select>
-        </div>
-        <div class="row">
-          <label>Language</label>
-          <select name="lang" onChange={this.handleChange('lang')}>
-            <option value="en" selected={this.fields.lang === 'en'}>
-              English
-            </option>
-            <option value="fr_CA" selected={this.fields.lang === 'fr_CA'}>
-              Français
-            </option>
-          </select>
-        </div>
-        <div class="row">
-          <label>App Name</label>
-          <input name="appName" type="text" value={this.fields.appName} onInput={this.handleChange('appName')} />
-        </div>
-        <div class="row">
-          <label>App URL</label>
-          <input name="appURL" type="text" value={this.fields.appURL} onInput={this.handleChange('appURL')} />
-        </div>
-        <div class="row">
-          <label>Countries</label>
-          <input name="countries" type="text" value={this.fields.countries} onInput={this.handleChange('countries')} placeholder="fr,en,..." />
-        </div>
-        <div class="row">
-          <label>Show HCP Suggest Modification</label>
-          <div class="hcl-switch-btn">
-            <input name="showSuggestModification" type="checkbox" class="checkbox-switch" onChange={this.handleChange('showSuggestModification')} checked={this.fields.showSuggestModification}/>
-            <div class="hcl-switch-btn__slider"></div>
+        <div class="view-content">
+          <div class="row">
+            <label>API Key</label>
+            <input name="api-key" type="text" value={this.fields.apiKey} onInput={this.handleChange('apiKey')} />
           </div>
+          <div class="row">
+            <label>
+              <span>Theme</span>{' '}
+              {this.fields.theme === 'custom' && (
+                <a class="edit-link link" href="javascript:;" onClick={this.editTheme}>
+                  Edit
+                </a>
+              )}
+            </label>
+            <select name="theme" onChange={this.handleChange('theme')}>
+              <option value="default" selected={this.fields.theme === 'default'}>
+                Default
+              </option>
+              {/* <option value="green" selected={this.fields.theme === 'green'}>
+                Green
+              </option>
+              <option value="blue" selected={this.fields.theme === 'blue'}>
+                Blue
+              </option>
+              <option value="red" selected={this.fields.theme === 'red'}>
+                Red
+              </option>
+              <option value="purple" selected={this.fields.theme === 'purple'}>
+                Purple
+              </option> */}
+              <option value="custom" selected={this.fields.theme === 'custom'}>
+                Custom
+              </option>
+            </select>
+          </div>
+          <div class="row">
+            <label>Language</label>
+            <select name="lang" onChange={this.handleChange('lang')}>
+              <option value="en" selected={this.fields.lang === 'en'}>
+                English
+              </option>
+              <option value="fr_CA" selected={this.fields.lang === 'fr_CA'}>
+                Français
+              </option>
+            </select>
+          </div>
+          <div class="row">
+            <label>App Name</label>
+            <input name="appName" type="text" value={this.fields.appName} onInput={this.handleChange('appName')} />
+          </div>
+          <div class="row">
+            <label>App URL</label>
+            <input name="appURL" type="text" value={this.fields.appURL} onInput={this.handleChange('appURL')} />
+          </div>
+          <div class="row">
+            <label>Countries</label>
+            <input name="countries" type="text" value={this.fields.countries} onInput={this.handleChange('countries')} placeholder="fr,en,..." />
+          </div>
+          <div class="row">
+            <label>Show HCP Suggest Modification</label>
+            <div class="hcl-switch-btn">
+              <input
+                name="showSuggestModification"
+                type="checkbox"
+                class="checkbox-switch"
+                onChange={this.handleChange('showSuggestModification')}
+                checked={this.fields.showSuggestModification}
+              />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
+            <label>Use Google Map</label>
+            <div class="hcl-switch-btn">
+              <input name="useGoogleMap" type="checkbox" class="checkbox-switch" onChange={this.handleChange('useGoogleMap')} checked={this.fields.useGoogleMap} />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          {this.fields.useGoogleMap ? (
+            <div class="row">
+              <label>Google Map API Key</label>
+                <input name="google-map-api-key" type="text" value={this.fields.googleMapApiKey} onInput={this.handleChange('googleMapApiKey')} />
+            </div>
+          ) : null}
         </div>
       </section>
     );
@@ -543,41 +564,43 @@ export class SettingsPanel {
 
   renderThemeView() {
     return (
-      <section>
+      <section class="view-container">
         <div class="title-wrapper">
           <button onClick={this.backToSettingsHome} class="back">
             <i class="icono-arrow1-right"></i>
           </button>
           <h2>Custom Theme</h2>
         </div>
-        <div class="row">
-          <label class="section">
-            <span>Fonts</span>
-            <a class="link" href="javascript:;" onClick={() => (this.isFontsExpanded = !this.isFontsExpanded)}>
-              view {this.isFontsExpanded ? 'less' : 'more'}
-            </a>
-          </label>
-          <div class="var-buttons">{FONTS.filter((_, i) => (this.isFontsExpanded ? true : i < 6)).map(this.renderFontButton)}</div>
-        </div>
-        <div class="row">
-          <label class="section">
-            <span>Colors</span>{' '}
-            <a class="link" href="javascript:;" onClick={() => (this.isColorsExpanded = !this.isColorsExpanded)}>
-              view {this.isColorsExpanded ? 'less' : 'more'}
-            </a>
-          </label>
-          <div class="var-buttons">{COLORS.filter((_, i) => (this.isColorsExpanded ? true : i < 6)).map(this.renderColorButton)}</div>
-        </div>
+        <div class="view-content">
+          <div class="row">
+            <label class="section">
+              <span>Fonts</span>
+              <a class="link" href="javascript:;" onClick={() => (this.isFontsExpanded = !this.isFontsExpanded)}>
+                view {this.isFontsExpanded ? 'less' : 'more'}
+              </a>
+            </label>
+            <div class="var-buttons">{FONTS.filter((_, i) => (this.isFontsExpanded ? true : i < 6)).map(this.renderFontButton)}</div>
+          </div>
+          <div class="row">
+            <label class="section">
+              <span>Colors</span>{' '}
+              <a class="link" href="javascript:;" onClick={() => (this.isColorsExpanded = !this.isColorsExpanded)}>
+                view {this.isColorsExpanded ? 'less' : 'more'}
+              </a>
+            </label>
+            <div class="var-buttons">{COLORS.filter((_, i) => (this.isColorsExpanded ? true : i < 6)).map(this.renderColorButton)}</div>
+          </div>
 
-        <div class="row">
-          <label class="section">
-            <span>Icons</span>
-            <a class="link" href="javascript:;" onClick={() => (this.isIconsExpanded = !this.isIconsExpanded)}>
-              view {this.isIconsExpanded ? 'less' : 'more'}
-            </a>
-          </label>
-          <div class="var-buttons">
-            {Object.keys(icons).map(this.renderIconButton)}
+          <div class="row">
+            <label class="section">
+              <span>Icons</span>
+              <a class="link" href="javascript:;" onClick={() => (this.isIconsExpanded = !this.isIconsExpanded)}>
+                view {this.isIconsExpanded ? 'less' : 'more'}
+              </a>
+            </label>
+            <div class="var-buttons">
+              {Object.keys(icons).map(this.renderIconButton)}
+            </div>
           </div>
         </div>
       </section>
@@ -586,70 +609,72 @@ export class SettingsPanel {
 
   renderFontView() {
     return (
-      <section>
+      <section class="view-container">
         <div class="title-wrapper">
           <button onClick={this.backToCustomTheme} class="back">
             <i class="icono-arrow1-right"></i>
           </button>
           <h2 class="title-var">Font {this.renderPropName('font', this.editedFont.key)}</h2>
         </div>
-        <div
-          class="font-preview"
-          style={{
-            fontSize: `${this.editedFont.size}px`,
-            fontFamily: this.editedFont.name,
-            fontWeight: this.editedFont.weight === 'bolder' ? '900' : this.editedFont.weight,
-          }}
-        >
-          Text Preview
-        </div>
-        <div class="row">
-          <label>
-            <span>Name</span>
-          </label>
-          <select name="theme" onChange={this.updateEditedFont('name')}>
-            <option value="Arial" selected={this.editedFont.name === 'Arial'}>
-              Arial
-            </option>
-            <option value="'Comic Sans MS'" selected={this.editedFont.name === `'Comic Sans MS'`}>
-              Comic Sans MS
-            </option>
-            <option value="inherit" selected={this.editedFont.name === 'inherit'}>
-              Roboto
-            </option>
-            <option value="Impact" selected={this.editedFont.name === 'Impact'}>
-              Impact
-            </option>
-            <option value="Verdana" selected={this.editedFont.name === 'Verdana'}>
-              Verdana
-            </option>
-            <option value="'Times New Roman'" selected={this.editedFont.name === `'Times New Roman'`}>
-              Times New Roman
-            </option>
-            <option value="'Courier New'" selected={this.editedFont.name === `'Courier New'`}>
-              Courier New
-            </option>
-          </select>
-        </div>
-        <div class="row">
-          <label>Size</label>
-          <select name="font-size" onChange={this.updateEditedFont('size')}>
-            {FONT_SIZES.map(String).map(size => (
-              <option value={size} selected={this.editedFont && this.editedFont.size === size}>
-                {size}
+        <div class="view-content">
+          <div
+            class="font-preview"
+            style={{
+              fontSize: `${this.editedFont.size}px`,
+              fontFamily: this.editedFont.name,
+              fontWeight: this.editedFont.weight === 'bolder' ? '900' : this.editedFont.weight,
+            }}
+          >
+            Text Preview
+          </div>
+          <div class="row">
+            <label>
+              <span>Name</span>
+            </label>
+            <select name="theme" onChange={this.updateEditedFont('name')}>
+              <option value="Arial" selected={this.editedFont.name === 'Arial'}>
+                Arial
               </option>
-            ))}
-          </select>
+              <option value="'Comic Sans MS'" selected={this.editedFont.name === `'Comic Sans MS'`}>
+                Comic Sans MS
+              </option>
+              <option value="inherit" selected={this.editedFont.name === 'inherit'}>
+                Roboto
+              </option>
+              <option value="Impact" selected={this.editedFont.name === 'Impact'}>
+                Impact
+              </option>
+              <option value="Verdana" selected={this.editedFont.name === 'Verdana'}>
+                Verdana
+              </option>
+              <option value="'Times New Roman'" selected={this.editedFont.name === `'Times New Roman'`}>
+                Times New Roman
+              </option>
+              <option value="'Courier New'" selected={this.editedFont.name === `'Courier New'`}>
+                Courier New
+              </option>
+            </select>
+          </div>
+          <div class="row">
+            <label>Size</label>
+            <select name="font-size" onChange={this.updateEditedFont('size')}>
+              {FONT_SIZES.map(String).map(size => (
+                <option value={size} selected={this.editedFont && this.editedFont.size === size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="row">
+            <label>Weight</label>
+            <select name="font-weight" onChange={this.updateEditedFont('weight')}>
+              {['lighter', 'normal', 'bold', 'bolder'].map(this.renderFontWeightSelectItem)}
+            </select>
+          </div>
+          <button class="btn-full save-theme" onClick={this.applyFont}>
+            OK
+          </button>
         </div>
-        <div class="row">
-          <label>Weight</label>
-          <select name="font-weight" onChange={this.updateEditedFont('weight')}>
-            {['lighter', 'normal', 'bold', 'bolder'].map(this.renderFontWeightSelectItem)}
-          </select>
-        </div>
-        <button class="btn-full save-theme" onClick={this.applyFont}>
-          OK
-        </button>
       </section>
     );
   }
@@ -657,88 +682,92 @@ export class SettingsPanel {
   renderIconView() {
     // const out = Prism.highlight(this.editedIcon.value, Prism.languages.svg, 'svg')
     return (
-      <section>
+      <section class="view-container">
         <div class="title-wrapper">
           <button onClick={this.backToCustomTheme} class="back">
             <i class="icono-arrow1-right"></i>
           </button>
           <h2 class="title-var">Icon {this.renderPropName('icon', this.editedIcon.key)}</h2>
         </div>
-        <div
-          class="icon-preview">
-          <span innerHTML={this.editedIcon.value} />
+        <div class="view-content">
+          <div
+            class="icon-preview">
+            <span innerHTML={this.editedIcon.value} />
+          </div>
+          <div class="row">
+            <textarea cols={30} rows={20} onInput={this.onChangeIconInput} value={this.editedIcon.value}>
+              {this.editedIcon.value}
+            </textarea>
+            {/* <pre class="language-markup" contentEditable onInput={this.onChangeIconInput}>
+              <code class="language-svg">
+                <span innerHTML={out} />
+              </code>
+            </pre> */}
+          </div>
+          <button class="btn-full btn-success save-theme" onClick={() => this.applyIcon(false)}>
+            Revert
+          </button>
+          <button class="btn-full save-theme" onClick={() => this.applyIcon(true)}>
+            Apply
+          </button>
         </div>
-        <div class="row">
-          <textarea cols={30} rows={20} onInput={this.onChangeIconInput} value={this.editedIcon.value}>
-            {this.editedIcon.value}
-          </textarea>
-          {/* <pre class="language-markup" contentEditable onInput={this.onChangeIconInput}>
-            <code class="language-svg">
-              <span innerHTML={out} />
-            </code>
-          </pre> */}
-        </div>
-        <button class="btn-full btn-success save-theme" onClick={() => this.applyIcon(false)}>
-          Revert
-        </button>
-        <button class="btn-full save-theme" onClick={() => this.applyIcon(true)}>
-          Apply
-        </button>
       </section>
     );
   }
 
   renderColorView() {
     return (
-      <section>
+      <section class="view-container">
         <div class="title-wrapper">
           <button onClick={this.backToCustomTheme} class="back">
             <i class="icono-arrow1-right"></i>
           </button>
           <h2 class="title-var">Color {this.renderPropName('color', this.editedColor.key)}</h2>
         </div>
-        <div class="row">
-          <label>
-            <span>Hex</span>
-          </label>
-          <div class="color-hex-wrapper">
-            <input name="color-hex" onInput={this.updateEditedColorHex} value={this.editedColor.hex} />
-            <div class="color-hex-thumb" style={{ backgroundColor: this.editedColor.hex }} />
+        <div class="view-content">
+          <div class="row">
+            <label>
+              <span>Hex</span>
+            </label>
+            <div class="color-hex-wrapper">
+              <input name="color-hex" onInput={this.updateEditedColorHex} value={this.editedColor.hex} />
+              <div class="color-hex-thumb" style={{ backgroundColor: this.editedColor.hex }} />
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="subrow">
-            <label>R</label> <input type="number" min="0" max="255" name="r" onInput={this.updateEditedColorRGB('r')} value={this.editedColor.r} />
-            <label>G</label> <input type="number" min="0" max="255" name="g" onInput={this.updateEditedColorRGB('g')} value={this.editedColor.g} />
-            <label>B</label> <input type="number" min="0" max="255" name="b" onInput={this.updateEditedColorRGB('b')} value={this.editedColor.b} />
+          <div class="row">
+            <div class="subrow">
+              <label>R</label> <input type="number" min="0" max="255" name="r" onInput={this.updateEditedColorRGB('r')} value={this.editedColor.r} />
+              <label>G</label> <input type="number" min="0" max="255" name="g" onInput={this.updateEditedColorRGB('g')} value={this.editedColor.g} />
+              <label>B</label> <input type="number" min="0" max="255" name="b" onInput={this.updateEditedColorRGB('b')} value={this.editedColor.b} />
+            </div>
           </div>
+          <div class="row color-picker-wrapper">
+            <jeep-colorpicker
+              ref={el => {
+                if (el && el !== this.picker) {
+                  el.open();
+                  el.color = this.editedColor.hex;
+                  this.picker = el;
+                }
+              }}
+              opacity="1"
+              hidebuttons
+              hideopacity
+              hideheader
+              class="hydrated"
+              style={{
+                '--colorpicker-left': '0',
+                '--colorpicker-top': '0',
+                '--colorpicker-width': '260px',
+                '--colorpicker-height': '210px',
+                '--colorpicker-background-color': '#d6d7da',
+              }}
+            ></jeep-colorpicker>
+          </div>
+          <button class="btn-full save-theme" onClick={this.applyColor}>
+            OK
+          </button>
         </div>
-        <div class="row color-picker-wrapper">
-          <jeep-colorpicker
-            ref={el => {
-              if (el && el !== this.picker) {
-                el.open();
-                el.color = this.editedColor.hex;
-                this.picker = el;
-              }
-            }}
-            opacity="1"
-            hidebuttons
-            hideopacity
-            hideheader
-            class="hydrated"
-            style={{
-              '--colorpicker-left': '0',
-              '--colorpicker-top': '0',
-              '--colorpicker-width': '260px',
-              '--colorpicker-height': '210px',
-              '--colorpicker-background-color': '#d6d7da',
-            }}
-          ></jeep-colorpicker>
-        </div>
-        <button class="btn-full save-theme" onClick={this.applyColor}>
-          OK
-        </button>
       </section>
     );
   }

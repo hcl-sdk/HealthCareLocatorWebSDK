@@ -8,4 +8,7 @@ export interface Fields {
   appURL: string;
   showSuggestModification: boolean;
   countries: string[];
+  useGoogleMap: boolean;
+  googleMapApiKey?: string;
+  googleMapId?: string;
 }
