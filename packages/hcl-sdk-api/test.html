@@ -20,9 +20,23 @@
       apiKey,
     }
     const api = new HclAPI(config);
-    
 
-    /* ===== activityByID =====*/
+    /* ===== activities ===== */
+    api.activities({
+      // country: "ca",
+      first: 50,
+      // locale: "en",
+      offset: 0,
+      // specialties: ["SP.WCA.75"]
+    })
+      .then(res => {
+        
+      })
+      .catch(err => {
+
+      })
+
+    /* ===== activityByID ===== */
     const params = {
       id: 'WCAM0000048701',
     };
@@ -32,6 +46,17 @@
       })
       .catch(err => {
         alert('activityByID error', err.message);
+      })
+    
+    /* ===== individualsByID ===== */
+    api.individualsByID({
+      id: 'WCAM00000487'
+    })
+      .then(res => {
+        console.log("individualsByID", res)
+      })
+      .catch(err => {
+        alert('individualsByID error', err.message);
       })
     
     /* ===== codesByLabel ===== */
@@ -50,18 +75,22 @@
         alert('codesByLabel error', err.message);
       })
 
-    
-    /* ===== individualsByID ===== */
-    api.individualsByID({
-      id: 'WCAM00000487'
-    })
+    /* ===== labelsByCode ===== */
+    const paramsLabels = {
+      first: 5,
+      offset: 0,
+      criteria: '',
+      locale: 'en',
+      codeTypes: ["TIT"],
+    }
+    api.labelsByCode(paramsCodes)
       .then(res => {
-        console.log("individualsByID", res)
+        console.log("labelsByCode", res)
       })
       .catch(err => {
-        alert('individualsByID error', err.message);
+        alert('labelsByCode error', err.message);
       })
-    
+      
     /* ===== suggestModification ===== */
     const hcpData = {
       "apiKey": apiKey,

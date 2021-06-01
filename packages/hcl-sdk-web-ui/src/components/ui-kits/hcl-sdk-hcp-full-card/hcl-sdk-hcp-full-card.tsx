@@ -42,6 +42,10 @@ export class HclSdkHCPFullCard {
     searchMapStore.setState({
       individualDetail: null
     });
+    configStore.setState({
+      // Close the modal profile map if users not click on close icon
+      modal: undefined
+    })
   }
 
   onVoteHCP = (answer: boolean) => {
