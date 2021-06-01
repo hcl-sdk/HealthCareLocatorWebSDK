@@ -7,7 +7,10 @@ const defaultSettings = {
   appName: '',
   showSuggestModification: true,
   appURL: '',
-  countries: ['ca','fr']
+  countries: ['ca','fr'],
+  useGoogleMap: false,
+  googleMapApiKey: '',
+  googleMapId: ''
 }
 
 export function format(first: string, middle: string, last: string): string {
