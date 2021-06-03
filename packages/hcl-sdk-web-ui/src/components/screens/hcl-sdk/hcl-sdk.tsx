@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { applyDefaultTheme } from 'hcl-sdk-web-ui/src/utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
-import { MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
+import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
@@ -34,7 +34,7 @@ export class HclSDK {
   parentEl;
 
   @Method()
-  updateConfig(patch: any) {
+  updateConfig(patch: any): Promise<HclSDKConfigData> {
     configStore.setState(merge({}, configStore.state, patch));
     return Promise.resolve(configStore.state);
   }
