@@ -24,6 +24,26 @@ export class HclSdk {
 }
 
 
+export declare interface HclSdkAutocompleteResult extends Components.HclSdkAutocompleteResult {}
+@ProxyCmp({
+  inputs: ['currentSelectedInput', 'data', 'type'],
+  methods: ['focusOnArrowKeyDown']
+})
+@Component({
+  selector: 'hcl-sdk-autocomplete-result',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['currentSelectedInput', 'data', 'type']
+})
+export class HclSdkAutocompleteResult {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
 export declare interface HclSdkButton extends Components.HclSdkButton {}
 @ProxyCmp({
   inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'noBackground', 'noBorder', 'noTextColor', 'primary', 'round', 'secondary', 'type']
@@ -627,13 +647,14 @@ export class HclSdkIconSort {
 
 export declare interface HclSdkInput extends Components.HclSdkInput {}
 @ProxyCmp({
-  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onBlur', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value']
+  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value'],
+  methods: ['focusHclSdkInput']
 })
 @Component({
   selector: 'hcl-sdk-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onBlur', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value']
+  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value']
 })
 export class HclSdkInput {
   protected el: HTMLElement;
@@ -799,13 +820,13 @@ export class HclSdkSearch {
 import { HclSdkSearchItem as IHclSdkSearchItem } from 'hcl-sdk-web-ui/dist/types/components/ui-kits/hcl-sdk-search-address-item/hcl-sdk-search-address-item';
 export declare interface HclSdkSearchAddressItem extends Components.HclSdkSearchAddressItem {}
 @ProxyCmp({
-  inputs: ['activated', 'currentSearchText', 'item']
+  inputs: ['currentSearchText', 'item', 'selected']
 })
 @Component({
   selector: 'hcl-sdk-search-address-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['activated', 'currentSearchText', 'item'],
+  inputs: ['currentSearchText', 'item', 'selected'],
   outputs: ['selectAddress']
 })
 export class HclSdkSearchAddressItem {

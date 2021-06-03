@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Listen } from '@stencil/core';
 import { NEAR_ME } from '../../../core/constants';
 import { t } from '../../../utils/i18n';
 
@@ -9,7 +9,7 @@ import { t } from '../../../utils/i18n';
 })
 export class HclSdkSearchItem {
   @Prop() item: any;
-  @Prop() activated: boolean = false;
+  @Prop() selected: boolean = false;
   @Prop() currentSearchText?: string;
   @Event() selectAddress: EventEmitter;
 
@@ -40,14 +40,26 @@ export class HclSdkSearchItem {
     `;
   };
 
+  @Listen('click')
+  onClick() {
+    this.selectAddress.emit(this.item)
+  }
+
+  @Listen('keydown')
+  onKeyboard(evt: KeyboardEvent) {
+    if (evt.key === ' ' || evt.key === 'Enter' || evt.key === 'Spacebar') {
+      this.selectAddress.emit(this.item)
+    }
+  }
+
   render() {
     return (
-      <Host>
-        <div class="search-address-item" role="button" onClick={() => this.selectAddress.emit(this.item)}>
+      <Host role="button" tabIndex={0}>
+        <div class={`search-address-item ${this.selected ? 'selected' : ''}`} role="button">
           {
             (this.item.type || this.item.id === NEAR_ME) && <div class="search-address-item-icon-wrapper"><span class="search-address-item-icon">{this.renderIcon(this.item.type)}</span></div>
           }
-          <span class={`search-address-item-text ${this.activated ? 'active' : ''}`}>
+          <span class={`search-address-item-text`}>
             {this.item.id === NEAR_ME && <span class="name">{t('near_me')}</span>}
             {!!this.item.name && !this.currentSearchText && <span class="name">{this.item.name}</span>}
             {!!this.item.name && this.currentSearchText && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} />}

@@ -33,12 +33,13 @@ graph TD;
   hcl-sdk-search-result --> hcl-sdk-map
   hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-switch-view-mode --> hcl-sdk-icon
-  hcl-sdk-search --> hcl-sdk-search-address-item
+  hcl-sdk-search --> hcl-sdk-autocomplete-result
   hcl-sdk-search --> hcl-sdk-router-link
   hcl-sdk-search --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-input
   hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search --> hcl-sdk-switch-view-mode
+  hcl-sdk-autocomplete-result --> hcl-sdk-search-address-item
   hcl-sdk-search-address-item --> hcl-sdk-icon
   hcl-sdk-input --> hcl-sdk-button
   hcl-sdk-input --> hcl-sdk-icon
