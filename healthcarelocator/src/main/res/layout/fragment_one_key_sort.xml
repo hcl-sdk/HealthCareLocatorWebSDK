@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/default_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.healthcarelocator.custom.text.HCLTextView
+            android:id="@+id/tvSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/hcl_sort_label"
+            android:textSize="@dimen/default_text_big"
+            app:OneKeyTextColor="OneKeyColorPrimary"
+            app:OneKeyTextStyle="OneKeyStyleModalTitle" />
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/default_icon_size_small"
+            android:layout_height="@dimen/default_icon_size_small"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="3dp"
+            android:src="@drawable/baseline_close_black_24dp"
+            app:tint="@color/gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contentWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/default_padding_smaller"
+        android:background="@drawable/bg_white_border_corner"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.healthcarelocator.custom.HCLView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/default_padding"
+            android:layout_marginBottom="@dimen/default_padding"
+            app:OneKeyViewColor="OneKeyColorCardBorder" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|bottom"
+            android:orientation="horizontal">
+
+            <com.healthcarelocator.custom.text.HCLTextView
+                android:id="@+id/btnReset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_padding_smaller"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="@string/hcl_reset_button"
+                android:textColor="@color/white"
+                app:OneKeyTextStyle="OneKeyStyleButton" />
+
+            <com.healthcarelocator.custom.text.HCLTextView
+                android:id="@+id/btnApply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding_smaller"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:padding="@dimen/default_padding_smaller"
+                android:text="@string/hcl_apply_button"
+                android:textColor="@color/white"
+                app:OneKeyTextStyle="OneKeyStyleButton" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
