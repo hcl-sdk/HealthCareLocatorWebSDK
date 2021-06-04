@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
+            android:layout_marginStart="@dimen/default_padding"
+            android:layout_marginEnd="@dimen/default_padding"
+            android:background="@drawable/bg_green_circle"
+            android:padding="8dp"
+            android:src="@drawable/outline_location_on_black_24dp"
+            app:tint="@color/colorOneKeyGreen"
+            tools:tint="@color/colorOneKeyGreen" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.healthcarelocator.custom.text.HCLTextView
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/default_padding"
+                android:paddingEnd="@dimen/default_padding"
+                android:paddingBottom="@dimen/default_padding"
+                android:textColor="@color/colorOneKeyText"
+                android:textSize="@dimen/default_text" />
+
+            <com.healthcarelocator.custom.HCLView
+                android:id="@+id/bottomLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:OneKeyViewColor="OneKeyColorCardBorder"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/mapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLocations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clipToPadding="false"
+        android:elevation="3dp"
+        android:paddingEnd="@dimen/default_padding" />
+
+    <FrameLayout
+        android:id="@+id/currentLocationWrapper"
+        android:layout_width="@dimen/default_icon_size_big"
+        android:layout_height="@dimen/default_icon_size_big"
+        android:layout_above="@+id/rvLocations"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/default_padding"
+        android:layout_marginBottom="@dimen/default_padding">
+
+        <ImageView
+            android:id="@+id/btnCurrentLocation"
+            android:layout_width="@dimen/default_icon_size_big"
+            android:layout_height="@dimen/default_icon_size_big"
+            android:background="@drawable/bg_white_circle_border"
+            android:padding="@dimen/default_padding_small"
+            android:src="@drawable/baseline_my_location_black_24dp"
+            app:tint="@color/colorOneKeyText" />
+
+        <com.healthcarelocator.custom.progressbar.HCLProgressBar
+            android:id="@+id/loadingCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/btnRelaunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rvLocations"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/default_padding_bigger"
+        android:background="@color/colorOneKeyBlue"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/default_padding_tiny"
+        android:paddingTop="@dimen/default_padding_tiny"
+        android:paddingBottom="@dimen/default_padding_tiny">
+
+        <ImageView
+            android:id="@+id/ivRelaunch"
+            android:layout_width="@dimen/default_icon_size_smaller"
+            android:layout_height="@dimen/default_icon_size_smaller"
+            android:src="@drawable/baseline_refresh_white_24dp" />
+
+        <com.healthcarelocator.custom.text.HCLTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/default_padding_smaller"
+            android:paddingEnd="@dimen/default_padding_smaller"
+            android:text="@string/hcl_relaunch" />
+    </LinearLayout>
+</RelativeLayout>

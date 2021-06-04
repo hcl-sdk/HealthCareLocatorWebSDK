@@ -1,3 +1,3 @@
-include ':onekeysdk'
+include ':healthcarelocator'
 include ':sample'
-rootProject.name = "OneKey SDK"
+rootProject.name = "HealthcareLocator SDK"

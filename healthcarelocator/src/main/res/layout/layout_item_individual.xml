@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <com.healthcarelocator.custom.text.HCLTextView
+        android:id="@+id/tvSpeciality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/default_padding"
+        android:paddingBottom="@dimen/default_padding" />
+
+    <com.healthcarelocator.custom.HCLView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:OneKeyViewColor="OneKeyColorCardBorder"/>
+</LinearLayout>
