@@ -13,6 +13,8 @@ interface OnDragCallbackArg {
 export interface IHclSdkMap {
   map;
 
+  remove(): void;
+
   setMarker(option: any): void;
 
   setCurrentMarker(latLng: any): void;

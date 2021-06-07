@@ -2,15 +2,32 @@ import { loadGoogleMapApi } from '../../../../core/google-api-loader';
 import { IHclSdkMap } from './hck-sdk-map-interface';
 
 export class HclSdkMapGoogleMap implements IHclSdkMap {
+  internalMapContainer: HTMLDivElement;
   map: google.maps.Map;
   markers: google.maps.Marker[] = [];
 
-  async initMap(mapElm, options) {
+  remove() {
+    if (this.map && this.internalMapContainer) {
+      this.internalMapContainer.remove()
+    }
+  }
+
+  async initMap(mapElm: HTMLElement, options) {
     await loadGoogleMapApi(options);
 
     if (!options.center) {
       delete options['center'];
     }
+
+    this.internalMapContainer = document.createElement('div');
+    this.internalMapContainer.style.position = 'absolute';
+    this.internalMapContainer.style.top = '0px';
+    this.internalMapContainer.style.right = '0px';
+    this.internalMapContainer.style.bottom = '0px';
+    this.internalMapContainer.style.left = '0px';
+
+    mapElm.style.position = 'relative';
+    mapElm.appendChild(this.internalMapContainer)
 
     this.map = new google.maps.Map(mapElm, { ...options, mapId: options.googleMapId });
 

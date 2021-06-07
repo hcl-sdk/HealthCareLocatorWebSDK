@@ -5,6 +5,12 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
   map: any;
   markers: any[] = [];
 
+  remove() {
+    if (this.map) {
+      this.map.remove()
+    }
+  }
+
   async initMap(mapElm, options) {
     const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
