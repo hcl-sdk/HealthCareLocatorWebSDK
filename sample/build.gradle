@@ -43,7 +43,7 @@ android {
             buildConfigField('String', 'env', '"dev"')
         }
         uat {
-            buildConfigField('String', 'env', '"uat"')
+            buildConfigField('String', 'env', '"prod"')
         }
     }
 
