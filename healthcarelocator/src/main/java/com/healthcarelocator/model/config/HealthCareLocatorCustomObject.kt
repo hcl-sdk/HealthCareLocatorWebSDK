@@ -68,7 +68,7 @@ data class HealthCareLocatorCustomObject private constructor(
         val iconWebsite: Int, val iconVoteUp: Int, val iconVoteDown: Int, val iconProfile: Int,
         val iconLocation: Int, val fontNoResultTitle: HeathCareLocatorViewFontObject,
         val fontNoResultDesc: HeathCareLocatorViewFontObject,
-        val showModificationForm: Boolean, val env: String = "dev", val countries: ArrayList<String>,
+        val showModificationForm: Boolean, val env: String = "prod", val countries: ArrayList<String>,
         var defaultCountry: String = "") {
 
     @Suppress
