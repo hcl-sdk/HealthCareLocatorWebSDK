@@ -30,16 +30,20 @@ export interface HclSDKConfigData {
   locale?: string;
   countries?: string[];
   showSuggestModification?: boolean;
-  mapProvider: MapProvider;
-  googleMapApiKey: string;
-  googleMapId: string;
+  map: {
+    provider: MapProvider;
+    googleMapApiKey: string;
+    googleMapId: string;
+  }
 }
 
 export const initStateConfigStore = {
-  mapProvider: MapProvider.OPEN_STREETMAP,
   apiKey: '',
-  googleMapApiKey: '',
-  googleMapId: '',
+  map: {
+    provider: MapProvider.OPEN_STREETMAP,
+    googleMapApiKey: '',
+    googleMapId: '',
+  },
   modeView: ModeViewType.LIST,
   modal: undefined,
   icons: {},

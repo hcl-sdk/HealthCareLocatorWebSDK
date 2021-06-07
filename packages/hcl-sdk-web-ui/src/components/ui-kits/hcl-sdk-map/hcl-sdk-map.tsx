@@ -39,6 +39,39 @@ export class HclSdkMap {
   mapElm: HTMLInputElement;
   map: IHclSdkMap;
 
+  connectedCallback() {
+    configStore.onChange('map', () => {
+      if (this.map && this.map['remove']) {
+        this.map['remove']()
+      }
+      this.setMap();
+    })
+  }
+
+  private setMap = async () => {
+    if (!this.locations) {
+      return;
+    }
+
+    const center = this.getCenterInitMap();
+
+    this.map = configStore.state.map.provider === MapProvider.OPEN_STREETMAP ? new HclSdkOpenStreetMap() : new HclSdkMapGoogleMap();
+    await this.map.initMap(this.mapElm, {
+      center,
+      zoom: this.isForcedZoomToMe ? 12 : this.defaultZoom,
+      minZoom: 1,
+      maxZoom: 20,
+      googleMapApiKey: configStore.state.map.googleMapApiKey,
+      googleMapId: configStore.state.map.googleMapId,
+      zoomControl: this.zoomControl,
+      dragging: this.dragging,
+    })
+
+    this.map.onDrag(this.onMapDragHandler)
+    this.setMarkers();
+  };
+
+
   async componentDidLoad() {
     await this.setMap();
     this.setMarkerCurrentLocation();
@@ -116,29 +149,6 @@ export class HclSdkMap {
 
     return center;
   }
-
-  private setMap = async () => {
-    if (!this.locations) {
-      return;
-    }
-
-    const center = this.getCenterInitMap();
-
-    this.map = configStore.state.mapProvider === MapProvider.OPEN_STREETMAP ? new HclSdkOpenStreetMap() : new HclSdkMapGoogleMap();
-    await this.map.initMap(this.mapElm, {
-      center,
-      zoom: this.isForcedZoomToMe ? 12 : this.defaultZoom,
-      minZoom: 1,
-      maxZoom: 20,
-      googleMapApiKey: configStore.state.googleMapApiKey,
-      googleMapId: configStore.state.googleMapId,
-      zoomControl: this.zoomControl,
-      dragging: this.dragging,
-    })
-
-    this.map.onDrag(this.onMapDragHandler)
-    this.setMarkers();
-  };
 
   private onSelectedMarker = marker => {
     this.onMarkerClick.emit(marker);

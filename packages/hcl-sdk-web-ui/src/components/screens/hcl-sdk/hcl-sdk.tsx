@@ -35,7 +35,8 @@ export class HclSDK {
 
   @Method()
   updateConfig(patch: any): Promise<HclSDKConfigData> {
-    configStore.setState(merge({}, configStore.state, patch));
+    const mapConfig = this.getMapConfig(patch);
+    configStore.setState(merge({}, configStore.state, patch, { map: mapConfig }));
     return Promise.resolve(configStore.state);
   }
 
@@ -75,15 +76,8 @@ export class HclSDK {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
     
-    if (config.useGoogleMap === true) {
-      if (!config.googleMapApiKey) {
-        throw new Error('Please provide Google Map API key')
-      }
-
-      config.mapProvider = MapProvider.GOOGLE_MAP;
-    }
-
-    const initConfig = merge({}, defaults, config);
+    const mapConfig = this.getMapConfig(config);
+    const initConfig = merge({}, defaults, config, { map: mapConfig });
     this.loadCurrentPosition(initConfig);
 
     initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
@@ -139,6 +133,23 @@ export class HclSDK {
         return;
       }
       this.searchNearMe({ specialtyCode });
+    }
+  }
+
+  private getMapConfig(configInput) {
+    if (configInput.useGoogleMap) {
+      if (!configInput.googleMapApiKey) {
+        throw new Error('Please provide Google Map API key')
+      }
+
+      return {
+        provider : MapProvider.GOOGLE_MAP,
+        googleMapApiKey: configInput.googleMapApiKey,
+      }
+    } else {
+      return {
+        provider: MapProvider.OPEN_STREETMAP
+      }
     }
   }
 

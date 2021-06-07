@@ -7,10 +7,10 @@ export async function searchGeoMap({ id }) {
   searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] });
 
   const provider =
-    configStore.state.mapProvider === MapProvider.OPEN_STREETMAP
+    configStore.state.map.provider === MapProvider.OPEN_STREETMAP
       ? new GeoProviderOpenstreet()
       : new GeoProviderGoogle({
-          googleMapApiKey: configStore.state.googleMapApiKey,
+          googleMapApiKey: configStore.state.map.googleMapApiKey,
         });
 
   const results = await provider.searchGeoMap({
@@ -26,10 +26,10 @@ export async function searchGeoMap({ id }) {
 
 export async function getAddressFromGeo(lat: number, lng: number) {
   const provider =
-    configStore.state.mapProvider === MapProvider.OPEN_STREETMAP
+    configStore.state.map.provider === MapProvider.OPEN_STREETMAP
       ? new GeoProviderOpenstreet()
       : new GeoProviderGoogle({
-          googleMapApiKey: configStore.state.googleMapApiKey,
+          googleMapApiKey: configStore.state.map.googleMapApiKey,
         });
 
   try {
