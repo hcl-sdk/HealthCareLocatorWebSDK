@@ -11,11 +11,24 @@
     align-items: center;
     width: 100%;
     border-top: 1px solid var(--hcl-color-grey_lighter);
-    padding: 15px 0;
+    padding: 15px 15px;
+
+    &.selected {
+      background-color: #e6e6e6;
+    }
+  }
+
+  hcl-sdk-search-address-item:focus {
+    outline: 0;
+
+    .search-address-item {
+      background-color: #e6e6e6;
+    }
   }
 
   .size-mobile .search-address-item {
-      padding: 20px 0;
+      padding: 20px 20px;
+      background-color: white;
   }
 
   .search-address-item-icon-wrapper {

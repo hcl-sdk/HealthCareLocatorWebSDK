@@ -38,6 +38,9 @@ export class HclSdkSearch {
     address: true,
   }
 
+  addressResultsRef;
+  formRef;
+
   componentWillLoad() {
     this.wrapperEl = this.el.closest('.wrapper');
 
@@ -57,19 +60,35 @@ export class HclSdkSearch {
       return;
     }
 
-    const target = evt.target;
-    const findFormItem = target.closest('.hclsdk-search__form--content-item')
-    if (!findFormItem && this.currentSelectedInput) {
-      this.currentSelectedInput = null;
+    if (this.fields.name.contains(evt.target) || this.fields.address.contains(evt.target)) {  
+      return;
+    }
+
+    if (!this.addressResultsRef) {
+      return;
+    }
+
+    const items = this.addressResultsRef.getElementsByTagName('hcl-sdk-search-address-item');
+
+    if (this.currentSelectedInput === 'name') {
+      const firstItem = [...items].find(itemRef => !itemRef.item.address);  
+      if (firstItem) {
+        this.selectAddress(firstItem.item)
+      }
+    } else if (this.currentSelectedInput === 'address') {
+      this.selectAddress(items[0].item)
     }
   }
 
   private onSearch = async e => {
     e.preventDefault();
+    const { name, address } = e.target;
+    await this.search(name, address)
+  }
 
+  private search = async (name, address) => {
     let checkValidName: boolean;
     let checkValidAddress: boolean;
-    const { name, address } = e.target;
     const isBasicNearMe = this.checkIsBasicNearMe();
 
     if (isBasicNearMe) {
@@ -185,6 +204,10 @@ export class HclSdkSearch {
   @Listen('selectAddress')
   onSelectAddress(e) {
     const item = e.detail;
+    this.selectAddress(item);
+  }
+
+  selectAddress(item) {
     // "Near Me" special Case
     if (item.id === NEAR_ME) {
       this.resetErrorElmUI('address');
@@ -239,12 +262,8 @@ export class HclSdkSearch {
     });
   };
 
-  renderContent = data => {
-    return (
-      <div class={`hclsdk-search__dropdown ${this.currentSelectedInput}`}>
-        {data && data.map(item => <hcl-sdk-search-address-item item={item} currentSearchText={searchMapStore.state.searchFields.name} />)}
-      </div>
-    );
+  renderContent = (data, type) => {
+    return <hcl-sdk-autocomplete-result type={type} ref={el => (this.addressResultsRef = el)} data={data} currentSelectedInput={this.currentSelectedInput} />;
   };
 
   clearFilter = (key: string) => {
@@ -286,6 +305,36 @@ export class HclSdkSearch {
     // this.currentSelectedInput = null;
   };
 
+  onInputSearchArrowDown = () => {
+    if (!this.addressResultsRef) {
+      return;
+    }
+
+    this.addressResultsRef.focusOnArrowKeyDown()
+  }
+
+  onInputSearchEnter = () => {
+    if (!this.addressResultsRef) {
+      return;
+    }
+
+    const items = this.addressResultsRef.getElementsByTagName('hcl-sdk-search-address-item');
+    if (this.currentSelectedInput === 'name') {
+      const firstItem = [...items].find(itemRef => !itemRef.item.address);
+      if (firstItem) {
+        this.selectAddress(firstItem.item)
+      }
+
+      this.fields.address.focusHclSdkInput()
+    } else {
+      this.selectAddress(items[0].item)
+
+      setTimeout(() => {
+        this.search(this.formRef.name, this.formRef.address)
+      }, 250)
+    }
+  }
+
   getViewSize = () => {
     const isTabletView = uiStore.state.breakpoint.screenSize === 'tablet';
     const isSmallView = uiStore.state.breakpoint.screenSize === 'mobile';
@@ -297,11 +346,11 @@ export class HclSdkSearch {
 
   renderAutocompleteMobile = (searchDoctorData, addressAutocompletionData) => {
     if (this.currentSelectedInput === 'name' && searchMapStore.state.searchFields.name.length > 0) {
-      return <div class="body-block">{searchDoctorData.length > 0 && this.renderContent(searchDoctorData)}</div>;
+      return <div class="body-block">{searchDoctorData.length > 0 && this.renderContent(searchDoctorData, 'name')}</div>;
     }
     if (this.currentSelectedInput === 'address') {
       const addressResults = this.insertDefaultAddressNearMe([...addressAutocompletionData]);
-      return <div class="body-block">{this.renderContent(addressResults)}</div>;
+      return <div class="body-block">{this.renderContent(addressResults, 'address')}</div>;
     }
     return null;
   };
@@ -312,16 +361,16 @@ export class HclSdkSearch {
     }
 
     if (this.currentSelectedInput === 'name') {
-      return <div>{data.length > 0 && this.renderContent(data)}</div>;
+      return <div>{data.length > 0 && this.renderContent(data, 'name')}</div>;
     }
     if (this.currentSelectedInput === 'address') {
       const addressResults = this.insertDefaultAddressNearMe([...data]);
-      return <div>{addressResults.length > 0 && this.renderContent(addressResults)}</div>;
+      return <div>{addressResults.length > 0 && this.renderContent(addressResults, 'address')}</div>;
     }
     return null;
   };
 
-  insertDefaultAddressNearMe(addressResults: any[]) {
+  insertDefaultAddressNearMe(addressResults: any[]) { 
     const searchMapState = searchMapStore.state;
 
     const nearMeFound = searchMapState.locationFilter?.id === NEAR_ME;
@@ -351,7 +400,7 @@ export class HclSdkSearch {
               <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
                 <hcl-sdk-icon name="arrow" width={25} height={25} color="black" />
               </hcl-sdk-router-link>
-              <form class="hclsdk-search__form" onSubmit={this.onSearch}>
+              <form ref={ref => this.formRef = ref} class="hclsdk-search__form" onSubmit={this.onSearch}>
                 <div class="hclsdk-search__form--content">
                   <div class="hclsdk-search__form--content-item">
                     <hcl-sdk-input
@@ -367,6 +416,8 @@ export class HclSdkSearch {
                       autoFocus={routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT}
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
+                      onEnterKeyDown={this.onInputSearchEnter}
+                      onArrowKeyDown={this.onInputSearchArrowDown}
                       readOnly={!!searchMapStore.state.specialtyFilter}
                       class={cls({
                         'hclsdk-error': !this.fieldsValid.name
@@ -388,6 +439,8 @@ export class HclSdkSearch {
                       onPostfixClick={() => this.resetValue('address', true)}
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
+                      onEnterKeyDown={this.onInputSearchEnter}
+                      onArrowKeyDown={this.onInputSearchArrowDown}
                       class={cls({
                         'hclsdk-error': !this.fieldsValid.address,
                         'hclsdk-open-address': this.currentSelectedInput === 'address'

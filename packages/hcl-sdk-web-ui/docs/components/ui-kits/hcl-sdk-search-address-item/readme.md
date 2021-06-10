@@ -9,9 +9,9 @@
 
 | Property            | Attribute             | Description | Type      | Default     |
 | ------------------- | --------------------- | ----------- | --------- | ----------- |
-| `activated`         | `activated`           |             | `boolean` | `false`     |
 | `currentSearchText` | `current-search-text` |             | `string`  | `undefined` |
 | `item`              | `item`                |             | `any`     | `undefined` |
+| `selected`          | `selected`            |             | `boolean` | `false`     |
 
 
 ## Events
@@ -25,7 +25,7 @@
 
 ### Used by
 
- - [hcl-sdk-search](../../screens/hcl-sdk-search)
+ - [hcl-sdk-autocomplete-result](../../screens/hcl-sdk-search)
 
 ### Depends on
 
@@ -35,7 +35,7 @@
 ```mermaid
 graph TD;
   hcl-sdk-search-address-item --> hcl-sdk-icon
-  hcl-sdk-search --> hcl-sdk-search-address-item
+  hcl-sdk-autocomplete-result --> hcl-sdk-search-address-item
   style hcl-sdk-search-address-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -9,6 +9,7 @@ import { defineCustomElements } from 'hcl-sdk-web-ui/dist/loader';
 
 defineCustomElements();
 export const HclSdk = /*@__PURE__*/createReactComponent<JSX.HclSdk, HTMLHclSdkElement>('hcl-sdk');
+export const HclSdkAutocompleteResult = /*@__PURE__*/createReactComponent<JSX.HclSdkAutocompleteResult, HTMLHclSdkAutocompleteResultElement>('hcl-sdk-autocomplete-result');
 export const HclSdkButton = /*@__PURE__*/createReactComponent<JSX.HclSdkButton, HTMLHclSdkButtonElement>('hcl-sdk-button');
 export const HclSdkDevSettings = /*@__PURE__*/createReactComponent<JSX.HclSdkDevSettings, HTMLHclSdkDevSettingsElement>('hcl-sdk-dev-settings');
 export const HclSdkDoctorCard = /*@__PURE__*/createReactComponent<JSX.HclSdkDoctorCard, HTMLHclSdkDoctorCardElement>('hcl-sdk-doctor-card');

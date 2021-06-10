@@ -15,6 +15,12 @@ export namespace Components {
         "searchNearMe": ({ specialtyCode }: { specialtyCode: any; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
     }
+    interface HclSdkAutocompleteResult {
+        "currentSelectedInput": any;
+        "data": any;
+        "focusOnArrowKeyDown": () => Promise<void>;
+        "type": 'name' | 'address';
+    }
     interface HclSdkButton {
         "class": string;
         "disabled": boolean;
@@ -182,9 +188,12 @@ export namespace Components {
         "autoFocus"?: boolean;
         "checked"?: boolean;
         "class"?: string;
+        "focusHclSdkInput": () => Promise<void>;
         "loading"?: boolean;
         "name"?: string;
+        "onArrowKeyDown"?: (e: any) => void;
         "onBlur"?: (e: any) => void;
+        "onEnterKeyDown"?: (e: any) => void;
         "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
@@ -244,9 +253,9 @@ export namespace Components {
         "showSwitchMode"?: boolean;
     }
     interface HclSdkSearchAddressItem {
-        "activated": boolean;
         "currentSearchText"?: string;
         "item": any;
+        "selected": boolean;
     }
     interface HclSdkSearchNoDataAvailable {
     }
@@ -272,6 +281,12 @@ declare global {
     var HTMLHclSdkElement: {
         prototype: HTMLHclSdkElement;
         new (): HTMLHclSdkElement;
+    };
+    interface HTMLHclSdkAutocompleteResultElement extends Components.HclSdkAutocompleteResult, HTMLStencilElement {
+    }
+    var HTMLHclSdkAutocompleteResultElement: {
+        prototype: HTMLHclSdkAutocompleteResultElement;
+        new (): HTMLHclSdkAutocompleteResultElement;
     };
     interface HTMLHclSdkButtonElement extends Components.HclSdkButton, HTMLStencilElement {
     }
@@ -563,6 +578,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "hcl-sdk": HTMLHclSdkElement;
+        "hcl-sdk-autocomplete-result": HTMLHclSdkAutocompleteResultElement;
         "hcl-sdk-button": HTMLHclSdkButtonElement;
         "hcl-sdk-dev-settings": HTMLHclSdkDevSettingsElement;
         "hcl-sdk-doctor-card": HTMLHclSdkDoctorCardElement;
@@ -615,6 +631,11 @@ declare global {
 }
 declare namespace LocalJSX {
     interface HclSdk {
+    }
+    interface HclSdkAutocompleteResult {
+        "currentSelectedInput"?: any;
+        "data"?: any;
+        "type"?: 'name' | 'address';
     }
     interface HclSdkButton {
         "class"?: string;
@@ -787,7 +808,9 @@ declare namespace LocalJSX {
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
+        "onArrowKeyDown"?: (e: any) => void;
         "onBlur"?: (e: any) => void;
+        "onEnterKeyDown"?: (e: any) => void;
         "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
@@ -851,10 +874,10 @@ declare namespace LocalJSX {
         "showSwitchMode"?: boolean;
     }
     interface HclSdkSearchAddressItem {
-        "activated"?: boolean;
         "currentSearchText"?: string;
         "item"?: any;
         "onSelectAddress"?: (event: CustomEvent<any>) => void;
+        "selected"?: boolean;
     }
     interface HclSdkSearchNoDataAvailable {
     }
@@ -876,6 +899,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "hcl-sdk": HclSdk;
+        "hcl-sdk-autocomplete-result": HclSdkAutocompleteResult;
         "hcl-sdk-button": HclSdkButton;
         "hcl-sdk-dev-settings": HclSdkDevSettings;
         "hcl-sdk-doctor-card": HclSdkDoctorCard;
@@ -931,6 +955,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "hcl-sdk": LocalJSX.HclSdk & JSXBase.HTMLAttributes<HTMLHclSdkElement>;
+            "hcl-sdk-autocomplete-result": LocalJSX.HclSdkAutocompleteResult & JSXBase.HTMLAttributes<HTMLHclSdkAutocompleteResultElement>;
             "hcl-sdk-button": LocalJSX.HclSdkButton & JSXBase.HTMLAttributes<HTMLHclSdkButtonElement>;
             "hcl-sdk-dev-settings": LocalJSX.HclSdkDevSettings & JSXBase.HTMLAttributes<HTMLHclSdkDevSettingsElement>;
             "hcl-sdk-doctor-card": LocalJSX.HclSdkDoctorCard & JSXBase.HTMLAttributes<HTMLHclSdkDoctorCardElement>;

@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop } from '@stencil/core';
+import { Component, Host, h, Prop, Method } from '@stencil/core';
 import cls from 'classnames';
 
 @Component({
@@ -22,6 +22,8 @@ export class HclSdkInput {
   @Prop() onFocus?: (e: any) => void;
   @Prop() onBlur?: (e: any) => void;
   @Prop() readOnly?: boolean = false;
+  @Prop() onEnterKeyDown?: (e: any) => void;
+  @Prop() onArrowKeyDown?: (e: any) => void;
 
   textInput!: HTMLInputElement;
 
@@ -29,6 +31,21 @@ export class HclSdkInput {
     if (this.autoFocus && this.textInput) {
       this.textInput.focus();
     }
+
+    this.textInput.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Enter') {
+        evt.preventDefault()
+        this.onEnterKeyDown(evt)
+      } else if (evt.key === 'ArrowDown') {
+        evt.preventDefault()
+        this.onArrowKeyDown(evt)
+      }
+    })
+  }
+
+  @Method()
+  focusHclSdkInput() {
+    this.textInput.focus()
   }
 
   render() {
