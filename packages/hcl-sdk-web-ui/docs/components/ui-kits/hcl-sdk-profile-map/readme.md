@@ -17,7 +17,7 @@
 graph TD;
   hcl-sdk-profile-map --> hcl-sdk-icon
   hcl-sdk-profile-map --> hcl-sdk-map
-  hcl-sdk-map --> ion-icon
+  hcl-sdk-map --> hcl-sdk-icon
   style hcl-sdk-profile-map fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

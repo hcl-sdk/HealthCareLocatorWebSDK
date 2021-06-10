@@ -28,12 +28,12 @@
 
 ### Depends on
 
-- ion-icon
+- [hcl-sdk-icon](../hcl-sdk-icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  hcl-sdk-switch-view-mode --> ion-icon
+  hcl-sdk-switch-view-mode --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-switch-view-mode
   hcl-sdk-search-result --> hcl-sdk-switch-view-mode
   style hcl-sdk-switch-view-mode fill:#f9f,stroke:#333,stroke-width:4px

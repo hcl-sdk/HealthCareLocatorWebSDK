@@ -17,7 +17,7 @@ class StoreProvider<T extends {}> {
     if (states) {
       const statesKeys: string[] = Object.keys(states)
       statesKeys.forEach((k) => {
-        this.storeInstance.set(k, states[k])
+        this.storeInstance.set(k as any, (states as any)[k])
       })
     }
   }

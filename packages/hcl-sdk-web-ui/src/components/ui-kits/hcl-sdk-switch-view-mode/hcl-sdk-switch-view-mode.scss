@@ -25,10 +25,10 @@
         span {
           color: white;
         }
-      }
-      &__map-icon {
-        width: 0.9em;
-        height: 0.9em;
+
+        hcl-sdk-icon svg{
+          fill: white;
+        }
       }
     }
   }

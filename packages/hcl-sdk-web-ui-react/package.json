@@ -1,0 +1,31 @@
+{
+  "name": "hcl-sdk-web-ui-react",
+  "version": "0.5.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "hcl-sdk-web-ui": "*",
+    "typescript": "^4.1.2"
+  },
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rm -rf dist",
+    "compile": "yarn run tsc",
+    "tsc": "tsc -p ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

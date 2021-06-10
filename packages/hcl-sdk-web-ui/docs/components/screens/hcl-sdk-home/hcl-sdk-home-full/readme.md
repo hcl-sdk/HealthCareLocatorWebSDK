@@ -22,7 +22,7 @@ graph TD;
   hcl-sdk-home-full --> hcl-sdk-button
   hcl-sdk-home-full --> hcl-sdk-map
   hcl-sdk-button --> hcl-sdk-icon
-  hcl-sdk-map --> ion-icon
+  hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-home --> hcl-sdk-home-full
   style hcl-sdk-home-full fill:#f9f,stroke:#333,stroke-width:4px
 ```

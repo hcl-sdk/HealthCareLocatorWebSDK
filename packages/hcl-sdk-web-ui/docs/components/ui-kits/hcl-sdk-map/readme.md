@@ -47,12 +47,12 @@
 
 ### Depends on
 
-- ion-icon
+- [hcl-sdk-icon](../hcl-sdk-icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  hcl-sdk-map --> ion-icon
+  hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-home-full --> hcl-sdk-map
   hcl-sdk-profile-map --> hcl-sdk-map

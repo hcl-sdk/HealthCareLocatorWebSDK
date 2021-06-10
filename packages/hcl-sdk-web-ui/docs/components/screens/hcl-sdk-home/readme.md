@@ -31,12 +31,12 @@ graph TD;
   hcl-sdk-input --> hcl-sdk-button
   hcl-sdk-input --> hcl-sdk-icon
   hcl-sdk-button --> hcl-sdk-icon
-  hcl-sdk-switch-view-mode --> ion-icon
+  hcl-sdk-switch-view-mode --> hcl-sdk-icon
   hcl-sdk-home-min --> hcl-sdk-icon
   hcl-sdk-home-min --> hcl-sdk-button
   hcl-sdk-home-full --> hcl-sdk-button
   hcl-sdk-home-full --> hcl-sdk-map
-  hcl-sdk-map --> ion-icon
+  hcl-sdk-map --> hcl-sdk-icon
   style hcl-sdk-home fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

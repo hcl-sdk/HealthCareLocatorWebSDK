@@ -33,7 +33,7 @@ graph TD;
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-hcp-full-card --> hcl-sdk-select
   hcl-sdk-button --> hcl-sdk-icon
-  hcl-sdk-map --> ion-icon
+  hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-hcp-full-card
   style hcl-sdk-hcp-full-card fill:#f9f,stroke:#333,stroke-width:4px

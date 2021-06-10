@@ -46,11 +46,11 @@ export class HclSdkSwitchViewMode {
       <Host>
         <div class="hclsdk-switch-view-mode">
           <div class={listViewClass} onClick={() => this.onSwitch(ModeViewType.LIST)}>
-            <ion-icon name="list"></ion-icon>
+            <hcl-sdk-icon name="list" />
             {!!this.labels[this.typeOfLabel].list &&<span>{t(this.labels[this.typeOfLabel].list)}</span>}
           </div>
           <div class={mapViewClass} onClick={() => this.onSwitch(ModeViewType.MAP)}>
-            <ion-icon name="map-sharp" class="mode-item__map-icon"></ion-icon>
+            <hcl-sdk-icon name="map" width={13} height={13} />
             {!!this.labels[this.typeOfLabel].map && <span>{t(this.labels[this.typeOfLabel].map)}</span>}
           </div>
         </div>
