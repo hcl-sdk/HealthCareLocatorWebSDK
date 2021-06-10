@@ -9,7 +9,7 @@ class StoreProvider<T extends {}> {
     this.storeInstance = createStore<T>(initState);
   }
 
-  public onChange(propName, listener) {
+  public onChange(propName: any, listener: any) {
     this.storeInstance.onChange(propName, listener)
   }
 
