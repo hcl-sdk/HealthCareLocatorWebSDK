@@ -4,6 +4,7 @@ import replace from 'rollup-plugin-replace';
 import path from 'path';
 import dotenv from 'dotenv';
 import { reactOutputTarget } from '@stencil/react-output-target';
+import { angularOutputTarget } from '@stencil/angular-output-target';
 
 dotenv.config({
   path: path.resolve(process.cwd(), '../../.env')
@@ -16,6 +17,10 @@ export const config: Config = {
   taskQueue: 'async',
   hashFileNames: false,
   outputTargets: [
+    angularOutputTarget({
+      componentCorePackage: 'hcl-sdk-web-ui',
+      directivesProxyFile: '../hcl-sdk-web-ui-angular/projects/hcl-sdk/src/directives/proxies.ts',
+    }),
     reactOutputTarget({
       componentCorePackage: 'hcl-sdk-web-ui',
       proxiesFile: '../hcl-sdk-web-ui-react/src/components.ts',
