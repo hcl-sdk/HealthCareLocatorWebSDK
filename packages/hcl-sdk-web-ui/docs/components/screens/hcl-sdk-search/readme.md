@@ -43,7 +43,7 @@ graph TD;
   hcl-sdk-input --> hcl-sdk-button
   hcl-sdk-input --> hcl-sdk-icon
   hcl-sdk-button --> hcl-sdk-icon
-  hcl-sdk-switch-view-mode --> ion-icon
+  hcl-sdk-switch-view-mode --> hcl-sdk-icon
   hcl-sdk-home --> hcl-sdk-search
   hcl-sdk-search-result --> hcl-sdk-search
   style hcl-sdk-search fill:#f9f,stroke:#333,stroke-width:4px

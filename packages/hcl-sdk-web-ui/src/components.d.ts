@@ -112,6 +112,11 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface HclSdkIconLocate {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkIconLocation {
         "color": string;
         "height": number;
@@ -382,6 +387,12 @@ declare global {
         prototype: HTMLHclSdkIconListElement;
         new (): HTMLHclSdkIconListElement;
     };
+    interface HTMLHclSdkIconLocateElement extends Components.HclSdkIconLocate, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconLocateElement: {
+        prototype: HTMLHclSdkIconLocateElement;
+        new (): HTMLHclSdkIconLocateElement;
+    };
     interface HTMLHclSdkIconLocationElement extends Components.HclSdkIconLocation, HTMLStencilElement {
     }
     var HTMLHclSdkIconLocationElement: {
@@ -571,6 +582,7 @@ declare global {
         "hcl-sdk-icon-history": HTMLHclSdkIconHistoryElement;
         "hcl-sdk-icon-like": HTMLHclSdkIconLikeElement;
         "hcl-sdk-icon-list": HTMLHclSdkIconListElement;
+        "hcl-sdk-icon-locate": HTMLHclSdkIconLocateElement;
         "hcl-sdk-icon-location": HTMLHclSdkIconLocationElement;
         "hcl-sdk-icon-map": HTMLHclSdkIconMapElement;
         "hcl-sdk-icon-no-accounts": HTMLHclSdkIconNoAccountsElement;
@@ -699,6 +711,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface HclSdkIconList {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconLocate {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -878,6 +895,7 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-history": HclSdkIconHistory;
         "hcl-sdk-icon-like": HclSdkIconLike;
         "hcl-sdk-icon-list": HclSdkIconList;
+        "hcl-sdk-icon-locate": HclSdkIconLocate;
         "hcl-sdk-icon-location": HclSdkIconLocation;
         "hcl-sdk-icon-map": HclSdkIconMap;
         "hcl-sdk-icon-no-accounts": HclSdkIconNoAccounts;
@@ -932,6 +950,7 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-history": LocalJSX.HclSdkIconHistory & JSXBase.HTMLAttributes<HTMLHclSdkIconHistoryElement>;
             "hcl-sdk-icon-like": LocalJSX.HclSdkIconLike & JSXBase.HTMLAttributes<HTMLHclSdkIconLikeElement>;
             "hcl-sdk-icon-list": LocalJSX.HclSdkIconList & JSXBase.HTMLAttributes<HTMLHclSdkIconListElement>;
+            "hcl-sdk-icon-locate": LocalJSX.HclSdkIconLocate & JSXBase.HTMLAttributes<HTMLHclSdkIconLocateElement>;
             "hcl-sdk-icon-location": LocalJSX.HclSdkIconLocation & JSXBase.HTMLAttributes<HTMLHclSdkIconLocationElement>;
             "hcl-sdk-icon-map": LocalJSX.HclSdkIconMap & JSXBase.HTMLAttributes<HTMLHclSdkIconMapElement>;
             "hcl-sdk-icon-no-accounts": LocalJSX.HclSdkIconNoAccounts & JSXBase.HTMLAttributes<HTMLHclSdkIconNoAccountsElement>;

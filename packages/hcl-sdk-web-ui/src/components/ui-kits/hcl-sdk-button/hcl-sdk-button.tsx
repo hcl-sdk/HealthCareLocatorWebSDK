@@ -1,6 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
 import cls from 'classnames';
-import 'ionicons';
 
 @Component({
   tag: 'hcl-sdk-button',

@@ -3,7 +3,7 @@ import { sass } from '@stencil/sass';
 import replace from 'rollup-plugin-replace';
 import path from 'path';
 import dotenv from 'dotenv';
-// https://stenciljs.com/docs/config
+import { reactOutputTarget } from '@stencil/react-output-target';
 
 dotenv.config({
   path: path.resolve(process.cwd(), '../../.env')
@@ -16,6 +16,11 @@ export const config: Config = {
   taskQueue: 'async',
   hashFileNames: false,
   outputTargets: [
+    reactOutputTarget({
+      componentCorePackage: 'hcl-sdk-web-ui',
+      proxiesFile: '../hcl-sdk-web-ui-react/src/components.ts',
+      includeDefineCustomElements: true,
+    }),
     {
       type: 'docs-readme',
       dir: 'docs',
@@ -24,7 +29,7 @@ export const config: Config = {
       type: 'dist',
       copy: [
         { src: 'i18n' }
-      ]
+      ],
     },
     {
       type: 'www',

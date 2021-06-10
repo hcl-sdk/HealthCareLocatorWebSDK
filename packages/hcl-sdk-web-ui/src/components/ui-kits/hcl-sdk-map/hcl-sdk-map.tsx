@@ -284,7 +284,7 @@ export class HclSdkMap {
       <Host>
         {!this.noCurrentLocation && searchMapStore.isGrantedGeoloc && (
           <div class="current-location" onClick={this.moveToCurrentLocation}>
-            <ion-icon name="locate" size="medium"></ion-icon>
+            <hcl-sdk-icon name="locate" />
           </div>
         )}
         <div
