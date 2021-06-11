@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/hcl-sdk/HealthCareLocatorWebSDK)
+
 # HealthCare Locator SDK for JavaScript
 
 This repository is a monorepository of all the JavaScript projects related to the
