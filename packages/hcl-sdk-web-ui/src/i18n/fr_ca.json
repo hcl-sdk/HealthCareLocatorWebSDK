@@ -44,5 +44,9 @@
   "back_to_home": "Retour à l'accueil",
   "no_result_found": "Aucun résultat trouvé",
   "no_result_message": "Oups, il semble qu'il n'y ait aucune correspondance pour votre recherche.",
-  "relaunch": "Relancer"
+  "relaunch": "Relancer",
+  "share_hcp_label_copy": "Copier le texte",
+  "share_hcp_title": "Partager ce HCP",
+  "share_hcp_description": "Voici un professionnel de santé que je recommande:",
+  "share_hcp_specialties": "Spécialités:"
 }

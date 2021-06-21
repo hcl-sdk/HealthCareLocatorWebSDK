@@ -2,7 +2,7 @@ import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil
 import cls from 'classnames';
 import { uiStore, searchMapStore, configStore, i18nStore } from 'hcl-sdk-web-ui/src/core/stores';
 import { getFullCardDetail } from 'hcl-sdk-web-ui/src/core/api/hcp';
-import { getCssColor, fallbackShareHCPDetail, getTextBodyToShare } from 'hcl-sdk-web-ui/src/utils/helper';
+import { getCssColor, getTextBodyToShare } from 'hcl-sdk-web-ui/src/utils/helper';
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
@@ -100,10 +100,22 @@ export class HclSdkHCPFullCard {
         // TODO Successfully:
       })
       .catch(() => {
-        fallbackShareHCPDetail(individualDetail, config)
+        configStore.setState({
+          modal: {
+            title: t('share_hcp_title'),
+            className: 'share-hcp__modal',
+            component: 'hcl-sdk-share-hcp',
+          },
+        });
       });
     } else {
-      fallbackShareHCPDetail(individualDetail, config)
+      configStore.setState({
+        modal: {
+          title: t('share_hcp_title'),
+          className: 'share-hcp__modal',
+          component: 'hcl-sdk-share-hcp',
+        },
+      });
     }
   }
 

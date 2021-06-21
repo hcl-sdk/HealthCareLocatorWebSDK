@@ -103,12 +103,27 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface HclSdkIconFacebook {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconGmail {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkIconHistory {
         "color": string;
         "height": number;
         "width": number;
     }
     interface HclSdkIconLike {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconLinkedin {
         "color": string;
         "height": number;
         "width": number;
@@ -179,6 +194,11 @@ export namespace Components {
         "width": number;
     }
     interface HclSdkIconSort {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconTwitter {
         "color": string;
         "height": number;
         "width": number;
@@ -268,6 +288,8 @@ export namespace Components {
         "onChange"?: (e: any) => void;
         "options"?: OptionType[];
         "value"?: string;
+    }
+    interface HclSdkShareHcp {
     }
     interface HclSdkSort {
     }
@@ -384,6 +406,18 @@ declare global {
         prototype: HTMLHclSdkIconEditElement;
         new (): HTMLHclSdkIconEditElement;
     };
+    interface HTMLHclSdkIconFacebookElement extends Components.HclSdkIconFacebook, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconFacebookElement: {
+        prototype: HTMLHclSdkIconFacebookElement;
+        new (): HTMLHclSdkIconFacebookElement;
+    };
+    interface HTMLHclSdkIconGmailElement extends Components.HclSdkIconGmail, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconGmailElement: {
+        prototype: HTMLHclSdkIconGmailElement;
+        new (): HTMLHclSdkIconGmailElement;
+    };
     interface HTMLHclSdkIconHistoryElement extends Components.HclSdkIconHistory, HTMLStencilElement {
     }
     var HTMLHclSdkIconHistoryElement: {
@@ -395,6 +429,12 @@ declare global {
     var HTMLHclSdkIconLikeElement: {
         prototype: HTMLHclSdkIconLikeElement;
         new (): HTMLHclSdkIconLikeElement;
+    };
+    interface HTMLHclSdkIconLinkedinElement extends Components.HclSdkIconLinkedin, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconLinkedinElement: {
+        prototype: HTMLHclSdkIconLinkedinElement;
+        new (): HTMLHclSdkIconLinkedinElement;
     };
     interface HTMLHclSdkIconListElement extends Components.HclSdkIconList, HTMLStencilElement {
     }
@@ -480,6 +520,12 @@ declare global {
         prototype: HTMLHclSdkIconSortElement;
         new (): HTMLHclSdkIconSortElement;
     };
+    interface HTMLHclSdkIconTwitterElement extends Components.HclSdkIconTwitter, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconTwitterElement: {
+        prototype: HTMLHclSdkIconTwitterElement;
+        new (): HTMLHclSdkIconTwitterElement;
+    };
     interface HTMLHclSdkInputElement extends Components.HclSdkInput, HTMLStencilElement {
     }
     var HTMLHclSdkInputElement: {
@@ -564,6 +610,12 @@ declare global {
         prototype: HTMLHclSdkSelectElement;
         new (): HTMLHclSdkSelectElement;
     };
+    interface HTMLHclSdkShareHcpElement extends Components.HclSdkShareHcp, HTMLStencilElement {
+    }
+    var HTMLHclSdkShareHcpElement: {
+        prototype: HTMLHclSdkShareHcpElement;
+        new (): HTMLHclSdkShareHcpElement;
+    };
     interface HTMLHclSdkSortElement extends Components.HclSdkSort, HTMLStencilElement {
     }
     var HTMLHclSdkSortElement: {
@@ -595,8 +647,11 @@ declare global {
         "hcl-sdk-icon-dislike": HTMLHclSdkIconDislikeElement;
         "hcl-sdk-icon-earth": HTMLHclSdkIconEarthElement;
         "hcl-sdk-icon-edit": HTMLHclSdkIconEditElement;
+        "hcl-sdk-icon-facebook": HTMLHclSdkIconFacebookElement;
+        "hcl-sdk-icon-gmail": HTMLHclSdkIconGmailElement;
         "hcl-sdk-icon-history": HTMLHclSdkIconHistoryElement;
         "hcl-sdk-icon-like": HTMLHclSdkIconLikeElement;
+        "hcl-sdk-icon-linkedin": HTMLHclSdkIconLinkedinElement;
         "hcl-sdk-icon-list": HTMLHclSdkIconListElement;
         "hcl-sdk-icon-locate": HTMLHclSdkIconLocateElement;
         "hcl-sdk-icon-location": HTMLHclSdkIconLocationElement;
@@ -611,6 +666,7 @@ declare global {
         "hcl-sdk-icon-search-off": HTMLHclSdkIconSearchOffElement;
         "hcl-sdk-icon-share": HTMLHclSdkIconShareElement;
         "hcl-sdk-icon-sort": HTMLHclSdkIconSortElement;
+        "hcl-sdk-icon-twitter": HTMLHclSdkIconTwitterElement;
         "hcl-sdk-input": HTMLHclSdkInputElement;
         "hcl-sdk-loading": HTMLHclSdkLoadingElement;
         "hcl-sdk-map": HTMLHclSdkMapElement;
@@ -625,6 +681,7 @@ declare global {
         "hcl-sdk-search-no-results": HTMLHclSdkSearchNoResultsElement;
         "hcl-sdk-search-result": HTMLHclSdkSearchResultElement;
         "hcl-sdk-select": HTMLHclSdkSelectElement;
+        "hcl-sdk-share-hcp": HTMLHclSdkShareHcpElement;
         "hcl-sdk-sort": HTMLHclSdkSortElement;
         "hcl-sdk-switch-view-mode": HTMLHclSdkSwitchViewModeElement;
     }
@@ -721,12 +778,27 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface HclSdkIconFacebook {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconGmail {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface HclSdkIconHistory {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
     interface HclSdkIconLike {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconLinkedin {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -797,6 +869,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface HclSdkIconSort {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconTwitter {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -891,6 +968,8 @@ declare namespace LocalJSX {
         "options"?: OptionType[];
         "value"?: string;
     }
+    interface HclSdkShareHcp {
+    }
     interface HclSdkSort {
     }
     interface HclSdkSwitchViewMode {
@@ -916,8 +995,11 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-dislike": HclSdkIconDislike;
         "hcl-sdk-icon-earth": HclSdkIconEarth;
         "hcl-sdk-icon-edit": HclSdkIconEdit;
+        "hcl-sdk-icon-facebook": HclSdkIconFacebook;
+        "hcl-sdk-icon-gmail": HclSdkIconGmail;
         "hcl-sdk-icon-history": HclSdkIconHistory;
         "hcl-sdk-icon-like": HclSdkIconLike;
+        "hcl-sdk-icon-linkedin": HclSdkIconLinkedin;
         "hcl-sdk-icon-list": HclSdkIconList;
         "hcl-sdk-icon-locate": HclSdkIconLocate;
         "hcl-sdk-icon-location": HclSdkIconLocation;
@@ -932,6 +1014,7 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-search-off": HclSdkIconSearchOff;
         "hcl-sdk-icon-share": HclSdkIconShare;
         "hcl-sdk-icon-sort": HclSdkIconSort;
+        "hcl-sdk-icon-twitter": HclSdkIconTwitter;
         "hcl-sdk-input": HclSdkInput;
         "hcl-sdk-loading": HclSdkLoading;
         "hcl-sdk-map": HclSdkMap;
@@ -946,6 +1029,7 @@ declare namespace LocalJSX {
         "hcl-sdk-search-no-results": HclSdkSearchNoResults;
         "hcl-sdk-search-result": HclSdkSearchResult;
         "hcl-sdk-select": HclSdkSelect;
+        "hcl-sdk-share-hcp": HclSdkShareHcp;
         "hcl-sdk-sort": HclSdkSort;
         "hcl-sdk-switch-view-mode": HclSdkSwitchViewMode;
     }
@@ -972,8 +1056,11 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-dislike": LocalJSX.HclSdkIconDislike & JSXBase.HTMLAttributes<HTMLHclSdkIconDislikeElement>;
             "hcl-sdk-icon-earth": LocalJSX.HclSdkIconEarth & JSXBase.HTMLAttributes<HTMLHclSdkIconEarthElement>;
             "hcl-sdk-icon-edit": LocalJSX.HclSdkIconEdit & JSXBase.HTMLAttributes<HTMLHclSdkIconEditElement>;
+            "hcl-sdk-icon-facebook": LocalJSX.HclSdkIconFacebook & JSXBase.HTMLAttributes<HTMLHclSdkIconFacebookElement>;
+            "hcl-sdk-icon-gmail": LocalJSX.HclSdkIconGmail & JSXBase.HTMLAttributes<HTMLHclSdkIconGmailElement>;
             "hcl-sdk-icon-history": LocalJSX.HclSdkIconHistory & JSXBase.HTMLAttributes<HTMLHclSdkIconHistoryElement>;
             "hcl-sdk-icon-like": LocalJSX.HclSdkIconLike & JSXBase.HTMLAttributes<HTMLHclSdkIconLikeElement>;
+            "hcl-sdk-icon-linkedin": LocalJSX.HclSdkIconLinkedin & JSXBase.HTMLAttributes<HTMLHclSdkIconLinkedinElement>;
             "hcl-sdk-icon-list": LocalJSX.HclSdkIconList & JSXBase.HTMLAttributes<HTMLHclSdkIconListElement>;
             "hcl-sdk-icon-locate": LocalJSX.HclSdkIconLocate & JSXBase.HTMLAttributes<HTMLHclSdkIconLocateElement>;
             "hcl-sdk-icon-location": LocalJSX.HclSdkIconLocation & JSXBase.HTMLAttributes<HTMLHclSdkIconLocationElement>;
@@ -988,6 +1075,7 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-search-off": LocalJSX.HclSdkIconSearchOff & JSXBase.HTMLAttributes<HTMLHclSdkIconSearchOffElement>;
             "hcl-sdk-icon-share": LocalJSX.HclSdkIconShare & JSXBase.HTMLAttributes<HTMLHclSdkIconShareElement>;
             "hcl-sdk-icon-sort": LocalJSX.HclSdkIconSort & JSXBase.HTMLAttributes<HTMLHclSdkIconSortElement>;
+            "hcl-sdk-icon-twitter": LocalJSX.HclSdkIconTwitter & JSXBase.HTMLAttributes<HTMLHclSdkIconTwitterElement>;
             "hcl-sdk-input": LocalJSX.HclSdkInput & JSXBase.HTMLAttributes<HTMLHclSdkInputElement>;
             "hcl-sdk-loading": LocalJSX.HclSdkLoading & JSXBase.HTMLAttributes<HTMLHclSdkLoadingElement>;
             "hcl-sdk-map": LocalJSX.HclSdkMap & JSXBase.HTMLAttributes<HTMLHclSdkMapElement>;
@@ -1002,6 +1090,7 @@ declare module "@stencil/core" {
             "hcl-sdk-search-no-results": LocalJSX.HclSdkSearchNoResults & JSXBase.HTMLAttributes<HTMLHclSdkSearchNoResultsElement>;
             "hcl-sdk-search-result": LocalJSX.HclSdkSearchResult & JSXBase.HTMLAttributes<HTMLHclSdkSearchResultElement>;
             "hcl-sdk-select": LocalJSX.HclSdkSelect & JSXBase.HTMLAttributes<HTMLHclSdkSelectElement>;
+            "hcl-sdk-share-hcp": LocalJSX.HclSdkShareHcp & JSXBase.HTMLAttributes<HTMLHclSdkShareHcpElement>;
             "hcl-sdk-sort": LocalJSX.HclSdkSort & JSXBase.HTMLAttributes<HTMLHclSdkSortElement>;
             "hcl-sdk-switch-view-mode": LocalJSX.HclSdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLHclSdkSwitchViewModeElement>;
         }
