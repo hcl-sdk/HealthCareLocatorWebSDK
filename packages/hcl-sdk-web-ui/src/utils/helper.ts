@@ -2,6 +2,7 @@ import { DEFAULT_THEME_PROPERTIES } from 'hcl-sdk-core';
 import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
 import { BREAKPOINT_MAX_WIDTH } from 'hcl-sdk-web-ui/src/core/constants';
 import { Activity, Individual, IndividualFragment } from 'hcl-sdk-core/src/graphql/types';
+import { t } from 'hcl-sdk-web-ui/src/utils/i18n';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -109,13 +110,14 @@ export function getTextBodyToShare(individualDetail, {
 } = {}) {
 
   const { name, phone, professionalType, specialties } = individualDetail;
+  const specialtiesText = getSpecialtiesText(specialties).join(',')
   const listText = [
-    'Here is a healthcare professional that I recommend:',
+    t('share_hcp_description'),
     `${name}${professionalType && (newLine + professionalType)}`,
-    `Specialties: ${getSpecialtiesText(specialties).join(',')}`,
+    specialtiesText ? `${t('share_hcp_specialties')} ${specialtiesText}` : '',
     `${getPrimaryAddressIndividuual(individualDetail).join(newLine)}`,
     `${phone}`
-  ]
+  ].filter(txt => txt)
 
   if (appName) {
     let appText = `I found it on ${appName}`;

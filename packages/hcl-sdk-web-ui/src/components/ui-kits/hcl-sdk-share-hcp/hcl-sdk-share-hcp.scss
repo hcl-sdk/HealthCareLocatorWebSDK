@@ -1,0 +1,58 @@
+.share-hcp__row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.share-hcp__col {
+  width: 50%;
+  padding: 0 10px;
+  margin-top: 20px;
+
+  &.share-hcp__gmail:first-child {
+    width: 100%;
+  }
+}
+
+.share-hcp__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  padding: 10px;
+  border: 1px solid var(--hcl-color-card_border);
+}
+
+.share-hcp__text {
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.share-hcp__text-area {
+  width: 100%;
+
+  textarea {
+    width: 100%;
+    resize: none;
+    padding: 15px;
+    min-height: 200px;
+    font-family: inherit;
+    background-color: var(--hcl-color-button_border);
+    border: 1px solid var(--hcl-color-button_border);
+    outline: none;
+
+    :focus {
+      border-color: #85b0f8;
+    }
+  }
+
+  .hclsdk-btn {
+    padding: 5px 20px;
+    margin-top: 5px;
+  }
+
+  &.copy-active {
+    textarea {
+      border-color: #85b0f8;
+    }
+  }
+}
