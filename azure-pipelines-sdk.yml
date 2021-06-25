@@ -13,7 +13,7 @@ steps:
 
 - checkout: self
   path: s/onekey-sdk-web-lib
-    
+
 - task: YarnInstaller@3
   inputs:
     versionSpec: '1.x'
@@ -27,7 +27,7 @@ steps:
   displayName: 'Build Web UI'
   inputs:
     arguments: 'build-web'
-    
+
 - task: Yarn@3
   displayName: 'Build API'
   inputs:

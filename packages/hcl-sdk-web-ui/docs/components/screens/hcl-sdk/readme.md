@@ -7,6 +7,16 @@
 
 ## Methods
 
+### `backToHome() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `init(config?: any) => Promise<void>`
 
 
@@ -27,7 +37,7 @@ Type: `Promise<void>`
 
 
 
-### `updateConfig(patch: any) => Promise<import("/Users/cong-luc.tran/Desktop/azure/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>`
+### `updateConfig(patch: any) => Promise<HclSDKConfigData>`
 
 
 
