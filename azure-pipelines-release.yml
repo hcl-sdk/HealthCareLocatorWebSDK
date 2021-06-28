@@ -5,7 +5,6 @@ trigger:
   branches:
    include:
    - release/*
-   - development
   tags:
    include:
    - v*
@@ -18,7 +17,7 @@ stages:
     displayName: Build Version Tag
     jobs:
     - job: GenerateReleaseVersionTag
-      condition: startsWith(variables['build.sourceBranch'], 'refs/heads/release/')
+      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), startsWith(variables['build.sourceBranch'], 'refs/heads/release/'))
       variables:
         revision: $[counter(variables['build.sourcebranchname'], 0)]
       steps:
