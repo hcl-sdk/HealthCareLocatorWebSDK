@@ -20,7 +20,7 @@ export function loadGoogleMapApi(options) {
       };
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${options.googleMapApiKey}&callback=${CALLBACK_NAME}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${options.googleMapApiKey}&libraries=places&callback=${CALLBACK_NAME}`;
       document.getElementsByTagName('head')[0].appendChild(script);
     });
   return promise;

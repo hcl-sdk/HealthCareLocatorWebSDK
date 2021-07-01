@@ -148,7 +148,7 @@ export class HclSdkSearchResult {
 
       if (result) {
         searchMapStore.setSearchFieldValue('address', result.shortDisplayName);
-        const params = genSearchLocationParams({
+        const params = await genSearchLocationParams({
           locationFilter: {
             lat: this.newDragLocation.lat,
             lng: this.newDragLocation.lng,

@@ -4,14 +4,20 @@ interface IAddressDetail {
   country_code: string;
 }
 
-export interface IGeoMapSearchResult {
-  name: string;
-  lat: number;
-  lng: number;
-  addressDetails: IAddressDetail;
-  boundingbox: string[];
-  type: string;
-}
+export type IGeoMapSearchResult =
+  | {
+      name: string;
+      lat: number;
+      lng: number;
+      addressDetails?: IAddressDetail;
+      boundingbox: string[];
+      type: string;
+    }
+  | {
+      name: string;
+      place_id: string;
+      type: string;
+    };
 
 export interface IAddressFromGeo {
   address: {
