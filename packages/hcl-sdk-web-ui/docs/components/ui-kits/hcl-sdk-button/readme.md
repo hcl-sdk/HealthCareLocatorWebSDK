@@ -37,6 +37,7 @@
  - [hcl-sdk-search](../../screens/hcl-sdk-search)
  - [hcl-sdk-search-no-results](../hcl-sdk-search-no-results)
  - [hcl-sdk-search-result](../../screens/hcl-sdk-search-result)
+ - [hcl-sdk-share-hcp](../hcl-sdk-share-hcp)
  - [hcl-sdk-sort](../hcl-sdk-sort)
 
 ### Depends on
@@ -55,6 +56,7 @@ graph TD;
   hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search-no-results --> hcl-sdk-button
   hcl-sdk-search-result --> hcl-sdk-button
+  hcl-sdk-share-hcp --> hcl-sdk-button
   hcl-sdk-sort --> hcl-sdk-button
   style hcl-sdk-button fill:#f9f,stroke:#333,stroke-width:4px
 ```

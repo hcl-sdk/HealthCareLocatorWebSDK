@@ -69,6 +69,27 @@ Group Practice 3-480 Harbourfront Dr NE
 I found it on MyApp - https://apps.apple.com/fr/app/carenity/id1404422803`)
   })
 
+  test('should remove the line with null', () => {
+    const _indiviualDetail = {
+      ...indiviualDetail,
+      phone: null
+    }
+    const text = getTextBodyToShare(_indiviualDetail, {
+      newLine: '\n',
+      ...config
+    })
+    expect(text).toBe(`Here is a healthcare professional that I recommend:
+
+Dr Rory Michael Trow
+General Practitioner
+
+Group Practice 3-480 Harbourfront Dr NE
+3-480 Harbourfront Dr NE
+205-3017 66 St NW
+
+I found it on MyApp - https://apps.apple.com/fr/app/carenity/id1404422803`)
+  })
+
 });
 
 describe('getMergeMainAndOtherActivities', () => {

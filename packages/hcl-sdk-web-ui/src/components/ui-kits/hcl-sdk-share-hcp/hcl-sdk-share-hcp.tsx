@@ -58,6 +58,11 @@ export class HclSdkShareHCP {
       newLine: '\n',
       ...config
     })
+    const textToRender = getTextBodyToShare(individualDetail, {
+      newLine: '<br />',
+      ...config,
+      isBoldFirstLine: true
+    })
     const textTwitter = getTextBodyToShare(individualDetail, {
       newLine: '%0a',
       ...config
@@ -74,11 +79,20 @@ export class HclSdkShareHCP {
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class="share-hcp__row">
+          <div class="share-hcp__col w-100">
+            <div class={cls('share-hcp__text-area', {
+              'copy-active': this.isCopy
+            })}>
+              <div innerHTML={textToRender} />
+              <textarea class="copy-hidden" ref={el => (this.textAreaEl = el)}>{ textToCopy }</textarea>
+              <hcl-sdk-button primary onClick={this.handleCopy}>{t('share_hcp_label_copy')}</hcl-sdk-button>
+            </div>
+          </div>
           {
             appURL && (
               <div class="share-hcp__col share-hcp__facebook">
                 <a href={linkGenerated.facebook} target="_blank" class="share-hcp__link">
-                  <hcl-sdk-icon name="facebook" />
+                  <hcl-sdk-icon name="facebook" width={14} height={14} color="#fff" />
                   <span class="share-hcp__text">Facebook</span>
                 </a>
               </div>
@@ -88,34 +102,28 @@ export class HclSdkShareHCP {
             appURL && (
               <div class="share-hcp__col share-hcp__twitter">
                 <a href={linkGenerated.twitter} target="_blank" class="share-hcp__link">
-                  <hcl-sdk-icon name="twitter" />
+                  <hcl-sdk-icon name="twitter" width={14} height={14} color="#fff" />
                   <span class="share-hcp__text">Twitter</span>
-                </a>
-              </div>
-            )
-          }
-          {
-            appURL && (
-              <div class="share-hcp__col share-hcp__linkedin">
-                <a href={linkGenerated.linkedin} target="_blank" class="share-hcp__link">
-                  <hcl-sdk-icon name="linkedin" />
-                  <span class="share-hcp__text">LinkedIn</span>
                 </a>
               </div>
             )
           }
           <div class="share-hcp__col share-hcp__gmail">
             <a href={linkGenerated.email} target="_blank" class="share-hcp__link">
-              <hcl-sdk-icon name="gmail" />
-              <span class="share-hcp__text">Gmail</span>
+              <hcl-sdk-icon name="gmail" width={18} height={18} color="#fff" />
+              <span class="share-hcp__text">Email</span>
             </a>
           </div>
-          <div class={cls('share-hcp__col share-hcp__text-area', {
-            'copy-active': this.isCopy
-          })}>
-            <textarea ref={el => (this.textAreaEl = el)}>{ textToCopy }</textarea>
-            <hcl-sdk-button primary onClick={this.handleCopy}>{t('share_hcp_label_copy')}</hcl-sdk-button>
-          </div>
+          {
+            appURL && (
+              <div class="share-hcp__col share-hcp__linkedin">
+                <a href={linkGenerated.linkedin} target="_blank" class="share-hcp__link">
+                  <hcl-sdk-icon name="linkedin" width={14} height={14} color="#fff" />
+                  <span class="share-hcp__text">LinkedIn</span>
+                </a>
+              </div>
+            )
+          }
         </div>
       </Host>
     );
