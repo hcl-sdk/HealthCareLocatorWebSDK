@@ -341,6 +341,44 @@ export class HclSdkIconEdit {
 }
 
 
+export declare interface HclSdkIconFacebook extends Components.HclSdkIconFacebook {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-facebook',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconFacebook {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconGmail extends Components.HclSdkIconGmail {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-gmail',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconGmail {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
 export declare interface HclSdkIconHistory extends Components.HclSdkIconHistory {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
@@ -371,6 +409,25 @@ export declare interface HclSdkIconLike extends Components.HclSdkIconLike {}
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconLike {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconLinkedin extends Components.HclSdkIconLinkedin {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-linkedin',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconLinkedin {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -645,6 +702,25 @@ export class HclSdkIconSort {
 }
 
 
+export declare interface HclSdkIconTwitter extends Components.HclSdkIconTwitter {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-twitter',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconTwitter {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
 export declare interface HclSdkInput extends Components.HclSdkInput {}
 @ProxyCmp({
   inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value'],
@@ -900,6 +976,22 @@ export declare interface HclSdkSelect extends Components.HclSdkSelect {}
   inputs: ['loading', 'onChange', 'options', 'value']
 })
 export class HclSdkSelect {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkShareHcp extends Components.HclSdkShareHcp {}
+
+@Component({
+  selector: 'hcl-sdk-share-hcp',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>'
+})
+export class HclSdkShareHcp {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

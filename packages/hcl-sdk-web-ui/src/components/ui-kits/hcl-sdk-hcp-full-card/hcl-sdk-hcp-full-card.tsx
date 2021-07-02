@@ -42,6 +42,9 @@ export class HclSdkHCPFullCard {
     searchMapStore.setState({
       individualDetail: null
     });
+    configStore.setState({
+      modal: undefined,
+    });
   }
 
   onVoteHCP = (answer: boolean) => {

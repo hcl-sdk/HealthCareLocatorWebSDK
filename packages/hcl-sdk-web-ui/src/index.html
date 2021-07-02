@@ -89,7 +89,9 @@
         const settingsUI = getSettingsUIFields();
 
         HCLSDK.init({
-          apiKey: settingsUI.apiKey
+          apiKey: settingsUI.apiKey,
+          appName: 'Corona',
+          appURL: 'https://google.com'
         });
       })();
     </script>

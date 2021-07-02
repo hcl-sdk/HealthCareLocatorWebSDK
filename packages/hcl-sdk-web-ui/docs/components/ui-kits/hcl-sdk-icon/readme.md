@@ -34,6 +34,7 @@
  - [hcl-sdk-search-no-results](../hcl-sdk-search-no-results)
  - [hcl-sdk-search-result](../../screens/hcl-sdk-search-result)
  - [hcl-sdk-select](../hcl-sdk-select)
+ - [hcl-sdk-share-hcp](../hcl-sdk-share-hcp)
  - [hcl-sdk-switch-view-mode](../hcl-sdk-switch-view-mode)
 
 ### Graph
@@ -53,6 +54,7 @@ graph TD;
   hcl-sdk-search-no-results --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
+  hcl-sdk-share-hcp --> hcl-sdk-icon
   hcl-sdk-switch-view-mode --> hcl-sdk-icon
   style hcl-sdk-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```

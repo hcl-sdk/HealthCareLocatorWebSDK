@@ -1,4 +1,4 @@
-# hcl-sdk-icon-sort
+# hcl-sdk-icon-twitter
 
 
 
@@ -9,9 +9,9 @@
 
 | Property | Attribute | Description | Type     | Default     |
 | -------- | --------- | ----------- | -------- | ----------- |
-| `color`  | `color`   |             | `string` | `undefined` |
-| `height` | `height`  |             | `number` | `10`        |
-| `width`  | `width`   |             | `number` | `16`        |
+| `color`  | `color`   |             | `string` | `'#03A9F4'` |
+| `height` | `height`  |             | `number` | `24`        |
+| `width`  | `width`   |             | `number` | `24`        |
 
 
 ----------------------------------------------

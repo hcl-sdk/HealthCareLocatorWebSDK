@@ -106,17 +106,18 @@ export function getPrimaryAddressIndividuual({ addressName, addressBuildingName,
 export function getTextBodyToShare(individualDetail, {
   newLine = '%0D%0A',
   appName = '',
-  appURL = ''
+  appURL = '',
+  isBoldFirstLine = false
 } = {}) {
 
   const { name, phone, professionalType, specialties } = individualDetail;
   const specialtiesText = getSpecialtiesText(specialties).join(',')
   const listText = [
-    t('share_hcp_description'),
+    isBoldFirstLine ? `<b>${t('share_hcp_description')}</b>` : t('share_hcp_description'),
     `${name}${professionalType && (newLine + professionalType)}`,
     specialtiesText ? `${t('share_hcp_specialties')} ${specialtiesText}` : '',
     `${getPrimaryAddressIndividuual(individualDetail).join(newLine)}`,
-    `${phone}`
+    phone
   ].filter(txt => txt)
 
   if (appName) {
