@@ -10,7 +10,7 @@
   }
 
   .modal-class {
-    padding: 10px;
+    padding: 17px;
     display: grid;
     background-color: var(--hcl-color-view_bkg);
 
@@ -50,7 +50,7 @@
       top: 20%;
       left: 50%;
       transform: translate(-50%, -20%);
-      padding: 12px 15px 22px 15px;
+      padding: 14px 17px 17px 17px;
       background-color: white;
       width: auto;
       height: auto;
@@ -60,21 +60,12 @@
     }
 
     .modal-title {
-      text-align: center;
+      text-align: left;
       position: relative;
-      padding-bottom: 10px;
-      &::after {
-        content: '';
-        height: 1px;
-        left: -15px;
-        right: -15px;
-        bottom: 0;
-        background-color: var(--hcl-color-card_border);
-        position: absolute;
-      }
+      
       .icon {
-        top: -4px;
-        right: -8px;
+        top: 0;
+        right: 0;
         position: absolute;
       }
     }
