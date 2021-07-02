@@ -32,8 +32,8 @@ export class HclSdkModal {
                 name="remove"
                 onClick={this.onClose}
                 color={getCssColor("--hcl-color-grey_dark")}
-                width={17}
-                height={17}
+                width={20}
+                height={20}
               />
             </div>
             <div class="modal-content">

@@ -72,8 +72,8 @@ Provide a `className` so you can use any CSS tooling you want. You can use many 
 --hcl-font-card_title-size: 16px;
 --hcl-font-card_title-weight: normal;
 --hcl-font-modal_title-name: var(--hcl-font-default-name);
---hcl-font-modal_title-size: 18px;
---hcl-font-modal_title-weight: normal;
+--hcl-font-modal_title-size: 20px;
+--hcl-font-modal_title-weight: bold;
 --hcl-font-search_input-name: var(--hcl-font-default-name);
 --hcl-font-search_input-size: 16px;
 --hcl-font-search_input-weight: normal;

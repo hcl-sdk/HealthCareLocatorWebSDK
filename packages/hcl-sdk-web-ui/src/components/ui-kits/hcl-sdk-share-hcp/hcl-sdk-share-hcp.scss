@@ -2,13 +2,18 @@
   .share-hcp__row {
     display: flex;
     flex-wrap: wrap;
+    margin-left: -8px;
+    margin-right: -8px;
   }
   
   .share-hcp__col {
     width: 50%;
     padding: 0 8px;
     margin-top: 16px;
-  
+    
+    &:first-child {
+      margin-top: 0;
+    }
     &.w-100 {
       width: 100%;
 
@@ -44,6 +49,11 @@
     border-radius: 5px;
     padding: 12px;
     font-size: 16px;
+    line-height: 1.4;
+
+    b {
+      font-weight: 500;
+    }
 
     &.copy-active {
       border-color: #85b0f8;
@@ -101,19 +111,8 @@
   .size-desktop  {
     .share-hcp__modal {
       .modal-class {
-        width: 480px;
+        width: 450px;
       }
-    }
-  }
-
-  .size-mobile {
-    .share-hcp__modal {
-      .modal-title {
-        padding: 0 7px;
-      }
-    }
-    .share-hcp__col:first-child {
-      margin-top: 0;
     }
   }
 }
