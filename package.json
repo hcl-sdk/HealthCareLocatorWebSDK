@@ -21,7 +21,7 @@
     "start-example-angular": "yarn build-web && cd packages/hcl-sdk-web-ui-angular && yarn run build && cd dist/hcl-sdk && yarn unlink && yarn link && cd ../../../../examples/web/angular && yarn && yarn link 'hcl-sdk' && yarn start",
     "clean-example-web": "rm -rf ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools",
     "start-example-web": "yarn build-example-web && npx serve ./examples/web/cdn",
-    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools"
+    "build-example-web": "yarn build-web && yarn build-devtools && rm -rf ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools"
   },
   "repository": {
     "type": "git",

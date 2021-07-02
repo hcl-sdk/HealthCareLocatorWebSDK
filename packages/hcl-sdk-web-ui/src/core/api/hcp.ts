@@ -6,6 +6,7 @@ import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } fr
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
+import { getGooglePlaceDetails } from './searchGeo';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum)); 
@@ -54,11 +55,7 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   }
 }
 
-export function genSearchLocationParams({
-  forceNearMe = false,
-  locationFilter,
-  specialtyFilter,
-}) {
+export async function genSearchLocationParams({ forceNearMe = false, locationFilter, specialtyFilter }) {
   let params: any = {};
   if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
@@ -73,12 +70,24 @@ export function genSearchLocationParams({
       return params;
     }
   } else if (locationFilter) {
-    const { addressDetails, boundingbox } = locationFilter;
-    const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox)
+    let addressDetails = locationFilter.addressDetails;
+    let boundingbox = locationFilter.boundingbox;
+    let lat = locationFilter.lat;
+    let lon = locationFilter.lng;
+
+    if (locationFilter.place_id) {
+      const placeDetail = await getGooglePlaceDetails(locationFilter.place_id);
+      addressDetails = placeDetail.addressDetails;
+      boundingbox = placeDetail.boundingbox;
+      lat = placeDetail.lat;
+      lon = placeDetail.lng;
+    }
+
+    const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox);
     params = {
       location: {
-        lat: Number(locationFilter.lat),
-        lon: Number(locationFilter.lng),
+        lat: Number(lat),
+        lon: Number(lon),
         distanceMeter: distanceMeter
       },
       ...extraParams // country, ...
@@ -94,7 +103,7 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
   const { locationFilter, specialtyFilter } = searchMapStore.state;
   const { countries } = configStore.state
 
-  const params = genSearchLocationParams({
+  const params = await genSearchLocationParams({
     forceNearMe,
     locationFilter,
     specialtyFilter
