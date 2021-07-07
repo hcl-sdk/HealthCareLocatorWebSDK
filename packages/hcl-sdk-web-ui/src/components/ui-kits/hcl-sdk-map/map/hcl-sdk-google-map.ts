@@ -29,7 +29,24 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
     mapElm.style.position = 'relative';
     mapElm.appendChild(this.internalMapContainer)
 
-    this.map = new google.maps.Map(mapElm, { ...options, mapId: options.googleMapId });
+    this.map = new google.maps.Map(mapElm, {
+      ...options,
+      styles: [
+        {
+          featureType: 'landscape.man_made',
+          stylers: [{ visibility: 'off' }],
+        },
+        {
+          featureType: 'poi',
+          stylers: [{ visibility: 'off' }],
+        },
+        {
+          featureType: 'transit',
+          elementType: 'labels.icon',
+          stylers: [{ visibility: 'off' }],
+        },
+      ],
+    });
 
     if (options.dragging === false) {
       this.map.setOptions({ gestureHandling: 'none' });
