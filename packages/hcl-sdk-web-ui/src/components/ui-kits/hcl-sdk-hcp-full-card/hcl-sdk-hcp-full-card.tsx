@@ -138,8 +138,9 @@ export class HclSdkHCPFullCard {
     const individualId = individualDetail.individualId
     const apiKey = configStore.state.apiKey;
 
+    const lang = mapLang[i18nStore.state.lang] || i18nStore.state.lang
     const linkEl = document.createElement('a');
-    linkEl.href = `${HCL_WEBSITE_HOST}/${mapLang[i18nStore.state.lang]}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
+    linkEl.href = `${HCL_WEBSITE_HOST}/${lang}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
     linkEl.target = "_blank";
     linkEl.click();
   }

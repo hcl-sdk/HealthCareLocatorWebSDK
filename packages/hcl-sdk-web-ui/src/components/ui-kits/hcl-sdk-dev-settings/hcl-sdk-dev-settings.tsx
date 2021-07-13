@@ -29,6 +29,15 @@ const optionSets = [
     options: [
       { label: 'English', value: 'en' },
       { label: 'French', value: 'fr_CA' },
+      { label: 'Spanish', value: 'es_ES' },
+      { label: 'Spanish (Colombia)', value: 'es_CO' },
+      { label: 'Italian', value: 'it_IT' },
+      { label: 'Portuguese', value: 'pt_PT' },
+      { label: 'Polish', value: 'pl_PL' },
+      { label: 'Turkish', value: 'tr_TR' },
+      { label: 'Arabic', value: 'ar_SA' },
+      { label: 'Dutch', value: 'nl_NL' },
+      { label: 'German', value: 'de_DE' },
     ],
   },
   {

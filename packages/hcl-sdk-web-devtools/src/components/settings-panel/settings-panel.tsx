@@ -4,6 +4,20 @@ import { loadSettings, storeSettings } from '../../utils/utils';
 import { Fields } from '../../types';
 import * as icons from './icons'
 
+const LIST_LOCALES = [
+  { label: 'English', value: 'en' },
+  { label: 'Français', value: 'fr_CA' },
+  { label: 'Spanish', value: 'es_ES' },
+  { label: 'Spanish (Colombia)', value: 'es_CO' },
+  { label: 'Italian', value: 'it_IT' },
+  { label: 'Portuguese', value: 'pt_PT' },
+  { label: 'Polish', value: 'pl_PL' },
+  { label: 'Turkish', value: 'tr_TR' },
+  { label: 'Arabic', value: 'ar_SA' },
+  { label: 'Dutch', value: 'nl_NL' },
+  { label: 'German', value: 'de_DE' },
+]
+
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
 
 const ALL_PROPS = Object.keys(DEFAULT_THEME_PROPERTIES).map(k => ({
@@ -511,12 +525,15 @@ export class SettingsPanel {
           <div class="row">
             <label>Language</label>
             <select name="lang" onChange={this.handleChange('lang')}>
-              <option value="en" selected={this.fields.lang === 'en'}>
-                English
-              </option>
-              <option value="fr_CA" selected={this.fields.lang === 'fr_CA'}>
-                Français
-              </option>
+              {
+                LIST_LOCALES.map(localeOpt => {
+                  return (
+                    <option value={localeOpt.value} selected={this.fields.lang === localeOpt.value}>
+                      {localeOpt.label}
+                    </option>
+                  )
+                })
+              }
             </select>
           </div>
           <div class="row">
