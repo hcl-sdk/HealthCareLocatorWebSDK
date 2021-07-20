@@ -121,7 +121,7 @@ export function getTextBodyToShare(individualDetail, {
   ].filter(txt => txt)
 
   if (appName) {
-    let appText = `I found it on ${appName}`;
+    let appText = t('share_hcp_found_text').replace('{name}', appName);
     if (appURL) {
       appText += ` - ${appURL}`;
     }

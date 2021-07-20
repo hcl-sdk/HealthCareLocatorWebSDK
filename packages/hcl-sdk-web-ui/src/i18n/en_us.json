@@ -23,7 +23,10 @@
   "results_label": "Results",
   "list_label": "List",
   "map_label": "Map",
-  "distance_unit_android": "%sm",
+  "back_to_search_results": "Back to search results",
+  "no_result_found": "No Results found",
+  "no_result_message": "Oups, it's looks like there is no matches for your search.",
+  "relaunch": "Relaunch",
   "sort_label": "Sort",
   "relevance_item": "Relevance",
   "distance_item": "Distance",
@@ -40,13 +43,10 @@
   "improve_quality_label": "Improve the data quality",
   "improve_quality_text": "Share with us more information about this HCP.",
   "suggess_modification_button": "Suggest a modification",
-  "back_to_search_results": "Back to search results",
   "back_to_home": "Back to home",
-  "no_result_found": "No Results found",
-  "no_result_message": "Oups, it's looks like there is no matches for your search.",
-  "relaunch": "Relaunch",
   "share_hcp_label_copy": "Copy Text",
   "share_hcp_title": "Share this HCP",
   "share_hcp_description": "Here is a healthcare professional that I recommend:",
-  "share_hcp_specialties": "Specialties:"
+  "share_hcp_specialties": "Specialties:",
+  "share_hcp_found_text": "I found it on {name}"
 }
