@@ -1,13 +1,14 @@
 import { Component, h, Listen, Method, Prop, State } from '@stencil/core';
 import { searchMapStore } from '../../../core/stores';
+import { SearchInputName } from '../../../core/stores/SearchMapStore';
 
 @Component({
   tag: 'hcl-sdk-autocomplete-result',
 })
 export class HclSdkAutocompleteResult {
   @Prop() data: any;
-  @Prop() type: 'name' | 'address'
-  @Prop() currentSelectedInput: any;
+  @Prop() type: SearchInputName
+  @Prop() currentSelectedInput: SearchInputName;
 
   @State() itemIndex: number = 0;
 
@@ -19,11 +20,11 @@ export class HclSdkAutocompleteResult {
 
   private getFirstItemIndex() {
     const items = this.ref.getElementsByTagName('hcl-sdk-search-address-item');
-    if (this.type === 'address') {
-      return 0;
-    } else {
+    if (this.type === 'name') {
       return [...items].findIndex(ref => !ref.item.address);
-    }
+    } else { // Both address and medicalTerm
+      return 0
+    } 
   }
 
   @Method()
@@ -57,6 +58,8 @@ export class HclSdkAutocompleteResult {
   }
 
   render() {
+    const currentSearchText = this.currentSelectedInput !== 'address' 
+      ? searchMapStore.state.searchFields[this.currentSelectedInput] : ''
     return (
       <ul ref={el => this.ref = el} class={`hclsdk-search__dropdown ${this.currentSelectedInput}`} tabIndex={-1}>
         {this.data &&
@@ -64,7 +67,7 @@ export class HclSdkAutocompleteResult {
             <hcl-sdk-search-address-item
               item={item}
               selected={idx === this.itemIndex}
-              currentSearchText={searchMapStore.state.searchFields.name}
+              currentSearchText={currentSearchText}
             />
           ))}
       </ul>

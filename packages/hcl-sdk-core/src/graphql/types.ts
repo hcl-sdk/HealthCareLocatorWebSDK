@@ -118,7 +118,7 @@ export type Geopoint = {
 
 export type GeopointQuery = {
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lon: Scalars['Float'];
   distanceMeter?: Maybe<Scalars['Float']>;
 };
 
@@ -292,6 +292,8 @@ export type QueryActivitiesArgs = {
   location?: Maybe<GeopointQuery>;
   county?: Maybe<Scalars['String']>;
   criteria?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  medTerms: Maybe<Array<Scalars['String']>>;
 };
 
 

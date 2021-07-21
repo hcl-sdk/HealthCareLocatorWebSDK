@@ -155,7 +155,8 @@ export class HclSdkSearchResult {
             boundingbox: result.boundingbox,
             addressDetails: result.addressDetails
           },
-          specialtyFilter: searchMapStore.state.specialtyFilter
+          specialtyFilter: searchMapStore.state.specialtyFilter,
+          medicalTermsFilter: searchMapStore.state.medicalTermsFilter
         })
 
         if (params.location && this.newDragBoundingBox.length === 4) {
@@ -294,7 +295,7 @@ export class HclSdkSearchResult {
 
     const isShowHCPDetail = individualDetail || selectedActivity;
     const loadingActivities = loadingActivitiesStatus === 'loading';
-    const isNoDataAvailable = loadingActivitiesStatus === 'error';
+    const isNoDataAvailable = loadingActivitiesStatus ===  'unauthorized';
     const isShowNoResults = !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,

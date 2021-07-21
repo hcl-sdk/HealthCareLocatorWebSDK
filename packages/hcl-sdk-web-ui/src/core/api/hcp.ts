@@ -1,12 +1,13 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'hcl-sdk-core'
-import { SelectedIndividual } from '../stores/SearchMapStore';
+import { SearchTermItem, SelectedIndividual } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
+import { QueryActivitiesArgs, QueryCodesArgs } from '../../../../hcl-sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum)); 
@@ -55,8 +56,18 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   }
 }
 
-export async function genSearchLocationParams({ forceNearMe = false, locationFilter, specialtyFilter }) {
-  let params: any = {};
+export async function genSearchLocationParams({ 
+  forceNearMe = false, 
+  locationFilter, 
+  specialtyFilter, 
+  medicalTermsFilter
+}: {
+  forceNearMe?: boolean;
+  locationFilter: any;
+  specialtyFilter: any;
+  medicalTermsFilter: SearchTermItem
+}) {
+  let params: Partial<QueryActivitiesArgs> = {};
   if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
@@ -96,17 +107,21 @@ export async function genSearchLocationParams({ forceNearMe = false, locationFil
   if (specialtyFilter) {
     params.specialties = [specialtyFilter.id];
   }
+  if (medicalTermsFilter) {
+    params.medTerms = [medicalTermsFilter.id];
+  }
   return params;
 }
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
-  const { locationFilter, specialtyFilter } = searchMapStore.state;
+  const { locationFilter, specialtyFilter, medicalTermsFilter } = searchMapStore.state;
   const { countries } = configStore.state
 
   const params = await genSearchLocationParams({
     forceNearMe,
     locationFilter,
-    specialtyFilter
+    specialtyFilter,
+    medicalTermsFilter
   });
 
   if (!specialtyFilter) {
@@ -146,7 +161,7 @@ export async function searchLocation(variables, {
       professionalType: item.activity.individual.professionalType.label,
       specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
       specialties: getSpecialtiesText(item.activity.individual.specialties)[0],
-      address: `${item.activity.workplace.address.longLabel},${item.activity.workplace.address.city.label}`,
+      address: [item.activity.workplace.address.longLabel, item.activity.workplace.address.city.label].filter(s => s).join(','),
       lat: item.activity.workplace.address.location.lat,
       lng: item.activity.workplace.address.location.lon,
       id: item.activity.id
@@ -170,14 +185,13 @@ export async function searchLocation(variables, {
       loadingActivitiesStatus: 'success'
     });
   } catch(e) {
-
     searchMapStore.setState({
       specialties: [],
       specialtiesRaw: [],
       searchDoctor: [],
       selectedActivity: null,
       individualDetail: null,
-      loadingActivitiesStatus: 'error'
+      loadingActivitiesStatus: e.response?.status === 401 ? 'unauthorized' : 'error'
     });
   }
 }
@@ -226,8 +240,31 @@ export async function searchDoctor(variables) {
 
   const data = [...codesData, ...individualsData]
 
-
   searchMapStore.setState({ loading: false, searchDoctor: data });
+}
+
+export async function handleSearchMedicalTerms(params: Partial<QueryCodesArgs>) {
+  if (!params.criteria || params.criteria.length < 3) {
+    return null;
+  }
+
+  searchMapStore.setState({ loading: true });
+
+  const { codesByLabel: { codes } } = await graphql.codesByLabel({
+    first: 5,
+    offset: 0,
+    codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT", "ADA.PM_KW" ],
+    locale: i18nStore.state.lang,
+    criteria: params.criteria,
+  }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
+
+  const codesData: SearchTermItem[] = codes ? codes.map((item) => ({
+    name: `${item.longLbl}`,
+    id: item.id,
+    lisCode: item.lisCode
+  })) : []
+
+  searchMapStore.setState({ loading: false, searchMedicalTerms: codesData });
 }
 
 

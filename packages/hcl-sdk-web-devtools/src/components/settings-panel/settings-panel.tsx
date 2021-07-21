@@ -562,6 +562,19 @@ export class SettingsPanel {
             </div>
           </div>
           <div class="row">
+            <label>Enable Search Medical Terms</label>
+            <div class="hcl-switch-btn">
+              <input
+                name="enableMedicalTerm"
+                type="checkbox"
+                class="checkbox-switch"
+                onChange={this.handleChange('enableMedicalTerm')}
+                checked={this.fields.enableMedicalTerm}
+              />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
             <label>Use Google Map</label>
             <div class="hcl-switch-btn">
               <input name="useGoogleMap" type="checkbox" class="checkbox-switch" onChange={this.handleChange('useGoogleMap')} checked={this.fields.useGoogleMap} />

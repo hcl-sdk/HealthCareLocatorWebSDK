@@ -13,6 +13,27 @@
     }
   }
   
+  .medical-subjects {
+    margin: 0;
+    padding: 0 0 20px 0;
+
+    &__item {
+      list-style: none;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 7px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--hcl-color-secondary);
+      margin-bottom: 8px;
+      margin-right: 8px;
+
+      &--highlight {
+        color: #fff;
+        border-color: var(--hcl-color-medial_subject_highlight);
+        background-color: var(--hcl-color-medial_subject_highlight);
+      }
+    }
+  }
 
   .hclsdk-btn {
     &.hclsdk-btn-rate {

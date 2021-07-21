@@ -6,6 +6,7 @@ const defaultSettings = {
   lang: 'en',
   appName: '',
   showSuggestModification: true,
+  enableMedicalTerm: false,
   appURL: '',
   countries: ['ca','fr'],
   useGoogleMap: false,
