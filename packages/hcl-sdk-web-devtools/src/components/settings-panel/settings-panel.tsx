@@ -8,7 +8,6 @@ const LIST_LOCALES = [
   { label: 'English', value: 'en' },
   { label: 'Français', value: 'fr_CA' },
   { label: 'Spanish', value: 'es_ES' },
-  { label: 'Spanish (Colombia)', value: 'es_CO' },
   { label: 'Italian', value: 'it_IT' },
   { label: 'Portuguese', value: 'pt_PT' },
   { label: 'Polish', value: 'pl_PL' },
@@ -16,6 +15,7 @@ const LIST_LOCALES = [
   { label: 'Arabic', value: 'ar_SA' },
   { label: 'Dutch', value: 'nl_NL' },
   { label: 'German', value: 'de_DE' },
+  { label: 'Russian', value: 'ru_RU' },
 ]
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
