@@ -8,7 +8,7 @@ import { Components } from 'hcl-sdk-web-ui';
 
 export declare interface HclSdk extends Components.HclSdk {}
 @ProxyCmp({
-  methods: ['updateConfig', 'searchNearMe', 'init']
+  methods: ['updateConfig', 'backToHome', 'searchNearMe', 'init']
 })
 @Component({
   selector: 'hcl-sdk',

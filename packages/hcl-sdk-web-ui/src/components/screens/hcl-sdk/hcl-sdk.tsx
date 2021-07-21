@@ -41,6 +41,11 @@ export class HclSDK {
   }
 
   @Method()
+  backToHome() {
+    routerStore.push('/');
+  }
+
+  @Method()
   async searchNearMe({ specialtyCode }) {
     this.loading = true;
 
@@ -62,6 +67,7 @@ export class HclSDK {
     });
     configStore.setState({
       modeView: ModeViewType.MAP,
+      modal: undefined
     });
     if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push('/search-result');
@@ -75,7 +81,7 @@ export class HclSDK {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
-    
+
     const mapConfig = this.getMapConfig(config);
     const initConfig = merge({}, defaults, config, { map: mapConfig });
     this.loadCurrentPosition(initConfig);
@@ -211,9 +217,9 @@ export class HclSDK {
   loadCurrentPosition({ isShowcase }) {
     if (isShowcase) {
       // Canada - Toronto Geolocation
-      searchMapStore.setGeoLocation({ 
+      searchMapStore.setGeoLocation({
         latitude: 43.6534817,
-        longitude: -79.3839347 
+        longitude: -79.3839347
       });
       return;
     }

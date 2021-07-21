@@ -43,8 +43,9 @@ export class HclSdkHCPFullCard {
       individualDetail: null
     });
     configStore.setState({
-      modal: undefined,
-    });
+      // Close the modal profile map if users not click on close icon
+      modal: undefined
+    })
   }
 
   onVoteHCP = (answer: boolean) => {
@@ -276,7 +277,7 @@ export class HclSdkHCPFullCard {
                                 <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
                               </div>
                             )}
-    
+
                             {individualDetail.fax && (
                               <div class="info-contact-item">
                                 <hcl-sdk-icon name="printer" height={15} color={getCssColor('--hcl-color-grey')} />

@@ -7,6 +7,16 @@
 
 ## Methods
 
+### `backToHome() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `init(config?: any) => Promise<void>`
 
 
