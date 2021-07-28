@@ -171,6 +171,18 @@ export class HclSdkHCPFullCard {
     });
 
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
+    
+    // TODO mockdata
+    const mockMedTermsData = []
+    // const mockMedTermsData = [
+    //   { label: "Aorta disease and Marfan syndrome", isHighlight: false },
+    //   { label: "Congenital heart disease", isHighlight: true },
+    //   { label: "Coronary artery disease", isHighlight: false },
+    //   { label: "Deep vein thrombosis", isHighlight: false },
+    //   { label: "Pulmonary embolism", isHighlight: false },
+    // ]
+
+    const isRenderMedialSubject = configStore.state.enableMedicalTerm && mockMedTermsData.length > 0
 
     return (
       <Host>
@@ -312,6 +324,27 @@ export class HclSdkHCPFullCard {
                         <span>{individualDetail.specialties.join(',')}</span>
                       </div>
                     </div>
+                  }
+                  {
+                    isRenderMedialSubject && (
+                      <div class="info-section">
+                        <div class="info-section-header">
+                          <span class="info-section-header__title">{t('medical_publication_subject_heading')}</span>
+                        </div>
+    
+                        <div class="info-section-body">
+                          <ul class="medical-subjects">
+                          {
+                            mockMedTermsData.map(o => (
+                              <li class={cls('medical-subjects__item', {
+                                'medical-subjects__item--highlight': o.isHighlight
+                              })}>{o.label}</li>
+                            ))
+                          }
+                          </ul>
+                        </div>
+                      </div>
+                    )
                   }
                 </div>
               )}

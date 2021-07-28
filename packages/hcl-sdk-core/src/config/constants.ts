@@ -80,6 +80,7 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--hcl-color-grey_darker': '#666666',
   '--hcl-color-grey_light': '#b8b8b8',
   '--hcl-color-grey_lighter': '#ebebeb',
+  '--hcl-color-medial_subject_highlight': '#fe8a12'
 };
 
 export const DEFAULT_CONFIGURATION: HclSDKConfig = {

@@ -30,6 +30,7 @@ export interface HclSDKConfigData {
   locale?: string;
   countries?: string[];
   showSuggestModification?: boolean;
+  enableMedicalTerm?: Boolean;
   map: {
     provider: MapProvider;
     googleMapApiKey: string;
@@ -50,6 +51,7 @@ export const initStateConfigStore = {
   appName: '',
   appURL: '',
   countries: [],
+  enableMedicalTerm: false,
   showSuggestModification: true
 };
 

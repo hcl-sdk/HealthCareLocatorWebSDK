@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { HclSDKConfigData } from "./core/stores/ConfigStore";
+import { SearchInputName } from "./core/stores/SearchMapStore";
 import { Modal, ModeViewType } from "hcl-sdk-web-ui/src/core/stores/ConfigStore";
 import { Breakpoint } from "hcl-sdk-web-ui/src/core/types";
 import { OptionType } from "./core/types";
@@ -17,10 +18,10 @@ export namespace Components {
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
     }
     interface HclSdkAutocompleteResult {
-        "currentSelectedInput": any;
+        "currentSelectedInput": SearchInputName;
         "data": any;
         "focusOnArrowKeyDown": () => Promise<void>;
-        "type": 'name' | 'address';
+        "type": SearchInputName;
     }
     interface HclSdkButton {
         "class": string;
@@ -36,6 +37,7 @@ export namespace Components {
         "primary": boolean;
         "round": boolean;
         "secondary": boolean;
+        "tabIndex": number;
         "type": string;
     }
     interface HclSdkDevSettings {
@@ -691,9 +693,9 @@ declare namespace LocalJSX {
     interface HclSdk {
     }
     interface HclSdkAutocompleteResult {
-        "currentSelectedInput"?: any;
+        "currentSelectedInput"?: SearchInputName;
         "data"?: any;
-        "type"?: 'name' | 'address';
+        "type"?: SearchInputName;
     }
     interface HclSdkButton {
         "class"?: string;
@@ -709,6 +711,7 @@ declare namespace LocalJSX {
         "primary"?: boolean;
         "round"?: boolean;
         "secondary"?: boolean;
+        "tabIndex"?: number;
         "type"?: string;
     }
     interface HclSdkDevSettings {

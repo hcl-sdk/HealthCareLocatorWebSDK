@@ -1,6 +1,8 @@
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import StoreProvider from "./StoreProvider";
 
+export type SearchInputName = 'name' | 'address' | 'medicalTerm'
+
 export interface SpecialtyItem {
   name: string;
   distance?: string;
@@ -17,6 +19,7 @@ export interface SpecialtyItem {
 export interface SearchFields {
   name: string;
   address: string;
+  medicalTerm: string;
 }
 export interface HCPName {
   id: string
@@ -51,9 +54,15 @@ export interface SelectedIndividual {
   lng?: number;
 }
 
+export interface SearchTermItem {
+  id: string;
+  name: string; // longLbl
+  lisCode: string;
+}
+
 export interface SearchMapState {
   loading?: boolean;
-  loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading';
+  loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
   loadingIndividualDetail?: boolean;
   loadingSwitchAddress?: boolean;
   specialties?: SpecialtyItem[];
@@ -62,6 +71,7 @@ export interface SearchMapState {
   search?: SearchResult;
   searchGeo?: any[];
   searchDoctor?: any[];
+  searchMedicalTerms: SearchTermItem[];
   selectedValues?: SelectedValues;
   sortValues?: SortValue
   selectedActivity?: SelectedIndividual
@@ -70,6 +80,7 @@ export interface SearchMapState {
   searchFields: SearchFields;
   locationFilter: any;
   specialtyFilter: any;
+  medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
 }
@@ -91,6 +102,7 @@ export const initStateSearchMapStore: SearchMapState = {
   search: {},
   searchGeo: [],
   searchDoctor: [],
+  searchMedicalTerms: [],
   selectedValues: {},
   selectedActivity: null,
   individualDetail: null,
@@ -101,10 +113,12 @@ export const initStateSearchMapStore: SearchMapState = {
   },
   searchFields: {
     name: '',
-    address: ''
+    address: '',
+    medicalTerm: ''
   },
   locationFilter: null,
   specialtyFilter: null,
+  medicalTermsFilter: null,
   geoLocation: {
     status: 'denied' as GeoLocationStatus,
     latitude: 0,
@@ -119,7 +133,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     this.state = state;
   }
 
-  setSearchFieldValue(key: string, value: string) {
+  setSearchFieldValue(key: SearchInputName, value: string) {
     this.setState({
       searchFields: {
         ...this.state.searchFields,

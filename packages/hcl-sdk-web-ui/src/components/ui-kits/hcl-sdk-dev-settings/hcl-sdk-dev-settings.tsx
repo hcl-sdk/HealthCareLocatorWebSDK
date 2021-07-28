@@ -10,6 +10,7 @@ interface DevSettings {
 
 const defaultSettings = {
   lang: 'en',
+  enableMedicalTerm: false,
   screenLayout: 'desktop',
 };
 
@@ -54,6 +55,11 @@ const optionSets = [
     key: 'apiKey',
     label: 'API Key',
     type: 'text'
+  },
+  {
+    key: 'enableMedicalTerm',
+    label: 'Search Medical Terms',
+    type: 'checkbox'
   }
 ];
 
@@ -70,6 +76,7 @@ export class HclSDKViewport {
   }
 
   applySettings() {
+    const hclSdkEl = document.querySelector('hcl-sdk');
     const wrapper = document.querySelector('.hcl-sdk-wrapper');
     wrapper.classList.remove(...optionSets.find(o => o.key === 'screenLayout').options.map(o => o.value));
     wrapper.classList.add(this.settings.screenLayout);
@@ -80,6 +87,9 @@ export class HclSDKViewport {
         getI18nLabels(this.settings.lang);
       }
     }
+    hclSdkEl.updateConfig({
+      enableMedicalTerm: this.settings.enableMedicalTerm
+    })
   }
 
   changeSetting(k, v) {
@@ -116,6 +126,14 @@ export class HclSDKViewport {
               value={this.settings[setting.key]}
               onChange={e => this.changeSetting(setting.key, (e.target as any).value)}
             />
+          )
+        }
+        {
+          setting.type === 'checkbox' && (
+            <input 
+              type="checkbox" 
+              checked={this.settings[setting.key]} 
+              onChange={e => this.changeSetting(setting.key, (e.target as any).checked)} />
           )
         }
       </div>
