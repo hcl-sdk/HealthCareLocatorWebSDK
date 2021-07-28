@@ -68,16 +68,7 @@ export class HclSdkSearch {
       return;
     }
 
-    const items = this.addressResultsRef.getElementsByTagName('hcl-sdk-search-address-item');
-
-    if (this.currentSelectedInput === 'name') {
-      const firstItem = [...items].find(itemRef => !itemRef.item.address);  
-      if (firstItem) {
-        this.selectAddress(firstItem.item)
-      }
-    } else if (this.currentSelectedInput === 'address') {
-      this.selectAddress(items[0].item)
-    }
+    this.autoFillField();
   }
 
   private onSearch = async e => {
@@ -165,6 +156,23 @@ export class HclSdkSearch {
         ...this.fieldsValid,
         [type]: true
       }
+    }
+  }
+
+  private autoFillField() {
+    if (!this.addressResultsRef) {
+      return;
+    }
+
+    const items = this.addressResultsRef.getElementsByTagName('hcl-sdk-search-address-item');
+
+    if (this.currentSelectedInput === 'name') {
+      const firstItem = [...items].find(itemRef => !itemRef.item.address);
+      if (firstItem) {
+        this.selectAddress(firstItem.item);
+      }
+    } else if (this.currentSelectedInput === 'address') {
+      this.selectAddress(items[0].item);
     }
   }
 
@@ -292,6 +300,8 @@ export class HclSdkSearch {
   };
 
   onFocusInputSearch = e => {
+    this.autoFillField();
+
     const name = (e.target as any).name;
     if (name) {
       this.currentSelectedInput = name;

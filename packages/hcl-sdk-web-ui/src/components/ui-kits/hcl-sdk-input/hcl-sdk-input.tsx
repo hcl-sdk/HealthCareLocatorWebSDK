@@ -62,6 +62,7 @@ export class HclSdkInput {
     return (
       <Host>
         <input
+          tabIndex={0}
           type={this.type}
           class={inputClass}
           ref={el => (this.textInput = el)}
@@ -74,8 +75,8 @@ export class HclSdkInput {
           onBlur={this.onBlur}
           readOnly={this.readOnly}
         />
-        {!this.loading && this.postfixIcon && <hcl-sdk-button noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} type="button" />}
-        {this.loading && <hcl-sdk-icon name="circular" class="input-postfix input-postfix__loader" width={15} height={15} />}
+        {!this.loading && this.postfixIcon && <hcl-sdk-button tabIndex={-1} noBorder icon={this.postfixIcon} class="input-postfix" onClick={this.onPostfixClick} type="button" />}
+        {this.loading && <hcl-sdk-icon tabIndex={-1} name="circular" class="input-postfix input-postfix__loader" width={15} height={15} />}
         <slot></slot>
       </Host>
     );
