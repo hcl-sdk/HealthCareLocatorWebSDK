@@ -54,7 +54,7 @@ export class HclSdkSearchItem {
 
   render() {
     return (
-      <Host role="button" tabIndex={0}>
+      <Host role="button" tabIndex={-1}>
         <div class={`search-address-item ${this.selected ? 'selected' : ''}`} role="button">
           {
             (this.item.type || this.item.id === NEAR_ME) && <div class="search-address-item-icon-wrapper"><span class="search-address-item-icon">{this.renderIcon(this.item.type)}</span></div>

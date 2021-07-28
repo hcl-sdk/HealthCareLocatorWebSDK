@@ -21,6 +21,7 @@ export class HclSdkButton {
   @Prop() type: string;
   @Prop() iconWidth: number;
   @Prop() iconHeight: number;
+  @Prop() tabIndex: number;
 
   render() {
     const btnClass = cls('hclsdk-btn', this.class, {
@@ -37,7 +38,7 @@ export class HclSdkButton {
 
     if (this.icon) {
       return (
-        <button class={btnClass} type={this.type}>
+        <button class={btnClass} type={this.type} tabIndex={this.tabIndex}>
           <hcl-sdk-icon 
             name={this.icon} 
             color={this.iconColor}
@@ -50,7 +51,7 @@ export class HclSdkButton {
     }
 
     return (
-      <button class={btnClass} type={this.type}>
+      <button class={btnClass} type={this.type} tabIndex={this.tabIndex}>
         <slot></slot>
       </button>
     );
