@@ -2,7 +2,7 @@ import { searchMapStore, historyStore, configStore, i18nStore } from '../stores'
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from 'hcl-sdk-core'
 import { SearchTermItem, SelectedIndividual } from '../stores/SearchMapStore';
-import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname } from '../../utils/helper';
+import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
@@ -288,6 +288,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     middleName: activity.individual.middleName,
     professionalType: activity.individual.professionalType.label,
     specialties: getSpecialtiesText(activity.individual.specialties),
+    listTerms: getCombineListTerms(activity.individual.meshTerms, activity.individual.kvTerms, activity.individual.chTerms),
     addressName: activity.workplace.name,
     addressBuildingName: activity.workplace.address.buildingLabel,
     address: activity.workplace.address.longLabel,

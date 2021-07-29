@@ -148,3 +148,13 @@ export function getHcpFullname(individual: Individual | IndividualFragment) {
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');
 }
+
+export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {
+  const listTerms = [
+    ...(meshTerms || []),
+    ...(kvTerms || []),
+    ...(chTerms || [])
+  ].map(str => str.trim())
+
+  return listTerms
+}
