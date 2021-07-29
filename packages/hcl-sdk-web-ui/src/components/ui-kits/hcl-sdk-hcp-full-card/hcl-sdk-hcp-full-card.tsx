@@ -176,8 +176,7 @@ export class HclSdkHCPFullCard {
       individualDetail,
       individualDetailName,
       loadingSwitchAddress,
-      loadingIndividualDetail,
-      medicalTermsFilter
+      loadingIndividualDetail
     } = searchMapStore.state;
     const { showSuggestModification } = configStore.state;
 

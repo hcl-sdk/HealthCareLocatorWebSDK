@@ -22,6 +22,7 @@
 | `primary`      | `primary`       |             | `boolean` | `undefined` |
 | `round`        | `round`         |             | `boolean` | `undefined` |
 | `secondary`    | `secondary`     |             | `boolean` | `undefined` |
+| `tabIndex`     | `tab-index`     |             | `number`  | `undefined` |
 | `type`         | `type`          |             | `string`  | `undefined` |
 
 
