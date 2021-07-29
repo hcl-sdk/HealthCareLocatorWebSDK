@@ -15,6 +15,7 @@ import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
+  @State() currentSeachTerm: string = ''
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -36,6 +37,19 @@ export class HclSdkHCPFullCard {
     }
 
     this.mapHcpVoted = storageUtils.getObject(OKSDK_MAP_HCP_VOTED, {})
+  }
+
+  componentWillUpdate() {
+    const { medicalTermsFilter } = searchMapStore.state
+
+    if (this.currentSeachTerm || !medicalTermsFilter || !medicalTermsFilter.name) {
+      return
+    }
+
+    // Copy and keep the current search 
+    //  to avoid users change the search terms in the second time
+    //  but not click on the button search yet.
+    this.currentSeachTerm = medicalTermsFilter.name.toLowerCase()
   }
 
   disconnectedCallback() {
@@ -162,7 +176,8 @@ export class HclSdkHCPFullCard {
       individualDetail,
       individualDetailName,
       loadingSwitchAddress,
-      loadingIndividualDetail
+      loadingIndividualDetail,
+      medicalTermsFilter
     } = searchMapStore.state;
     const { showSuggestModification } = configStore.state;
 
@@ -172,18 +187,9 @@ export class HclSdkHCPFullCard {
 
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
     
-    // TODO mockdata
-    const mockMedTermsData = []
-    // const mockMedTermsData = [
-    //   { label: "Aorta disease and Marfan syndrome", isHighlight: false },
-    //   { label: "Congenital heart disease", isHighlight: true },
-    //   { label: "Coronary artery disease", isHighlight: false },
-    //   { label: "Deep vein thrombosis", isHighlight: false },
-    //   { label: "Pulmonary embolism", isHighlight: false },
-    // ]
-
-    const isRenderMedialSubject = configStore.state.enableMedicalTerm && mockMedTermsData.length > 0
-
+    const listTerms = (individualDetail && individualDetail.listTerms) || []
+    const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
+    
     return (
       <Host>
         <div class="main-contain">
@@ -335,10 +341,10 @@ export class HclSdkHCPFullCard {
                         <div class="info-section-body">
                           <ul class="medical-subjects">
                           {
-                            mockMedTermsData.map(o => (
+                            listTerms.map(label => (
                               <li class={cls('medical-subjects__item', {
-                                'medical-subjects__item--highlight': o.isHighlight
-                              })}>{o.label}</li>
+                                'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
+                              })}>{label}</li>
                             ))
                           }
                           </ul>

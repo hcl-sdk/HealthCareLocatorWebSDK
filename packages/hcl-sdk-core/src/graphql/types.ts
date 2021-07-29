@@ -144,6 +144,9 @@ export type Individual = OneKeyEntity & {
   webAddress?: Maybe<Scalars['String']>;
   mainActivity: Activity;
   otherActivities: Array<Activity>;
+  meshTerms?: Maybe<Array<Scalars['String']>>;
+  kvTerms?: Maybe<Array<Scalars['String']>>;
+  chTerms?: Maybe<Array<Scalars['String']>>;
 };
 
 export type IndividualFragment = OneKeyEntity & {
