@@ -122,9 +122,15 @@ export class HclSdkSearch {
       return;
     }
 
+    searchMapStore.setState({
+      specialties: [],
+      specialtiesRaw: [],
+      loadingActivitiesStatus: 'loading'
+    })
+
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       if (!searchMapStore.state.locationFilter) {
-        await searchLocationWithParams()
+        searchLocationWithParams()
       }
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
     } else {

@@ -5,17 +5,19 @@ import { Fields } from '../../types';
 import * as icons from './icons'
 
 const LIST_LOCALES = [
-  { label: 'English', value: 'en' },
-  { label: 'Français', value: 'fr_CA' },
-  { label: 'Spanish', value: 'es_ES' },
-  { label: 'Italian', value: 'it_IT' },
-  { label: 'Portuguese', value: 'pt_PT' },
-  { label: 'Polish', value: 'pl_PL' },
-  { label: 'Turkish', value: 'tr_TR' },
-  { label: 'Arabic', value: 'ar_SA' },
-  { label: 'Dutch', value: 'nl_NL' },
-  { label: 'German', value: 'de_DE' },
-  { label: 'Russian', value: 'ru_RU' },
+  { label: 'Deutsch', value: 'de_DE' },
+  { label: 'English', value: 'en_US' },
+  { label: 'Español', value: 'es_ES' },
+  { label: 'Español (CO)', value: 'es_CO' },
+  { label: 'Français', value: 'fr_FR' },
+  { label: 'Français (CA)', value: 'fr_CA' },
+  { label: 'Italiano', value: 'it_IT' },
+  { label: 'Nederlands', value: 'nl_NL' },
+  { label: 'Polski', value: 'pl_PL' },
+  { label: 'Português (PT)', value: 'pt_PT' },
+  { label: 'Türkçe', value: 'tr_TR' },
+  { label: 'Pусский', value: 'ru_RU' },
+  { label: 'العربیة', value: 'ar_SA' },
 ]
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];

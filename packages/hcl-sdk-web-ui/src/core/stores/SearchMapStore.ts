@@ -66,6 +66,7 @@ export interface SearchMapState {
   loadingIndividualDetail?: boolean;
   loadingSwitchAddress?: boolean;
   specialties?: SpecialtyItem[];
+  isAllowDisplayMapEmpty?: boolean;
   specialtiesRaw?: SpecialtyItem[];
   doctors?: HCPName[];
   search?: SearchResult;
@@ -99,6 +100,7 @@ export const initStateSearchMapStore: SearchMapState = {
   loadingSwitchAddress: false,
   specialties: [],
   specialtiesRaw: [],
+  isAllowDisplayMapEmpty: false,
   search: {},
   searchGeo: [],
   searchDoctor: [],
