@@ -326,7 +326,7 @@ export class HclSdkHCPFullCard {
                       </div>
 
                       <div class="info-section-body">
-                        <span>{individualDetail.specialties.join(',')}</span>
+                        <span>{individualDetail.specialties.join(', ')}</span>
                       </div>
                     </div>
                   }
