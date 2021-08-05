@@ -132,12 +132,12 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
     params.country = String(countries)
   }
 
-  searchLocation(params);
+  return searchLocation(params);
 }
 
 export async function searchLocation(variables, { 
   hasLoading = 'loading', 
-  isAcceptEmptyData = true 
+  isAllowDisplayMapEmpty = false 
 } = {}) {
   searchMapStore.setState({
     individualDetail: null,
@@ -167,9 +167,7 @@ export async function searchLocation(variables, {
       id: item.activity.id
     }))
 
-    if (!isAcceptEmptyData && data.length === 0) {
-      return
-    }
+    isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0
 
     // Handle Sort the data
     const sortValues = searchMapStore.state.sortValues;
@@ -180,6 +178,7 @@ export async function searchLocation(variables, {
       specialties,
       specialtiesRaw: data,
       searchDoctor: [],
+      isAllowDisplayMapEmpty,
       selectedActivity: null,
       individualDetail: null,
       loadingActivitiesStatus: 'success'
@@ -191,6 +190,7 @@ export async function searchLocation(variables, {
       searchDoctor: [],
       selectedActivity: null,
       individualDetail: null,
+      isAllowDisplayMapEmpty: false,
       loadingActivitiesStatus: e.response?.status === 401 ? 'unauthorized' : 'error'
     });
   }

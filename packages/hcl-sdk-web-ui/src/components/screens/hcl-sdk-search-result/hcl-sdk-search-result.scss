@@ -126,6 +126,15 @@
       height: 100%;
     }
 
+    &__empty {
+      .hclsdk-btn-relaunch {
+        bottom: 25px;
+      }
+      .current-location {
+        bottom: 20px;
+      }
+    }
+
     &-wrapper {
       grid-template-rows: min-content;
     }
