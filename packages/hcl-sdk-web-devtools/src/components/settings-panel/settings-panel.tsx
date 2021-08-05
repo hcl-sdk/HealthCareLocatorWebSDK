@@ -210,7 +210,7 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
-      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap') {
+      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap' || fieldName === 'enableMedicalTerm') {
         value = (evt.target as any).checked as boolean;
       } else if (fieldName === 'countries') {
         value = (evt.target as any).value.trim().split(',').filter(val => !!val);
