@@ -45,9 +45,6 @@ stages:
         displayName: Get build git SHA
         workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-      - script: yarn version --new-version 0.0.1
-        displayName: Bump version number
-
       - task: YarnInstaller@3
         inputs:
           versionSpec: '1.x'
