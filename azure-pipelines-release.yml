@@ -45,6 +45,9 @@ stages:
         displayName: Get build git SHA
         workingDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
+      - script: yarn version --new-version 0.0.1
+        displayName: Bump version number
+
       - task: YarnInstaller@3
         inputs:
           versionSpec: '1.x'
@@ -59,6 +62,18 @@ stages:
         displayName: 'Build Web UI'
         inputs:
           arguments: 'build-web'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+      - task: Yarn@3
+        displayName: 'Build Web UI React'
+        inputs:
+          arguments: 'build-react'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+      - task: Yarn@3
+        displayName: 'Build Web UI Angular'
+        inputs:
+          arguments: 'build-angular'
           projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
       - task: Yarn@3
@@ -77,6 +92,16 @@ stages:
         inputs:
           artifactName: 'hcl-sdk-web'
           path: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-react'
+          path: 'packages/hcl-sdk-web-ui-react/dist'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-angular'
+          path: 'packages/hcl-sdk-web-ui-angular/dist'
 
       - task: PublishPipelineArtifact@1
         inputs:
