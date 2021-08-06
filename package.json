@@ -1,6 +1,6 @@
 {
   "name": "hcl-sdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "private": true,
   "workspaces": [
@@ -15,6 +15,7 @@
     "start-web": "lerna run start --scope hcl-sdk-web-ui",
     "build-web": "lerna run build --scope hcl-sdk-web-ui",
     "build-react": "lerna run build --scope hcl-sdk-web-ui-react",
+    "build-angular": "lerna run build --scope hcl-sdk-web-ui-angular",
     "start-devtools": "lerna run start --scope hcl-sdk-web-devtools",
     "build-devtools": "lerna run build --scope hcl-sdk-web-devtools",
     "start-example-react": "yarn build-web && yarn build-react && cd packages/hcl-sdk-web-ui-react && yarn unlink && yarn link && cd ../../examples/web/react && yarn && yarn link 'hcl-sdk-web-ui-react' && yarn start",
