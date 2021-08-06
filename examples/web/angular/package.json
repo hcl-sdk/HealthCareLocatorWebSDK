@@ -1,6 +1,6 @@
 {
-  "name": "hcl-sdk-web-angular-example",
-  "version": "0.0.0",
+  "name": "@healthcarelocator/sdk-angular",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
