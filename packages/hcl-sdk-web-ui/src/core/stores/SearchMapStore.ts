@@ -39,7 +39,6 @@ export interface SelectedValues {
 }
 
 export interface SortValue {
-  relevance?: boolean;
   distanceNumber?: boolean;
   lastName?: boolean;
 }
@@ -109,9 +108,8 @@ export const initStateSearchMapStore: SearchMapState = {
   selectedActivity: null,
   individualDetail: null,
   sortValues: {
-    relevance: true, // Default sort by relevance
     distanceNumber: false,
-    lastName: false
+    lastName: true
   },
   searchFields: {
     name: '',
