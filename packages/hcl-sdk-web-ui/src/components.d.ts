@@ -31,8 +31,10 @@ export namespace Components {
         "iconHeight": number;
         "iconWidth": number;
         "isFull": boolean;
+        "isLink": boolean;
         "noBackground": boolean;
         "noBorder": boolean;
+        "noPadding": boolean;
         "noTextColor": boolean;
         "primary": boolean;
         "round": boolean;
@@ -705,8 +707,10 @@ declare namespace LocalJSX {
         "iconHeight"?: number;
         "iconWidth"?: number;
         "isFull"?: boolean;
+        "isLink"?: boolean;
         "noBackground"?: boolean;
         "noBorder"?: boolean;
+        "noPadding"?: boolean;
         "noTextColor"?: boolean;
         "primary"?: boolean;
         "round"?: boolean;

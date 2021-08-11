@@ -6,7 +6,7 @@ import * as icons from './icons'
 
 const LIST_LOCALES = [
   { label: 'Deutsch', value: 'de_DE' },
-  { label: 'English', value: 'en_US' },
+  { label: 'English', value: 'en' },
   { label: 'Español', value: 'es_ES' },
   { label: 'Español (CO)', value: 'es_CO' },
   { label: 'Français', value: 'fr_FR' },
