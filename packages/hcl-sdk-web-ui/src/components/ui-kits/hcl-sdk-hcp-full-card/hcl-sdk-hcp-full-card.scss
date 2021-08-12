@@ -17,8 +17,11 @@
     margin: 0;
     padding: 0 0 20px 0;
 
-    &__item {
+    li {
       list-style: none;
+    }
+
+    &__item {
       display: inline-block;
       vertical-align: middle;
       padding: 7px 8px;
@@ -31,6 +34,26 @@
         color: #fff;
         border-color: var(--hcl-color-medial_subject_highlight);
         background-color: var(--hcl-color-medial_subject_highlight);
+      }
+    }
+
+    &__view-more {
+      .hclsdk-btn {
+        margin-top: 5px;
+        text-decoration: underline;
+        flex-direction: row-reverse;
+
+        .icon {
+          transform: rotate(90deg);
+        }
+      }
+
+      .view-less {
+        .hclsdk-btn {
+          .icon {
+            transform: rotate(-90deg) translateX(-1px);
+          }
+        }
       }
     }
   }
@@ -223,6 +246,14 @@
   .size-mobile {
     .leaflet-control-zoom {
       display: none;
+    }
+
+    .medical-subjects {
+      padding-bottom: 15px;
+    }
+    .medical-subjects__item {
+      font-size: 12px;
+      padding: 6px 8px;
     }
   }
 

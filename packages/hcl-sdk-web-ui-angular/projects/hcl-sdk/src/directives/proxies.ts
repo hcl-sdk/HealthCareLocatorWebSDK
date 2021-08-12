@@ -46,13 +46,13 @@ export class HclSdkAutocompleteResult {
 
 export declare interface HclSdkButton extends Components.HclSdkButton {}
 @ProxyCmp({
-  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'noBackground', 'noBorder', 'noTextColor', 'primary', 'round', 'secondary', 'tabIndex', 'type']
+  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'isLink', 'noBackground', 'noBorder', 'noPadding', 'noTextColor', 'primary', 'round', 'secondary', 'tabIndex', 'type']
 })
 @Component({
   selector: 'hcl-sdk-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'noBackground', 'noBorder', 'noTextColor', 'primary', 'round', 'secondary', 'tabIndex', 'type']
+  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'isLink', 'noBackground', 'noBorder', 'noPadding', 'noTextColor', 'primary', 'round', 'secondary', 'tabIndex', 'type']
 })
 export class HclSdkButton {
   protected el: HTMLElement;

@@ -7,6 +7,8 @@ import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 
+const MAX_DISPLAY_TERMS = 5
+
 @Component({
   tag: 'hcl-sdk-hcp-full-card',
   styleUrl: 'hcl-sdk-hcp-full-card.scss',
@@ -16,6 +18,7 @@ export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
   @State() currentSeachTerm: string = ''
+  @State() isViewMoreTerms: boolean = false;
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -160,6 +163,10 @@ export class HclSdkHCPFullCard {
     linkEl.click();
   }
 
+  handleToggleViewMoreTerms = () => {
+    this.isViewMoreTerms = !this.isViewMoreTerms
+  }
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -188,7 +195,7 @@ export class HclSdkHCPFullCard {
     
     const listTerms = (individualDetail && individualDetail.listTerms) || []
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
-    
+
     return (
       <Host>
         <div class="main-contain">
@@ -334,17 +341,35 @@ export class HclSdkHCPFullCard {
                     isRenderMedialSubject && (
                       <div class="info-section">
                         <div class="info-section-header">
-                          <span class="info-section-header__title">{t('medical_publication_subject_heading')}</span>
+                          <span class="info-section-header__title">{t('medical_publication_subject_heading')} ({listTerms.length})</span>
                         </div>
     
                         <div class="info-section-body">
                           <ul class="medical-subjects">
                           {
-                            listTerms.map(label => (
-                              <li class={cls('medical-subjects__item', {
-                                'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
-                              })}>{label}</li>
-                            ))
+                            listTerms.map((label: string, idx: number) => {
+                              if (!this.isViewMoreTerms && idx >= MAX_DISPLAY_TERMS) {
+                                return null
+                              }
+
+                              return (
+                                <li class={cls('medical-subjects__item', {
+                                  'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
+                                })}>{label}</li>
+                              )
+                            })
+                          }
+                          {
+                            listTerms.length > MAX_DISPLAY_TERMS && (
+                              <li class="medical-subjects__view-more">
+                                <hcl-sdk-button 
+                                  onClick={this.handleToggleViewMoreTerms}
+                                  class={cls({ 'view-less': this.isViewMoreTerms })}
+                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  { !this.isViewMoreTerms ? t('view_more') : t('view_less') }
+                                </hcl-sdk-button>
+                              </li>
+                            )
                           }
                           </ul>
                         </div>

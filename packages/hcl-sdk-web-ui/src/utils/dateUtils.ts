@@ -1,5 +1,5 @@
 import { formatDistance as formatDistanceFns } from 'date-fns';
-import { enUS, frCA, fr, enGB, es, it, pl, pt, ru, tr, arSA, arMA, nl, de } from 'date-fns/locale'
+import { enUS, frCA, fr, enGB, es, it, pl, pt, ru, tr, arSA, arMA, nl, de, } from 'date-fns/locale'
 
 export const dateUtils = (date: Date | number) => ({
   diffMinuteFromNow() {
@@ -14,6 +14,7 @@ export const formatDistance = (date: Date | number, localeStr?: string) => {
     'fr': fr,
     'fr_fr': fr,
     'fr_ca': frCA,
+    'en': enUS,
     'en_us': enUS,
     'en_gb': enGB,
     'es_co': es,
