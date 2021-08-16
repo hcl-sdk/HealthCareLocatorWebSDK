@@ -1,7 +1,6 @@
 {
-  "name": "hcl-sdk-web-ui-react",
-  "version": "0.5.0",
-  "private": true,
+  "name": "@healthcarelocator/sdk-react",
+  "version": "0.0.1",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
