@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import cn from 'classnames';
-import { getCssColor } from 'hcl-sdk-web-ui/src/utils/helper';
+import { getCssColor } from '../../../utils/helper';
 
 @Component({
   tag: 'hcl-sdk-doctor-card',

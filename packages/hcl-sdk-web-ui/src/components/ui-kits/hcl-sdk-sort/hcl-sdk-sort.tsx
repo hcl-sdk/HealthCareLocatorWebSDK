@@ -1,6 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import cn from 'classnames';
-import { configStore, searchMapStore, uiStore } from 'hcl-sdk-web-ui/src/core/stores';
+import { configStore, searchMapStore, uiStore } from '../../../core/stores';
 import sortBy from 'lodash.sortby';
 import { t } from '../../../utils/i18n';
 

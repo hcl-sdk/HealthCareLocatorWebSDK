@@ -1,7 +1,7 @@
 import { Component, Host, h, Method, Element, State } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
-import { applyDefaultTheme } from 'hcl-sdk-web-ui/src/utils/helper';
+import { applyDefaultTheme } from '../../../utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
@@ -11,7 +11,7 @@ import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { GEOLOC } from '../../../core/constants';
-import { graphql } from 'hcl-sdk-core';
+import { graphql } from '@healthcarelocator/sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';

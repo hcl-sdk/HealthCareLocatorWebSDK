@@ -1,6 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
-import { uiStore, searchMapStore } from 'hcl-sdk-web-ui/src/core/stores';
-import { getCssColor } from 'hcl-sdk-web-ui/src/utils/helper';
+import { uiStore, searchMapStore } from '../../../core/stores';
+import { getCssColor } from '../../../utils/helper';
 
 @Component({
   tag: 'hcl-sdk-profile-map',
@@ -33,7 +33,7 @@ export class HclSdkProfileMap {
             </div>
           </div>
           <div class="profile-map__content">
-            <hcl-sdk-map 
+            <hcl-sdk-map
               mapHeight={`100%`}
               mapMinHeight={'200px'}
               locations={[{ lat: individualDetail.lat, lng: individualDetail.lng }]}

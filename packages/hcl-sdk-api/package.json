@@ -5,7 +5,8 @@
   "browser": "dist/hcl-sdk-api/hcl-sdk-api.js",
   "module": "dist/hcl-sdk-api/hcl-sdk-api.esm.js",
   "dependencies": {
-    "ms": "^2.0.0"
+    "ms": "^2.0.0",
+    "@healthcarelocator/sdk-core": "*"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",

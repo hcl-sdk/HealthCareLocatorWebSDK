@@ -1,16 +1,16 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
-import { graphql } from 'hcl-sdk-core'
+import { graphql } from '@healthcarelocator/sdk-core'
 import { SearchTermItem, SelectedIndividual } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { QueryActivitiesArgs, QueryCodesArgs } from '../../../../hcl-sdk-core/src/graphql/types';
+import { QueryActivitiesArgs, QueryCodesArgs } from '@healthcarelocator/sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
-  const bbox = boundingbox.map(strNum => Number(strNum)); 
+  const bbox = boundingbox.map(strNum => Number(strNum));
   const hashBBox = {
     south: bbox[0],
     north: bbox[1],
@@ -42,7 +42,7 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   if (addressDetails.country && (addressDetails.city || addressDetails.state)) {
     // City
     const { point } = groupPointFromBoundingBox(boundingbox)
-    
+
     const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
     return {
       distanceMeter: maxDistanceMeter
@@ -56,10 +56,10 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   }
 }
 
-export async function genSearchLocationParams({ 
-  forceNearMe = false, 
-  locationFilter, 
-  specialtyFilter, 
+export async function genSearchLocationParams({
+  forceNearMe = false,
+  locationFilter,
+  specialtyFilter,
   medicalTermsFilter
 }: {
   forceNearMe?: boolean;
@@ -135,9 +135,9 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
   return searchLocation(params);
 }
 
-export async function searchLocation(variables, { 
-  hasLoading = 'loading', 
-  isAllowDisplayMapEmpty = false 
+export async function searchLocation(variables, {
+  hasLoading = 'loading',
+  isAllowDisplayMapEmpty = false
 } = {}) {
   searchMapStore.setState({
     individualDetail: null,
@@ -151,7 +151,7 @@ export async function searchLocation(variables, {
       locale: i18nStore.state.lang,
       ...variables,
     }, configStore.configGraphql)
-  
+
     const data = (activities || []).map((item) => ({
       distance: `${item.distance}m`,
       distanceNumber: item.distance,
@@ -173,7 +173,7 @@ export async function searchLocation(variables, {
     const sortValues = searchMapStore.state.sortValues;
     const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm]);
     const specialties = sortBy(data, sortByField)
-  
+
     searchMapStore.setState({
       specialties,
       specialtiesRaw: data,

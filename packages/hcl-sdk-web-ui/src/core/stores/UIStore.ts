@@ -1,6 +1,6 @@
 import StoreProvider from './StoreProvider';
-import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
-import { getBreakpointFromParentClientRect } from 'hcl-sdk-web-ui/src/utils/helper';
+import { Breakpoint } from '../../core/types';
+import { getBreakpointFromParentClientRect } from '../../utils/helper';
 
 interface UIStoreState {
   breakpoint: Breakpoint;

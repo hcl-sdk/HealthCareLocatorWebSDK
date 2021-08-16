@@ -18,11 +18,11 @@ export const config: Config = {
   hashFileNames: false,
   outputTargets: [
     angularOutputTarget({
-      componentCorePackage: 'hcl-sdk-web-ui',
+      componentCorePackage: '@healthcarelocator/sdk-web',
       directivesProxyFile: '../hcl-sdk-web-ui-angular/projects/hcl-sdk/src/directives/proxies.ts',
     }),
     reactOutputTarget({
-      componentCorePackage: 'hcl-sdk-web-ui',
+      componentCorePackage: '@healthcarelocator/sdk-web',
       proxiesFile: '../hcl-sdk-web-ui-react/src/components.ts',
       includeDefineCustomElements: true,
     }),
