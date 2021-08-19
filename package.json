@@ -18,11 +18,12 @@
     "build-angular": "lerna run build --scope @healthcarelocator/sdk-angular",
     "start-devtools": "lerna run start --scope hcl-sdk-web-devtools",
     "build-devtools": "lerna run build --scope hcl-sdk-web-devtools",
-    "start-example-react": "yarn build-web && yarn build-react && cd packages/hcl-sdk-web-ui-react && yarn unlink && yarn link && cd ../../examples/web/react && yarn && yarn link 'hcl-sdk-web-ui-react' && yarn start",
+    "start-example-react": "yarn build-web && yarn build-react && cd packages/hcl-sdk-web-ui-react && yarn link && cd ../../examples/web/react && yarn && yarn link '@healthcarelocator/sdk-react' && yarn start",
     "start-example-angular": "yarn build-web && cd packages/hcl-sdk-web-ui-angular && yarn run build && cd dist/hcl-sdk && yarn unlink && yarn link && cd ../../../../examples/web/angular && yarn && yarn link 'hcl-sdk' && yarn start",
     "clean-example-web": "rm -rf ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools",
     "start-example-web": "yarn build-example-web && npx serve ./examples/web/cdn",
-    "build-example-web": "yarn build-web && yarn build-devtools && rm -rf ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools"
+    "build-example-web": "yarn build-web && yarn build-devtools && rm -rf ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools",
+    "xversion": "lerna publish"
   },
   "repository": {
     "type": "git",
