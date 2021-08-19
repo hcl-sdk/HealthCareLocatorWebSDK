@@ -1,6 +1,6 @@
 {
   "name": "@healthcarelocator/sdk-web",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "HCL SDK web component",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
@@ -35,7 +35,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@healthcarelocator/sdk-core": "*",
+    "@healthcarelocator/sdk-core": "^0.1.0",
     "@stencil/store": "^1.3.0",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",

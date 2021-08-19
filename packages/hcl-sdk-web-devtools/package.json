@@ -1,6 +1,6 @@
 {
   "name": "hcl-sdk-web-devtools",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
@@ -23,9 +23,9 @@
     "generate": "stencil generate"
   },
   "dependencies": {
+    "@healthcarelocator/sdk-core": "^0.1.0",
     "@jeepq/core": "0.0.4-1",
     "@stencil/core": "~2.2.0",
-    "@healthcarelocator/sdk-core": "*",
     "prismjs": "^1.22.0"
   },
   "license": "MIT",

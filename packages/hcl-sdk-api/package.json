@@ -1,12 +1,12 @@
 {
   "name": "@healthcarelocator/sdk-api",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/hcl-sdk-api/hcl-sdk-api.node.cjs.js",
   "browser": "dist/hcl-sdk-api/hcl-sdk-api.js",
   "module": "dist/hcl-sdk-api/hcl-sdk-api.esm.js",
   "dependencies": {
-    "ms": "^2.0.0",
-    "@healthcarelocator/sdk-core": "*"
+    "@healthcarelocator/sdk-core": "^0.1.0",
+    "ms": "^2.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",

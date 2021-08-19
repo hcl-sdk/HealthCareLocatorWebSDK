@@ -1,6 +1,6 @@
 {
   "name": "@healthcarelocator/sdk-core",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./src/index.ts",
   "dependencies": {
     "@types/lodash.merge": "^4.6.6",
