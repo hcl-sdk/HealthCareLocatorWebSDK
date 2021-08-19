@@ -1,5 +1,5 @@
 import { Component, Host, h } from '@stencil/core';
-import { uiStore, routerStore } from 'hcl-sdk-web-ui/src/core/stores';
+import { uiStore, routerStore } from '../../../core/stores';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 // import { t } from '../../../utils/i18n';
 

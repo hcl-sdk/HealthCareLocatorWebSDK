@@ -1,5 +1,6 @@
 {
   "name": "@healthcarelocator/sdk-angular",
+  "description": "HCL SDK Angular component",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -14,6 +15,7 @@
     "@angular/platform-browser": "~12.0.2",
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
+    "@healthcarelocator/sdk-web": "*",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },

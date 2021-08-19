@@ -1,5 +1,5 @@
 import { Component, h, State, Event, EventEmitter, Listen, Method } from '@stencil/core';
-import { DEFAULT_THEME_PROPERTIES } from 'hcl-sdk-core';
+import { DEFAULT_THEME_PROPERTIES } from '@healthcarelocator/sdk-core';
 import { loadSettings, storeSettings } from '../../utils/utils';
 import { Fields } from '../../types';
 import * as icons from './icons'

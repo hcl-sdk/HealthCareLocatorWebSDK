@@ -1,7 +1,7 @@
 import { Component, Host, h, EventEmitter, Event, Prop } from '@stencil/core';
 import cls from 'classnames'
-import { configStore } from 'hcl-sdk-web-ui/src/core/stores';
-import { ModeViewType } from 'hcl-sdk-web-ui/src/core/stores/ConfigStore';
+import { configStore } from '../../../core/stores';
+import { ModeViewType } from '../../../core/stores/ConfigStore';
 import { t } from '../../../utils/i18n';
 @Component({
   tag: 'hcl-sdk-switch-view-mode',

@@ -5,11 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HclSDKConfigData } from "./core/stores/ConfigStore";
+import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
 import { SearchInputName } from "./core/stores/SearchMapStore";
-import { Modal, ModeViewType } from "hcl-sdk-web-ui/src/core/stores/ConfigStore";
-import { Breakpoint } from "hcl-sdk-web-ui/src/core/types";
-import { OptionType } from "./core/types";
+import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
