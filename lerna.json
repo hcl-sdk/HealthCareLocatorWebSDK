@@ -2,6 +2,9 @@
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "command": {
     "run": {
       "parallel": true,
