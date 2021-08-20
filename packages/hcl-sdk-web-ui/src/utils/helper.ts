@@ -1,8 +1,8 @@
-import { DEFAULT_THEME_PROPERTIES } from 'hcl-sdk-core';
-import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
-import { BREAKPOINT_MAX_WIDTH } from 'hcl-sdk-web-ui/src/core/constants';
-import { Activity, Individual, IndividualFragment } from 'hcl-sdk-core/src/graphql/types';
-import { t } from 'hcl-sdk-web-ui/src/utils/i18n';
+import { DEFAULT_THEME_PROPERTIES } from '@healthcarelocator/sdk-core';
+import { Breakpoint } from '../core/types';
+import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
+import { Activity, Individual, IndividualFragment } from '@healthcarelocator/sdk-core/src/graphql/types';
+import { t } from '../utils/i18n';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -147,4 +147,14 @@ export function getHcpFullname(individual: Individual | IndividualFragment) {
   const { firstName, lastName, middleName } = individual;
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');
+}
+
+export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {
+  const listTerms = [
+    ...(meshTerms || []),
+    ...(kvTerms || []),
+    ...(chTerms || [])
+  ].map(str => str.trim())
+
+  return listTerms
 }

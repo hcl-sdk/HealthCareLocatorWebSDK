@@ -6,6 +6,7 @@ import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/Histo
 import { ModeViewType } from '../../../../core/stores/ConfigStore';
 import { searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
+import { getHcpFullname } from '../../../../utils/helper';
 
 @Component({
   tag: 'hcl-sdk-home-full',
@@ -27,7 +28,8 @@ export class HclSdkHomeFull {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setState({
       locationFilter: null,
-      specialtyFilter: null
+      specialtyFilter: null,
+      medicalTermsFilter: null
     });
     configStore.setState({
       modeView: ModeViewType.MAP
@@ -46,7 +48,7 @@ export class HclSdkHomeFull {
     searchMapStore.setState({
       selectedActivity: {
         ...hcpItem.activity,
-        name: hcpItem.activity.individual.mailingName,
+        name: getHcpFullname(hcpItem.activity.individual),
         lat: hcpItem.activity.workplace.address.location.lat,
         lng: hcpItem.activity.workplace.address.location.lon,
       },
@@ -56,10 +58,11 @@ export class HclSdkHomeFull {
   };
 
   handleHistorySearchItemClick = (searchItem: HistorySearchItem) => {
-    const { locationFilter, specialtyFilter, searchFields } = searchItem;
+    const { locationFilter, specialtyFilter, searchFields, medicalTermsFilter } = searchItem;
     searchMapStore.setState({
       locationFilter,
       specialtyFilter,
+      medicalTermsFilter,
       searchFields,
     });
 
@@ -68,7 +71,7 @@ export class HclSdkHomeFull {
         modeView: ModeViewType.MAP
       });
     }
-
+    searchLocationWithParams()
     routerStore.push('/search-result');
   };
 
@@ -91,7 +94,7 @@ export class HclSdkHomeFull {
     return historyStore.state.searchItems.filter(this.filterHistoryItems(this.showMoreSearchItems)).map(searchItem => (
       <div class="history-item" onClick={() => this.handleHistorySearchItemClick(searchItem)}>
         <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('search', searchItem.id)} />
-        <p class="history-item__criteria">{searchItem.searchFields.name}</p>
+        <p class="history-item__criteria">{searchItem.searchFields.name || searchItem.searchFields.medicalTerm}</p>
         <p class="history-item__address">{searchItem.locationFilter?.longLabel || searchItem.searchFields.address}</p>
         <p class="history-item__time-from">{formatDistance(searchItem.timestamp, i18nStore.state.lang)}</p>
       </div>
@@ -102,7 +105,7 @@ export class HclSdkHomeFull {
     return historyStore.state.hcpItems.filter(this.filterHistoryItems(this.showMoreHcpItems)).map(hcpItem => (
       <div class="history-item" onClick={() => this.handleHistoryHcpItemClick(hcpItem)}>
         <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('hcp', hcpItem.activityId)} />
-        <p class="history-item__name">{hcpItem.activity.individual.mailingName}</p>
+        <p class="history-item__name">{getHcpFullname(hcpItem.activity.individual)}</p>
         <p class="history-item__specialty">{hcpItem.activity.individual.professionalType.label}</p>
         <p class="history-item__address">{hcpItem.activity.workplace.address.longLabel}</p>
         <p class="history-item__time-from">{formatDistance(hcpItem.timestamp, i18nStore.state.lang)}</p>

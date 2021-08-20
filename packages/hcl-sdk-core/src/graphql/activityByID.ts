@@ -69,6 +69,9 @@ const QUERY_ACTIVITY_BY_ID = gql`
             }
           }
         }
+        meshTerms
+        kvTerms
+        chTerms
       }
     }
   }

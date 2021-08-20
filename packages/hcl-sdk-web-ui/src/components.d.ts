@@ -5,10 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HclSDKConfigData } from "./core/stores/ConfigStore";
-import { Modal, ModeViewType } from "hcl-sdk-web-ui/src/core/stores/ConfigStore";
-import { Breakpoint } from "hcl-sdk-web-ui/src/core/types";
-import { OptionType } from "./core/types";
+import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
+import { SearchInputName } from "./core/stores/SearchMapStore";
+import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
@@ -17,10 +16,10 @@ export namespace Components {
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
     }
     interface HclSdkAutocompleteResult {
-        "currentSelectedInput": any;
+        "currentSelectedInput": SearchInputName;
         "data": any;
         "focusOnArrowKeyDown": () => Promise<void>;
-        "type": 'name' | 'address';
+        "type": SearchInputName;
     }
     interface HclSdkButton {
         "class": string;
@@ -30,12 +29,15 @@ export namespace Components {
         "iconHeight": number;
         "iconWidth": number;
         "isFull": boolean;
+        "isLink": boolean;
         "noBackground": boolean;
         "noBorder": boolean;
+        "noPadding": boolean;
         "noTextColor": boolean;
         "primary": boolean;
         "round": boolean;
         "secondary": boolean;
+        "tabIndex": number;
         "type": string;
     }
     interface HclSdkDevSettings {
@@ -691,9 +693,9 @@ declare namespace LocalJSX {
     interface HclSdk {
     }
     interface HclSdkAutocompleteResult {
-        "currentSelectedInput"?: any;
+        "currentSelectedInput"?: SearchInputName;
         "data"?: any;
-        "type"?: 'name' | 'address';
+        "type"?: SearchInputName;
     }
     interface HclSdkButton {
         "class"?: string;
@@ -703,12 +705,15 @@ declare namespace LocalJSX {
         "iconHeight"?: number;
         "iconWidth"?: number;
         "isFull"?: boolean;
+        "isLink"?: boolean;
         "noBackground"?: boolean;
         "noBorder"?: boolean;
+        "noPadding"?: boolean;
         "noTextColor"?: boolean;
         "primary"?: boolean;
         "round"?: boolean;
         "secondary"?: boolean;
+        "tabIndex"?: number;
         "type"?: string;
     }
     interface HclSdkDevSettings {

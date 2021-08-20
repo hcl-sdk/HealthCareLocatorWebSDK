@@ -3,9 +3,9 @@
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
 
-import type { JSX } from 'hcl-sdk-web-ui';
+import type { JSX } from '@healthcarelocator/sdk-web';
 
-import { defineCustomElements } from 'hcl-sdk-web-ui/dist/loader';
+import { defineCustomElements } from '@healthcarelocator/sdk-web/dist/loader';
 
 defineCustomElements();
 export const HclSdk = /*@__PURE__*/createReactComponent<JSX.HclSdk, HTMLHclSdkElement>('hcl-sdk');

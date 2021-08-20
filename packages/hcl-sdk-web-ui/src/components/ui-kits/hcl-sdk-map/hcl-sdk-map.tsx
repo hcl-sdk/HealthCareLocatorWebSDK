@@ -1,7 +1,7 @@
 import { Component, Prop, h, Host, Watch, State } from '@stencil/core';
 import { Event, EventEmitter } from '@stencil/core';
-import { MapProvider, ModeViewType } from 'hcl-sdk-web-ui/src/core/stores/ConfigStore';
-import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
+import { MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
+import { Breakpoint } from '../../../core/types';
 import { searchMapStore, configStore } from '../../../core/stores';
 import * as geolib from 'geolib';
 import { HclSdkMapGoogleMap } from './map/hcl-sdk-google-map';

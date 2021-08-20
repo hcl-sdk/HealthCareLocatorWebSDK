@@ -1,21 +1,23 @@
 import { Component, h, State, Event, EventEmitter, Listen, Method } from '@stencil/core';
-import { DEFAULT_THEME_PROPERTIES } from 'hcl-sdk-core';
+import { DEFAULT_THEME_PROPERTIES } from '@healthcarelocator/sdk-core';
 import { loadSettings, storeSettings } from '../../utils/utils';
 import { Fields } from '../../types';
 import * as icons from './icons'
 
 const LIST_LOCALES = [
+  { label: 'Deutsch', value: 'de_DE' },
   { label: 'English', value: 'en' },
-  { label: 'Français', value: 'fr_CA' },
-  { label: 'Spanish', value: 'es_ES' },
-  { label: 'Italian', value: 'it_IT' },
-  { label: 'Portuguese', value: 'pt_PT' },
-  { label: 'Polish', value: 'pl_PL' },
-  { label: 'Turkish', value: 'tr_TR' },
-  { label: 'Arabic', value: 'ar_SA' },
-  { label: 'Dutch', value: 'nl_NL' },
-  { label: 'German', value: 'de_DE' },
-  { label: 'Russian', value: 'ru_RU' },
+  { label: 'Español', value: 'es_ES' },
+  { label: 'Español (CO)', value: 'es_CO' },
+  { label: 'Français', value: 'fr_FR' },
+  { label: 'Français (CA)', value: 'fr_CA' },
+  { label: 'Italiano', value: 'it_IT' },
+  { label: 'Nederlands', value: 'nl_NL' },
+  { label: 'Polski', value: 'pl_PL' },
+  { label: 'Português (PT)', value: 'pt_PT' },
+  { label: 'Türkçe', value: 'tr_TR' },
+  { label: 'Pусский', value: 'ru_RU' },
+  { label: 'العربیة', value: 'ar_SA' },
 ]
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 22];
@@ -208,7 +210,7 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
-      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap') {
+      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap' || fieldName === 'enableMedicalTerm') {
         value = (evt.target as any).checked as boolean;
       } else if (fieldName === 'countries') {
         value = (evt.target as any).value.trim().split(',').filter(val => !!val);
@@ -557,6 +559,19 @@ export class SettingsPanel {
                 class="checkbox-switch"
                 onChange={this.handleChange('showSuggestModification')}
                 checked={this.fields.showSuggestModification}
+              />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
+            <label>Enable Search Medical Terms</label>
+            <div class="hcl-switch-btn">
+              <input
+                name="enableMedicalTerm"
+                type="checkbox"
+                class="checkbox-switch"
+                onChange={this.handleChange('enableMedicalTerm')}
+                checked={this.fields.enableMedicalTerm}
               />
               <div class="hcl-switch-btn__slider"></div>
             </div>

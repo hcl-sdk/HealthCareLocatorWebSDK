@@ -22,20 +22,14 @@ export class HclSdkSearchItem {
     }
   };
 
-  highlight = (string: string, text: string, isAddress) => {
-    const lowerCaseString = string.toLowerCase();
-    const lowerCaseText = text.toLowerCase();
-    const index = lowerCaseString.indexOf(lowerCaseText);
-
+  highlight = (originalStr: string, search: string, isAddress: boolean) => {
+    const regex = new RegExp(search, 'gi')
     return `
       <span style="color: ${isAddress ? `var(--hcl-color-secondary)` : `var(--hcl-color-grey_dark)`}">
-        ${
-          index >= 0
-            ? `${string.substring(0, index)}<span style="color: var(--hcl-color-primary)">${string.substring(index, index + lowerCaseText.length)}</span>${string.substring(
-                index + lowerCaseText.length,
-              )}`
-            : string
-        }
+      ${
+        originalStr
+          .replace(regex, str => '<span style="color: var(--hcl-color-primary)">' + str + '</span>')
+      }
       </span>
     `;
   };
@@ -54,7 +48,7 @@ export class HclSdkSearchItem {
 
   render() {
     return (
-      <Host role="button" tabIndex={0}>
+      <Host role="button" tabIndex={-1}>
         <div class={`search-address-item ${this.selected ? 'selected' : ''}`} role="button">
           {
             (this.item.type || this.item.id === NEAR_ME) && <div class="search-address-item-icon-wrapper"><span class="search-address-item-icon">{this.renderIcon(this.item.type)}</span></div>

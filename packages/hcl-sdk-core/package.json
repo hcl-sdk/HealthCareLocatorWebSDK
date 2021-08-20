@@ -1,8 +1,7 @@
 {
-  "name": "hcl-sdk-core",
-  "version": "0.0.1",
-  "private": true,
-  "main": "./src",
+  "name": "@healthcarelocator/sdk-core",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
   "dependencies": {
     "@types/lodash.merge": "^4.6.6",
     "graphql": "^15.4.0",

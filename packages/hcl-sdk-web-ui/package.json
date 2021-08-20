@@ -1,8 +1,7 @@
 {
-  "name": "hcl-sdk-web-ui",
-  "private": true,
-  "version": "0.0.5",
-  "description": "Stencil App Starter",
+  "name": "@healthcarelocator/sdk-web",
+  "version": "0.1.0",
+  "description": "HCL SDK web component",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
   "es2015": "./dist/esm-es5/index.js",
@@ -36,6 +35,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@healthcarelocator/sdk-core": "^0.1.0",
     "@stencil/store": "^1.3.0",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
@@ -43,7 +43,6 @@
     "geolib": "^3.3.1",
     "graphql": "^15.4.0",
     "graphql-request": "^3.3.0",
-    "hcl-sdk-core": "*",
     "leaflet": "^1.7.1",
     "leaflet-geosearch": "3.1.0",
     "leaflet-gesture-handling": "^1.2.1",

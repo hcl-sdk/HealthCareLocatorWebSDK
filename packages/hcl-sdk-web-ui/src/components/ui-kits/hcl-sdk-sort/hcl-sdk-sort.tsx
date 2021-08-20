@@ -1,6 +1,6 @@
 import { Component, Host, h } from '@stencil/core';
 import cn from 'classnames';
-import { configStore, searchMapStore, uiStore } from 'hcl-sdk-web-ui/src/core/stores';
+import { configStore, searchMapStore, uiStore } from '../../../core/stores';
 import sortBy from 'lodash.sortby';
 import { t } from '../../../utils/i18n';
 
@@ -30,7 +30,6 @@ export class HclSdkSort {
 
     searchMapStore.setState({
       sortValues: {
-        relevance: false,
         distanceNumber: false,
         lastName: false,
         [name]: checked,
@@ -41,26 +40,20 @@ export class HclSdkSort {
   onReset = () => {
     searchMapStore.setState({
       sortValues: {
-        relevance: true,
         distanceNumber: false,
-        lastName: false,
+        lastName: true,
       },
     });
   };
 
   render() {
     const hclSDKSortClass = cn('hcl-sdk-sort', {});
-    const { lastName, relevance, distanceNumber } = searchMapStore.state.sortValues;
+    const { lastName, distanceNumber } = searchMapStore.state.sortValues;
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class={hclSDKSortClass}>
           <form class="sort-body" onSubmit={this.onSubmit}>
             <div class="sort-option">
-              <div class="sort-option-item">
-                <label htmlFor="relevance">{t('relevance_item')}</label>
-                <hcl-sdk-input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
-              </div>
-
               <div class="sort-option-item">
                 <label htmlFor="distance">{t('distance_item')}</label>
                 <hcl-sdk-input type="checkbox" id="distanceNumber" name="distanceNumber" checked={distanceNumber} onInput={this.onChange} />

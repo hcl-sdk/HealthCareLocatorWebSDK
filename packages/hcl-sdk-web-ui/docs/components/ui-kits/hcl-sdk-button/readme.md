@@ -16,12 +16,15 @@
 | `iconHeight`   | `icon-height`   |             | `number`  | `undefined` |
 | `iconWidth`    | `icon-width`    |             | `number`  | `undefined` |
 | `isFull`       | `is-full`       |             | `boolean` | `undefined` |
+| `isLink`       | `is-link`       |             | `boolean` | `undefined` |
 | `noBackground` | `no-background` |             | `boolean` | `undefined` |
 | `noBorder`     | `no-border`     |             | `boolean` | `undefined` |
+| `noPadding`    | `no-padding`    |             | `boolean` | `undefined` |
 | `noTextColor`  | `no-text-color` |             | `boolean` | `undefined` |
 | `primary`      | `primary`       |             | `boolean` | `undefined` |
 | `round`        | `round`         |             | `boolean` | `undefined` |
 | `secondary`    | `secondary`     |             | `boolean` | `undefined` |
+| `tabIndex`     | `tab-index`     |             | `number`  | `undefined` |
 | `type`         | `type`          |             | `string`  | `undefined` |
 
 

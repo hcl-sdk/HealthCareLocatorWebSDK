@@ -155,7 +155,8 @@ export class HclSdkSearchResult {
             boundingbox: result.boundingbox,
             addressDetails: result.addressDetails
           },
-          specialtyFilter: searchMapStore.state.specialtyFilter
+          specialtyFilter: searchMapStore.state.specialtyFilter,
+          medicalTermsFilter: searchMapStore.state.medicalTermsFilter
         })
 
         if (params.location && this.newDragBoundingBox.length === 4) {
@@ -166,7 +167,7 @@ export class HclSdkSearchResult {
 
         await searchLocation(params, {
           hasLoading: 'idle',
-          isAcceptEmptyData: false // No redirect to no results screen when relaunch is empty
+          isAllowDisplayMapEmpty: true // No redirect to no results screen when relaunch is empty
         });
       }
     } catch(err) {
@@ -258,7 +259,8 @@ export class HclSdkSearchResult {
       locationFilter,
       searchFields,
       loadingActivitiesStatus,
-      individualDetail
+      individualDetail,
+      isAllowDisplayMapEmpty
     } = searchMapStore.state;
 
     const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
@@ -272,7 +274,9 @@ export class HclSdkSearchResult {
       'list-view': !isSmall || isListView,
     });
 
-    const mapClass = cls('search-map__content');
+    const mapClass = cls('search-map__content', {
+      'search-map__empty': isAllowDisplayMapEmpty
+    });
 
     const mapWrapperClass = cls('search-map-wrapper', {
       hide: !this.isOpenPanel,
@@ -294,14 +298,14 @@ export class HclSdkSearchResult {
 
     const isShowHCPDetail = individualDetail || selectedActivity;
     const loadingActivities = loadingActivitiesStatus === 'loading';
-    const isNoDataAvailable = loadingActivitiesStatus === 'error';
-    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
+    const isNoDataAvailable = loadingActivitiesStatus ===  'unauthorized';
+    const isShowNoResults = !isAllowDisplayMapEmpty && !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,
       desktop: !loadingActivities && !isSmall,
     }
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
-    const isShowMapCluster = !isListView && !isShowHCPDetail && specialties && specialties.length !== 0;
+    const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && specialties && specialties.length !== 0);
     
     const locationsMapSingle = this.getLocationsMapSingle();
     const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;

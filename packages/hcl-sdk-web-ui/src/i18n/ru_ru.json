@@ -16,6 +16,7 @@
   "search": "Поиск",
   "since_format": "%@ назад",
   "search_first_field_label": "Ф. И. О., специализация",
+  "search_medical_term_label": "Medical term (pathology...)",
   "search_second_field_label": "Местоположение (адрес, город...)",
   "search_reset": "Сбросить параметры поиска",
   "near_me": "Рядом со мной",
@@ -36,6 +37,7 @@
   "main_information_label": "Основная информация",
   "rate_refunds_label": "Тарифная ставка и условия возврата средств",
   "specialities_label": "Специализации",
+  "medical_publication_subject_heading": "Medical Publication subject heading",
   "information_label": "Информация",
   "information_description": "Отобразившаяся информация об этом МР верна?",
   "information_yes_label": "Да",
@@ -47,6 +49,6 @@
   "share_hcp_label_copy": "Copy Text",
   "share_hcp_title": "Share this HCP",
   "share_hcp_description": "Here is a healthcare professional that I recommend:",
-  "share_hcp_specialties": "Specialties:",
+  "share_hcp_specialties": "Специализации:",
   "share_hcp_found_text": "I found it on {name}"
 }

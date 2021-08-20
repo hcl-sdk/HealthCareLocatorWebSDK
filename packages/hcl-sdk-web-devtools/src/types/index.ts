@@ -7,6 +7,7 @@ export interface Fields {
   appName: string;
   appURL: string;
   showSuggestModification: boolean;
+  enableMedicalTerm?: boolean;
   countries: string[];
   useGoogleMap: boolean;
   googleMapApiKey?: string;

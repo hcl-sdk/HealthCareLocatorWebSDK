@@ -1,11 +1,13 @@
 import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil/core';
 import cls from 'classnames';
-import { uiStore, searchMapStore, configStore, i18nStore } from 'hcl-sdk-web-ui/src/core/stores';
-import { getFullCardDetail } from 'hcl-sdk-web-ui/src/core/api/hcp';
-import { getCssColor, getTextBodyToShare } from 'hcl-sdk-web-ui/src/utils/helper';
+import { uiStore, searchMapStore, configStore, i18nStore } from '../../../core/stores';
+import { getFullCardDetail } from '../../../core/api/hcp';
+import { getCssColor, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
+
+const MAX_DISPLAY_TERMS = 5
 
 @Component({
   tag: 'hcl-sdk-hcp-full-card',
@@ -15,6 +17,8 @@ import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
+  @State() currentSeachTerm: string = ''
+  @State() isViewMoreTerms: boolean = false;
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -36,6 +40,19 @@ export class HclSdkHCPFullCard {
     }
 
     this.mapHcpVoted = storageUtils.getObject(OKSDK_MAP_HCP_VOTED, {})
+  }
+
+  componentWillUpdate() {
+    const { medicalTermsFilter } = searchMapStore.state
+
+    if (this.currentSeachTerm || !medicalTermsFilter || !medicalTermsFilter.name) {
+      return
+    }
+
+    // Copy and keep the current search
+    //  to avoid users change the search terms in the second time
+    //  but not click on the button search yet.
+    this.currentSeachTerm = medicalTermsFilter.name.toLowerCase()
   }
 
   disconnectedCallback() {
@@ -146,6 +163,10 @@ export class HclSdkHCPFullCard {
     linkEl.click();
   }
 
+  handleToggleViewMoreTerms = () => {
+    this.isViewMoreTerms = !this.isViewMoreTerms
+  }
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -171,6 +192,9 @@ export class HclSdkHCPFullCard {
     });
 
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
+
+    const listTerms = (individualDetail && individualDetail.listTerms) || []
+    const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
 
     return (
       <Host>
@@ -309,9 +333,48 @@ export class HclSdkHCPFullCard {
                       </div>
 
                       <div class="info-section-body">
-                        <span>{individualDetail.specialties.join(',')}</span>
+                        <span>{individualDetail.specialties.join(', ')}</span>
                       </div>
                     </div>
+                  }
+                  {
+                    isRenderMedialSubject && (
+                      <div class="info-section">
+                        <div class="info-section-header">
+                          <span class="info-section-header__title">{t('medical_publication_subject_heading')} ({listTerms.length})</span>
+                        </div>
+
+                        <div class="info-section-body">
+                          <ul class="medical-subjects">
+                          {
+                            listTerms.map((label: string, idx: number) => {
+                              if (!this.isViewMoreTerms && idx >= MAX_DISPLAY_TERMS) {
+                                return null
+                              }
+
+                              return (
+                                <li class={cls('medical-subjects__item', {
+                                  'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
+                                })}>{label}</li>
+                              )
+                            })
+                          }
+                          {
+                            listTerms.length > MAX_DISPLAY_TERMS && (
+                              <li class="medical-subjects__view-more">
+                                <hcl-sdk-button
+                                  onClick={this.handleToggleViewMoreTerms}
+                                  class={cls({ 'view-less': this.isViewMoreTerms })}
+                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  { !this.isViewMoreTerms ? t('view_more') : t('view_less') }
+                                </hcl-sdk-button>
+                              </li>
+                            )
+                          }
+                          </ul>
+                        </div>
+                      </div>
+                    )
                   }
                 </div>
               )}

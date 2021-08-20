@@ -16,6 +16,7 @@
   "search": "Szukaj",
   "since_format": "%@ temu",
   "search_first_field_label": "Imię i nazwisko, specjalizacja",
+  "search_medical_term_label": "Medical term (pathology...)",
   "search_second_field_label": "Gdzie? (adres, miejscowość...)",
   "search_reset": "Resetuj wyszukiwanie",
   "near_me": "W mojej okolicy",
@@ -36,6 +37,7 @@
   "main_information_label": "Podstawowe dane",
   "rate_refunds_label": "Ceny i refundacja",
   "specialities_label": "Specjalizacje",
+  "medical_publication_subject_heading": "Medical Publication subject heading",
   "information_label": "Dane",
   "information_description": "Czy otrzymane dane HCP były poprawne?",
   "information_yes_label": "Tak",
@@ -47,6 +49,6 @@
   "share_hcp_label_copy": "Copy Text",
   "share_hcp_title": "Share this HCP",
   "share_hcp_description": "Here is a healthcare professional that I recommend:",
-  "share_hcp_specialties": "Specialties:",
+  "share_hcp_specialties": "Specjalizacje:",
   "share_hcp_found_text": "I found it on {name}"
 }

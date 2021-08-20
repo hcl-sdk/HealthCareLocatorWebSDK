@@ -118,7 +118,7 @@ export type Geopoint = {
 
 export type GeopointQuery = {
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lon: Scalars['Float'];
   distanceMeter?: Maybe<Scalars['Float']>;
 };
 
@@ -144,6 +144,9 @@ export type Individual = OneKeyEntity & {
   webAddress?: Maybe<Scalars['String']>;
   mainActivity: Activity;
   otherActivities: Array<Activity>;
+  meshTerms?: Maybe<Array<Scalars['String']>>;
+  kvTerms?: Maybe<Array<Scalars['String']>>;
+  chTerms?: Maybe<Array<Scalars['String']>>;
 };
 
 export type IndividualFragment = OneKeyEntity & {
@@ -292,6 +295,8 @@ export type QueryActivitiesArgs = {
   location?: Maybe<GeopointQuery>;
   county?: Maybe<Scalars['String']>;
   criteria?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  medTerms: Maybe<Array<Scalars['String']>>;
 };
 
 

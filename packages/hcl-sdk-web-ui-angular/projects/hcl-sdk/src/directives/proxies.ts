@@ -3,7 +3,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
-import { Components } from 'hcl-sdk-web-ui';
+import { Components } from '@healthcarelocator/sdk-web';
 
 
 export declare interface HclSdk extends Components.HclSdk {}
@@ -46,13 +46,13 @@ export class HclSdkAutocompleteResult {
 
 export declare interface HclSdkButton extends Components.HclSdkButton {}
 @ProxyCmp({
-  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'noBackground', 'noBorder', 'noTextColor', 'primary', 'round', 'secondary', 'type']
+  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'isLink', 'noBackground', 'noBorder', 'noPadding', 'noTextColor', 'primary', 'round', 'secondary', 'tabIndex', 'type']
 })
 @Component({
   selector: 'hcl-sdk-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'noBackground', 'noBorder', 'noTextColor', 'primary', 'round', 'secondary', 'type']
+  inputs: ['class', 'disabled', 'icon', 'iconColor', 'iconHeight', 'iconWidth', 'isFull', 'isLink', 'noBackground', 'noBorder', 'noPadding', 'noTextColor', 'primary', 'round', 'secondary', 'tabIndex', 'type']
 })
 export class HclSdkButton {
   protected el: HTMLElement;
@@ -97,7 +97,7 @@ export class HclSdkDoctorCard {
   }
 }
 
-import { HclSdkHCPFullCard as IHclSdkHCPFullCard } from 'hcl-sdk-web-ui/dist/types/components/ui-kits/hcl-sdk-hcp-full-card/hcl-sdk-hcp-full-card';
+import { HclSdkHCPFullCard as IHclSdkHCPFullCard } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-hcp-full-card/hcl-sdk-hcp-full-card';
 export declare interface HclSdkHcpFullCard extends Components.HclSdkHcpFullCard {}
 
 @Component({
@@ -149,7 +149,7 @@ export class HclSdkHomeFull {
   }
 }
 
-import { HclSdkHomeMin as IHclSdkHomeMin } from 'hcl-sdk-web-ui/dist/types/components/screens/hcl-sdk-home/hcl-sdk-home-min/hcl-sdk-home-min';
+import { HclSdkHomeMin as IHclSdkHomeMin } from '@healthcarelocator/sdk-web/dist/types/components/screens/hcl-sdk-home/hcl-sdk-home-min/hcl-sdk-home-min';
 export declare interface HclSdkHomeMin extends Components.HclSdkHomeMin {}
 
 @Component({
@@ -756,7 +756,7 @@ export class HclSdkLoading {
   }
 }
 
-import { HclSdkMap as IHclSdkMap } from 'hcl-sdk-web-ui/dist/types/components/ui-kits/hcl-sdk-map/hcl-sdk-map';
+import { HclSdkMap as IHclSdkMap } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-map/hcl-sdk-map';
 export declare interface HclSdkMap extends Components.HclSdkMap {}
 @ProxyCmp({
   inputs: ['breakpoint', 'defaultZoom', 'dragging', 'interactive', 'isForcedZoomToMe', 'isShowMeMarker', 'locations', 'mapHeight', 'mapMinHeight', 'mapWidth', 'markerIcon', 'modeView', 'noCurrentLocation', 'selectedLocationIdx', 'zoomControl']
@@ -893,7 +893,7 @@ export class HclSdkSearch {
   }
 }
 
-import { HclSdkSearchItem as IHclSdkSearchItem } from 'hcl-sdk-web-ui/dist/types/components/ui-kits/hcl-sdk-search-address-item/hcl-sdk-search-address-item';
+import { HclSdkSearchItem as IHclSdkSearchItem } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-search-address-item/hcl-sdk-search-address-item';
 export declare interface HclSdkSearchAddressItem extends Components.HclSdkSearchAddressItem {}
 @ProxyCmp({
   inputs: ['currentSearchText', 'item', 'selected']
@@ -1015,7 +1015,7 @@ export class HclSdkSort {
   }
 }
 
-import { HclSdkSwitchViewMode as IHclSdkSwitchViewMode } from 'hcl-sdk-web-ui/dist/types/components/ui-kits/hcl-sdk-switch-view-mode/hcl-sdk-switch-view-mode';
+import { HclSdkSwitchViewMode as IHclSdkSwitchViewMode } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-switch-view-mode/hcl-sdk-switch-view-mode';
 export declare interface HclSdkSwitchViewMode extends Components.HclSdkSwitchViewMode {}
 @ProxyCmp({
   inputs: ['typeOfLabel']

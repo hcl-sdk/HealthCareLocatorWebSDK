@@ -1,5 +1,5 @@
 import { Component, Host, h, State } from '@stencil/core';
-import { uiStore, searchMapStore, configStore } from 'hcl-sdk-web-ui/src/core/stores';
+import { uiStore, searchMapStore, configStore } from '../../../core/stores';
 import { getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import cls from 'classnames';
@@ -75,7 +75,7 @@ export class HclSdkShareHCP {
       linkedin: this.shareLink('li', appURL),
       email: this.shareLink('em', appURL, subject, mailBody)
     }
-    
+
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class="share-hcp__row">

@@ -1,11 +1,11 @@
-import { graphql } from 'hcl-sdk-core';
-import { 
-  QueryActivitiesArgs, 
-  QueryActivityByIdArgs, 
-  QueryCodesArgs, 
-  QueryIndividualByIdArgs 
-} from 'hcl-sdk-core/src/graphql/types';
-import { ENDPOINT } from 'hcl-sdk-core/src/graphql/constants';
+import { graphql } from '@healthcarelocator/sdk-core';
+import {
+  QueryActivitiesArgs,
+  QueryActivityByIdArgs,
+  QueryCodesArgs,
+  QueryIndividualByIdArgs
+} from '@healthcarelocator/sdk-core/graphql/types';
+import { ENDPOINT } from '@healthcarelocator/sdk-core/graphql/constants';
 import { HclAPIConfig } from './hcl-types';
 
 const graphqlUrl = new URL(ENDPOINT);

@@ -40,6 +40,14 @@
       }
     }
 
+    &--link {
+      color: var(--hcl-color-primary);
+
+      .icon {
+        fill: var(--hcl-color-primary);
+      }
+    }
+
     &--full {
       width: 100%;
     }
@@ -62,6 +70,10 @@
 
     &--no-text-color {
       color: white
+    }
+
+    &--no-padding {
+      padding: 0;
     }
 
     &--round {

@@ -16,6 +16,7 @@
   "search": "Buscar",
   "since_format": "Hace %@",
   "search_first_field_label": "Nombre, especialidad",
+  "search_medical_term_label": "Medical term (pathology...)",
   "search_second_field_label": "¿Dónde? (dirección, ciudad, etc.)",
   "search_reset": "Restablecer búsqueda",
   "near_me": "Cerca de mí",
@@ -36,6 +37,7 @@
   "main_information_label": "Información principal",
   "rate_refunds_label": "Tarifa y reembolsos",
   "specialities_label": "Especialidades",
+  "medical_publication_subject_heading": "Medical Publication subject heading",
   "information_label": "Información",
   "information_description": "¿La información recibida sobre este PS es correcta?",
   "information_yes_label": "Sí",
@@ -47,6 +49,6 @@
   "share_hcp_label_copy": "Copy Text",
   "share_hcp_title": "Share this HCP",
   "share_hcp_description": "Here is a healthcare professional that I recommend:",
-  "share_hcp_specialties": "Specialties:",
+  "share_hcp_specialties": "Especialidades:",
   "share_hcp_found_text": "I found it on {name}"
 }

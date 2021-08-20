@@ -10,6 +10,7 @@ interface DevSettings {
 
 const defaultSettings = {
   lang: 'en',
+  enableMedicalTerm: false,
   screenLayout: 'desktop',
 };
 
@@ -27,17 +28,19 @@ const optionSets = [
     label: 'Language',
     type: 'select',
     options: [
+      { label: 'Deutsch', value: 'de_DE' },
       { label: 'English', value: 'en' },
-      { label: 'French', value: 'fr_CA' },
-      { label: 'Spanish', value: 'es_ES' },
-      { label: 'Italian', value: 'it_IT' },
-      { label: 'Portuguese', value: 'pt_PT' },
-      { label: 'Polish', value: 'pl_PL' },
-      { label: 'Turkish', value: 'tr_TR' },
-      { label: 'Arabic', value: 'ar_SA' },
-      { label: 'Dutch', value: 'nl_NL' },
-      { label: 'German', value: 'de_DE' },
-      { label: 'Russian', value: 'ru_RU' },
+      { label: 'Español', value: 'es_ES' },
+      { label: 'Español (CO)', value: 'es_CO' },
+      { label: 'Français', value: 'fr_FR' },
+      { label: 'Français (CA)', value: 'fr_CA' },
+      { label: 'Italiano', value: 'it_IT' },
+      { label: 'Nederlands', value: 'nl_NL' },
+      { label: 'Polski', value: 'pl_PL' },
+      { label: 'Português (PT)', value: 'pt_PT' },
+      { label: 'Türkçe', value: 'tr_TR' },
+      { label: 'Pусский', value: 'ru_RU' },
+      { label: 'العربیة', value: 'ar_SA' },
     ],
   },
   {
@@ -54,6 +57,11 @@ const optionSets = [
     key: 'apiKey',
     label: 'API Key',
     type: 'text'
+  },
+  {
+    key: 'enableMedicalTerm',
+    label: 'Search Medical Terms',
+    type: 'checkbox'
   }
 ];
 
@@ -70,6 +78,7 @@ export class HclSDKViewport {
   }
 
   applySettings() {
+    const hclSdkEl = document.querySelector('hcl-sdk');
     const wrapper = document.querySelector('.hcl-sdk-wrapper');
     wrapper.classList.remove(...optionSets.find(o => o.key === 'screenLayout').options.map(o => o.value));
     wrapper.classList.add(this.settings.screenLayout);
@@ -80,6 +89,9 @@ export class HclSDKViewport {
         getI18nLabels(this.settings.lang);
       }
     }
+    hclSdkEl.updateConfig({
+      enableMedicalTerm: this.settings.enableMedicalTerm
+    })
   }
 
   changeSetting(k, v) {
@@ -116,6 +128,14 @@ export class HclSDKViewport {
               value={this.settings[setting.key]}
               onChange={e => this.changeSetting(setting.key, (e.target as any).value)}
             />
+          )
+        }
+        {
+          setting.type === 'checkbox' && (
+            <input 
+              type="checkbox" 
+              checked={this.settings[setting.key]} 
+              onChange={e => this.changeSetting(setting.key, (e.target as any).checked)} />
           )
         }
       </div>
