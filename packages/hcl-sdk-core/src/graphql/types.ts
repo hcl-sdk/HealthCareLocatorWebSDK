@@ -106,6 +106,12 @@ export enum Day {
   Sunday = 'SUNDAY'
 }
 
+export enum CodeCriteriaScope {
+  LongLbl = 'LongLbl',
+  LongLblAutocomplete = 'LongLblAutocomplete',
+  Id = 'Id'
+}
+
 export enum GeoAccurracy {
   HouseNumber = 'HouseNumber'
 }
@@ -317,6 +323,7 @@ export type QueryCodesArgs = {
   codeTypes: Array<Scalars['String']>;
   locale?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
+  criteriaScope?: Maybe<CodeCriteriaScope>;
 };
 
 

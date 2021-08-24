@@ -7,7 +7,7 @@ interface CodeByLabelResult {
 }
 
 const QUERY_CODE_BY_LABEL = gql`
-  query codesByLabel($first: Int!, $offset: Int!, $criteria: String, $codeTypes: [String!]!, $locale: String, $country: String) {
+  query codesByLabel($first: Int!, $offset: Int!, $criteria: String, $codeTypes: [String!]!, $locale: String, $country: String, $criteriaScope: CodeCriteriaScope) {
     codesByLabel(
       codeTypes: $codeTypes
       criteria: $criteria
@@ -15,6 +15,7 @@ const QUERY_CODE_BY_LABEL = gql`
       offset: $offset
       locale: $locale
       country: $country
+      criteriaScope: $criteriaScope
     )  {
       codes {
         id

@@ -11,6 +11,7 @@ import { t } from '../../../utils/i18n';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import cls from 'classnames';
 import { SearchInputName } from '../../../core/stores/SearchMapStore';
+import { CodeCriteriaScope } from '../../../../../hcl-sdk-core/src/graphql/types';
 
 
 @Component({
@@ -241,6 +242,7 @@ export class HclSdkSearch {
     if (inputName === 'name') {
       await searchDoctor({
         criteria: inputValue,
+        criteriaScope: CodeCriteriaScope.LongLblAutocomplete,
       })
     }
     if (inputName === 'address') {
@@ -250,7 +252,8 @@ export class HclSdkSearch {
     }
     if (inputName === 'medicalTerm') {
       await handleSearchMedicalTerms({
-        criteria: inputValue
+        criteria: inputValue,
+        criteriaScope: CodeCriteriaScope.LongLblAutocomplete,
       })
     }
   }, 500)
