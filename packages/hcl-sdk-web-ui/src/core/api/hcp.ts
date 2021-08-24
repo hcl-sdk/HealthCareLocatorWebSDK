@@ -108,7 +108,7 @@ export async function genSearchLocationParams({
     params.specialties = [specialtyFilter.id];
   }
   if (medicalTermsFilter) {
-    params.medTerms = [medicalTermsFilter.id];
+    params.medTerms = [medicalTermsFilter.name]; // name ~ longLbl
   }
   return params;
 }
@@ -259,7 +259,7 @@ export async function handleSearchMedicalTerms(params: Partial<QueryCodesArgs>) 
   }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
 
   const codesData: SearchTermItem[] = codes ? codes.map((item) => ({
-    name: `${item.longLbl}`,
+    name: item.longLbl,
     id: item.id,
     lisCode: item.lisCode
   })) : []
