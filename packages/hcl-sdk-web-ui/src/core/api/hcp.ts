@@ -243,8 +243,8 @@ export async function searchDoctor(variables) {
   searchMapStore.setState({ loading: false, searchDoctor: data });
 }
 
-export async function handleSearchMedicalTerms(params: Partial<QueryCodesArgs>) {
-  if (!params.criteria || params.criteria.length < 3) {
+export async function handleSearchMedicalTerms({ criteria, ...variables }: Partial<QueryCodesArgs>) {
+  if (!criteria || criteria.length < 3) {
     return null;
   }
 
@@ -255,7 +255,8 @@ export async function handleSearchMedicalTerms(params: Partial<QueryCodesArgs>) 
     offset: 0,
     codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT", "ADA.PM_KW" ],
     locale: i18nStore.state.lang,
-    criteria: params.criteria,
+    criteria: criteria,
+    ...variables
   }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
 
   const codesData: SearchTermItem[] = codes ? codes.map((item) => ({
