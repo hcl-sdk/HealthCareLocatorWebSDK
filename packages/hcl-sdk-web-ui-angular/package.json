@@ -1,7 +1,7 @@
 {
-  "name": "@healthcarelocator/sdk-angular",
+  "name": "hcl-sdk-web-ui-angular",
   "description": "HCL SDK Angular component",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "build": "ng build hcl-sdk"

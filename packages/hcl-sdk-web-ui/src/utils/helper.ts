@@ -1,7 +1,7 @@
-import { DEFAULT_THEME_PROPERTIES } from '@healthcarelocator/sdk-core';
+import { DEFAULT_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
-import { ActivityList, Individual, IndividualFragment } from '@healthcarelocator/sdk-core/src/graphql/types';
+import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';

@@ -90,15 +90,15 @@ stages:
           artifactName: 'hcl-sdk-web'
           path: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
 
-      - task: PublishPipelineArtifact@1
-        inputs:
-          artifactName: 'hcl-sdk-react'
-          path: 'packages/hcl-sdk-web-ui-react'
+      # - task: PublishPipelineArtifact@1
+      #   inputs:
+      #     artifactName: 'hcl-sdk-react'
+      #     path: 'packages/hcl-sdk-web-ui-react'
 
-      - task: PublishPipelineArtifact@1
-        inputs:
-          artifactName: 'hcl-sdk-angular'
-          path: 'packages/hcl-sdk-web-ui-angular'
+      # - task: PublishPipelineArtifact@1
+      #   inputs:
+      #     artifactName: 'hcl-sdk-angular'
+      #     path: 'packages/hcl-sdk-web-ui-angular'
 
       - task: PublishPipelineArtifact@1
         inputs:

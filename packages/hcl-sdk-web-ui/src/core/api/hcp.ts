@@ -1,13 +1,13 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
-import { graphql } from '@healthcarelocator/sdk-core'
+import { graphql } from '../../../../hcl-sdk-core';
 import { SearchTermItem, SelectedIndividual } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { QueryActivitiesArgs, QueryCodesByLabelArgs } from '@healthcarelocator/sdk-core/src/graphql/types';
+import { QueryActivitiesArgs, QueryCodesByLabelArgs } from '../../../../hcl-sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));

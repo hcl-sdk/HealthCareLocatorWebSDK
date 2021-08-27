@@ -1,6 +1,6 @@
 import messagesEn from '../i18n/en_us.json';
 
-jest.mock('hcl-sdk-web-ui/src/utils/i18n', () => ({
+jest.mock('@healthcarelocator/sdk-web/src/utils/i18n', () => ({
   t: (key: string) => {
     if (!messagesEn[key]) {
       console.log(`[i18n] 111 missing transation for "${key}"`);
@@ -266,8 +266,8 @@ describe('getDoctorCardOffset', () => {
 describe('getHcpFullname', () => {
   test('should be correctly concatenated', () => {
     const individual = {
-      firstName: 'Hans-Jürgen', 
-      lastName: 'Gentzen', 
+      firstName: 'Hans-Jürgen',
+      lastName: 'Gentzen',
       middleName: 'Bergen'
     } as any
 
@@ -276,8 +276,8 @@ describe('getHcpFullname', () => {
 
   test('should be correctly concatenated and ignore empty string', () => {
     const individual = {
-      firstName: 'Hans-Jürgen', 
-      lastName: 'Gentzen', 
+      firstName: 'Hans-Jürgen',
+      lastName: 'Gentzen',
       middleName: ''
     } as any
 
