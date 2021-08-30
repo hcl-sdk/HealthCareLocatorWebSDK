@@ -109,7 +109,10 @@ export class HclSDK {
       return _lang;
     })();
 
-    await getI18nLabels(lang);
+    await Promise.all([
+      getI18nLabels(lang),
+      this.loadCountriesFromMyKey(initConfig)
+    ])
 
     applyDefaultTheme();
 
@@ -192,7 +195,7 @@ export class HclSDK {
           .then(res => {
             if (res?.address?.country_code) {
               configStore.setState({
-                countries: [res.address.country_code]
+                countryGeo: res.address.country_code
               })
             }
           });
@@ -236,6 +239,22 @@ export class HclSDK {
     }
 
     this.findCurrentPosition();
+  }
+
+  async loadCountriesFromMyKey({ apiKey }) {
+    return graphql.mySubscriptionKey({
+      headers: {
+        'Ocp-Apim-Subscription-Key': apiKey
+      }
+    })
+      .then(res => {
+        if (!res.mySubscriptionKey?.countries) {
+          return;
+        }
+        configStore.setState({
+          countriesSubscriptionKey: res.mySubscriptionKey.countries.map(s => s.toLowerCase())
+        })
+      })
   }
 
   render() {

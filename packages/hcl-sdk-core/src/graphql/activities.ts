@@ -7,12 +7,13 @@ interface ActivitiesResult {
 }
 
 const QUERY_ACTIVITIES = gql`
-  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $location: GeopointQuery, $criteria: String, $medTerms: [String!]) {
+  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $country: String, $location: GeopointQuery, $criteria: String, $medTerms: [String!]) {
     activities(
       first: $first
       offset: $offset
       specialties: $specialties
       county: $county
+      country: $country
       location: $location
       criteria: $criteria
       medTerms: $medTerms
