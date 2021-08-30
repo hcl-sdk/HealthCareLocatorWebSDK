@@ -32,6 +32,7 @@
 
       &--highlight {
         color: #fff;
+        text-transform: capitalize;
         border-color: var(--hcl-color-medial_subject_highlight);
         background-color: var(--hcl-color-medial_subject_highlight);
       }

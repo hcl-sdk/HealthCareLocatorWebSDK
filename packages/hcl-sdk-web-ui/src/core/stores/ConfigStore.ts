@@ -69,7 +69,7 @@ class ConfigStore extends StoreProvider<HclSDKConfigData> {
     }
   }
 
-  get activitiesCountry() {
+  get countryGraphqlQuery() {
     const { countryGeo, countriesSubscriptionKey } = this.state
 
     if (countriesSubscriptionKey.length === 1) {

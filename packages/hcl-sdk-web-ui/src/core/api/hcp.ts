@@ -144,7 +144,7 @@ export async function searchLocation(variables, {
       first: 50,
       offset: 0,
       locale: i18nStore.state.lang,
-      country: configStore.activitiesCountry,
+      country: configStore.countryGraphqlQuery,
       ...variables,
     }, configStore.configGraphql)
 
@@ -214,6 +214,7 @@ export async function searchDoctor(variables) {
         offset: 0,
         codeTypes: ["SP"],
         locale: i18nStore.state.lang,
+        country: configStore.countryGraphqlQuery,
         ...variables,
       }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
     ]
