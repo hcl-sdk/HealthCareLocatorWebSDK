@@ -1,7 +1,7 @@
 import { DEFAULT_THEME_PROPERTIES } from '@healthcarelocator/sdk-core';
 import { Breakpoint } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
-import { Activity, Individual, IndividualFragment } from '@healthcarelocator/sdk-core/src/graphql/types';
+import { ActivityList, Individual, IndividualFragment } from '@healthcarelocator/sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
@@ -89,8 +89,8 @@ export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoi
   };
 }
 
-export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActivities: Activity[] = []) {
-  let results: Activity[];
+export function getMergeMainAndOtherActivities(mainActivity: ActivityList, otherActivities: ActivityList[] = []) {
+  let results: ActivityList[];
   if (mainActivity) {
     results = [mainActivity].concat(otherActivities);
   } else {

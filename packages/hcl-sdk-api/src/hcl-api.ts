@@ -2,7 +2,7 @@ import { graphql } from '@healthcarelocator/sdk-core';
 import {
   QueryActivitiesArgs,
   QueryActivityByIdArgs,
-  QueryCodesArgs,
+  QueryCodesByLabelArgs,
   QueryIndividualByIdArgs
 } from '@healthcarelocator/sdk-core/graphql/types';
 import { ENDPOINT } from '@healthcarelocator/sdk-core/graphql/constants';
@@ -42,11 +42,11 @@ export class HclSDKApi {
     return graphql.individualsByID(params, this.config);
   }
 
-  codesByLabel(params: QueryCodesArgs) {
+  codesByLabel(params: QueryCodesByLabelArgs) {
     return graphql.codesByLabel(params, this.config);
   }
 
-  labelsByCode(params: QueryCodesArgs) {
+  labelsByCode(params: QueryCodesByLabelArgs) {
     return graphql.labelsByCode(params, this.config);
   }
 

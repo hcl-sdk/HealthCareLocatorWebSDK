@@ -28,7 +28,9 @@ export interface HclSDKConfigData {
   appName?: string;
   appURL?: string;
   locale?: string;
+  countryGeo?: string;
   countries?: string[];
+  countriesSubscriptionKey?: string[];
   showSuggestModification?: boolean;
   enableMedicalTerm?: Boolean;
   map: {
@@ -50,7 +52,9 @@ export const initStateConfigStore = {
   icons: {},
   appName: '',
   appURL: '',
-  countries: [],
+  countryGeo: '', // From Geolocation
+  countries: [], // From Config
+  countriesSubscriptionKey: [], // From Subscription Key
   enableMedicalTerm: false,
   showSuggestModification: true
 };
@@ -63,6 +67,19 @@ class ConfigStore extends StoreProvider<HclSDKConfigData> {
         'Ocp-Apim-Subscription-Key': this.state.apiKey
       }
     }
+  }
+
+  get activitiesCountry() {
+    const { countryGeo, countriesSubscriptionKey } = this.state
+
+    if (countriesSubscriptionKey.length === 1) {
+      return countriesSubscriptionKey[0]
+    }
+    if (countriesSubscriptionKey.includes(countryGeo.toLowerCase())) {
+      return countryGeo.toLowerCase()
+    }
+
+    return countriesSubscriptionKey[0]
   }
 
 }

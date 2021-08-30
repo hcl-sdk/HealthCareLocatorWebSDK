@@ -7,9 +7,15 @@ export async function searchGeoMap({ id }) {
   searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] });
   const provider = getProvider(configStore.state.map.provider);
 
+  const countriesWithGeo = [
+    ...configStore.state.countries, 
+    configStore.state.countryGeo
+  ]
   const results = await provider.searchGeoMap({
     address: id,
-    countrycodes: configStore.state.countries.join(','),
+    countrycodes: countriesWithGeo
+      .filter((str, idx) => countriesWithGeo.indexOf(str) === idx)
+      .join(','),
   });
 
   searchMapStore.setState({

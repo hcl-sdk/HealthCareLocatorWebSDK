@@ -7,7 +7,7 @@ import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { QueryActivitiesArgs, QueryCodesArgs } from '@healthcarelocator/sdk-core/src/graphql/types';
+import { QueryActivitiesArgs, QueryCodesByLabelArgs } from '@healthcarelocator/sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -115,7 +115,6 @@ export async function genSearchLocationParams({
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
   const { locationFilter, specialtyFilter, medicalTermsFilter } = searchMapStore.state;
-  const { countries } = configStore.state
 
   const params = await genSearchLocationParams({
     forceNearMe,
@@ -126,10 +125,6 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
 
   if (!specialtyFilter) {
     params.criteria = searchMapStore.state.searchFields.name
-  }
-
-  if (!params.country && countries && countries.length !== 0) {
-    params.country = String(countries)
   }
 
   return searchLocation(params);
@@ -149,6 +144,7 @@ export async function searchLocation(variables, {
       first: 50,
       offset: 0,
       locale: i18nStore.state.lang,
+      country: configStore.activitiesCountry,
       ...variables,
     }, configStore.configGraphql)
 
@@ -243,7 +239,7 @@ export async function searchDoctor(variables) {
   searchMapStore.setState({ loading: false, searchDoctor: data });
 }
 
-export async function handleSearchMedicalTerms({ criteria, ...variables }: Partial<QueryCodesArgs>) {
+export async function handleSearchMedicalTerms({ criteria, ...variables }: Partial<QueryCodesByLabelArgs>) {
   if (!criteria || criteria.length < 3) {
     return null;
   }
