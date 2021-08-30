@@ -61,17 +61,17 @@ stages:
           arguments: 'build-web'
           projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-      - task: Yarn@3
-        displayName: 'Build Web UI React'
-        inputs:
-          arguments: 'build-react'
-          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      # - task: Yarn@3
+      #   displayName: 'Build Web UI React'
+      #   inputs:
+      #     arguments: 'build-react'
+      #     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-      - task: Yarn@3
-        displayName: 'Build Web UI Angular'
-        inputs:
-          arguments: 'build-angular'
-          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      # - task: Yarn@3
+      #   displayName: 'Build Web UI Angular'
+      #   inputs:
+      #     arguments: 'build-angular'
+      #     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
       - task: Yarn@3
         displayName: 'Build API'
