@@ -5,7 +5,6 @@
   "browser": "dist/hcl-sdk-api/hcl-sdk-api.js",
   "module": "dist/hcl-sdk-api/hcl-sdk-api.esm.js",
   "dependencies": {
-    "@healthcarelocator/sdk-core": "^0.1.0",
     "ms": "^2.0.0"
   },
   "devDependencies": {
