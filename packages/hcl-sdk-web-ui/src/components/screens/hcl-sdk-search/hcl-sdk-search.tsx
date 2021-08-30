@@ -524,7 +524,6 @@ export class HclSdkSearch {
                           autoComplete="off"
                           loading={medicalTermInputLoading}
                           onPostfixClick={() => this.resetValue('medicalTerm', !searchMapStore.state.specialtyFilter)}
-                          autoFocus={routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT}
                           onFocus={this.onFocusInputSearch}
                           onBlur={this.onBlurInputSearch}
                           onEnterKeyDown={this.onInputSearchEnter}

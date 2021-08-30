@@ -193,7 +193,11 @@ export class HclSdkHCPFullCard {
 
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
 
-    const listTerms = (individualDetail && individualDetail.listTerms) || []
+    const originalListTerms = (individualDetail && individualDetail.listTerms) || []
+    const listTerms = [
+      this.currentSeachTerm, 
+      ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
+    ]
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
 
     return (
