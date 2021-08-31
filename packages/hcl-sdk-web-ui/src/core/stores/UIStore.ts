@@ -9,6 +9,7 @@ interface UIStoreState {
 
 const initialState = {
   breakpoint: {
+    screenWidth: 0,
     screenSize: 'unknown' as const,
     orientation: 'unknown' as const,
   },

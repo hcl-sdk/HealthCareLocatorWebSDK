@@ -28,7 +28,11 @@ export class HclSdkInput {
   textInput!: HTMLInputElement;
 
   componentDidLoad() {
-    if (this.autoFocus && this.textInput) {
+    if (!this.textInput) {
+      return
+    }
+
+    if (this.autoFocus) {
       this.textInput.focus();
     }
 

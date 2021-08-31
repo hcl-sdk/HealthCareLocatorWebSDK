@@ -1,5 +1,5 @@
 import { DEFAULT_THEME_PROPERTIES } from '../../../hcl-sdk-core';
-import { Breakpoint } from '../core/types';
+import { Breakpoint, ScreenSize } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
 import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
@@ -65,7 +65,7 @@ export function getSpecialtiesText(specialties) {
 
 export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoint {
   const orientation = clientRect.width >= clientRect.height ? 'landscape' : 'portrait';
-  let screenSize;
+  let screenSize: ScreenSize = 'unknown';
   if (orientation === 'landscape') {
     if (clientRect.width < BREAKPOINT_MAX_WIDTH.MOBILE_LANDSCAPE) {
       screenSize = 'mobile';
@@ -84,6 +84,7 @@ export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoi
     }
   }
   return {
+    screenWidth: clientRect.width,
     screenSize,
     orientation
   };
