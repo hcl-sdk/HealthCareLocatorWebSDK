@@ -146,9 +146,10 @@
     }
 
     &__postfix {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 10px;
+      display: flex;
+      a + a {
+        margin-left: 10px;
+      }
       .hclsdk-btn {
         border: 1px solid var(--hcl-color-grey_lighter);
       }

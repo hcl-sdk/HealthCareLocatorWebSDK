@@ -262,9 +262,13 @@ export class HclSdkHCPFullCard {
                         <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
                           <hcl-sdk-button round icon="direction" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
                         </a>
-                        <a href={`tel:${individualDetail.phone}`}>
-                          <hcl-sdk-button round icon="phone" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
-                        </a>
+                        {
+                          individualDetail.phone && (
+                            <a href={`tel:${individualDetail.phone}`}>
+                              <hcl-sdk-button round icon="phone" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
+                            </a>
+                          )
+                        }
                       </div>
                     </div>
 
@@ -291,7 +295,7 @@ export class HclSdkHCPFullCard {
                           <div>
                             <span>{individualDetail.addressName}</span>
                             <span>{individualDetail.addressBuildingName}</span>
-                            <span>{individualDetail.address}</span>
+                            <span>{individualDetail.address}{individualDetail.postalCode && individualDetail.city ? `, ${individualDetail.postalCode} ${individualDetail.city}` : ''}</span>
                           </div>
                         </div>
                       </div>
