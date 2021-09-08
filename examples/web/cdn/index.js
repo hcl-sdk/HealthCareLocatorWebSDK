@@ -4,8 +4,8 @@ var hclSdkEl = document.querySelector('hcl-sdk');
 var burgerEl = document.querySelector('.burger');
 
 var specialtyLabelByCode = {
-  'SP.WCA.75': 'Dentistry',
-  'SP.WCA.08': 'Cardiology',
+  'SP.WBE.72|SP.WBE.75|SP.WIT.75|SP.WDE.75': 'Dentistry',
+  'SP.WBE.08|SP.WFR.AR|SP.WIT.08|SP.WCA.08|SP.WCA.08': 'Cardiology',
 }
 
 for (let i = 0; i < 3; i++) {
