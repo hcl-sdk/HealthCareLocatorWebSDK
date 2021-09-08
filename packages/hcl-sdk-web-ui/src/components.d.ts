@@ -46,9 +46,9 @@ export namespace Components {
         "address": string;
         "distance": string;
         "name": string;
-        "professionalType": string;
         "selected": boolean;
         "showDistance": boolean;
+        "specialtyPrimary": string;
         "viewMode": string;
     }
     interface HclSdkHcpFullCard {
@@ -722,9 +722,9 @@ declare namespace LocalJSX {
         "address"?: string;
         "distance"?: string;
         "name"?: string;
-        "professionalType"?: string;
         "selected"?: boolean;
         "showDistance"?: boolean;
+        "specialtyPrimary"?: string;
         "viewMode"?: string;
     }
     interface HclSdkHcpFullCard {

@@ -12,9 +12,9 @@
 | `address`          | `address`           |             | `string`  | `undefined` |
 | `distance`         | `distance`          |             | `string`  | `undefined` |
 | `name`             | `name`              |             | `string`  | `undefined` |
-| `professionalType` | `professional-type` |             | `string`  | `undefined` |
 | `selected`         | `selected`          |             | `boolean` | `undefined` |
 | `showDistance`     | `show-distance`     |             | `boolean` | `true`      |
+| `specialtyPrimary` | `specialty-primary` |             | `string`  | `undefined` |
 | `viewMode`         | `view-mode`         |             | `string`  | `undefined` |
 
 

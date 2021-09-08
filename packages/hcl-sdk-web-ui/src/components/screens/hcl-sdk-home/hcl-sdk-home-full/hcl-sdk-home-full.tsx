@@ -106,7 +106,7 @@ export class HclSdkHomeFull {
       <div class="history-item" onClick={() => this.handleHistoryHcpItemClick(hcpItem)}>
         <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('hcp', hcpItem.activityId)} />
         <p class="history-item__name">{getHcpFullname(hcpItem.activity.individual)}</p>
-        <p class="history-item__specialty">{hcpItem.activity.individual.professionalType.label}</p>
+        <p class="history-item__specialty">{hcpItem.activity.individual.specialties?.[0].label}</p>
         <p class="history-item__address">{hcpItem.activity.workplace.address.longLabel}</p>
         <p class="history-item__time-from">{formatDistance(hcpItem.timestamp, i18nStore.state.lang)}</p>
       </div>

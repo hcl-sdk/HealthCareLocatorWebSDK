@@ -194,10 +194,10 @@ export class HclSdkHCPFullCard {
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
 
     const originalListTerms = (individualDetail && individualDetail.listTerms) || []
-    const listTerms = [
+    const listTerms = this.currentSeachTerm ? [
       this.currentSeachTerm, 
       ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
-    ]
+    ]: originalListTerms
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
 
     return (
@@ -231,7 +231,7 @@ export class HclSdkHCPFullCard {
                 </div>
                 <div class="main-info__profile">
                   <span class="main-info__profile-name">{hpcProfileName}</span>
-                  <span class="main-info__profile-dep">{individualDetail && individualDetail.professionalType}</span>
+                  <span class="main-info__profile-dep">{individualDetail && individualDetail.specialties?.[0]}</span>
                 </div>
               </div>
 
