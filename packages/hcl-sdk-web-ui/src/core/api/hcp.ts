@@ -205,12 +205,12 @@ export async function searchDoctor(variables) {
     [
       graphql.individualsByName({
         locale: i18nStore.state.lang,
-        first: 5,
+        first: 10,
         offset: 0,
         ...variables,
       }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } })),
       graphql.codesByLabel({
-        first: 5,
+        first: 10,
         offset: 0,
         codeTypes: ["SP"],
         locale: i18nStore.state.lang,
@@ -248,7 +248,7 @@ export async function handleSearchMedicalTerms({ criteria, ...variables }: Parti
   searchMapStore.setState({ loading: true });
 
   const { codesByLabel: { codes } } = await graphql.codesByLabel({
-    first: 5,
+    first: 10,
     offset: 0,
     codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT", "ADA.PM_KW" ],
     locale: i18nStore.state.lang,

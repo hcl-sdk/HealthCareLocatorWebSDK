@@ -213,13 +213,18 @@ export class HclSdkSearch {
     }
 
     if (this.currentSelectedInput === 'name') {
-      const firstItem = [...items].find(itemRef => !itemRef.item.address);
-      if (firstItem) {
-        this.selectAddress(firstItem.item);
+      const specialtiesFiltered = searchMapStore.state.searchDoctor.filter(o => !('address' in o))
+      const currentSearch = searchMapStore.state.searchFields.name
+      const findItem = specialtiesFiltered.find(spec => spec.name.toLowerCase() === currentSearch.toLowerCase())
+      
+      if (findItem) {
+        this.selectAddress(findItem);
       }
     } else { // Both address and medicalTerm
       this.selectAddress(items[0].item);
     }
+
+    this.currentSelectedInput = null
   }
 
   checkIsBasicNearMe() {
