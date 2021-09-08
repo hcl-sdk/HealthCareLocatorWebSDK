@@ -52,7 +52,13 @@ export class HclSDK {
 
     let specialtyLabel = specialtyCode;
     try {
-      const res = await graphql.labelsByCode({ first: 1, criteria: specialtyCode, codeTypes: ['SP'], country: 'ca', locale: i18nStore.state.lang }, configStore.configGraphql);
+      const res = await graphql.labelsByCode({ 
+        first: 1, 
+        criteria: specialtyCode, 
+        codeTypes: ['SP'], 
+        country: configStore.countryGraphqlQuery,
+        locale: i18nStore.state.lang 
+      }, configStore.configGraphql);
       if (res.labelsByCode && res.labelsByCode.codes && res.labelsByCode.codes.length > 0) {
         specialtyLabel = res.labelsByCode.codes[0].longLbl;
       }
