@@ -1,4 +1,4 @@
-import { Component, h, Listen, Method, Prop, State } from '@stencil/core';
+import { Component, h, Listen, Method, Prop, State, Watch } from '@stencil/core';
 import { searchMapStore } from '../../../core/stores';
 import { SearchInputName } from '../../../core/stores/SearchMapStore';
 
@@ -16,6 +16,13 @@ export class HclSdkAutocompleteResult {
 
   componentDidLoad() {
     this.itemIndex = this.getFirstItemIndex()
+  }
+
+  @Watch('data')
+  watchPropHandler(newValue) {
+    if (newValue && newValue.length && this.ref && this.ref.scrollTo) {
+      this.ref.scrollTo(0, 0)
+    }
   }
 
   private getFirstItemIndex() {
