@@ -8,9 +8,9 @@ import { getCssColor } from '../../../utils/helper';
   shadow: false,
 })
 export class HclSdkDoctorCard {
-  // @Prop() onClick: (e: any) => void;
+
   @Prop() name: string;
-  @Prop() professionalType: string;
+  @Prop() specialtyPrimary: string;
   @Prop() address: string;
   @Prop() distance: string;
   @Prop() selected: boolean;
@@ -27,7 +27,7 @@ export class HclSdkDoctorCard {
         <div class={doctorClass}>
           <div class="doctor-card-content">
             <span class="text name">{this.name}</span>
-            <span class="text gp">{this.professionalType}</span>
+            <span class="text gp">{this.specialtyPrimary}</span>
             <span class="text address">{this.address}</span>
             { this.showDistance && <span class="text distance">{this.distance}</span> }
           </div>

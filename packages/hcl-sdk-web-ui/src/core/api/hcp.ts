@@ -156,7 +156,7 @@ export async function searchLocation(variables, {
       lastName: item.activity.individual.lastName,
       professionalType: item.activity.individual.professionalType.label,
       specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
-      specialties: getSpecialtiesText(item.activity.individual.specialties)[0],
+      specialtyPrimary: getSpecialtiesText(item.activity.individual.specialties)[0],
       address: [item.activity.workplace.address.longLabel, item.activity.workplace.address.city.label].filter(s => s).join(','),
       lat: item.activity.workplace.address.location.lat,
       lng: item.activity.workplace.address.location.lon,
