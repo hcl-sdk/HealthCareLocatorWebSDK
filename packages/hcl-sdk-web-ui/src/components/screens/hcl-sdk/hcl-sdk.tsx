@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
+import { BREAKPOINT_MAX_WIDTH, COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -15,6 +15,7 @@ import { graphql } from '../../../../../hcl-sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
+import cls from 'classnames'
 
 const defaults = {
   apiKey: '',
@@ -258,14 +259,17 @@ export class HclSDK {
   }
 
   render() {
-    const { screenSize, orientation } = uiStore.state.breakpoint;
+    const { screenSize, orientation, screenWidth } = uiStore.state.breakpoint;
     if (screenSize === 'unknown' || this.loading) {
       return null;
     }
 
     return (
       <Host>
-        <div class={`wrapper size-${screenSize} orientation-${orientation}`}>
+        <div class={cls(`wrapper size-${screenSize} orientation-${orientation}`, {
+          'show-medical-term': configStore.state.enableMedicalTerm,
+          'size-desktop-sm': screenWidth > BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
+        })}>
           <hcl-sdk-router>
             <hcl-sdk-route component="hcl-sdk-home" path={ROUTER_PATH.MAIN} />
             <hcl-sdk-route component="hcl-sdk-search-result" path={ROUTER_PATH.SEARCH_RESULT} />

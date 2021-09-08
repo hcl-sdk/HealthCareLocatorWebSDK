@@ -176,12 +176,10 @@
         }
       }
       .hclsdk-btn-reset-search {
-        display: block;
         margin-right: auto;
       }
     }
   }
-
 
   .size-tablet {
     .hclsdk-search {
@@ -192,8 +190,29 @@
     .hcl-sdk-input {
       min-width: 210px;
     }
+    &.show-medical-term {
+      .hcl-sdk-input {
+        min-width: 175px;
+      }
+      .switch-mode {
+        margin-left: auto;
+      }
+      .hclsdk-btn-reset-search {
+        display: none;
+      }
+    }
   }
 
+  .size-desktop-sm {
+    .hcl-sdk-input {
+      min-width: 258px;
+    }
+    &.show-medical-term {
+      .hcl-sdk-input {
+        min-width: 210px;
+      }
+    }
+  }
   .size-desktop {
     .hclsdk-search {
       &__form {
