@@ -64,6 +64,8 @@ export class HclSDK {
     searchMapStore.setSearchFieldValue('name', specialtyLabel);
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
+      specialties: [],
+      specialtiesRaw: [],
       specialtyFilter: { id: specialtyCode },
     });
     configStore.setState({
