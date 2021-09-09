@@ -7,12 +7,13 @@ interface IndividualByNameResult {
 }
 
 const QUERY_INDIVIDUAL_BY_NAME = gql`
-  query individualsByName($first: Int!, $offset: Int!, $criteria: String!, $locale: String) {
+  query individualsByName($first: Int!, $offset: Int!, $criteria: String!, $locale: String, $country: String) {
     individualsByName(
         criteria: $criteria
         locale: $locale
         first: $first
         offset: $offset
+        country: $country
       ) {
         individuals {
           id
