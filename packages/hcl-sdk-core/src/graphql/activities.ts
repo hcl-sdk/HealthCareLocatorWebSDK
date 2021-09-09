@@ -43,6 +43,7 @@ const QUERY_ACTIVITIES = gql`
             county {
               label
             }
+            postalCode
             city {
               label
             }

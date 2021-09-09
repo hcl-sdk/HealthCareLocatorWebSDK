@@ -157,7 +157,10 @@ export async function searchLocation(variables, {
       professionalType: item.activity.individual.professionalType.label,
       specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
       specialtyPrimary: getSpecialtiesText(item.activity.individual.specialties)[0],
-      address: [item.activity.workplace.address.longLabel, item.activity.workplace.address.city.label].filter(s => s).join(','),
+      address: [
+        item.activity.workplace.address.longLabel, 
+        item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label
+      ].filter(s => s).join(', '),
       lat: item.activity.workplace.address.location.lat,
       lng: item.activity.workplace.address.location.lon,
       id: item.activity.id
@@ -192,8 +195,8 @@ export async function searchLocation(variables, {
   }
 }
 
-export async function searchDoctor(variables) {
-  if (variables.criteria.length < 3) {
+export async function searchDoctor({ criteriaScope, criteria, ...variables }) {
+  if (criteria.length < 3) {
     return null;
   }
   searchMapStore.setState({ loading: true });
@@ -207,6 +210,8 @@ export async function searchDoctor(variables) {
         locale: i18nStore.state.lang,
         first: 10,
         offset: 0,
+        criteria: criteria,
+        country: configStore.countryGraphqlQuery,
         ...variables,
       }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } })),
       graphql.codesByLabel({
@@ -215,6 +220,8 @@ export async function searchDoctor(variables) {
         codeTypes: ["SP"],
         locale: i18nStore.state.lang,
         country: configStore.countryGraphqlQuery,
+        criteria: criteria,
+        criteriaScope: criteriaScope,
         ...variables,
       }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
     ]
