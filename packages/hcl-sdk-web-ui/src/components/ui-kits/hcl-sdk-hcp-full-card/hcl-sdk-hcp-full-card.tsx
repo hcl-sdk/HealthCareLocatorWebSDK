@@ -231,7 +231,7 @@ export class HclSdkHCPFullCard {
                 </div>
                 <div class="main-info__profile">
                   <span class="main-info__profile-name">{hpcProfileName}</span>
-                  <span class="main-info__profile-dep">{individualDetail && individualDetail.specialties?.[0]}</span>
+                  <span class="main-info__profile-dep">{individualDetail && individualDetail.professionalType}</span>
                 </div>
               </div>
 
