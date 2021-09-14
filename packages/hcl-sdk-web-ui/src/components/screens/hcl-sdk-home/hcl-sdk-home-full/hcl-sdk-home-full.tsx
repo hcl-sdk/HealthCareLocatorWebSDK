@@ -32,6 +32,7 @@ export class HclSdkHomeFull {
       searchFields: {
         name: '',
         medicalTerm: '',
+        specialtyName: '',
         address: t('near_me')
       }
     });
@@ -98,7 +99,7 @@ export class HclSdkHomeFull {
     return historyStore.state.searchItems.filter(this.filterHistoryItems(this.showMoreSearchItems)).map(searchItem => (
       <div class="history-item" onClick={() => this.handleHistorySearchItemClick(searchItem)}>
         <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('search', searchItem.id)} />
-        <p class="history-item__criteria">{searchItem.searchFields.name || searchItem.searchFields.medicalTerm}</p>
+        <p class="history-item__criteria">{searchItem.searchFields.specialtyName || searchItem.searchFields.medicalTerm}</p>
         <p class="history-item__address">{searchItem.locationFilter?.longLabel || searchItem.searchFields.address}</p>
         <p class="history-item__time-from">{formatDistance(searchItem.timestamp, i18nStore.state.lang)}</p>
       </div>

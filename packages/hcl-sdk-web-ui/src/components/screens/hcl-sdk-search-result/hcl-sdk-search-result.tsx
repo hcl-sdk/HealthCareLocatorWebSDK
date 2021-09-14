@@ -27,12 +27,10 @@ export class HclSdkSearchResult {
   @State() isLoadingRelaunch: boolean;
 
   disconnectedCallback() {
-    searchMapStore.setState({
-      selectedActivity: null,
-      individualDetail: null,
-      searchDoctor: [],
-      specialties: [],
-    });
+    searchMapStore.resetDataSearch({ 
+      isResetHCPDetail: true,
+      isResetSearchFields: true,
+    })
     configStore.setState({
       modeView: ModeViewType.LIST
     })
@@ -284,7 +282,7 @@ export class HclSdkSearchResult {
     } = searchMapStore.state;
 
     const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
-    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && searchFields.name === '';
+    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && !searchFields.specialtyName && !searchFields.medicalTerm
 
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
@@ -356,7 +354,7 @@ export class HclSdkSearchResult {
                     </div>
                   ) : (
                     <Fragment>
-                      <strong class="search-result-title">{searchMapStore.state.searchFields.name || searchMapStore.state.searchFields.medicalTerm}</strong>
+                      <strong class="search-result-title">{searchMapStore.state.searchFields.specialtyName || searchMapStore.state.searchFields.medicalTerm}</strong>
                       <div class="search-result-address">{selectedAddressName || t('anywhere')}</div>
                     </Fragment>
                   )}
@@ -364,7 +362,7 @@ export class HclSdkSearchResult {
               </div>
             )
           ) : (
-            <hcl-sdk-search searchText={t('search')} showSwitchMode />
+            <hcl-sdk-search isSearchResult />
           ))}
 
         {

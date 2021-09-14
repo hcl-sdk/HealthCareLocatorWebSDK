@@ -49,7 +49,7 @@ export class HclSDK {
   @Method()
   async searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: string[], specialtyLabel: string }) {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
-    searchMapStore.setSearchFieldValue('name', specialtyLabel);
+    searchMapStore.setSearchFieldValue('specialtyName', specialtyLabel);
 
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
@@ -262,7 +262,8 @@ export class HclSDK {
         ) : null}
         <div class={cls(`wrapper size-${screenSize} orientation-${orientation}`, {
           'show-medical-term': configStore.state.enableMedicalTerm,
-          'size-desktop-sm': screenWidth > BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
+          'size-tablet-xs': screenWidth > BREAKPOINT_MAX_WIDTH.MOBILE_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT,
+          'size-desktop-sm': screenWidth >= BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
         })}>
           <hcl-sdk-router>
             <hcl-sdk-route component="hcl-sdk-home" path={ROUTER_PATH.MAIN} />
