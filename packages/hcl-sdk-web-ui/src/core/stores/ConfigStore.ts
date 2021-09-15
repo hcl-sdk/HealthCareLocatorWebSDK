@@ -33,6 +33,7 @@ export interface HclSDKConfigData {
   countriesSubscriptionKey?: string[];
   showSuggestModification?: boolean;
   enableMedicalTerm?: Boolean;
+  stylesheet?: string;
   map: {
     provider: MapProvider;
     googleMapApiKey: string;

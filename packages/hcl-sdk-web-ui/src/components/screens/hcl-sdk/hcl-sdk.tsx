@@ -57,12 +57,12 @@ export class HclSDK {
     try {
       const arrPromise: Promise<LabelsByCodeResult>[] = specialtyCode.split(',')
         .map((spCode: string) => (
-          graphql.labelsByCode({ 
-            first: 1, 
-            criteria: spCode.trim(), 
-            codeTypes: ['SP'], 
+          graphql.labelsByCode({
+            first: 1,
+            criteria: spCode.trim(),
+            codeTypes: ['SP'],
             country: configStore.countryGraphqlQuery,
-            locale: i18nStore.state.lang 
+            locale: i18nStore.state.lang
           }, configStore.configGraphql)
         ))
       const arrRes = await Promise.all(arrPromise)
@@ -71,7 +71,7 @@ export class HclSDK {
         const code = res?.labelsByCode?.codes?.[0]
         if (code) {
           specialtyLabel = [...specialtyLabel, code.longLbl]
-          specialtyFilter = [...specialtyFilter, { 
+          specialtyFilter = [...specialtyFilter, {
             id: code.id, name: code.longLbl
           }]
         }
@@ -289,6 +289,9 @@ export class HclSDK {
 
     return (
       <Host>
+        {configStore.state.stylesheet ? (
+          <link rel="stylesheet" href={configStore.state.stylesheet} />
+        ) : null}
         <div class={cls(`wrapper size-${screenSize} orientation-${orientation}`, {
           'show-medical-term': configStore.state.enableMedicalTerm,
           'size-desktop-sm': screenWidth > BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
