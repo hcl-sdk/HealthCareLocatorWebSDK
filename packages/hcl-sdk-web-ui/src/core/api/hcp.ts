@@ -1,7 +1,7 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from '../../../../hcl-sdk-core';
-import { SearchTermItem, SelectedIndividual } from '../stores/SearchMapStore';
+import { SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
@@ -64,7 +64,7 @@ export async function genSearchLocationParams({
 }: {
   forceNearMe?: boolean;
   locationFilter: any;
-  specialtyFilter: any;
+  specialtyFilter: SpecialtyItem[];
   medicalTermsFilter: SearchTermItem
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
@@ -104,8 +104,8 @@ export async function genSearchLocationParams({
       ...extraParams // country, ...
     }
   }
-  if (specialtyFilter) {
-    params.specialties = [specialtyFilter.id];
+  if (specialtyFilter?.length > 0) {
+    params.specialties = specialtyFilter.map(arr => arr.id);
   }
   if (medicalTermsFilter) {
     params.medTerms = [medicalTermsFilter.name]; // name ~ longLbl
@@ -123,7 +123,7 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
     medicalTermsFilter
   });
 
-  if (!specialtyFilter) {
+  if (!specialtyFilter.length) {
     params.criteria = searchMapStore.state.searchFields.name
   }
 

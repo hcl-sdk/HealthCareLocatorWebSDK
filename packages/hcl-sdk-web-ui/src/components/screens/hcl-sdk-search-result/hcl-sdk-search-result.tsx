@@ -43,7 +43,7 @@ export class HclSdkSearchResult {
     if (!selectedActivity && locationFilter) {
       searchLocationWithParams()
     }
-    if (!specialtyFilter && !name && locationFilter && locationFilter.id === NEAR_ME) {
+    if (!specialtyFilter?.length && !name && locationFilter && locationFilter.id === NEAR_ME) {
       configStore.setState({
         modeView: ModeViewType.MAP
       })
@@ -354,7 +354,7 @@ export class HclSdkSearchResult {
                     </div>
                   ) : (
                     <Fragment>
-                      <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
+                      <strong class="search-result-title">{searchMapStore.state.searchFields.name || searchMapStore.state.searchFields.medicalTerm}</strong>
                       <div class="search-result-address">{selectedAddressName || t('anywhere')}</div>
                     </Fragment>
                   )}
