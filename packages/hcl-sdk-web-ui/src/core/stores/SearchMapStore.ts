@@ -79,7 +79,7 @@ export interface SearchMapState {
   individualDetailName?: string;
   searchFields: SearchFields;
   locationFilter: any;
-  specialtyFilter: any;
+  specialtyFilter: SpecialtyItem[];
   medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
@@ -117,7 +117,7 @@ export const initStateSearchMapStore: SearchMapState = {
     medicalTerm: ''
   },
   locationFilter: null,
-  specialtyFilter: null,
+  specialtyFilter: [],
   medicalTermsFilter: null,
   geoLocation: {
     status: 'denied' as GeoLocationStatus,

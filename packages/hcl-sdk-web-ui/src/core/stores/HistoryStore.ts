@@ -1,6 +1,6 @@
 import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
 import { HISTORY_MAX_TOTAL_ITEMS } from '../constants';
-import { SearchTermItem } from './SearchMapStore';
+import { SearchTermItem, SpecialtyItem } from './SearchMapStore';
 import StoreProvider from './StoreProvider';
 
 type HistoryItemType = 'search' | 'hcp';
@@ -9,7 +9,7 @@ export interface HistorySearchItem {
   id: string;
   type: 'search';
   locationFilter: any;
-  specialtyFilter: any;
+  specialtyFilter: SpecialtyItem[];
   medicalTermsFilter: SearchTermItem;
   searchFields: {
     name: string;

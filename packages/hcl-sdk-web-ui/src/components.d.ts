@@ -6,7 +6,8 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
-import { SearchInputName } from "./core/stores/SearchMapStore";
+import { SearchInputName, SpecialtyItem } from "./core/stores/SearchMapStore";
+import { LabelsByCodeResult } from "../../hcl-sdk-core/src/graphql/labelsByCode";
 import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {

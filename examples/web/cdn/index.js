@@ -5,6 +5,7 @@ var burgerEl = document.querySelector('.burger');
 
 var specialtyLabelByCode = {
   'SP.WBE.72|SP.WBE.75|SP.WIT.75|SP.WDE.75': 'Dentistry',
+  // 'SP.WFR.PZ|SP.WFR.PZ|SP.WFR.PZ,SP.WFR.ZG|SP.WFR.ZG|SP.WFR.ZG': 'Pharmacie des mines, General council',
   'SP.WBE.08|SP.WFR.AR|SP.WIT.08|SP.WCA.08|SP.WCA.08': 'Cardiology',
 }
 

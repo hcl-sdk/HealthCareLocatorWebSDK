@@ -27,7 +27,6 @@ export class HclSdkSearch {
   @State() selectedAddress: any = {};
   @State() selectedDoctor: any = {};
   @State() currentSelectedInput: SearchInputName;
-  @State() isTouched: boolean = false;
   @Prop() noIcon: boolean;
   @Prop() searchText: string;
   @Prop() showSwitchMode?: boolean = false;
@@ -61,6 +60,19 @@ export class HclSdkSearch {
     }
   }
 
+  get isTouched() {
+    const { searchFields, locationFilter, specialtyFilter, medicalTermsFilter } = searchMapStore.state
+    const { name, address, medicalTerm } = searchFields
+    if (
+      (address && locationFilter) ||
+      (name && specialtyFilter?.length) ||
+      (medicalTerm && medicalTermsFilter)
+    ) {
+      return true
+    }
+    return false
+  }
+
   clickOutsideHandler = (evt) => {
     if (uiStore.state.breakpoint.screenSize === 'mobile') {
       return;
@@ -83,25 +95,18 @@ export class HclSdkSearch {
 
   private onSearch = async e => {
     e.preventDefault();
-    const { name, address, medicalTermsRef } = e.target;
-    await this.search(name, address, medicalTermsRef)
+    const { name, address, medicalTerm } = e.target;
+    await this.search(name, address, medicalTerm)
   }
 
   private search = async (
-    nameRef: HTMLHclSdkInputElement, 
+    _: HTMLHclSdkInputElement, 
     addressRef: HTMLHclSdkInputElement, 
-    medicalTermsRef: HTMLHclSdkInputElement
+    medicalTermRef: HTMLHclSdkInputElement
   ) => {
-    let checkValidName: boolean;
-    let checkValidAddress: boolean;
-    let checkValidTerms: boolean;
-
     const isBasicNearMe = this.checkIsBasicNearMe();
 
     if (isBasicNearMe) {
-      checkValidName = true;
-      checkValidTerms = true
-      checkValidAddress = true;
       this.resetErrorElmUI('all');
       configStore.setState({
         modeView: ModeViewType.MAP
@@ -112,14 +117,11 @@ export class HclSdkSearch {
           modeView: ModeViewType.MAP
         });
       }
-      checkValidName = this.checkValidElm(nameRef)
-      checkValidAddress = this.checkValidElm(addressRef);
-      checkValidTerms = this.checkValidElm(medicalTermsRef);
+      this.checkValidElm(addressRef);
+      this.checkValidElm(medicalTermRef);
     }
 
-    const conditionsFilter = checkValidName || checkValidTerms; // Can be filtered both
-
-    if (!conditionsFilter || !checkValidAddress) {
+    if (!this.isTouched) {
       return;
     }
 
@@ -155,10 +157,10 @@ export class HclSdkSearch {
     if (!elm) {
       return;
     }
-    if (!this.isTouched && elm.name === 'name') {
+    if (!this.isTouched && elm.name === 'address' && !configStore.state.enableMedicalTerm) {
       this.fieldsValid = {
         ...this.fieldsValid,
-        name: false
+        address: false
       }
       return
     }
@@ -168,14 +170,11 @@ export class HclSdkSearch {
     //  - At lease search by Name or Terms
     //  - Can be searched by both Name and Terms
     switch (elm.name) {
-      case 'name':
-        isValid = this.fieldsValid.medicalTerm ? true : Boolean(elm.value);
-        break;
       case 'address':
         isValid = !elm.value || Boolean(elm.value && searchMapStore.state.locationFilter);
         break;
       case 'medicalTerm':
-        isValid = this.fieldsValid.name ? true : Boolean(elm.value)
+        isValid = (this.fieldsValid.name && searchMapStore.state.specialtyFilter?.length) ? true : Boolean(elm.value)
         break;
     }
 
@@ -229,7 +228,7 @@ export class HclSdkSearch {
 
   checkIsBasicNearMe() {
     if (
-      !searchMapStore.state.specialtyFilter &&
+      !searchMapStore.state.specialtyFilter?.length &&
       searchMapStore.state.locationFilter &&
       searchMapStore.state.locationFilter.id === NEAR_ME
     ) {
@@ -269,10 +268,6 @@ export class HclSdkSearch {
     this.checkValidElm(el);
     this.clearFilter(el.name);
     this.onChange(el.name, el.value);
-
-    if (!this.isTouched) {
-      this.isTouched = true
-    }
   };
 
   @Listen('selectAddress')
@@ -321,7 +316,7 @@ export class HclSdkSearch {
         this.resetErrorElmUI('name');
         searchMapStore.setSearchFieldValue('name', item.name);
         searchMapStore.setState({
-          specialtyFilter: item,
+          specialtyFilter: [item],
         });
       }
     } else if (this.currentSelectedInput === 'medicalTerm') {
@@ -350,10 +345,13 @@ export class HclSdkSearch {
     const mapKey: Record<SearchInputName, string> = {
       name: 'specialtyFilter',
       address: 'locationFilter',
-      medicalTerm: 'searchMedicalTerms'
+      medicalTerm: 'medicalTermsFilter'
+    }
+    const mapValue = {
+      specialtyFilter: []
     }
     searchMapStore.setState({
-      [mapKey[key]]: null
+      [mapKey[key]]: mapValue[mapKey[key]] || null
     })
   }
 
@@ -502,13 +500,13 @@ export class HclSdkSearch {
                       onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={nameInputLoading}
-                      onPostfixClick={() => this.resetValue('name', !searchMapStore.state.specialtyFilter)}
+                      onPostfixClick={() => this.resetValue('name', !searchMapStore.state.specialtyFilter?.length)}
                       autoFocus={routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT}
                       onFocus={this.onFocusInputSearch}
                       onBlur={this.onBlurInputSearch}
                       onEnterKeyDown={this.onInputSearchEnter}
                       onArrowKeyDown={this.onInputSearchArrowDown}
-                      readOnly={!!searchMapStore.state.specialtyFilter}
+                      readOnly={!!searchMapStore.state.specialtyFilter?.length}
                       class={cls({
                         'hclsdk-error': !this.fieldsValid.name
                       })}
@@ -528,7 +526,7 @@ export class HclSdkSearch {
                           onInput={this.handleFieldInput}
                           autoComplete="off"
                           loading={medicalTermInputLoading}
-                          onPostfixClick={() => this.resetValue('medicalTerm', !searchMapStore.state.specialtyFilter)}
+                          onPostfixClick={() => this.resetValue('medicalTerm', !searchMapStore.state.medicalTermsFilter)}
                           onFocus={this.onFocusInputSearch}
                           onBlur={this.onBlurInputSearch}
                           onEnterKeyDown={this.onInputSearchEnter}

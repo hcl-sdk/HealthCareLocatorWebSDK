@@ -28,7 +28,7 @@ export class HclSdkHomeFull {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setState({
       locationFilter: null,
-      specialtyFilter: null,
+      specialtyFilter: [],
       medicalTermsFilter: null
     });
     configStore.setState({

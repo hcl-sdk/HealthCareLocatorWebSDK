@@ -2,7 +2,7 @@ import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
 import { CodeResult, QueryCodesByLabelArgs } from './types';
 
-interface LabelsByCodeResult {
+export interface LabelsByCodeResult {
   labelsByCode: CodeResult
 }
 
