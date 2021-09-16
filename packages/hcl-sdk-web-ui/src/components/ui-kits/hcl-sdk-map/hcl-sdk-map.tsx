@@ -16,6 +16,7 @@ import { IHclSdkMap } from './map/hck-sdk-map-interface';
 })
 export class HclSdkMap {
   @State() mapId: string = String(Date.now());
+  @Prop() isZoomChanged: boolean = false;
   @Prop() mapHeight: string = '100%';
   @Prop() mapWidth: string = '100%';
   @Prop() mapMinHeight: string = '0px';
@@ -68,6 +69,8 @@ export class HclSdkMap {
     })
 
     this.map.onDrag(this.onMapDragHandler)
+    this.map.onZoomend(this.onMapZoomend)
+
     this.setMarkers();
   };
 
@@ -94,6 +97,17 @@ export class HclSdkMap {
     if (newValue.length === 1 && JSON.stringify(newValue) === JSON.stringify(oldValue)) {
       return
     }
+    
+    /**
+     * There are two cases to show relaunch
+     *  1. Drag and drop Event
+     *    - After drag and drop, users click on the "Relaunch" button so the data will be rebooted
+     *    - The zoom level will be adjusted automatically
+     *      Reset zoom level when data is changed to avoid the conflict about zoomend event
+     *  2. Zoomend Event
+     */
+    this.isZoomChanged = false;
+
     this.setMarkers();
   }
 
@@ -134,6 +148,15 @@ export class HclSdkMap {
 
   private onMapDragHandler = evt => {
     this.onMapDrag.emit(evt);
+  }
+
+  private onMapZoomend = (evt) => {
+    if (!this.isZoomChanged) {
+      this.isZoomChanged = true
+      return
+    }
+
+    this.onMapDrag.emit(evt); // Active relaunch button
   }
 
   private getCenterInitMap() {

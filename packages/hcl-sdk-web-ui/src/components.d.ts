@@ -236,6 +236,7 @@ export namespace Components {
         "interactive": boolean;
         "isForcedZoomToMe": boolean;
         "isShowMeMarker": boolean;
+        "isZoomChanged": boolean;
         "locations": any[];
         "mapHeight": string;
         "mapMinHeight": string;
@@ -913,6 +914,7 @@ declare namespace LocalJSX {
         "interactive"?: boolean;
         "isForcedZoomToMe"?: boolean;
         "isShowMeMarker"?: boolean;
+        "isZoomChanged"?: boolean;
         "locations"?: any[];
         "mapHeight"?: string;
         "mapMinHeight"?: string;
