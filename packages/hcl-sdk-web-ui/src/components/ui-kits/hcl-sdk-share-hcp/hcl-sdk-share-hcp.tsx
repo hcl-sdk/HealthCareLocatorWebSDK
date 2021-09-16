@@ -17,7 +17,7 @@ export class HclSdkShareHCP {
   shareLink(provider: 'fb' | 'tw' | 'li' | 'em', link: string, text = '', emailBody = '') {
     switch (provider) {
       case 'fb':
-        return 'https://www.facebook.com/sharer/sharer.php?u=' + link;
+        return 'https://www.facebook.com/sharer/sharer.php?u=' + link + (text ? `&quote=` + text : '');
       case 'tw':
         return 'https://twitter.com/intent/tweet?url=' + link + (text ? '&text=' + text : '');
       case 'li':
@@ -63,15 +63,15 @@ export class HclSdkShareHCP {
       ...config,
       isBoldFirstLine: true
     })
-    const textTwitter = getTextBodyToShare(individualDetail, {
+    const textTwitterOrFB = getTextBodyToShare(individualDetail, {
       newLine: '%0a',
       ...config
     })
     const mailBody = getTextBodyToShare(individualDetail, config);
     const subject = `Share: ${name}`;
     const linkGenerated = {
-      facebook: this.shareLink('fb', appURL),
-      twitter: this.shareLink('tw', appURL, textTwitter),
+      facebook: this.shareLink('fb', appURL, textTwitterOrFB),
+      twitter: this.shareLink('tw', appURL, textTwitterOrFB),
       linkedin: this.shareLink('li', appURL),
       email: this.shareLink('em', appURL, subject, mailBody)
     }
