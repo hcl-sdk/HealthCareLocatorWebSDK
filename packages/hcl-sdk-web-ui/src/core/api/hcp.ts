@@ -1,13 +1,13 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from '../../../../hcl-sdk-core';
-import { SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
+import { SearchFields, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { QueryActivitiesArgs, QueryCodesByLabelArgs } from '../../../../hcl-sdk-core/src/graphql/types';
+import { ActivityCriteria, ActivityCriteriaScope, QueryActivitiesArgs, QueryCodesByLabelArgs } from '../../../../hcl-sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -60,12 +60,14 @@ export async function genSearchLocationParams({
   forceNearMe = false,
   locationFilter,
   specialtyFilter,
-  medicalTermsFilter
+  medicalTermsFilter,
+  searchFields
 }: {
   forceNearMe?: boolean;
   locationFilter: any;
-  specialtyFilter: SpecialtyItem[];
+  specialtyFilter: SpecialtyItem[]
   medicalTermsFilter: SearchTermItem
+  searchFields: SearchFields
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
   if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
@@ -104,28 +106,42 @@ export async function genSearchLocationParams({
       ...extraParams // country, ...
     }
   }
+  
   if (specialtyFilter?.length > 0) {
     params.specialties = specialtyFilter.map(arr => arr.id);
   }
   if (medicalTermsFilter) {
     params.medTerms = [medicalTermsFilter.name]; // name ~ longLbl
   }
+
+  const criterias: ActivityCriteria[] = []
+  const isFreeTextName = !specialtyFilter.length && searchFields.name
+  const isFreeTextTerm = configStore.state.enableMedicalTerm && !medicalTermsFilter && searchFields.medicalTerm
+
+  if (isFreeTextName) {
+    criterias.push({ text: searchFields.name, scope: ActivityCriteriaScope.IndividualNameAutocomplete })
+  }
+  if (isFreeTextTerm) {
+    criterias.push({ text: searchFields.medicalTerm, scope: ActivityCriteriaScope.IndividualMedTerms })
+  }
+  if (criterias.length) {
+    params.criterias = criterias
+  }
+
   return params;
 }
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
-  const { locationFilter, specialtyFilter, medicalTermsFilter } = searchMapStore.state;
+  const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields } = searchMapStore.state;
 
   const params = await genSearchLocationParams({
     forceNearMe,
     locationFilter,
     specialtyFilter,
-    medicalTermsFilter
+    medicalTermsFilter,
+    searchFields
   });
 
-  if (!specialtyFilter.length) {
-    params.criteria = searchMapStore.state.searchFields.name
-  }
 
   return searchLocation(params);
 }
@@ -255,7 +271,7 @@ export async function handleSearchMedicalTerms({ criteria, ...variables }: Parti
   searchMapStore.setState({ loading: true });
 
   const { codesByLabel: { codes } } = await graphql.codesByLabel({
-    first: 10,
+    first: 30,
     offset: 0,
     codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT", "ADA.PM_KW" ],
     locale: i18nStore.state.lang,

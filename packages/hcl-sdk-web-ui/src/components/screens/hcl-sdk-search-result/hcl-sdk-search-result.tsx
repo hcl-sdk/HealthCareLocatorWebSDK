@@ -174,7 +174,8 @@ export class HclSdkSearchResult {
             addressDetails: result.addressDetails
           },
           specialtyFilter: searchMapStore.state.specialtyFilter,
-          medicalTermsFilter: searchMapStore.state.medicalTermsFilter
+          medicalTermsFilter: searchMapStore.state.medicalTermsFilter,
+          searchFields: searchMapStore.state.searchFields
         })
 
         if (params.location && this.newDragBoundingBox.length === 4) {
