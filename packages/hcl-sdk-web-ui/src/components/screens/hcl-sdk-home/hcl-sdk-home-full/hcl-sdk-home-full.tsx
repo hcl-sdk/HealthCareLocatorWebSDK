@@ -25,11 +25,15 @@ export class HclSdkHomeFull {
 
   @Listen('mapClicked')
   onMapClicked() {
-    searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setState({
       locationFilter: null,
       specialtyFilter: [],
-      medicalTermsFilter: null
+      medicalTermsFilter: null,
+      searchFields: {
+        name: '',
+        medicalTerm: '',
+        address: t('near_me')
+      }
     });
     configStore.setState({
       modeView: ModeViewType.MAP
