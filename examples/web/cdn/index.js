@@ -3,10 +3,28 @@ var settingPanelEl = document.querySelector('settings-panel');
 var hclSdkEl = document.querySelector('hcl-sdk');
 var burgerEl = document.querySelector('.burger');
 
-var specialtyLabelByCode = {
-  'SP.WBE.72|SP.WBE.75|SP.WIT.75|SP.WDE.75': 'Dentistry',
-  // 'SP.WFR.PZ|SP.WFR.PZ|SP.WFR.PZ,SP.WFR.ZG|SP.WFR.ZG|SP.WFR.ZG': 'Pharmacie des mines, General council',
-  'SP.WBE.08|SP.WFR.AR|SP.WIT.08|SP.WCA.08|SP.WCA.08': 'Cardiology',
+const mapSpecialtyByKey = {
+  dentistry: {
+    fr_FR: {
+      specialtyCode: ['SP.WBE.72', 'SP.WBE.75', 'SP.WIT.75', 'SP.WDE.75'],
+      specialtyLabel: 'Dentiste'
+    },
+    en: {
+      specialtyCode: ['SP.WBE.72', 'SP.WBE.75', 'SP.WIT.75', 'SP.WDE.75'],
+      specialtyLabel: 'Dentistry'
+    }
+    
+  },
+  cardiology: {
+    fr_FR: {
+      specialtyCode: ['SP.WBE.08', 'SP.WFR.AR', 'SP.WIT.08', 'SP.WCA.08', 'SP.WCA.08'],
+      specialtyLabel: 'Cardiologie'
+    },
+    en: {
+      specialtyCode: ['SP.WBE.08', 'SP.WFR.AR', 'SP.WIT.08', 'SP.WCA.08', 'SP.WCA.08'],
+      specialtyLabel: 'Cardiology'
+    }
+  }
 }
 
 for (let i = 0; i < 3; i++) {
@@ -25,13 +43,14 @@ settingPanelEl.addEventListener('backPressed', function() {
   sidebarEl.classList.remove('settings-opened');
 });
 
-function searchNearMe(specialtyCode) {
+function searchNearMe(key) {
   document.body.classList.remove('menu-opened');
-  var specialtyLabel = specialtyLabelByCode[specialtyCode];
-  if (specialtyLabel) {
+
+  const lang = config.lang || 'en'
+  if (mapSpecialtyByKey[key] && mapSpecialtyByKey[key][lang] && mapSpecialtyByKey[key][lang].specialtyCode) {
     hclSdkEl.searchNearMe({
-      specialtyCode,
-      specialtyLabel
+      specialtyCode: mapSpecialtyByKey[key][lang].specialtyCode,
+      specialtyLabel: mapSpecialtyByKey[key][lang].specialtyLabel || ''
     });
   }
 }
@@ -56,14 +75,16 @@ const config = {
   ...getSettingsFromLocal()
 };
 
-var matches = window.location.hash.match(/sp=([A-Z0-9.]+)/);
+var matches = window.location.hash.match(/sp=([a-zA-Z]+)/);
 if (matches) {
-  var specialtyCode = matches[1];
-  var specialtyLabel = specialtyLabelByCode[specialtyCode];
-  if (specialtyLabel) {
+  var lang = config.lang || 'en'
+  var key = matches[1]
+  
+  if (mapSpecialtyByKey[key] && mapSpecialtyByKey[key][lang] && mapSpecialtyByKey[key][lang].specialtyCode) {
     config.entry = {
       screenName: 'searchNearMe',
-      specialtyCode
+      specialtyCode: mapSpecialtyByKey[key][lang].specialtyCode,
+      specialtyLabel: mapSpecialtyByKey[key][lang].specialtyLabel || ''
     }
   }
 }
@@ -71,5 +92,6 @@ if (matches) {
 console.log(config)
 
 customElements.whenDefined('hcl-sdk').then(function() {
+  // config.i18nBundlesPath = '/hcl-sdk-web-ui/i18n'
   hclSdkEl.init(config);
 })
