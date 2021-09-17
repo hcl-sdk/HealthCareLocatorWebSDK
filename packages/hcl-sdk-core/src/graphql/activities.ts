@@ -7,7 +7,7 @@ interface ActivitiesResult {
 }
 
 const QUERY_ACTIVITIES = gql`
-  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $country: String, $location: GeopointQuery, $criteria: String, $medTerms: [String!]) {
+  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $country: String, $location: GeopointQuery, $criteria: String, $medTerms: [String!], $locale: String) {
     activities(
       first: $first
       offset: $offset
@@ -17,6 +17,7 @@ const QUERY_ACTIVITIES = gql`
       location: $location
       criteria: $criteria
       medTerms: $medTerms
+      locale: $locale
     ) {
       distance
       relevance
