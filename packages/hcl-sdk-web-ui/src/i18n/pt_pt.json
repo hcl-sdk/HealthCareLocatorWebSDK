@@ -16,7 +16,7 @@
   "search": "Pesquisar",
   "since_format": "%@ atrás",
   "search_first_field_label": "Nome, especialidade",
-  "search_medical_term_label": "Medical term (pathology...)",
+  "search_medical_term_label": "Termo médico (patologia...)",
   "search_second_field_label": "Onde? (endereço, cidade...)",
   "search_reset": "Repor pesquisa",
   "near_me": "Próximo de mim",
@@ -37,7 +37,7 @@
   "main_information_label": "Informação principal",
   "rate_refunds_label": "Taxa e reembolsos",
   "specialities_label": "Especialidades",
-  "medical_publication_subject_heading": "Medical Publication subject heading",
+  "medical_publication_subject_heading": "Cabeçalho do assunto da publicação médica",
   "information_label": "Informação",
   "information_description": "A informação que recebeu sobre este profissional de saúde está correta?",
   "information_yes_label": "Sim",
@@ -46,9 +46,9 @@
   "improve_quality_text": "Partilhe connosco mais informações sobre este profissional de saúde.",
   "suggess_modification_button": "Sugerir uma modificação",
   "back_to_home": "Voltar para o início",
-  "share_hcp_label_copy": "Copy Text",
-  "share_hcp_title": "Share this HCP",
-  "share_hcp_description": "Here is a healthcare professional that I recommend:",
+  "share_hcp_label_copy": "Copiar texto",
+  "share_hcp_title": "Partilhar este profissional de saúde",
+  "share_hcp_description": "Um profissional de saúde que recomendo:",
   "share_hcp_specialties": "Especialidades:",
-  "share_hcp_found_text": "I found it on {name}"
+  "share_hcp_found_text": "Encontrei em {name}"
 }

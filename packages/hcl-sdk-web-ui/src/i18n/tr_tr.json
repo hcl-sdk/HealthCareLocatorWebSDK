@@ -16,7 +16,7 @@
   "search": "Ara",
   "since_format": "%@ önce",
   "search_first_field_label": "Adı, Uzmanlığı",
-  "search_medical_term_label": "Medical term (pathology...)",
+  "search_medical_term_label": "Tıbbi terim (patoloji...)",
   "search_second_field_label": "Nerede? (adresi, şehri...)",
   "search_reset": "Aramayı sıfırla",
   "near_me": "Yakınımda",
@@ -37,7 +37,7 @@
   "main_information_label": "Temel Bilgiler",
   "rate_refunds_label": "Fiyatlandırma ve ücret iadeleri",
   "specialities_label": "Uzmanlık",
-  "medical_publication_subject_heading": "Medical Publication subject heading",
+  "medical_publication_subject_heading": "Tıbbi Yayın konu başlığı",
   "information_label": "Bilgi",
   "information_description": "Bu HCP hakkında size verilen bilgi doğru mu?",
   "information_yes_label": "Evet",
@@ -46,9 +46,9 @@
   "improve_quality_text": "Bu HCP hakkında bizimle daha fazla bilgi paylaşın.",
   "suggess_modification_button": "Bir değişiklik önerin",
   "back_to_home": "Ana sayfaya geri dön",
-  "share_hcp_label_copy": "Copy Text",
-  "share_hcp_title": "Share this HCP",
-  "share_hcp_description": "Here is a healthcare professional that I recommend:",
+  "share_hcp_label_copy": "Metni Kopyala",
+  "share_hcp_title": "Bu HCP'yi paylaş",
+  "share_hcp_description": "Bu önerdiğim bir sağlık çalışanıdır:",
   "share_hcp_specialties": "Uzmanlık:",
-  "share_hcp_found_text": "I found it on {name}"
+  "share_hcp_found_text": "Onu {name} üzerinde buldum"
 }

@@ -16,7 +16,7 @@
   "search": "البحث",
   "since_format": "منذ. %@",
   "search_first_field_label": "الاسم، التَّخصص",
-  "search_medical_term_label": "Medical term (pathology...)",
+  "search_medical_term_label": "المصطلح الطبي (علم الأمراض...)",
   "search_second_field_label": "الموقع؟ (العنوان، المدينة....)",
   "search_reset": "إعادة ضبط البحث",
   "near_me": "بالقُرب مني",
@@ -37,7 +37,7 @@
   "main_information_label": "المعلومات الرئيسة",
   "rate_refunds_label": "السّعر واسترداد المدفوعات",
   "specialities_label": "التَّخصصات",
-  "medical_publication_subject_heading": "Medical Publication subject heading",
+  "medical_publication_subject_heading": "عنوان موضوع النشرة الطبية",
   "information_label": "المَعلومات",
   "information_description": "هل المَعلومات التي تمَّ تقديمها لك حول المُتخَصصين في الرِّعاية الصِّحيَّة صحيحة؟",
   "information_yes_label": "نعم",
@@ -46,9 +46,9 @@
   "improve_quality_text": "شارك معنا المزيد من المعلومات عن هذا المُتخصص في الرِّعاية الصِّحيَّة.",
   "suggess_modification_button": "اقتراح تعديل",
   "back_to_home": "العودة للصَّفحة الرئيسة",
-  "share_hcp_label_copy": "Copy Text",
-  "share_hcp_title": "Share this HCP",
-  "share_hcp_description": "Here is a healthcare professional that I recommend:",
+  "share_hcp_label_copy": "نسخ النص",
+  "share_hcp_title": "مُشاركة متخصص الرعاية الصحية هذا",
+  "share_hcp_description": "هذا هو متخصص الرعاية الصحية الذي أوصي به :",
   "share_hcp_specialties": "التَّخصصات:",
-  "share_hcp_found_text": "I found it on {name}"
+  "share_hcp_found_text": "{name} وجدته على"
 }
