@@ -49,6 +49,7 @@ export class HclSdkSearchResult {
       })
     }
     this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
+    this.handleObserveSortValuesChange(searchMapStore.state.sortValues)
     searchMapStore.storeInstance.onChange('sortValues', this.handleObserveSortValuesChange)
   }
   searchDataCardList;

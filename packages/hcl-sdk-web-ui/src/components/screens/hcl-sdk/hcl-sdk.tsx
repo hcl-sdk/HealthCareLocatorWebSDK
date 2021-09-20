@@ -16,8 +16,6 @@ import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import cls from 'classnames'
-import { LabelsByCodeResult } from '../../../../../hcl-sdk-core/src/graphql/labelsByCode';
-import { SpecialtyItem } from '../../../core/stores/SearchMapStore';
 
 const defaults = {
   apiKey: '',
@@ -49,45 +47,15 @@ export class HclSDK {
   }
 
   @Method()
-  async searchNearMe({ specialtyCode }) {
-    this.loading = true;
-
-    let specialtyLabel: string[] = []
-    let specialtyFilter: SpecialtyItem[] = []
-    try {
-      const arrPromise: Promise<LabelsByCodeResult>[] = specialtyCode.split(',')
-        .map((spCode: string) => (
-          graphql.labelsByCode({
-            first: 1,
-            criteria: spCode.trim(),
-            codeTypes: ['SP'],
-            country: configStore.countryGraphqlQuery,
-            locale: i18nStore.state.lang
-          }, configStore.configGraphql)
-        ))
-      const arrRes = await Promise.all(arrPromise)
-
-      arrRes.forEach(res => {
-        const code = res?.labelsByCode?.codes?.[0]
-        if (code) {
-          specialtyLabel = [...specialtyLabel, code.longLbl]
-          specialtyFilter = [...specialtyFilter, {
-            id: code.id, name: code.longLbl
-          }]
-        }
-      })
-    } catch (err) { }
-
-    this.loading = false;
-
+  async searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: string[], specialtyLabel: string }) {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
-    searchMapStore.setSearchFieldValue('name', specialtyLabel.length ? specialtyLabel.join(', ') : specialtyCode);
+    searchMapStore.setSearchFieldValue('name', specialtyLabel);
 
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
       specialties: [],
       specialtiesRaw: [],
-      specialtyFilter: specialtyFilter,
+      specialtyFilter: specialtyCode.map(code => ({ id: code, name: code })),
     });
     configStore.setState({
       modeView: ModeViewType.MAP,
@@ -160,12 +128,12 @@ export class HclSDK {
 
     // Search near me entry
     if (config && config.entry && config.entry.screenName === 'searchNearMe') {
-      const { specialtyCode } = config.entry;
+      const { specialtyCode, specialtyLabel } = config.entry;
       if (!specialtyCode) {
         console.error('missing specialtyCode for "near me" search');
         return;
       }
-      this.searchNearMe({ specialtyCode });
+      this.searchNearMe({ specialtyCode, specialtyLabel });
     }
   }
 

@@ -6,14 +6,13 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
-import { SearchInputName, SpecialtyItem } from "./core/stores/SearchMapStore";
-import { LabelsByCodeResult } from "../../hcl-sdk-core/src/graphql/labelsByCode";
+import { SearchInputName } from "./core/stores/SearchMapStore";
 import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
         "init": (config?: any) => Promise<void>;
-        "searchNearMe": ({ specialtyCode }: { specialtyCode: any; }) => Promise<void>;
+        "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
     }
     interface HclSdkAutocompleteResult {

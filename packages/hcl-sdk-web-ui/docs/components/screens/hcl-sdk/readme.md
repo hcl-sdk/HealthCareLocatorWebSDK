@@ -27,7 +27,7 @@ Type: `Promise<void>`
 
 
 
-### `searchNearMe({ specialtyCode }: { specialtyCode: any; }) => Promise<void>`
+### `searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>`
 
 
 
