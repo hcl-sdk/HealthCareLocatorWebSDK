@@ -147,16 +147,10 @@ export class HclSdkHCPFullCard {
       return;
     }
 
-    // Demo
-    const mapLang = {
-      en: 'en',
-      fr: 'fr',
-      fr_CA: 'fr',
-    }
     const individualId = individualDetail.individualId
     const apiKey = configStore.state.apiKey;
 
-    const lang = mapLang[i18nStore.state.lang] || i18nStore.state.lang
+    const lang = i18nStore.state.lang.toLowerCase().replace('-', '_').split('_')[0]
     const linkEl = document.createElement('a');
     linkEl.href = `${HCL_WEBSITE_HOST}/${lang}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
     linkEl.target = "_blank";
