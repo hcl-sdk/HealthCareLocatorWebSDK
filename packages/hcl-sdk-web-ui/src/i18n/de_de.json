@@ -16,7 +16,7 @@
   "search": "Suchen",
   "since_format": "%@ zuvor",
   "search_first_field_label": "Name, Fachgebiet",
-  "search_medical_term_label": "Medical term (pathology...)",
+  "search_medical_term_label": "Medizinischer Begriff (Pathologie ...)",
   "search_second_field_label": "Wo? (Adresse, Ort, …)",
   "search_reset": "Suche zurücksetzen",
   "near_me": "In meiner Nähe",
@@ -37,7 +37,7 @@
   "main_information_label": "Wichtigste Informationen",
   "rate_refunds_label": "Preis und Rückerstattungen",
   "specialities_label": "Fachgebiete",
-  "medical_publication_subject_heading": "Medical Publication subject heading",
+  "medical_publication_subject_heading": "Medizinische Veröffentlichungen nach Schlagwort",
   "information_label": "Informationen",
   "information_description": "Sind die Informationen, die Sie zu diesem Arzt erhalten haben, korrekt?",
   "information_yes_label": "Ja",
@@ -46,9 +46,9 @@
   "improve_quality_text": "Geben Sie uns nähere Informationen zu diesem Arzt.",
   "suggess_modification_button": "Änderung vorschlagen",
   "back_to_home": "Zurück zur Startseite",
-  "share_hcp_label_copy": "Copy Text",
-  "share_hcp_title": "Share this HCP",
-  "share_hcp_description": "Here is a healthcare professional that I recommend:",
+  "share_hcp_label_copy": "Copy-Text",
+  "share_hcp_title": "Einen Arzt empfehlen",
+  "share_hcp_description": "Diesen Arzt kann ich empfehlen:",
   "share_hcp_specialties": "Fachgebiete:",
-  "share_hcp_found_text": "I found it on {name}"
+  "share_hcp_found_text": "Ich habe ihn bei {name} gefunden"
 }

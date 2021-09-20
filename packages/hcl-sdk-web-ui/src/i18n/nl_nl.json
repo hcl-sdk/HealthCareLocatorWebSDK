@@ -16,7 +16,7 @@
   "search": "Zoeken",
   "since_format": "%@ geleden",
   "search_first_field_label": "Naam, specialisatie",
-  "search_medical_term_label": "Medical term (pathology...)",
+  "search_medical_term_label": "Medische term (pathologie...)",
   "search_second_field_label": "Waar? (adres, plaats...)",
   "search_reset": "Zoekopdracht resetten",
   "near_me": "Bij mij in de buurt",
@@ -37,7 +37,7 @@
   "main_information_label": "Belangrijkste informatie",
   "rate_refunds_label": "Tarief en vergoedingen",
   "specialities_label": "Specialisaties",
-  "medical_publication_subject_heading": "Medical Publication subject heading",
+  "medical_publication_subject_heading": "Onderwerpkop medische publicatie",
   "information_label": "Informatie",
   "information_description": "Klopt de informatie die u heeft gekregen over deze zorgverlener?",
   "information_yes_label": "Ja",
@@ -46,9 +46,9 @@
   "improve_quality_text": "Geef ons meer informatie over deze zorgverlener.",
   "suggess_modification_button": "Stel een wijziging voor",
   "back_to_home": "Terug naar homepagina",
-  "share_hcp_label_copy": "Copy Text",
-  "share_hcp_title": "Share this HCP",
-  "share_hcp_description": "Here is a healthcare professional that I recommend:",
+  "share_hcp_label_copy": "Tekst kopiëren",
+  "share_hcp_title": "Deze zorgverlener delen",
+  "share_hcp_description": "Deze zorgverlener beveel ik aan:",
   "share_hcp_specialties": "Specialisaties:",
-  "share_hcp_found_text": "I found it on {name}"
+  "share_hcp_found_text": "Ik heb deze gevonden op {name}"
 }
