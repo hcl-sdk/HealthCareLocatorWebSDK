@@ -1,6 +1,23 @@
 import { loadGoogleMapApi } from '../../../../core/google-api-loader';
 import { IHclSdkMap } from './hck-sdk-map-interface';
 
+function generateEventDrag(map: google.maps.Map) {
+  return {
+    target: {
+      getCenter: () => map.getCenter().toJSON(),
+      getBounds: () => {
+        const bounds = map.getBounds();
+        return {
+          getNorth: () => bounds.getNorthEast().lat(),
+          getSouth: () => bounds.getSouthWest().lat(),
+          getWest: () => bounds.getSouthWest().lng(),
+          getEast: () => bounds.getNorthEast().lng(),
+        };
+      },
+    },
+  }
+}
+
 export class HclSdkMapGoogleMap implements IHclSdkMap {
   internalMapContainer: HTMLDivElement;
   map: google.maps.Map;
@@ -84,24 +101,17 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
       cb(e);
     });
   }
-
+  
   onDrag(cb) {
     this.map.addListener('drag', () => {
-      cb({
-        target: {
-          getCenter: () => this.map.getCenter().toJSON(),
-          getBounds: () => {
-            const bounds = this.map.getBounds();
-            return {
-              getNorth: () => bounds.getNorthEast().lat(),
-              getSouth: () => bounds.getSouthWest().lat(),
-              getWest: () => bounds.getSouthWest().lng(),
-              getEast: () => bounds.getNorthEast().lng(),
-            };
-          },
-        },
-      });
+      cb(generateEventDrag(this.map));
     });
+  }
+
+  onZoomend(cb) {
+    this.map.addListener('zoom_changed', () => {
+      cb(generateEventDrag(this.map), this.map.getZoom())
+    })
   }
 
   createIconURL = markerColor => {

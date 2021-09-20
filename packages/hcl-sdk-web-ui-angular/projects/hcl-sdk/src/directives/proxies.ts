@@ -759,13 +759,13 @@ export class HclSdkLoading {
 import { HclSdkMap as IHclSdkMap } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-map/hcl-sdk-map';
 export declare interface HclSdkMap extends Components.HclSdkMap {}
 @ProxyCmp({
-  inputs: ['breakpoint', 'defaultZoom', 'dragging', 'interactive', 'isForcedZoomToMe', 'isShowMeMarker', 'locations', 'mapHeight', 'mapMinHeight', 'mapWidth', 'markerIcon', 'modeView', 'noCurrentLocation', 'selectedLocationIdx', 'zoomControl']
+  inputs: ['breakpoint', 'defaultZoom', 'dragging', 'interactive', 'isForcedZoomToMe', 'isShowMeMarker', 'isZoomChanged', 'locations', 'mapHeight', 'mapMinHeight', 'mapWidth', 'markerIcon', 'modeView', 'noCurrentLocation', 'selectedLocationIdx', 'zoomControl']
 })
 @Component({
   selector: 'hcl-sdk-map',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['breakpoint', 'defaultZoom', 'dragging', 'interactive', 'isForcedZoomToMe', 'isShowMeMarker', 'locations', 'mapHeight', 'mapMinHeight', 'mapWidth', 'markerIcon', 'modeView', 'noCurrentLocation', 'selectedLocationIdx', 'zoomControl'],
+  inputs: ['breakpoint', 'defaultZoom', 'dragging', 'interactive', 'isForcedZoomToMe', 'isShowMeMarker', 'isZoomChanged', 'locations', 'mapHeight', 'mapMinHeight', 'mapWidth', 'markerIcon', 'modeView', 'noCurrentLocation', 'selectedLocationIdx', 'zoomControl'],
   outputs: ['onMarkerClick', 'moveCurrentLocation', 'mapClicked', 'onMapDrag']
 })
 export class HclSdkMap {

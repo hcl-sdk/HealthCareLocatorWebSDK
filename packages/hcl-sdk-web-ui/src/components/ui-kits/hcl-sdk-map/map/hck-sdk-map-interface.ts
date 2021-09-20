@@ -27,6 +27,7 @@ export interface IHclSdkMap {
 
   onClick(cb: (event: any) => void): void;
   onDrag(cb: (event: OnDragCallbackArg) => void): void;
+  onZoomend(cb: (event: any, currentZoomlevel: number) => void): void;
 
   initMap(
     mapElm: any,

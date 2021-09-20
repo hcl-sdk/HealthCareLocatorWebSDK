@@ -15,6 +15,7 @@
 | `interactive`         | `interactive`           |             | `boolean`                               | `true`      |
 | `isForcedZoomToMe`    | `is-forced-zoom-to-me`  |             | `boolean`                               | `false`     |
 | `isShowMeMarker`      | `is-show-me-marker`     |             | `boolean`                               | `false`     |
+| `isZoomChanged`       | `is-zoom-changed`       |             | `boolean`                               | `false`     |
 | `locations`           | --                      |             | `any[]`                                 | `[]`        |
 | `mapHeight`           | `map-height`            |             | `string`                                | `'100%'`    |
 | `mapMinHeight`        | `map-min-height`        |             | `string`                                | `'0px'`     |

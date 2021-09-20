@@ -70,6 +70,12 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
     this.map.on('drag', cb);
   }
 
+  onZoomend(cb: (event: any, currentZoomlevel: number) => void) {
+    this.map.on('zoomend', evt => {
+      cb(evt, this.map.getZoom())
+    })
+  }
+
   createIconURL = markerColor => {
     const makerIconString = `
     <svg id="hcl-sdk-marker" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
