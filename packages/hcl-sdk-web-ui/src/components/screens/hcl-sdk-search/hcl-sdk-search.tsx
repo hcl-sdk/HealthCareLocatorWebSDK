@@ -65,8 +65,8 @@ export class HclSdkSearch {
     const { name, address, medicalTerm } = searchFields
     if (
       (address && locationFilter) ||
-      (name && specialtyFilter?.length) ||
-      (medicalTerm && medicalTermsFilter)
+      (name || specialtyFilter?.length) || // Can search with name in case criteria. Don't need to select any item in list
+      (medicalTerm || medicalTermsFilter) // Can search with name in case criteria. Don't need to select any item in list
     ) {
       return true
     }
@@ -102,7 +102,7 @@ export class HclSdkSearch {
   private search = async (
     _: HTMLHclSdkInputElement, 
     addressRef: HTMLHclSdkInputElement, 
-    medicalTermRef: HTMLHclSdkInputElement
+    __: HTMLHclSdkInputElement
   ) => {
     const isBasicNearMe = this.checkIsBasicNearMe();
 
@@ -118,7 +118,6 @@ export class HclSdkSearch {
         });
       }
       this.checkValidElm(addressRef);
-      this.checkValidElm(medicalTermRef);
     }
 
     if (!this.isTouched) {
@@ -157,7 +156,7 @@ export class HclSdkSearch {
     if (!elm) {
       return;
     }
-    if (!this.isTouched && elm.name === 'address' && !configStore.state.enableMedicalTerm) {
+    if (!this.isTouched && elm.name === 'address') {
       this.fieldsValid = {
         ...this.fieldsValid,
         address: false
@@ -172,9 +171,6 @@ export class HclSdkSearch {
     switch (elm.name) {
       case 'address':
         isValid = !elm.value || Boolean(elm.value && searchMapStore.state.locationFilter);
-        break;
-      case 'medicalTerm':
-        isValid = (this.fieldsValid.name && searchMapStore.state.specialtyFilter?.length) ? true : Boolean(elm.value)
         break;
     }
 
@@ -219,8 +215,16 @@ export class HclSdkSearch {
       if (findItem) {
         this.selectAddress(findItem);
       }
-    } else { // Both address and medicalTerm
+    } else if (this.currentSelectedInput === 'address') {
       this.selectAddress(items[0].item);
+    } else if (this.currentSelectedInput === 'medicalTerm') {
+      const searchTerms = searchMapStore.state.searchMedicalTerms
+      const currentSearch = searchMapStore.state.searchFields.medicalTerm
+      const findItem = searchTerms.find(term => term.name.toLowerCase() === currentSearch.toLowerCase())
+
+      if (findItem) {
+        this.selectAddress(findItem)
+      }
     }
 
     this.currentSelectedInput = null
