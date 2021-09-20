@@ -48,6 +48,10 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
 
     this.map = new google.maps.Map(mapElm, {
       ...options,
+      fullscreenControl: false,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.TOP_RIGHT,
+      },
       styles: [
         {
           featureType: 'landscape.man_made',
