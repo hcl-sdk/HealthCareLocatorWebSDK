@@ -9,9 +9,8 @@
 
 | Property         | Attribute          | Description | Type      | Default     |
 | ---------------- | ------------------ | ----------- | --------- | ----------- |
+| `isSearchResult` | `is-search-result` |             | `boolean` | `false`     |
 | `noIcon`         | `no-icon`          |             | `boolean` | `undefined` |
-| `searchText`     | `search-text`      |             | `string`  | `undefined` |
-| `showSwitchMode` | `show-switch-mode` |             | `boolean` | `false`     |
 
 
 ## Dependencies

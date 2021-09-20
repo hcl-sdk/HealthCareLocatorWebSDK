@@ -272,9 +272,8 @@ export namespace Components {
         "url": string;
     }
     interface HclSdkSearch {
+        "isSearchResult"?: boolean;
         "noIcon": boolean;
-        "searchText": string;
-        "showSwitchMode"?: boolean;
     }
     interface HclSdkSearchAddressItem {
         "currentSearchText"?: string;
@@ -954,9 +953,8 @@ declare namespace LocalJSX {
         "url"?: string;
     }
     interface HclSdkSearch {
+        "isSearchResult"?: boolean;
         "noIcon"?: boolean;
-        "searchText"?: string;
-        "showSwitchMode"?: boolean;
     }
     interface HclSdkSearchAddressItem {
         "currentSearchText"?: string;

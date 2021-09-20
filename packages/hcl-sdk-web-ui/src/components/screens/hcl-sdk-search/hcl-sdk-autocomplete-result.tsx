@@ -29,7 +29,7 @@ export class HclSdkAutocompleteResult {
     const items = this.ref.getElementsByTagName('hcl-sdk-search-address-item');
     if (this.type === 'name') {
       return [...items].findIndex(ref => !ref.item.address);
-    } else { // Both address and medicalTerm
+    } else { // Both specialtyName, address, medicalTerm
       return 0
     } 
   }

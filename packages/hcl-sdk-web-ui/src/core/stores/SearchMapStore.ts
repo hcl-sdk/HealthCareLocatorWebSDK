@@ -1,7 +1,7 @@
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import StoreProvider from "./StoreProvider";
 
-export type SearchInputName = 'name' | 'address' | 'medicalTerm'
+export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName'
 
 export interface SpecialtyItem {
   name: string;
@@ -20,6 +20,7 @@ export interface SearchFields {
   name: string;
   address: string;
   medicalTerm: string;
+  specialtyName: string;
 }
 export interface HCPName {
   id: string
@@ -59,6 +60,13 @@ export interface SearchTermItem {
   lisCode: string;
 }
 
+export interface SearchSpecialty {
+  id: string;
+  name: string;
+}
+
+type SearchDoctor = SelectedIndividual
+
 export interface SearchMapState {
   loading?: boolean;
   loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
@@ -70,7 +78,8 @@ export interface SearchMapState {
   doctors?: HCPName[];
   search?: SearchResult;
   searchGeo?: any[];
-  searchDoctor?: any[];
+  searchDoctor?: SearchDoctor[];
+  searchSpecialty?: SearchSpecialty[];
   searchMedicalTerms: SearchTermItem[];
   selectedValues?: SelectedValues;
   sortValues?: SortValue
@@ -79,7 +88,7 @@ export interface SearchMapState {
   individualDetailName?: string;
   searchFields: SearchFields;
   locationFilter: any;
-  specialtyFilter: SpecialtyItem[];
+  specialtyFilter: SearchSpecialty[];
   medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
@@ -102,7 +111,8 @@ export const initStateSearchMapStore: SearchMapState = {
   isAllowDisplayMapEmpty: false,
   search: {},
   searchGeo: [],
-  searchDoctor: [],
+  searchDoctor: [], // HCPs
+  searchSpecialty: [],
   searchMedicalTerms: [],
   selectedValues: {},
   selectedActivity: null,
@@ -112,7 +122,8 @@ export const initStateSearchMapStore: SearchMapState = {
     lastName: true
   },
   searchFields: {
-    name: '',
+    name: '', // First name or Last name of HCPs
+    specialtyName: '',
     address: '',
     medicalTerm: ''
   },
@@ -179,8 +190,58 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     }
   }
 
+  resetDataSearch({ 
+    isResetHCPDetail = false,
+    isResetSearchFields = false
+  } = {}) {
+    let resetHCPDetail = {}
+    let resetSearchFields = {}
+
+    if (isResetHCPDetail) {
+      resetHCPDetail = {
+        selectedActivity: null,
+        individualDetail: null,
+        specialties: [],
+      }
+    }
+
+    if (isResetSearchFields) {
+      resetSearchFields = {
+        searchFields: {
+          name: '',
+          address: '',
+          medicalTerm: '',
+          specialtyName: '',
+        },
+        specialtyFilter: [],
+        locationFilter: null,
+        medicalTermsFilter: null
+      }
+    }
+
+    this.setState({
+      searchDoctor: [],
+      searchGeo: [],
+      searchSpecialty: [],
+      searchMedicalTerms: [],
+      ...resetSearchFields,
+      ...resetHCPDetail
+    })
+  }
+
   get isGrantedGeoloc() {
     return this.state.geoLocation.status === 'granted';
+  }
+
+  get fakeSearchInputLabel() {
+    const searchFields = this.state.searchFields
+    const { name, specialtyName, address, medicalTerm  } = searchFields
+
+    const firstPart = [name, specialtyName, medicalTerm].filter(s => s).map(s => s.toLowerCase()).join(', ')
+    const greyPart = address ? `<span class="address">${address.toLowerCase()}</span>` : ''
+    return [
+      firstPart ? `<span>${firstPart}</span>` : ''
+      , greyPart].filter(s => s).join('')
   }
 }
 

@@ -877,13 +877,13 @@ export class HclSdkRouterLink {
 
 export declare interface HclSdkSearch extends Components.HclSdkSearch {}
 @ProxyCmp({
-  inputs: ['noIcon', 'searchText', 'showSwitchMode']
+  inputs: ['isSearchResult', 'noIcon']
 })
 @Component({
   selector: 'hcl-sdk-search',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['noIcon', 'searchText', 'showSwitchMode']
+  inputs: ['isSearchResult', 'noIcon']
 })
 export class HclSdkSearch {
   protected el: HTMLElement;

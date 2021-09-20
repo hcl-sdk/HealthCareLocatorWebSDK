@@ -4,7 +4,10 @@ import { GeoProviderGoogle } from './geo-provider-google';
 import { GeoProviderOpenstreet } from './geo-provider-openstreet';
 
 export async function searchGeoMap({ id }) {
-  searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] });
+  searchMapStore.setState({ 
+    loading: true, 
+    searchGeo: []
+  });
   const provider = getProvider(configStore.state.map.provider);
 
   const countriesWithGeo = [

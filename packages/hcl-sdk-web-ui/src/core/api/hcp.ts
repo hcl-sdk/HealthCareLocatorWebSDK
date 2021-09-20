@@ -1,13 +1,13 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from '../../../../hcl-sdk-core';
-import { SearchFields, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
+import { SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
 import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
 import { NEAR_ME, DISTANCE_METER } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { ActivityCriteria, ActivityCriteriaScope, QueryActivitiesArgs, QueryCodesByLabelArgs } from '../../../../hcl-sdk-core/src/graphql/types';
+import { ActivityCriteria, ActivityCriteriaScope, QueryActivitiesArgs, QueryCodesByLabelArgs, QueryIndividualsByNameArgs } from '../../../../hcl-sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -142,7 +142,6 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
     searchFields
   });
 
-
   return searchLocation(params);
 }
 
@@ -211,37 +210,17 @@ export async function searchLocation(variables, {
   }
 }
 
-export async function searchDoctor({ criteriaScope, criteria, ...variables }) {
-  if (criteria.length < 3) {
-    return null;
-  }
+export async function searchDoctor({ criteria, ...variables }: Partial<QueryIndividualsByNameArgs>) {
   searchMapStore.setState({ loading: true });
 
-  const [
-    { individualsByName: { individuals } },
-    { codesByLabel: { codes } }
-  ] = await Promise.all(
-    [
-      graphql.individualsByName({
-        locale: i18nStore.state.lang,
-        first: 10,
-        offset: 0,
-        criteria: criteria,
-        country: configStore.countryGraphqlQuery,
-        ...variables,
-      }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } })),
-      graphql.codesByLabel({
-        first: 10,
-        offset: 0,
-        codeTypes: ["SP"],
-        locale: i18nStore.state.lang,
-        country: configStore.countryGraphqlQuery,
-        criteria: criteria,
-        criteriaScope: criteriaScope,
-        ...variables,
-      }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
-    ]
-  )
+  const { individualsByName: { individuals } } = await graphql.individualsByName({
+    locale: i18nStore.state.lang,
+    first: 30,
+    offset: 0,
+    country: configStore.countryGraphqlQuery,
+    criteria: criteria,
+    ...variables,
+  }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } }))
 
   const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({
     name: getHcpFullname(item),
@@ -252,15 +231,32 @@ export async function searchDoctor({ criteriaScope, criteria, ...variables }) {
     activity: item.mainActivity
   })) : []
 
+  searchMapStore.setState({ loading: false, searchDoctor: individualsData });
+}
 
-  const codesData: SelectedIndividual[] = codes ? codes.map((item) => ({
+export async function handleSearchSpecialty({ criteria, ...variables }: Partial<QueryCodesByLabelArgs>) {
+  if (!criteria || criteria.length < 3) {
+    return null;
+  }
+
+  searchMapStore.setState({ loading: true });
+
+  const { codesByLabel: { codes } } = await graphql.codesByLabel({
+    first: 30,
+    offset: 0,
+    codeTypes: ["SP"],
+    locale: i18nStore.state.lang,
+    country: configStore.countryGraphqlQuery,
+    criteria: criteria,
+    ...variables,
+  }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
+
+  const codesData: SearchSpecialty[] = codes ? codes.map((item) => ({
     name: `${item.longLbl}`,
     id: item.id
   })) : []
 
-  const data = [...codesData, ...individualsData]
-
-  searchMapStore.setState({ loading: false, searchDoctor: data });
+  searchMapStore.setState({ loading: false, searchSpecialty: codesData });  
 }
 
 export async function handleSearchMedicalTerms({ criteria, ...variables }: Partial<QueryCodesByLabelArgs>) {
