@@ -620,7 +620,7 @@ export class HclSdkSearch {
                       onInput={this.handleFieldInput}
                       autoComplete="off"
                       loading={addressInputLoading}
-                      onPostfixClick={() => this.resetValue('address', true)}
+                      onPostfixClick={() => this.resetValue('address', false)}
                       onFocus={this.onFocusInputSearch}
                       onEnterKeyDown={this.onInputSearchEnter}
                       onArrowKeyDown={this.onInputSearchArrowDown}
