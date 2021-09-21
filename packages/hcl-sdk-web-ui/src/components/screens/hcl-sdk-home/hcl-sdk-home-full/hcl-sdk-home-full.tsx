@@ -51,6 +51,10 @@ export class HclSdkHomeFull {
 
   handleHistoryHcpItemClick = (hcpItem: HistoryHcpItem) => {
     searchMapStore.setState({
+      searchFields: {
+        ...searchMapStore.state.searchFields,
+        name: getHcpFullname(hcpItem.activity.individual)
+      },
       selectedActivity: {
         ...hcpItem.activity,
         name: getHcpFullname(hcpItem.activity.individual),
