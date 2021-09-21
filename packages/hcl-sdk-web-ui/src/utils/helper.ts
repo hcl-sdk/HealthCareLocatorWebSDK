@@ -100,8 +100,10 @@ export function getMergeMainAndOtherActivities(mainActivity: ActivityList, other
   return results
 }
 
-export function getPrimaryAddressIndividuual({ addressName, addressBuildingName, address }) {
-  return [addressName, addressBuildingName, address].filter(s => s);
+export function getPrimaryAddressIndividual({ addressName, addressBuildingName, address, postalCode, city }) {
+  const cityWithCode = postalCode && city ? `, ${postalCode} ${city}` : ''
+  const addressWithCode = address + cityWithCode
+  return [addressName, addressBuildingName, addressWithCode].filter(s => s);
 }
 
 export function getTextBodyToShare(individualDetail, {
@@ -117,7 +119,7 @@ export function getTextBodyToShare(individualDetail, {
     isBoldFirstLine ? `<b>${t('share_hcp_description')}</b>` : t('share_hcp_description'),
     `${name}${professionalType && (newLine + professionalType)}`,
     specialtiesText ? `${t('share_hcp_specialties')} ${specialtiesText}` : '',
-    `${getPrimaryAddressIndividuual(individualDetail).join(newLine)}`,
+    `${getPrimaryAddressIndividual(individualDetail).join(newLine)}`,
     phone
   ].filter(txt => txt)
 

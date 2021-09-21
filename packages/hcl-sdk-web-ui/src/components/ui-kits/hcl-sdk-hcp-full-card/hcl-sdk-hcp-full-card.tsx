@@ -2,7 +2,7 @@ import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil
 import cls from 'classnames';
 import { uiStore, searchMapStore, configStore, i18nStore } from '../../../core/stores';
 import { getFullCardDetail } from '../../../core/api/hcp';
-import { getCssColor, getTextBodyToShare } from '../../../utils/helper';
+import { getCssColor, getPrimaryAddressIndividual, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
@@ -287,9 +287,10 @@ export class HclSdkHCPFullCard {
                         <div class="info-contact-item">
                           <hcl-sdk-icon name="location" color={getCssColor('--hcl-color-marker_selected')} />
                           <div>
-                            <span>{individualDetail.addressName}</span>
-                            <span>{individualDetail.addressBuildingName}</span>
-                            <span>{individualDetail.address}{individualDetail.postalCode && individualDetail.city ? `, ${individualDetail.postalCode} ${individualDetail.city}` : ''}</span>
+                            {
+                              getPrimaryAddressIndividual(individualDetail)
+                                .map(str => (<span>{str}</span>))
+                            }
                           </div>
                         </div>
                       </div>
