@@ -1,3 +1,4 @@
+import { Activity } from '../../../../hcl-sdk-core/src/graphql/types';
 import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
 import { HISTORY_MAX_TOTAL_ITEMS } from '../constants';
 import { SearchFields, SearchTermItem, SpecialtyItem } from './SearchMapStore';
@@ -18,7 +19,7 @@ export interface HistorySearchItem {
 export interface HistoryHcpItem {
   activityId: string;
   type: 'hcp';
-  activity: any;
+  activity: Activity;
   timestamp: number;
 }
 
