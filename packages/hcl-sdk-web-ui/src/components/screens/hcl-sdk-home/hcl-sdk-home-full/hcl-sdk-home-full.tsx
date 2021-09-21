@@ -7,6 +7,7 @@ import { ModeViewType } from '../../../../core/stores/ConfigStore';
 import { searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
+import { SearchFields } from '../../../../core/stores/SearchMapStore';
 
 @Component({
   tag: 'hcl-sdk-home-full',
@@ -99,11 +100,19 @@ export class HclSdkHomeFull {
     return null;
   }
 
+  renderSearchCriterias(searchFields: SearchFields) {
+    return [
+      searchFields.name,
+      searchFields.specialtyName,
+      searchFields.medicalTerm
+    ].filter(s => s).join(', ')
+  }
+
   renderSearchHistory() {
     return historyStore.state.searchItems.filter(this.filterHistoryItems(this.showMoreSearchItems)).map(searchItem => (
       <div class="history-item" onClick={() => this.handleHistorySearchItemClick(searchItem)}>
         <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('search', searchItem.id)} />
-        <p class="history-item__criteria">{searchItem.searchFields.specialtyName || searchItem.searchFields.medicalTerm}</p>
+        <p class="history-item__criteria">{this.renderSearchCriterias(searchItem.searchFields)}</p>
         <p class="history-item__address">{searchItem.locationFilter?.longLabel || searchItem.searchFields.address}</p>
         <p class="history-item__time-from">{formatDistance(searchItem.timestamp, i18nStore.state.lang)}</p>
       </div>
