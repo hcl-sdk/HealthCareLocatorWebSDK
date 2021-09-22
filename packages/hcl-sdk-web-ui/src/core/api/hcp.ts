@@ -115,7 +115,7 @@ export async function genSearchLocationParams({
   }
 
   const criterias: ActivityCriteria[] = []
-  const isFreeTextName = !specialtyFilter.length && searchFields.name
+  const isFreeTextName = searchFields.name
   const isFreeTextTerm = configStore.state.enableMedicalTerm && !medicalTermsFilter && searchFields.medicalTerm
 
   if (isFreeTextName) {

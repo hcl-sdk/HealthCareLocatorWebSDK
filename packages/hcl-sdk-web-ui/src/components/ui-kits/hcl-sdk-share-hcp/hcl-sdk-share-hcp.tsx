@@ -72,7 +72,6 @@ export class HclSdkShareHCP {
     const linkGenerated = {
       facebook: this.shareLink('fb', appURL, textTwitterOrFB),
       twitter: this.shareLink('tw', appURL, textTwitterOrFB),
-      linkedin: this.shareLink('li', appURL),
       email: this.shareLink('em', appURL, subject, mailBody)
     }
 
@@ -114,16 +113,6 @@ export class HclSdkShareHCP {
               <span class="share-hcp__text">Email</span>
             </a>
           </div>
-          {
-            appURL && (
-              <div class="share-hcp__col share-hcp__linkedin">
-                <a href={linkGenerated.linkedin} target="_blank" class="share-hcp__link">
-                  <hcl-sdk-icon name="linkedin" width={14} height={14} color="#fff" />
-                  <span class="share-hcp__text">LinkedIn</span>
-                </a>
-              </div>
-            )
-          }
         </div>
       </Host>
     );

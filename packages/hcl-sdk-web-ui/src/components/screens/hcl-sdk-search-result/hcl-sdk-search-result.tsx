@@ -29,23 +29,30 @@ export class HclSdkSearchResult {
   disconnectedCallback() {
     searchMapStore.resetDataSearch({ 
       isResetHCPDetail: true,
-      isResetSearchFields: true,
+      isResetSearchFields: false,
     })
     configStore.setState({
       modeView: ModeViewType.LIST
     })
   }
   componentWillLoad() {
-    const { selectedActivity, locationFilter, specialtyFilter } = searchMapStore.state
-    const { name } = searchMapStore.state.searchFields
-    if (!selectedActivity && locationFilter) {
+    const { navigatedFromHome, selectedActivity } = searchMapStore.state
+
+    if (!navigatedFromHome && !selectedActivity) {
+      /**
+       * No need to fetch activities for two cases:
+       *   - Go to search near me from Home Full (Data had already by Map)
+       *   - Go to HCP Full Card
+       */
       searchLocationWithParams()
     }
-    if (!specialtyFilter?.length && !name && locationFilter && locationFilter.id === NEAR_ME) {
+
+    if (searchMapStore.isSearchNearMe) {
       configStore.setState({
         modeView: ModeViewType.MAP
       })
     }
+
     this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
     this.handleObserveSortValuesChange(searchMapStore.state.sortValues)
     searchMapStore.storeInstance.onChange('sortValues', this.handleObserveSortValuesChange)
@@ -69,16 +76,21 @@ export class HclSdkSearchResult {
   }
 
   onItemCardClick = async item => {
+    /**
+     * There are two ways to go HCP Full Card screen
+     *  - Home Full -> Click on Map (Near Me Search) -> List Result -> Click on Item Card -> HCP Full Card
+     *  - Home Full -> Click on Last HCP History Search Item -> HCP Full Card
+     */
     searchMapStore.setState({
       selectedActivity: item,
-      individualDetail: null
+      individualDetail: null,
+      navigatedFromHome: false
     });
   };
 
   @Listen('backFromHcpFullCard')
   backFromHcpFullCardHandler() {
     const { navigatedFromHome } = searchMapStore.state;
-
     if (navigatedFromHome) {
       searchMapStore.setState({
         navigatedFromHome: false
@@ -354,7 +366,7 @@ export class HclSdkSearchResult {
                     </div>
                   ) : (
                     <Fragment>
-                      <strong class="search-result-title">{searchMapStore.state.searchFields.specialtyName || searchMapStore.state.searchFields.medicalTerm}</strong>
+                      <strong class="search-result-title">{searchMapStore.getSearchLabel(true)}</strong>
                       <div class="search-result-address">{selectedAddressName || t('anywhere')}</div>
                     </Fragment>
                   )}
@@ -376,8 +388,8 @@ export class HclSdkSearchResult {
                 'body-block--disabled': this.isLoadingRelaunch
               })}>
                 <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
-                  {selectedActivity ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
-                  {!selectedActivity && (
+                  {isShowHCPDetail ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
+                  {!isShowHCPDetail && (
                     <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                       {!loadingActivities && specialties.map(elm => (
                         <hcl-sdk-doctor-card
