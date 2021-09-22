@@ -7,9 +7,10 @@ interface IndividualsByIDResult {
 }
 
 const QUERY_INDIVIDUAL_BY_ID = gql`
-  query individualByID($id: ID!) {
+  query individualByID($id: ID!, $locale: String) {
     individualByID(
       id: $id
+      locale: $locale
     ) {
       id
       firstName

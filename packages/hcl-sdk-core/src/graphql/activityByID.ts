@@ -7,9 +7,10 @@ interface ActivityByIdResult {
 }
 
 const QUERY_ACTIVITY_BY_ID = gql`
-  query activityById($id: ID!) {
+  query activityById($id: ID!, $locale: String) {
     activityByID(
       id: $id
+      locale: $locale
     ) {
       id
       phone
