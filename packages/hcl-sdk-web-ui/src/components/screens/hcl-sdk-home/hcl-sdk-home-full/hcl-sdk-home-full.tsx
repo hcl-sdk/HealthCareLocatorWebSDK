@@ -1,9 +1,8 @@
 import { Component, h, Host, State, Listen } from '@stencil/core';
-import { configStore, historyStore, routerStore, searchMapStore, i18nStore } from '../../../../core/stores';
+import { historyStore, routerStore, searchMapStore, i18nStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
-import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME } from '../../../../core/constants';
+import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME_ITEM } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
-import { ModeViewType } from '../../../../core/stores/ConfigStore';
 import { searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
@@ -27,7 +26,7 @@ export class HclSdkHomeFull {
   @Listen('mapClicked')
   onMapClicked() {
     searchMapStore.setState({
-      locationFilter: null,
+      locationFilter: NEAR_ME_ITEM,
       specialtyFilter: [],
       medicalTermsFilter: null,
       searchFields: {
@@ -35,11 +34,9 @@ export class HclSdkHomeFull {
         medicalTerm: '',
         specialtyName: '',
         address: t('near_me')
-      }
+      },
+      navigatedFromHome: true
     });
-    configStore.setState({
-      modeView: ModeViewType.MAP
-    })
     routerStore.push('/search-result');
   }
 
@@ -51,6 +48,10 @@ export class HclSdkHomeFull {
   };
 
   handleHistoryHcpItemClick = (hcpItem: HistoryHcpItem) => {
+    searchMapStore.resetDataSearch({
+      isResetHCPDetail: true,
+      isResetSearchFields: true,
+    })
     searchMapStore.setState({
       searchFields: {
         ...searchMapStore.state.searchFields,
@@ -69,19 +70,17 @@ export class HclSdkHomeFull {
 
   handleHistorySearchItemClick = (searchItem: HistorySearchItem) => {
     const { locationFilter, specialtyFilter, searchFields, medicalTermsFilter } = searchItem;
+
     searchMapStore.setState({
       locationFilter,
       specialtyFilter,
       medicalTermsFilter,
       searchFields,
+      loadingActivitiesStatus: 'loading',
+      specialties: [],
+      specialtiesRaw: []
     });
 
-    if (locationFilter && locationFilter.id === NEAR_ME) {
-      configStore.setState({
-        modeView: ModeViewType.MAP
-      });
-    }
-    searchLocationWithParams()
     routerStore.push('/search-result');
   };
 

@@ -94,9 +94,10 @@ export class HclSdkSearch {
     }
 
     if (
-      this.fields.name?.contains(evt.target) || 
+      this.fields.name?.contains(evt.target) ||
       this.fields.address?.contains(evt.target) || 
-      this.fields.medicalTerm?.contains(evt.target)
+      this.fields.medicalTerm?.contains(evt.target) ||
+      this.fields.specialtyName?.contains(evt.target)
     ) {  
       return;
     }
@@ -130,9 +131,7 @@ export class HclSdkSearch {
     addressRef: HTMLHclSdkInputElement, 
     ___: HTMLHclSdkInputElement
   ) => {
-    const isBasicNearMe = this.checkIsBasicNearMe();
-
-    if (isBasicNearMe) {
+    if (searchMapStore.isSearchNearMe) {
       this.resetErrorElmUI('all');
       configStore.setState({
         modeView: ModeViewType.MAP
@@ -260,17 +259,6 @@ export class HclSdkSearch {
     this.currentSelectedInput = null
   }
 
-  checkIsBasicNearMe() {
-    if (
-      !searchMapStore.state.specialtyFilter?.length &&
-      searchMapStore.state.locationFilter &&
-      searchMapStore.state.locationFilter.id === NEAR_ME
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   onChange = debounce(async (name: SearchInputName, value: string) => {
     const inputName = name;
     const inputValue = value;
@@ -334,6 +322,10 @@ export class HclSdkSearch {
       });
     }
     if (this.currentSelectedInput === 'name' && item.professionalType) {
+      searchMapStore.resetDataSearch({
+        isResetHCPDetail: true,
+        isResetSearchFields: true,
+      })
       searchMapStore.setState({
         searchFields: {
           ...searchMapStore.state.searchFields,
@@ -642,7 +634,7 @@ export class HclSdkSearch {
 
               {isShowFakeInput && (
                 <div class="hclsdk-search__modify">
-                  <div class="hclsdk-search__modify__input" innerHTML={searchMapStore.fakeSearchInputLabel} />
+                  <div class="hclsdk-search__modify__input" innerHTML={searchMapStore.getSearchLabel()} />
                   <div class="hclsdk-search__modify__action" onClick={this.toggleShowModify}>
                     <hcl-sdk-icon tabIndex={-1} name="edit" width={20} height={20} />
                     <span>Modify</span>

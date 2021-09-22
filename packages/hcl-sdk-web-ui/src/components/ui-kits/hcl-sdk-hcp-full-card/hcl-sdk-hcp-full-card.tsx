@@ -205,7 +205,10 @@ export class HclSdkHCPFullCard {
                 icon="arrow"
                 iconColor={getCssColor('--hcl-color-dark')}
                 onClick={this.backFromHcpFullCard.emit}>
-                <span class="hidden-mobile">{t('back_to_search_results')}</span>
+                <span class="hidden-mobile">{
+                  searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
+                }
+                </span>
               </hcl-sdk-button>
             </div>
             <hcl-sdk-button

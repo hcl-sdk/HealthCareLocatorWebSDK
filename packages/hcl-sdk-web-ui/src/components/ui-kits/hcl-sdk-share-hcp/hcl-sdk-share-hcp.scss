@@ -2,6 +2,7 @@
   .share-hcp__row {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     margin-left: -8px;
     margin-right: -8px;
   }
@@ -86,11 +87,6 @@
     }
   }
   
-  .share-hcp__linkedin {
-    a {
-      background-color: #0a66c2;
-    }
-  }
   .share-hcp__gmail {
     a {
       background-color: #f67362;

@@ -1,4 +1,5 @@
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
+import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
 
 export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName'
@@ -202,6 +203,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
         selectedActivity: null,
         individualDetail: null,
         specialties: [],
+        specialtiesRaw: []
       }
     }
 
@@ -233,12 +235,31 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     return this.state.geoLocation.status === 'granted';
   }
 
-  get fakeSearchInputLabel() {
+  get isSearchNearMe() {
+    const { locationFilter, searchFields } = this.state
+    const { name, specialtyName, medicalTerm, address  } = searchFields
+
+    if (
+      !name && !specialtyName && !medicalTerm && address &&
+      locationFilter && locationFilter.id === NEAR_ME 
+    ) {
+      return true
+    }
+
+    return false
+  }
+
+  getSearchLabel(isRemovedAddr = false) {
     const searchFields = this.state.searchFields
     const { name, specialtyName, address, medicalTerm  } = searchFields
 
-    const firstPart = [name, specialtyName, medicalTerm].filter(s => s).map(s => s.toLowerCase()).join(', ')
+    const firstPart = [name, specialtyName, medicalTerm].filter(s => s).join(', ')
     const greyPart = address ? `<span class="address">${address.toLowerCase()}</span>` : ''
+
+    if (isRemovedAddr) {
+      return firstPart
+    }
+
     return [
       firstPart ? `<span>${firstPart}</span>` : ''
       , greyPart].filter(s => s).join('')
