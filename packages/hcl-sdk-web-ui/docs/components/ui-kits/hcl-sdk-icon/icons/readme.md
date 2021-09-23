@@ -1,4 +1,4 @@
-# hcl-sdk-icon-twitter
+# hcl-sdk-icon-website
 
 
 
@@ -9,9 +9,9 @@
 
 | Property | Attribute | Description | Type     | Default     |
 | -------- | --------- | ----------- | -------- | ----------- |
-| `color`  | `color`   |             | `string` | `'#03A9F4'` |
-| `height` | `height`  |             | `number` | `24`        |
-| `width`  | `width`   |             | `number` | `24`        |
+| `color`  | `color`   |             | `string` | `undefined` |
+| `height` | `height`  |             | `number` | `20`        |
+| `width`  | `width`   |             | `number` | `20`        |
 
 
 ----------------------------------------------

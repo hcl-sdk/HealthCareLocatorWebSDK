@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'hcl-sdk-icon-personal',
+  tag: 'hcl-sdk-icon-profile',
   shadow: false,
 })
 export class HclSdkIconPersonal {

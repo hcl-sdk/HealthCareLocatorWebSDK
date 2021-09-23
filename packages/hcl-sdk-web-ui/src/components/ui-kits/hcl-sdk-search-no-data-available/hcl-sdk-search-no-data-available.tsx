@@ -19,7 +19,7 @@ export class HclSdkSearchNoDataAvailable {
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize} hclsdk-search-no-data-available`}>
         <button class="hclsdk-search-no-data-available__back" onClick={this.goBack} >
-          <hcl-sdk-icon name="arrow" width={24} height={24} />
+          <hcl-sdk-icon name="back" width={24} height={24} />
         </button>
         <h3 class="hclsdk-search-no-data-available__title">No Data available</h3>
         <div class="hclsdk-search-no-data-available__icon">

@@ -31,7 +31,7 @@ export class HclSdkDoctorCard {
             <span class="text address">{this.address}</span>
             { this.showDistance && <span class="text distance">{this.distance}</span> }
           </div>
-          <hcl-sdk-icon name="chevron-arrow" color={getCssColor("--hcl-color-secondary")}/>
+          <hcl-sdk-icon name="arrow_right" color={getCssColor("--hcl-color-secondary")}/>
         </div>
       </Host>
     );

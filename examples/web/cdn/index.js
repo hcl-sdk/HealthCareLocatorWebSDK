@@ -13,7 +13,6 @@ const mapSpecialtyByKey = {
       specialtyCode: ['SP.WBE.72', 'SP.WBE.75', 'SP.WIT.75', 'SP.WDE.75'],
       specialtyLabel: 'Dentistry'
     }
-    
   },
   cardiology: {
     fr_FR: {
@@ -79,7 +78,7 @@ var matches = window.location.hash.match(/sp=([a-zA-Z]+)/);
 if (matches) {
   var lang = config.lang || 'en'
   var key = matches[1]
-  
+
   if (mapSpecialtyByKey[key] && mapSpecialtyByKey[key][lang] && mapSpecialtyByKey[key][lang].specialtyCode) {
     config.entry = {
       screenName: 'searchNearMe',

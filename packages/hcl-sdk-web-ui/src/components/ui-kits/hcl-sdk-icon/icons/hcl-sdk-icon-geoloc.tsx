@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'hcl-sdk-icon-location',
+  tag: 'hcl-sdk-icon-geoloc',
   shadow: false,
 })
 export class HclSdkIconLocation {

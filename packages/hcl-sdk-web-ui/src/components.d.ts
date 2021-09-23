@@ -96,17 +96,22 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconEarth {
-        "color": string;
-        "height": number;
-        "width": number;
-    }
     interface HclSdkIconEdit {
         "color": string;
         "height": number;
         "width": number;
     }
     interface HclSdkIconFacebook {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconFax {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconGeoloc {
         "color": string;
         "height": number;
         "width": number;
@@ -136,17 +141,12 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconLocate {
-        "color": string;
-        "height": number;
-        "width": number;
-    }
-    interface HclSdkIconLocation {
-        "color": string;
-        "height": number;
-        "width": number;
-    }
     interface HclSdkIconMap {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconMap_geoloc {
         "color": string;
         "height": number;
         "width": number;
@@ -156,17 +156,12 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconPersonal {
-        "color": string;
-        "height": number;
-        "width": number;
-    }
     interface HclSdkIconPhone {
         "color": string;
         "height": number;
         "width": number;
     }
-    interface HclSdkIconPrinter {
+    interface HclSdkIconProfile {
         "color": string;
         "height": number;
         "width": number;
@@ -202,6 +197,11 @@ export namespace Components {
         "width": number;
     }
     interface HclSdkIconTwitter {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconWebsite {
         "color": string;
         "height": number;
         "width": number;
@@ -397,12 +397,6 @@ declare global {
         prototype: HTMLHclSdkIconDislikeElement;
         new (): HTMLHclSdkIconDislikeElement;
     };
-    interface HTMLHclSdkIconEarthElement extends Components.HclSdkIconEarth, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconEarthElement: {
-        prototype: HTMLHclSdkIconEarthElement;
-        new (): HTMLHclSdkIconEarthElement;
-    };
     interface HTMLHclSdkIconEditElement extends Components.HclSdkIconEdit, HTMLStencilElement {
     }
     var HTMLHclSdkIconEditElement: {
@@ -414,6 +408,18 @@ declare global {
     var HTMLHclSdkIconFacebookElement: {
         prototype: HTMLHclSdkIconFacebookElement;
         new (): HTMLHclSdkIconFacebookElement;
+    };
+    interface HTMLHclSdkIconFaxElement extends Components.HclSdkIconFax, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconFaxElement: {
+        prototype: HTMLHclSdkIconFaxElement;
+        new (): HTMLHclSdkIconFaxElement;
+    };
+    interface HTMLHclSdkIconGeolocElement extends Components.HclSdkIconGeoloc, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconGeolocElement: {
+        prototype: HTMLHclSdkIconGeolocElement;
+        new (): HTMLHclSdkIconGeolocElement;
     };
     interface HTMLHclSdkIconGmailElement extends Components.HclSdkIconGmail, HTMLStencilElement {
     }
@@ -445,23 +451,17 @@ declare global {
         prototype: HTMLHclSdkIconListElement;
         new (): HTMLHclSdkIconListElement;
     };
-    interface HTMLHclSdkIconLocateElement extends Components.HclSdkIconLocate, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconLocateElement: {
-        prototype: HTMLHclSdkIconLocateElement;
-        new (): HTMLHclSdkIconLocateElement;
-    };
-    interface HTMLHclSdkIconLocationElement extends Components.HclSdkIconLocation, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconLocationElement: {
-        prototype: HTMLHclSdkIconLocationElement;
-        new (): HTMLHclSdkIconLocationElement;
-    };
     interface HTMLHclSdkIconMapElement extends Components.HclSdkIconMap, HTMLStencilElement {
     }
     var HTMLHclSdkIconMapElement: {
         prototype: HTMLHclSdkIconMapElement;
         new (): HTMLHclSdkIconMapElement;
+    };
+    interface HTMLHclSdkIconMap_geolocElement extends Components.HclSdkIconMap_geoloc, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconMap_geolocElement: {
+        prototype: HTMLHclSdkIconMap_geolocElement;
+        new (): HTMLHclSdkIconMap_geolocElement;
     };
     interface HTMLHclSdkIconNoAccountsElement extends Components.HclSdkIconNoAccounts, HTMLStencilElement {
     }
@@ -469,23 +469,17 @@ declare global {
         prototype: HTMLHclSdkIconNoAccountsElement;
         new (): HTMLHclSdkIconNoAccountsElement;
     };
-    interface HTMLHclSdkIconPersonalElement extends Components.HclSdkIconPersonal, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconPersonalElement: {
-        prototype: HTMLHclSdkIconPersonalElement;
-        new (): HTMLHclSdkIconPersonalElement;
-    };
     interface HTMLHclSdkIconPhoneElement extends Components.HclSdkIconPhone, HTMLStencilElement {
     }
     var HTMLHclSdkIconPhoneElement: {
         prototype: HTMLHclSdkIconPhoneElement;
         new (): HTMLHclSdkIconPhoneElement;
     };
-    interface HTMLHclSdkIconPrinterElement extends Components.HclSdkIconPrinter, HTMLStencilElement {
+    interface HTMLHclSdkIconProfileElement extends Components.HclSdkIconProfile, HTMLStencilElement {
     }
-    var HTMLHclSdkIconPrinterElement: {
-        prototype: HTMLHclSdkIconPrinterElement;
-        new (): HTMLHclSdkIconPrinterElement;
+    var HTMLHclSdkIconProfileElement: {
+        prototype: HTMLHclSdkIconProfileElement;
+        new (): HTMLHclSdkIconProfileElement;
     };
     interface HTMLHclSdkIconRefreshElement extends Components.HclSdkIconRefresh, HTMLStencilElement {
     }
@@ -528,6 +522,12 @@ declare global {
     var HTMLHclSdkIconTwitterElement: {
         prototype: HTMLHclSdkIconTwitterElement;
         new (): HTMLHclSdkIconTwitterElement;
+    };
+    interface HTMLHclSdkIconWebsiteElement extends Components.HclSdkIconWebsite, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconWebsiteElement: {
+        prototype: HTMLHclSdkIconWebsiteElement;
+        new (): HTMLHclSdkIconWebsiteElement;
     };
     interface HTMLHclSdkInputElement extends Components.HclSdkInput, HTMLStencilElement {
     }
@@ -648,21 +648,20 @@ declare global {
         "hcl-sdk-icon-default-avatar": HTMLHclSdkIconDefaultAvatarElement;
         "hcl-sdk-icon-direction": HTMLHclSdkIconDirectionElement;
         "hcl-sdk-icon-dislike": HTMLHclSdkIconDislikeElement;
-        "hcl-sdk-icon-earth": HTMLHclSdkIconEarthElement;
         "hcl-sdk-icon-edit": HTMLHclSdkIconEditElement;
         "hcl-sdk-icon-facebook": HTMLHclSdkIconFacebookElement;
+        "hcl-sdk-icon-fax": HTMLHclSdkIconFaxElement;
+        "hcl-sdk-icon-geoloc": HTMLHclSdkIconGeolocElement;
         "hcl-sdk-icon-gmail": HTMLHclSdkIconGmailElement;
         "hcl-sdk-icon-history": HTMLHclSdkIconHistoryElement;
         "hcl-sdk-icon-like": HTMLHclSdkIconLikeElement;
         "hcl-sdk-icon-linkedin": HTMLHclSdkIconLinkedinElement;
         "hcl-sdk-icon-list": HTMLHclSdkIconListElement;
-        "hcl-sdk-icon-locate": HTMLHclSdkIconLocateElement;
-        "hcl-sdk-icon-location": HTMLHclSdkIconLocationElement;
         "hcl-sdk-icon-map": HTMLHclSdkIconMapElement;
+        "hcl-sdk-icon-map_geoloc": HTMLHclSdkIconMap_geolocElement;
         "hcl-sdk-icon-no-accounts": HTMLHclSdkIconNoAccountsElement;
-        "hcl-sdk-icon-personal": HTMLHclSdkIconPersonalElement;
         "hcl-sdk-icon-phone": HTMLHclSdkIconPhoneElement;
-        "hcl-sdk-icon-printer": HTMLHclSdkIconPrinterElement;
+        "hcl-sdk-icon-profile": HTMLHclSdkIconProfileElement;
         "hcl-sdk-icon-refresh": HTMLHclSdkIconRefreshElement;
         "hcl-sdk-icon-remove": HTMLHclSdkIconRemoveElement;
         "hcl-sdk-icon-search": HTMLHclSdkIconSearchElement;
@@ -670,6 +669,7 @@ declare global {
         "hcl-sdk-icon-share": HTMLHclSdkIconShareElement;
         "hcl-sdk-icon-sort": HTMLHclSdkIconSortElement;
         "hcl-sdk-icon-twitter": HTMLHclSdkIconTwitterElement;
+        "hcl-sdk-icon-website": HTMLHclSdkIconWebsiteElement;
         "hcl-sdk-input": HTMLHclSdkInputElement;
         "hcl-sdk-loading": HTMLHclSdkLoadingElement;
         "hcl-sdk-map": HTMLHclSdkMapElement;
@@ -774,17 +774,22 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconEarth {
-        "color"?: string;
-        "height"?: number;
-        "width"?: number;
-    }
     interface HclSdkIconEdit {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
     interface HclSdkIconFacebook {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconFax {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconGeoloc {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -814,17 +819,12 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconLocate {
-        "color"?: string;
-        "height"?: number;
-        "width"?: number;
-    }
-    interface HclSdkIconLocation {
-        "color"?: string;
-        "height"?: number;
-        "width"?: number;
-    }
     interface HclSdkIconMap {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconMap_geoloc {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -834,17 +834,12 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconPersonal {
-        "color"?: string;
-        "height"?: number;
-        "width"?: number;
-    }
     interface HclSdkIconPhone {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconPrinter {
+    interface HclSdkIconProfile {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -880,6 +875,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface HclSdkIconTwitter {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconWebsite {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -999,21 +999,20 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-default-avatar": HclSdkIconDefaultAvatar;
         "hcl-sdk-icon-direction": HclSdkIconDirection;
         "hcl-sdk-icon-dislike": HclSdkIconDislike;
-        "hcl-sdk-icon-earth": HclSdkIconEarth;
         "hcl-sdk-icon-edit": HclSdkIconEdit;
         "hcl-sdk-icon-facebook": HclSdkIconFacebook;
+        "hcl-sdk-icon-fax": HclSdkIconFax;
+        "hcl-sdk-icon-geoloc": HclSdkIconGeoloc;
         "hcl-sdk-icon-gmail": HclSdkIconGmail;
         "hcl-sdk-icon-history": HclSdkIconHistory;
         "hcl-sdk-icon-like": HclSdkIconLike;
         "hcl-sdk-icon-linkedin": HclSdkIconLinkedin;
         "hcl-sdk-icon-list": HclSdkIconList;
-        "hcl-sdk-icon-locate": HclSdkIconLocate;
-        "hcl-sdk-icon-location": HclSdkIconLocation;
         "hcl-sdk-icon-map": HclSdkIconMap;
+        "hcl-sdk-icon-map_geoloc": HclSdkIconMap_geoloc;
         "hcl-sdk-icon-no-accounts": HclSdkIconNoAccounts;
-        "hcl-sdk-icon-personal": HclSdkIconPersonal;
         "hcl-sdk-icon-phone": HclSdkIconPhone;
-        "hcl-sdk-icon-printer": HclSdkIconPrinter;
+        "hcl-sdk-icon-profile": HclSdkIconProfile;
         "hcl-sdk-icon-refresh": HclSdkIconRefresh;
         "hcl-sdk-icon-remove": HclSdkIconRemove;
         "hcl-sdk-icon-search": HclSdkIconSearch;
@@ -1021,6 +1020,7 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-share": HclSdkIconShare;
         "hcl-sdk-icon-sort": HclSdkIconSort;
         "hcl-sdk-icon-twitter": HclSdkIconTwitter;
+        "hcl-sdk-icon-website": HclSdkIconWebsite;
         "hcl-sdk-input": HclSdkInput;
         "hcl-sdk-loading": HclSdkLoading;
         "hcl-sdk-map": HclSdkMap;
@@ -1060,21 +1060,20 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-default-avatar": LocalJSX.HclSdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLHclSdkIconDefaultAvatarElement>;
             "hcl-sdk-icon-direction": LocalJSX.HclSdkIconDirection & JSXBase.HTMLAttributes<HTMLHclSdkIconDirectionElement>;
             "hcl-sdk-icon-dislike": LocalJSX.HclSdkIconDislike & JSXBase.HTMLAttributes<HTMLHclSdkIconDislikeElement>;
-            "hcl-sdk-icon-earth": LocalJSX.HclSdkIconEarth & JSXBase.HTMLAttributes<HTMLHclSdkIconEarthElement>;
             "hcl-sdk-icon-edit": LocalJSX.HclSdkIconEdit & JSXBase.HTMLAttributes<HTMLHclSdkIconEditElement>;
             "hcl-sdk-icon-facebook": LocalJSX.HclSdkIconFacebook & JSXBase.HTMLAttributes<HTMLHclSdkIconFacebookElement>;
+            "hcl-sdk-icon-fax": LocalJSX.HclSdkIconFax & JSXBase.HTMLAttributes<HTMLHclSdkIconFaxElement>;
+            "hcl-sdk-icon-geoloc": LocalJSX.HclSdkIconGeoloc & JSXBase.HTMLAttributes<HTMLHclSdkIconGeolocElement>;
             "hcl-sdk-icon-gmail": LocalJSX.HclSdkIconGmail & JSXBase.HTMLAttributes<HTMLHclSdkIconGmailElement>;
             "hcl-sdk-icon-history": LocalJSX.HclSdkIconHistory & JSXBase.HTMLAttributes<HTMLHclSdkIconHistoryElement>;
             "hcl-sdk-icon-like": LocalJSX.HclSdkIconLike & JSXBase.HTMLAttributes<HTMLHclSdkIconLikeElement>;
             "hcl-sdk-icon-linkedin": LocalJSX.HclSdkIconLinkedin & JSXBase.HTMLAttributes<HTMLHclSdkIconLinkedinElement>;
             "hcl-sdk-icon-list": LocalJSX.HclSdkIconList & JSXBase.HTMLAttributes<HTMLHclSdkIconListElement>;
-            "hcl-sdk-icon-locate": LocalJSX.HclSdkIconLocate & JSXBase.HTMLAttributes<HTMLHclSdkIconLocateElement>;
-            "hcl-sdk-icon-location": LocalJSX.HclSdkIconLocation & JSXBase.HTMLAttributes<HTMLHclSdkIconLocationElement>;
             "hcl-sdk-icon-map": LocalJSX.HclSdkIconMap & JSXBase.HTMLAttributes<HTMLHclSdkIconMapElement>;
+            "hcl-sdk-icon-map_geoloc": LocalJSX.HclSdkIconMap_geoloc & JSXBase.HTMLAttributes<HTMLHclSdkIconMap_geolocElement>;
             "hcl-sdk-icon-no-accounts": LocalJSX.HclSdkIconNoAccounts & JSXBase.HTMLAttributes<HTMLHclSdkIconNoAccountsElement>;
-            "hcl-sdk-icon-personal": LocalJSX.HclSdkIconPersonal & JSXBase.HTMLAttributes<HTMLHclSdkIconPersonalElement>;
             "hcl-sdk-icon-phone": LocalJSX.HclSdkIconPhone & JSXBase.HTMLAttributes<HTMLHclSdkIconPhoneElement>;
-            "hcl-sdk-icon-printer": LocalJSX.HclSdkIconPrinter & JSXBase.HTMLAttributes<HTMLHclSdkIconPrinterElement>;
+            "hcl-sdk-icon-profile": LocalJSX.HclSdkIconProfile & JSXBase.HTMLAttributes<HTMLHclSdkIconProfileElement>;
             "hcl-sdk-icon-refresh": LocalJSX.HclSdkIconRefresh & JSXBase.HTMLAttributes<HTMLHclSdkIconRefreshElement>;
             "hcl-sdk-icon-remove": LocalJSX.HclSdkIconRemove & JSXBase.HTMLAttributes<HTMLHclSdkIconRemoveElement>;
             "hcl-sdk-icon-search": LocalJSX.HclSdkIconSearch & JSXBase.HTMLAttributes<HTMLHclSdkIconSearchElement>;
@@ -1082,6 +1081,7 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-share": LocalJSX.HclSdkIconShare & JSXBase.HTMLAttributes<HTMLHclSdkIconShareElement>;
             "hcl-sdk-icon-sort": LocalJSX.HclSdkIconSort & JSXBase.HTMLAttributes<HTMLHclSdkIconSortElement>;
             "hcl-sdk-icon-twitter": LocalJSX.HclSdkIconTwitter & JSXBase.HTMLAttributes<HTMLHclSdkIconTwitterElement>;
+            "hcl-sdk-icon-website": LocalJSX.HclSdkIconWebsite & JSXBase.HTMLAttributes<HTMLHclSdkIconWebsiteElement>;
             "hcl-sdk-input": LocalJSX.HclSdkInput & JSXBase.HTMLAttributes<HTMLHclSdkInputElement>;
             "hcl-sdk-loading": LocalJSX.HclSdkLoading & JSXBase.HTMLAttributes<HTMLHclSdkLoadingElement>;
             "hcl-sdk-map": LocalJSX.HclSdkMap & JSXBase.HTMLAttributes<HTMLHclSdkMapElement>;

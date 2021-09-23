@@ -303,25 +303,6 @@ export class HclSdkIconDislike {
 }
 
 
-export declare interface HclSdkIconEarth extends Components.HclSdkIconEarth {}
-@ProxyCmp({
-  inputs: ['color', 'height', 'width']
-})
-@Component({
-  selector: 'hcl-sdk-icon-earth',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['color', 'height', 'width']
-})
-export class HclSdkIconEarth {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
 export declare interface HclSdkIconEdit extends Components.HclSdkIconEdit {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
@@ -352,6 +333,44 @@ export declare interface HclSdkIconFacebook extends Components.HclSdkIconFaceboo
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconFacebook {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconFax extends Components.HclSdkIconFax {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-fax',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconFax {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconGeoloc extends Components.HclSdkIconGeoloc {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-geoloc',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconGeoloc {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -455,44 +474,6 @@ export class HclSdkIconList {
 }
 
 
-export declare interface HclSdkIconLocate extends Components.HclSdkIconLocate {}
-@ProxyCmp({
-  inputs: ['color', 'height', 'width']
-})
-@Component({
-  selector: 'hcl-sdk-icon-locate',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['color', 'height', 'width']
-})
-export class HclSdkIconLocate {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
-export declare interface HclSdkIconLocation extends Components.HclSdkIconLocation {}
-@ProxyCmp({
-  inputs: ['color', 'height', 'width']
-})
-@Component({
-  selector: 'hcl-sdk-icon-location',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['color', 'height', 'width']
-})
-export class HclSdkIconLocation {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
 export declare interface HclSdkIconMap extends Components.HclSdkIconMap {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
@@ -504,6 +485,25 @@ export declare interface HclSdkIconMap extends Components.HclSdkIconMap {}
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconMap {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconMap_geoloc extends Components.HclSdkIconMap_geoloc {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-map_geoloc',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconMap_geoloc {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -531,25 +531,6 @@ export class HclSdkIconNoAccounts {
 }
 
 
-export declare interface HclSdkIconPersonal extends Components.HclSdkIconPersonal {}
-@ProxyCmp({
-  inputs: ['color', 'height', 'width']
-})
-@Component({
-  selector: 'hcl-sdk-icon-personal',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['color', 'height', 'width']
-})
-export class HclSdkIconPersonal {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
 export declare interface HclSdkIconPhone extends Components.HclSdkIconPhone {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
@@ -569,17 +550,17 @@ export class HclSdkIconPhone {
 }
 
 
-export declare interface HclSdkIconPrinter extends Components.HclSdkIconPrinter {}
+export declare interface HclSdkIconProfile extends Components.HclSdkIconProfile {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
 })
 @Component({
-  selector: 'hcl-sdk-icon-printer',
+  selector: 'hcl-sdk-icon-profile',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   inputs: ['color', 'height', 'width']
 })
-export class HclSdkIconPrinter {
+export class HclSdkIconProfile {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -713,6 +694,25 @@ export declare interface HclSdkIconTwitter extends Components.HclSdkIconTwitter 
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconTwitter {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconWebsite extends Components.HclSdkIconWebsite {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-website',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconWebsite {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

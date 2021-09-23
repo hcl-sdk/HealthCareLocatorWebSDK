@@ -95,10 +95,10 @@ export class HclSdkSearch {
 
     if (
       this.fields.name?.contains(evt.target) ||
-      this.fields.address?.contains(evt.target) || 
+      this.fields.address?.contains(evt.target) ||
       this.fields.medicalTerm?.contains(evt.target) ||
       this.fields.specialtyName?.contains(evt.target)
-    ) {  
+    ) {
       return;
     }
 
@@ -126,9 +126,9 @@ export class HclSdkSearch {
   }
 
   private search = async (
-    _: HTMLHclSdkInputElement, 
-    __: HTMLHclSdkInputElement, 
-    addressRef: HTMLHclSdkInputElement, 
+    _: HTMLHclSdkInputElement,
+    __: HTMLHclSdkInputElement,
+    addressRef: HTMLHclSdkInputElement,
     ___: HTMLHclSdkInputElement
   ) => {
     if (searchMapStore.isSearchNearMe) {
@@ -240,7 +240,7 @@ export class HclSdkSearch {
       const searchSpecialty = searchMapStore.state.searchSpecialty
       const currentSearch = searchMapStore.state.searchFields.specialtyName
       const findItem = searchSpecialty.find(spec => spec.name.toLowerCase() === currentSearch.toLowerCase())
-      
+
       if (findItem) {
         this.selectAddress(findItem);
       }
@@ -407,7 +407,7 @@ export class HclSdkSearch {
   };
 
   onBlurInputSearch = () => {
-    
+
   };
 
   onInputSearchArrowDown = () => {
@@ -487,9 +487,9 @@ export class HclSdkSearch {
     return null;
   };
 
-  insertDefaultAddressNearMe(addressResults: any[]) { 
+  insertDefaultAddressNearMe(addressResults: any[]) {
     const searchMapState = searchMapStore.state;
-    
+
     const nearMeFound = searchMapState.locationFilter?.id === NEAR_ME;
     if (
       !nearMeFound &&
@@ -517,9 +517,9 @@ export class HclSdkSearch {
     const addressInputLoading = this.currentSelectedInput === 'address' && searchMapStore.state.loading;
     const medicalTermInputLoading = this.currentSelectedInput === 'medicalTerm' && searchMapStore.state.loading;
 
-    
+
     const isShowFakeInput = this.isSearchResult && !this.isShowModifying
-    const classesForm = cls('hclsdk-search__form', { 
+    const classesForm = cls('hclsdk-search__form', {
       'hclsdk-search__form--hide': isShowFakeInput
     })
     const classesSdkSearch = cls('main-contain', {
@@ -532,7 +532,7 @@ export class HclSdkSearch {
           <div class="hclsdk-search">
             <div class="hclsdk-search__container">
               <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
-                <hcl-sdk-icon name="arrow" width={25} height={25} color="black" />
+                <hcl-sdk-icon name="back" width={25} height={25} color="black" />
               </hcl-sdk-router-link>
               <form ref={ref => this.formRef = ref} class={classesForm} onSubmit={this.onSearch}>
                 <div class="hclsdk-search__form--content">

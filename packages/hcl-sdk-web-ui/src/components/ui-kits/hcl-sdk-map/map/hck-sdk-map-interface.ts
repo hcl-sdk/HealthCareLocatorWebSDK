@@ -40,6 +40,8 @@ export interface IHclSdkMap {
       googleMapApiKey?: string;
       googleMapId?: string;
       zoomControl: boolean;
+      iconMarker?: string;
+      iconMarkerSelected?: string;
     },
   ): Promise<any>;
 

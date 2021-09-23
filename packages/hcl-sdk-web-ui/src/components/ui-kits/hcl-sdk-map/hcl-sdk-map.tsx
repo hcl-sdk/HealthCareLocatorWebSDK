@@ -66,6 +66,8 @@ export class HclSdkMap {
       googleMapId: configStore.state.map.googleMapId,
       zoomControl: this.zoomControl,
       dragging: this.dragging,
+      iconMarker: configStore.state.icons['map_marker'],
+      iconMarkerSelected: configStore.state.icons['map_marker_selected'],
     })
 
     this.map.onDrag(this.onMapDragHandler)
@@ -97,7 +99,7 @@ export class HclSdkMap {
     if (newValue.length === 1 && JSON.stringify(newValue) === JSON.stringify(oldValue)) {
       return
     }
-    
+
     /**
      * There are two cases to show relaunch
      *  1. Drag and drop Event
@@ -307,7 +309,7 @@ export class HclSdkMap {
       <Host>
         {!this.noCurrentLocation && searchMapStore.isGrantedGeoloc && (
           <div class="current-location" onClick={this.moveToCurrentLocation}>
-            <hcl-sdk-icon name="locate" />
+            <hcl-sdk-icon name="map_geoloc" />
           </div>
         )}
         <div

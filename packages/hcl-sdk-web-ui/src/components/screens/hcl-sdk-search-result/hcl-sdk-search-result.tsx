@@ -27,7 +27,7 @@ export class HclSdkSearchResult {
   @State() isLoadingRelaunch: boolean;
 
   disconnectedCallback() {
-    searchMapStore.resetDataSearch({ 
+    searchMapStore.resetDataSearch({
       isResetHCPDetail: true,
       isResetSearchFields: false,
     })
@@ -203,7 +203,7 @@ export class HclSdkSearchResult {
     } catch(err) {
       console.error(err);
     }
-    
+
     this.isLoadingRelaunch = false;
     this.isShowRelaunchBtn = false;
     this.newDragLocation = null;
@@ -247,7 +247,7 @@ export class HclSdkSearchResult {
     return (
       <div class={className}>
         <div class="search-back-large hidden-mobile">
-          <hcl-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--hcl-color-dark')} onClick={() => this.goBackToHome()}>
+          <hcl-sdk-button noBorder noBackground icon="back" iconColor={getCssColor('--hcl-color-dark')} onClick={() => this.goBackToHome()}>
             <span class="text-small">{t('back_to_home')}</span>
           </hcl-sdk-button>
         </div>
@@ -319,8 +319,8 @@ export class HclSdkSearchResult {
 
     const injectedMapProps = {
       mapHeight: '100%',
-      class: mapClass, 
-      modeView: modeView, 
+      class: mapClass,
+      modeView: modeView,
       selectedLocationIdx: 0,
       defaultZoom: 15,
       zoomControl: true
@@ -336,7 +336,7 @@ export class HclSdkSearchResult {
     }
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
     const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && specialties && specialties.length !== 0);
-    
+
     const locationsMapSingle = this.getLocationsMapSingle();
     const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
 
@@ -354,7 +354,7 @@ export class HclSdkSearchResult {
                   iconHeight={27}
                   noBorder
                   noBackground
-                  icon="arrow"
+                  icon="back"
                   iconColor={getCssColor('--hcl-color-dark')}
                   onClick={() => this.goBackToHome()}
                 ></hcl-sdk-button>
@@ -393,7 +393,7 @@ export class HclSdkSearchResult {
                     <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                       {!loadingActivities && specialties.map(elm => (
                         <hcl-sdk-doctor-card
-                          selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng} 
+                          selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng}
                           {...elm}
                           key={elm.id}
                           onClick={() => this.onItemCardClick(elm)}
@@ -417,12 +417,12 @@ export class HclSdkSearchResult {
                     <div class={cls('hclsdk-btn-relaunch', {
                       'hclsdk-btn-relaunch--loading': this.isLoadingRelaunch
                     })}>
-                      <hcl-sdk-button 
-                        icon="refresh" 
-                        noBorder 
-                        secondary 
-                        iconWidth={12} 
-                        iconHeight={12} 
+                      <hcl-sdk-button
+                        icon="refresh"
+                        noBorder
+                        secondary
+                        iconWidth={12}
+                        iconHeight={12}
                         iconColor="white"
                         onClick={this.handleRelaunchSearch}
                       >
@@ -446,7 +446,7 @@ export class HclSdkSearchResult {
 
                 {
                   isShowMapSingle && (
-                    <hcl-sdk-map 
+                    <hcl-sdk-map
                       key="map-single"
                       locations={locationsMapSingle}
                       noCurrentLocation

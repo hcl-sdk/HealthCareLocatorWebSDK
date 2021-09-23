@@ -23,6 +23,9 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
   map: google.maps.Map;
   markers: google.maps.Marker[] = [];
 
+  iconMarker?: string;
+  iconMarkerSelected?: string;
+
   remove() {
     if (this.map && this.internalMapContainer) {
       this.internalMapContainer.remove()
@@ -35,6 +38,9 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
     if (!options.center) {
       delete options['center'];
     }
+
+    this.iconMarker = options.iconMarker;
+    this.iconMarkerSelected = options.iconMarkerSelected;
 
     this.internalMapContainer = document.createElement('div');
     this.internalMapContainer.style.position = 'absolute';
@@ -105,7 +111,7 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
       cb(e);
     });
   }
-  
+
   onDrag(cb) {
     this.map.addListener('drag', () => {
       cb(generateEventDrag(this.map));
@@ -118,8 +124,9 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
     })
   }
 
-  createIconURL = markerColor => {
-    const makerIconString = `
+  createIconURL = (markerColor, isSelected: boolean = false) => {
+    const icon = isSelected ? this.iconMarkerSelected : this.iconMarker;
+    const makerIconString = icon || `
     <svg id="hcl-sdk-marker" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
       viewBox="0 0 512 512" fill="${markerColor}" xml:space="preserve">
       <g><g><path d="M256,0C153.755,0,70.573,83.182,70.573,185.426c0,126.888,165.939,313.167,173.004,321.035
@@ -128,9 +135,9 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
       </g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
     </svg>
     `;
-    let myIconUrl = encodeURI('data:image/svg+xml,' + makerIconString).replace('#', '%23');
 
-    return myIconUrl;
+    const blob = new Blob([makerIconString], { type: 'image/svg+xml' });
+    return URL.createObjectURL(blob);
   };
 
   createIconMeURL = () => {
@@ -151,11 +158,12 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
     return URL.createObjectURL(blob);
   };
 
-  createIcon(colorStyle: string = '--hcl-color-marker', isCurrent?: boolean, _clusterNumber?: number) {
+  createIcon(colorStyle: string = '--hcl-color-marker', isCurrent?: boolean) {
+    const isSelected = '--hcl-color-marker_selected' === colorStyle;
     const markerColor = getComputedStyle(document.querySelector('hcl-sdk').shadowRoot.host).getPropertyValue(colorStyle);
 
     const icon = {
-      url: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor),
+      url: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor, isSelected),
       scaledSize: isCurrent ? new google.maps.Size(20, 20) : new google.maps.Size(25, 40),
       origin: new google.maps.Point(0, 0), // origin
       anchor: new google.maps.Point(0, 0), // anchor

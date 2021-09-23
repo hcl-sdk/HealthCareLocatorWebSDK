@@ -5,6 +5,9 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
   map: any;
   markers: any[] = [];
 
+  iconMarker?: string;
+  iconMarkerSelected?: string;
+
   remove() {
     if (this.map) {
       this.map.remove()
@@ -16,6 +19,9 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
     this.map = L.map(mapElm, { ...options, center: options.center ? [options.center.lat, options.center.lng] : null });
+
+    this.iconMarker = options.iconMarker;
+    this.iconMarkerSelected = options.iconMarkerSelected;
 
     L.control
       .zoom({
@@ -76,8 +82,9 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
     })
   }
 
-  createIconURL = markerColor => {
-    const makerIconString = `
+  createIconURL = (markerColor, isSelected: boolean = false) => {
+    const icon = isSelected ? this.iconMarkerSelected : this.iconMarker;
+    const makerIconString = icon || `
     <svg id="hcl-sdk-marker" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
       viewBox="0 0 512 512" fill="${markerColor}" xml:space="preserve">
       <g><g><path d="M256,0C153.755,0,70.573,83.182,70.573,185.426c0,126.888,165.939,313.167,173.004,321.035
@@ -86,9 +93,8 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
       </g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
     </svg>
     `;
-    let myIconUrl = encodeURI('data:image/svg+xml,' + makerIconString).replace('#', '%23');
-
-    return myIconUrl;
+    const blob = new Blob([makerIconString], { type: 'image/svg+xml' });
+    return URL.createObjectURL(blob);
   };
 
   createIconMeURL = () => {
@@ -109,25 +115,12 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
     return URL.createObjectURL(blob);
   };
 
-  createIcon(colorStyle: string = '--hcl-color-marker', isCurrent?: boolean, clusterNumber?: number) {
+  createIcon(colorStyle: string = '--hcl-color-marker', isCurrent?: boolean) {
+    const isSelected = '--hcl-color-marker_selected' === colorStyle;
     const markerColor = getComputedStyle(document.querySelector('hcl-sdk').shadowRoot.host).getPropertyValue(colorStyle);
 
-    if (clusterNumber > 1) {
-      const icon = L.divIcon({
-        className: 'hclsdk-cluster-icon',
-        html: [
-          `<div style="background-color:${markerColor};" class="hclsdk-cluster-icon__marker-pin" title="${clusterNumber}"></div>`,
-          `<span class="hclsdk-cluster-icon__number">${clusterNumber}</span>`,
-        ].join(''),
-        iconSize: [30, 42],
-        iconAnchor: [15, 42], // half of width, height
-      });
-
-      return icon;
-    }
-
     const icon = L.icon({
-      iconUrl: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor),
+      iconUrl: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor, isSelected),
       iconSize: isCurrent ? [20, 20] : [25, 40],
     });
     return icon;

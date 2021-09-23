@@ -28,7 +28,7 @@ export class HclSdkHomeMin {
               </div>
               <div class="item">
                 <div class="item__icon">
-                  <hcl-sdk-icon name="personal" />
+                  <hcl-sdk-icon name="profile" />
                 </div>
                 <div class="item__message">
                   <strong>{t('home_feat_consult_profile_title')}</strong>

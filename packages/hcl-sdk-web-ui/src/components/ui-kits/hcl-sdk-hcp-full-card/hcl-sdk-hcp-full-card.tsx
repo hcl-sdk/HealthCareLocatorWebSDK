@@ -189,7 +189,7 @@ export class HclSdkHCPFullCard {
 
     const originalListTerms = (individualDetail && individualDetail.listTerms) || []
     const listTerms = this.currentSeachTerm ? [
-      this.currentSeachTerm, 
+      this.currentSeachTerm,
       ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
     ]: originalListTerms
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
@@ -202,7 +202,7 @@ export class HclSdkHCPFullCard {
               <hcl-sdk-button
                 noBorder
                 noBackground
-                icon="arrow"
+                icon="back"
                 iconColor={getCssColor('--hcl-color-dark')}
                 onClick={this.backFromHcpFullCard.emit}>
                 <span class="hidden-mobile">{
@@ -288,7 +288,7 @@ export class HclSdkHCPFullCard {
 
                       <div class="info-contact info-section-body__location">
                         <div class="info-contact-item">
-                          <hcl-sdk-icon name="location" color={getCssColor('--hcl-color-marker_selected')} />
+                          <hcl-sdk-icon name="geoloc" color={getCssColor('--hcl-color-marker_selected')} />
                           <div>
                             {
                               getPrimaryAddressIndividual(individualDetail)
@@ -310,7 +310,7 @@ export class HclSdkHCPFullCard {
 
                             {individualDetail.fax && (
                               <div class="info-contact-item">
-                                <hcl-sdk-icon name="printer" height={15} color={getCssColor('--hcl-color-grey')} />
+                                <hcl-sdk-icon name="fax" height={15} color={getCssColor('--hcl-color-grey')} />
                                 <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
                               </div>
                             )}
@@ -321,7 +321,7 @@ export class HclSdkHCPFullCard {
                       {individualDetail.webAddress && (
                         <div class="info-contact info-section-body__website">
                           <div class="info-contact-item">
-                            <hcl-sdk-icon name="earth" color={getCssColor('--hcl-color-grey')} />
+                            <hcl-sdk-icon name="website" color={getCssColor('--hcl-color-grey')} />
                             <a href={individualDetail.webAddress} target="_blank">
                               {individualDetail.webAddress}
                             </a>
