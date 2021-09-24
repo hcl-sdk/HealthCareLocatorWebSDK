@@ -66,12 +66,12 @@ export namespace Components {
         "primary": boolean;
         "width": number;
     }
-    interface HclSdkIconArrow {
+    interface HclSdkIconArrow_right {
         "color": string;
         "height": number;
         "width": number;
     }
-    interface HclSdkIconChevronArrow {
+    interface HclSdkIconBack {
         "color": string;
         "height": number;
         "width": number;
@@ -361,17 +361,17 @@ declare global {
         prototype: HTMLHclSdkIconElement;
         new (): HTMLHclSdkIconElement;
     };
-    interface HTMLHclSdkIconArrowElement extends Components.HclSdkIconArrow, HTMLStencilElement {
+    interface HTMLHclSdkIconArrow_rightElement extends Components.HclSdkIconArrow_right, HTMLStencilElement {
     }
-    var HTMLHclSdkIconArrowElement: {
-        prototype: HTMLHclSdkIconArrowElement;
-        new (): HTMLHclSdkIconArrowElement;
+    var HTMLHclSdkIconArrow_rightElement: {
+        prototype: HTMLHclSdkIconArrow_rightElement;
+        new (): HTMLHclSdkIconArrow_rightElement;
     };
-    interface HTMLHclSdkIconChevronArrowElement extends Components.HclSdkIconChevronArrow, HTMLStencilElement {
+    interface HTMLHclSdkIconBackElement extends Components.HclSdkIconBack, HTMLStencilElement {
     }
-    var HTMLHclSdkIconChevronArrowElement: {
-        prototype: HTMLHclSdkIconChevronArrowElement;
-        new (): HTMLHclSdkIconChevronArrowElement;
+    var HTMLHclSdkIconBackElement: {
+        prototype: HTMLHclSdkIconBackElement;
+        new (): HTMLHclSdkIconBackElement;
     };
     interface HTMLHclSdkIconCircularElement extends Components.HclSdkIconCircular, HTMLStencilElement {
     }
@@ -642,8 +642,8 @@ declare global {
         "hcl-sdk-home-full": HTMLHclSdkHomeFullElement;
         "hcl-sdk-home-min": HTMLHclSdkHomeMinElement;
         "hcl-sdk-icon": HTMLHclSdkIconElement;
-        "hcl-sdk-icon-arrow": HTMLHclSdkIconArrowElement;
-        "hcl-sdk-icon-chevron-arrow": HTMLHclSdkIconChevronArrowElement;
+        "hcl-sdk-icon-arrow_right": HTMLHclSdkIconArrow_rightElement;
+        "hcl-sdk-icon-back": HTMLHclSdkIconBackElement;
         "hcl-sdk-icon-circular": HTMLHclSdkIconCircularElement;
         "hcl-sdk-icon-default-avatar": HTMLHclSdkIconDefaultAvatarElement;
         "hcl-sdk-icon-direction": HTMLHclSdkIconDirectionElement;
@@ -744,12 +744,12 @@ declare namespace LocalJSX {
         "primary"?: boolean;
         "width"?: number;
     }
-    interface HclSdkIconArrow {
+    interface HclSdkIconArrow_right {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconChevronArrow {
+    interface HclSdkIconBack {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -993,8 +993,8 @@ declare namespace LocalJSX {
         "hcl-sdk-home-full": HclSdkHomeFull;
         "hcl-sdk-home-min": HclSdkHomeMin;
         "hcl-sdk-icon": HclSdkIcon;
-        "hcl-sdk-icon-arrow": HclSdkIconArrow;
-        "hcl-sdk-icon-chevron-arrow": HclSdkIconChevronArrow;
+        "hcl-sdk-icon-arrow_right": HclSdkIconArrow_right;
+        "hcl-sdk-icon-back": HclSdkIconBack;
         "hcl-sdk-icon-circular": HclSdkIconCircular;
         "hcl-sdk-icon-default-avatar": HclSdkIconDefaultAvatar;
         "hcl-sdk-icon-direction": HclSdkIconDirection;
@@ -1054,8 +1054,8 @@ declare module "@stencil/core" {
             "hcl-sdk-home-full": LocalJSX.HclSdkHomeFull & JSXBase.HTMLAttributes<HTMLHclSdkHomeFullElement>;
             "hcl-sdk-home-min": LocalJSX.HclSdkHomeMin & JSXBase.HTMLAttributes<HTMLHclSdkHomeMinElement>;
             "hcl-sdk-icon": LocalJSX.HclSdkIcon & JSXBase.HTMLAttributes<HTMLHclSdkIconElement>;
-            "hcl-sdk-icon-arrow": LocalJSX.HclSdkIconArrow & JSXBase.HTMLAttributes<HTMLHclSdkIconArrowElement>;
-            "hcl-sdk-icon-chevron-arrow": LocalJSX.HclSdkIconChevronArrow & JSXBase.HTMLAttributes<HTMLHclSdkIconChevronArrowElement>;
+            "hcl-sdk-icon-arrow_right": LocalJSX.HclSdkIconArrow_right & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_rightElement>;
+            "hcl-sdk-icon-back": LocalJSX.HclSdkIconBack & JSXBase.HTMLAttributes<HTMLHclSdkIconBackElement>;
             "hcl-sdk-icon-circular": LocalJSX.HclSdkIconCircular & JSXBase.HTMLAttributes<HTMLHclSdkIconCircularElement>;
             "hcl-sdk-icon-default-avatar": LocalJSX.HclSdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLHclSdkIconDefaultAvatarElement>;
             "hcl-sdk-icon-direction": LocalJSX.HclSdkIconDirection & JSXBase.HTMLAttributes<HTMLHclSdkIconDirectionElement>;

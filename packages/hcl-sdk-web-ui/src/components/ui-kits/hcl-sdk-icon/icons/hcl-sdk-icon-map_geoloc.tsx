@@ -4,7 +4,7 @@ import { Component, Host, h, Prop } from '@stencil/core';
   tag: 'hcl-sdk-icon-map_geoloc',
   shadow: false,
 })
-export class HclSdkIconLocate {
+export class HclSdkIconMap_geoloc {
   @Prop() color: string;
   @Prop() width: number = 24;
   @Prop() height: number = 24;

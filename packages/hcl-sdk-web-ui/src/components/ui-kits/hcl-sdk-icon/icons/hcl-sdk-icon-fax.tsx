@@ -4,7 +4,7 @@ import { Component, Host, h, Prop } from '@stencil/core';
   tag: 'hcl-sdk-icon-fax',
   shadow: false,
 })
-export class HclSdkIconPrinter {
+export class HclSdkIconFax {
   @Prop() color: string;
   @Prop() width: number = 20;
   @Prop() height: number = 20;

@@ -61,17 +61,17 @@ stages:
           arguments: 'build-web'
           projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-      # - task: Yarn@3
-      #   displayName: 'Build Web UI React'
-      #   inputs:
-      #     arguments: 'build-react'
-      #     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      - task: Yarn@3
+        displayName: 'Build Web UI React'
+        inputs:
+          arguments: 'build-react'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
-      # - task: Yarn@3
-      #   displayName: 'Build Web UI Angular'
-      #   inputs:
-      #     arguments: 'build-angular'
-      #     projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+      - task: Yarn@3
+        displayName: 'Build Web UI Angular'
+        inputs:
+          arguments: 'build-angular'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
 
       - task: Yarn@3
         displayName: 'Build API'
@@ -90,15 +90,20 @@ stages:
           artifactName: 'hcl-sdk-web'
           path: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
 
-      # - task: PublishPipelineArtifact@1
-      #   inputs:
-      #     artifactName: 'hcl-sdk-react'
-      #     path: 'packages/hcl-sdk-web-ui-react'
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-web-package'
+          path: 'packages/hcl-sdk-web-ui'
 
-      # - task: PublishPipelineArtifact@1
-      #   inputs:
-      #     artifactName: 'hcl-sdk-angular'
-      #     path: 'packages/hcl-sdk-web-ui-angular'
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-react'
+          path: 'packages/hcl-sdk-web-ui-react'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-angular'
+          path: 'packages/hcl-sdk-web-ui-angular/dist/hcl-sdk'
 
       - task: PublishPipelineArtifact@1
         inputs:

@@ -189,17 +189,17 @@ export class HclSdkIcon {
 }
 
 
-export declare interface HclSdkIconArrow extends Components.HclSdkIconArrow {}
+export declare interface HclSdkIconArrow_right extends Components.HclSdkIconArrow_right {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
 })
 @Component({
-  selector: 'hcl-sdk-icon-arrow',
+  selector: 'hcl-sdk-icon-arrow_right',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   inputs: ['color', 'height', 'width']
 })
-export class HclSdkIconArrow {
+export class HclSdkIconArrow_right {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -208,17 +208,17 @@ export class HclSdkIconArrow {
 }
 
 
-export declare interface HclSdkIconChevronArrow extends Components.HclSdkIconChevronArrow {}
+export declare interface HclSdkIconBack extends Components.HclSdkIconBack {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
 })
 @Component({
-  selector: 'hcl-sdk-icon-chevron-arrow',
+  selector: 'hcl-sdk-icon-back',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   inputs: ['color', 'height', 'width']
 })
-export class HclSdkIconChevronArrow {
+export class HclSdkIconBack {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
