@@ -247,6 +247,7 @@ export class HclSDK {
           countriesSubscriptionKey: res.mySubscriptionKey.countries.map(s => s.toLowerCase())
         })
       })
+      .catch(() => {}) // To avoid crash the app
   }
 
   render() {
