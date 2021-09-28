@@ -26,11 +26,6 @@ export const GEOLOC = {
 
 export const HCL_WEBSITE_HOST = process.env.HCL_WEBSITE_HOST;
 
-export const DISTANCE_METER = {
-  NEAR_ME: 2000, // 2km
-  DEFAULT: 5000 // 5km
-}
-
 export const COUNTRY_CODES = [
   "AD",
   "AE",
