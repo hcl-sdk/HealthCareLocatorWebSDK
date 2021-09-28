@@ -3,6 +3,7 @@ import { Breakpoint, ScreenSize } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
 import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
+import { DistanceUnit } from '../core/stores/ConfigStore';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -160,4 +161,42 @@ export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], ch
   ].map(str => str.trim())
 
   return listTerms
+}
+
+export function convertKilometerToMeter(kilometers: number) {
+  return kilometers * 1000
+}
+
+export function convertMileToMeter(miles: number) {
+  return miles * 1609.344 
+}
+
+export function convertToMeter(milesOrKilometers: number, unit: DistanceUnit) {
+  if (unit === 'km') {
+    return convertKilometerToMeter(milesOrKilometers)
+  }
+  if (unit === 'mi') {
+    return convertMileToMeter(milesOrKilometers)
+  }
+  return milesOrKilometers
+}
+
+export function convertMeterToKilometerOrMile(meters: number, unit: DistanceUnit) {
+  if (unit === 'km') {
+    return meters / 1000
+  }
+  if (unit === 'mi') {
+    return meters / 1609.344
+  }
+  return meters
+}
+
+export function formatDistanceDisplay(meters: number, unit: DistanceUnit) {
+  if (unit === 'km' || unit === 'mi') {
+    let num = convertMeterToKilometerOrMile(meters, unit)
+    let fixedNumber = 10000 // 4 digits
+
+    return (parseInt(String(num * fixedNumber)) / fixedNumber) + unit
+  }
+  return meters + 'm'
 }
