@@ -19,6 +19,7 @@ export class HclSdkHCPFullCard {
   @State() mapHcpVoted: Record<string, boolean> = {};
   @State() currentSeachTerm: string = ''
   @State() isViewMoreTerms: boolean = false;
+  @State() isViewMoreSpecialties: boolean = false;
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -161,6 +162,10 @@ export class HclSdkHCPFullCard {
     this.isViewMoreTerms = !this.isViewMoreTerms
   }
 
+  handleToggleViewMoreSpecialties = () => {
+    this.isViewMoreSpecialties = !this.isViewMoreSpecialties
+  }
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -177,7 +182,8 @@ export class HclSdkHCPFullCard {
       individualDetail,
       individualDetailName,
       loadingSwitchAddress,
-      loadingIndividualDetail
+      loadingIndividualDetail,
+      specialtyFilter
     } = searchMapStore.state;
     const { showSuggestModification } = configStore.state;
 
@@ -187,12 +193,23 @@ export class HclSdkHCPFullCard {
 
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
 
+    // Handle to render and highlight medical terms
     const originalListTerms = (individualDetail && individualDetail.listTerms) || []
     const listTerms = this.currentSeachTerm ? [
       this.currentSeachTerm,
       ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
-    ]: originalListTerms
+    ]: originalListTerms;
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
+    
+    // Handle to render and highlight specialties. Move the selected specialties to the first order
+    const originalListSpecialties = (individualDetail && individualDetail.specialties) || []
+    const listSpecialties = specialtyFilter?.length ? [
+      ...specialtyFilter.map(spec => ({ name: spec.name, isHighlighted: true })),
+      ...originalListSpecialties.filter((specLabel: string) => 
+        !specialtyFilter
+          .find(spec => spec.name.toLowerCase() === specLabel.toLowerCase())
+      ).map(specLabel => ({ name: specLabel, isHighlighted: false }))
+    ] : originalListSpecialties;
 
     return (
       <Host>
@@ -339,7 +356,33 @@ export class HclSdkHCPFullCard {
                       </div>
 
                       <div class="info-section-body">
-                        <span>{individualDetail.specialties.join(', ')}</span>
+                        <ul class="medical-subjects">
+                          {
+                            listSpecialties.map((spec, idx: number) => {
+                              if (!this.isViewMoreSpecialties && idx >= MAX_DISPLAY_TERMS) {
+                                return null
+                              }
+
+                              return (
+                                <li class={cls('medical-subjects__item', {
+                                  'medical-subjects__item--highlight': spec.isHighlighted
+                                })}>{ typeof spec === 'string' ? spec : spec.name}</li>
+                              )
+                            })
+                          }
+                          {
+                            listSpecialties.length > MAX_DISPLAY_TERMS && (
+                              <li class="medical-subjects__view-more">
+                                <hcl-sdk-button
+                                  onClick={this.handleToggleViewMoreSpecialties}
+                                  class={cls({ 'view-less': this.isViewMoreSpecialties })}
+                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  { !this.isViewMoreSpecialties ? t('view_more') : t('view_less') }
+                                </hcl-sdk-button>
+                              </li>
+                            )
+                          }
+                        </ul>
                       </div>
                     </div>
                   }
