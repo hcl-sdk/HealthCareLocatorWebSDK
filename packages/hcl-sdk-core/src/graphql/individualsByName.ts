@@ -36,6 +36,7 @@ const QUERY_INDIVIDUAL_BY_NAME = gql`
                   lat
                   lon
                 }
+                postalCode
               }
             }
           }
