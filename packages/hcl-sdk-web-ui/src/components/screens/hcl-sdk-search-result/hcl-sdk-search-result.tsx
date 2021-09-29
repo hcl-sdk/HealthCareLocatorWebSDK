@@ -409,7 +409,7 @@ export class HclSdkSearchResult {
                   )}
                 </div>
                 <div class="toggle-panel">
-                  <hcl-sdk-button icon="arrow-right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
+                  <hcl-sdk-button icon="arrow_right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
                 </div>
 
                 {
