@@ -45,3 +45,4 @@ testem.log
 Thumbs.db
 
 hcl-sdk-*
+/src/hcl-sdk-tools
