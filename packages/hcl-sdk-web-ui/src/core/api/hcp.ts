@@ -228,14 +228,20 @@ export async function searchDoctor({ criteria, ...variables }: Partial<QueryIndi
     ...variables,
   }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } }))
 
-  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({
-    name: getHcpFullname(item),
-    professionalType: item.professionalType.label,
-    specialties: getSpecialtiesText(item.specialties),
-    address: `${item.mainActivity.workplace.address.longLabel},${item.mainActivity.workplace.address.city.label}`,
-    id: item.mainActivity.id,
-    activity: item.mainActivity
-  })) : []
+  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => {
+    const longLabel = item.mainActivity.workplace.address.longLabel
+    const city = item.mainActivity.workplace.address.city.label
+    const postalCode = item.mainActivity.workplace.address.postalCode
+
+    return {
+      name: getHcpFullname(item),
+      professionalType: item.professionalType.label,
+      specialties: getSpecialtiesText(item.specialties),
+      address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
+      id: item.mainActivity.id,
+      activity: item.mainActivity
+    }
+  }) : []
 
   searchMapStore.setState({ loading: false, searchDoctor: individualsData });
 }
