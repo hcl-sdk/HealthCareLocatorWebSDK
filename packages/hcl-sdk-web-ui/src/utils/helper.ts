@@ -194,8 +194,20 @@ export function convertMeterToKilometerOrMile(meters: number, unit: DistanceUnit
 export function formatDistanceDisplay(meters: number, unit: DistanceUnit) {
   if (unit === 'km' || unit === 'mi') {
     let num = convertMeterToKilometerOrMile(meters, unit)
-    let fixedNumber = 10000 // 4 digits
+    let fixedNumber = 100 // 2 digits
 
+    if (num < 1) {
+      if (unit === 'km') {
+        return meters + 'm'
+      }
+      if (unit === 'mi') {
+        // 1 mile = 5280 feet
+        // 1 meter = 3.2808399 feet
+        num = meters * 3.2808399
+        return (parseInt(String(num * fixedNumber)) / fixedNumber) + 'ft'
+      }
+    }
+    
     return (parseInt(String(num * fixedNumber)) / fixedNumber) + unit
   }
   return meters + 'm'
