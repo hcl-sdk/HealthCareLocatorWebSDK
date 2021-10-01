@@ -358,7 +358,9 @@ export class HclSdkHCPFullCard {
                       <div class="info-section-body">
                         <ul class="medical-subjects">
                           {
-                            listSpecialties.map((spec, idx: number) => {
+                            listSpecialties.filter((spec, index, self) => 
+                              index === self.findIndex(t => t.name === spec.name) // Remove duplicate elements
+                            ).map((spec, idx: number) => {
                               if (!this.isViewMoreSpecialties && idx >= MAX_DISPLAY_TERMS) {
                                 return null
                               }
