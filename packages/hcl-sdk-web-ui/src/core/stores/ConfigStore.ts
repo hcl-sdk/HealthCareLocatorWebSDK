@@ -16,6 +16,8 @@ export interface Modal {
   className?: string;
 }
 
+export type DistanceUnit = 'km' | 'mi';
+
 export interface HclSDKConfigData {
   markerIcon?: string;
   markerIconCurrentLocation?: string;
@@ -31,6 +33,8 @@ export interface HclSDKConfigData {
   countryGeo?: string;
   countries?: string[];
   countriesSubscriptionKey?: string[];
+  distanceUnit?: DistanceUnit;
+  distanceDefault?: number;
   showSuggestModification?: boolean;
   enableMedicalTerm?: Boolean;
   stylesheet?: string;
@@ -41,7 +45,7 @@ export interface HclSDKConfigData {
   }
 }
 
-export const initStateConfigStore = {
+export const initStateConfigStore: HclSDKConfigData = {
   apiKey: '',
   map: {
     provider: MapProvider.OPEN_STREETMAP,
@@ -56,6 +60,8 @@ export const initStateConfigStore = {
   countryGeo: '', // From Geolocation
   countries: [], // From Config
   countriesSubscriptionKey: [], // From Subscription Key
+  distanceUnit: 'km',
+  distanceDefault: 0,
   enableMedicalTerm: false,
   showSuggestModification: true
 };

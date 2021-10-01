@@ -70,8 +70,19 @@ function getSettingsFromLocal() {
   };
 }
 
+function getSettingsCustomIconFromLocal() {
+  const settingsStr = localStorage.getItem('__hclsdk-devtools-custom-icon');
+  if (settingsStr) {
+    try {
+      return { icons: JSON.parse(settingsStr) }
+    } catch (err) { }
+  }
+  return { icons: {} }
+}
+
 const config = {
-  ...getSettingsFromLocal()
+  ...getSettingsFromLocal(),
+  ...getSettingsCustomIconFromLocal()
 };
 
 var matches = window.location.hash.match(/sp=([a-zA-Z]+)/);

@@ -25,6 +25,10 @@ export class HclSdkHomeFull {
 
   @Listen('mapClicked')
   onMapClicked() {
+    if (searchMapStore.state.loadingActivitiesStatus !== 'success') {
+      return
+    }
+
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
       specialtyFilter: [],

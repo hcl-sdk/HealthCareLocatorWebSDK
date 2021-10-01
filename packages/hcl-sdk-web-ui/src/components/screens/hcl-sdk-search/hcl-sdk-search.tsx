@@ -112,16 +112,6 @@ export class HclSdkSearch {
   private onSearch = async e => {
     e.preventDefault();
     const { name, address, specialtyName, medicalTerm } = e.target;
-    if (
-      !searchMapStore.state.locationFilter &&
-      searchMapStore.state.searchFields.address === t('near_me')
-    ) {
-      // The case click on Map from home-full. Missing data item
-      searchMapStore.setState({
-        locationFilter: NEAR_ME_ITEM
-      })
-    }
-
     await this.search(name, specialtyName, address, medicalTerm)
   }
 
@@ -157,9 +147,6 @@ export class HclSdkSearch {
     })
 
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
-      if (!searchMapStore.state.locationFilter) {
-        searchLocationWithParams()
-      }
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
     } else {
       searchLocationWithParams()

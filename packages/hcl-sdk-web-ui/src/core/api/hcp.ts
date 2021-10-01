@@ -2,8 +2,8 @@ import { searchMapStore, historyStore, configStore, i18nStore } from '../stores'
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from '../../../../hcl-sdk-core';
 import { SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
-import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms } from '../../utils/helper';
-import { NEAR_ME, DISTANCE_METER } from '../constants';
+import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms, convertToMeter, formatDistanceDisplay } from '../../utils/helper';
+import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
@@ -28,14 +28,14 @@ export function groupPointFromBoundingBox(boundingbox: string[]) {
 function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
   if (!addressDetails) {
     return {
-      distanceMeter: DISTANCE_METER.DEFAULT
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit)
     }
   }
 
   if (addressDetails.road) {
     // Precise Address
     return {
-      distanceMeter: DISTANCE_METER.DEFAULT
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit)
     }
   }
 
@@ -70,13 +70,16 @@ export async function genSearchLocationParams({
   searchFields: SearchFields
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
+
   if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
-      distanceMeter: DISTANCE_METER.NEAR_ME
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit)
     };
-
+    if (!params.location.distanceMeter) {
+      delete params.location.distanceMeter // Don't send this param if developers are not config
+    }
     if (forceNearMe) {
       // Basic search near me don't have `specialties` in params
       // In case we keep the data specialtyFilter exist in across the pages
@@ -101,9 +104,12 @@ export async function genSearchLocationParams({
       location: {
         lat: Number(lat),
         lon: Number(lon),
-        distanceMeter: distanceMeter
+        // distanceMeter: distanceMeter
       },
       ...extraParams // country, ...
+    }
+    if (distanceMeter) {
+      params.location.distanceMeter = distanceMeter
     }
   }
   
@@ -164,7 +170,7 @@ export async function searchLocation(variables, {
     }, configStore.configGraphql)
 
     const data = (activities || []).map((item) => ({
-      distance: `${item.distance}m`,
+      distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
       distanceNumber: item.distance,
       relevance: item.relevance,
       name: getHcpFullname(item.activity.individual),
@@ -222,14 +228,20 @@ export async function searchDoctor({ criteria, ...variables }: Partial<QueryIndi
     ...variables,
   }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } }))
 
-  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => ({
-    name: getHcpFullname(item),
-    professionalType: item.professionalType.label,
-    specialties: getSpecialtiesText(item.specialties),
-    address: `${item.mainActivity.workplace.address.longLabel},${item.mainActivity.workplace.address.city.label}`,
-    id: item.mainActivity.id,
-    activity: item.mainActivity
-  })) : []
+  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => {
+    const longLabel = item.mainActivity.workplace.address.longLabel
+    const city = item.mainActivity.workplace.address.city.label
+    const postalCode = item.mainActivity.workplace.address.postalCode
+
+    return {
+      name: getHcpFullname(item),
+      professionalType: item.professionalType.label,
+      specialties: getSpecialtiesText(item.specialties),
+      address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
+      id: item.mainActivity.id,
+      activity: item.mainActivity
+    }
+  }) : []
 
   searchMapStore.setState({ loading: false, searchDoctor: individualsData });
 }

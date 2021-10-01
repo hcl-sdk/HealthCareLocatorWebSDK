@@ -12,4 +12,6 @@ export interface Fields {
   useGoogleMap: boolean;
   googleMapApiKey?: string;
   googleMapId?: string;
+  distanceUnit?: 'km' | 'mi';
+  distanceDefault?: number;
 }

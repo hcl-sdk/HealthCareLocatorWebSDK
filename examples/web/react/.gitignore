@@ -10,6 +10,7 @@
 
 # production
 /build
+/public/hcl-sdk-tools
 
 # misc
 .DS_Store

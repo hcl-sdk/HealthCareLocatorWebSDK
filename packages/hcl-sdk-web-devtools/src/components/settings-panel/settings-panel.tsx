@@ -214,6 +214,14 @@ export class SettingsPanel {
         value = (evt.target as any).checked as boolean;
       } else if (fieldName === 'countries') {
         value = (evt.target as any).value.trim().split(',').filter(val => !!val);
+      } else if (fieldName === 'distanceUnit') {
+        value = (evt.target as any).value.trim()
+      } else if (fieldName === 'distanceDefault') {
+        value = (evt.target as any).value.trim()
+
+        if (value !== '' && Number(value)) {
+          value = Number(value)
+        }
       }
       this.fields = {
         ...this.fields,
@@ -549,6 +557,17 @@ export class SettingsPanel {
           <div class="row">
             <label>Countries</label>
             <input name="countries" type="text" value={this.fields.countries} onInput={this.handleChange('countries')} placeholder="fr,en,..." />
+          </div>
+          <div class="row">
+            <label>Distance Default</label>
+            <input name="distanceDefault" type="number" value={this.fields.distanceDefault} onInput={this.handleChange('distanceDefault')} />
+          </div>
+          <div class="row">
+            <label>Distance Unit</label>
+            <select name="distanceUnit" onChange={this.handleChange('distanceUnit')}>
+              <option value="mi" selected={this.fields.distanceUnit === 'mi'}>Mile</option>
+              <option value="km" selected={this.fields.distanceUnit === 'km'}>Kilometer</option>
+            </select>
           </div>
           <div class="row">
             <label>Show HCP Suggest Modification</label>

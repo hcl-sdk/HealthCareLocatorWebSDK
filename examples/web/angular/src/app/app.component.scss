@@ -9,13 +9,14 @@ html {
 *::after {
   box-sizing: border-box;
 }
-body, #root {
+body,
+app-root {
   padding: 0;
   margin: 0;
   height: 100vh;
 }
 
-#root {
+app-root {
   display: flex;
 }
 
@@ -42,7 +43,6 @@ body, #root {
   position: relative;
   color: #001f3f;
   background-color: white;
-  border-right: 2px solid #dddddd;
 }
 
 .sidebar.sidebar.settings-opened .sidenav-settings {
@@ -125,7 +125,7 @@ body, #root {
 }
 
 @media screen and (max-width: 1024px) {
-  #root {
+  body {
     padding-top: 40px;
   }
   body:not(.menu-opened) .sidebar.sidebar.settings-opened .sidenav-settings {
@@ -133,7 +133,7 @@ body, #root {
   }
   .burger {
     display: flex;
-  }
+  }dev
   .home-content {
     width: 80%;
   }
@@ -181,4 +181,11 @@ body, #root {
   .menu-opened .burger > div:last-child {
     transform: translateY(-9px) rotate(-45deg);
   }
+}
+
+// Customize SDK styles here
+// @see https://docs.healthcarelocator.com/index.htm#t=QStartGuide%2FCustomize_the_prebuilt_screens_of_the_SDKs.htm
+hcl-sdk {
+  // --hcl-color-primary: #001f3f;
+  // --hcl-color-secondary: #39cccc;
 }
