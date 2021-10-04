@@ -55,7 +55,7 @@ export class HclSDK {
       locationFilter: NEAR_ME_ITEM,
       specialties: [],
       specialtiesRaw: [],
-      specialtyFilter: specialtyCode.map(code => ({ id: code, name: code })),
+      specialtyFilter: specialtyCode.map(code => ({ id: code, name: specialtyLabel })),
     });
     configStore.setState({
       modeView: ModeViewType.MAP,
