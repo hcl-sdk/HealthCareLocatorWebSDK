@@ -7,6 +7,8 @@ HealthCare Locator SDK.
 
 | Package                                                  | Version | Description                                            |
 | -------------------------------------------------------- | ------- | ------------------------------------------------------ |
-| [`hcl-sdk-core`](./packages/hcl-sdk-core/README.md) | `0.0.1`     | Common elements such as typings and default properties |
-| [`hcl-sdk-web-ui`](./packages/hcl-sdk-web-ui/README.md) | `0.0.1`     | Web Component to integrate the Hcl SDK inside applications |
-| [`hcl-sdk-web-devtools`](./packages/hcl-sdk-web-devtools/README.md) | `0.0.1`     | Developer tools to live customize the SDK |
+| `@healthcarelocator/sdk-core` | `0.1.0`     | Common elements such as typings and default properties |
+| [`@healthcarelocator/sdk-web`](./packages/hcl-sdk-web-ui/README.md) | `0.1.10`     | Web Component to integrate the Hcl SDK inside applications |
+| [`@healthcarelocator/sdk-angular`](./packages/hcl-sdk-web-ui-angular/projects/hcl-sdk/README.md) | `0.0.9`     | Angular Component to integrate the Hcl SDK inside applications |
+| [`@healthcarelocator/sdk-react`](./packages/hcl-sdk-web-ui-react/README.md) | `0.1.4`     | React Component to integrate the Hcl SDK inside applications |
+| [`hcl-sdk-web-devtools`](./packages/hcl-sdk-web-devtools/README.md) | `0.1.0`     | Developer tools to live customize the SDK |
