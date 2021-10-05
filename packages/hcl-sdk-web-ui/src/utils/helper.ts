@@ -1,7 +1,9 @@
-import { DEFAULT_THEME_PROPERTIES } from 'hcl-sdk-core';
-import { Breakpoint } from 'hcl-sdk-web-ui/src/core/types';
-import { BREAKPOINT_MAX_WIDTH } from 'hcl-sdk-web-ui/src/core/constants';
-import { Activity, Individual, IndividualFragment } from 'hcl-sdk-core/src/graphql/types';
+import { DEFAULT_THEME_PROPERTIES } from '../../../hcl-sdk-core';
+import { Breakpoint, ScreenSize } from '../core/types';
+import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
+import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
+import { t } from '../utils/i18n';
+import { DistanceUnit } from '../core/stores/ConfigStore';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -64,7 +66,7 @@ export function getSpecialtiesText(specialties) {
 
 export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoint {
   const orientation = clientRect.width >= clientRect.height ? 'landscape' : 'portrait';
-  let screenSize;
+  let screenSize: ScreenSize = 'unknown';
   if (orientation === 'landscape') {
     if (clientRect.width < BREAKPOINT_MAX_WIDTH.MOBILE_LANDSCAPE) {
       screenSize = 'mobile';
@@ -83,13 +85,14 @@ export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoi
     }
   }
   return {
+    screenWidth: clientRect.width,
     screenSize,
     orientation
   };
 }
 
-export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActivities: Activity[] = []) {
-  let results: Activity[];
+export function getMergeMainAndOtherActivities(mainActivity: ActivityList, otherActivities: ActivityList[] = []) {
+  let results: ActivityList[];
   if (mainActivity) {
     results = [mainActivity].concat(otherActivities);
   } else {
@@ -98,27 +101,31 @@ export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActi
   return results
 }
 
-export function getPrimaryAddressIndividuual({ addressName, addressBuildingName, address }) {
-  return [addressName, addressBuildingName, address].filter(s => s);
+export function getPrimaryAddressIndividual({ addressName, addressBuildingName, address, postalCode, city }) {
+  const cityWithCode = postalCode && city ? `, ${postalCode} ${city}` : ''
+  const addressWithCode = address + cityWithCode
+  return [addressName, addressBuildingName, addressWithCode].filter(s => s);
 }
 
 export function getTextBodyToShare(individualDetail, {
   newLine = '%0D%0A',
   appName = '',
-  appURL = ''
+  appURL = '',
+  isBoldFirstLine = false
 } = {}) {
 
   const { name, phone, professionalType, specialties } = individualDetail;
+  const specialtiesText = getSpecialtiesText(specialties).join(',')
   const listText = [
-    'Here is a healthcare professional that I recommend:',
+    isBoldFirstLine ? `<b>${t('share_hcp_description')}</b>` : t('share_hcp_description'),
     `${name}${professionalType && (newLine + professionalType)}`,
-    `Specialties: ${getSpecialtiesText(specialties).join(',')}`,
-    `${getPrimaryAddressIndividuual(individualDetail).join(newLine)}`,
-    `${phone}`
-  ]
+    specialtiesText ? `${t('share_hcp_specialties')} ${specialtiesText}` : '',
+    `${getPrimaryAddressIndividual(individualDetail).join(newLine)}`,
+    phone
+  ].filter(txt => txt)
 
   if (appName) {
-    let appText = `I found it on ${appName}`;
+    let appText = t('share_hcp_found_text').replace('{name}', appName);
     if (appURL) {
       appText += ` - ${appURL}`;
     }
@@ -144,4 +151,72 @@ export function getHcpFullname(individual: Individual | IndividualFragment) {
   const { firstName, lastName, middleName } = individual;
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');
+}
+
+export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {
+  const listTerms = [
+    ...(meshTerms || []),
+    ...(kvTerms || []),
+    ...(chTerms || [])
+  ].map(str => str.trim())
+
+  return listTerms
+}
+
+export function convertKilometerToMeter(kilometers: number) {
+  return kilometers * 1000
+}
+
+export function convertMileToMeter(miles: number) {
+  return miles * 1609.344 
+}
+
+export function convertToMeter(milesOrKilometers: number, unit: DistanceUnit) {
+  if (unit === 'km') {
+    return convertKilometerToMeter(milesOrKilometers)
+  }
+  if (unit === 'mi') {
+    return convertMileToMeter(milesOrKilometers)
+  }
+  return milesOrKilometers
+}
+
+export function convertMeterToKilometerOrMile(meters: number, unit: DistanceUnit) {
+  if (unit === 'km') {
+    return meters / 1000
+  }
+  if (unit === 'mi') {
+    return meters / 1609.344
+  }
+  return meters
+}
+
+export function formatDistanceDisplay(meters: number, unit: DistanceUnit) {
+  if (unit === 'km' || unit === 'mi') {
+    let num = convertMeterToKilometerOrMile(meters, unit)
+
+    if (num < 1) {
+      if (unit === 'km') {
+        return roundFloatNumber(meters, 1) + 'm'
+      }
+      if (unit === 'mi') {
+        // 1 mile = 5280 feet
+        // 1 meter = 3.2808399 feet
+        num = meters * 3.2808399
+        return roundFloatNumber(num, 1) + 'ft'
+      }
+    }
+    
+    return roundFloatNumber(num, 1) + unit
+  }
+  return roundFloatNumber(meters, 1) + 'm'
+}
+
+function roundFloatNumber(num: Number, digits = 0) {
+  /**
+   * Wrap by Number to remove the zero string at tail. For example digits = 1
+   *  - 6.688689 -> '6.7' -> 6.7
+   *  - 36.99 -> '37.0' -> 37
+   */
+  return Number(num.toFixed(digits)) // 
 }

@@ -16,12 +16,15 @@
 | `iconHeight`   | `icon-height`   |             | `number`  | `undefined` |
 | `iconWidth`    | `icon-width`    |             | `number`  | `undefined` |
 | `isFull`       | `is-full`       |             | `boolean` | `undefined` |
+| `isLink`       | `is-link`       |             | `boolean` | `undefined` |
 | `noBackground` | `no-background` |             | `boolean` | `undefined` |
 | `noBorder`     | `no-border`     |             | `boolean` | `undefined` |
+| `noPadding`    | `no-padding`    |             | `boolean` | `undefined` |
 | `noTextColor`  | `no-text-color` |             | `boolean` | `undefined` |
 | `primary`      | `primary`       |             | `boolean` | `undefined` |
 | `round`        | `round`         |             | `boolean` | `undefined` |
 | `secondary`    | `secondary`     |             | `boolean` | `undefined` |
+| `tabIndex`     | `tab-index`     |             | `number`  | `undefined` |
 | `type`         | `type`          |             | `string`  | `undefined` |
 
 
@@ -37,6 +40,7 @@
  - [hcl-sdk-search](../../screens/hcl-sdk-search)
  - [hcl-sdk-search-no-results](../hcl-sdk-search-no-results)
  - [hcl-sdk-search-result](../../screens/hcl-sdk-search-result)
+ - [hcl-sdk-share-hcp](../hcl-sdk-share-hcp)
  - [hcl-sdk-sort](../hcl-sdk-sort)
 
 ### Depends on
@@ -55,6 +59,7 @@ graph TD;
   hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search-no-results --> hcl-sdk-button
   hcl-sdk-search-result --> hcl-sdk-button
+  hcl-sdk-share-hcp --> hcl-sdk-button
   hcl-sdk-sort --> hcl-sdk-button
   style hcl-sdk-button fill:#f9f,stroke:#333,stroke-width:4px
 ```

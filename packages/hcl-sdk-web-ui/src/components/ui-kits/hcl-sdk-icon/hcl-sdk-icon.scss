@@ -8,6 +8,15 @@
       fill: var(--hcl-color-secondary);
     }
   }
+  hcl-sdk-icon-map_geoloc {
+    stroke: var(--hcl-color-primary);
+    fill: none;
+    display: block;
+
+    > svg {
+      display: block;
+    }
+  }
 
   hcl-sdk-icon-sort {
     display: grid;

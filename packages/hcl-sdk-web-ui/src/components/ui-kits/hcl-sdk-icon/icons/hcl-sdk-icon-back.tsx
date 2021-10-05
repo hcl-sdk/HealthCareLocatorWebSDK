@@ -1,10 +1,10 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'hcl-sdk-icon-personal',
+  tag: 'hcl-sdk-icon-back',
   shadow: false,
 })
-export class HclSdkIconPersonal {
+export class HclSdkIconBack {
   @Prop() color: string;
   @Prop() width: number = 20;
   @Prop() height: number = 20;
@@ -19,10 +19,7 @@ export class HclSdkIconPersonal {
           style={{ opacity: '1', mixBlendMode: 'normal', width: `${this.width}px`, height: `${this.height}px` }}
         >
           <g>
-            <path
-              d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
-              style={{ fill: this.color }}
-            />
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" style={{ fill: this.color }} />
           </g>
         </svg>
       </Host>

@@ -7,6 +7,9 @@
     <meta name="theme-color" content="#16161d" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
     <script type="module" src="/build/hcl-sdk.esm.js"></script>
     <script nomodule src="/build/hcl-sdk.js"></script>
@@ -89,7 +92,11 @@
         const settingsUI = getSettingsUIFields();
 
         HCLSDK.init({
-          apiKey: settingsUI.apiKey
+          apiKey: settingsUI.apiKey,
+          appName: 'Corona',
+          appURL: 'https://google.com',
+          // distanceUnit: 'mi',
+          // distanceDefault: 20
         });
       })();
     </script>

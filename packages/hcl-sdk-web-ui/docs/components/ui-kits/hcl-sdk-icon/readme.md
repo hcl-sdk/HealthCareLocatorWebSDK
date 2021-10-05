@@ -25,6 +25,7 @@
  - [hcl-sdk-hcp-full-card](../hcl-sdk-hcp-full-card)
  - [hcl-sdk-home-min](../../screens/hcl-sdk-home/hcl-sdk-home-min)
  - [hcl-sdk-input](../hcl-sdk-input)
+ - [hcl-sdk-map](../hcl-sdk-map)
  - [hcl-sdk-modal](../hcl-sdk-modal)
  - [hcl-sdk-profile-map](../hcl-sdk-profile-map)
  - [hcl-sdk-search](../../screens/hcl-sdk-search)
@@ -33,6 +34,8 @@
  - [hcl-sdk-search-no-results](../hcl-sdk-search-no-results)
  - [hcl-sdk-search-result](../../screens/hcl-sdk-search-result)
  - [hcl-sdk-select](../hcl-sdk-select)
+ - [hcl-sdk-share-hcp](../hcl-sdk-share-hcp)
+ - [hcl-sdk-switch-view-mode](../hcl-sdk-switch-view-mode)
 
 ### Graph
 ```mermaid
@@ -42,6 +45,7 @@ graph TD;
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-home-min --> hcl-sdk-icon
   hcl-sdk-input --> hcl-sdk-icon
+  hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-modal --> hcl-sdk-icon
   hcl-sdk-profile-map --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-icon
@@ -50,6 +54,8 @@ graph TD;
   hcl-sdk-search-no-results --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
+  hcl-sdk-share-hcp --> hcl-sdk-icon
+  hcl-sdk-switch-view-mode --> hcl-sdk-icon
   style hcl-sdk-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -45,8 +45,8 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--hcl-font-card_title-size': '16px',
   '--hcl-font-card_title-weight': 'normal',
   '--hcl-font-modal_title-name': 'var(--hcl-font-default-name)',
-  '--hcl-font-modal_title-size': '18px',
-  '--hcl-font-modal_title-weight': 'normal',
+  '--hcl-font-modal_title-size': '20px',
+  '--hcl-font-modal_title-weight': '500',
   '--hcl-font-search_input-name': 'var(--hcl-font-default-name)',
   '--hcl-font-search_input-size': '16px',
   '--hcl-font-search_input-weight': 'normal',
@@ -80,6 +80,7 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--hcl-color-grey_darker': '#666666',
   '--hcl-color-grey_light': '#b8b8b8',
   '--hcl-color-grey_lighter': '#ebebeb',
+  '--hcl-color-medial_subject_highlight': '#fe8a12'
 };
 
 export const DEFAULT_CONFIGURATION: HclSDKConfig = {

@@ -9,11 +9,15 @@ class StoreProvider<T extends {}> {
     this.storeInstance = createStore<T>(initState);
   }
 
+  public onChange(propName: any, listener: any) {
+    this.storeInstance.onChange(propName, listener)
+  }
+
   setState = (states: Partial<T>) => {
     if (states) {
       const statesKeys: string[] = Object.keys(states)
       statesKeys.forEach((k) => {
-        this.storeInstance.set(k, states[k])
+        this.storeInstance.set(k as any, (states as any)[k])
       })
     }
   }

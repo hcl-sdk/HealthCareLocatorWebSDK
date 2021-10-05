@@ -24,6 +24,8 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 .env
 
+!examples/web/react/.env
+
 examples/web/cdn/hcl-sdk-web-ui
 examples/web/cdn/hcl-sdk-tools
 examples/web/cdn/hcl-sdk-api

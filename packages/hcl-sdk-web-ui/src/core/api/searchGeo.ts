@@ -1,45 +1,52 @@
-import axios from 'axios';
-// import { id } from 'date-fns/locale';
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import { searchMapStore, configStore } from '../stores';
+import { configStore, searchMapStore } from '../stores';
+import { MapProvider } from '../stores/ConfigStore';
+import { GeoProviderGoogle } from './geo-provider-google';
+import { GeoProviderOpenstreet } from './geo-provider-openstreet';
 
 export async function searchGeoMap({ id }) {
-  searchMapStore.setState({ loading: true, searchGeo: [], searchDoctor: [] })
-  const provider = new OpenStreetMapProvider();
+  searchMapStore.setState({ 
+    loading: true, 
+    searchGeo: []
+  });
+  const provider = getProvider(configStore.state.map.provider);
 
-  const results = await provider.search({ 
-    query: {
-      q: id,
-      addressdetails: 1,
-      countrycodes: configStore.state.countries.join(',')
-    }
+  const countriesWithGeo = [
+    ...configStore.state.countries, 
+    configStore.state.countryGeo
+  ]
+  const results = await provider.searchGeoMap({
+    address: id,
+    countrycodes: countriesWithGeo
+      .filter((str, idx) => countriesWithGeo.indexOf(str) === idx)
+      .join(','),
   });
 
-  const data = results.map(elm => ({
-    name: elm.raw.display_name,
-    lat: elm.raw.lat,
-    lng: elm.raw.lon,
-    addressDetails: elm.raw.address,
-    boundingbox: elm.raw.boundingbox,
-    type: "location"
-  }))
-
   searchMapStore.setState({
-    searchGeo: data,
-    loading: false
-  })
+    searchGeo: results,
+    loading: false,
+  });
 }
 
 export async function getAddressFromGeo(lat: number, lng: number) {
+  const provider = getProvider(configStore.state.map.provider);
   try {
-    const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&osm_type=R&format=jsonv2`);
-    const data = response.data;
-    const { road, city, state_district, state, country } = data.address;
-
-    data.shortDisplayName = [road, city, state_district, state, country].filter(str => !!str).join(', ');
+    const data = provider.getAddressFromGeo(lat, lng);
 
     return data;
-  } catch(err) {
+  } catch (err) {
     return null;
   }
+}
+
+export async function getGooglePlaceDetails(placeId: string) {
+  const googleGeo = getProvider(MapProvider.GOOGLE_MAP) as GeoProviderGoogle;
+  return await googleGeo.getPlaceDetail(placeId);
+}
+
+function getProvider(providerName: MapProvider) {
+  return providerName === MapProvider.OPEN_STREETMAP
+    ? new GeoProviderOpenstreet()
+    : new GeoProviderGoogle({
+        googleMapApiKey: configStore.state.map.googleMapApiKey,
+      });
 }

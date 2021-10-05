@@ -1,8 +1,8 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, State } from '@stencil/core';
 import cn from 'classnames';
-import { configStore, searchMapStore, uiStore } from 'hcl-sdk-web-ui/src/core/stores';
-import sortBy from 'lodash.sortby';
+import { searchMapStore, uiStore } from '../../../core/stores';
 import { t } from '../../../utils/i18n';
+import { SortValue } from '../../../core/stores/SearchMapStore';
 
 @Component({
   tag: 'hcl-sdk-sort',
@@ -10,57 +10,48 @@ import { t } from '../../../utils/i18n';
   shadow: false,
 })
 export class HclSdkSort {
+  @State() sortValues: SortValue
+
+  componentWillLoad() {
+    this.sortValues = searchMapStore.state.sortValues
+
+    searchMapStore.storeInstance
+      .onChange('sortValues', (newSortValues: SortValue) => {
+        if (newSortValues !== this.sortValues) {
+          this.sortValues = newSortValues
+        }
+      })
+  }
+
   onSubmit = e => {
     e.preventDefault();
-    const { specialtiesRaw: specialties, sortValues } = searchMapStore.state;
-
-    const sortByField = Object.keys(sortValues).filter(elm => sortValues[elm]);
-
     searchMapStore.setState({
-      specialties: sortBy(specialties, sortByField),
-    });
-
-    configStore.setState({
-      modal: undefined,
-    });
+      sortValues: this.sortValues
+    })
   };
 
   onChange = e => {
     const { name, checked } = e.target;
 
-    searchMapStore.setState({
-      sortValues: {
-        relevance: false,
-        distanceNumber: false,
-        lastName: false,
-        [name]: checked,
-      },
-    });
+    this.sortValues = {
+      distanceNumber: false,
+      lastName: false,
+      [name]: checked,
+    }
   };
 
   onReset = () => {
-    searchMapStore.setState({
-      sortValues: {
-        relevance: true,
-        distanceNumber: false,
-        lastName: false,
-      },
-    });
+    this.sortValues = searchMapStore.state.sortValues
   };
 
   render() {
     const hclSDKSortClass = cn('hcl-sdk-sort', {});
-    const { lastName, relevance, distanceNumber } = searchMapStore.state.sortValues;
+    const { lastName, distanceNumber } = this.sortValues;
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class={hclSDKSortClass}>
           <form class="sort-body" onSubmit={this.onSubmit}>
             <div class="sort-option">
-              <div class="sort-option-item">
-                <label htmlFor="relevance">{t('relevance_item')}</label>
-                <hcl-sdk-input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
-              </div>
-
               <div class="sort-option-item">
                 <label htmlFor="distance">{t('distance_item')}</label>
                 <hcl-sdk-input type="checkbox" id="distanceNumber" name="distanceNumber" checked={distanceNumber} onInput={this.onChange} />

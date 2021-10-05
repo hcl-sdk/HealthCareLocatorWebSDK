@@ -50,6 +50,9 @@
 
     .search-home-hpc {
       display: flex;
+      .hclsdk-btn-search-address {
+        width: 40px;
+      }
     }
 
     .header-infos {
@@ -124,6 +127,15 @@
 
     &__content {
       height: 100%;
+    }
+
+    &__empty {
+      .hclsdk-btn-relaunch {
+        bottom: 25px;
+      }
+      .current-location {
+        bottom: 20px;
+      }
     }
 
     &-wrapper {

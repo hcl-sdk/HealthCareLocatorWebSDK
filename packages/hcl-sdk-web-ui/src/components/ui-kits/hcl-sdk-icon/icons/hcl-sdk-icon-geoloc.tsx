@@ -1,10 +1,10 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'hcl-sdk-icon-location',
+  tag: 'hcl-sdk-icon-geoloc',
   shadow: false,
 })
-export class HclSdkIconLocation {
+export class HclSdkIconGeoloc {
   @Prop() color: string;
   @Prop() width: number = 13;
   @Prop() height: number = 20;

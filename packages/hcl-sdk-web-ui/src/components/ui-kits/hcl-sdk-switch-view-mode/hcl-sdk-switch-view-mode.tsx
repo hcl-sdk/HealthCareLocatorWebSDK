@@ -1,7 +1,7 @@
 import { Component, Host, h, EventEmitter, Event, Prop } from '@stencil/core';
 import cls from 'classnames'
-import { configStore } from 'hcl-sdk-web-ui/src/core/stores';
-import { ModeViewType } from 'hcl-sdk-web-ui/src/core/stores/ConfigStore';
+import { configStore } from '../../../core/stores';
+import { ModeViewType } from '../../../core/stores/ConfigStore';
 import { t } from '../../../utils/i18n';
 @Component({
   tag: 'hcl-sdk-switch-view-mode',
@@ -46,11 +46,11 @@ export class HclSdkSwitchViewMode {
       <Host>
         <div class="hclsdk-switch-view-mode">
           <div class={listViewClass} onClick={() => this.onSwitch(ModeViewType.LIST)}>
-            <ion-icon name="list"></ion-icon>
+            <hcl-sdk-icon name="list" />
             {!!this.labels[this.typeOfLabel].list &&<span>{t(this.labels[this.typeOfLabel].list)}</span>}
           </div>
           <div class={mapViewClass} onClick={() => this.onSwitch(ModeViewType.MAP)}>
-            <ion-icon name="map-sharp" class="mode-item__map-icon"></ion-icon>
+            <hcl-sdk-icon name="map" width={13} height={13} />
             {!!this.labels[this.typeOfLabel].map && <span>{t(this.labels[this.typeOfLabel].map)}</span>}
           </div>
         </div>

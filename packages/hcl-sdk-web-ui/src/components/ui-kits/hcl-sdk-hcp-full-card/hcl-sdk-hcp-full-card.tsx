@@ -1,11 +1,13 @@
 import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil/core';
 import cls from 'classnames';
-import { uiStore, searchMapStore, configStore, i18nStore } from 'hcl-sdk-web-ui/src/core/stores';
-import { getFullCardDetail } from 'hcl-sdk-web-ui/src/core/api/hcp';
-import { getCssColor, fallbackShareHCPDetail, getTextBodyToShare } from 'hcl-sdk-web-ui/src/utils/helper';
+import { uiStore, searchMapStore, configStore, i18nStore } from '../../../core/stores';
+import { getFullCardDetail } from '../../../core/api/hcp';
+import { getCssColor, getPrimaryAddressIndividual, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
+
+const MAX_DISPLAY_TERMS = 5
 
 @Component({
   tag: 'hcl-sdk-hcp-full-card',
@@ -15,6 +17,9 @@ import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
+  @State() currentSeachTerm: string = ''
+  @State() isViewMoreTerms: boolean = false;
+  @State() isViewMoreSpecialties: boolean = false;
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -36,6 +41,19 @@ export class HclSdkHCPFullCard {
     }
 
     this.mapHcpVoted = storageUtils.getObject(OKSDK_MAP_HCP_VOTED, {})
+  }
+
+  componentWillUpdate() {
+    const { medicalTermsFilter } = searchMapStore.state
+
+    if (this.currentSeachTerm || !medicalTermsFilter || !medicalTermsFilter.name) {
+      return
+    }
+
+    // Copy and keep the current search
+    //  to avoid users change the search terms in the second time
+    //  but not click on the button search yet.
+    this.currentSeachTerm = medicalTermsFilter.name.toLowerCase()
   }
 
   disconnectedCallback() {
@@ -104,10 +122,22 @@ export class HclSdkHCPFullCard {
         // TODO Successfully:
       })
       .catch(() => {
-        fallbackShareHCPDetail(individualDetail, config)
+        configStore.setState({
+          modal: {
+            title: t('share_hcp_title'),
+            className: 'share-hcp__modal',
+            component: 'hcl-sdk-share-hcp',
+          },
+        });
       });
     } else {
-      fallbackShareHCPDetail(individualDetail, config)
+      configStore.setState({
+        modal: {
+          title: t('share_hcp_title'),
+          className: 'share-hcp__modal',
+          component: 'hcl-sdk-share-hcp',
+        },
+      });
     }
   }
 
@@ -118,19 +148,22 @@ export class HclSdkHCPFullCard {
       return;
     }
 
-    // Demo
-    const mapLang = {
-      en: 'en',
-      fr: 'fr',
-      fr_CA: 'fr',
-    }
     const individualId = individualDetail.individualId
     const apiKey = configStore.state.apiKey;
 
+    const lang = i18nStore.state.lang.toLowerCase().replace('-', '_').split('_')[0]
     const linkEl = document.createElement('a');
-    linkEl.href = `${HCL_WEBSITE_HOST}/${mapLang[i18nStore.state.lang]}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
+    linkEl.href = `${HCL_WEBSITE_HOST}/${lang}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
     linkEl.target = "_blank";
     linkEl.click();
+  }
+
+  handleToggleViewMoreTerms = () => {
+    this.isViewMoreTerms = !this.isViewMoreTerms
+  }
+
+  handleToggleViewMoreSpecialties = () => {
+    this.isViewMoreSpecialties = !this.isViewMoreSpecialties
   }
 
   render() {
@@ -149,7 +182,8 @@ export class HclSdkHCPFullCard {
       individualDetail,
       individualDetailName,
       loadingSwitchAddress,
-      loadingIndividualDetail
+      loadingIndividualDetail,
+      specialtyFilter
     } = searchMapStore.state;
     const { showSuggestModification } = configStore.state;
 
@@ -159,6 +193,24 @@ export class HclSdkHCPFullCard {
 
     const hpcProfileName = (individualDetail && individualDetail.name) || individualDetailName
 
+    // Handle to render and highlight medical terms
+    const originalListTerms = (individualDetail && individualDetail.listTerms) || []
+    const listTerms = this.currentSeachTerm ? [
+      this.currentSeachTerm,
+      ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
+    ]: originalListTerms;
+    const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
+    
+    // Handle to render and highlight specialties. Move the selected specialties to the first order
+    const originalListSpecialties = (individualDetail && individualDetail.specialties) || []
+    const listSpecialties = specialtyFilter?.length ? [
+      ...specialtyFilter.map(spec => ({ name: spec.name, isHighlighted: true })),
+      ...originalListSpecialties.filter((specLabel: string) => 
+        !specialtyFilter
+          .find(spec => spec.name.toLowerCase() === specLabel.toLowerCase())
+      ).map(specLabel => ({ name: specLabel, isHighlighted: false }))
+    ] : originalListSpecialties;
+
     return (
       <Host>
         <div class="main-contain">
@@ -167,10 +219,13 @@ export class HclSdkHCPFullCard {
               <hcl-sdk-button
                 noBorder
                 noBackground
-                icon="arrow"
+                icon="back"
                 iconColor={getCssColor('--hcl-color-dark')}
                 onClick={this.backFromHcpFullCard.emit}>
-                <span class="hidden-mobile">{t('back_to_search_results')}</span>
+                <span class="hidden-mobile">{
+                  searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
+                }
+                </span>
               </hcl-sdk-button>
             </div>
             <hcl-sdk-button
@@ -221,9 +276,13 @@ export class HclSdkHCPFullCard {
                         <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
                           <hcl-sdk-button round icon="direction" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
                         </a>
-                        <a href={`tel:${individualDetail.phone}`}>
-                          <hcl-sdk-button round icon="phone" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
-                        </a>
+                        {
+                          individualDetail.phone && (
+                            <a href={`tel:${individualDetail.phone}`}>
+                              <hcl-sdk-button round icon="phone" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
+                            </a>
+                          )
+                        }
                       </div>
                     </div>
 
@@ -246,11 +305,12 @@ export class HclSdkHCPFullCard {
 
                       <div class="info-contact info-section-body__location">
                         <div class="info-contact-item">
-                          <hcl-sdk-icon name="location" color={getCssColor('--hcl-color-marker_selected')} />
+                          <hcl-sdk-icon name="geoloc" color={getCssColor('--hcl-color-marker_selected')} />
                           <div>
-                            <span>{individualDetail.addressName}</span>
-                            <span>{individualDetail.addressBuildingName}</span>
-                            <span>{individualDetail.address}</span>
+                            {
+                              getPrimaryAddressIndividual(individualDetail)
+                                .map(str => (<span>{str}</span>))
+                            }
                           </div>
                         </div>
                       </div>
@@ -264,10 +324,10 @@ export class HclSdkHCPFullCard {
                                 <a href={`tel:${individualDetail.phone}`}>{individualDetail.phone}</a>
                               </div>
                             )}
-    
+
                             {individualDetail.fax && (
                               <div class="info-contact-item">
-                                <hcl-sdk-icon name="printer" height={15} color={getCssColor('--hcl-color-grey')} />
+                                <hcl-sdk-icon name="fax" height={15} color={getCssColor('--hcl-color-grey')} />
                                 <a href={`tel:${individualDetail.fax}`}>{individualDetail.fax}</a>
                               </div>
                             )}
@@ -278,7 +338,7 @@ export class HclSdkHCPFullCard {
                       {individualDetail.webAddress && (
                         <div class="info-contact info-section-body__website">
                           <div class="info-contact-item">
-                            <hcl-sdk-icon name="earth" color={getCssColor('--hcl-color-grey')} />
+                            <hcl-sdk-icon name="website" color={getCssColor('--hcl-color-grey')} />
                             <a href={individualDetail.webAddress} target="_blank">
                               {individualDetail.webAddress}
                             </a>
@@ -296,9 +356,76 @@ export class HclSdkHCPFullCard {
                       </div>
 
                       <div class="info-section-body">
-                        <span>{individualDetail.specialties.join(',')}</span>
+                        <ul class="medical-subjects">
+                          {
+                            listSpecialties.filter((spec, index, self) => 
+                              index === self.findIndex(t => t.name === spec.name) // Remove duplicate elements
+                            ).map((spec, idx: number) => {
+                              if (!this.isViewMoreSpecialties && idx >= MAX_DISPLAY_TERMS) {
+                                return null
+                              }
+
+                              return (
+                                <li class={cls('medical-subjects__item', {
+                                  'medical-subjects__item--highlight': spec.isHighlighted
+                                })}>{ typeof spec === 'string' ? spec : spec.name}</li>
+                              )
+                            })
+                          }
+                          {
+                            listSpecialties.length > MAX_DISPLAY_TERMS && (
+                              <li class="medical-subjects__view-more">
+                                <hcl-sdk-button
+                                  onClick={this.handleToggleViewMoreSpecialties}
+                                  class={cls({ 'view-less': this.isViewMoreSpecialties })}
+                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  { !this.isViewMoreSpecialties ? t('view_more') : t('view_less') }
+                                </hcl-sdk-button>
+                              </li>
+                            )
+                          }
+                        </ul>
                       </div>
                     </div>
+                  }
+                  {
+                    isRenderMedialSubject && (
+                      <div class="info-section">
+                        <div class="info-section-header">
+                          <span class="info-section-header__title">{t('medical_publication_subject_heading')} ({listTerms.length})</span>
+                        </div>
+
+                        <div class="info-section-body">
+                          <ul class="medical-subjects">
+                          {
+                            listTerms.map((label: string, idx: number) => {
+                              if (!this.isViewMoreTerms && idx >= MAX_DISPLAY_TERMS) {
+                                return null
+                              }
+
+                              return (
+                                <li class={cls('medical-subjects__item', {
+                                  'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
+                                })}>{label}</li>
+                              )
+                            })
+                          }
+                          {
+                            listTerms.length > MAX_DISPLAY_TERMS && (
+                              <li class="medical-subjects__view-more">
+                                <hcl-sdk-button
+                                  onClick={this.handleToggleViewMoreTerms}
+                                  class={cls({ 'view-less': this.isViewMoreTerms })}
+                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  { !this.isViewMoreTerms ? t('view_more') : t('view_less') }
+                                </hcl-sdk-button>
+                              </li>
+                            )
+                          }
+                          </ul>
+                        </div>
+                      </div>
+                    )
                   }
                 </div>
               )}

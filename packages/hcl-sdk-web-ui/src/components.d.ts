@@ -5,15 +5,21 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Modal, ModeViewType } from "hcl-sdk-web-ui/src/core/stores/ConfigStore";
-import { Breakpoint } from "hcl-sdk-web-ui/src/core/types";
-import { OptionType } from "./core/types";
+import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
+import { SearchInputName } from "./core/stores/SearchMapStore";
+import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
         "init": (config?: any) => Promise<void>;
-        "searchNearMe": ({ specialtyCode }: { specialtyCode: any; }) => Promise<void>;
-        "updateConfig": (patch: any) => Promise<import("/Users/fbarrailla/dev/ekino/iqvia/onekey-sdk-web-lib/packages/hcl-sdk-web-ui/src/core/stores/ConfigStore").HclSDKConfigData>;
+        "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
+        "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
+    }
+    interface HclSdkAutocompleteResult {
+        "currentSelectedInput": SearchInputName;
+        "data": any;
+        "focusOnArrowKeyDown": () => Promise<void>;
+        "type": SearchInputName;
     }
     interface HclSdkButton {
         "class": string;
@@ -23,12 +29,15 @@ export namespace Components {
         "iconHeight": number;
         "iconWidth": number;
         "isFull": boolean;
+        "isLink": boolean;
         "noBackground": boolean;
         "noBorder": boolean;
+        "noPadding": boolean;
         "noTextColor": boolean;
         "primary": boolean;
         "round": boolean;
         "secondary": boolean;
+        "tabIndex": number;
         "type": string;
     }
     interface HclSdkDevSettings {
@@ -37,9 +46,9 @@ export namespace Components {
         "address": string;
         "distance": string;
         "name": string;
-        "professionalType": string;
         "selected": boolean;
         "showDistance": boolean;
+        "specialtyPrimary": string;
         "viewMode": string;
     }
     interface HclSdkHcpFullCard {
@@ -57,12 +66,12 @@ export namespace Components {
         "primary": boolean;
         "width": number;
     }
-    interface HclSdkIconArrow {
+    interface HclSdkIconArrow_right {
         "color": string;
         "height": number;
         "width": number;
     }
-    interface HclSdkIconChevronArrow {
+    interface HclSdkIconBack {
         "color": string;
         "height": number;
         "width": number;
@@ -87,12 +96,27 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconEarth {
+    interface HclSdkIconEdit {
         "color": string;
         "height": number;
         "width": number;
     }
-    interface HclSdkIconEdit {
+    interface HclSdkIconFacebook {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconFax {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconGeoloc {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconGmail {
         "color": string;
         "height": number;
         "width": number;
@@ -107,12 +131,12 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconList {
+    interface HclSdkIconLinkedin {
         "color": string;
         "height": number;
         "width": number;
     }
-    interface HclSdkIconLocation {
+    interface HclSdkIconList {
         "color": string;
         "height": number;
         "width": number;
@@ -122,12 +146,12 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconNoAccounts {
+    interface HclSdkIconMap_geoloc {
         "color": string;
         "height": number;
         "width": number;
     }
-    interface HclSdkIconPersonal {
+    interface HclSdkIconNoAccounts {
         "color": string;
         "height": number;
         "width": number;
@@ -137,7 +161,7 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconPrinter {
+    interface HclSdkIconProfile {
         "color": string;
         "height": number;
         "width": number;
@@ -172,14 +196,27 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface HclSdkIconTwitter {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconWebsite {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkInput {
         "autoComplete"?: string;
         "autoFocus"?: boolean;
         "checked"?: boolean;
         "class"?: string;
+        "focusHclSdkInput": () => Promise<void>;
         "loading"?: boolean;
         "name"?: string;
+        "onArrowKeyDown"?: (e: any) => void;
         "onBlur"?: (e: any) => void;
+        "onEnterKeyDown"?: (e: any) => void;
         "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
@@ -198,6 +235,7 @@ export namespace Components {
         "interactive": boolean;
         "isForcedZoomToMe": boolean;
         "isShowMeMarker": boolean;
+        "isZoomChanged": boolean;
         "locations": any[];
         "mapHeight": string;
         "mapMinHeight": string;
@@ -234,14 +272,13 @@ export namespace Components {
         "url": string;
     }
     interface HclSdkSearch {
+        "isSearchResult"?: boolean;
         "noIcon": boolean;
-        "searchText": string;
-        "showSwitchMode"?: boolean;
     }
     interface HclSdkSearchAddressItem {
-        "activated": boolean;
         "currentSearchText"?: string;
         "item": any;
+        "selected": boolean;
     }
     interface HclSdkSearchNoDataAvailable {
     }
@@ -255,6 +292,8 @@ export namespace Components {
         "options"?: OptionType[];
         "value"?: string;
     }
+    interface HclSdkShareHcp {
+    }
     interface HclSdkSort {
     }
     interface HclSdkSwitchViewMode {
@@ -267,6 +306,12 @@ declare global {
     var HTMLHclSdkElement: {
         prototype: HTMLHclSdkElement;
         new (): HTMLHclSdkElement;
+    };
+    interface HTMLHclSdkAutocompleteResultElement extends Components.HclSdkAutocompleteResult, HTMLStencilElement {
+    }
+    var HTMLHclSdkAutocompleteResultElement: {
+        prototype: HTMLHclSdkAutocompleteResultElement;
+        new (): HTMLHclSdkAutocompleteResultElement;
     };
     interface HTMLHclSdkButtonElement extends Components.HclSdkButton, HTMLStencilElement {
     }
@@ -316,17 +361,17 @@ declare global {
         prototype: HTMLHclSdkIconElement;
         new (): HTMLHclSdkIconElement;
     };
-    interface HTMLHclSdkIconArrowElement extends Components.HclSdkIconArrow, HTMLStencilElement {
+    interface HTMLHclSdkIconArrow_rightElement extends Components.HclSdkIconArrow_right, HTMLStencilElement {
     }
-    var HTMLHclSdkIconArrowElement: {
-        prototype: HTMLHclSdkIconArrowElement;
-        new (): HTMLHclSdkIconArrowElement;
+    var HTMLHclSdkIconArrow_rightElement: {
+        prototype: HTMLHclSdkIconArrow_rightElement;
+        new (): HTMLHclSdkIconArrow_rightElement;
     };
-    interface HTMLHclSdkIconChevronArrowElement extends Components.HclSdkIconChevronArrow, HTMLStencilElement {
+    interface HTMLHclSdkIconBackElement extends Components.HclSdkIconBack, HTMLStencilElement {
     }
-    var HTMLHclSdkIconChevronArrowElement: {
-        prototype: HTMLHclSdkIconChevronArrowElement;
-        new (): HTMLHclSdkIconChevronArrowElement;
+    var HTMLHclSdkIconBackElement: {
+        prototype: HTMLHclSdkIconBackElement;
+        new (): HTMLHclSdkIconBackElement;
     };
     interface HTMLHclSdkIconCircularElement extends Components.HclSdkIconCircular, HTMLStencilElement {
     }
@@ -352,17 +397,35 @@ declare global {
         prototype: HTMLHclSdkIconDislikeElement;
         new (): HTMLHclSdkIconDislikeElement;
     };
-    interface HTMLHclSdkIconEarthElement extends Components.HclSdkIconEarth, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconEarthElement: {
-        prototype: HTMLHclSdkIconEarthElement;
-        new (): HTMLHclSdkIconEarthElement;
-    };
     interface HTMLHclSdkIconEditElement extends Components.HclSdkIconEdit, HTMLStencilElement {
     }
     var HTMLHclSdkIconEditElement: {
         prototype: HTMLHclSdkIconEditElement;
         new (): HTMLHclSdkIconEditElement;
+    };
+    interface HTMLHclSdkIconFacebookElement extends Components.HclSdkIconFacebook, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconFacebookElement: {
+        prototype: HTMLHclSdkIconFacebookElement;
+        new (): HTMLHclSdkIconFacebookElement;
+    };
+    interface HTMLHclSdkIconFaxElement extends Components.HclSdkIconFax, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconFaxElement: {
+        prototype: HTMLHclSdkIconFaxElement;
+        new (): HTMLHclSdkIconFaxElement;
+    };
+    interface HTMLHclSdkIconGeolocElement extends Components.HclSdkIconGeoloc, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconGeolocElement: {
+        prototype: HTMLHclSdkIconGeolocElement;
+        new (): HTMLHclSdkIconGeolocElement;
+    };
+    interface HTMLHclSdkIconGmailElement extends Components.HclSdkIconGmail, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconGmailElement: {
+        prototype: HTMLHclSdkIconGmailElement;
+        new (): HTMLHclSdkIconGmailElement;
     };
     interface HTMLHclSdkIconHistoryElement extends Components.HclSdkIconHistory, HTMLStencilElement {
     }
@@ -376,17 +439,17 @@ declare global {
         prototype: HTMLHclSdkIconLikeElement;
         new (): HTMLHclSdkIconLikeElement;
     };
+    interface HTMLHclSdkIconLinkedinElement extends Components.HclSdkIconLinkedin, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconLinkedinElement: {
+        prototype: HTMLHclSdkIconLinkedinElement;
+        new (): HTMLHclSdkIconLinkedinElement;
+    };
     interface HTMLHclSdkIconListElement extends Components.HclSdkIconList, HTMLStencilElement {
     }
     var HTMLHclSdkIconListElement: {
         prototype: HTMLHclSdkIconListElement;
         new (): HTMLHclSdkIconListElement;
-    };
-    interface HTMLHclSdkIconLocationElement extends Components.HclSdkIconLocation, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconLocationElement: {
-        prototype: HTMLHclSdkIconLocationElement;
-        new (): HTMLHclSdkIconLocationElement;
     };
     interface HTMLHclSdkIconMapElement extends Components.HclSdkIconMap, HTMLStencilElement {
     }
@@ -394,17 +457,17 @@ declare global {
         prototype: HTMLHclSdkIconMapElement;
         new (): HTMLHclSdkIconMapElement;
     };
+    interface HTMLHclSdkIconMap_geolocElement extends Components.HclSdkIconMap_geoloc, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconMap_geolocElement: {
+        prototype: HTMLHclSdkIconMap_geolocElement;
+        new (): HTMLHclSdkIconMap_geolocElement;
+    };
     interface HTMLHclSdkIconNoAccountsElement extends Components.HclSdkIconNoAccounts, HTMLStencilElement {
     }
     var HTMLHclSdkIconNoAccountsElement: {
         prototype: HTMLHclSdkIconNoAccountsElement;
         new (): HTMLHclSdkIconNoAccountsElement;
-    };
-    interface HTMLHclSdkIconPersonalElement extends Components.HclSdkIconPersonal, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconPersonalElement: {
-        prototype: HTMLHclSdkIconPersonalElement;
-        new (): HTMLHclSdkIconPersonalElement;
     };
     interface HTMLHclSdkIconPhoneElement extends Components.HclSdkIconPhone, HTMLStencilElement {
     }
@@ -412,11 +475,11 @@ declare global {
         prototype: HTMLHclSdkIconPhoneElement;
         new (): HTMLHclSdkIconPhoneElement;
     };
-    interface HTMLHclSdkIconPrinterElement extends Components.HclSdkIconPrinter, HTMLStencilElement {
+    interface HTMLHclSdkIconProfileElement extends Components.HclSdkIconProfile, HTMLStencilElement {
     }
-    var HTMLHclSdkIconPrinterElement: {
-        prototype: HTMLHclSdkIconPrinterElement;
-        new (): HTMLHclSdkIconPrinterElement;
+    var HTMLHclSdkIconProfileElement: {
+        prototype: HTMLHclSdkIconProfileElement;
+        new (): HTMLHclSdkIconProfileElement;
     };
     interface HTMLHclSdkIconRefreshElement extends Components.HclSdkIconRefresh, HTMLStencilElement {
     }
@@ -453,6 +516,18 @@ declare global {
     var HTMLHclSdkIconSortElement: {
         prototype: HTMLHclSdkIconSortElement;
         new (): HTMLHclSdkIconSortElement;
+    };
+    interface HTMLHclSdkIconTwitterElement extends Components.HclSdkIconTwitter, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconTwitterElement: {
+        prototype: HTMLHclSdkIconTwitterElement;
+        new (): HTMLHclSdkIconTwitterElement;
+    };
+    interface HTMLHclSdkIconWebsiteElement extends Components.HclSdkIconWebsite, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconWebsiteElement: {
+        prototype: HTMLHclSdkIconWebsiteElement;
+        new (): HTMLHclSdkIconWebsiteElement;
     };
     interface HTMLHclSdkInputElement extends Components.HclSdkInput, HTMLStencilElement {
     }
@@ -538,6 +613,12 @@ declare global {
         prototype: HTMLHclSdkSelectElement;
         new (): HTMLHclSdkSelectElement;
     };
+    interface HTMLHclSdkShareHcpElement extends Components.HclSdkShareHcp, HTMLStencilElement {
+    }
+    var HTMLHclSdkShareHcpElement: {
+        prototype: HTMLHclSdkShareHcpElement;
+        new (): HTMLHclSdkShareHcpElement;
+    };
     interface HTMLHclSdkSortElement extends Components.HclSdkSort, HTMLStencilElement {
     }
     var HTMLHclSdkSortElement: {
@@ -552,6 +633,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "hcl-sdk": HTMLHclSdkElement;
+        "hcl-sdk-autocomplete-result": HTMLHclSdkAutocompleteResultElement;
         "hcl-sdk-button": HTMLHclSdkButtonElement;
         "hcl-sdk-dev-settings": HTMLHclSdkDevSettingsElement;
         "hcl-sdk-doctor-card": HTMLHclSdkDoctorCardElement;
@@ -560,29 +642,34 @@ declare global {
         "hcl-sdk-home-full": HTMLHclSdkHomeFullElement;
         "hcl-sdk-home-min": HTMLHclSdkHomeMinElement;
         "hcl-sdk-icon": HTMLHclSdkIconElement;
-        "hcl-sdk-icon-arrow": HTMLHclSdkIconArrowElement;
-        "hcl-sdk-icon-chevron-arrow": HTMLHclSdkIconChevronArrowElement;
+        "hcl-sdk-icon-arrow_right": HTMLHclSdkIconArrow_rightElement;
+        "hcl-sdk-icon-back": HTMLHclSdkIconBackElement;
         "hcl-sdk-icon-circular": HTMLHclSdkIconCircularElement;
         "hcl-sdk-icon-default-avatar": HTMLHclSdkIconDefaultAvatarElement;
         "hcl-sdk-icon-direction": HTMLHclSdkIconDirectionElement;
         "hcl-sdk-icon-dislike": HTMLHclSdkIconDislikeElement;
-        "hcl-sdk-icon-earth": HTMLHclSdkIconEarthElement;
         "hcl-sdk-icon-edit": HTMLHclSdkIconEditElement;
+        "hcl-sdk-icon-facebook": HTMLHclSdkIconFacebookElement;
+        "hcl-sdk-icon-fax": HTMLHclSdkIconFaxElement;
+        "hcl-sdk-icon-geoloc": HTMLHclSdkIconGeolocElement;
+        "hcl-sdk-icon-gmail": HTMLHclSdkIconGmailElement;
         "hcl-sdk-icon-history": HTMLHclSdkIconHistoryElement;
         "hcl-sdk-icon-like": HTMLHclSdkIconLikeElement;
+        "hcl-sdk-icon-linkedin": HTMLHclSdkIconLinkedinElement;
         "hcl-sdk-icon-list": HTMLHclSdkIconListElement;
-        "hcl-sdk-icon-location": HTMLHclSdkIconLocationElement;
         "hcl-sdk-icon-map": HTMLHclSdkIconMapElement;
+        "hcl-sdk-icon-map_geoloc": HTMLHclSdkIconMap_geolocElement;
         "hcl-sdk-icon-no-accounts": HTMLHclSdkIconNoAccountsElement;
-        "hcl-sdk-icon-personal": HTMLHclSdkIconPersonalElement;
         "hcl-sdk-icon-phone": HTMLHclSdkIconPhoneElement;
-        "hcl-sdk-icon-printer": HTMLHclSdkIconPrinterElement;
+        "hcl-sdk-icon-profile": HTMLHclSdkIconProfileElement;
         "hcl-sdk-icon-refresh": HTMLHclSdkIconRefreshElement;
         "hcl-sdk-icon-remove": HTMLHclSdkIconRemoveElement;
         "hcl-sdk-icon-search": HTMLHclSdkIconSearchElement;
         "hcl-sdk-icon-search-off": HTMLHclSdkIconSearchOffElement;
         "hcl-sdk-icon-share": HTMLHclSdkIconShareElement;
         "hcl-sdk-icon-sort": HTMLHclSdkIconSortElement;
+        "hcl-sdk-icon-twitter": HTMLHclSdkIconTwitterElement;
+        "hcl-sdk-icon-website": HTMLHclSdkIconWebsiteElement;
         "hcl-sdk-input": HTMLHclSdkInputElement;
         "hcl-sdk-loading": HTMLHclSdkLoadingElement;
         "hcl-sdk-map": HTMLHclSdkMapElement;
@@ -597,12 +684,18 @@ declare global {
         "hcl-sdk-search-no-results": HTMLHclSdkSearchNoResultsElement;
         "hcl-sdk-search-result": HTMLHclSdkSearchResultElement;
         "hcl-sdk-select": HTMLHclSdkSelectElement;
+        "hcl-sdk-share-hcp": HTMLHclSdkShareHcpElement;
         "hcl-sdk-sort": HTMLHclSdkSortElement;
         "hcl-sdk-switch-view-mode": HTMLHclSdkSwitchViewModeElement;
     }
 }
 declare namespace LocalJSX {
     interface HclSdk {
+    }
+    interface HclSdkAutocompleteResult {
+        "currentSelectedInput"?: SearchInputName;
+        "data"?: any;
+        "type"?: SearchInputName;
     }
     interface HclSdkButton {
         "class"?: string;
@@ -612,12 +705,15 @@ declare namespace LocalJSX {
         "iconHeight"?: number;
         "iconWidth"?: number;
         "isFull"?: boolean;
+        "isLink"?: boolean;
         "noBackground"?: boolean;
         "noBorder"?: boolean;
+        "noPadding"?: boolean;
         "noTextColor"?: boolean;
         "primary"?: boolean;
         "round"?: boolean;
         "secondary"?: boolean;
+        "tabIndex"?: number;
         "type"?: string;
     }
     interface HclSdkDevSettings {
@@ -626,9 +722,9 @@ declare namespace LocalJSX {
         "address"?: string;
         "distance"?: string;
         "name"?: string;
-        "professionalType"?: string;
         "selected"?: boolean;
         "showDistance"?: boolean;
+        "specialtyPrimary"?: string;
         "viewMode"?: string;
     }
     interface HclSdkHcpFullCard {
@@ -648,12 +744,12 @@ declare namespace LocalJSX {
         "primary"?: boolean;
         "width"?: number;
     }
-    interface HclSdkIconArrow {
+    interface HclSdkIconArrow_right {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconChevronArrow {
+    interface HclSdkIconBack {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -678,12 +774,27 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconEarth {
+    interface HclSdkIconEdit {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconEdit {
+    interface HclSdkIconFacebook {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconFax {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconGeoloc {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconGmail {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -698,12 +809,12 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconList {
+    interface HclSdkIconLinkedin {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconLocation {
+    interface HclSdkIconList {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -713,12 +824,12 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconNoAccounts {
+    interface HclSdkIconMap_geoloc {
         "color"?: string;
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconPersonal {
+    interface HclSdkIconNoAccounts {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -728,7 +839,7 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconPrinter {
+    interface HclSdkIconProfile {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -763,6 +874,16 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface HclSdkIconTwitter {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconWebsite {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface HclSdkInput {
         "autoComplete"?: string;
         "autoFocus"?: boolean;
@@ -770,7 +891,9 @@ declare namespace LocalJSX {
         "class"?: string;
         "loading"?: boolean;
         "name"?: string;
+        "onArrowKeyDown"?: (e: any) => void;
         "onBlur"?: (e: any) => void;
+        "onEnterKeyDown"?: (e: any) => void;
         "onFocus"?: (e: any) => void;
         "onInput"?: (e: any) => void;
         "onPostfixClick"?: (e: any) => void;
@@ -789,6 +912,7 @@ declare namespace LocalJSX {
         "interactive"?: boolean;
         "isForcedZoomToMe"?: boolean;
         "isShowMeMarker"?: boolean;
+        "isZoomChanged"?: boolean;
         "locations"?: any[];
         "mapHeight"?: string;
         "mapMinHeight"?: string;
@@ -829,15 +953,14 @@ declare namespace LocalJSX {
         "url"?: string;
     }
     interface HclSdkSearch {
+        "isSearchResult"?: boolean;
         "noIcon"?: boolean;
-        "searchText"?: string;
-        "showSwitchMode"?: boolean;
     }
     interface HclSdkSearchAddressItem {
-        "activated"?: boolean;
         "currentSearchText"?: string;
         "item"?: any;
         "onSelectAddress"?: (event: CustomEvent<any>) => void;
+        "selected"?: boolean;
     }
     interface HclSdkSearchNoDataAvailable {
     }
@@ -851,6 +974,8 @@ declare namespace LocalJSX {
         "options"?: OptionType[];
         "value"?: string;
     }
+    interface HclSdkShareHcp {
+    }
     interface HclSdkSort {
     }
     interface HclSdkSwitchViewMode {
@@ -859,6 +984,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "hcl-sdk": HclSdk;
+        "hcl-sdk-autocomplete-result": HclSdkAutocompleteResult;
         "hcl-sdk-button": HclSdkButton;
         "hcl-sdk-dev-settings": HclSdkDevSettings;
         "hcl-sdk-doctor-card": HclSdkDoctorCard;
@@ -867,29 +993,34 @@ declare namespace LocalJSX {
         "hcl-sdk-home-full": HclSdkHomeFull;
         "hcl-sdk-home-min": HclSdkHomeMin;
         "hcl-sdk-icon": HclSdkIcon;
-        "hcl-sdk-icon-arrow": HclSdkIconArrow;
-        "hcl-sdk-icon-chevron-arrow": HclSdkIconChevronArrow;
+        "hcl-sdk-icon-arrow_right": HclSdkIconArrow_right;
+        "hcl-sdk-icon-back": HclSdkIconBack;
         "hcl-sdk-icon-circular": HclSdkIconCircular;
         "hcl-sdk-icon-default-avatar": HclSdkIconDefaultAvatar;
         "hcl-sdk-icon-direction": HclSdkIconDirection;
         "hcl-sdk-icon-dislike": HclSdkIconDislike;
-        "hcl-sdk-icon-earth": HclSdkIconEarth;
         "hcl-sdk-icon-edit": HclSdkIconEdit;
+        "hcl-sdk-icon-facebook": HclSdkIconFacebook;
+        "hcl-sdk-icon-fax": HclSdkIconFax;
+        "hcl-sdk-icon-geoloc": HclSdkIconGeoloc;
+        "hcl-sdk-icon-gmail": HclSdkIconGmail;
         "hcl-sdk-icon-history": HclSdkIconHistory;
         "hcl-sdk-icon-like": HclSdkIconLike;
+        "hcl-sdk-icon-linkedin": HclSdkIconLinkedin;
         "hcl-sdk-icon-list": HclSdkIconList;
-        "hcl-sdk-icon-location": HclSdkIconLocation;
         "hcl-sdk-icon-map": HclSdkIconMap;
+        "hcl-sdk-icon-map_geoloc": HclSdkIconMap_geoloc;
         "hcl-sdk-icon-no-accounts": HclSdkIconNoAccounts;
-        "hcl-sdk-icon-personal": HclSdkIconPersonal;
         "hcl-sdk-icon-phone": HclSdkIconPhone;
-        "hcl-sdk-icon-printer": HclSdkIconPrinter;
+        "hcl-sdk-icon-profile": HclSdkIconProfile;
         "hcl-sdk-icon-refresh": HclSdkIconRefresh;
         "hcl-sdk-icon-remove": HclSdkIconRemove;
         "hcl-sdk-icon-search": HclSdkIconSearch;
         "hcl-sdk-icon-search-off": HclSdkIconSearchOff;
         "hcl-sdk-icon-share": HclSdkIconShare;
         "hcl-sdk-icon-sort": HclSdkIconSort;
+        "hcl-sdk-icon-twitter": HclSdkIconTwitter;
+        "hcl-sdk-icon-website": HclSdkIconWebsite;
         "hcl-sdk-input": HclSdkInput;
         "hcl-sdk-loading": HclSdkLoading;
         "hcl-sdk-map": HclSdkMap;
@@ -904,6 +1035,7 @@ declare namespace LocalJSX {
         "hcl-sdk-search-no-results": HclSdkSearchNoResults;
         "hcl-sdk-search-result": HclSdkSearchResult;
         "hcl-sdk-select": HclSdkSelect;
+        "hcl-sdk-share-hcp": HclSdkShareHcp;
         "hcl-sdk-sort": HclSdkSort;
         "hcl-sdk-switch-view-mode": HclSdkSwitchViewMode;
     }
@@ -913,6 +1045,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "hcl-sdk": LocalJSX.HclSdk & JSXBase.HTMLAttributes<HTMLHclSdkElement>;
+            "hcl-sdk-autocomplete-result": LocalJSX.HclSdkAutocompleteResult & JSXBase.HTMLAttributes<HTMLHclSdkAutocompleteResultElement>;
             "hcl-sdk-button": LocalJSX.HclSdkButton & JSXBase.HTMLAttributes<HTMLHclSdkButtonElement>;
             "hcl-sdk-dev-settings": LocalJSX.HclSdkDevSettings & JSXBase.HTMLAttributes<HTMLHclSdkDevSettingsElement>;
             "hcl-sdk-doctor-card": LocalJSX.HclSdkDoctorCard & JSXBase.HTMLAttributes<HTMLHclSdkDoctorCardElement>;
@@ -921,29 +1054,34 @@ declare module "@stencil/core" {
             "hcl-sdk-home-full": LocalJSX.HclSdkHomeFull & JSXBase.HTMLAttributes<HTMLHclSdkHomeFullElement>;
             "hcl-sdk-home-min": LocalJSX.HclSdkHomeMin & JSXBase.HTMLAttributes<HTMLHclSdkHomeMinElement>;
             "hcl-sdk-icon": LocalJSX.HclSdkIcon & JSXBase.HTMLAttributes<HTMLHclSdkIconElement>;
-            "hcl-sdk-icon-arrow": LocalJSX.HclSdkIconArrow & JSXBase.HTMLAttributes<HTMLHclSdkIconArrowElement>;
-            "hcl-sdk-icon-chevron-arrow": LocalJSX.HclSdkIconChevronArrow & JSXBase.HTMLAttributes<HTMLHclSdkIconChevronArrowElement>;
+            "hcl-sdk-icon-arrow_right": LocalJSX.HclSdkIconArrow_right & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_rightElement>;
+            "hcl-sdk-icon-back": LocalJSX.HclSdkIconBack & JSXBase.HTMLAttributes<HTMLHclSdkIconBackElement>;
             "hcl-sdk-icon-circular": LocalJSX.HclSdkIconCircular & JSXBase.HTMLAttributes<HTMLHclSdkIconCircularElement>;
             "hcl-sdk-icon-default-avatar": LocalJSX.HclSdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLHclSdkIconDefaultAvatarElement>;
             "hcl-sdk-icon-direction": LocalJSX.HclSdkIconDirection & JSXBase.HTMLAttributes<HTMLHclSdkIconDirectionElement>;
             "hcl-sdk-icon-dislike": LocalJSX.HclSdkIconDislike & JSXBase.HTMLAttributes<HTMLHclSdkIconDislikeElement>;
-            "hcl-sdk-icon-earth": LocalJSX.HclSdkIconEarth & JSXBase.HTMLAttributes<HTMLHclSdkIconEarthElement>;
             "hcl-sdk-icon-edit": LocalJSX.HclSdkIconEdit & JSXBase.HTMLAttributes<HTMLHclSdkIconEditElement>;
+            "hcl-sdk-icon-facebook": LocalJSX.HclSdkIconFacebook & JSXBase.HTMLAttributes<HTMLHclSdkIconFacebookElement>;
+            "hcl-sdk-icon-fax": LocalJSX.HclSdkIconFax & JSXBase.HTMLAttributes<HTMLHclSdkIconFaxElement>;
+            "hcl-sdk-icon-geoloc": LocalJSX.HclSdkIconGeoloc & JSXBase.HTMLAttributes<HTMLHclSdkIconGeolocElement>;
+            "hcl-sdk-icon-gmail": LocalJSX.HclSdkIconGmail & JSXBase.HTMLAttributes<HTMLHclSdkIconGmailElement>;
             "hcl-sdk-icon-history": LocalJSX.HclSdkIconHistory & JSXBase.HTMLAttributes<HTMLHclSdkIconHistoryElement>;
             "hcl-sdk-icon-like": LocalJSX.HclSdkIconLike & JSXBase.HTMLAttributes<HTMLHclSdkIconLikeElement>;
+            "hcl-sdk-icon-linkedin": LocalJSX.HclSdkIconLinkedin & JSXBase.HTMLAttributes<HTMLHclSdkIconLinkedinElement>;
             "hcl-sdk-icon-list": LocalJSX.HclSdkIconList & JSXBase.HTMLAttributes<HTMLHclSdkIconListElement>;
-            "hcl-sdk-icon-location": LocalJSX.HclSdkIconLocation & JSXBase.HTMLAttributes<HTMLHclSdkIconLocationElement>;
             "hcl-sdk-icon-map": LocalJSX.HclSdkIconMap & JSXBase.HTMLAttributes<HTMLHclSdkIconMapElement>;
+            "hcl-sdk-icon-map_geoloc": LocalJSX.HclSdkIconMap_geoloc & JSXBase.HTMLAttributes<HTMLHclSdkIconMap_geolocElement>;
             "hcl-sdk-icon-no-accounts": LocalJSX.HclSdkIconNoAccounts & JSXBase.HTMLAttributes<HTMLHclSdkIconNoAccountsElement>;
-            "hcl-sdk-icon-personal": LocalJSX.HclSdkIconPersonal & JSXBase.HTMLAttributes<HTMLHclSdkIconPersonalElement>;
             "hcl-sdk-icon-phone": LocalJSX.HclSdkIconPhone & JSXBase.HTMLAttributes<HTMLHclSdkIconPhoneElement>;
-            "hcl-sdk-icon-printer": LocalJSX.HclSdkIconPrinter & JSXBase.HTMLAttributes<HTMLHclSdkIconPrinterElement>;
+            "hcl-sdk-icon-profile": LocalJSX.HclSdkIconProfile & JSXBase.HTMLAttributes<HTMLHclSdkIconProfileElement>;
             "hcl-sdk-icon-refresh": LocalJSX.HclSdkIconRefresh & JSXBase.HTMLAttributes<HTMLHclSdkIconRefreshElement>;
             "hcl-sdk-icon-remove": LocalJSX.HclSdkIconRemove & JSXBase.HTMLAttributes<HTMLHclSdkIconRemoveElement>;
             "hcl-sdk-icon-search": LocalJSX.HclSdkIconSearch & JSXBase.HTMLAttributes<HTMLHclSdkIconSearchElement>;
             "hcl-sdk-icon-search-off": LocalJSX.HclSdkIconSearchOff & JSXBase.HTMLAttributes<HTMLHclSdkIconSearchOffElement>;
             "hcl-sdk-icon-share": LocalJSX.HclSdkIconShare & JSXBase.HTMLAttributes<HTMLHclSdkIconShareElement>;
             "hcl-sdk-icon-sort": LocalJSX.HclSdkIconSort & JSXBase.HTMLAttributes<HTMLHclSdkIconSortElement>;
+            "hcl-sdk-icon-twitter": LocalJSX.HclSdkIconTwitter & JSXBase.HTMLAttributes<HTMLHclSdkIconTwitterElement>;
+            "hcl-sdk-icon-website": LocalJSX.HclSdkIconWebsite & JSXBase.HTMLAttributes<HTMLHclSdkIconWebsiteElement>;
             "hcl-sdk-input": LocalJSX.HclSdkInput & JSXBase.HTMLAttributes<HTMLHclSdkInputElement>;
             "hcl-sdk-loading": LocalJSX.HclSdkLoading & JSXBase.HTMLAttributes<HTMLHclSdkLoadingElement>;
             "hcl-sdk-map": LocalJSX.HclSdkMap & JSXBase.HTMLAttributes<HTMLHclSdkMapElement>;
@@ -958,6 +1096,7 @@ declare module "@stencil/core" {
             "hcl-sdk-search-no-results": LocalJSX.HclSdkSearchNoResults & JSXBase.HTMLAttributes<HTMLHclSdkSearchNoResultsElement>;
             "hcl-sdk-search-result": LocalJSX.HclSdkSearchResult & JSXBase.HTMLAttributes<HTMLHclSdkSearchResultElement>;
             "hcl-sdk-select": LocalJSX.HclSdkSelect & JSXBase.HTMLAttributes<HTMLHclSdkSelectElement>;
+            "hcl-sdk-share-hcp": LocalJSX.HclSdkShareHcp & JSXBase.HTMLAttributes<HTMLHclSdkShareHcpElement>;
             "hcl-sdk-sort": LocalJSX.HclSdkSort & JSXBase.HTMLAttributes<HTMLHclSdkSortElement>;
             "hcl-sdk-switch-view-mode": LocalJSX.HclSdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLHclSdkSwitchViewModeElement>;
         }

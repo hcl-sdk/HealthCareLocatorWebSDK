@@ -5,11 +5,13 @@ import { configStore, searchMapStore, uiStore, routerStore } from '../../../core
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
+import sortBy from 'lodash.sortby';
 import { genSearchLocationParams, groupPointFromBoundingBox, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
 import { NEAR_ME } from '../../../core/constants';
 import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
 import { getDistance } from 'geolib';
+import { SortValue } from '../../../core/stores/SearchMapStore';
 
 @Component({
   tag: 'hcl-sdk-search-result',
@@ -25,43 +27,70 @@ export class HclSdkSearchResult {
   @State() isLoadingRelaunch: boolean;
 
   disconnectedCallback() {
-    searchMapStore.setState({
-      selectedActivity: null,
-      individualDetail: null,
-      searchDoctor: [],
-      specialties: [],
-    });
+    searchMapStore.resetDataSearch({
+      isResetHCPDetail: true,
+      isResetSearchFields: false,
+    })
     configStore.setState({
       modeView: ModeViewType.LIST
     })
   }
   componentWillLoad() {
-    const { selectedActivity, locationFilter, specialtyFilter } = searchMapStore.state
-    const { name } = searchMapStore.state.searchFields
-    if (!selectedActivity && locationFilter) {
+    const { navigatedFromHome, selectedActivity } = searchMapStore.state
+
+    if (!navigatedFromHome && !selectedActivity) {
+      /**
+       * No need to fetch activities for two cases:
+       *   - Go to search near me from Home Full (Data had already by Map)
+       *   - Go to HCP Full Card
+       */
       searchLocationWithParams()
     }
-    if (!specialtyFilter && !name && locationFilter && locationFilter.id === NEAR_ME) {
+
+    if (searchMapStore.isSearchNearMe) {
       configStore.setState({
         modeView: ModeViewType.MAP
       })
     }
+
     this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
+    this.handleObserveSortValuesChange(searchMapStore.state.sortValues)
+    searchMapStore.storeInstance.onChange('sortValues', this.handleObserveSortValuesChange)
   }
   searchDataCardList;
   searchDataMapElm;
 
+  handleObserveSortValuesChange(sortValues: SortValue) {
+    const { specialtiesRaw: specialties } = searchMapStore.state;
+
+    const sortByField = Object.keys(sortValues).filter(elm => sortValues[elm]);
+
+    // Reorder results based on new sort value
+    searchMapStore.setState({
+      specialties: sortBy(specialties, sortByField),
+    });
+
+    configStore.setState({
+      modal: undefined,
+    });
+  }
+
   onItemCardClick = async item => {
+    /**
+     * There are two ways to go HCP Full Card screen
+     *  - Home Full -> Click on Map (Near Me Search) -> List Result -> Click on Item Card -> HCP Full Card
+     *  - Home Full -> Click on Last HCP History Search Item -> HCP Full Card
+     */
     searchMapStore.setState({
       selectedActivity: item,
-      individualDetail: null
+      individualDetail: null,
+      navigatedFromHome: false
     });
   };
 
   @Listen('backFromHcpFullCard')
   backFromHcpFullCardHandler() {
     const { navigatedFromHome } = searchMapStore.state;
-
     if (navigatedFromHome) {
       searchMapStore.setState({
         navigatedFromHome: false
@@ -148,14 +177,16 @@ export class HclSdkSearchResult {
 
       if (result) {
         searchMapStore.setSearchFieldValue('address', result.shortDisplayName);
-        const params = genSearchLocationParams({
+        const params = await genSearchLocationParams({
           locationFilter: {
             lat: this.newDragLocation.lat,
             lng: this.newDragLocation.lng,
             boundingbox: result.boundingbox,
             addressDetails: result.addressDetails
           },
-          specialtyFilter: searchMapStore.state.specialtyFilter
+          specialtyFilter: searchMapStore.state.specialtyFilter,
+          medicalTermsFilter: searchMapStore.state.medicalTermsFilter,
+          searchFields: searchMapStore.state.searchFields
         })
 
         if (params.location && this.newDragBoundingBox.length === 4) {
@@ -166,13 +197,13 @@ export class HclSdkSearchResult {
 
         await searchLocation(params, {
           hasLoading: 'idle',
-          isAcceptEmptyData: false // No redirect to no results screen when relaunch is empty
+          isAllowDisplayMapEmpty: true // No redirect to no results screen when relaunch is empty
         });
       }
     } catch(err) {
       console.error(err);
     }
-    
+
     this.isLoadingRelaunch = false;
     this.isShowRelaunchBtn = false;
     this.newDragLocation = null;
@@ -216,7 +247,7 @@ export class HclSdkSearchResult {
     return (
       <div class={className}>
         <div class="search-back-large hidden-mobile">
-          <hcl-sdk-button noBorder noBackground icon="arrow" iconColor={getCssColor('--hcl-color-dark')} onClick={() => this.goBackToHome()}>
+          <hcl-sdk-button noBorder noBackground icon="back" iconColor={getCssColor('--hcl-color-dark')} onClick={() => this.goBackToHome()}>
             <span class="text-small">{t('back_to_home')}</span>
           </hcl-sdk-button>
         </div>
@@ -258,11 +289,12 @@ export class HclSdkSearchResult {
       locationFilter,
       searchFields,
       loadingActivitiesStatus,
-      individualDetail
+      individualDetail,
+      isAllowDisplayMapEmpty
     } = searchMapStore.state;
 
     const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
-    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && searchFields.name === '';
+    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && !searchFields.specialtyName && !searchFields.medicalTerm
 
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
@@ -272,7 +304,9 @@ export class HclSdkSearchResult {
       'list-view': !isSmall || isListView,
     });
 
-    const mapClass = cls('search-map__content');
+    const mapClass = cls('search-map__content', {
+      'search-map__empty': isAllowDisplayMapEmpty
+    });
 
     const mapWrapperClass = cls('search-map-wrapper', {
       hide: !this.isOpenPanel,
@@ -285,8 +319,8 @@ export class HclSdkSearchResult {
 
     const injectedMapProps = {
       mapHeight: '100%',
-      class: mapClass, 
-      modeView: modeView, 
+      class: mapClass,
+      modeView: modeView,
       selectedLocationIdx: 0,
       defaultZoom: 15,
       zoomControl: true
@@ -294,15 +328,15 @@ export class HclSdkSearchResult {
 
     const isShowHCPDetail = individualDetail || selectedActivity;
     const loadingActivities = loadingActivitiesStatus === 'loading';
-    const isNoDataAvailable = loadingActivitiesStatus === 'error';
-    const isShowNoResults = !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
+    const isNoDataAvailable = loadingActivitiesStatus ===  'unauthorized';
+    const isShowNoResults = !isAllowDisplayMapEmpty && !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,
       desktop: !loadingActivities && !isSmall,
     }
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
-    const isShowMapCluster = !isListView && !isShowHCPDetail && specialties && specialties.length !== 0;
-    
+    const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && specialties && specialties.length !== 0);
+
     const locationsMapSingle = this.getLocationsMapSingle();
     const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
 
@@ -320,7 +354,7 @@ export class HclSdkSearchResult {
                   iconHeight={27}
                   noBorder
                   noBackground
-                  icon="arrow"
+                  icon="back"
                   iconColor={getCssColor('--hcl-color-dark')}
                   onClick={() => this.goBackToHome()}
                 ></hcl-sdk-button>
@@ -332,7 +366,7 @@ export class HclSdkSearchResult {
                     </div>
                   ) : (
                     <Fragment>
-                      <strong class="search-result-title">{searchMapStore.state.searchFields.name}</strong>
+                      <strong class="search-result-title">{searchMapStore.getSearchLabel(true)}</strong>
                       <div class="search-result-address">{selectedAddressName || t('anywhere')}</div>
                     </Fragment>
                   )}
@@ -340,7 +374,7 @@ export class HclSdkSearchResult {
               </div>
             )
           ) : (
-            <hcl-sdk-search searchText={t('search')} showSwitchMode />
+            <hcl-sdk-search isSearchResult />
           ))}
 
         {
@@ -354,12 +388,12 @@ export class HclSdkSearchResult {
                 'body-block--disabled': this.isLoadingRelaunch
               })}>
                 <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
-                  {selectedActivity ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
-                  {!selectedActivity && (
+                  {isShowHCPDetail ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
+                  {!isShowHCPDetail && (
                     <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                       {!loadingActivities && specialties.map(elm => (
                         <hcl-sdk-doctor-card
-                          selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng} 
+                          selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng}
                           {...elm}
                           key={elm.id}
                           onClick={() => this.onItemCardClick(elm)}
@@ -375,7 +409,7 @@ export class HclSdkSearchResult {
                   )}
                 </div>
                 <div class="toggle-panel">
-                  <hcl-sdk-button icon="chevron-arrow" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
+                  <hcl-sdk-button icon="arrow_right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor="black" onClick={this.togglePanel} />
                 </div>
 
                 {
@@ -383,12 +417,12 @@ export class HclSdkSearchResult {
                     <div class={cls('hclsdk-btn-relaunch', {
                       'hclsdk-btn-relaunch--loading': this.isLoadingRelaunch
                     })}>
-                      <hcl-sdk-button 
-                        icon="refresh" 
-                        noBorder 
-                        secondary 
-                        iconWidth={12} 
-                        iconHeight={12} 
+                      <hcl-sdk-button
+                        icon="refresh"
+                        noBorder
+                        secondary
+                        iconWidth={12}
+                        iconHeight={12}
                         iconColor="white"
                         onClick={this.handleRelaunchSearch}
                       >
@@ -412,7 +446,7 @@ export class HclSdkSearchResult {
 
                 {
                   isShowMapSingle && (
-                    <hcl-sdk-map 
+                    <hcl-sdk-map
                       key="map-single"
                       locations={locationsMapSingle}
                       noCurrentLocation

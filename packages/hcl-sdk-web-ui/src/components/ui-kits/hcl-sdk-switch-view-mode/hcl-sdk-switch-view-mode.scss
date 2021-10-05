@@ -25,19 +25,10 @@
         span {
           color: white;
         }
-      }
-      &__map-icon {
-        width: 0.9em;
-        height: 0.9em;
-      }
-    }
-  }
 
-
-  .size-tablet {
-    .hclsdk-switch-view-mode {
-      .mode-item > span {
-        display: none;
+        hcl-sdk-icon svg{
+          fill: white;
+        }
       }
     }
   }

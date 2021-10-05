@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
-import { CodeResult, QueryCodesArgs } from './types';
+import { CodeResult, QueryCodesByLabelArgs } from './types';
 
-interface LabelsByCodeResult {
+export interface LabelsByCodeResult {
   labelsByCode: CodeResult
 }
 
@@ -26,6 +26,6 @@ const QUERY_LABEL_BY_CODE = gql`
   }
 `
 
-export default function labelsByCode(variables: QueryCodesArgs, config?): Promise<LabelsByCodeResult> {
+export default function labelsByCode(variables: QueryCodesByLabelArgs, config?): Promise<LabelsByCodeResult> {
   return graphqlClient(QUERY_LABEL_BY_CODE, variables, config)
 }

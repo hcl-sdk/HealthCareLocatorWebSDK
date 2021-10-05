@@ -2,7 +2,8 @@ export const BREAKPOINT_MAX_WIDTH = {
   MOBILE_PORTRAIT: 568,
   MOBILE_LANDSCAPE: 750,
   TABLET_PORTRAIT: 1024,
-  TABLET_LANDSCAPE: 1100
+  TABLET_LANDSCAPE: 1100,
+  DESKTOP_SMALL: 1280 
 }
 
 export const NEAR_ME = 'NEAR_ME';
@@ -24,11 +25,6 @@ export const GEOLOC = {
 }
 
 export const HCL_WEBSITE_HOST = process.env.HCL_WEBSITE_HOST;
-
-export const DISTANCE_METER = {
-  NEAR_ME: 2000, // 2km
-  DEFAULT: 5000 // 5km
-}
 
 export const COUNTRY_CODES = [
   "AD",

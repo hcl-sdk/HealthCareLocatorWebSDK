@@ -1,0 +1,31 @@
+{
+  "name": "@healthcarelocator/sdk-react",
+  "description": "HCL SDK React component",
+  "version": "0.1.4",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "@healthcarelocator/sdk-web": "^0.1.10",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "typescript": "^4.1.2"
+  },
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rm -rf dist",
+    "compile": "yarn run tsc",
+    "tsc": "tsc -p ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

@@ -1,10 +1,10 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'hcl-sdk-icon-chevron-arrow',
+  tag: 'hcl-sdk-icon-arrow_right',
   shadow: false,
 })
-export class HclSdkIconChevronArrow {
+export class HclSdkIconArrow_right {
   @Prop() color: string;
   @Prop() width: number = 20;
   @Prop() height: number = 20;

@@ -39,7 +39,7 @@ export class HclSdkHome {
     const { breakpoint } = uiStore.state;
 
     if (breakpoint.screenSize === 'desktop' || breakpoint.screenSize === 'tablet') {
-      return <hcl-sdk-search searchText={t('search')} />;
+      return <hcl-sdk-search />;
     }
 
     return (

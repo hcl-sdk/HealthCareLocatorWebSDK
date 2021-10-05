@@ -1,5 +1,8 @@
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
+import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
+
+export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName'
 
 export interface SpecialtyItem {
   name: string;
@@ -17,6 +20,8 @@ export interface SpecialtyItem {
 export interface SearchFields {
   name: string;
   address: string;
+  medicalTerm: string;
+  specialtyName: string;
 }
 export interface HCPName {
   id: string
@@ -36,7 +41,6 @@ export interface SelectedValues {
 }
 
 export interface SortValue {
-  relevance?: boolean;
   distanceNumber?: boolean;
   lastName?: boolean;
 }
@@ -51,17 +55,33 @@ export interface SelectedIndividual {
   lng?: number;
 }
 
+export interface SearchTermItem {
+  id: string;
+  name: string; // longLbl
+  lisCode: string;
+}
+
+export interface SearchSpecialty {
+  id: string;
+  name: string;
+}
+
+type SearchDoctor = SelectedIndividual
+
 export interface SearchMapState {
   loading?: boolean;
-  loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading';
+  loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
   loadingIndividualDetail?: boolean;
   loadingSwitchAddress?: boolean;
   specialties?: SpecialtyItem[];
+  isAllowDisplayMapEmpty?: boolean;
   specialtiesRaw?: SpecialtyItem[];
   doctors?: HCPName[];
   search?: SearchResult;
   searchGeo?: any[];
-  searchDoctor?: any[];
+  searchDoctor?: SearchDoctor[];
+  searchSpecialty?: SearchSpecialty[];
+  searchMedicalTerms: SearchTermItem[];
   selectedValues?: SelectedValues;
   sortValues?: SortValue
   selectedActivity?: SelectedIndividual
@@ -69,7 +89,8 @@ export interface SearchMapState {
   individualDetailName?: string;
   searchFields: SearchFields;
   locationFilter: any;
-  specialtyFilter: any;
+  specialtyFilter: SearchSpecialty[];
+  medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
 }
@@ -88,23 +109,28 @@ export const initStateSearchMapStore: SearchMapState = {
   loadingSwitchAddress: false,
   specialties: [],
   specialtiesRaw: [],
+  isAllowDisplayMapEmpty: false,
   search: {},
   searchGeo: [],
-  searchDoctor: [],
+  searchDoctor: [], // HCPs
+  searchSpecialty: [],
+  searchMedicalTerms: [],
   selectedValues: {},
   selectedActivity: null,
   individualDetail: null,
   sortValues: {
-    relevance: true, // Default sort by relevance
     distanceNumber: false,
-    lastName: false
+    lastName: true
   },
   searchFields: {
-    name: '',
-    address: ''
+    name: '', // First name or Last name of HCPs
+    specialtyName: '',
+    address: '',
+    medicalTerm: ''
   },
   locationFilter: null,
-  specialtyFilter: null,
+  specialtyFilter: [],
+  medicalTermsFilter: null,
   geoLocation: {
     status: 'denied' as GeoLocationStatus,
     latitude: 0,
@@ -119,7 +145,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     this.state = state;
   }
 
-  setSearchFieldValue(key: string, value: string) {
+  setSearchFieldValue(key: SearchInputName, value: string) {
     this.setState({
       searchFields: {
         ...this.state.searchFields,
@@ -165,8 +191,78 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     }
   }
 
+  resetDataSearch({ 
+    isResetHCPDetail = false,
+    isResetSearchFields = false
+  } = {}) {
+    let resetHCPDetail = {}
+    let resetSearchFields = {}
+
+    if (isResetHCPDetail) {
+      resetHCPDetail = {
+        selectedActivity: null,
+        individualDetail: null,
+        specialties: [],
+        specialtiesRaw: []
+      }
+    }
+
+    if (isResetSearchFields) {
+      resetSearchFields = {
+        searchFields: {
+          name: '',
+          address: '',
+          medicalTerm: '',
+          specialtyName: '',
+        },
+        specialtyFilter: [],
+        locationFilter: null,
+        medicalTermsFilter: null
+      }
+    }
+
+    this.setState({
+      searchDoctor: [],
+      searchGeo: [],
+      searchSpecialty: [],
+      searchMedicalTerms: [],
+      ...resetSearchFields,
+      ...resetHCPDetail
+    })
+  }
+
   get isGrantedGeoloc() {
     return this.state.geoLocation.status === 'granted';
+  }
+
+  get isSearchNearMe() {
+    const { locationFilter, searchFields } = this.state
+    const { name, specialtyName, medicalTerm, address  } = searchFields
+
+    if (
+      !name && !specialtyName && !medicalTerm && address &&
+      locationFilter && locationFilter.id === NEAR_ME 
+    ) {
+      return true
+    }
+
+    return false
+  }
+
+  getSearchLabel(isRemovedAddr = false) {
+    const searchFields = this.state.searchFields
+    const { name, specialtyName, address, medicalTerm  } = searchFields
+
+    const firstPart = [name, specialtyName, medicalTerm].filter(s => s).join(', ')
+    const greyPart = address ? `<span class="address">${address.toLowerCase()}</span>` : ''
+
+    if (isRemovedAddr) {
+      return firstPart
+    }
+
+    return [
+      firstPart ? `<span>${firstPart}</span>` : ''
+      , greyPart].filter(s => s).join('')
   }
 }
 

@@ -1,8 +1,7 @@
 {
-  "name": "hcl-sdk-web-ui",
-  "private": true,
-  "version": "0.0.5",
-  "description": "Stencil App Starter",
+  "name": "@healthcarelocator/sdk-web",
+  "version": "0.1.10",
+  "description": "HCL SDK web component",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
   "es2015": "./dist/esm-es5/index.js",
@@ -21,10 +20,12 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
+    "@stencil/angular-output-target": "^0.0.6",
     "@stencil/core": "^2.0.0",
     "@stencil/react-output-target": "^0.0.9",
     "@stencil/router": "^1.0.1",
     "@stencil/sass": "^1.4.0",
+    "@types/google.maps": "^3.44.6",
     "@types/leaflet": "^1.5.19",
     "@types/leaflet.markercluster": "^1.4.3",
     "@types/puppeteer": "5.4.0",
@@ -41,8 +42,6 @@
     "geolib": "^3.3.1",
     "graphql": "^15.4.0",
     "graphql-request": "^3.3.0",
-    "hcl-sdk-core": "*",
-    "ionicons": "^5.2.3",
     "leaflet": "^1.7.1",
     "leaflet-geosearch": "3.1.0",
     "leaflet-gesture-handling": "^1.2.1",

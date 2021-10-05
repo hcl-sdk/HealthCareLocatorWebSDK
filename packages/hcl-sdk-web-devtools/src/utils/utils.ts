@@ -1,13 +1,18 @@
 import { Fields, Theme } from '../types';
 
-const defaultSettings = {
+const defaultSettings: Fields = {
   apiKey: '',
   theme: 'default' as Theme,
   lang: 'en',
   appName: '',
   showSuggestModification: true,
+  enableMedicalTerm: false,
   appURL: '',
-  countries: ['ca','fr']
+  countries: ['ca','fr'],
+  distanceUnit: 'km',
+  useGoogleMap: false,
+  googleMapApiKey: '',
+  googleMapId: ''
 }
 
 export function format(first: string, middle: string, last: string): string {

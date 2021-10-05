@@ -3,7 +3,8 @@ import messagesEn from '../i18n/en_us.json';
 
 const mapFilenameByLang = {
   'en': 'en_us',
-  'fr': 'fr_fr'
+  'fr': 'fr_fr',
+  'ar_ma': 'ar_sa',
 }
 
 function getLangJsonFileName(lang: string) {

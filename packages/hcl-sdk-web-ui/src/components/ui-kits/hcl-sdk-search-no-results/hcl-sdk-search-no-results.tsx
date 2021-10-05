@@ -1,5 +1,5 @@
 import { Component, Host, h } from '@stencil/core';
-import { uiStore, routerStore } from 'hcl-sdk-web-ui/src/core/stores';
+import { uiStore, routerStore } from '../../../core/stores';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { t } from '../../../utils/i18n';
 
@@ -23,10 +23,10 @@ export class HclSdkSearchNoResults {
           <hcl-sdk-icon name="search-off" width={28} height={28} />
         </div>
         <p class="hclsdk-search-no-results__desc">{t('no_result_message')}</p>
-        <hcl-sdk-button 
-          isFull 
-          primary 
-          onClick={this.goSearch} 
+        <hcl-sdk-button
+          isFull
+          primary
+          onClick={this.goSearch}
           class="hclsdk-search-no-results__btn"
         >
           {t('start_new_search')}

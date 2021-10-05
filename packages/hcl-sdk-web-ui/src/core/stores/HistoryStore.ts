@@ -1,5 +1,7 @@
+import { Activity } from '../../../../hcl-sdk-core/src/graphql/types';
 import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
 import { HISTORY_MAX_TOTAL_ITEMS } from '../constants';
+import { SearchFields, SearchTermItem, SpecialtyItem } from './SearchMapStore';
 import StoreProvider from './StoreProvider';
 
 type HistoryItemType = 'search' | 'hcp';
@@ -8,15 +10,16 @@ export interface HistorySearchItem {
   id: string;
   type: 'search';
   locationFilter: any;
-  specialtyFilter: any;
-  searchFields: any;
+  specialtyFilter: SpecialtyItem[];
+  medicalTermsFilter: SearchTermItem;
+  searchFields: SearchFields;
   timestamp: number;
 }
 
 export interface HistoryHcpItem {
   activityId: string;
   type: 'hcp';
-  activity: any;
+  activity: Activity;
   timestamp: number;
 }
 

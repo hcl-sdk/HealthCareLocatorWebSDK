@@ -5,7 +5,7 @@ trigger:
   branches:
    include:
    - release/*
-  tags: 
+  tags:
    include:
    - v*
 
@@ -13,31 +13,31 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: BuildNumberGenerator  
+  - stage: BuildNumberGenerator
     displayName: Build Version Tag
     jobs:
     - job: GenerateReleaseVersionTag
-      condition: startsWith(variables['build.sourceBranch'], 'refs/heads/release/')
-      variables: 
+      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), startsWith(variables['build.sourceBranch'], 'refs/heads/release/'))
+      variables:
         revision: $[counter(variables['build.sourcebranchname'], 0)]
       steps:
       - bash: echo '##vso[build.updatebuildnumber]r$(build.sourcebranchname)-$(revision)'
 
     - job: GenerateMasterVersionTag
       condition: startsWith(variables['build.sourceBranch'], 'refs/tags/')
-      variables: 
+      variables:
         revision: $[counter(variables['build.sourceBranch'], 0)]
       steps:
       - bash: echo '##vso[build.updatebuildnumber]$(build.sourcebranchname)-$(revision)'
 
   - stage: BuildSteps
     jobs:
-    - job: Build 
-      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/release/'), startsWith(variables['build.sourceBranch'], 'refs/tags/')) 
+    - job: Build
+      condition: or(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), startsWith(variables['build.sourceBranch'], 'refs/heads/release/'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
       steps:
 
       - checkout: self
-        path: s/onekey-sdk-web-lib  
+        path: s/onekey-sdk-web-lib
 
       - script: |
           echo '##vso[task.setvariable variable=buildSHA]'$(git rev-parse --short HEAD)''
@@ -60,7 +60,19 @@ stages:
         inputs:
           arguments: 'build-web'
           projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
-          
+
+      - task: Yarn@3
+        displayName: 'Build Web UI React'
+        inputs:
+          arguments: 'build-react'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
+      - task: Yarn@3
+        displayName: 'Build Web UI Angular'
+        inputs:
+          arguments: 'build-angular'
+          projectDirectory: $(pipeline.workspace)/s/onekey-sdk-web-lib
+
       - task: Yarn@3
         displayName: 'Build API'
         inputs:
@@ -77,6 +89,21 @@ stages:
         inputs:
           artifactName: 'hcl-sdk-web'
           path: 'packages/hcl-sdk-web-ui/dist/hcl-sdk'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-web-package'
+          path: 'packages/hcl-sdk-web-ui'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-react'
+          path: 'packages/hcl-sdk-web-ui-react'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'hcl-sdk-angular'
+          path: 'packages/hcl-sdk-web-ui-angular/dist/hcl-sdk'
 
       - task: PublishPipelineArtifact@1
         inputs:

@@ -1,8 +1,8 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import cn from 'classnames';
-import { uiStore } from 'hcl-sdk-web-ui/src/core/stores';
-import { Modal } from 'hcl-sdk-web-ui/src/core/stores/ConfigStore';
-import { getCssColor } from 'hcl-sdk-web-ui/src/utils/helper';
+import { uiStore } from '../../../core/stores';
+import { Modal } from '../../../core/stores/ConfigStore';
+import { getCssColor } from '../../../utils/helper';
 
 @Component({
   tag: 'hcl-sdk-modal',
@@ -28,12 +28,12 @@ export class HclSdkModal {
           <div class={modalClass}>
             <div class="modal-title">
               {this.modal.title && <span class="title">{this.modal.title}</span>}
-              <hcl-sdk-icon 
+              <hcl-sdk-icon
                 name="remove"
                 onClick={this.onClose}
                 color={getCssColor("--hcl-color-grey_dark")}
-                width={17}
-                height={17}
+                width={20}
+                height={20}
               />
             </div>
             <div class="modal-content">

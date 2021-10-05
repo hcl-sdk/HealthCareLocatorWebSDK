@@ -17,6 +17,7 @@ export type Scalars = {
 export type Activity = OneKeyEntity & {
   __typename?: 'Activity';
   id: Scalars['ID'];
+  main_flag?: Maybe<Scalars['String']>;
   role: KeyedString;
   title: KeyedString;
   phone?: Maybe<Scalars['String']>;
@@ -25,6 +26,17 @@ export type Activity = OneKeyEntity & {
   individual: Individual;
   workplace: Workplace;
 };
+
+export type ActivityCriteria = {
+  text?: Maybe<Scalars['String']>;
+  scope?: Maybe<ActivityCriteriaScope>;
+};
+
+export enum ActivityCriteriaScope {
+  IndividualName = 'IndividualName',
+  IndividualNameAutocomplete = 'IndividualNameAutocomplete',
+  IndividualMedTerms = 'IndividualMedTerms'
+}
 
 export type ActivityFragment = OneKeyEntity & {
   __typename?: 'ActivityFragment';
@@ -38,6 +50,18 @@ export type ActivityFragment = OneKeyEntity & {
   workplace: Workplace;
 };
 
+export type ActivityList = OneKeyEntity & {
+  __typename?: 'ActivityList';
+  id: Scalars['ID'];
+  main_flag?: Maybe<Scalars['String']>;
+  role: KeyedString;
+  title: KeyedString;
+  phone?: Maybe<Scalars['String']>;
+  fax?: Maybe<Scalars['String']>;
+  webAddress?: Maybe<Scalars['String']>;
+  workplace: Workplace;
+};
+
 export type ActivityQueryEntry = {
   __typename?: 'ActivityQueryEntry';
   when?: Maybe<Scalars['Date']>;
@@ -46,7 +70,7 @@ export type ActivityQueryEntry = {
 
 export type ActivityResult = {
   __typename?: 'ActivityResult';
-  distance?: Maybe<Scalars['Int']>;
+  distance?: Maybe<Scalars['Float']>;
   relevance?: Maybe<Scalars['Int']>;
   activity: ActivityFragment;
 };
@@ -63,6 +87,11 @@ export type Address = {
   location?: Maybe<Geopoint>;
 };
 
+export type Audience = {
+  __typename?: 'Audience';
+  label?: Maybe<Scalars['String']>;
+};
+
 export type Code = {
   __typename?: 'Code';
   id?: Maybe<Scalars['String']>;
@@ -75,13 +104,42 @@ export type Code = {
   shortLbl?: Maybe<Scalars['String']>;
 };
 
+export type CodeCriteria = {
+  text?: Maybe<Scalars['String']>;
+  scope?: Maybe<CodeCriteriaScope>;
+};
+
+export enum CodeCriteriaScope {
+  LongLbl = 'LongLbl',
+  LongLblAutocomplete = 'LongLblAutocomplete',
+  Id = 'Id'
+}
+
 export type CodeResult = {
   __typename?: 'CodeResult';
   codes?: Maybe<Array<Maybe<Code>>>;
 };
 
+export type Country = {
+  __typename?: 'Country';
+  code?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+};
+
 export type CountyQuery = {
   county: Scalars['String'];
+};
+
+export type Criteria = {
+  __typename?: 'Criteria';
+  id?: Maybe<Scalars['String']>;
+  professionalType?: Maybe<Scalars['String']>;
+  lat?: Maybe<Scalars['String']>;
+  log?: Maybe<Scalars['String']>;
+  radius?: Maybe<Scalars['String']>;
+  county?: Maybe<Scalars['String']>;
+  locale?: Maybe<Scalars['String']>;
+  criteria?: Maybe<Scalars['String']>;
 };
 
 export type DailyOpenHours = {
@@ -94,7 +152,6 @@ export type DataQualityAssessment = {
   grade: Scalars['String'];
   comment?: Maybe<Scalars['String']>;
 };
-
 
 export enum Day {
   Monday = 'MONDAY',
@@ -118,19 +175,31 @@ export type Geopoint = {
 
 export type GeopointQuery = {
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lon: Scalars['Float'];
   distanceMeter?: Maybe<Scalars['Float']>;
 };
 
-export type History = {
-  __typename?: 'History';
-  activities: Array<ActivityQueryEntry>;
+export type HistoryActivityResult = {
+  __typename?: 'HistoryActivityResult';
+  userId?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['String']>;
+  when?: Maybe<Scalars['String']>;
+  activityId?: Maybe<Scalars['String']>;
+};
+
+export type HistoryQueryResult = {
+  __typename?: 'HistoryQueryResult';
+  queryId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['String']>;
+  when?: Maybe<Scalars['String']>;
+  filterCriteria?: Maybe<Criteria>;
 };
 
 export type Individual = OneKeyEntity & {
   __typename?: 'Individual';
   id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
+  title: KeyedString;
   firstName?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   middleName?: Maybe<Scalars['String']>;
@@ -142,14 +211,17 @@ export type Individual = OneKeyEntity & {
   professionalType: KeyedString;
   specialties: Array<KeyedString>;
   webAddress?: Maybe<Scalars['String']>;
-  mainActivity: Activity;
-  otherActivities: Array<Activity>;
+  mainActivity: ActivityList;
+  otherActivities: Array<ActivityList>;
+  meshTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
+  kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
+  chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type IndividualFragment = OneKeyEntity & {
   __typename?: 'IndividualFragment';
   id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
+  title: KeyedString;
   firstName?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   middleName?: Maybe<Scalars['String']>;
@@ -161,6 +233,9 @@ export type IndividualFragment = OneKeyEntity & {
   professionalType: KeyedString;
   specialties: Array<KeyedString>;
   webAddress?: Maybe<Scalars['String']>;
+  meshTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
+  kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
+  chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type IndividualResult = {
@@ -171,7 +246,7 @@ export type IndividualResult = {
 export type IndividualWorkPlaceDetails = OneKeyEntity & {
   __typename?: 'IndividualWorkPlaceDetails';
   id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
+  title: KeyedString;
   firstName?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   middleName?: Maybe<Scalars['String']>;
@@ -184,7 +259,6 @@ export type IndividualWorkPlaceDetails = OneKeyEntity & {
   specialties: Array<KeyedString>;
   webAddress?: Maybe<Scalars['String']>;
   mainActivity: Activity;
-  otherActivities: Array<Activity>;
 };
 
 export type KeyedString = {
@@ -193,12 +267,22 @@ export type KeyedString = {
   label: Scalars['String'];
 };
 
-
 export type Mutation = {
   __typename?: 'Mutation';
+  ForgetHistoryActivityEntries?: Maybe<Scalars['String']>;
+  ForgetHistoryQueryEntry?: Maybe<Scalars['String']>;
   postDataQualityAssesmentForActivity?: Maybe<Scalars['String']>;
   postRevisionRequest?: Maybe<Scalars['String']>;
-  ForgetHistoryEntries?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationForgetHistoryActivityEntriesArgs = {
+  activityId: Scalars['ID'];
+};
+
+
+export type MutationForgetHistoryQueryEntryArgs = {
+  query: Scalars['ID'];
 };
 
 
@@ -211,12 +295,6 @@ export type MutationPostDataQualityAssesmentForActivityArgs = {
 
 export type MutationPostRevisionRequestArgs = {
   request: RevisionRequest;
-};
-
-
-export type MutationForgetHistoryEntriesArgs = {
-  individuals?: Maybe<Array<Scalars['ID']>>;
-  queries?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type OneKeyEntity = {
@@ -251,78 +329,124 @@ export type QualityReport = {
 
 export type Query = {
   __typename?: 'Query';
-  individualByID?: Maybe<Individual>;
-  activityByID?: Maybe<Activity>;
-  workplaceById?: Maybe<Workplace>;
   activities?: Maybe<Array<Maybe<ActivityResult>>>;
-  individualsByName?: Maybe<IndividualResult>;
+  activityByID?: Maybe<Activity>;
   codesByLabel?: Maybe<CodeResult>;
-  history?: Maybe<History>;
-};
-
-
-export type QueryIndividualByIdArgs = {
-  userId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryActivityByIdArgs = {
-  userId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryWorkplaceByIdArgs = {
-  userId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  locale?: Maybe<Scalars['String']>;
+  historyBYQuery?: Maybe<Array<Maybe<HistoryQueryResult>>>;
+  historyBYActivityId?: Maybe<Array<Maybe<HistoryActivityResult>>>;
+  individualByID?: Maybe<Individual>;
+  individualsByName?: Maybe<IndividualResult>;
+  labelsByCode?: Maybe<CodeResult>;
+  listAudiences?: Maybe<Array<Maybe<Audience>>>;
+  listCountry?: Maybe<Array<Maybe<Country>>>;
+  workplaceById?: Maybe<Workplace>;
+  mySubscriptionKey?: Maybe<SubscriptionKey>;
 };
 
 
 export type QueryActivitiesArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  userId?: Maybe<Scalars['String']>;
+  criteria?: Maybe<Scalars['String']>;
+  criteriaScope?: Maybe<ActivityCriteriaScope>;
+  criterias?: Maybe<Array<Maybe<ActivityCriteria>>>;
   locale?: Maybe<Scalars['String']>;
+  location?: Maybe<GeopointQuery>;
+  country?: Maybe<Scalars['String']>;
+  county?: Maybe<Scalars['String']>;
   professionalType?: Maybe<Scalars['String']>;
   specialties?: Maybe<Array<Scalars['String']>>;
-  location?: Maybe<GeopointQuery>;
-  county?: Maybe<Scalars['String']>;
+  medTerms?: Maybe<Array<Scalars['String']>>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryActivityByIdArgs = {
+  id: Scalars['ID'];
+  locale?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCodesByLabelArgs = {
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
   criteria?: Maybe<Scalars['String']>;
+  criteriaScope?: Maybe<CodeCriteriaScope>;
+  criterias?: Maybe<Array<Maybe<CodeCriteria>>>;
+  locale?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  codeTypes: Array<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryHistoryByQueryArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type QueryHistoryByActivityIdArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type QueryIndividualByIdArgs = {
+  id: Scalars['ID'];
+  locale?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryIndividualsByNameArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  userId?: Maybe<Scalars['String']>;
   criteria: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCodesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  userId?: Maybe<Scalars['String']>;
-  criteria: Scalars['String'];
-  codeTypes: Array<Scalars['String']>;
   locale?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 
-export type QueryHistoryArgs = {
-  userId: Scalars['String'];
+export type QueryLabelsByCodeArgs = {
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  criteria?: Maybe<Scalars['String']>;
+  locale?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  codeTypes: Array<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryListAudiencesArgs = {
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryListCountryArgs = {
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryWorkplaceByIdArgs = {
+  id: Scalars['ID'];
+  locale?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type RevisionRequest = {
   id: Scalars['ID'];
 };
 
+export type SubscriptionKey = {
+  __typename?: 'SubscriptionKey';
+  name?: Maybe<Scalars['String']>;
+  company?: Maybe<Scalars['String']>;
+  countries?: Maybe<Array<Scalars['String']>>;
+  professionalTypes?: Maybe<Array<Scalars['String']>>;
+  specialties?: Maybe<Array<Scalars['String']>>;
+};
 
 export type Translations = {
   __typename?: 'Translations';
@@ -349,4 +473,9 @@ export type Workplace = OneKeyEntity & {
   address: Address;
   openHours?: Maybe<Array<Maybe<WeeklyOpenHours>>>;
   parentId?: Maybe<Scalars['String']>;
+};
+
+export type ContextKey = {
+  __typename?: 'contextKey';
+  name?: Maybe<Scalars['String']>;
 };

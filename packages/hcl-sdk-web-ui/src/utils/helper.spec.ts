@@ -1,3 +1,15 @@
+import messagesEn from '../i18n/en_us.json';
+
+jest.mock('@healthcarelocator/sdk-web/src/utils/i18n', () => ({
+  t: (key: string) => {
+    if (!messagesEn[key]) {
+      console.log(`[i18n] 111 missing transation for "${key}"`);
+      return key;
+    }
+    return messagesEn[key];
+  }
+}));
+
 import {
   getCssColor,
   getDoctorCardOffset,
@@ -35,7 +47,7 @@ describe('getTextBodyToShare', () => {
 
   test('should return mail body with the new line character correctly', () => {
     const text = getTextBodyToShare(indiviualDetail, config)
-    expect(text).toBe(`Here is a healthcare professional that I recommend:%0D%0A%0D%0ADr Rory Michael Trow%0D%0AGeneral Practitioner%0D%0A%0D%0ASpecialties: %0D%0A%0D%0AGroup Practice 3-480 Harbourfront Dr NE%0D%0A3-480 Harbourfront Dr NE%0D%0A205-3017 66 St NW%0D%0A%0D%0A780 4616012%0D%0A%0D%0AI found it on MyApp - https://apps.apple.com/fr/app/carenity/id1404422803`)
+    expect(text).toBe(`Here is a healthcare professional that I recommend:%0D%0A%0D%0ADr Rory Michael Trow%0D%0AGeneral Practitioner%0D%0A%0D%0AGroup Practice 3-480 Harbourfront Dr NE%0D%0A3-480 Harbourfront Dr NE%0D%0A205-3017 66 St NW%0D%0A%0D%0A780 4616012%0D%0A%0D%0AI found it on MyApp - https://apps.apple.com/fr/app/carenity/id1404422803`)
   })
 
   test('should return text with a custom new line character', () => {
@@ -48,13 +60,32 @@ describe('getTextBodyToShare', () => {
 Dr Rory Michael Trow
 General Practitioner
 
-Specialties: 
-
 Group Practice 3-480 Harbourfront Dr NE
 3-480 Harbourfront Dr NE
 205-3017 66 St NW
 
 780 4616012
+
+I found it on MyApp - https://apps.apple.com/fr/app/carenity/id1404422803`)
+  })
+
+  test('should remove the line with null', () => {
+    const _indiviualDetail = {
+      ...indiviualDetail,
+      phone: null
+    }
+    const text = getTextBodyToShare(_indiviualDetail, {
+      newLine: '\n',
+      ...config
+    })
+    expect(text).toBe(`Here is a healthcare professional that I recommend:
+
+Dr Rory Michael Trow
+General Practitioner
+
+Group Practice 3-480 Harbourfront Dr NE
+3-480 Harbourfront Dr NE
+205-3017 66 St NW
 
 I found it on MyApp - https://apps.apple.com/fr/app/carenity/id1404422803`)
   })
@@ -235,8 +266,8 @@ describe('getDoctorCardOffset', () => {
 describe('getHcpFullname', () => {
   test('should be correctly concatenated', () => {
     const individual = {
-      firstName: 'Hans-Jürgen', 
-      lastName: 'Gentzen', 
+      firstName: 'Hans-Jürgen',
+      lastName: 'Gentzen',
       middleName: 'Bergen'
     } as any
 
@@ -245,8 +276,8 @@ describe('getHcpFullname', () => {
 
   test('should be correctly concatenated and ignore empty string', () => {
     const individual = {
-      firstName: 'Hans-Jürgen', 
-      lastName: 'Gentzen', 
+      firstName: 'Hans-Jürgen',
+      lastName: 'Gentzen',
       middleName: ''
     } as any
 

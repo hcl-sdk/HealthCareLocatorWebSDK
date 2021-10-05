@@ -1,6 +1,6 @@
 {
-  "name": "hcl-sdk-api",
-  "version": "1.0.0",
+  "name": "@healthcarelocator/sdk-api",
+  "version": "0.0.1",
   "main": "dist/hcl-sdk-api/hcl-sdk-api.node.cjs.js",
   "browser": "dist/hcl-sdk-api/hcl-sdk-api.js",
   "module": "dist/hcl-sdk-api/hcl-sdk-api.esm.js",

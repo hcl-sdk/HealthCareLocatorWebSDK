@@ -1,4 +1,4 @@
-# hcl-sdk-icon-sort
+# hcl-sdk-icon-website
 
 
 
@@ -10,8 +10,8 @@
 | Property | Attribute | Description | Type     | Default     |
 | -------- | --------- | ----------- | -------- | ----------- |
 | `color`  | `color`   |             | `string` | `undefined` |
-| `height` | `height`  |             | `number` | `10`        |
-| `width`  | `width`   |             | `number` | `16`        |
+| `height` | `height`  |             | `number` | `20`        |
+| `width`  | `width`   |             | `number` | `20`        |
 
 
 ----------------------------------------------

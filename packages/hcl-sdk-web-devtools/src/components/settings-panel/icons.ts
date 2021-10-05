@@ -1,4 +1,4 @@
-export const arrow = `
+export const back = `
   <svg
       version="1.2"
       preserveAspectRatio="none"
@@ -24,7 +24,7 @@ export const search = `
   </svg>
 `
 
-export const personal = `
+export const profile = `
   <svg
     version="1.2"
     preserveAspectRatio="none"

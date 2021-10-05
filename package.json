@@ -1,6 +1,6 @@
 {
   "name": "hcl-sdk",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "",
   "private": true,
   "workspaces": [
@@ -9,15 +9,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "if [ ! -f .env -a -f .env.example ]; then cp -R .env.example .env; fi",
-    "test-web": "lerna run test --scope hcl-sdk-web-ui",
-    "start-api": "lerna run start --scope hcl-sdk-api",
-    "build-api": "lerna run build --scope hcl-sdk-api",
-    "start-web": "lerna run start --scope hcl-sdk-web-ui",
-    "build-web": "lerna run build --scope hcl-sdk-web-ui",
+    "test-web": "lerna run test --scope @healthcarelocator/sdk-web",
+    "start-api": "lerna run start --scope @healthcarelocator/sdk-api",
+    "build-api": "lerna run build --scope @healthcarelocator/sdk-api",
+    "start-web": "lerna run start --scope @healthcarelocator/sdk-web",
+    "build-web": "lerna run build --scope @healthcarelocator/sdk-web",
+    "build-react": "lerna run build --scope @healthcarelocator/sdk-react",
+    "build-angular": "lerna run build --scope hcl-sdk-web-ui-angular",
     "start-devtools": "lerna run start --scope hcl-sdk-web-devtools",
     "build-devtools": "lerna run build --scope hcl-sdk-web-devtools",
-    "start-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools && npx serve ./examples/web/cdn",
-    "build-example-web": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools"
+    "start-example-react": "yarn build-web && yarn build-react && yarn build-devtools && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/react/public/hcl-sdk-tools && cd packages/hcl-sdk-web-ui-react && yarn link && cd ../../examples/web/react && yarn && yarn link '@healthcarelocator/sdk-react' && yarn start",
+    "build-example-react": "yarn build-web && yarn build-react && yarn build-devtools && cd packages/hcl-sdk-web-ui-react && yarn link && cd ../../examples/web/react && yarn && yarn link '@healthcarelocator/sdk-react' && yarn build",
+    "start-example-angular": "yarn build-web && yarn build-devtools && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/angular/src/assets/hcl-sdk-tools && cd packages/hcl-sdk-web-ui-angular && yarn run build && cd dist/hcl-sdk && yarn link && cd ../../../../examples/web/angular && yarn && yarn link '@healthcarelocator/sdk-angular' && yarn start",
+    "build-example-angular": "yarn build-web && yarn build-devtools && cd packages/hcl-sdk-web-ui-angular && yarn run build && cd dist/hcl-sdk && yarn link && cd ../../../../examples/web/angular && yarn && yarn link '@healthcarelocator/sdk-angular' && yarn build",
+    "clean-example-web": "rm -rf ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools",
+    "start-example-web": "yarn build-example-web && npx serve ./examples/web/cdn",
+    "build-example-web": "yarn clean-example-web && yarn build-web && yarn build-devtools && rm -rf ./examples/web/cdn/hcl-sdk-web-ui && cp -R ./packages/hcl-sdk-web-ui/dist/hcl-sdk ./examples/web/cdn/hcl-sdk-web-ui && rm -rf ./examples/web/cdn/hcl-sdk-tools && cp -R ./packages/hcl-sdk-web-devtools/dist/devtools ./examples/web/cdn/hcl-sdk-tools",
+    "publish": "lerna publish --no-git-tag-version --force-publish"
   },
   "repository": {
     "type": "git",

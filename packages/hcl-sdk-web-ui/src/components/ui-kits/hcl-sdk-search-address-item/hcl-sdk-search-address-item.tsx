@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Listen } from '@stencil/core';
 import { NEAR_ME } from '../../../core/constants';
 import { t } from '../../../utils/i18n';
 
@@ -9,7 +9,7 @@ import { t } from '../../../utils/i18n';
 })
 export class HclSdkSearchItem {
   @Prop() item: any;
-  @Prop() activated: boolean = false;
+  @Prop() selected: boolean = false;
   @Prop() currentSearchText?: string;
   @Event() selectAddress: EventEmitter;
 
@@ -18,40 +18,46 @@ export class HclSdkSearchItem {
       case 'history':
         return <hcl-sdk-icon name="history" />;
       default:
-        return <hcl-sdk-icon name="location" />;
+        return <hcl-sdk-icon name="marker" />;
     }
   };
 
-  highlight = (string: string, text: string, isAddress) => {
-    const lowerCaseString = string.toLowerCase();
-    const lowerCaseText = text.toLowerCase();
-    const index = lowerCaseString.indexOf(lowerCaseText);
-
+  highlight = (originalStr: string, search: string, isAddress: boolean) => {
+    const regex = new RegExp(search, 'gi')
     return `
       <span style="color: ${isAddress ? `var(--hcl-color-secondary)` : `var(--hcl-color-grey_dark)`}">
-        ${
-          index >= 0
-            ? `${string.substring(0, index)}<span style="color: var(--hcl-color-primary)">${string.substring(index, index + lowerCaseText.length)}</span>${string.substring(
-                index + lowerCaseText.length,
-              )}`
-            : string
-        }
+      ${
+        originalStr
+          .replace(regex, str => '<span style="color: var(--hcl-color-primary)">' + str + '</span>')
+      }
       </span>
     `;
   };
 
+  @Listen('click')
+  onClick() {
+    this.selectAddress.emit(this.item)
+  }
+
+  @Listen('keydown')
+  onKeyboard(evt: KeyboardEvent) {
+    if (evt.key === ' ' || evt.key === 'Enter' || evt.key === 'Spacebar') {
+      this.selectAddress.emit(this.item)
+    }
+  }
+
   render() {
     return (
-      <Host>
-        <div class="search-address-item" role="button" onClick={() => this.selectAddress.emit(this.item)}>
+      <Host role="button" tabIndex={-1}>
+        <div class={`search-address-item ${this.selected ? 'selected' : ''}`} role="button">
           {
             (this.item.type || this.item.id === NEAR_ME) && <div class="search-address-item-icon-wrapper"><span class="search-address-item-icon">{this.renderIcon(this.item.type)}</span></div>
           }
-          <span class={`search-address-item-text ${this.activated ? 'active' : ''}`}>
+          <span class={`search-address-item-text`}>
             {this.item.id === NEAR_ME && <span class="name">{t('near_me')}</span>}
             {!!this.item.name && !this.currentSearchText && <span class="name">{this.item.name}</span>}
             {!!this.item.name && this.currentSearchText && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} />}
-            {this.item.professionalType && <span class="specialty">{this.item.professionalType}</span>}
+            {this.item.specialties?.length > 0 && <span class="specialty">{this.item.specialties[0]}</span>}
             {this.item.address && <span class="address">{this.item.address}</span>}
           </span>
         </div>

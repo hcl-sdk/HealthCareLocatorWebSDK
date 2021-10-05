@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import cn from 'classnames';
-import { getCssColor } from 'hcl-sdk-web-ui/src/utils/helper';
+import { getCssColor } from '../../../utils/helper';
 
 @Component({
   tag: 'hcl-sdk-doctor-card',
@@ -8,9 +8,9 @@ import { getCssColor } from 'hcl-sdk-web-ui/src/utils/helper';
   shadow: false,
 })
 export class HclSdkDoctorCard {
-  // @Prop() onClick: (e: any) => void;
+
   @Prop() name: string;
-  @Prop() professionalType: string;
+  @Prop() specialtyPrimary: string;
   @Prop() address: string;
   @Prop() distance: string;
   @Prop() selected: boolean;
@@ -27,11 +27,11 @@ export class HclSdkDoctorCard {
         <div class={doctorClass}>
           <div class="doctor-card-content">
             <span class="text name">{this.name}</span>
-            <span class="text gp">{this.professionalType}</span>
+            <span class="text gp">{this.specialtyPrimary}</span>
             <span class="text address">{this.address}</span>
             { this.showDistance && <span class="text distance">{this.distance}</span> }
           </div>
-          <hcl-sdk-icon name="chevron-arrow" color={getCssColor("--hcl-color-secondary")}/>
+          <hcl-sdk-icon name="arrow_right" color={getCssColor("--hcl-color-secondary")}/>
         </div>
       </Host>
     );

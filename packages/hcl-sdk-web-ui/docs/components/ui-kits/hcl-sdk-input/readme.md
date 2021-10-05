@@ -15,7 +15,9 @@
 | `class`          | `class`         |             | `string`           | `undefined` |
 | `loading`        | `loading`       |             | `boolean`          | `false`     |
 | `name`           | `name`          |             | `string`           | `undefined` |
+| `onArrowKeyDown` | --              |             | `(e: any) => void` | `undefined` |
 | `onBlur`         | --              |             | `(e: any) => void` | `undefined` |
+| `onEnterKeyDown` | --              |             | `(e: any) => void` | `undefined` |
 | `onFocus`        | --              |             | `(e: any) => void` | `undefined` |
 | `onInput`        | --              |             | `(e: any) => void` | `undefined` |
 | `onPostfixClick` | --              |             | `(e: any) => void` | `undefined` |
@@ -24,6 +26,19 @@
 | `readOnly`       | `read-only`     |             | `boolean`          | `false`     |
 | `type`           | `type`          |             | `string`           | `"text"`    |
 | `value`          | `value`         |             | `any`              | `undefined` |
+
+
+## Methods
+
+### `focusHclSdkInput() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
 
 
 ## Dependencies

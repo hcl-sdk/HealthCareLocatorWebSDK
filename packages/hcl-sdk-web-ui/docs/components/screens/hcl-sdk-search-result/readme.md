@@ -32,13 +32,14 @@ graph TD;
   hcl-sdk-search-result --> hcl-sdk-doctor-card
   hcl-sdk-search-result --> hcl-sdk-map
   hcl-sdk-button --> hcl-sdk-icon
-  hcl-sdk-switch-view-mode --> ion-icon
-  hcl-sdk-search --> hcl-sdk-search-address-item
+  hcl-sdk-switch-view-mode --> hcl-sdk-icon
+  hcl-sdk-search --> hcl-sdk-autocomplete-result
   hcl-sdk-search --> hcl-sdk-router-link
   hcl-sdk-search --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-input
   hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search --> hcl-sdk-switch-view-mode
+  hcl-sdk-autocomplete-result --> hcl-sdk-search-address-item
   hcl-sdk-search-address-item --> hcl-sdk-icon
   hcl-sdk-input --> hcl-sdk-button
   hcl-sdk-input --> hcl-sdk-icon
@@ -49,7 +50,7 @@ graph TD;
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-hcp-full-card --> hcl-sdk-select
-  hcl-sdk-map --> ion-icon
+  hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
   hcl-sdk-doctor-card --> hcl-sdk-icon
   style hcl-sdk-search-result fill:#f9f,stroke:#333,stroke-width:4px

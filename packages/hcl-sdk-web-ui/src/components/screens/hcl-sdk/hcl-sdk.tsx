@@ -1,20 +1,21 @@
 import { Component, Host, h, Method, Element, State } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
-import { applyDefaultTheme } from 'hcl-sdk-web-ui/src/utils/helper';
+import { applyDefaultTheme } from '../../../utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
-import { ModeViewType } from '../../../core/stores/ConfigStore';
+import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
+import { BREAKPOINT_MAX_WIDTH, COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { GEOLOC } from '../../../core/constants';
-import { graphql } from 'hcl-sdk-core';
+import { graphql } from '../../../../../hcl-sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
+import cls from 'classnames'
 
 const defaults = {
   apiKey: '',
@@ -34,8 +35,9 @@ export class HclSDK {
   parentEl;
 
   @Method()
-  updateConfig(patch: any) {
-    configStore.setState(merge({}, configStore.state, patch));
+  updateConfig(patch: any): Promise<HclSDKConfigData> {
+    const mapConfig = this.getMapConfig(patch);
+    configStore.setState(merge({}, configStore.state, patch, { map: mapConfig }));
     return Promise.resolve(configStore.state);
   }
 
@@ -45,24 +47,15 @@ export class HclSDK {
   }
 
   @Method()
-  async searchNearMe({ specialtyCode }) {
-    this.loading = true;
-
-    let specialtyLabel = specialtyCode;
-    try {
-      const res = await graphql.labelsByCode({ first: 1, criteria: specialtyCode, codeTypes: ['SP'], country: 'ca', locale: i18nStore.state.lang }, configStore.configGraphql);
-      if (res.labelsByCode && res.labelsByCode.codes && res.labelsByCode.codes.length > 0) {
-        specialtyLabel = res.labelsByCode.codes[0].longLbl;
-      }
-    } catch (err) {}
-
-    this.loading = false;
-
+  async searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: string[], specialtyLabel: string }) {
     searchMapStore.setSearchFieldValue('address', t('near_me'));
-    searchMapStore.setSearchFieldValue('name', specialtyLabel);
+    searchMapStore.setSearchFieldValue('specialtyName', specialtyLabel);
+
     searchMapStore.setState({
       locationFilter: NEAR_ME_ITEM,
-      specialtyFilter: { id: specialtyCode },
+      specialties: [],
+      specialtiesRaw: [],
+      specialtyFilter: specialtyCode.map(code => ({ id: code, name: specialtyLabel })),
     });
     configStore.setState({
       modeView: ModeViewType.MAP,
@@ -81,8 +74,8 @@ export class HclSDK {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
 
-    const initConfig = merge({}, defaults, config);
-
+    const mapConfig = this.getMapConfig(config);
+    const initConfig = merge({}, defaults, config, { map: mapConfig });
     this.loadCurrentPosition(initConfig);
 
     initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
@@ -108,7 +101,10 @@ export class HclSDK {
       return _lang;
     })();
 
-    await getI18nLabels(lang);
+    await Promise.all([
+      getI18nLabels(lang),
+      this.loadCountriesFromMyKey(initConfig)
+    ])
 
     applyDefaultTheme();
 
@@ -132,12 +128,29 @@ export class HclSDK {
 
     // Search near me entry
     if (config && config.entry && config.entry.screenName === 'searchNearMe') {
-      const { specialtyCode } = config.entry;
+      const { specialtyCode, specialtyLabel } = config.entry;
       if (!specialtyCode) {
         console.error('missing specialtyCode for "near me" search');
         return;
       }
-      this.searchNearMe({ specialtyCode });
+      this.searchNearMe({ specialtyCode, specialtyLabel });
+    }
+  }
+
+  private getMapConfig(configInput) {
+    if (configInput.useGoogleMap) {
+      if (!configInput.googleMapApiKey) {
+        throw new Error('Please provide Google Map API key')
+      }
+
+      return {
+        provider : MapProvider.GOOGLE_MAP,
+        googleMapApiKey: configInput.googleMapApiKey,
+      }
+    } else {
+      return {
+        provider: MapProvider.OPEN_STREETMAP
+      }
     }
   }
 
@@ -174,7 +187,7 @@ export class HclSDK {
           .then(res => {
             if (res?.address?.country_code) {
               configStore.setState({
-                countries: [res.address.country_code]
+                countryGeo: res.address.country_code
               })
             }
           });
@@ -220,15 +233,39 @@ export class HclSDK {
     this.findCurrentPosition();
   }
 
+  async loadCountriesFromMyKey({ apiKey }) {
+    return graphql.mySubscriptionKey({
+      headers: {
+        'Ocp-Apim-Subscription-Key': apiKey
+      }
+    })
+      .then(res => {
+        if (!res.mySubscriptionKey?.countries) {
+          return;
+        }
+        configStore.setState({
+          countriesSubscriptionKey: res.mySubscriptionKey.countries.map(s => s.toLowerCase())
+        })
+      })
+      .catch(() => {}) // To avoid crash the app
+  }
+
   render() {
-    const { screenSize, orientation } = uiStore.state.breakpoint;
+    const { screenSize, orientation, screenWidth } = uiStore.state.breakpoint;
     if (screenSize === 'unknown' || this.loading) {
       return null;
     }
 
     return (
       <Host>
-        <div class={`wrapper size-${screenSize} orientation-${orientation}`}>
+        {configStore.state.stylesheet ? (
+          <link rel="stylesheet" href={configStore.state.stylesheet} />
+        ) : null}
+        <div class={cls(`wrapper size-${screenSize} orientation-${orientation}`, {
+          'show-medical-term': configStore.state.enableMedicalTerm,
+          'size-tablet-xs': screenWidth > BREAKPOINT_MAX_WIDTH.MOBILE_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT,
+          'size-desktop-sm': screenWidth >= BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
+        })}>
           <hcl-sdk-router>
             <hcl-sdk-route component="hcl-sdk-home" path={ROUTER_PATH.MAIN} />
             <hcl-sdk-route component="hcl-sdk-search-result" path={ROUTER_PATH.SEARCH_RESULT} />
