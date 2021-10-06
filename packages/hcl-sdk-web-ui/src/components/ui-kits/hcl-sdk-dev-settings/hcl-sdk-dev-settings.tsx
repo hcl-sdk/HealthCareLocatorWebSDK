@@ -72,7 +72,7 @@ const optionSets = [
   },
   {
     key: 'enableMapDarkMode',
-    label: 'Dark Mode for Map',
+    label: 'Night Mode for Map',
     type: 'checkbox'
   }
 ];

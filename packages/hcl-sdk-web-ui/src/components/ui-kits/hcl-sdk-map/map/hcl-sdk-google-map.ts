@@ -250,7 +250,7 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
       zoomControlOptions: {
         position: google.maps.ControlPosition.TOP_RIGHT,
       },
-      styles: options.enableDarkMode ? stylesDarkMode : [
+      styles: options.enableMapDarkMode ? stylesDarkMode : [
         {
           featureType: 'landscape.man_made',
           stylers: [{ visibility: 'off' }],

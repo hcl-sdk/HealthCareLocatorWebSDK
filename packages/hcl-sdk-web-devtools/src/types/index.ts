@@ -1,4 +1,4 @@
-export type Theme = 'default' | 'green' | 'blue' | 'red' | 'purple' | 'custom';
+export type Theme = 'default' | 'green' | 'blue' | 'red' | 'purple' | 'custom' | 'dark';
 
 export interface Fields {
   apiKey: string;

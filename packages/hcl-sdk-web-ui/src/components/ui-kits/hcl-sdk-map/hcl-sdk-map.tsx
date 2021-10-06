@@ -68,7 +68,7 @@ export class HclSdkMap {
       dragging: this.dragging,
       iconMarker: configStore.state.icons['map_marker'],
       iconMarkerSelected: configStore.state.icons['map_marker_selected'],
-      enableDarkMode: configStore.state.enableDarkMode
+      enableMapDarkMode: configStore.state.enableMapDarkMode
     })
 
     this.map.onDrag(this.onMapDragHandler)
