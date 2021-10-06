@@ -21,7 +21,7 @@ export interface OptionsMap {
   zoomControl: boolean;
   iconMarker?: string;
   iconMarkerSelected?: string;
-  enableDarkMode?: boolean;
+  enableMapDarkMode?: boolean;
 }
 
 export interface IHclSdkMap {

@@ -210,11 +210,14 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
+        this.fields = { 
+          ...this.fields,
+          enableDarkMode: value === 'dark'
+        };
       } else if (
         fieldName === 'showSuggestModification' || 
         fieldName === 'useGoogleMap' || 
         fieldName === 'enableMedicalTerm' || 
-        fieldName === 'enableDarkMode' || 
         fieldName === 'enableMapDarkMode'
       ) {
         value = (evt.target as any).checked as boolean;
@@ -536,6 +539,9 @@ export class SettingsPanel {
               <option value="custom" selected={this.fields.theme === 'custom'}>
                 Custom
               </option>
+              <option value="dark" selected={this.fields.theme === 'dark'}>
+                Dark
+              </option>
             </select>
           </div>
           <div class="row">
@@ -602,20 +608,7 @@ export class SettingsPanel {
             </div>
           </div>
           <div class="row">
-            <label>Enable Dark More</label>
-            <div class="hcl-switch-btn">
-              <input
-                name="enableDarkMode"
-                type="checkbox"
-                class="checkbox-switch"
-                onChange={this.handleChange('enableDarkMode')}
-                checked={this.fields.enableDarkMode}
-              />
-              <div class="hcl-switch-btn__slider"></div>
-            </div>
-          </div>
-          <div class="row">
-            <label>Enable Dark More for Map</label>
+            <label>Enable Night Mode for Map</label>
             <div class="hcl-switch-btn">
               <input
                 name="enableMapDarkMode"
