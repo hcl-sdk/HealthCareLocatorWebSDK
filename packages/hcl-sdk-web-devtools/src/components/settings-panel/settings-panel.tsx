@@ -210,7 +210,13 @@ export class SettingsPanel {
         } else if (value === 'default') {
           this.setDefaultTheme();
         }
-      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap' || fieldName === 'enableMedicalTerm') {
+      } else if (
+        fieldName === 'showSuggestModification' || 
+        fieldName === 'useGoogleMap' || 
+        fieldName === 'enableMedicalTerm' || 
+        fieldName === 'enableDarkMode' || 
+        fieldName === 'enableMapDarkMode'
+      ) {
         value = (evt.target as any).checked as boolean;
       } else if (fieldName === 'countries') {
         value = (evt.target as any).value.trim().split(',').filter(val => !!val);
@@ -591,6 +597,32 @@ export class SettingsPanel {
                 class="checkbox-switch"
                 onChange={this.handleChange('enableMedicalTerm')}
                 checked={this.fields.enableMedicalTerm}
+              />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
+            <label>Enable Dark More</label>
+            <div class="hcl-switch-btn">
+              <input
+                name="enableDarkMode"
+                type="checkbox"
+                class="checkbox-switch"
+                onChange={this.handleChange('enableDarkMode')}
+                checked={this.fields.enableDarkMode}
+              />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
+            <label>Enable Dark More for Map</label>
+            <div class="hcl-switch-btn">
+              <input
+                name="enableMapDarkMode"
+                type="checkbox"
+                class="checkbox-switch"
+                onChange={this.handleChange('enableMapDarkMode')}
+                checked={this.fields.enableMapDarkMode}
               />
               <div class="hcl-switch-btn__slider"></div>
             </div>

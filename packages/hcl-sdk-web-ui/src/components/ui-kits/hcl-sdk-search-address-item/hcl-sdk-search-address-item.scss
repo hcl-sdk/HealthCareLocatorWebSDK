@@ -14,7 +14,7 @@
     padding: 15px 15px;
 
     &.selected {
-      background-color: #e6e6e6;
+      background-color: var(--hcl-color-search_item_selected);
     }
   }
 
@@ -22,13 +22,13 @@
     outline: 0;
 
     .search-address-item {
-      background-color: #e6e6e6;
+      background-color: var(--hcl-color-search_item_selected);
     }
   }
 
   .size-mobile .search-address-item {
-      padding: 20px 20px;
-      background-color: white;
+    padding: 20px 20px;
+    background-color: white;
   }
 
   .search-address-item-icon-wrapper {
@@ -96,6 +96,17 @@
     }
     > span + span {
       margin-top: 3px;
+    }
+  }
+}
+
+
+.sdk-dark-mode {
+  &.size-mobile .search-address-item {
+    background-color: transparent;
+
+    &.selected {
+      background-color: var(--hcl-color-search_item_selected);
     }
   }
 }

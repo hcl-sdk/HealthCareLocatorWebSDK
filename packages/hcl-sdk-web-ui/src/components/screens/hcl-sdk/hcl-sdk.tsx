@@ -106,7 +106,7 @@ export class HclSDK {
       this.loadCountriesFromMyKey(initConfig)
     ])
 
-    applyDefaultTheme();
+    applyDefaultTheme(configStore.state.enableDarkMode);
 
     const parent = this.el.parentElement;
     parent.style.padding = '0';
@@ -262,6 +262,8 @@ export class HclSDK {
           <link rel="stylesheet" href={configStore.state.stylesheet} />
         ) : null}
         <div class={cls(`wrapper size-${screenSize} orientation-${orientation}`, {
+          'sdk-dark-mode': configStore.state.enableDarkMode,
+          'sdk-map-dark-mode': configStore.state.enableMapDarkMode,
           'show-medical-term': configStore.state.enableMedicalTerm,
           'size-tablet-xs': screenWidth > BREAKPOINT_MAX_WIDTH.MOBILE_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT,
           'size-desktop-sm': screenWidth >= BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL

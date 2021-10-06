@@ -21,7 +21,7 @@ export class HclSdkProfileMap {
         <div class="profile-map">
           <div class="profile-map__head">
             <div class="profile-map__head--icon">
-              <hcl-sdk-icon name="marker" color={getCssColor('--hcl-color-marker_selected')} width={13} height={20}/>
+              <hcl-sdk-icon name="geoloc" color={getCssColor('--hcl-color-marker_selected')} width={13} height={20}/>
             </div>
             <div class="profile-map__head--text">
               <p class="profile-map__head--label">Address 1</p>

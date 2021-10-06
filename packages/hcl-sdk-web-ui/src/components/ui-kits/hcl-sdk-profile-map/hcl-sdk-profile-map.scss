@@ -30,7 +30,7 @@
     &__modal {
       .modal {
         &-class {
-          background-color: #fff;
+          background-color: var(--hcl-color-header_block);
           grid-template-rows: auto;
         }
         &-title {

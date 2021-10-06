@@ -519,7 +519,7 @@ export class HclSdkSearch {
           <div class="hclsdk-search">
             <div class="hclsdk-search__container">
               <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
-                <hcl-sdk-icon name="back" width={25} height={25} color="black" />
+                <hcl-sdk-icon name="back" width={25} height={25} />
               </hcl-sdk-router-link>
               <form ref={ref => this.formRef = ref} class={classesForm} onSubmit={this.onSearch}>
                 <div class="hclsdk-search__form--content">
