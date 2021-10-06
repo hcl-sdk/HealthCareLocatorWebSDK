@@ -96,7 +96,7 @@
     padding: 16px 8px;
     border-bottom: 1px solid var(--hcl-color-card_border);
     align-items: center;
-    background: white;
+    background-color: var(--hcl-color-header_block);
   }
 
   .search-header {
@@ -339,7 +339,7 @@
       border-radius: 5px;
       display: flex;
       padding: 0 5px;
-      background-color: white;
+      background-color: var(--hcl-color-header_block);
       .hclsdk-btn {
         padding: 0;
       }
@@ -408,10 +408,6 @@
         margin: 0 10px;
       }
 
-      .main-block__navigation {
-        border-radius: 0;
-      }
-
       .current-location {
         right: 15px;
         bottom: 20px;
@@ -428,7 +424,7 @@
         justify-content: center;
         align-items: center;
         border: 1px solid var(--hcl-color-card_border);
-        background: white;
+        background-color: var(--hcl-color-header_block);
         transform: rotate(180deg);
         top: 5px;
         border-radius: 5px;
@@ -455,3 +451,8 @@
 }
 
 
+.sdk-dark-mode .search-filter-wrapper {
+  padding: 0;
+  border-color: #fff;
+  border-width: 4px;
+}

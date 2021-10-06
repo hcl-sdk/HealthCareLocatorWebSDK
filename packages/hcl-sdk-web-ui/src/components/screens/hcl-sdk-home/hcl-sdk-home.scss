@@ -47,6 +47,7 @@
       position: relative;
       border-radius: 50%;
       .icon {
+        position: relative;
         fill: var(--hcl-color-primary);
       }
     }
@@ -148,7 +149,7 @@
         border: 1px solid var(--hcl-color-card_border);
         padding: 25px 10px;
         border-radius: 10px;
-        background-color: white;
+        background-color: var(--hcl-color-header_block);
 
         &__icon {
           margin-right: 0;
@@ -176,7 +177,7 @@
   }
 
   .card {
-    background-color: white;
+    background-color: var(--hcl-color-header_block);
     border: 1px solid var(--hcl-color-card_border);
     margin: 12px 12px 0 12px;
     border-radius: 5px;
@@ -265,5 +266,23 @@
         fill: var(--hcl-color-grey) !important; // @TODO change path in SVG
       }
     }
+  }
+}
+
+
+.sdk-dark-mode {
+  .item__icon {
+    border: 1px solid #fff;
+    &::before {
+      opacity: 1;
+      background-color: var(--hcl-color-secondary);
+    }
+  }
+  &.size-mobile .home .item__icon svg {
+    fill: #fff;
+  }
+  &.size-desktop .home .item__icon, 
+  &.size-tablet .home .item__icon {
+    background-color: var(--hcl-color-secondary);
   }
 }

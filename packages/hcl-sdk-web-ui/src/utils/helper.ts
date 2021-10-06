@@ -1,4 +1,4 @@
-import { DEFAULT_THEME_PROPERTIES } from '../../../hcl-sdk-core';
+import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
 import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
@@ -45,15 +45,16 @@ export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical 
   return itemNewOffset;
 }
 
-export function applyDefaultTheme() {
+export function applyDefaultTheme(darkMode?: boolean) {
   if (document.getElementById('__hclsdk-defaults')) {
     return;
   }
   const styleElement = document.createElement('style');
+  const themeProperties = darkMode ? DARK_THEME_PROPERTIES : DEFAULT_THEME_PROPERTIES
   styleElement.id = '__hclsdk-defaults';
   styleElement.innerHTML = `hcl-sdk {\n`;
-  for (const prop of Object.keys(DEFAULT_THEME_PROPERTIES)) {
-    const value = DEFAULT_THEME_PROPERTIES[prop];
+  for (const prop of Object.keys(themeProperties)) {
+    const value = themeProperties[prop];
     styleElement.innerHTML += `  ${prop}: ${value};\n`;
   }
   styleElement.innerHTML += `\n}`;

@@ -114,7 +114,7 @@ export class HclSdkHomeFull {
   renderSearchHistory() {
     return historyStore.state.searchItems.filter(this.filterHistoryItems(this.showMoreSearchItems)).map(searchItem => (
       <div class="history-item" onClick={() => this.handleHistorySearchItemClick(searchItem)}>
-        <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('search', searchItem.id)} />
+        <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} onClick={this.removeHistoryItem('search', searchItem.id)} />
         <p class="history-item__criteria">{this.renderSearchCriterias(searchItem.searchFields)}</p>
         <p class="history-item__address">{searchItem.locationFilter?.longLabel || searchItem.searchFields.address}</p>
         <p class="history-item__time-from">{formatDistance(searchItem.timestamp, i18nStore.state.lang)}</p>
@@ -125,7 +125,7 @@ export class HclSdkHomeFull {
   renderHcpHistory() {
     return historyStore.state.hcpItems.filter(this.filterHistoryItems(this.showMoreHcpItems)).map(hcpItem => (
       <div class="history-item" onClick={() => this.handleHistoryHcpItemClick(hcpItem)}>
-        <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} iconColor="black" onClick={this.removeHistoryItem('hcp', hcpItem.activityId)} />
+        <hcl-sdk-button noBorder noBackground icon="remove" iconWidth={12} iconHeight={12} onClick={this.removeHistoryItem('hcp', hcpItem.activityId)} />
         <p class="history-item__name">{getHcpFullname(hcpItem.activity.individual)}</p>
         <p class="history-item__specialty">{hcpItem.activity.individual.specialties?.[0].label}</p>
         <p class="history-item__address">{hcpItem.activity.workplace.address.longLabel}</p>

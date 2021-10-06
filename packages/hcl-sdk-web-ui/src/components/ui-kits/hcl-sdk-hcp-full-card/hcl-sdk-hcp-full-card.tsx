@@ -274,12 +274,12 @@ export class HclSdkHCPFullCard {
                       <span class="info-section-header__title">{t('main_information_label')}</span>
                       <div class="info-section-header__postfix">
                         <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
-                          <hcl-sdk-button round icon="direction" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
+                          <hcl-sdk-button round icon="direction" noBackground />
                         </a>
                         {
                           individualDetail.phone && (
                             <a href={`tel:${individualDetail.phone}`}>
-                              <hcl-sdk-button round icon="phone" noBackground iconColor={getCssColor('--hcl-color-secondary')} />
+                              <hcl-sdk-button round icon="phone" noBackground />
                             </a>
                           )
                         }
@@ -378,7 +378,7 @@ export class HclSdkHCPFullCard {
                                 <hcl-sdk-button
                                   onClick={this.handleToggleViewMoreSpecialties}
                                   class={cls({ 'view-less': this.isViewMoreSpecialties })}
-                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  noBackground noBorder noPadding isLink icon="arrow_right" iconWidth={15} iconHeight={15}>
                                   { !this.isViewMoreSpecialties ? t('view_more') : t('view_less') }
                                 </hcl-sdk-button>
                               </li>
@@ -416,7 +416,7 @@ export class HclSdkHCPFullCard {
                                 <hcl-sdk-button
                                   onClick={this.handleToggleViewMoreTerms}
                                   class={cls({ 'view-less': this.isViewMoreTerms })}
-                                  noBackground noBorder noPadding isLink icon="chevron-arrow" iconWidth={15} iconHeight={15}>
+                                  noBackground noBorder noPadding isLink icon="arrow_right" iconWidth={15} iconHeight={15}>
                                   { !this.isViewMoreTerms ? t('view_more') : t('view_less') }
                                 </hcl-sdk-button>
                               </li>

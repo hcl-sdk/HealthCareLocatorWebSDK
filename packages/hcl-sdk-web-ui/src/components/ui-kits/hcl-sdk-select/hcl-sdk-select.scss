@@ -5,15 +5,15 @@
     width: 100%;
     position: relative;
     display: inline-block;
-    background-color: #fff;
+    background-color: var(--hcl-color-header_block);
 
     &::after {
       content: "";
       position: absolute;
       width: 8px;
       height: 8px;
-      border-bottom: 2px solid #000;
-      border-right: 2px solid #000;
+      border-bottom: 2px solid var(--hcl-color-dark);
+      border-right: 2px solid var(--hcl-color-dark);
       border-radius: 1px;
       transform: rotate(45deg);
       right: 10px;
@@ -32,6 +32,7 @@
       -moz-appearance: none;
       appearance: none;
       background-color: transparent;
+      color: inherit;
 
       @include applyFontStyle("default");
 

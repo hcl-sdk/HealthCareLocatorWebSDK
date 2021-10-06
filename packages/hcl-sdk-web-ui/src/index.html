@@ -28,10 +28,10 @@
         padding: 0;
       }
 
-      hcl-sdk {
+      /* hcl-sdk {
         --hcl-color-primary: #001f3f;
         --hcl-color-secondary: #39cccc;
-      }
+      } */
 
       .hcl-sdk-wrapper.desktop {
         width: 100%;
@@ -93,6 +93,9 @@
 
         HCLSDK.init({
           apiKey: settingsUI.apiKey,
+          enableDarkMode: settingsUI.enableDarkMode,
+          enableMapDarkMode: settingsUI.enableMapDarkMode,
+          enableMedicalTerm: settingsUI.enableMedicalTerm,
           appName: 'Corona',
           appURL: 'https://google.com',
           // distanceUnit: 'mi',

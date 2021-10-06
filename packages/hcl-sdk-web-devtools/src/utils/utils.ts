@@ -6,6 +6,8 @@ const defaultSettings: Fields = {
   lang: 'en',
   appName: '',
   showSuggestModification: true,
+  enableDarkMode: false,
+  enableMapDarkMode: false,
   enableMedicalTerm: false,
   appURL: '',
   countries: ['ca','fr'],
@@ -19,6 +21,9 @@ export function format(first: string, middle: string, last: string): string {
   return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
 }
 export const storeSettings = (settings: Fields) => {
+  if (settings.theme === 'default') {
+    localStorage.removeItem(`__hclsdk-devtools-custom-icon`)
+  }
   localStorage.setItem(`__hcl-sdk-dev-settings-fields`, JSON.stringify(settings));
 };
 
