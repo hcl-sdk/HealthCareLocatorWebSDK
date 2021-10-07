@@ -12,9 +12,7 @@ export const storageUtils = {
   setObject(key: Key, value: any) {
     try {
       storageUtils.setItem(key, JSON.stringify(value));
-    } catch(e) {
-      console.error("[storageUtils]",e.message)
-    }
+    } catch(e) {}
   },
   getObject(key: Key, defaultValue = null) {
     const obj = storageUtils.getItem(key);

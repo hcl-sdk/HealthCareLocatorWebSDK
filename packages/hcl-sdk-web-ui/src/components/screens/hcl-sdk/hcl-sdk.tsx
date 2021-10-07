@@ -1,7 +1,7 @@
 import { Component, Host, h, Method, Element, State } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
-import { applyDefaultTheme } from '../../../utils/helper';
+import { applyDefaultTheme, getCurrentPosition as defaultGetCurrentPosition } from '../../../utils/helper';
 import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
@@ -16,6 +16,7 @@ import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import cls from 'classnames'
+import { GeolocCoordinates } from '../../../core/types';
 
 const defaults = {
   apiKey: '',
@@ -36,7 +37,7 @@ export class HclSDK {
 
   @Method()
   updateConfig(patch: any): Promise<HclSDKConfigData> {
-    const mapConfig = this.getMapConfig(patch);
+    const mapConfig = this.getMapConfig({ ...configStore.state, ...patch});
     configStore.setState(merge({}, configStore.state, patch, { map: mapConfig }));
     return Promise.resolve(configStore.state);
   }
@@ -69,14 +70,14 @@ export class HclSDK {
   }
 
   @Method()
-  async init(config: any = {}) {
+  async init({ isShowcase, getCurrentPosition, ...config }: any = {}) {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
 
     const mapConfig = this.getMapConfig(config);
     const initConfig = merge({}, defaults, config, { map: mapConfig });
-    this.loadCurrentPosition(initConfig);
+    this.loadCurrentPosition({ isShowcase, getCurrentPosition });
 
     initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
     initConfig.countries = initConfig.countries.filter(countryCode => {
@@ -177,39 +178,54 @@ export class HclSDK {
     }
   };
 
-  tryFindGeoloc() {
-    navigator.geolocation.getCurrentPosition(
-      data => {
-        const {
-          coords, //: { longitude, latitude }
-        } = data;
-        getAddressFromGeo(coords.latitude, coords.longitude)
-          .then(res => {
-            if (res?.address?.country_code) {
-              configStore.setState({
-                countryGeo: res.address.country_code
-              })
-            }
-          });
-        searchMapStore.setGeoLocation(coords);
-      },
-      this.retryFindGeoloc,
-      {
-        maximumAge: GEOLOC.MAXAGE,
-        timeout: GEOLOC.TIMEOUT,
-      },
-    );
-  }
+  tryFindGeoloc({ getCurrentPosition = undefined } = {}) {
+    function handler(coords: GeolocCoordinates) {
+      const prevCoords = {
+        latitude: searchMapStore.state.geoLocation.latitude,
+        longitude: searchMapStore.state.geoLocation.longitude
+      }
+      
+      getAddressFromGeo(coords.latitude, coords.longitude)
+        .then(res => {
+          if (res?.address?.country_code) {
+            configStore.setState({
+              countryGeo: res.address.country_code
+            })
+          }
 
-  findCurrentPosition() {
-    if (!navigator.geolocation) {
-      console.error('[Geolocation] is not supported by your browse');
+          if (
+            getCurrentPosition && 
+            coords.latitude !== prevCoords.latitude &&
+            coords.longitude !== prevCoords.longitude &&
+            routerStore.state.currentRoutePath === ROUTER_PATH.MAIN
+          ) {
+            searchLocationWithParams(true)
+          }
+        });
+
+      searchMapStore.setGeoLocation(coords);
+    }
+
+    if (getCurrentPosition) {
+      getCurrentPosition(handler, (err) => {
+        console.error(err || '[Geolocation] getCurrentPosition was error')
+      })
     } else {
-      this.tryFindGeoloc();
+      defaultGetCurrentPosition(handler, this.retryFindGeoloc)
     }
   }
 
-  loadCurrentPosition({ isShowcase }) {
+  findCurrentPosition({ getCurrentPosition }: any) {
+    if (!getCurrentPosition && !navigator.geolocation) {
+      console.error('[Geolocation] is not supported by your browse');
+    } 
+    
+    if (getCurrentPosition || navigator.geolocation) {
+      this.tryFindGeoloc({ getCurrentPosition });
+    }
+  }
+
+  loadCurrentPosition({ isShowcase, getCurrentPosition }) {
     if (isShowcase) {
       // Canada - Toronto Geolocation
       searchMapStore.setGeoLocation({
@@ -224,13 +240,21 @@ export class HclSDK {
       const time = Number(dataGeolocation.time);
       if (dateUtils(time).diffMinuteFromNow() < GEOLOC.MINUTE_HISTORY) {
         const { latitude, longitude } = dataGeolocation;
+        getAddressFromGeo(latitude, longitude)
+          .then(res => {
+            if (res?.address?.country_code) {
+              configStore.setState({
+                countryGeo: res.address.country_code
+              })
+            }
+          });
         searchMapStore.setGeoLocation({ latitude, longitude });
       } else {
         storageUtils.remove(OKSDK_GEOLOCATION_HISTORY);
       }
     }
 
-    this.findCurrentPosition();
+    this.findCurrentPosition({ getCurrentPosition });
   }
 
   async loadCountriesFromMyKey({ apiKey }) {

@@ -1,6 +1,6 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
-import { Breakpoint, ScreenSize } from '../core/types';
-import { BREAKPOINT_MAX_WIDTH } from '../core/constants';
+import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
+import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
 import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
@@ -220,4 +220,16 @@ function roundFloatNumber(num: Number, digits = 0) {
    *  - 36.99 -> '37.0' -> 37
    */
   return Number(num.toFixed(digits)) // 
+}
+
+export function getCurrentPosition(
+  success: (coords: GeolocCoordinates) => void, 
+  error: (err: any) => void
+) {
+  navigator.geolocation.getCurrentPosition((data) => {
+    success(data.coords)
+  }, error, {
+    maximumAge: GEOLOC.MAXAGE,
+    timeout: GEOLOC.TIMEOUT,
+  })
 }

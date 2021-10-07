@@ -11,7 +11,7 @@ import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
-        "init": (config?: any) => Promise<void>;
+        "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
         "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
     }
