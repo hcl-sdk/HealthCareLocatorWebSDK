@@ -357,8 +357,8 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
     const icon = {
       url: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor, isSelected),
       scaledSize: isCurrent ? new google.maps.Size(20, 20) : new google.maps.Size(25, 40),
-      origin: new google.maps.Point(0, 0), // origin
-      anchor: new google.maps.Point(0, 0), // anchor
+      origin: new google.maps.Point(0, 0),
+      anchor: isCurrent ? new google.maps.Point(10, 10) : new google.maps.Point(12, 20),
     };
 
     return icon;

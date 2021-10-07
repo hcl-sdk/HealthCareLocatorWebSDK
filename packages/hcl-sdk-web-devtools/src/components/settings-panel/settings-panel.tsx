@@ -207,7 +207,7 @@ export class SettingsPanel {
       if (fieldName === 'theme') {
         if (value === 'custom') {
           this.setCustomTheme();
-        } else if (value === 'default') {
+        } else if (value === 'default' || value === 'dark') {
           this.setDefaultTheme();
         }
         this.fields = { 

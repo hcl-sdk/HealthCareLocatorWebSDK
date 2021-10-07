@@ -64,6 +64,12 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+      .gp {
+        text-transform: capitalize;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
   }
 }

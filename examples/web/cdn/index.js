@@ -80,7 +80,7 @@ function getSettingsCustomIconFromLocal() {
   return { icons: {} }
 }
 
-const config = {
+var config = {
   ...getSettingsFromLocal(),
   ...getSettingsCustomIconFromLocal()
 };

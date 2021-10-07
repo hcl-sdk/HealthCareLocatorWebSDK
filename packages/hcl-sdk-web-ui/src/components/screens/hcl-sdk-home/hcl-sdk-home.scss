@@ -1,10 +1,6 @@
 @import '../../../global/scss/variables.scss';
 
 :host {
-  .main-contain {
-    background-color: var(--hcl-color-view_bkg);
-  }
-
   .home {
     display: flex;
     flex-direction: column;

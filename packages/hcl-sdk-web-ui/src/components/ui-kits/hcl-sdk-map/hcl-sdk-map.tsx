@@ -7,6 +7,7 @@ import * as geolib from 'geolib';
 import { HclSdkMapGoogleMap } from './map/hcl-sdk-google-map';
 import { HclSdkOpenStreetMap } from './map/hcl-sdk-openstreet-map';
 import { IHclSdkMap } from './map/hck-sdk-map-interface';
+import { GeoLocation } from '../../../core/stores/SearchMapStore';
 
 @Component({
   tag: 'hcl-sdk-map',
@@ -84,6 +85,9 @@ export class HclSdkMap {
     if (!this.interactive) {
       this.disableMap();
     }
+
+    searchMapStore.storeInstance
+      .onChange('geoLocation', this.handleChangeGeoLocation)
   }
 
   @Watch('interactive')
@@ -127,6 +131,12 @@ export class HclSdkMap {
   @Watch('zoomControl')
   resetMapByZoomControl() {
     this.map.onResize();
+  }
+
+  handleChangeGeoLocation = (newGeoLoc: GeoLocation) => {
+    if (newGeoLoc.status === 'granted') {
+      this.setMarkerCurrentLocation()
+    }
   }
 
   setMarkerCurrentLocation = () => {
