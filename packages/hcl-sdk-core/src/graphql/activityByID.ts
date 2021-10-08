@@ -25,6 +25,7 @@ const QUERY_ACTIVITY_BY_ID = gql`
         name
         intlPhone
         intlFax
+        localPhone
         address{
           longLabel
           country
