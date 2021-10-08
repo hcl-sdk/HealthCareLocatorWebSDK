@@ -45,7 +45,7 @@
   .share-hcp__text-area {
     width: 100%;
     position: relative;
-    background-color: #fafafa;
+    background-color: var(--hcl-color-share_hcp);
     border: 1px solid var(--hcl-color-card_border);
     border-radius: 5px;
     padding: 12px;
@@ -73,10 +73,10 @@
     .hclsdk-btn {
       padding: 8px 12px;
       margin-top: 5px;
-      color: #2b3c4d;
+      color: var(--hcl-color-dark);
       min-width: 120px;
-      border: 1px solid #d9d9d9;
-      background-color: #f5f2f2;
+      border: 1px solid var(--hcl-color-card_border);
+      background-color: var(--hcl-color-button_bkg);
       margin-top: 18px;
     }
   

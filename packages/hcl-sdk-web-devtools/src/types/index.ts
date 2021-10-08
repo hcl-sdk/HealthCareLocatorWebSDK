@@ -1,4 +1,4 @@
-export type Theme = 'default' | 'green' | 'blue' | 'red' | 'purple' | 'custom';
+export type Theme = 'default' | 'green' | 'blue' | 'red' | 'purple' | 'custom' | 'dark';
 
 export interface Fields {
   apiKey: string;
@@ -7,6 +7,8 @@ export interface Fields {
   appName: string;
   appURL: string;
   showSuggestModification: boolean;
+  enableDarkMode?: boolean;
+  enableMapDarkMode?: boolean;
   enableMedicalTerm?: boolean;
   countries: string[];
   useGoogleMap: boolean;

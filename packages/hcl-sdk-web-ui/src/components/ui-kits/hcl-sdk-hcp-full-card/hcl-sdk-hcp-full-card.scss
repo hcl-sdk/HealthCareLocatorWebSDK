@@ -61,7 +61,7 @@
 
   .hclsdk-btn {
     &.hclsdk-btn-rate {
-      background-color: #fff;
+      background-color: var(--hcl-color-header_block);
       border: 1px solid var(--hcl-color-grey_light);
       width: 30px;
       .icon {
@@ -85,7 +85,7 @@
     }
 
     &__avatar {
-      background-color: #ddd;
+      background-color: var(--hcl-color-main_infor_avatar);
       width: 50px;
       height: 50px;
       display: grid;
@@ -245,6 +245,12 @@
     }
   }
 
+  .info-section-header__postfix {
+    .icon {
+      fill: var(--hcl-color-secondary);
+    }
+  }
+
   .size-mobile {
     .leaflet-control-zoom {
       display: none;
@@ -277,12 +283,7 @@
       margin: 0;
     }
 
-    .main-block--header {
-      padding: 0;
-    }
-
-    .hcp-details-card,
-    .main-block__navigation {
+    .hcp-details-card {
       width: 640px;
       margin-left: auto;
       margin-right: auto;
@@ -295,14 +296,8 @@
       }
     }
 
-    .main-block__navigation {
-      background-color: white;
-      border: 1px solid var(--hcl-color-card_border);
-      border-radius: 5px;
-    }
-
     .main-info {
-      background-color: white;
+      background-color: var(--hcl-color-header_block);
       border: 1px solid var(--hcl-color-card_border);
       border-radius: 5px;
     }
@@ -338,4 +333,22 @@
     }
   }
 
+}
+
+.sdk-dark-mode {
+  .info-section-header__postfix {
+    .icon {
+      fill: #fff;
+    }
+    .hclsdk-btn--round {
+      background-color: var(--hcl-color-secondary);
+    }
+  }
+  .medical-subjects__item {
+    border-color: var(--hcl-color-card_border);
+    background-color: #505050;
+  }
+  .medical-subjects__item--highlight {
+    background-color: var(--hcl-color-medial_subject_highlight);
+  }
 }

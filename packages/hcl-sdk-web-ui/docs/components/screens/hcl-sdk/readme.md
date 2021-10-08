@@ -17,7 +17,7 @@ Type: `Promise<void>`
 
 
 
-### `init(config?: any) => Promise<void>`
+### `init({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>`
 
 
 

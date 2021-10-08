@@ -23,6 +23,9 @@ const QUERY_ACTIVITY_BY_ID = gql`
       workplace{
         id
         name
+        intlPhone
+        intlFax
+        localPhone
         address{
           longLabel
           country

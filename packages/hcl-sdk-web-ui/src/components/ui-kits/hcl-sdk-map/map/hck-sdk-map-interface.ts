@@ -10,6 +10,20 @@ interface OnDragCallbackArg {
   };
 }
 
+export interface OptionsMap {
+  center: { lat: number; lng: number };
+  zoom: number;
+  minZoom: number;
+  maxZoom: number;
+  dragging: boolean;
+  googleMapApiKey?: string;
+  googleMapId?: string;
+  zoomControl: boolean;
+  iconMarker?: string;
+  iconMarkerSelected?: string;
+  enableMapDarkMode?: boolean;
+}
+
 export interface IHclSdkMap {
   map;
 
@@ -31,18 +45,7 @@ export interface IHclSdkMap {
 
   initMap(
     mapElm: any,
-    options: {
-      center: { lat: number; lng: number };
-      zoom: number;
-      minZoom: number;
-      maxZoom: number;
-      dragging: boolean;
-      googleMapApiKey?: string;
-      googleMapId?: string;
-      zoomControl: boolean;
-      iconMarker?: string;
-      iconMarkerSelected?: string;
-    },
+    options: OptionsMap,
   ): Promise<any>;
 
   createIconURL(markerColor: string): string;

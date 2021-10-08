@@ -130,3 +130,23 @@
   }
 }
 
+
+.sdk-dark-mode {
+  .leaflet-bar a {
+    color: #fff;
+    border-color: var(--hcl-color-card_border);
+    background-color: var(--hcl-color-header_block);
+  }
+  .current-location {
+    border-color: #fff;
+    background-color: var(--hcl-color-secondary);
+    hcl-sdk-icon-map_geoloc {
+      stroke: #fff;
+    }
+  }
+}
+.sdk-map-dark-mode {
+  .leaflet-container .leaflet-layer {
+    filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+  }
+}

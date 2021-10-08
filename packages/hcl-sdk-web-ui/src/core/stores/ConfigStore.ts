@@ -36,7 +36,9 @@ export interface HclSDKConfigData {
   distanceUnit?: DistanceUnit;
   distanceDefault?: number;
   showSuggestModification?: boolean;
-  enableMedicalTerm?: Boolean;
+  enableDarkMode?: boolean;
+  enableMapDarkMode?: boolean;
+  enableMedicalTerm?: boolean;
   stylesheet?: string;
   map: {
     provider: MapProvider;
@@ -62,6 +64,8 @@ export const initStateConfigStore: HclSDKConfigData = {
   countriesSubscriptionKey: [], // From Subscription Key
   distanceUnit: 'km',
   distanceDefault: 0,
+  enableDarkMode: false,
+  enableMapDarkMode: false,
   enableMedicalTerm: false,
   showSuggestModification: true
 };

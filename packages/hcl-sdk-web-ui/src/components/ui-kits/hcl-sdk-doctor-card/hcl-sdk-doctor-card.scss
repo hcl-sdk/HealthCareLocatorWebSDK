@@ -13,7 +13,7 @@
     border-radius: 5px;
     padding: 10px;
     margin: 10px 10px 0 10px;
-    background-color: white;
+    background-color: var(--hcl-color-header_block);
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -63,6 +63,12 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+      }
+      .gp {
+        text-transform: capitalize;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }

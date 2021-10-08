@@ -9,9 +9,6 @@
   input[type="text"] {
     outline: none;
     height: 40px;
-    &::placeholder {
-      color: var(--hcl-color-grey_light);
-    }
     &:focus {
       border: 1px solid var(--hcl-color-grey_dark);
     }
@@ -91,7 +88,7 @@
     &.hclsdk-btn {
       padding: 0 5px;
       margin-right: 3px;
-      background-color: white;
+      background-color: var(--hcl-color-input_background);
       &--has-icon {
         margin-top: 10px;
       }

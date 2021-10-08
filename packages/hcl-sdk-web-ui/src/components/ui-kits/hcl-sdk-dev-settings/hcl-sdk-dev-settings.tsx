@@ -10,6 +10,8 @@ interface DevSettings {
 
 const defaultSettings = {
   lang: 'en',
+  enableDarkMode: false,
+  enableMapDarkMode: false,
   enableMedicalTerm: false,
   screenLayout: 'desktop',
 };
@@ -61,6 +63,16 @@ const optionSets = [
   {
     key: 'enableMedicalTerm',
     label: 'Search Medical Terms',
+    type: 'checkbox'
+  },
+  {
+    key: 'enableDarkMode',
+    label: 'Dark Mode',
+    type: 'checkbox'
+  },
+  {
+    key: 'enableMapDarkMode',
+    label: 'Night Mode for Map',
     type: 'checkbox'
   }
 ];

@@ -28,10 +28,10 @@
         padding: 0;
       }
 
-      hcl-sdk {
+      /* hcl-sdk {
         --hcl-color-primary: #001f3f;
         --hcl-color-secondary: #39cccc;
-      }
+      } */
 
       .hcl-sdk-wrapper.desktop {
         width: 100%;
@@ -93,8 +93,27 @@
 
         HCLSDK.init({
           apiKey: settingsUI.apiKey,
+          enableDarkMode: settingsUI.enableDarkMode,
+          enableMapDarkMode: settingsUI.enableMapDarkMode,
+          enableMedicalTerm: settingsUI.enableMedicalTerm,
           appName: 'Corona',
           appURL: 'https://google.com',
+          // useGoogleMap: true,
+          // googleMapApiKey: "",
+          // getCurrentPosition(success, error) {
+          //   setTimeout(() => {
+          //     success({
+          //       // Toronto
+          //       // latitude: 43.65107,
+          //       // longitude: -79.347015,
+
+          //       // Paris
+          //       latitude: 48.864716,
+          //       longitude: 2.349014
+          //     })
+          //   //   // error()
+          //   }, 5000);
+          // }
           // distanceUnit: 'mi',
           // distanceDefault: 20
         });

@@ -207,10 +207,19 @@ export class SettingsPanel {
       if (fieldName === 'theme') {
         if (value === 'custom') {
           this.setCustomTheme();
-        } else if (value === 'default') {
+        } else if (value === 'default' || value === 'dark') {
           this.setDefaultTheme();
         }
-      } else if (fieldName === 'showSuggestModification' || fieldName === 'useGoogleMap' || fieldName === 'enableMedicalTerm') {
+        this.fields = { 
+          ...this.fields,
+          enableDarkMode: value === 'dark'
+        };
+      } else if (
+        fieldName === 'showSuggestModification' || 
+        fieldName === 'useGoogleMap' || 
+        fieldName === 'enableMedicalTerm' || 
+        fieldName === 'enableMapDarkMode'
+      ) {
         value = (evt.target as any).checked as boolean;
       } else if (fieldName === 'countries') {
         value = (evt.target as any).value.trim().split(',').filter(val => !!val);
@@ -530,6 +539,9 @@ export class SettingsPanel {
               <option value="custom" selected={this.fields.theme === 'custom'}>
                 Custom
               </option>
+              <option value="dark" selected={this.fields.theme === 'dark'}>
+                Dark
+              </option>
             </select>
           </div>
           <div class="row">
@@ -591,6 +603,19 @@ export class SettingsPanel {
                 class="checkbox-switch"
                 onChange={this.handleChange('enableMedicalTerm')}
                 checked={this.fields.enableMedicalTerm}
+              />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
+            <label>Enable Night Mode for Map</label>
+            <div class="hcl-switch-btn">
+              <input
+                name="enableMapDarkMode"
+                type="checkbox"
+                class="checkbox-switch"
+                onChange={this.handleChange('enableMapDarkMode')}
+                checked={this.fields.enableMapDarkMode}
               />
               <div class="hcl-switch-btn__slider"></div>
             </div>

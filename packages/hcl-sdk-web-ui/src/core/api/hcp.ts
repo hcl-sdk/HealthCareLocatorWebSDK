@@ -325,8 +325,8 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     city: activity.workplace.address.city.label,
     country: activity.workplace.address.county.label,
     webAddress: activity.webAddress,
-    phone: activity.phone,
-    fax: activity.fax,
+    phone: activity.phone || activity.workplace.localPhone || activity.workplace.intlPhone,
+    fax: activity.fax || activity.workplace.intlFax,
     lat: activity.workplace.address.location.lat,
     lng: activity.workplace.address.location.lon,
 
