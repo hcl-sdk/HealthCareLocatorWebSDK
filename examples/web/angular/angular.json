@@ -24,6 +24,7 @@
             "outputPath": "build",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "deployUrl": "/sample/angular/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",

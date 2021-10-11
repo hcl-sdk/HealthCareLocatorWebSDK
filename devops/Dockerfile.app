@@ -9,6 +9,7 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 RUN mkdir /usr/share/nginx/html/sample
 COPY --from=builder /app/examples/web/cdn /usr/share/nginx/html/sample
 COPY --from=builder /app/examples/web/react/build /usr/share/nginx/html/sample/react
+COPY --from=builder /app/examples/web/angular/build /usr/share/nginx/html/sample/angular
 
 EXPOSE 8000
 

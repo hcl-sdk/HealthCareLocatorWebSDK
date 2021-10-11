@@ -63,6 +63,18 @@ stages:
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/react'
           arguments: 'build'
+          
+      - task: Yarn@3
+        displayName: 'Install dependencies example angular'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
+          arguments: 'install'
+
+      - task: Yarn@3
+        displayName: 'Build Example Sngular'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
+          arguments: 'build'
       
       - task: RegExMatchReplace@2
         inputs:
