@@ -53,10 +53,16 @@ stages:
           versionSpec: '1.x'
 
       - task: Yarn@3
+        displayName: 'Install dependencies example react'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/react'
+          arguments: 'install'
+
+      - task: Yarn@3
         displayName: 'Build Example React'
         inputs:
-          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib'
-          arguments: 'build-example-react'
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/react'
+          arguments: 'build'
       
       - task: RegExMatchReplace@2
         inputs:
