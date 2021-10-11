@@ -71,7 +71,7 @@ stages:
           arguments: 'install'
 
       - task: Yarn@3
-        displayName: 'Build Example Sngular'
+        displayName: 'Build Example Angular'
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
           arguments: 'build'
