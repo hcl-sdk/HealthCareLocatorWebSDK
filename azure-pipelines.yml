@@ -48,6 +48,16 @@ stages:
       - checkout: self
         path: s/onekey-sdk-web-lib
 
+      - task: YarnInstaller@3
+        inputs:
+          versionSpec: '1.x'
+
+      - task: Yarn@3
+        displayName: 'Build Example React'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib'
+          arguments: 'build-example-react'
+      
       - task: RegExMatchReplace@2
         inputs:
           PathToFile: 'examples/web/cdn/index.html'
@@ -65,6 +75,13 @@ stages:
       - task: RegExMatchReplace@2
         inputs:
           PathToFile: 'examples/web/cdn/search.html'
+          RegEx: '<script src="\.'
+          ValueToReplace: "<script src=\"$(cdnUrl)"
+          Global: true
+
+      - task: RegExMatchReplace@2
+        inputs:
+          PathToFile: 'examples/web/react/build/index.html'
           RegEx: '<script src="\.'
           ValueToReplace: "<script src=\"$(cdnUrl)"
           Global: true
