@@ -23,9 +23,29 @@ Run `npm run build` to build the hcl-sdk component
 | appName                   | string \| undefined |
 | appURL                    | string \| undefined |
 | showSuggestModification   | boolean \| undefined |
+| enableDarkMode   | boolean \| undefined |
+| enableMapDarkMode   | boolean \| undefined |
 | countries                 | string \| undefined |
 | useGoogleMap              | boolean \| undefined |
 | googleMapApiKey           | string \| undefined |
+| getCurrentPosition |  Function \| undefined |
+
+#### API
+
+##### `getCurrentPosition(success: Function, error?: Function)`
+- By default, the method `navigator.geolocation.getCurrentPosition` is used to get the current position of the device that is provided by Web APIs
+- However, this behavior can be changed by providing a getCurrentPosition function through the configuration:
+```js
+const config = {
+  ...,
+  getCurrentPosition(success, error) { 
+    success({ 
+      longitude : xx.xxx, 
+      latitude: yy.yyy 
+    })
+  } 
+}
+```
 
 <br />
 
