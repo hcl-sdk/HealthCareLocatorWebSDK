@@ -2,7 +2,7 @@
   "name": "hcl-sdk-web-react-example",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/sample/react",
   "dependencies": {
     "@healthcarelocator/sdk-react": "^0.1.5",
     "@testing-library/jest-dom": "^5.11.4",
