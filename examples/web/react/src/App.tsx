@@ -10,7 +10,7 @@ import Devtools from './Devtools';
 
 function App() {
   return (
-    <BrowserRouter basename="/">
+    <BrowserRouter basename="/sample/react">
       <Devtools />
       <section className="content-wrapper">
         <Switch>

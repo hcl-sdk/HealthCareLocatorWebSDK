@@ -88,7 +88,7 @@ stages:
       - task: RegExMatchReplace@2
         inputs:
           PathToFile: 'examples/web/react/build/index.html'
-          RegEx: '<script src="\.'
+          RegEx: '<script id="devtool" src="\.'
           ValueToReplace: "<script src=\"$(cdnUrl)"
           Global: true
 
