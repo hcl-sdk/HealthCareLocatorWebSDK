@@ -104,6 +104,13 @@ stages:
           ValueToReplace: "<script src=\"$(cdnUrl)"
           Global: true
 
+      - task: RegExMatchReplace@2
+        inputs:
+          PathToFile: 'examples/web/angular/build/index.html'
+          RegEx: '<script src="\./assets'
+          ValueToReplace: "<script src=\"$(cdnUrl)"
+          Global: true
+
       - task: Docker@2
         displayName: Docker login
         inputs:
