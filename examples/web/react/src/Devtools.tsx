@@ -22,6 +22,12 @@ export default function Devtools() {
   function toggleMobileMenu() {
     document.body.classList.toggle('menu-opened')
   }
+
+  function onClickGoToSearchPage() {
+    requestAnimationFrame(() => {
+      window.location.reload()
+    })
+  }
   
   return (
     <section className={cls('sidebar', {
@@ -36,7 +42,7 @@ export default function Devtools() {
           <Link to="/" className="active">Home</Link>
         </li>
         <li className="menu-item">
-          <Link to="/search">Search for HCPs</Link>
+          <Link to="/search" onClick={onClickGoToSearchPage}>Search for HCPs</Link>
         </li>
         <li className="menu-item">
           <Link to="/search?sp=dentistry">Find a dentist near me</Link>
