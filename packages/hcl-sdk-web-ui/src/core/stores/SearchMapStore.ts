@@ -1,4 +1,3 @@
-import { ActivityList } from "../../../../hcl-sdk-core/src/graphql/types";
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
@@ -91,7 +90,7 @@ export type IndividualDetail = {
   fax?: string
   lat: number
   lng: number
-  activitiesList: ActivityList[]
+  activitiesList: any[]
 }
 
 export interface SearchMapState {
