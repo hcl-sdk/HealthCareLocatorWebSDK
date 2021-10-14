@@ -286,15 +286,14 @@ export class HclSdkSearchResult {
     const {
       specialties,
       selectedActivity,
-      locationFilter,
       searchFields,
       loadingActivitiesStatus,
       individualDetail,
       isAllowDisplayMapEmpty
     } = searchMapStore.state;
 
-    const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
-    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && !searchFields.specialtyName && !searchFields.medicalTerm
+    const selectedAddressName = searchMapStore.isSearchNearMe ? t('near_me') : searchFields.address;
+    const isShowHeaderNearmeMobile = searchMapStore.isSearchNearMe
 
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
