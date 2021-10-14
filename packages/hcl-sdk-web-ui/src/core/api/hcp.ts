@@ -1,8 +1,8 @@
 import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from '../../../../hcl-sdk-core';
-import { SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
-import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms, convertToMeter, formatDistanceDisplay } from '../../utils/helper';
+import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
+import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms, convertToMeter, formatDistanceDisplay, getSpecialties } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
@@ -308,7 +308,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     locale: i18nStore.state.lang
   }, configStore.configGraphql)
 
-  const data = {
+  const data: IndividualDetail = {
     id: activityId,
     individualId: activity.individual.id,
     name: getHcpFullname(activity.individual),
@@ -316,7 +316,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     lastName: activity.individual.lastName,
     middleName: activity.individual.middleName,
     professionalType: activity.individual.professionalType.label,
-    specialties: getSpecialtiesText(activity.individual.specialties),
+    specialties: getSpecialties(activity.individual.specialties),
     listTerms: getCombineListTerms(activity.individual.meshTerms, activity.individual.kvTerms, activity.individual.chTerms),
     addressName: activity.workplace.name,
     addressBuildingName: activity.workplace.address.buildingLabel,

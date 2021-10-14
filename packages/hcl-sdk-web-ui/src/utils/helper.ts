@@ -1,9 +1,10 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, Individual, IndividualFragment } from '../../../hcl-sdk-core/src/graphql/types';
+import { ActivityList, Individual, IndividualFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
+import { SearchSpecialty } from '../core/stores/SearchMapStore'
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -63,6 +64,13 @@ export function applyDefaultTheme(darkMode?: boolean) {
 
 export function getSpecialtiesText(specialties) {
   return specialties.filter(elm => elm.label).map(elm => elm.label)
+}
+
+export function getSpecialties(specialties: KeyedString[]): SearchSpecialty[] {
+  return specialties.filter(elm => elm.label && elm.code).map(elm => ({
+    id: elm.code,
+    name: elm.label,
+  }))
 }
 
 export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoint {

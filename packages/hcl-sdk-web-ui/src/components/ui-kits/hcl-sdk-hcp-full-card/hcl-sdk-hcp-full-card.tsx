@@ -6,6 +6,7 @@ import { getCssColor, getPrimaryAddressIndividual, getTextBodyToShare } from '..
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
+import { SearchSpecialty } from '../../../core/stores/SearchMapStore';
 
 const MAX_DISPLAY_TERMS = 5
 
@@ -166,6 +167,21 @@ export class HclSdkHCPFullCard {
     this.isViewMoreSpecialties = !this.isViewMoreSpecialties
   }
 
+  moveHighlightedSpecialtiesOnTop(originalListSpecialties: SearchSpecialty[], specialtyFilter: SearchSpecialty[]) {
+    const highlightSpecialties = originalListSpecialties.filter(orignalSpec => 
+      specialtyFilter
+        .find(spec => spec.id.toLowerCase() === orignalSpec.id.toLowerCase())
+    ).map(s => ({ ...s, isHighlighted: true }))
+    const exceptHighlightedSpecialties = originalListSpecialties.filter(orignalSpec => 
+      !specialtyFilter
+        .find(spec => spec.id.toLowerCase() === orignalSpec.id.toLowerCase())
+    )
+    return [
+      ...highlightSpecialties,
+      ...exceptHighlightedSpecialties
+    ]
+  }
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -203,13 +219,9 @@ export class HclSdkHCPFullCard {
     
     // Handle to render and highlight specialties. Move the selected specialties to the first order
     const originalListSpecialties = (individualDetail && individualDetail.specialties) || []
-    const listSpecialties = specialtyFilter?.length ? [
-      ...specialtyFilter.map(spec => ({ name: spec.name, isHighlighted: true })),
-      ...originalListSpecialties.filter((specLabel: string) => 
-        !specialtyFilter
-          .find(spec => spec.name.toLowerCase() === specLabel.toLowerCase())
-      ).map(specLabel => ({ name: specLabel, isHighlighted: false }))
-    ] : originalListSpecialties;
+    const listSpecialties = specialtyFilter?.length 
+      ? this.moveHighlightedSpecialtiesOnTop(originalListSpecialties, specialtyFilter) 
+      : originalListSpecialties
 
     return (
       <Host>
@@ -358,9 +370,7 @@ export class HclSdkHCPFullCard {
                       <div class="info-section-body">
                         <ul class="medical-subjects">
                           {
-                            listSpecialties.filter((spec, index, self) => 
-                              index === self.findIndex(t => t.name === spec.name) // Remove duplicate elements
-                            ).map((spec, idx: number) => {
+                            listSpecialties.map((spec, idx: number) => {
                               if (!this.isViewMoreSpecialties && idx >= MAX_DISPLAY_TERMS) {
                                 return null
                               }

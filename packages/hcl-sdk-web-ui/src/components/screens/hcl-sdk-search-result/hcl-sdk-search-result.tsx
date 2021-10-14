@@ -7,7 +7,6 @@ import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
 import sortBy from 'lodash.sortby';
 import { genSearchLocationParams, groupPointFromBoundingBox, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
-import { NEAR_ME } from '../../../core/constants';
 import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
 import { getDistance } from 'geolib';

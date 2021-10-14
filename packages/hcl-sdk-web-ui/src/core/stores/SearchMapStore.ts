@@ -1,3 +1,4 @@
+import { ActivityList } from "../../../../hcl-sdk-core/src/graphql/types";
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
@@ -64,9 +65,34 @@ export interface SearchTermItem {
 export interface SearchSpecialty {
   id: string;
   name: string;
+  isHighlighted?: boolean
 }
 
 type SearchDoctor = SelectedIndividual
+
+export type IndividualDetail = {
+  id: string
+  individualId: string
+  name: string
+  firstName: string
+  lastName: string
+  middleName: string
+  professionalType: string
+  specialties: SearchSpecialty[]
+  listTerms: string[]
+  addressName: string
+  addressBuildingName: string
+  address: string
+  postalCode: string
+  city: string
+  country: string
+  webAddress: string
+  phone?: string
+  fax?: string
+  lat: number
+  lng: number
+  activitiesList: ActivityList[]
+}
 
 export interface SearchMapState {
   loading?: boolean;
@@ -85,7 +111,7 @@ export interface SearchMapState {
   selectedValues?: SelectedValues;
   sortValues?: SortValue
   selectedActivity?: SelectedIndividual
-  individualDetail?: any;
+  individualDetail?: IndividualDetail;
   individualDetailName?: string;
   searchFields: SearchFields;
   locationFilter: any;
