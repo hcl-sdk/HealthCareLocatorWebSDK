@@ -14,6 +14,7 @@ export class HclSdkInput {
   @Prop() name?: string;
   @Prop() autoComplete?: string;
   @Prop() postfixIcon?: string;
+  @Prop() prefixIcon?: any;
   @Prop() class?: string;
   @Prop() loading?: boolean = false;
   @Prop() autoFocus?: boolean = false;
@@ -65,6 +66,7 @@ export class HclSdkInput {
 
     return (
       <Host>
+        { this.prefixIcon && <span class="input-prefix">{ this.prefixIcon }</span> }
         <input
           tabIndex={0}
           type={this.type}

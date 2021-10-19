@@ -3,7 +3,7 @@ import { getFullCardDetail, searchDoctor, searchLocationWithParams, handleSearch
 import { searchMapStore, routerStore, uiStore, historyStore, configStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import { searchGeoMap } from '../../../core/api/searchGeo';
-import { NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
+import { COUNTRIES_LABELS, NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { HistorySearchItem } from '../../../core/stores/HistoryStore';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -35,14 +35,16 @@ export class HclSdkSearch {
     name: null,
     address: null,
     medicalTerm: null,
-    specialtyName: null
+    specialtyName: null,
+    country: null
   };
   @State()
   fieldsValid = {
     name: true,
     address: true,
     medicalTerm: true,
-    specialtyName: true
+    specialtyName: true,
+    country: true
   }
 
   addressResultsRef;
@@ -89,6 +91,11 @@ export class HclSdkSearch {
   }
 
   clickOutsideHandler = (evt) => {
+    if (this.currentSelectedInput === 'country' && !this.fields.country?.contains(evt.target)) {
+      this.currentSelectedInput = null
+      return
+    }
+
     if (uiStore.state.breakpoint.screenSize === 'mobile') {
       return;
     }
@@ -202,7 +209,8 @@ export class HclSdkSearch {
         name: true,
         address: true,
         medicalTerm: true,
-        specialtyName: true
+        specialtyName: true,
+        country: true
       }
     } else {
       this.fieldsValid = {
@@ -290,6 +298,18 @@ export class HclSdkSearch {
     this.selectAddress(item);
   }
 
+  @Listen('selectCountry')
+  onSelectCountry(e) {
+    const item = e.detail;
+    
+    if (item?.code) {
+      configStore.setState({
+        countryFilterSelected: item.code
+      })
+      this.currentSelectedInput = null
+    }
+  }
+
   selectAddress(item) {
     // "Near Me" special Case
     if (item.id === NEAR_ME) {
@@ -361,8 +381,18 @@ export class HclSdkSearch {
     return <hcl-sdk-autocomplete-result type={type} ref={el => (this.addressResultsRef = el)} data={data} currentSelectedInput={this.currentSelectedInput} />;
   };
 
+  renderContentCountries = () => {
+    const data = configStore.state.countriesSubscriptionKey.map(countryCode => ({
+      code: countryCode,
+      label: COUNTRIES_LABELS[countryCode]
+    }))
+    return <hcl-sdk-search-countries data={data} currentSelectedInput={this.currentSelectedInput} />
+  }
+
   clearFilter = (key: SearchInputName) => {
-    const mapKey: Record<SearchInputName, string> = {
+    if (key === 'country') return
+
+    const mapKey: Record<string, string> = {
       name: 'selectedActivity',
       address: 'locationFilter',
       medicalTerm: 'medicalTermsFilter',
@@ -473,6 +503,14 @@ export class HclSdkSearch {
     }
     return null;
   };
+
+  renderAutocompleteCountries = () => {
+    if (this.currentSelectedInput !== 'country') {
+      return
+    }
+
+    return <div>{ this.renderContentCountries() }</div>
+  }
 
   insertDefaultAddressNearMe(addressResults: any[]) {
     const searchMapState = searchMapStore.state;
@@ -609,6 +647,20 @@ export class HclSdkSearch {
                       })}
                     >
                       {!isSmallView && this.renderAutocompleteField('address', addressAutocompletionData)}
+                    </hcl-sdk-input>
+                  </div>
+                  <div class="hclsdk-search__form--content-item hclsdk-search__form--content-item--country">
+                    <hcl-sdk-input
+                      ref={el => (this.fields.country = el)}
+                      name="country"
+                      postfixIcon="arrow_down"
+                      autoComplete="off"
+                      value={COUNTRIES_LABELS[configStore.countryGraphqlQuery]}
+                      readOnly={true}
+                      onFocus={this.onFocusInputSearch}
+                      prefixIcon={<hcl-sdk-icon-flag countryCode={configStore.countryGraphqlQuery} />}
+                    >
+                      { this.renderAutocompleteCountries() }
                     </hcl-sdk-input>
                   </div>
                 </div>

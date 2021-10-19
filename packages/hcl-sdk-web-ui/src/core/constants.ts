@@ -277,3 +277,24 @@ export const COUNTRY_CODES = [
   "ZM",
   "ZW"
 ]
+
+// To get Flags: https://gitlab.com/catamphetamine/country-flag-icons/-/tree/master/flags/3x2
+export const COUNTRIES_LABELS = {
+  BE: "Belgium",
+  CA: "Canada",
+  CO: "Colombia",
+  DE: "Germany",
+  ES: "Spain",
+  FR: "France",
+  GB: "United Kingdom",
+  IT: "Italy",
+  NL: "Netherlands",
+  PL: "Poland",
+  PT: "Portugal",
+  SA: "Saudi arabia",
+  US: "United states",
+  // TR: "Turkey",
+  // DU: 'DUBAI'
+};
+
+export type CountryCode = (keyof (typeof COUNTRIES_LABELS))

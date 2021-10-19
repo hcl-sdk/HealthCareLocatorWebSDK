@@ -221,9 +221,11 @@ export class SettingsPanel {
         fieldName === 'enableMapDarkMode'
       ) {
         value = (evt.target as any).checked as boolean;
-      } else if (fieldName === 'countries') {
-        value = (evt.target as any).value.trim().split(',').filter(val => !!val);
-      } else if (fieldName === 'distanceUnit') {
+      } 
+      // else if (fieldName === 'countries') {
+      //   value = (evt.target as any).value.trim().split(',').filter(val => !!val);
+      // }
+      else if (fieldName === 'distanceUnit') {
         value = (evt.target as any).value.trim()
       } else if (fieldName === 'distanceDefault') {
         value = (evt.target as any).value.trim()
@@ -566,10 +568,10 @@ export class SettingsPanel {
             <label>App URL</label>
             <input name="appURL" type="text" value={this.fields.appURL} onInput={this.handleChange('appURL')} />
           </div>
-          <div class="row">
+          {/* <div class="row">
             <label>Countries</label>
             <input name="countries" type="text" value={this.fields.countries} onInput={this.handleChange('countries')} placeholder="fr,en,..." />
-          </div>
+          </div> */}
           <div class="row">
             <label>Distance Default</label>
             <input name="distanceDefault" type="number" value={this.fields.distanceDefault} onInput={this.handleChange('distanceDefault')} />
