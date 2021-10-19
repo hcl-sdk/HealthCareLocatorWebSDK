@@ -79,6 +79,18 @@
     height: 38px;
   }
 
+  .input-prefix {
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    z-index: 2;
+    pointer-events: none;
+
+    & + .hcl-sdk-input {
+      padding-left: 32px;
+    }
+  }
+
   .input-postfix {
     position: absolute;
     right: 0;

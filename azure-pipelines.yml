@@ -48,6 +48,34 @@ stages:
       - checkout: self
         path: s/onekey-sdk-web-lib
 
+      - task: YarnInstaller@3
+        inputs:
+          versionSpec: '1.x'
+
+      - task: Yarn@3
+        displayName: 'Install dependencies example react'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/react'
+          arguments: 'install'
+
+      - task: Yarn@3
+        displayName: 'Build Example React'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/react'
+          arguments: 'build'
+          
+      - task: Yarn@3
+        displayName: 'Install dependencies example angular'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
+          arguments: 'install'
+
+      - task: Yarn@3
+        displayName: 'Build Example Angular'
+        inputs:
+          projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
+          arguments: 'build'
+      
       - task: RegExMatchReplace@2
         inputs:
           PathToFile: 'examples/web/cdn/index.html'
@@ -66,6 +94,20 @@ stages:
         inputs:
           PathToFile: 'examples/web/cdn/search.html'
           RegEx: '<script src="\.'
+          ValueToReplace: "<script src=\"$(cdnUrl)"
+          Global: true
+
+      - task: RegExMatchReplace@2
+        inputs:
+          PathToFile: 'examples/web/react/build/index.html'
+          RegEx: '<script id="devtool" src="\.'
+          ValueToReplace: "<script src=\"$(cdnUrl)"
+          Global: true
+
+      - task: RegExMatchReplace@2
+        inputs:
+          PathToFile: 'examples/web/angular/build/index.html'
+          RegEx: '<script src="\./assets'
           ValueToReplace: "<script src=\"$(cdnUrl)"
           Global: true
 

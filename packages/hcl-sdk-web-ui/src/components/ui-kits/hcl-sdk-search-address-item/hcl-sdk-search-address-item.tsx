@@ -18,7 +18,7 @@ export class HclSdkSearchItem {
       case 'history':
         return <hcl-sdk-icon name="history" />;
       default:
-        return <hcl-sdk-icon name="marker" />;
+        return <hcl-sdk-icon name="geoloc" />;
     }
   };
 

@@ -23,6 +23,18 @@ const mapSpecialtyByKey = {
       specialtyCode: ['SP.WBE.08', 'SP.WFR.AR', 'SP.WIT.08', 'SP.WCA.08', 'SP.WCA.08'],
       specialtyLabel: 'Cardiology'
     }
+  },
+
+  // US Data (Prod)
+  allergy: {
+    fr_FR: {
+      specialtyCode: [ 'SP.WUS.A', 'SP.WUS.AI', 'SP.WUS.AIM' ],
+      specialtyLabel: 'Allergy'
+    },
+    en: {
+      specialtyCode: [ 'SP.WUS.A', 'SP.WUS.AI', 'SP.WUS.AIM' ],
+      specialtyLabel: 'Allergy'
+    }
   }
 }
 

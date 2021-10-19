@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
 import { SearchInputName } from "./core/stores/SearchMapStore";
+import { CountryCode } from "./core/constants";
 import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
@@ -66,6 +67,11 @@ export namespace Components {
         "primary": boolean;
         "width": number;
     }
+    interface HclSdkIconArrow_down {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkIconArrow_right {
         "color": string;
         "height": number;
@@ -110,6 +116,9 @@ export namespace Components {
         "color": string;
         "height": number;
         "width": number;
+    }
+    interface HclSdkIconFlag {
+        "countryCode": CountryCode;
     }
     interface HclSdkIconGeoloc {
         "color": string;
@@ -222,6 +231,7 @@ export namespace Components {
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
+        "prefixIcon"?: any;
         "readOnly"?: boolean;
         "type"?: string;
         "value"?: any;
@@ -279,6 +289,10 @@ export namespace Components {
         "currentSearchText"?: string;
         "item": any;
         "selected": boolean;
+    }
+    interface HclSdkSearchCountries {
+        "currentSelectedInput": SearchInputName;
+        "data": { code: CountryCode, label: string }[];
     }
     interface HclSdkSearchNoDataAvailable {
     }
@@ -361,6 +375,12 @@ declare global {
         prototype: HTMLHclSdkIconElement;
         new (): HTMLHclSdkIconElement;
     };
+    interface HTMLHclSdkIconArrow_downElement extends Components.HclSdkIconArrow_down, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconArrow_downElement: {
+        prototype: HTMLHclSdkIconArrow_downElement;
+        new (): HTMLHclSdkIconArrow_downElement;
+    };
     interface HTMLHclSdkIconArrow_rightElement extends Components.HclSdkIconArrow_right, HTMLStencilElement {
     }
     var HTMLHclSdkIconArrow_rightElement: {
@@ -414,6 +434,12 @@ declare global {
     var HTMLHclSdkIconFaxElement: {
         prototype: HTMLHclSdkIconFaxElement;
         new (): HTMLHclSdkIconFaxElement;
+    };
+    interface HTMLHclSdkIconFlagElement extends Components.HclSdkIconFlag, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconFlagElement: {
+        prototype: HTMLHclSdkIconFlagElement;
+        new (): HTMLHclSdkIconFlagElement;
     };
     interface HTMLHclSdkIconGeolocElement extends Components.HclSdkIconGeoloc, HTMLStencilElement {
     }
@@ -589,6 +615,12 @@ declare global {
         prototype: HTMLHclSdkSearchAddressItemElement;
         new (): HTMLHclSdkSearchAddressItemElement;
     };
+    interface HTMLHclSdkSearchCountriesElement extends Components.HclSdkSearchCountries, HTMLStencilElement {
+    }
+    var HTMLHclSdkSearchCountriesElement: {
+        prototype: HTMLHclSdkSearchCountriesElement;
+        new (): HTMLHclSdkSearchCountriesElement;
+    };
     interface HTMLHclSdkSearchNoDataAvailableElement extends Components.HclSdkSearchNoDataAvailable, HTMLStencilElement {
     }
     var HTMLHclSdkSearchNoDataAvailableElement: {
@@ -642,6 +674,7 @@ declare global {
         "hcl-sdk-home-full": HTMLHclSdkHomeFullElement;
         "hcl-sdk-home-min": HTMLHclSdkHomeMinElement;
         "hcl-sdk-icon": HTMLHclSdkIconElement;
+        "hcl-sdk-icon-arrow_down": HTMLHclSdkIconArrow_downElement;
         "hcl-sdk-icon-arrow_right": HTMLHclSdkIconArrow_rightElement;
         "hcl-sdk-icon-back": HTMLHclSdkIconBackElement;
         "hcl-sdk-icon-circular": HTMLHclSdkIconCircularElement;
@@ -651,6 +684,7 @@ declare global {
         "hcl-sdk-icon-edit": HTMLHclSdkIconEditElement;
         "hcl-sdk-icon-facebook": HTMLHclSdkIconFacebookElement;
         "hcl-sdk-icon-fax": HTMLHclSdkIconFaxElement;
+        "hcl-sdk-icon-flag": HTMLHclSdkIconFlagElement;
         "hcl-sdk-icon-geoloc": HTMLHclSdkIconGeolocElement;
         "hcl-sdk-icon-gmail": HTMLHclSdkIconGmailElement;
         "hcl-sdk-icon-history": HTMLHclSdkIconHistoryElement;
@@ -680,6 +714,7 @@ declare global {
         "hcl-sdk-router-link": HTMLHclSdkRouterLinkElement;
         "hcl-sdk-search": HTMLHclSdkSearchElement;
         "hcl-sdk-search-address-item": HTMLHclSdkSearchAddressItemElement;
+        "hcl-sdk-search-countries": HTMLHclSdkSearchCountriesElement;
         "hcl-sdk-search-no-data-available": HTMLHclSdkSearchNoDataAvailableElement;
         "hcl-sdk-search-no-results": HTMLHclSdkSearchNoResultsElement;
         "hcl-sdk-search-result": HTMLHclSdkSearchResultElement;
@@ -744,6 +779,11 @@ declare namespace LocalJSX {
         "primary"?: boolean;
         "width"?: number;
     }
+    interface HclSdkIconArrow_down {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface HclSdkIconArrow_right {
         "color"?: string;
         "height"?: number;
@@ -788,6 +828,9 @@ declare namespace LocalJSX {
         "color"?: string;
         "height"?: number;
         "width"?: number;
+    }
+    interface HclSdkIconFlag {
+        "countryCode"?: CountryCode;
     }
     interface HclSdkIconGeoloc {
         "color"?: string;
@@ -899,6 +942,7 @@ declare namespace LocalJSX {
         "onPostfixClick"?: (e: any) => void;
         "placeholder"?: string;
         "postfixIcon"?: string;
+        "prefixIcon"?: any;
         "readOnly"?: boolean;
         "type"?: string;
         "value"?: any;
@@ -962,6 +1006,11 @@ declare namespace LocalJSX {
         "onSelectAddress"?: (event: CustomEvent<any>) => void;
         "selected"?: boolean;
     }
+    interface HclSdkSearchCountries {
+        "currentSelectedInput"?: SearchInputName;
+        "data"?: { code: CountryCode, label: string }[];
+        "onSelectCountry"?: (event: CustomEvent<any>) => void;
+    }
     interface HclSdkSearchNoDataAvailable {
     }
     interface HclSdkSearchNoResults {
@@ -993,6 +1042,7 @@ declare namespace LocalJSX {
         "hcl-sdk-home-full": HclSdkHomeFull;
         "hcl-sdk-home-min": HclSdkHomeMin;
         "hcl-sdk-icon": HclSdkIcon;
+        "hcl-sdk-icon-arrow_down": HclSdkIconArrow_down;
         "hcl-sdk-icon-arrow_right": HclSdkIconArrow_right;
         "hcl-sdk-icon-back": HclSdkIconBack;
         "hcl-sdk-icon-circular": HclSdkIconCircular;
@@ -1002,6 +1052,7 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-edit": HclSdkIconEdit;
         "hcl-sdk-icon-facebook": HclSdkIconFacebook;
         "hcl-sdk-icon-fax": HclSdkIconFax;
+        "hcl-sdk-icon-flag": HclSdkIconFlag;
         "hcl-sdk-icon-geoloc": HclSdkIconGeoloc;
         "hcl-sdk-icon-gmail": HclSdkIconGmail;
         "hcl-sdk-icon-history": HclSdkIconHistory;
@@ -1031,6 +1082,7 @@ declare namespace LocalJSX {
         "hcl-sdk-router-link": HclSdkRouterLink;
         "hcl-sdk-search": HclSdkSearch;
         "hcl-sdk-search-address-item": HclSdkSearchAddressItem;
+        "hcl-sdk-search-countries": HclSdkSearchCountries;
         "hcl-sdk-search-no-data-available": HclSdkSearchNoDataAvailable;
         "hcl-sdk-search-no-results": HclSdkSearchNoResults;
         "hcl-sdk-search-result": HclSdkSearchResult;
@@ -1054,6 +1106,7 @@ declare module "@stencil/core" {
             "hcl-sdk-home-full": LocalJSX.HclSdkHomeFull & JSXBase.HTMLAttributes<HTMLHclSdkHomeFullElement>;
             "hcl-sdk-home-min": LocalJSX.HclSdkHomeMin & JSXBase.HTMLAttributes<HTMLHclSdkHomeMinElement>;
             "hcl-sdk-icon": LocalJSX.HclSdkIcon & JSXBase.HTMLAttributes<HTMLHclSdkIconElement>;
+            "hcl-sdk-icon-arrow_down": LocalJSX.HclSdkIconArrow_down & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_downElement>;
             "hcl-sdk-icon-arrow_right": LocalJSX.HclSdkIconArrow_right & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_rightElement>;
             "hcl-sdk-icon-back": LocalJSX.HclSdkIconBack & JSXBase.HTMLAttributes<HTMLHclSdkIconBackElement>;
             "hcl-sdk-icon-circular": LocalJSX.HclSdkIconCircular & JSXBase.HTMLAttributes<HTMLHclSdkIconCircularElement>;
@@ -1063,6 +1116,7 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-edit": LocalJSX.HclSdkIconEdit & JSXBase.HTMLAttributes<HTMLHclSdkIconEditElement>;
             "hcl-sdk-icon-facebook": LocalJSX.HclSdkIconFacebook & JSXBase.HTMLAttributes<HTMLHclSdkIconFacebookElement>;
             "hcl-sdk-icon-fax": LocalJSX.HclSdkIconFax & JSXBase.HTMLAttributes<HTMLHclSdkIconFaxElement>;
+            "hcl-sdk-icon-flag": LocalJSX.HclSdkIconFlag & JSXBase.HTMLAttributes<HTMLHclSdkIconFlagElement>;
             "hcl-sdk-icon-geoloc": LocalJSX.HclSdkIconGeoloc & JSXBase.HTMLAttributes<HTMLHclSdkIconGeolocElement>;
             "hcl-sdk-icon-gmail": LocalJSX.HclSdkIconGmail & JSXBase.HTMLAttributes<HTMLHclSdkIconGmailElement>;
             "hcl-sdk-icon-history": LocalJSX.HclSdkIconHistory & JSXBase.HTMLAttributes<HTMLHclSdkIconHistoryElement>;
@@ -1092,6 +1146,7 @@ declare module "@stencil/core" {
             "hcl-sdk-router-link": LocalJSX.HclSdkRouterLink & JSXBase.HTMLAttributes<HTMLHclSdkRouterLinkElement>;
             "hcl-sdk-search": LocalJSX.HclSdkSearch & JSXBase.HTMLAttributes<HTMLHclSdkSearchElement>;
             "hcl-sdk-search-address-item": LocalJSX.HclSdkSearchAddressItem & JSXBase.HTMLAttributes<HTMLHclSdkSearchAddressItemElement>;
+            "hcl-sdk-search-countries": LocalJSX.HclSdkSearchCountries & JSXBase.HTMLAttributes<HTMLHclSdkSearchCountriesElement>;
             "hcl-sdk-search-no-data-available": LocalJSX.HclSdkSearchNoDataAvailable & JSXBase.HTMLAttributes<HTMLHclSdkSearchNoDataAvailableElement>;
             "hcl-sdk-search-no-results": LocalJSX.HclSdkSearchNoResults & JSXBase.HTMLAttributes<HTMLHclSdkSearchNoResultsElement>;
             "hcl-sdk-search-result": LocalJSX.HclSdkSearchResult & JSXBase.HTMLAttributes<HTMLHclSdkSearchResultElement>;

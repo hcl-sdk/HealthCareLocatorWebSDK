@@ -7,7 +7,6 @@ import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
 import sortBy from 'lodash.sortby';
 import { genSearchLocationParams, groupPointFromBoundingBox, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
-import { NEAR_ME } from '../../../core/constants';
 import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
 import { getDistance } from 'geolib';
@@ -286,15 +285,14 @@ export class HclSdkSearchResult {
     const {
       specialties,
       selectedActivity,
-      locationFilter,
       searchFields,
       loadingActivitiesStatus,
       individualDetail,
       isAllowDisplayMapEmpty
     } = searchMapStore.state;
 
-    const selectedAddressName = locationFilter?.id === NEAR_ME ? t('near_me') : searchFields.address;
-    const isShowHeaderNearmeMobile = (locationFilter?.id === NEAR_ME || searchFields.address === t('near_me')) && !searchFields.specialtyName && !searchFields.medicalTerm
+    const selectedAddressName = searchMapStore.isSearchNearMe ? t('near_me') : searchFields.address;
+    const isShowHeaderNearmeMobile = searchMapStore.isSearchNearMe
 
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';

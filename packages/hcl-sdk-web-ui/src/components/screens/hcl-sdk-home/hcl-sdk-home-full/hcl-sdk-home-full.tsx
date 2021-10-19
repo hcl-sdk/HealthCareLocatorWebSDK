@@ -1,5 +1,5 @@
 import { Component, h, Host, State, Listen } from '@stencil/core';
-import { historyStore, routerStore, searchMapStore, i18nStore } from '../../../../core/stores';
+import { historyStore, routerStore, searchMapStore, i18nStore, configStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
 import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME_ITEM } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
@@ -7,6 +7,7 @@ import { searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
 import { SearchFields } from '../../../../core/stores/SearchMapStore';
+import { getAddressFromGeo } from '../../../../core/api/searchGeo';
 
 @Component({
   tag: 'hcl-sdk-home-full',
@@ -17,9 +18,22 @@ export class HclSdkHomeFull {
   @State() showMoreHcpItems: boolean = false;
 
   componentDidLoad() {
-    if (searchMapStore.isGrantedGeoloc) {
+    if (searchMapStore.isGrantedGeoloc && configStore.state.countryGeo) {
       // Forced search Near Me, no need to set the input address value
       searchLocationWithParams(true);
+    }
+
+    if (searchMapStore.isGrantedGeoloc && !configStore.state.countryGeo) {
+      const { latitude, longitude } = searchMapStore.state.geoLocation
+      getAddressFromGeo(latitude, longitude)
+        .then(res => {
+          if (res?.address?.country_code) {
+            configStore.setState({
+              countryGeo: res.address.country_code
+            })
+            searchLocationWithParams(true);
+          }
+        });
     }
   }
 

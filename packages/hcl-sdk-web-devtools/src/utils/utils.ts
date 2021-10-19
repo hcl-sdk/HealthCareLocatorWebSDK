@@ -10,7 +10,7 @@ const defaultSettings: Fields = {
   enableMapDarkMode: false,
   enableMedicalTerm: false,
   appURL: '',
-  countries: ['ca','fr'],
+  // countries: ['ca','fr'],
   distanceUnit: 'km',
   useGoogleMap: false,
   googleMapApiKey: '',

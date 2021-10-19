@@ -189,6 +189,25 @@ export class HclSdkIcon {
 }
 
 
+export declare interface HclSdkIconArrow_down extends Components.HclSdkIconArrow_down {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-arrow_down',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconArrow_down {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
 export declare interface HclSdkIconArrow_right extends Components.HclSdkIconArrow_right {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
@@ -352,6 +371,25 @@ export declare interface HclSdkIconFax extends Components.HclSdkIconFax {}
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconFax {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconFlag extends Components.HclSdkIconFlag {}
+@ProxyCmp({
+  inputs: ['countryCode']
+})
+@Component({
+  selector: 'hcl-sdk-icon-flag',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['countryCode']
+})
+export class HclSdkIconFlag {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -723,14 +761,14 @@ export class HclSdkIconWebsite {
 
 export declare interface HclSdkInput extends Components.HclSdkInput {}
 @ProxyCmp({
-  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value'],
+  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'prefixIcon', 'readOnly', 'type', 'value'],
   methods: ['focusHclSdkInput']
 })
 @Component({
   selector: 'hcl-sdk-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'readOnly', 'type', 'value']
+  inputs: ['autoComplete', 'autoFocus', 'checked', 'class', 'loading', 'name', 'onArrowKeyDown', 'onBlur', 'onEnterKeyDown', 'onFocus', 'onInput', 'onPostfixClick', 'placeholder', 'postfixIcon', 'prefixIcon', 'readOnly', 'type', 'value']
 })
 export class HclSdkInput {
   protected el: HTMLElement;
@@ -913,6 +951,29 @@ export class HclSdkSearchAddressItem {
     c.detach();
     this.el = r.nativeElement;
     proxyOutputs(this, this.el, ['selectAddress']);
+  }
+}
+
+import { HclSdkSearchCountries as IHclSdkSearchCountries } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-search-countries/hcl-sdk-search-countries';
+export declare interface HclSdkSearchCountries extends Components.HclSdkSearchCountries {}
+@ProxyCmp({
+  inputs: ['currentSelectedInput', 'data']
+})
+@Component({
+  selector: 'hcl-sdk-search-countries',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['currentSelectedInput', 'data'],
+  outputs: ['selectCountry']
+})
+export class HclSdkSearchCountries {
+  /**  */
+  selectCountry!: IHclSdkSearchCountries['selectCountry'];
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['selectCountry']);
   }
 }
 
