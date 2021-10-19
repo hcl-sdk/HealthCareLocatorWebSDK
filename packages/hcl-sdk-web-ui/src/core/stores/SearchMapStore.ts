@@ -2,7 +2,7 @@ import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtil
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
 
-export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName'
+export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName' | 'country'
 
 export interface SpecialtyItem {
   name: string;

@@ -1,3 +1,4 @@
+import { CountryCode } from '../constants';
 import StoreProvider from './StoreProvider';
 
 export enum ModeViewType {
@@ -31,8 +32,7 @@ export interface HclSDKConfigData {
   appURL?: string;
   locale?: string;
   countryGeo?: string;
-  countries?: string[];
-  countriesSubscriptionKey?: string[];
+  countriesSubscriptionKey?: CountryCode[];
   distanceUnit?: DistanceUnit;
   distanceDefault?: number;
   showSuggestModification?: boolean;
@@ -44,7 +44,8 @@ export interface HclSDKConfigData {
     provider: MapProvider;
     googleMapApiKey: string;
     googleMapId: string;
-  }
+  },
+  countryFilterSelected: CountryCode | '';
 }
 
 export const initStateConfigStore: HclSDKConfigData = {
@@ -60,14 +61,14 @@ export const initStateConfigStore: HclSDKConfigData = {
   appName: '',
   appURL: '',
   countryGeo: '', // From Geolocation
-  countries: [], // From Config
   countriesSubscriptionKey: [], // From Subscription Key
   distanceUnit: 'km',
   distanceDefault: 0,
   enableDarkMode: false,
   enableMapDarkMode: false,
   enableMedicalTerm: false,
-  showSuggestModification: true
+  showSuggestModification: true,
+  countryFilterSelected: ''
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {
@@ -81,13 +82,15 @@ class ConfigStore extends StoreProvider<HclSDKConfigData> {
   }
 
   get countryGraphqlQuery() {
-    const { countryGeo, countriesSubscriptionKey } = this.state
+    const { countryGeo, countriesSubscriptionKey, countryFilterSelected } = this.state
+    const countryGeoFormated = countryGeo.toUpperCase() as CountryCode
 
-    if (countriesSubscriptionKey.length === 1) {
-      return countriesSubscriptionKey[0]
+    if (countryFilterSelected) {
+      return countryFilterSelected
     }
-    if (countriesSubscriptionKey.includes(countryGeo.toLowerCase())) {
-      return countryGeo.toLowerCase()
+
+    if (countriesSubscriptionKey.includes(countryGeoFormated)) {
+      return countryGeo.toUpperCase() as CountryCode
     }
 
     return countriesSubscriptionKey[0]

@@ -49,11 +49,12 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
     }
   }
 
-  if (!addressDetails.city && addressDetails.country && addressDetails.country_code) {
-    return {
-      country: addressDetails.country_code
-    }
-  }
+  // if (!addressDetails.city && addressDetails.country && addressDetails.country_code) {
+  //   return {
+  //     country: addressDetails.country_code
+  //   }
+  // }
+  return {  }
 }
 
 export async function genSearchLocationParams({
@@ -83,6 +84,7 @@ export async function genSearchLocationParams({
     if (forceNearMe) {
       // Basic search near me don't have `specialties` in params
       // In case we keep the data specialtyFilter exist in across the pages
+      params.country = configStore.state.countryGeo || configStore.countryGraphqlQuery
       return params;
     }
   } else if (locationFilter) {
@@ -106,7 +108,7 @@ export async function genSearchLocationParams({
         lon: Number(lon),
         // distanceMeter: distanceMeter
       },
-      ...extraParams // country, ...
+      ...extraParams // country (removed), ...
     }
     if (distanceMeter) {
       params.location.distanceMeter = distanceMeter
@@ -132,6 +134,10 @@ export async function genSearchLocationParams({
   }
   if (criterias.length) {
     params.criterias = criterias
+  }
+  
+  if (!params.country) {
+    params.country = configStore.countryGraphqlQuery
   }
 
   return params;
@@ -165,7 +171,6 @@ export async function searchLocation(variables, {
       first: 50,
       offset: 0,
       locale: i18nStore.state.lang,
-      country: configStore.countryGraphqlQuery,
       ...variables,
     }, configStore.configGraphql)
 

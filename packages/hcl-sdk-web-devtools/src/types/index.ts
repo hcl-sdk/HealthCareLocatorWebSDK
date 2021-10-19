@@ -10,7 +10,7 @@ export interface Fields {
   enableDarkMode?: boolean;
   enableMapDarkMode?: boolean;
   enableMedicalTerm?: boolean;
-  countries: string[];
+  // countries: string[];
   useGoogleMap: boolean;
   googleMapApiKey?: string;
   googleMapId?: string;

@@ -1,0 +1,22 @@
+
+
+:host {
+  .search-country-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid var(--hcl-color-grey_lighter);
+    padding: 8px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--hcl-color-search_item_selected);
+    }
+
+    svg {
+      display: block;
+      margin-right: 10px;
+    }
+  }
+}

@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { BREAKPOINT_MAX_WIDTH, COUNTRY_CODES, NEAR_ME_ITEM } from '../../../core/constants';
+import { BREAKPOINT_MAX_WIDTH, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -31,7 +31,7 @@ const defaults = {
 export class HclSDK {
   @Element() el: HTMLStencilElement;
   @State() retriesCounter: number = 0;
-  @State() loading = false;
+  @State() loading = true;
 
   parentEl;
 
@@ -79,14 +79,6 @@ export class HclSDK {
     const initConfig = merge({}, defaults, config, { map: mapConfig });
     this.loadCurrentPosition({ isShowcase, getCurrentPosition });
 
-    initConfig.countries = initConfig.countries ? initConfig.countries : configStore.state.countries;
-    initConfig.countries = initConfig.countries.filter(countryCode => {
-      if (COUNTRY_CODES.includes((countryCode).toUpperCase())) {
-        return true;
-      }
-      console.error(`Country code [${countryCode}] invalid!`)
-      return false;
-    })
     configStore.setState(initConfig);
 
     const lang = (() => {
@@ -136,6 +128,8 @@ export class HclSDK {
       }
       this.searchNearMe({ specialtyCode, specialtyLabel });
     }
+
+    this.loading = false
   }
 
   private getMapConfig(configInput) {
@@ -268,7 +262,7 @@ export class HclSDK {
           return;
         }
         configStore.setState({
-          countriesSubscriptionKey: res.mySubscriptionKey.countries.map(s => s.toLowerCase())
+          countriesSubscriptionKey: res.mySubscriptionKey.countries as CountryCode[] // ["FR", "US"]
         })
       })
       .catch(() => {}) // To avoid crash the app
