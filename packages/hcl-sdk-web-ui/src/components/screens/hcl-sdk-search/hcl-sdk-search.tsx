@@ -239,7 +239,7 @@ export class HclSdkSearch {
       if (findItem) {
         this.selectAddress(findItem);
       }
-    } else if (this.currentSelectedInput === 'address') {
+    } else if (this.currentSelectedInput === 'address' && items[0].item?.id !== NEAR_ME) {
       this.selectAddress(items[0].item);
     } else if (this.currentSelectedInput === 'medicalTerm') {
       const searchTerms = searchMapStore.state.searchMedicalTerms
@@ -559,7 +559,7 @@ export class HclSdkSearch {
               <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
                 <hcl-sdk-icon name="back" width={25} height={25} />
               </hcl-sdk-router-link>
-              <form ref={ref => this.formRef = ref} class={classesForm} onSubmit={this.onSearch}>
+              <form ref={ref => this.formRef = ref} class={classesForm} onSubmit={this.onSearch} autocomplete="off">
                 <div class="hclsdk-search__form--content">
                   <div class="hclsdk-search__form--content-item">
                     <hcl-sdk-input
