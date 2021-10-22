@@ -1,10 +1,11 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, Individual, IndividualFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
+import { ActivityList, ActivityResult, Individual, IndividualFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
 import { SearchSpecialty } from '../core/stores/SearchMapStore'
+import { configStore } from '../core/stores';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -241,3 +242,21 @@ export function getCurrentPosition(
     timeout: GEOLOC.TIMEOUT,
   })
 }
+
+export const handleMapActivities = (item: ActivityResult) => ({
+  distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
+  distanceNumber: item.distance,
+  relevance: item.relevance,
+  name: getHcpFullname(item.activity.individual),
+  lastName: item.activity.individual.lastName,
+  professionalType: item.activity.individual.professionalType.label,
+  specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
+  specialtyPrimary: getSpecialtiesText(item.activity.individual.specialties)[0],
+  address: [
+    item.activity.workplace.address.longLabel, 
+    item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label
+  ].filter(s => s).join(', '),
+  lat: item.activity.workplace.address.location.lat,
+  lng: item.activity.workplace.address.location.lon,
+  id: item.activity.id
+})

@@ -16,3 +16,20 @@ export interface GeolocCoordinates {
   latitude: number;
   longitude: number;
 }
+
+export interface WidgetMap {
+  specialties?: string[]
+  medTerms?: string[]
+  criteria?: string
+  latitude?: number
+  longitude?: number
+  country?: string
+
+  mapHeight?: string
+  interactive?: boolean  // zoom + dragging
+}
+
+export type WidgetType = 'map'
+
+export type WidgetProps = WidgetMap
+

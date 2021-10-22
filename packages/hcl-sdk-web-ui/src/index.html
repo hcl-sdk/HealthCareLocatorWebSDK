@@ -68,8 +68,11 @@
     </style>
   </head>
   <body>
+    <!-- <div>
+      <hcl-sdk widget="map"></hcl-sdk>
+    </div> -->
     <div class="hcl-sdk-wrapper">
-      <hcl-sdk />
+      <hcl-sdk id="main-instance" />
     </div>
 
     <hcl-sdk-dev-settings />
@@ -88,8 +91,12 @@
       }
       (async function () {
         await customElements.whenDefined('hcl-sdk');
-        const HCLSDK = document.querySelector('hcl-sdk');
+        const HCLSDK = document.querySelector('#main-instance');
         const settingsUI = getSettingsUIFields();
+
+        if (!HCLSDK) {
+          return
+        }
 
         HCLSDK.init({
           apiKey: settingsUI.apiKey,

@@ -1,35 +1,7 @@
 import HclSdk from '@healthcarelocator/sdk-react';
 import { useEffect } from 'react';
 import { useLocation } from "react-router"
-
-function getSettingsFromLocal() {
-  const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings-fields`);
-  if (settingsStr) {
-    try {
-      return JSON.parse(settingsStr);
-    } catch (err) { }
-  }
-  return {
-    apiKey: '',
-    appName: 'Carenity',
-    appURL: 'https://apps.apple.com/fr/app/carenity/id1404422803'
-  };
-}
-
-function getSettingsCustomIconFromLocal() {
-  const settingsStr = localStorage.getItem('__hclsdk-devtools-custom-icon');
-  if (settingsStr) {
-    try {
-      return { icons: JSON.parse(settingsStr) }
-    } catch (err) { }
-  }
-  return { icons: {} }
-}
-
-const config = {
-  ...getSettingsFromLocal(),
-  ...getSettingsCustomIconFromLocal()
-};
+import { useConfig } from './useConfig';
 
 const mapSpecialtyByKey = {
   dentistry: {
@@ -57,7 +29,8 @@ const mapSpecialtyByKey = {
 export default function AppHclSdk() {
   const location = useLocation()
   const searchStr = new URLSearchParams(location.search).get('sp');
-  
+  const config = useConfig()
+
   useEffect(() => {
     if (searchStr) {
       const lang = config.lang || 'en'
@@ -71,7 +44,7 @@ export default function AppHclSdk() {
         });
       }
     }
-  }, [searchStr])
+  }, [searchStr, config])
 
   return (
     <HclSdk config={config}/>

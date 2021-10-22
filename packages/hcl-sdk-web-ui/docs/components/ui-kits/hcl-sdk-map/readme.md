@@ -45,6 +45,7 @@
  - [hcl-sdk-home-full](../../screens/hcl-sdk-home/hcl-sdk-home-full)
  - [hcl-sdk-profile-map](../hcl-sdk-profile-map)
  - [hcl-sdk-search-result](../../screens/hcl-sdk-search-result)
+ - [hcl-sdk-widget-map](../../widgets/hcl-sdk-widget-map)
 
 ### Depends on
 
@@ -58,6 +59,7 @@ graph TD;
   hcl-sdk-home-full --> hcl-sdk-map
   hcl-sdk-profile-map --> hcl-sdk-map
   hcl-sdk-search-result --> hcl-sdk-map
+  hcl-sdk-widget-map --> hcl-sdk-map
   style hcl-sdk-map fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

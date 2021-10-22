@@ -8,12 +8,14 @@ import { Components } from '@healthcarelocator/sdk-web';
 
 export declare interface HclSdk extends Components.HclSdk {}
 @ProxyCmp({
+  inputs: ['widget', 'widgetProps'],
   methods: ['updateConfig', 'backToHome', 'searchNearMe', 'init']
 })
 @Component({
   selector: 'hcl-sdk',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
+  inputs: ['widget', 'widgetProps']
 })
 export class HclSdk {
   protected el: HTMLElement;
@@ -1096,5 +1098,24 @@ export class HclSdkSwitchViewMode {
     c.detach();
     this.el = r.nativeElement;
     proxyOutputs(this, this.el, ['switchViewMode']);
+  }
+}
+
+
+export declare interface HclSdkWidgetMap extends Components.HclSdkWidgetMap {}
+@ProxyCmp({
+  inputs: ['widgetProps']
+})
+@Component({
+  selector: 'hcl-sdk-widget-map',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['widgetProps']
+})
+export class HclSdkWidgetMap {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
   }
 }

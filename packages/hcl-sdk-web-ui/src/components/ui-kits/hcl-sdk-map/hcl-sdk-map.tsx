@@ -135,7 +135,9 @@ export class HclSdkMap {
 
   handleChangeGeoLocation = (newGeoLoc: GeoLocation) => {
     if (newGeoLoc.status === 'granted') {
-      this.setMarkerCurrentLocation()
+      setTimeout(() => {
+        this.setMarkerCurrentLocation()
+      }, 10);
     }
   }
 
