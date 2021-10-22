@@ -1,6 +1,11 @@
 import React, { useRef, useEffect, useMemo, CSSProperties } from 'react';
 import { HclSdk } from './components';
 
+export interface GeolocCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
 export interface WidgetMap {
   specialties?: string[]
   medTerms?: string[]
@@ -17,18 +22,21 @@ export type WidgetType = 'map'
 
 export type WidgetProps = WidgetMap
 
-type ConfigType = {
+export type ConfigType = {
   apiKey: string;
   lang?: string;
   appName?: string;
   appURL?: string;
   showSuggestModification?: boolean;
-  countries?: string;
   useGoogleMap?: boolean;
   googleMapApiKey?: string;
   enableDarkMode?: boolean;
   enableMapDarkMode?: boolean;
-  enableMedicalTerm?: boolean
+  enableMedicalTerm?: boolean;
+  getCurrentPosition?: (
+    success: (coords: GeolocCoordinates) => void, 
+    error: (err: any) => void
+  ) => void
 }
 
 type HclSdkProps = {
