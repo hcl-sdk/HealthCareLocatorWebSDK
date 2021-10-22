@@ -9,8 +9,17 @@ Run `npm run build` to build the hcl-sdk component
 ## Usage
 
 ```
-<hcl-sdk-component [config]="config"></hcl-sdk-component>
+<hcl-sdk-component [config]="config" [widget]="widget" [widgetProps]="widgetProps"></hcl-sdk-component>
 ```
+
+### Inputs
+
+| Inputs         | Type           |
+| ------------- |:-------------:|
+| `config`        | [`Config`](#config-input-object) |
+| `widget`        | `"map"` |
+| `widgetProps`   | `WidgetProps` |
+
 
 <br />
 
@@ -25,10 +34,22 @@ Run `npm run build` to build the hcl-sdk component
 | showSuggestModification   | boolean \| undefined |
 | enableDarkMode   | boolean \| undefined |
 | enableMapDarkMode   | boolean \| undefined |
-| countries                 | string \| undefined |
 | useGoogleMap              | boolean \| undefined |
 | googleMapApiKey           | string \| undefined |
 | getCurrentPosition |  Function \| undefined |
+
+#### WidgetProps Properties
+
+| WidgetMap Properties      | Type                  | Default |
+| ------------------------- |:-------------:        |:--------:|
+| `specialties`             | string[]  \| undefined |  `[]`
+| `criteria`                | string  \| undefined  |   `''` 
+| `latitude`                | number  \| undefined  |   `geoLocation`
+| `longitude`               | number  \| undefined  |   `geoLocation`
+| `country`                 | string  \| undefined  |   `geoLocation`
+| `mapHeight`               | string  \| undefined  |   `150px`
+| `interactive`             | boolean \| undefined  |   `false`
+
 
 #### API
 
