@@ -2,7 +2,15 @@ import { searchMapStore, historyStore, configStore, i18nStore } from '../stores'
 import { HistoryHcpItem } from '../stores/HistoryStore';
 import { graphql } from '../../../../hcl-sdk-core';
 import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
-import { getMergeMainAndOtherActivities, getSpecialtiesText, getHcpFullname, getCombineListTerms, convertToMeter, formatDistanceDisplay, getSpecialties } from '../../utils/helper';
+import { 
+  getMergeMainAndOtherActivities, 
+  getSpecialtiesText, 
+  getHcpFullname, 
+  getCombineListTerms, 
+  convertToMeter, 
+  getSpecialties, 
+  handleMapActivities 
+} from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
@@ -174,23 +182,7 @@ export async function searchLocation(variables, {
       ...variables,
     }, configStore.configGraphql)
 
-    const data = (activities || []).map((item) => ({
-      distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
-      distanceNumber: item.distance,
-      relevance: item.relevance,
-      name: getHcpFullname(item.activity.individual),
-      lastName: item.activity.individual.lastName,
-      professionalType: item.activity.individual.professionalType.label,
-      specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
-      specialtyPrimary: getSpecialtiesText(item.activity.individual.specialties)[0],
-      address: [
-        item.activity.workplace.address.longLabel, 
-        item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label
-      ].filter(s => s).join(', '),
-      lat: item.activity.workplace.address.location.lat,
-      lng: item.activity.workplace.address.location.lon,
-      id: item.activity.id
-    }))
+    const data = (activities || []).map(handleMapActivities)
 
     isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0
 

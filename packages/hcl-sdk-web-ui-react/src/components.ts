@@ -66,3 +66,4 @@ export const HclSdkSelect = /*@__PURE__*/createReactComponent<JSX.HclSdkSelect, 
 export const HclSdkShareHcp = /*@__PURE__*/createReactComponent<JSX.HclSdkShareHcp, HTMLHclSdkShareHcpElement>('hcl-sdk-share-hcp');
 export const HclSdkSort = /*@__PURE__*/createReactComponent<JSX.HclSdkSort, HTMLHclSdkSortElement>('hcl-sdk-sort');
 export const HclSdkSwitchViewMode = /*@__PURE__*/createReactComponent<JSX.HclSdkSwitchViewMode, HTMLHclSdkSwitchViewModeElement>('hcl-sdk-switch-view-mode');
+export const HclSdkWidgetMap = /*@__PURE__*/createReactComponent<JSX.HclSdkWidgetMap, HTMLHclSdkWidgetMapElement>('hcl-sdk-widget-map');

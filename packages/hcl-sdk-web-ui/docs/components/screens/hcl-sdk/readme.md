@@ -5,6 +5,14 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property      | Attribute | Description | Type        | Default     |
+| ------------- | --------- | ----------- | ----------- | ----------- |
+| `widget`      | `widget`  |             | `"map"`     | `undefined` |
+| `widgetProps` | --        |             | `WidgetMap` | `undefined` |
+
+
 ## Methods
 
 ### `backToHome() => Promise<void>`
@@ -52,6 +60,7 @@ Type: `Promise<HclSDKConfigData>`
 
 ### Depends on
 
+- [hcl-sdk-widget-map](../../widgets/hcl-sdk-widget-map)
 - [hcl-sdk-router](../../hcl-sdk-router)
 - [hcl-sdk-route](../../hcl-sdk-router/hcl-sdk-route)
 - [hcl-sdk-modal](../../ui-kits/hcl-sdk-modal)
@@ -59,9 +68,12 @@ Type: `Promise<HclSDKConfigData>`
 ### Graph
 ```mermaid
 graph TD;
+  hcl-sdk --> hcl-sdk-widget-map
   hcl-sdk --> hcl-sdk-router
   hcl-sdk --> hcl-sdk-route
   hcl-sdk --> hcl-sdk-modal
+  hcl-sdk-widget-map --> hcl-sdk-map
+  hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-modal --> hcl-sdk-icon
   style hcl-sdk fill:#f9f,stroke:#333,stroke-width:4px
 ```

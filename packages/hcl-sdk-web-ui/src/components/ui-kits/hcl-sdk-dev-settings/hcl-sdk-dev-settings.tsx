@@ -101,9 +101,11 @@ export class HclSDKViewport {
         getI18nLabels(this.settings.lang);
       }
     }
-    hclSdkEl.updateConfig({
-      enableMedicalTerm: this.settings.enableMedicalTerm
-    })
+    if (hclSdkEl) {
+      hclSdkEl.updateConfig({
+        enableMedicalTerm: this.settings.enableMedicalTerm
+      })
+    }
   }
 
   changeSetting(k, v) {

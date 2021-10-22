@@ -5,16 +5,18 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Breakpoint, OptionType, WidgetMap, WidgetProps, WidgetType } from "./core/types";
 import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
 import { SearchInputName } from "./core/stores/SearchMapStore";
 import { CountryCode } from "./core/constants";
-import { Breakpoint, OptionType } from "./core/types";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
         "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
         "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
+        "widget"?: WidgetType;
+        "widgetProps"?: WidgetProps;
     }
     interface HclSdkAutocompleteResult {
         "currentSelectedInput": SearchInputName;
@@ -312,6 +314,9 @@ export namespace Components {
     }
     interface HclSdkSwitchViewMode {
         "typeOfLabel": 'full' | 'short' | 'disabled';
+    }
+    interface HclSdkWidgetMap {
+        "widgetProps": WidgetMap;
     }
 }
 declare global {
@@ -663,6 +668,12 @@ declare global {
         prototype: HTMLHclSdkSwitchViewModeElement;
         new (): HTMLHclSdkSwitchViewModeElement;
     };
+    interface HTMLHclSdkWidgetMapElement extends Components.HclSdkWidgetMap, HTMLStencilElement {
+    }
+    var HTMLHclSdkWidgetMapElement: {
+        prototype: HTMLHclSdkWidgetMapElement;
+        new (): HTMLHclSdkWidgetMapElement;
+    };
     interface HTMLElementTagNameMap {
         "hcl-sdk": HTMLHclSdkElement;
         "hcl-sdk-autocomplete-result": HTMLHclSdkAutocompleteResultElement;
@@ -722,10 +733,13 @@ declare global {
         "hcl-sdk-share-hcp": HTMLHclSdkShareHcpElement;
         "hcl-sdk-sort": HTMLHclSdkSortElement;
         "hcl-sdk-switch-view-mode": HTMLHclSdkSwitchViewModeElement;
+        "hcl-sdk-widget-map": HTMLHclSdkWidgetMapElement;
     }
 }
 declare namespace LocalJSX {
     interface HclSdk {
+        "widget"?: WidgetType;
+        "widgetProps"?: WidgetProps;
     }
     interface HclSdkAutocompleteResult {
         "currentSelectedInput"?: SearchInputName;
@@ -1031,6 +1045,9 @@ declare namespace LocalJSX {
         "onSwitchViewMode"?: (event: CustomEvent<any>) => void;
         "typeOfLabel"?: 'full' | 'short' | 'disabled';
     }
+    interface HclSdkWidgetMap {
+        "widgetProps"?: WidgetMap;
+    }
     interface IntrinsicElements {
         "hcl-sdk": HclSdk;
         "hcl-sdk-autocomplete-result": HclSdkAutocompleteResult;
@@ -1090,6 +1107,7 @@ declare namespace LocalJSX {
         "hcl-sdk-share-hcp": HclSdkShareHcp;
         "hcl-sdk-sort": HclSdkSort;
         "hcl-sdk-switch-view-mode": HclSdkSwitchViewMode;
+        "hcl-sdk-widget-map": HclSdkWidgetMap;
     }
 }
 export { LocalJSX as JSX };
@@ -1154,6 +1172,7 @@ declare module "@stencil/core" {
             "hcl-sdk-share-hcp": LocalJSX.HclSdkShareHcp & JSXBase.HTMLAttributes<HTMLHclSdkShareHcpElement>;
             "hcl-sdk-sort": LocalJSX.HclSdkSort & JSXBase.HTMLAttributes<HTMLHclSdkSortElement>;
             "hcl-sdk-switch-view-mode": LocalJSX.HclSdkSwitchViewMode & JSXBase.HTMLAttributes<HTMLHclSdkSwitchViewModeElement>;
+            "hcl-sdk-widget-map": LocalJSX.HclSdkWidgetMap & JSXBase.HTMLAttributes<HTMLHclSdkWidgetMapElement>;
         }
     }
 }

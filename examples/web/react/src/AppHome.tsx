@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import Logo from './assets/logo-health-care-locator.png'
+// import HclSdk from '@healthcarelocator/sdk-react';
+// import { useConfig } from "./useConfig";
 
 export default function AppHome() {
+  // const config = useConfig()
+
   return (
     <div className="home-content">
       <img src={Logo} alt="logo" />
@@ -11,6 +15,14 @@ export default function AppHome() {
       <Link to="/search" className="ui-cta">
         Search for HCPs
       </Link>
+      {/* <div>
+        <HclSdk config={config} widget="map" widgetProps={{
+          country: 'fr',
+          latitude: 48.864716,
+          longitude: 2.349014,
+          interactive: true
+        }} />
+      </div> */}
     </div>
   )
 }
