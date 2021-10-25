@@ -7,7 +7,6 @@ import { searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
 import { SearchFields } from '../../../../core/stores/SearchMapStore';
-import { getAddressFromGeo } from '../../../../core/api/searchGeo';
 
 @Component({
   tag: 'hcl-sdk-home-full',
@@ -18,22 +17,10 @@ export class HclSdkHomeFull {
   @State() showMoreHcpItems: boolean = false;
 
   componentDidLoad() {
-    if (searchMapStore.isGrantedGeoloc && configStore.state.countryGeo) {
-      // Forced search Near Me, no need to set the input address value
-      searchLocationWithParams(true);
-    }
+    configStore.storeInstance.onChange('countryGeo', this.onChangeGeoCountry)
 
-    if (searchMapStore.isGrantedGeoloc && !configStore.state.countryGeo) {
-      const { latitude, longitude } = searchMapStore.state.geoLocation
-      getAddressFromGeo(latitude, longitude)
-        .then(res => {
-          if (res?.address?.country_code) {
-            configStore.setState({
-              countryGeo: res.address.country_code
-            })
-            searchLocationWithParams(true);
-          }
-        });
+    if (searchMapStore.isGrantedGeoloc && configStore.state.countryGeo) {
+      searchLocationWithParams(true);
     }
   }
 
@@ -56,6 +43,12 @@ export class HclSdkHomeFull {
       navigatedFromHome: true
     });
     routerStore.push('/search-result');
+  }
+
+  onChangeGeoCountry = (newGeoCountry: string) => {
+    if (newGeoCountry) {
+      searchLocationWithParams(true);
+    }
   }
 
   filterHistoryItems = (showMore: boolean) => (_: any, index: number) => {

@@ -33,8 +33,11 @@ const mapSpecialtyByKey: any = {
   selector: 'app-search',
   template: `
     <div class="wrapper">
-      <hcl-sdk-component [config]="config"></hcl-sdk-component>
+      <hcl-sdk-component id="main-instance" [config]="config"></hcl-sdk-component>
     </div>
+    <!-- <div>
+      <hcl-sdk-component [widget]="'map'"></hcl-sdk-component>
+    </div> -->
   `,
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./search.component.scss'],
@@ -52,7 +55,7 @@ export class SearchComponent implements OnInit {
       if (params['sp']) {
         const lang = this.config.lang || 'en';
         const key = params['sp'];
-        const hclSdkEl = document.querySelector('hcl-sdk') as any;
+        const hclSdkEl = document.querySelector('#main-instance hcl-sdk') as any;
 
         if (hclSdkEl && mapSpecialtyByKey[key] && mapSpecialtyByKey[key][lang] && mapSpecialtyByKey[key][lang].specialtyCode) {
           hclSdkEl.searchNearMe({

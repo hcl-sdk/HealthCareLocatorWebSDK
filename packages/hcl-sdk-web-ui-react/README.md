@@ -1,16 +1,19 @@
 ## Usage
 
 ```jsx
-<HclSdk config={config} className={className} style={style} />
+<HclSdk config={config} className={className} style={style} widget={widget} widgetProps={widgetProps} />
 ```
 
 ### Props
 
 | Props         | Type           |
 | ------------- |:-------------:|
-| config        | [Config](#config-properties) |
-| className     | string |
-| style         | CSSProperties |
+| `config`        | [`Config`](#config-properties) |
+| `className`     | `string` |
+| `style`         | `CSSProperties` |
+| `widget`        | `"map"` |
+| `widgetProps`   | `WidgetProps` |
+
 
 <br />
 
@@ -25,10 +28,21 @@
 | showSuggestModification   | boolean \| undefined |
 | enableDarkMode   | boolean \| undefined |
 | enableMapDarkMode   | boolean \| undefined |
-| countries                 | string \| undefined |
 | useGoogleMap              | boolean \| undefined |
 | googleMapApiKey           | string \| undefined |
 | getCurrentPosition |  Function \| undefined |
+
+#### WidgetProps Properties
+
+| WidgetMap Properties      | Type                  | Default |
+| ------------------------- |:-------------:        |:--------:|
+| `specialties`             | string[]  \| undefined |  `[]`
+| `criteria`                | string  \| undefined  |   `''` 
+| `latitude`                | number  \| undefined  |   `geoLocation`
+| `longitude`               | number  \| undefined  |   `geoLocation`
+| `country`                 | string  \| undefined  |   `geoLocation`
+| `mapHeight`               | string  \| undefined  |   `150px`
+| `interactive`             | boolean \| undefined  |   `false`
 
 #### API
 

@@ -1,4 +1,4 @@
-import { Component, Host, h, Method, Element, State } from '@stencil/core';
+import { Component, Host, h, Method, Element, State, Prop } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
 import { applyDefaultTheme, getCurrentPosition as defaultGetCurrentPosition } from '../../../utils/helper';
@@ -16,7 +16,7 @@ import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import cls from 'classnames'
-import { GeolocCoordinates } from '../../../core/types';
+import { GeolocCoordinates, WidgetProps, WidgetType } from '../../../core/types';
 
 const defaults = {
   apiKey: '',
@@ -31,7 +31,9 @@ const defaults = {
 export class HclSDK {
   @Element() el: HTMLStencilElement;
   @State() retriesCounter: number = 0;
-  @State() loading = true;
+  @State() loading = false;
+  @Prop() widget?: WidgetType
+  @Prop() widgetProps?: WidgetProps
 
   parentEl;
 
@@ -49,6 +51,8 @@ export class HclSDK {
 
   @Method()
   async searchNearMe({ specialtyCode, specialtyLabel }: { specialtyCode: string[], specialtyLabel: string }) {
+    if (this.widget) return
+    
     searchMapStore.setSearchFieldValue('address', t('near_me'));
     searchMapStore.setSearchFieldValue('specialtyName', specialtyLabel);
 
@@ -129,7 +133,6 @@ export class HclSDK {
       this.searchNearMe({ specialtyCode, specialtyLabel });
     }
 
-    this.loading = false
   }
 
   private getMapConfig(configInput) {
@@ -174,10 +177,6 @@ export class HclSDK {
 
   tryFindGeoloc({ getCurrentPosition = undefined } = {}) {
     function handler(coords: GeolocCoordinates) {
-      const prevCoords = {
-        latitude: searchMapStore.state.geoLocation.latitude,
-        longitude: searchMapStore.state.geoLocation.longitude
-      }
       
       getAddressFromGeo(coords.latitude, coords.longitude)
         .then(res => {
@@ -185,15 +184,6 @@ export class HclSDK {
             configStore.setState({
               countryGeo: res.address.country_code
             })
-          }
-
-          if (
-            getCurrentPosition && 
-            coords.latitude !== prevCoords.latitude &&
-            coords.longitude !== prevCoords.longitude &&
-            routerStore.state.currentRoutePath === ROUTER_PATH.MAIN
-          ) {
-            searchLocationWithParams(true)
           }
         });
 
@@ -268,31 +258,48 @@ export class HclSDK {
       .catch(() => {}) // To avoid crash the app
   }
 
+  renderWidgets() {
+    if (this.widget === 'map') {
+      return <hcl-sdk-widget-map widgetProps={this.widgetProps} />
+    }
+
+    return null
+  }
+
   render() {
     const { screenSize, orientation, screenWidth } = uiStore.state.breakpoint;
     if (screenSize === 'unknown' || this.loading) {
       return null;
     }
 
+    const classesDark = cls({
+      'sdk-dark-mode': configStore.state.enableDarkMode,
+      'sdk-map-dark-mode': configStore.state.enableMapDarkMode,
+    })
+    const classes = cls(`wrapper size-${screenSize} orientation-${orientation}`, classesDark, {
+      'show-medical-term': configStore.state.enableMedicalTerm,
+      'size-tablet-xs': screenWidth > BREAKPOINT_MAX_WIDTH.MOBILE_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT,
+      'size-desktop-sm': screenWidth >= BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
+    })
+
     return (
       <Host>
         {configStore.state.stylesheet ? (
           <link rel="stylesheet" href={configStore.state.stylesheet} />
         ) : null}
-        <div class={cls(`wrapper size-${screenSize} orientation-${orientation}`, {
-          'sdk-dark-mode': configStore.state.enableDarkMode,
-          'sdk-map-dark-mode': configStore.state.enableMapDarkMode,
-          'show-medical-term': configStore.state.enableMedicalTerm,
-          'size-tablet-xs': screenWidth > BREAKPOINT_MAX_WIDTH.MOBILE_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT,
-          'size-desktop-sm': screenWidth >= BREAKPOINT_MAX_WIDTH.TABLET_PORTRAIT && screenWidth < BREAKPOINT_MAX_WIDTH.DESKTOP_SMALL
-        })}>
-          <hcl-sdk-router>
-            <hcl-sdk-route component="hcl-sdk-home" path={ROUTER_PATH.MAIN} />
-            <hcl-sdk-route component="hcl-sdk-search-result" path={ROUTER_PATH.SEARCH_RESULT} />
-            <hcl-sdk-route component="hcl-sdk-search" path={ROUTER_PATH.SEARCH} />
-          </hcl-sdk-router>
-          <hcl-sdk-modal modal={configStore.state.modal} />
-        </div>
+        
+        { this.widget 
+          ? <div class={classesDark}>{ this.renderWidgets() }</div>
+          : (
+            <div class={classes}>
+              <hcl-sdk-router>
+                <hcl-sdk-route component="hcl-sdk-home" path={ROUTER_PATH.MAIN} />
+                <hcl-sdk-route component="hcl-sdk-search-result" path={ROUTER_PATH.SEARCH_RESULT} />
+                <hcl-sdk-route component="hcl-sdk-search" path={ROUTER_PATH.SEARCH} />
+              </hcl-sdk-router>
+              <hcl-sdk-modal modal={configStore.state.modal} />
+            </div>
+          )   }
       </Host>
     );
   }
