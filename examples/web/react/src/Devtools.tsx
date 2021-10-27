@@ -44,12 +44,12 @@ export default function Devtools() {
         <li className="menu-item">
           <Link to="/search" onClick={onClickGoToSearchPage}>Search for HCPs</Link>
         </li>
-        <li className="menu-item">
+        {/* <li className="menu-item">
           <Link to="/search?sp=dentistry">Find a dentist near me</Link>
         </li>
         <li className="menu-item">
           <Link to="/search?sp=cardiology">Find a cardiologist near me</Link>
-        </li>
+        </li> */}
         <li className="menu-item">
           <a href="/" onClick={openSettings}>Settings</a>
         </li>
