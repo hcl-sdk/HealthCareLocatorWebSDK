@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Breakpoint, OptionType, WidgetMap, WidgetProps, WidgetType } from "./core/types";
+import { Breakpoint, InitScreen, OptionType, WidgetMap, WidgetProps, WidgetType } from "./core/types";
 import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
 import { SearchInputName } from "./core/stores/SearchMapStore";
 import { CountryCode } from "./core/constants";
@@ -13,6 +13,7 @@ export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
         "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
+        "initScreen"?: InitScreen;
         "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
         "widget"?: WidgetType;
@@ -738,6 +739,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface HclSdk {
+        "initScreen"?: InitScreen;
         "widget"?: WidgetType;
         "widgetProps"?: WidgetProps;
     }

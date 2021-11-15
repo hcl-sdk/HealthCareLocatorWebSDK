@@ -47,6 +47,6 @@ export default function AppHclSdk() {
   }, [searchStr, config])
 
   return (
-    <HclSdk config={config}/>
+    <HclSdk config={config} />
   )
 }

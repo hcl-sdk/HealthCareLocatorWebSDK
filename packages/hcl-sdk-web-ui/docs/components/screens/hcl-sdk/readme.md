@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property      | Attribute | Description | Type        | Default     |
-| ------------- | --------- | ----------- | ----------- | ----------- |
-| `widget`      | `widget`  |             | `"map"`     | `undefined` |
-| `widgetProps` | --        |             | `WidgetMap` | `undefined` |
+| Property      | Attribute     | Description | Type                 | Default     |
+| ------------- | ------------- | ----------- | -------------------- | ----------- |
+| `initScreen`  | `init-screen` |             | `"home" \| "search"` | `undefined` |
+| `widget`      | `widget`      |             | `"map"`              | `undefined` |
+| `widgetProps` | --            |             | `WidgetMap`          | `undefined` |
 
 
 ## Methods
