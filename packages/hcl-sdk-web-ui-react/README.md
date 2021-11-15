@@ -13,6 +13,7 @@
 | `style`         | `CSSProperties` |
 | `widget`        | `"map"` |
 | `widgetProps`   | `WidgetProps` |
+| `initScreen`   | `"home"` \| `"search"` |
 
 
 <br />

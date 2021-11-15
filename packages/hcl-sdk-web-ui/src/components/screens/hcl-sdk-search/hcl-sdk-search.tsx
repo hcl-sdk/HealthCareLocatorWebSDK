@@ -150,6 +150,7 @@ export class HclSdkSearch {
     searchMapStore.setState({
       specialties: [],
       specialtiesRaw: [],
+      navigatedFromHome: false,
       loadingActivitiesStatus: 'loading'
     })
 
