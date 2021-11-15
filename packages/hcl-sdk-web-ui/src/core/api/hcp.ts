@@ -187,7 +187,6 @@ export async function searchLocation(variables, {
     const storeKey = configStore.state.apiKey + '/' + JSON.stringify(variables)
 
     if (searchMapStore.getCached(storeKey)) {
-      console.log('[Cached] Get data from cached', storeKey)
       activities = searchMapStore.getCached(storeKey)
     } else {
       const resActivities = await graphql.activities({

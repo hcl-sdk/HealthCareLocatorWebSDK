@@ -1,4 +1,3 @@
-import { ActivityResult } from "../../../../hcl-sdk-core/src/graphql/types";
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
@@ -119,7 +118,7 @@ export interface SearchMapState {
   medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
-  cachedActivities?: Record<string, ActivityResult[]>
+  cachedActivities?: Record<string, any[]>
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -300,7 +299,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     return null
   }
 
-  saveCached(storeKey: string, activities: ActivityResult[]) {
+  saveCached(storeKey: string, activities: any[]) {
     if (storeKey && activities) {
       this.state.cachedActivities[storeKey] = activities
     }
