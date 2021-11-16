@@ -47,6 +47,7 @@ export const HclSdkIconSearchOff = /*@__PURE__*/createReactComponent<JSX.HclSdkI
 export const HclSdkIconShare = /*@__PURE__*/createReactComponent<JSX.HclSdkIconShare, HTMLHclSdkIconShareElement>('hcl-sdk-icon-share');
 export const HclSdkIconSort = /*@__PURE__*/createReactComponent<JSX.HclSdkIconSort, HTMLHclSdkIconSortElement>('hcl-sdk-icon-sort');
 export const HclSdkIconTwitter = /*@__PURE__*/createReactComponent<JSX.HclSdkIconTwitter, HTMLHclSdkIconTwitterElement>('hcl-sdk-icon-twitter');
+export const HclSdkIconUser = /*@__PURE__*/createReactComponent<JSX.HclSdkIconUser, HTMLHclSdkIconUserElement>('hcl-sdk-icon-user');
 export const HclSdkIconWebsite = /*@__PURE__*/createReactComponent<JSX.HclSdkIconWebsite, HTMLHclSdkIconWebsiteElement>('hcl-sdk-icon-website');
 export const HclSdkInput = /*@__PURE__*/createReactComponent<JSX.HclSdkInput, HTMLHclSdkInputElement>('hcl-sdk-input');
 export const HclSdkLoading = /*@__PURE__*/createReactComponent<JSX.HclSdkLoading, HTMLHclSdkLoadingElement>('hcl-sdk-loading');
