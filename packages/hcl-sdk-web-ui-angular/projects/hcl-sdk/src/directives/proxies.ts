@@ -8,14 +8,14 @@ import { Components } from '@healthcarelocator/sdk-web';
 
 export declare interface HclSdk extends Components.HclSdk {}
 @ProxyCmp({
-  inputs: ['widget', 'widgetProps'],
+  inputs: ['initScreen', 'widget', 'widgetProps'],
   methods: ['updateConfig', 'backToHome', 'searchNearMe', 'init']
 })
 @Component({
   selector: 'hcl-sdk',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['widget', 'widgetProps']
+  inputs: ['initScreen', 'widget', 'widgetProps']
 })
 export class HclSdk {
   protected el: HTMLElement;

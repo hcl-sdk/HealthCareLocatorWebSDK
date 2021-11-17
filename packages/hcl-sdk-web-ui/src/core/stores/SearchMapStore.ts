@@ -118,6 +118,7 @@ export interface SearchMapState {
   medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
+  cachedActivities?: Record<string, any[]>
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -161,7 +162,8 @@ export const initStateSearchMapStore: SearchMapState = {
     latitude: 0,
     longitude: 0
   },
-  navigatedFromHome: false
+  navigatedFromHome: false,
+  cachedActivities: {}
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
@@ -288,6 +290,19 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     return [
       firstPart ? `<span>${firstPart}</span>` : ''
       , greyPart].filter(s => s).join('')
+  }
+
+  getCached(storeKey: string) {
+    if (storeKey && this.state.cachedActivities[storeKey]) {
+      return this.state.cachedActivities[storeKey]
+    }
+    return null
+  }
+
+  saveCached(storeKey: string, activities: any[]) {
+    if (storeKey && activities) {
+      this.state.cachedActivities[storeKey] = activities
+    }
   }
 }
 

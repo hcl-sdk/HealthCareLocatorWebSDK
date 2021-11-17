@@ -22,6 +22,8 @@ export type WidgetType = 'map'
 
 export type WidgetProps = WidgetMap
 
+export type InitScreen = 'home' | 'search'
+
 export type ConfigType = {
   apiKey: string;
   lang?: string;
@@ -42,7 +44,7 @@ export type ConfigType = {
 @Component({
   selector: 'hcl-sdk-component',
   template: `
-    <hcl-sdk #hclSdk [widget]="widget" [widgetProps]="widgetProps"></hcl-sdk>
+    <hcl-sdk #hclSdk [widget]="widget" [widgetProps]="widgetProps" [initScreen]="initScreen"></hcl-sdk>
   `,
   styles: [
   ]
@@ -52,6 +54,7 @@ export class HclSdkComponent implements OnChanges, AfterViewInit {
   @Input() config?: ConfigType
   @Input() widget?: WidgetType
   @Input() widgetProps?: WidgetProps
+  @Input() initScreen?: InitScreen
 
   constructor() { }
 

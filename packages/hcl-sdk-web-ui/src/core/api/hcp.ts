@@ -15,7 +15,7 @@ import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { ActivityCriteria, ActivityCriteriaScope, QueryActivitiesArgs, QueryCodesByLabelArgs, QueryIndividualsByNameArgs } from '../../../../hcl-sdk-core/src/graphql/types';
+import { ActivityCriteria, ActivityCriteriaScope, ActivityResult, QueryActivitiesArgs, QueryCodesByLabelArgs, QueryIndividualsByNameArgs } from '../../../../hcl-sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -132,6 +132,7 @@ export async function genSearchLocationParams({
 
   const criterias: ActivityCriteria[] = []
   const isFreeTextName = searchFields.name
+  const isFreeTextSpecialty = searchFields.specialtyName && !specialtyFilter?.length
   const isFreeTextTerm = configStore.state.enableMedicalTerm && !medicalTermsFilter && searchFields.medicalTerm
 
   if (isFreeTextName) {
@@ -139,6 +140,9 @@ export async function genSearchLocationParams({
   }
   if (isFreeTextTerm) {
     criterias.push({ text: searchFields.medicalTerm, scope: ActivityCriteriaScope.IndividualMedTerms })
+  }
+  if (isFreeTextSpecialty) {
+    params.criteria = searchFields.specialtyName
   }
   if (criterias.length) {
     params.criterias = criterias
@@ -162,6 +166,10 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
     searchFields
   });
 
+  if (Object.keys(params).length === 1 && params.country) {
+    return
+  }
+
   return searchLocation(params);
 }
 
@@ -175,12 +183,21 @@ export async function searchLocation(variables, {
   });
 
   try {
-    const { activities } = await graphql.activities({
-      first: 50,
-      offset: 0,
-      locale: i18nStore.state.lang,
-      ...variables,
-    }, configStore.configGraphql)
+    let activities: ActivityResult[] = []
+    const storeKey = configStore.state.apiKey + '/' + JSON.stringify(variables)
+
+    if (searchMapStore.getCached(storeKey)) {
+      activities = searchMapStore.getCached(storeKey)
+    } else {
+      const resActivities = await graphql.activities({
+        first: 50,
+        offset: 0,
+        locale: i18nStore.state.lang,
+        ...variables,
+      }, configStore.configGraphql)
+      activities = resActivities.activities
+      searchMapStore.saveCached(storeKey, resActivities.activities)
+    }
 
     const data = (activities || []).map(handleMapActivities)
 

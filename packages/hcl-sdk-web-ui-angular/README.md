@@ -19,7 +19,7 @@ Run `npm run build` to build the hcl-sdk component
 | `config`        | [`Config`](#config-input-object) |
 | `widget`        | `"map"` |
 | `widgetProps`   | `WidgetProps` |
-
+| `initScreen`   | `"home"` \| `"search"` |
 
 <br />
 
