@@ -40,11 +40,7 @@ export class HclSDK {
 
   componentWillLoad() {
     if (this.initScreen === 'search') {
-      routerStore.push(ROUTER_PATH.SEARCH_RESULT)
-      searchMapStore.setState({
-        navigatedFromHome: true,
-        loadingActivitiesStatus: searchMapStore.state.specialties.length === 0 ? 'loading' : 'idle'
-      })
+      this.loadInitScreenSearch()
     }
   }
 
@@ -89,6 +85,9 @@ export class HclSDK {
   async init({ isShowcase, getCurrentPosition, ...config }: any = {}) {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
+    }
+    if (config && config.entry && config.entry.screenName === 'searchNearMe') {
+      this.loadInitScreenSearch() // Change the route to search immediately to avoid a flash screen
     }
 
     const mapConfig = this.getMapConfig(config);
@@ -251,6 +250,14 @@ export class HclSDK {
     }
 
     this.findCurrentPosition({ getCurrentPosition });
+  }
+
+  loadInitScreenSearch() {
+    routerStore.push(ROUTER_PATH.SEARCH_RESULT)
+    searchMapStore.setState({
+      navigatedFromHome: true,
+      loadingActivitiesStatus: searchMapStore.state.specialties.length === 0 ? 'loading' : 'idle'
+    })
   }
 
   async loadCountriesFromMyKey({ apiKey }) {

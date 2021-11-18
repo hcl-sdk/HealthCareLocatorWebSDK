@@ -296,6 +296,7 @@ export namespace Components {
     interface HclSdkSearchCountries {
         "currentSelectedInput": SearchInputName;
         "data": { code: CountryCode, label: string }[];
+        "selectedCountry": CountryCode;
     }
     interface HclSdkSearchNoDataAvailable {
     }
@@ -1026,6 +1027,7 @@ declare namespace LocalJSX {
         "currentSelectedInput"?: SearchInputName;
         "data"?: { code: CountryCode, label: string }[];
         "onSelectCountry"?: (event: CustomEvent<any>) => void;
+        "selectedCountry"?: CountryCode;
     }
     interface HclSdkSearchNoDataAvailable {
     }

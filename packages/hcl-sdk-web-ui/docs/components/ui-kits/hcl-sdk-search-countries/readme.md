@@ -11,6 +11,7 @@
 | ---------------------- | ------------------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | `currentSelectedInput` | `current-selected-input` |             | `"address" \| "country" \| "medicalTerm" \| "name" \| "specialtyName"`                                                             | `undefined` |
 | `data`                 | --                       |             | `{ code: "BE" \| "CA" \| "CO" \| "DE" \| "ES" \| "FR" \| "GB" \| "IT" \| "NL" \| "PL" \| "PT" \| "SA" \| "US"; label: string; }[]` | `undefined` |
+| `selectedCountry`      | `selected-country`       |             | `"BE" \| "CA" \| "CO" \| "DE" \| "ES" \| "FR" \| "GB" \| "IT" \| "NL" \| "PL" \| "PT" \| "SA" \| "US"`                             | `undefined` |
 
 
 ## Events
