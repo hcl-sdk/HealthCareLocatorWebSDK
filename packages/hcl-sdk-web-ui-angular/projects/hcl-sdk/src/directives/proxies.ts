@@ -959,13 +959,13 @@ export class HclSdkSearchAddressItem {
 import { HclSdkSearchCountries as IHclSdkSearchCountries } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-search-countries/hcl-sdk-search-countries';
 export declare interface HclSdkSearchCountries extends Components.HclSdkSearchCountries {}
 @ProxyCmp({
-  inputs: ['currentSelectedInput', 'data']
+  inputs: ['currentSelectedInput', 'data', 'selectedCountry']
 })
 @Component({
   selector: 'hcl-sdk-search-countries',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['currentSelectedInput', 'data'],
+  inputs: ['currentSelectedInput', 'data', 'selectedCountry'],
   outputs: ['selectCountry']
 })
 export class HclSdkSearchCountries {
