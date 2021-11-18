@@ -33,3 +33,4 @@ export type WidgetType = 'map'
 
 export type WidgetProps = WidgetMap
 
+export type InitScreen = 'home' | 'search'

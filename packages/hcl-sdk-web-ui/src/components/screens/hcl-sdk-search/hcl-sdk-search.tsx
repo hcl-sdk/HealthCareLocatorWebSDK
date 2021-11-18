@@ -150,6 +150,7 @@ export class HclSdkSearch {
     searchMapStore.setState({
       specialties: [],
       specialtiesRaw: [],
+      navigatedFromHome: false,
       loadingActivitiesStatus: 'loading'
     })
 
@@ -301,11 +302,12 @@ export class HclSdkSearch {
   @Listen('selectCountry')
   onSelectCountry(e) {
     const item = e.detail;
-    
+
     if (item?.code) {
       configStore.setState({
         countryFilterSelected: item.code
       })
+      searchMapStore.resetDataSearch({ isResetSearchFields: true })
       this.currentSelectedInput = null
     }
   }
@@ -386,7 +388,14 @@ export class HclSdkSearch {
       code: countryCode,
       label: COUNTRIES_LABELS[countryCode]
     }))
-    return <hcl-sdk-search-countries data={data} currentSelectedInput={this.currentSelectedInput} />
+    return (
+      <hcl-sdk-search-countries 
+        data={data} 
+        currentSelectedInput={this.currentSelectedInput} 
+        selectedCountry={configStore.countryGraphqlQuery} 
+      />
+    )
+    
   }
 
   clearFilter = (key: SearchInputName) => {

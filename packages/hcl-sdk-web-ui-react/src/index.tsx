@@ -22,6 +22,8 @@ export type WidgetType = 'map'
 
 export type WidgetProps = WidgetMap
 
+export type InitScreen = 'home' | 'search'
+
 export type ConfigType = {
   apiKey: string;
   lang?: string;
@@ -45,17 +47,19 @@ type HclSdkProps = {
   style?: CSSProperties;
   widget?: WidgetType
   widgetProps?: WidgetProps
+  initScreen?: InitScreen
 } | {
   config?: ConfigType
   className?: string;
   style?: CSSProperties;
   widget: WidgetType
   widgetProps?: WidgetProps
+  initScreen?: InitScreen
 }
 
 const HclSdkComponent = (props: HclSdkProps) => {
   const ref = useRef<HTMLHclSdkElement>(null);
-  const { config, className, style, widget, widgetProps } = props;
+  const { config, className, style, widget, widgetProps, initScreen } = props;
 
   useEffect(() => {
     customElements.whenDefined('hcl-sdk').then(function() {
@@ -84,7 +88,7 @@ const HclSdkComponent = (props: HclSdkProps) => {
     }
   }, [widget])
 
-  return useMemo(() => <HclSdk ref={ref} className={className} style={style} widget={widget} widgetProps={widgetProps} />, []);
+  return useMemo(() => <HclSdk ref={ref} className={className} style={style} widget={widget} widgetProps={widgetProps} initScreen={initScreen} />, []);
 };
 
 export default HclSdkComponent;

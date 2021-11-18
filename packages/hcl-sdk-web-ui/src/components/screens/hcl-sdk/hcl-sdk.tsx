@@ -16,7 +16,7 @@ import { dateUtils } from '../../../utils/dateUtils';
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../../utils/storageUtils';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import cls from 'classnames'
-import { GeolocCoordinates, WidgetProps, WidgetType } from '../../../core/types';
+import { GeolocCoordinates, InitScreen, WidgetProps, WidgetType } from '../../../core/types';
 
 const defaults = {
   apiKey: '',
@@ -34,8 +34,15 @@ export class HclSDK {
   @State() loading = false;
   @Prop() widget?: WidgetType
   @Prop() widgetProps?: WidgetProps
+  @Prop() initScreen?: InitScreen
 
   parentEl;
+
+  componentWillLoad() {
+    if (this.initScreen === 'search') {
+      this.loadInitScreenSearch()
+    }
+  }
 
   @Method()
   updateConfig(patch: any): Promise<HclSDKConfigData> {
@@ -60,6 +67,7 @@ export class HclSDK {
       locationFilter: NEAR_ME_ITEM,
       specialties: [],
       specialtiesRaw: [],
+      loadingActivitiesStatus: 'loading',
       specialtyFilter: specialtyCode.map(code => ({ id: code, name: specialtyLabel })),
     });
     configStore.setState({
@@ -77,6 +85,9 @@ export class HclSDK {
   async init({ isShowcase, getCurrentPosition, ...config }: any = {}) {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
+    }
+    if (config && config.entry && config.entry.screenName === 'searchNearMe') {
+      this.loadInitScreenSearch() // Change the route to search immediately to avoid a flash screen
     }
 
     const mapConfig = this.getMapConfig(config);
@@ -239,6 +250,14 @@ export class HclSDK {
     }
 
     this.findCurrentPosition({ getCurrentPosition });
+  }
+
+  loadInitScreenSearch() {
+    routerStore.push(ROUTER_PATH.SEARCH_RESULT)
+    searchMapStore.setState({
+      navigatedFromHome: true,
+      loadingActivitiesStatus: searchMapStore.state.specialties.length === 0 ? 'loading' : 'idle'
+    })
   }
 
   async loadCountriesFromMyKey({ apiKey }) {

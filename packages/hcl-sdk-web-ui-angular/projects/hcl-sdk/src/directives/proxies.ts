@@ -8,14 +8,14 @@ import { Components } from '@healthcarelocator/sdk-web';
 
 export declare interface HclSdk extends Components.HclSdk {}
 @ProxyCmp({
-  inputs: ['widget', 'widgetProps'],
+  inputs: ['initScreen', 'widget', 'widgetProps'],
   methods: ['updateConfig', 'backToHome', 'searchNearMe', 'init']
 })
 @Component({
   selector: 'hcl-sdk',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['widget', 'widgetProps']
+  inputs: ['initScreen', 'widget', 'widgetProps']
 })
 export class HclSdk {
   protected el: HTMLElement;
@@ -959,13 +959,13 @@ export class HclSdkSearchAddressItem {
 import { HclSdkSearchCountries as IHclSdkSearchCountries } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-search-countries/hcl-sdk-search-countries';
 export declare interface HclSdkSearchCountries extends Components.HclSdkSearchCountries {}
 @ProxyCmp({
-  inputs: ['currentSelectedInput', 'data']
+  inputs: ['currentSelectedInput', 'data', 'selectedCountry']
 })
 @Component({
   selector: 'hcl-sdk-search-countries',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['currentSelectedInput', 'data'],
+  inputs: ['currentSelectedInput', 'data', 'selectedCountry'],
   outputs: ['selectCountry']
 })
 export class HclSdkSearchCountries {

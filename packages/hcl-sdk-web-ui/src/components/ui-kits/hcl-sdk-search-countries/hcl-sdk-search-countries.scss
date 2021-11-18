@@ -10,8 +10,13 @@
     padding: 8px 10px;
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &--active {
       background-color: var(--hcl-color-search_item_selected);
+    }
+
+    &--active {
+      pointer-events: none;
     }
 
     &:first-child {
