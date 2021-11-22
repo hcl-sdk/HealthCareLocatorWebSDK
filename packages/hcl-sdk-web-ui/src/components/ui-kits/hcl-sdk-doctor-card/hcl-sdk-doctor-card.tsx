@@ -26,7 +26,8 @@ export class HclSdkDoctorCard {
       <Host>
         <div class={doctorClass}>
           <div class="doctor-card-content">
-            <span class="text name">{this.name}</span>
+            {/* TODO: ... */}
+            <span class="text name">{this.name}&nbsp;&nbsp; { Math.random() < 0.5 && <img src="https://www.mapatho.com/favicon.ico" alt="" /> }</span>
             <span class="text gp">{this.specialtyPrimary}</span>
             <span class="text address">{this.address}</span>
             { this.showDistance && <span class="text distance">{this.distance}</span> }

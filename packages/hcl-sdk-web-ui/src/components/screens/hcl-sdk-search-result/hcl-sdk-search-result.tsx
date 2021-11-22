@@ -238,10 +238,11 @@ export class HclSdkSearchResult {
 
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
+    const isShowRecommend = true
     const className = cls('search-toolbar', {
       'header-block': isSmall,
+      'search-toolbar--with-recommend': isShowRecommend
     });
-
 
     return (
       <div class={className}>
@@ -252,8 +253,18 @@ export class HclSdkSearchResult {
         </div>
         <div class="search-result__wrapper">
           <strong class="search-result__total">{t('results_label')}: </strong>
-          <strong class="search-result__total-value text-primary text-bold">{specialties.length}</strong>
+          <strong class="search-result__total-value text-bold">{specialties.length}</strong>
         </div>
+        {/* TODO: ... */}
+        {
+          isShowRecommend && !isSmall && (
+            <div class="search-recommend__wrapper">
+              <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
+              <strong class="search-result__total">Recommendation: </strong>
+              <strong class="search-recommend__total-value text-bold">06</strong>
+            </div>
+          )
+        }
         <div class="hidden-desktop hidden-tablet switch-mode">
           <hcl-sdk-switch-view-mode typeOfLabel="disabled" />
         </div>
