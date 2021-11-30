@@ -92,21 +92,6 @@
     }
   }
 
-  .search-recommend {
-    &__wrapper {
-      margin-right: 10px;
-    }
-    &__img {
-      width: 1em;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 0.5em;
-    }
-    &__total-value {
-      color: var(--hcl-color-recommend);
-    }
-  }
-
   .search-section {
     padding: 16px 8px;
     border-bottom: 1px solid var(--hcl-color-card_border);
@@ -336,41 +321,10 @@
         margin-right: 10px;
         width: auto;
       }
-
-      .search-toolbar--with-recommend {
-        padding-bottom: 35px;
-
-        .search-result__wrapper {
-          position: absolute;
-          left: 12px;
-          bottom: 10px;
-        }
-        .search-recommend__wrapper {
-          position: absolute;
-          right: 12px;
-          bottom: 10px;
-          margin-right: 0;
-          margin-left: 0;
-        }
-
-        &::before {
-          content: '';
-          height: 1px;
-          position: absolute;
-          left: 14px;
-          right: 14px;
-          bottom: 35px;
-          background-color: var(--hcl-color-card_border);
-        }
-      }
     }
 
     .search-result__wrapper {
       margin-right: 10px;
-
-      & + .search-recommend__wrapper {
-        margin-left: 80px;
-      }
     }
 
     .search-toolbar, .search-data {

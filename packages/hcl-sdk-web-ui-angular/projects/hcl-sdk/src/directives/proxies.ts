@@ -742,25 +742,6 @@ export class HclSdkIconTwitter {
 }
 
 
-export declare interface HclSdkIconUser extends Components.HclSdkIconUser {}
-@ProxyCmp({
-  inputs: ['color', 'height', 'width']
-})
-@Component({
-  selector: 'hcl-sdk-icon-user',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['color', 'height', 'width']
-})
-export class HclSdkIconUser {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
 export declare interface HclSdkIconWebsite extends Components.HclSdkIconWebsite {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
