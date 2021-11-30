@@ -213,11 +213,6 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconUser {
-        "color": string;
-        "height": number;
-        "width": number;
-    }
     interface HclSdkIconWebsite {
         "color": string;
         "height": number;
@@ -561,12 +556,6 @@ declare global {
         prototype: HTMLHclSdkIconTwitterElement;
         new (): HTMLHclSdkIconTwitterElement;
     };
-    interface HTMLHclSdkIconUserElement extends Components.HclSdkIconUser, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconUserElement: {
-        prototype: HTMLHclSdkIconUserElement;
-        new (): HTMLHclSdkIconUserElement;
-    };
     interface HTMLHclSdkIconWebsiteElement extends Components.HclSdkIconWebsite, HTMLStencilElement {
     }
     var HTMLHclSdkIconWebsiteElement: {
@@ -727,7 +716,6 @@ declare global {
         "hcl-sdk-icon-share": HTMLHclSdkIconShareElement;
         "hcl-sdk-icon-sort": HTMLHclSdkIconSortElement;
         "hcl-sdk-icon-twitter": HTMLHclSdkIconTwitterElement;
-        "hcl-sdk-icon-user": HTMLHclSdkIconUserElement;
         "hcl-sdk-icon-website": HTMLHclSdkIconWebsiteElement;
         "hcl-sdk-input": HTMLHclSdkInputElement;
         "hcl-sdk-loading": HTMLHclSdkLoadingElement;
@@ -951,11 +939,6 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconUser {
-        "color"?: string;
-        "height"?: number;
-        "width"?: number;
-    }
     interface HclSdkIconWebsite {
         "color"?: string;
         "height"?: number;
@@ -1109,7 +1092,6 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-share": HclSdkIconShare;
         "hcl-sdk-icon-sort": HclSdkIconSort;
         "hcl-sdk-icon-twitter": HclSdkIconTwitter;
-        "hcl-sdk-icon-user": HclSdkIconUser;
         "hcl-sdk-icon-website": HclSdkIconWebsite;
         "hcl-sdk-input": HclSdkInput;
         "hcl-sdk-loading": HclSdkLoading;
@@ -1175,7 +1157,6 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-share": LocalJSX.HclSdkIconShare & JSXBase.HTMLAttributes<HTMLHclSdkIconShareElement>;
             "hcl-sdk-icon-sort": LocalJSX.HclSdkIconSort & JSXBase.HTMLAttributes<HTMLHclSdkIconSortElement>;
             "hcl-sdk-icon-twitter": LocalJSX.HclSdkIconTwitter & JSXBase.HTMLAttributes<HTMLHclSdkIconTwitterElement>;
-            "hcl-sdk-icon-user": LocalJSX.HclSdkIconUser & JSXBase.HTMLAttributes<HTMLHclSdkIconUserElement>;
             "hcl-sdk-icon-website": LocalJSX.HclSdkIconWebsite & JSXBase.HTMLAttributes<HTMLHclSdkIconWebsiteElement>;
             "hcl-sdk-input": LocalJSX.HclSdkInput & JSXBase.HTMLAttributes<HTMLHclSdkInputElement>;
             "hcl-sdk-loading": LocalJSX.HclSdkLoading & JSXBase.HTMLAttributes<HTMLHclSdkLoadingElement>;
