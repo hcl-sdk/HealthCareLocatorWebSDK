@@ -17,8 +17,8 @@ export function getCssColor(colorStyle) {
   return getComputedStyle(document.querySelector(CONTAINER_ELEMENT).shadowRoot.host).getPropertyValue(colorStyle);
 }
 
-export function getContainerHeightWidthOffset() {
-  const elm = document.querySelector(CONTAINER_ELEMENT);
+export function getContainerHeightWidthOffset(currentEl) {
+  const elm = currentEl.closest('.wrapper') || document.querySelector(CONTAINER_ELEMENT)
 
   return {
     offsetWidth: elm?.offsetWidth || 0,
@@ -26,8 +26,8 @@ export function getContainerHeightWidthOffset() {
   };
 }
 
-export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical = false, isCentered = false) {
-  const { offsetWidth, offsetHeight } = getContainerHeightWidthOffset();
+export function getDoctorCardOffset(cardListItem, selectedMarkerIdx, isVertical = false, isCentered = false, element) {
+  const { offsetWidth, offsetHeight } = getContainerHeightWidthOffset(element);
   let offsetSize = offsetWidth
   let offsetName = 'offsetWidth'
   let itemNewOffset = 0
