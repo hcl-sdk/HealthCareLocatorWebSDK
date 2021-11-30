@@ -1,4 +1,5 @@
-import { Component, Host, h, State, Listen, Fragment } from '@stencil/core';
+import { Component, Host, h, State, Listen, Fragment, Element } from '@stencil/core';
+import { HTMLStencilElement } from '@stencil/core/internal';
 import { getCssColor, getDoctorCardOffset } from '../../../utils/helper';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
 import { configStore, searchMapStore, uiStore, routerStore } from '../../../core/stores';
@@ -18,6 +19,7 @@ import { SortValue } from '../../../core/stores/SearchMapStore';
   shadow: false,
 })
 export class HclSdkSearchResult {
+  @Element() el: HTMLStencilElement;
   @State() selectedMarkerLocation = { lat: -1, lng: -1 };
   @State() isOpenPanel: boolean = true;
   @State() isShowRelaunchBtn: boolean = false;
@@ -106,7 +108,7 @@ export class HclSdkSearchResult {
     const selectedFirstMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
     const isSmall = breakpoint.screenSize === 'mobile';
     const elm = isSmall ? this.searchDataCardList : this.searchDataMapElm
-    const doctorCardOffset = getDoctorCardOffset(elm, selectedFirstMarkerIdx, !isSmall);
+    const doctorCardOffset = getDoctorCardOffset(elm, selectedFirstMarkerIdx, !isSmall, false, this.el);
 
     animateScrollTo({
       element: elm,
