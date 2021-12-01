@@ -37,6 +37,10 @@ const QUERY_ACTIVITIES = gql`
           meshTerms
           kvTerms
           chTerms
+          uci {
+            adeli
+            rpps
+          }
         }
         workplace {
           id
