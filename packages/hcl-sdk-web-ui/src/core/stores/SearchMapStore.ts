@@ -91,6 +91,8 @@ export type IndividualDetail = {
   lat: number
   lng: number
   activitiesList: any[]
+  uciAdeli?: string
+  uciRpps?: string
 }
 
 export interface SearchMapState {
