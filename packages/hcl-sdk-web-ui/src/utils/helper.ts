@@ -108,7 +108,9 @@ export function getMergeMainAndOtherActivities(mainActivity: ActivityList, other
   } else {
     results = otherActivities;
   }
-  return results
+  return results.sort((a, b) => {
+    return ('' + a.workplace.address.longLabel).localeCompare(b.workplace.address.longLabel);
+  })
 }
 
 export function getPrimaryAddressIndividual({ addressName, addressBuildingName, address, postalCode, city }) {
