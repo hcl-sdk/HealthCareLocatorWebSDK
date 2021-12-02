@@ -62,6 +62,12 @@ const QUERY_ACTIVITY_BY_ID = gql`
           workplace {
             address {
               longLabel
+              postalCode
+              buildingLabel
+              city {
+                code
+                label
+              }
             }
           }
         }
@@ -70,6 +76,12 @@ const QUERY_ACTIVITY_BY_ID = gql`
           workplace {
             address {
               longLabel
+              postalCode
+              buildingLabel
+              city {
+                code
+                label
+              }
             }
           }
         }
