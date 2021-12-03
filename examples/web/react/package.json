@@ -46,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^6.0.1"
+    "node-sass": "5.0.0"
   }
 }
