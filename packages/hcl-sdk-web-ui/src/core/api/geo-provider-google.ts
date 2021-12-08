@@ -34,7 +34,7 @@ export class GeoProviderGoogle implements GeoProvider {
         {
           input: address,
           componentRestrictions: {
-            country: countrycodes.split(','),
+            country: countrycodes,
           },
         },
         (predictions, status) => {

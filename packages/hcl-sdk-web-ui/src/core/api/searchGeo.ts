@@ -12,7 +12,6 @@ export async function searchGeoMap({ id }) {
 
   const countrycodes = [ configStore.countryGraphqlQuery.toLowerCase() ]
 
-
   const results = await provider.searchGeoMap({
     address: id,
     countrycodes
