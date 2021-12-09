@@ -293,6 +293,15 @@ export const COUNTRIES_LABELS = {
   PT: "Portugal",
   SA: "Saudi arabia",
   US: "United states",
+  AU: "Australia",
+  AT: "Austria",
+  HR: "Croatia",
+  GR: "Greece",
+  IL: "Israel",
+  MA: "Morocco",
+  SE: "Sweden",
+  CH: "Switzerland",
+  TH: "Thailand"
   // TR: "Turkey",
   // DU: 'DUBAI'
 };
