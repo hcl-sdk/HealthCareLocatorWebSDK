@@ -37,10 +37,11 @@ const QUERY_ACTIVITIES = gql`
           meshTerms
           kvTerms
           chTerms
-          uci {
-            adeli
-            rpps
-          }
+          # TODO: waiting this feature is available on prod and v1.2
+          # uci {
+          #   adeli
+          #   rpps
+          # }
         }
         workplace {
           id

@@ -108,9 +108,13 @@ export function getMergeMainAndOtherActivities(mainActivity: ActivityList, other
   } else {
     results = otherActivities;
   }
-  return results.sort((a, b) => {
-    return ('' + a.workplace.address.longLabel).localeCompare(b.workplace.address.longLabel);
-  })
+  
+  results = results.filter(o => o.id).sort((a, b) => {
+    const textA = a.workplace.address.longLabel + a.id
+    const textB = b.workplace.address.longLabel + a.id
+    return (textA).localeCompare(textB);
+  });
+  return results
 }
 
 export function getPrimaryAddressIndividual({ addressName, addressBuildingName, address, postalCode, city }) {
