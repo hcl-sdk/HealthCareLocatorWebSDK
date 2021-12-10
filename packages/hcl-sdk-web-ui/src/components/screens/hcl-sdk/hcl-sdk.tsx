@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { BREAKPOINT_MAX_WIDTH, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
+import { BREAKPOINT_MAX_WIDTH, COUNTRIES_LABELS, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -270,8 +270,12 @@ export class HclSDK {
         if (!res.mySubscriptionKey?.countries) {
           return;
         }
+        const countries = (res.mySubscriptionKey.countries as CountryCode[])
+          .filter((code, idx, array) => COUNTRIES_LABELS[code] && array.indexOf(code) === idx) 
+          // Remove code does not exist and duplicate element
+
         configStore.setState({
-          countriesSubscriptionKey: res.mySubscriptionKey.countries as CountryCode[] // ["FR", "US"]
+          countriesSubscriptionKey: countries // ["FR", "US"]
         })
       })
       .catch(() => {}) // To avoid crash the app

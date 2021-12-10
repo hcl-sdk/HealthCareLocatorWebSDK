@@ -384,11 +384,14 @@ export class HclSdkSearch {
   };
 
   renderContentCountries = () => {
-    const data = configStore.state.countriesSubscriptionKey.map(countryCode => ({
-      code: countryCode,
-      label: COUNTRIES_LABELS[countryCode]
-    }))
-    return (
+    const data = configStore.state.countriesSubscriptionKey
+      .map(countryCode => ({
+        code: countryCode,
+        label: COUNTRIES_LABELS[countryCode]
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+
+      return (
       <hcl-sdk-search-countries 
         data={data} 
         currentSelectedInput={this.currentSelectedInput} 
