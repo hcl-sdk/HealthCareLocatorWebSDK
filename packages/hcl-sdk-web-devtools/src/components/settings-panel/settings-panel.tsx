@@ -218,7 +218,8 @@ export class SettingsPanel {
         fieldName === 'showSuggestModification' || 
         fieldName === 'useGoogleMap' || 
         fieldName === 'enableMedicalTerm' || 
-        fieldName === 'enableMapDarkMode'
+        fieldName === 'enableMapDarkMode' ||
+        fieldName === 'disableCollectGeo'
       ) {
         value = (evt.target as any).checked as boolean;
       } 
@@ -635,6 +636,13 @@ export class SettingsPanel {
                 <input name="google-map-api-key" type="text" value={this.fields.googleMapApiKey} onInput={this.handleChange('googleMapApiKey')} />
             </div>
           ) : null}
+          <div class="row">
+            <label>Disable Geolocation</label>
+            <div class="hcl-switch-btn">
+              <input name="disableCollectGeo" type="checkbox" class="checkbox-switch" onChange={this.handleChange('disableCollectGeo')} checked={this.fields.disableCollectGeo} />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
         </div>
       </section>
     );

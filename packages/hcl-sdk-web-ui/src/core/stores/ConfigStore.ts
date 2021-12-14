@@ -39,6 +39,7 @@ export interface HclSDKConfigData {
   enableDarkMode?: boolean;
   enableMapDarkMode?: boolean;
   enableMedicalTerm?: boolean;
+  disableCollectGeo?: boolean;
   stylesheet?: string;
   map: {
     provider: MapProvider;
@@ -67,6 +68,7 @@ export const initStateConfigStore: HclSDKConfigData = {
   enableDarkMode: false,
   enableMapDarkMode: false,
   enableMedicalTerm: false,
+  disableCollectGeo: false,
   showSuggestModification: true,
   countryFilterSelected: ''
 };
