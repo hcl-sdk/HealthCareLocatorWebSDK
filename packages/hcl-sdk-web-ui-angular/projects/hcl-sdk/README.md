@@ -28,6 +28,7 @@
 | showSuggestModification   | boolean \| undefined |
 | enableDarkMode   | boolean \| undefined |
 | enableMapDarkMode   | boolean \| undefined |
+| disableCollectGeo   | boolean \| undefined |
 | useGoogleMap              | boolean \| undefined |
 | googleMapApiKey           | string \| undefined |
 | getCurrentPosition |  Function \| undefined |
