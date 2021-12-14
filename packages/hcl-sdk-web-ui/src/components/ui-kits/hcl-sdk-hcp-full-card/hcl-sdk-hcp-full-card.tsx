@@ -249,7 +249,7 @@ export class HclSdkHCPFullCard {
             />
           </div>
 
-          <div class="main-block hcp-details-card">
+          <div class="main-block hcp-details-card" data-activity-id={individualDetail?.id} data-individual-id={individualDetail?.individualId}>
             <div class="main-info">
               <div class="main-info__name">
                 <div class="main-info__avatar">

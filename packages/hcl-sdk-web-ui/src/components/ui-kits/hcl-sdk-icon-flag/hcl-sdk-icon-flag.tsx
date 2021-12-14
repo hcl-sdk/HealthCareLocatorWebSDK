@@ -29,7 +29,7 @@ import TH from './TH'
 // import DU from './DU'
 
 const mapFlags = { 
-  BE, CA, CO, DE, ES, FR, GB, IT, NL, PL, PT, SA, TR, US,
+  BE, CA, CO, DE, ES, FR, GB, UK: GB, IT, NL, PL, PT, SA, TR, US,
   AU, AT, HR, GR, IL, MA, SE, CH, TH // Update 09/12/2021
 }
 
