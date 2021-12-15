@@ -344,7 +344,9 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     lat: activity.workplace.address.location.lat,
     lng: activity.workplace.address.location.lon,
 
-    activitiesList: getMergeMainAndOtherActivities(activity.individual.mainActivity, activity.individual.otherActivities)
+    activitiesList: getMergeMainAndOtherActivities(activity.individual.mainActivity, activity.individual.otherActivities),
+    uciAdeli: activity.individual.uci?.adeli,
+    uciRpps: activity.individual.uci?.rpps
   }
 
   // add to history

@@ -10,17 +10,11 @@ export async function searchGeoMap({ id }) {
   });
   const provider = getProvider(configStore.state.map.provider);
 
-  const countriesWithGeo = [ configStore.state.countryGeo ]
-
-  if (configStore.countryGraphqlQuery.toLowerCase() !== configStore.state.countryGeo.toLowerCase()) {
-    countriesWithGeo.push( configStore.countryGraphqlQuery.toLowerCase() )
-  }
+  const countrycodes = [ configStore.countryGraphqlQuery.toLowerCase() ]
 
   const results = await provider.searchGeoMap({
     address: id,
-    countrycodes: countriesWithGeo
-      .filter((str, idx) => countriesWithGeo.indexOf(str) === idx)
-      .join(','),
+    countrycodes
   });
 
   searchMapStore.setState({

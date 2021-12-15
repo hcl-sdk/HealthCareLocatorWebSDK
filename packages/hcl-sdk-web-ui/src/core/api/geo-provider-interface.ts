@@ -34,6 +34,6 @@ export interface IAddressFromGeo {
 }
 
 export interface GeoProvider {
-  searchGeoMap(options: { address: string; countrycode?: string }): Promise<IGeoMapSearchResult[]>;
+  searchGeoMap(options: { address: string; countrycode?: string[] }): Promise<IGeoMapSearchResult[]>;
   getAddressFromGeo(lat: number, lng: number): Promise<IAddressFromGeo | null>;
 }

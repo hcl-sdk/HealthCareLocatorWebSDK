@@ -249,7 +249,7 @@ export class HclSdkHCPFullCard {
             />
           </div>
 
-          <div class="main-block hcp-details-card">
+          <div class="main-block hcp-details-card" data-activity-id={individualDetail?.id} data-individual-id={individualDetail?.individualId}>
             <div class="main-info">
               <div class="main-info__name">
                 <div class="main-info__avatar">
@@ -360,6 +360,18 @@ export class HclSdkHCPFullCard {
                     </div>
                   </div>
                   {/* Block */}
+                  {
+                    (individualDetail.uciRpps || individualDetail.uciAdeli) && (
+                      <div class="info-section">
+                        <div class="info-section-header">
+                          <span class="info-section-header__title">{t('unique_country_identifier')}</span>
+                        </div>
+                        <div class="info-section-body">
+                          <span>{ individualDetail.uciRpps || individualDetail.uciAdeli }</span>
+                        </div>
+                      </div>
+                    )
+                  }
                   {
                     individualDetail.specialties.length > 0 &&
                     <div class="info-section">

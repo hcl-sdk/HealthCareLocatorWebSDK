@@ -15,9 +15,23 @@ import PT from './PT'
 import SA from './SA'
 import TR from './TR'
 import US from './US'
+
+import AU from './AU'
+import AT from './AT'
+import HR from './HR'
+import GR from './GR'
+import IL from './IL'
+import MA from './MA'
+import SE from './SE'
+import CH from './CH'
+import TH from './TH'
+
 // import DU from './DU'
 
-const mapFlags = { BE, CA, CO, DE, ES, FR, GB, IT, NL, PL, PT, SA, TR, US }
+const mapFlags = { 
+  BE, CA, CO, DE, ES, FR, GB, UK: GB, IT, NL, PL, PT, SA, TR, US,
+  AU, AT, HR, GR, IL, MA, SE, CH, TH // Update 09/12/2021
+}
 
 @Component({
   tag: 'hcl-sdk-icon-flag',

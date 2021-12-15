@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { BREAKPOINT_MAX_WIDTH, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
+import { BREAKPOINT_MAX_WIDTH, COUNTRIES_LABELS, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement } from '@stencil/core/internal';
@@ -21,6 +21,7 @@ import { GeolocCoordinates, InitScreen, WidgetProps, WidgetType } from '../../..
 const defaults = {
   apiKey: '',
   isShowcase: false,
+  disableCollectGeo: false,
   i18nBundlesPath: process.env.DEFAULT_I18N_BUNDLE_PATH,
 };
 @Component({
@@ -92,7 +93,7 @@ export class HclSDK {
 
     const mapConfig = this.getMapConfig(config);
     const initConfig = merge({}, defaults, config, { map: mapConfig });
-    this.loadCurrentPosition({ isShowcase, getCurrentPosition });
+    this.loadCurrentPosition({ isShowcase, getCurrentPosition, disableCollectGeo: config.disableCollectGeo });
 
     configStore.setState(initConfig);
 
@@ -186,7 +187,7 @@ export class HclSDK {
     }
   };
 
-  tryFindGeoloc({ getCurrentPosition = undefined } = {}) {
+  tryFindGeoloc({ getCurrentPosition = undefined, disableCollectGeo = false } = {}) {
     function handler(coords: GeolocCoordinates) {
       
       getAddressFromGeo(coords.latitude, coords.longitude)
@@ -205,22 +206,22 @@ export class HclSDK {
       getCurrentPosition(handler, (err) => {
         console.error(err || '[Geolocation] getCurrentPosition was error')
       })
-    } else {
+    } else if (!disableCollectGeo) {
       defaultGetCurrentPosition(handler, this.retryFindGeoloc)
     }
   }
 
-  findCurrentPosition({ getCurrentPosition }: any) {
+  findCurrentPosition({ getCurrentPosition, disableCollectGeo }: any) {
     if (!getCurrentPosition && !navigator.geolocation) {
       console.error('[Geolocation] is not supported by your browse');
     } 
     
     if (getCurrentPosition || navigator.geolocation) {
-      this.tryFindGeoloc({ getCurrentPosition });
+      this.tryFindGeoloc({ getCurrentPosition, disableCollectGeo });
     }
   }
 
-  loadCurrentPosition({ isShowcase, getCurrentPosition }) {
+  loadCurrentPosition({ isShowcase, getCurrentPosition, disableCollectGeo }) {
     if (isShowcase) {
       // Canada - Toronto Geolocation
       searchMapStore.setGeoLocation({
@@ -231,7 +232,7 @@ export class HclSDK {
     }
 
     const dataGeolocation = storageUtils.getObject(OKSDK_GEOLOCATION_HISTORY);
-    if (dataGeolocation) {
+    if (dataGeolocation && !disableCollectGeo) {
       const time = Number(dataGeolocation.time);
       if (dateUtils(time).diffMinuteFromNow() < GEOLOC.MINUTE_HISTORY) {
         const { latitude, longitude } = dataGeolocation;
@@ -249,7 +250,11 @@ export class HclSDK {
       }
     }
 
-    this.findCurrentPosition({ getCurrentPosition });
+    if (disableCollectGeo) {
+      storageUtils.remove(OKSDK_GEOLOCATION_HISTORY);
+    }
+
+    this.findCurrentPosition({ getCurrentPosition, disableCollectGeo });
   }
 
   loadInitScreenSearch() {
@@ -270,8 +275,12 @@ export class HclSDK {
         if (!res.mySubscriptionKey?.countries) {
           return;
         }
+        const countries = (res.mySubscriptionKey.countries as CountryCode[])
+          .filter((code, idx, array) => COUNTRIES_LABELS[code] && array.indexOf(code) === idx) 
+          // Remove code does not exist and duplicate element
+
         configStore.setState({
-          countriesSubscriptionKey: res.mySubscriptionKey.countries as CountryCode[] // ["FR", "US"]
+          countriesSubscriptionKey: countries // ["FR", "US"]
         })
       })
       .catch(() => {}) // To avoid crash the app

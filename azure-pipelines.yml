@@ -47,7 +47,9 @@ stages:
 
       - checkout: self
         path: s/onekey-sdk-web-lib
-
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
       - task: YarnInstaller@3
         inputs:
           versionSpec: '1.x'

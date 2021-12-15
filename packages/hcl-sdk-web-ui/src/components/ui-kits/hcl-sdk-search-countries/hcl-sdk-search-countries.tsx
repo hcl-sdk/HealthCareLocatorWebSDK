@@ -27,7 +27,7 @@ export class HclSdkSearchCountries {
             this.data.map(item => {
               return item.label 
                 ? (
-                  <li class={cls('search-country-item', {
+                  <li data-code={item.code} class={cls('search-country-item', {
                     'search-country-item--active': this.selectedCountry === item.code
                   })} role="button" onClick={() => this.onClick(item)}>
                     <hcl-sdk-icon-flag countryCode={item.code} />
