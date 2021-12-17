@@ -30,7 +30,7 @@ import TH from './TH'
 
 const mapFlags = { 
   BE, CA, CO, DE, ES, FR, GB, UK: GB, IT, NL, PL, PT, SA, TR, US,
-  AU, AT, HR, GR, IL, MA, SE, CH, TH // Update 09/12/2021
+  AU, AT, HR, BK: HR, GR, IL, MA, SE, CH, TH // Update 09/12/2021
 }
 
 @Component({
