@@ -389,7 +389,6 @@ export class HclSdkSearch {
         code: countryCode,
         label: COUNTRIES_LABELS[countryCode]
       }))
-      .sort((a, b) => a.label.localeCompare(b.label))
 
       return (
       <hcl-sdk-search-countries 

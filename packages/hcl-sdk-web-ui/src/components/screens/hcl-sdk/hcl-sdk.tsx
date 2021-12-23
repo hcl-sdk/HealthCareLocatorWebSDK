@@ -277,7 +277,11 @@ export class HclSDK {
         }
         const countries = (res.mySubscriptionKey.countries as CountryCode[])
           .filter((code, idx, array) => COUNTRIES_LABELS[code] && array.indexOf(code) === idx) 
+          .sort((codeA: CountryCode, codeB: CountryCode) => {
+            return COUNTRIES_LABELS[codeA].localeCompare(COUNTRIES_LABELS[codeB])
+          })
           // Remove code does not exist and duplicate element
+          //   and sort by country label
 
         configStore.setState({
           countriesSubscriptionKey: countries // ["FR", "US"]
