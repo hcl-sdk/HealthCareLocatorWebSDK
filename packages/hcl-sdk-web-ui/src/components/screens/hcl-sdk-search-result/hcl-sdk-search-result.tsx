@@ -240,7 +240,9 @@ export class HclSdkSearchResult {
 
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
-    const isShowRecommend = true
+    const specialtiesRecommended = specialties.filter(s => s.reviewsAvailable || s.diseasesAvailable)
+    const isShowRecommend = specialtiesRecommended.length > 0
+    const countRecommendStr = specialtiesRecommended.length < 10 ? `0${specialtiesRecommended.length}` : specialtiesRecommended.length
     const className = cls('search-toolbar', {
       'header-block': isSmall,
       'search-toolbar--with-recommend': isShowRecommend
@@ -257,13 +259,13 @@ export class HclSdkSearchResult {
           <strong class="search-result__total">{t('results_label')}: </strong>
           <strong class="search-result__total-value text-bold">{specialties.length}</strong>
         </div>
-        {/* TODO: ... */}
+        {/* TODO: Mapatho feature */}
         {
           isShowRecommend && !isSmall && (
             <div class="search-recommend__wrapper">
               <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
               <strong class="search-result__total">Recommendation: </strong>
-              <strong class="search-recommend__total-value text-bold">06</strong>
+              <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
             </div>
           )
         }

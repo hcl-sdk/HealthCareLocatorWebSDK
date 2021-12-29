@@ -48,8 +48,10 @@ export namespace Components {
     }
     interface HclSdkDoctorCard {
         "address": string;
+        "diseasesAvailable": boolean;
         "distance": string;
         "name": string;
+        "reviewsAvailable": boolean;
         "selected": boolean;
         "showDistance": boolean;
         "specialtyPrimary": string;
@@ -784,8 +786,10 @@ declare namespace LocalJSX {
     }
     interface HclSdkDoctorCard {
         "address"?: string;
+        "diseasesAvailable"?: boolean;
         "distance"?: string;
         "name"?: string;
+        "reviewsAvailable"?: boolean;
         "selected"?: boolean;
         "showDistance"?: boolean;
         "specialtyPrimary"?: string;

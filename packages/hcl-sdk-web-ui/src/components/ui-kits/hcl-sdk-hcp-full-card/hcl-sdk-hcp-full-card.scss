@@ -15,7 +15,11 @@
   
   .medical-subjects {
     margin: 0;
-    padding: 0 0 20px 0;
+    padding: 0;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
 
     li {
       list-style: none;
@@ -29,6 +33,10 @@
       border: 1px solid var(--hcl-color-secondary);
       margin-bottom: 8px;
       margin-right: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       &--highlight {
         color: #fff;
@@ -253,6 +261,10 @@
     grid-gap: 20px;
     color: var(--hcl-color-dark);
     @include applyFontStyle("default");
+
+    &.no-gap {
+      grid-gap: 0;
+    }
 
     &__map {
       height: 100px;

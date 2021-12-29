@@ -7,15 +7,17 @@
 
 ## Properties
 
-| Property           | Attribute           | Description | Type      | Default     |
-| ------------------ | ------------------- | ----------- | --------- | ----------- |
-| `address`          | `address`           |             | `string`  | `undefined` |
-| `distance`         | `distance`          |             | `string`  | `undefined` |
-| `name`             | `name`              |             | `string`  | `undefined` |
-| `selected`         | `selected`          |             | `boolean` | `undefined` |
-| `showDistance`     | `show-distance`     |             | `boolean` | `true`      |
-| `specialtyPrimary` | `specialty-primary` |             | `string`  | `undefined` |
-| `viewMode`         | `view-mode`         |             | `string`  | `undefined` |
+| Property            | Attribute            | Description | Type      | Default     |
+| ------------------- | -------------------- | ----------- | --------- | ----------- |
+| `address`           | `address`            |             | `string`  | `undefined` |
+| `diseasesAvailable` | `diseases-available` |             | `boolean` | `undefined` |
+| `distance`          | `distance`           |             | `string`  | `undefined` |
+| `name`              | `name`               |             | `string`  | `undefined` |
+| `reviewsAvailable`  | `reviews-available`  |             | `boolean` | `undefined` |
+| `selected`          | `selected`           |             | `boolean` | `undefined` |
+| `showDistance`      | `show-distance`      |             | `boolean` | `true`      |
+| `specialtyPrimary`  | `specialty-primary`  |             | `string`  | `undefined` |
+| `viewMode`          | `view-mode`          |             | `string`  | `undefined` |
 
 
 ## Dependencies

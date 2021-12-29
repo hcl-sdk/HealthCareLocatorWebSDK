@@ -1,3 +1,4 @@
+import { Disease, Review } from "../../../../hcl-sdk-core/src/graphql/types";
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
@@ -12,9 +13,12 @@ export interface SpecialtyItem {
   title?: string;
   address?: string;
   createdAt?: string;
+  specialtyPrimary?: string;
   lat?: number;
   lng?: number;
   id: string;
+  reviewsAvailable?: boolean
+  diseasesAvailable?: boolean
 }
 
 export interface SearchFields {
@@ -93,6 +97,13 @@ export type IndividualDetail = {
   activitiesList: any[]
   uciAdeli?: string
   uciRpps?: string
+  reviewsAvailable?: boolean
+  diseasesAvailable?: boolean
+  reviewsByIndividual?: {
+    diseases: Disease[]
+    reviews: Review[]
+    idnat: string
+  }
 }
 
 export interface SearchMapState {
