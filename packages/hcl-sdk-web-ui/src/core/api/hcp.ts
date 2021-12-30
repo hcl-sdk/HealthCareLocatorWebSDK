@@ -345,8 +345,34 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     lng: activity.workplace.address.location.lon,
 
     activitiesList: getMergeMainAndOtherActivities(activity.individual.mainActivity, activity.individual.otherActivities),
+    uciRpps: activity.individual.uci?.rpps,
     uciAdeli: activity.individual.uci?.adeli,
-    uciRpps: activity.individual.uci?.rpps
+    reviewsAvailable: activity.individual.reviewsAvailable,
+    diseasesAvailable: activity.individual.diseasesAvailable,
+    reviewsByIndividual: undefined
+  }
+
+  // Fetch to get reviews
+  let idnat: string
+
+  if (data.uciRpps) {
+    idnat = '8' + data.uciRpps
+  } else if (data.uciAdeli) {
+    idnat = '0' + data.uciAdeli
+  }
+
+  if (idnat) {
+    const { reviewsByIndividual } = await graphql.reviewsByIndividual({
+      idnat
+    }, configStore.configGraphql)
+
+    if (reviewsByIndividual) {
+      data.reviewsByIndividual = {
+        idnat: reviewsByIndividual.idnat,
+        reviews: reviewsByIndividual.reviews || [],
+        diseases: reviewsByIndividual.diseases || []
+      }
+    }
   }
 
   // add to history

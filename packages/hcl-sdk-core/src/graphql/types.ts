@@ -200,6 +200,12 @@ export enum Day {
   Sunday = 'SUNDAY'
 }
 
+export type Disease = {
+  __typename?: 'Disease';
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export enum GeoAccurracy {
   HouseNumber = 'HouseNumber'
 }
@@ -254,6 +260,8 @@ export type Individual = OneKeyEntity & {
   kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
   chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
   uci?: Maybe<Uci>;
+  reviewsAvailable?: Maybe<Scalars['Boolean']>;
+  diseasesAvailable?: Maybe<Scalars['Boolean']>;
 };
 
 export type IndividualAutocompleteFragment = OneKeyEntity & {
@@ -284,6 +292,8 @@ export type IndividualFragment = OneKeyEntity & {
   kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
   chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
   uci?: Maybe<Uci>;
+  reviewsAvailable?: Maybe<Scalars['Boolean']>;
+  diseasesAvailable?: Maybe<Scalars['Boolean']>;
 };
 
 export type IndividualResult = {
@@ -389,6 +399,7 @@ export type Query = {
   listCountry?: Maybe<Array<Maybe<Country>>>;
   workplaceById?: Maybe<Workplace>;
   autocomplete?: Maybe<AutocompleteResult>;
+  reviewsByIndividual?: Maybe<ReviewResult>;
   mySubscriptionKey?: Maybe<SubscriptionKey>;
 };
 
@@ -502,6 +513,29 @@ export type QueryAutocompleteArgs = {
   addresses?: InputMaybe<Array<Scalars['String']>>;
 };
 
+
+export type QueryReviewsByIndividualArgs = {
+  idnat: Scalars['String'];
+};
+
+export type Review = {
+  __typename?: 'Review';
+  createdAt?: Maybe<Scalars['String']>;
+  reviewer?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  validatedAt?: Maybe<Scalars['String']>;
+  diseases?: Maybe<Array<Maybe<Disease>>>;
+};
+
+export type ReviewResult = {
+  __typename?: 'ReviewResult';
+  rpps?: Maybe<Scalars['String']>;
+  idnat?: Maybe<Scalars['String']>;
+  adeli?: Maybe<Scalars['String']>;
+  diseases?: Maybe<Array<Maybe<Disease>>>;
+  reviews?: Maybe<Array<Maybe<Review>>>;
+};
+
 export type RevisionRequest = {
   id: Scalars['ID'];
 };
@@ -525,6 +559,10 @@ export type Uci = {
   __typename?: 'Uci';
   adeli?: Maybe<Scalars['String']>;
   rpps?: Maybe<Scalars['String']>;
+  npi?: Maybe<Scalars['String']>;
+  lanr?: Maybe<Scalars['String']>;
+  gln?: Maybe<Scalars['String']>;
+  zsr?: Maybe<Scalars['String']>;
 };
 
 export type WeeklyOpenHours = {

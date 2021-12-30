@@ -240,10 +240,13 @@ export class HclSdkSearchResult {
 
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
+    const specialtiesRecommended = specialties.filter(s => s.reviewsAvailable || s.diseasesAvailable)
+    const isShowRecommend = specialtiesRecommended.length > 0
+    const countRecommendStr = specialtiesRecommended.length < 10 ? `0${specialtiesRecommended.length}` : specialtiesRecommended.length
     const className = cls('search-toolbar', {
       'header-block': isSmall,
+      'search-toolbar--with-recommend': isShowRecommend
     });
-
 
     return (
       <div class={className}>
@@ -254,8 +257,18 @@ export class HclSdkSearchResult {
         </div>
         <div class="search-result__wrapper">
           <strong class="search-result__total">{t('results_label')}: </strong>
-          <strong class="search-result__total-value text-primary text-bold">{specialties.length}</strong>
+          <strong class="search-result__total-value text-bold">{specialties.length}</strong>
         </div>
+        {/* TODO: Mapatho feature */}
+        {
+          isShowRecommend && !isSmall && (
+            <div class="search-recommend__wrapper">
+              <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
+              <strong class="search-result__total">Recommendation: </strong>
+              <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
+            </div>
+          )
+        }
         <div class="hidden-desktop hidden-tablet switch-mode">
           <hcl-sdk-switch-view-mode typeOfLabel="disabled" />
         </div>

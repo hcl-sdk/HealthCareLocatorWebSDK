@@ -83,13 +83,13 @@ export class HclSdkDevSettings {
 
 export declare interface HclSdkDoctorCard extends Components.HclSdkDoctorCard {}
 @ProxyCmp({
-  inputs: ['address', 'distance', 'name', 'selected', 'showDistance', 'specialtyPrimary', 'viewMode']
+  inputs: ['address', 'diseasesAvailable', 'distance', 'name', 'reviewsAvailable', 'selected', 'showDistance', 'specialtyPrimary', 'viewMode']
 })
 @Component({
   selector: 'hcl-sdk-doctor-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['address', 'distance', 'name', 'selected', 'showDistance', 'specialtyPrimary', 'viewMode']
+  inputs: ['address', 'diseasesAvailable', 'distance', 'name', 'reviewsAvailable', 'selected', 'showDistance', 'specialtyPrimary', 'viewMode']
 })
 export class HclSdkDoctorCard {
   protected el: HTMLElement;
@@ -734,6 +734,25 @@ export declare interface HclSdkIconTwitter extends Components.HclSdkIconTwitter 
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconTwitter {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconUser extends Components.HclSdkIconUser {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-user',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconUser {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

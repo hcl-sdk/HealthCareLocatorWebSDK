@@ -39,6 +39,12 @@
     .name {
       color: var(--hcl-color-secondary);
       font-weight: 500;
+
+      img {
+        width: 1em;
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
 
     .address {

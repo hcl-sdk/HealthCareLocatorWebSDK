@@ -88,11 +88,12 @@ const QUERY_ACTIVITY_BY_ID = gql`
         meshTerms
         kvTerms
         chTerms
-        # TODO: waiting this feature is available on prod and v1.2
-        # uci {
-        #   adeli
-        #   rpps
-        # }
+        uci {
+          rpps
+          adeli
+        }
+        reviewsAvailable
+        diseasesAvailable
       }
     }
   }

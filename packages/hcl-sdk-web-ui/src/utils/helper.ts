@@ -264,5 +264,7 @@ export const handleMapActivities = (item: ActivityResult) => ({
   ].filter(s => s).join(', '),
   lat: item.activity.workplace.address.location.lat,
   lng: item.activity.workplace.address.location.lon,
-  id: item.activity.id
+  id: item.activity.id,
+  reviewsAvailable: item.activity.individual.reviewsAvailable,
+  diseasesAvailable: item.activity.individual.diseasesAvailable,
 })

@@ -223,6 +223,10 @@ export class HclSdkHCPFullCard {
       ? this.moveHighlightedSpecialtiesOnTop(originalListSpecialties, specialtyFilter) 
       : originalListSpecialties
 
+    // Handle to show Recommendation section
+    const reviewResult = individualDetail?.reviewsByIndividual
+    const isShowRecommendation = reviewResult && (reviewResult.diseases.length > 0 || reviewResult.reviews.length > 0)
+
     return (
       <Host>
         <div class="main-contain">
@@ -445,6 +449,60 @@ export class HclSdkHCPFullCard {
                             )
                           }
                           </ul>
+                        </div>
+                      </div>
+                    )
+                  }
+
+                  {/* TODO: Mapatho feature */}
+                  {
+                    isShowRecommendation && (
+                      <div class="info-section">
+                        <div class="info-section-header">
+                          <span class="info-section-header__title">Recommendation &nbsp; <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
+                        </div>
+                        <div class="info-section-body no-gap">
+                          {
+                            reviewResult.diseases.length > 0 && (
+                              <ul class="medical-subjects">
+                                { reviewResult.diseases.map(item => <li class="medical-subjects__item">{item.name}</li>) }
+                              </ul>
+                            )
+                          }
+                          {
+                            <ul class="medical-subjects">
+                              <li class="patient-reviews__wrap">
+                                <div class="patient-reviews__title">{reviewResult.reviews.length} Patient reviews</div>
+                                {/* Reviews Item */}
+                                {
+                                  reviewResult.reviews.map(item => (
+                                    <div class="patient-reviews__item">
+                                      <div class="patient-reviews__item-head">
+                                        <div class="patient-reviews__item-user">
+                                          <hcl-sdk-icon name="user" />
+                                          <span>{item.reviewer}</span>
+                                        </div>
+                                        {
+                                          item.diseases.map(d => <div class="patient-reviews__item-card">{d.name}</div>)
+                                        }
+                                      </div>
+                                      <p class="patient-reviews__item-date">{item.createdAt}</p>
+                                      <p class="patient-reviews__item-content">{item.text}</p>
+                                    </div>
+                                  ))
+                                }
+                              </li>
+                              {
+                                reviewResult.reviews.length > 5 && (
+                                  <li class="medical-subjects__view-more">
+                                    <hcl-sdk-button noBackground noBorder noPadding isLink icon="arrow_right" iconWidth={15} iconHeight={15}>
+                                      { t('view_more') }
+                                    </hcl-sdk-button>
+                                  </li>
+                                )
+                              }
+                            </ul>
+                          }
                         </div>
                       </div>
                     )
