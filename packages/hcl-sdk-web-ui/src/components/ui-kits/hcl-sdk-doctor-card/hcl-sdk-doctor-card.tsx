@@ -30,7 +30,11 @@ export class HclSdkDoctorCard {
         <div class={doctorClass}>
           <div class="doctor-card-content">
             {/* TODO: Mapatho feature */}
-            <span class="text name">{this.name}&nbsp;&nbsp; { isShowLogo && <img src="https://www.mapatho.com/favicon.ico" alt="" /> }</span>
+            <div class="header">
+              <span class="text name">{this.name}&nbsp;&nbsp; { isShowLogo && <img src="https://www.mapatho.com/favicon.ico" alt="" /> }</span>
+              <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder  />
+            </div>
+
             <span class="text gp">{this.specialtyPrimary}</span>
             <span class="text address">{this.address}</span>
             { this.showDistance && <span class="text distance">{this.distance}</span> }
