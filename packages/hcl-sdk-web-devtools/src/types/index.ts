@@ -17,4 +17,5 @@ export interface Fields {
   googleMapId?: string;
   distanceUnit?: 'km' | 'mi';
   distanceDefault?: number;
+  enableLeafletAttribution?: boolean;
 }

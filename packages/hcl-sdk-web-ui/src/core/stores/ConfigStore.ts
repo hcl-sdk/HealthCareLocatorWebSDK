@@ -45,6 +45,7 @@ export interface HclSDKConfigData {
     provider: MapProvider;
     googleMapApiKey: string;
     googleMapId: string;
+    enableLeafletAttribution?: boolean;
   },
   countryFilterSelected: CountryCode | '';
 }
@@ -55,6 +56,7 @@ export const initStateConfigStore: HclSDKConfigData = {
     provider: MapProvider.OPEN_STREETMAP,
     googleMapApiKey: '',
     googleMapId: '',
+    enableLeafletAttribution: false
   },
   modeView: ModeViewType.LIST,
   modal: undefined,
@@ -70,7 +72,7 @@ export const initStateConfigStore: HclSDKConfigData = {
   enableMedicalTerm: false,
   disableCollectGeo: false,
   showSuggestModification: true,
-  countryFilterSelected: ''
+  countryFilterSelected: '',
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {

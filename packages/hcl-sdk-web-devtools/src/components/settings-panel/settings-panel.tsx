@@ -217,6 +217,7 @@ export class SettingsPanel {
       } else if (
         fieldName === 'showSuggestModification' || 
         fieldName === 'useGoogleMap' || 
+        fieldName === 'enableLeafletAttribution' || 
         fieldName === 'enableMedicalTerm' || 
         fieldName === 'enableMapDarkMode' ||
         fieldName === 'disableCollectGeo'
@@ -620,6 +621,13 @@ export class SettingsPanel {
                 onChange={this.handleChange('enableMapDarkMode')}
                 checked={this.fields.enableMapDarkMode}
               />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
+            <label>Leaflet attribution</label>
+            <div class="hcl-switch-btn">
+              <input name="enableLeafletAttribution" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableLeafletAttribution')} checked={this.fields.enableLeafletAttribution} />
               <div class="hcl-switch-btn__slider"></div>
             </div>
           </div>

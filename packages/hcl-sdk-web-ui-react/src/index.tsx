@@ -35,6 +35,7 @@ export type ConfigType = {
   enableDarkMode?: boolean;
   enableMapDarkMode?: boolean;
   enableMedicalTerm?: boolean;
+  enableLeafletAttribution?: boolean;
   disableCollectGeo?: boolean;
   getCurrentPosition?: (
     success: (coords: GeolocCoordinates) => void, 
