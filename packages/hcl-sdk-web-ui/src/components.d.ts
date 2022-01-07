@@ -97,7 +97,7 @@ export namespace Components {
         "height": number;
         "width": number;
     }
-    interface HclSdkIconClock {
+    interface HclSdkIconClockOutline {
         "color": string;
         "height": number;
         "width": number;
@@ -429,11 +429,11 @@ declare global {
         prototype: HTMLHclSdkIconCircularElement;
         new (): HTMLHclSdkIconCircularElement;
     };
-    interface HTMLHclSdkIconClockElement extends Components.HclSdkIconClock, HTMLStencilElement {
+    interface HTMLHclSdkIconClockOutlineElement extends Components.HclSdkIconClockOutline, HTMLStencilElement {
     }
-    var HTMLHclSdkIconClockElement: {
-        prototype: HTMLHclSdkIconClockElement;
-        new (): HTMLHclSdkIconClockElement;
+    var HTMLHclSdkIconClockOutlineElement: {
+        prototype: HTMLHclSdkIconClockOutlineElement;
+        new (): HTMLHclSdkIconClockOutlineElement;
     };
     interface HTMLHclSdkIconDefaultAvatarElement extends Components.HclSdkIconDefaultAvatar, HTMLStencilElement {
     }
@@ -727,7 +727,7 @@ declare global {
         "hcl-sdk-icon-back": HTMLHclSdkIconBackElement;
         "hcl-sdk-icon-calendar-clock-outline": HTMLHclSdkIconCalendarClockOutlineElement;
         "hcl-sdk-icon-circular": HTMLHclSdkIconCircularElement;
-        "hcl-sdk-icon-clock": HTMLHclSdkIconClockElement;
+        "hcl-sdk-icon-clock-outline": HTMLHclSdkIconClockOutlineElement;
         "hcl-sdk-icon-default-avatar": HTMLHclSdkIconDefaultAvatarElement;
         "hcl-sdk-icon-direction": HTMLHclSdkIconDirectionElement;
         "hcl-sdk-icon-dislike": HTMLHclSdkIconDislikeElement;
@@ -861,7 +861,7 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
-    interface HclSdkIconClock {
+    interface HclSdkIconClockOutline {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -1123,7 +1123,7 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-back": HclSdkIconBack;
         "hcl-sdk-icon-calendar-clock-outline": HclSdkIconCalendarClockOutline;
         "hcl-sdk-icon-circular": HclSdkIconCircular;
-        "hcl-sdk-icon-clock": HclSdkIconClock;
+        "hcl-sdk-icon-clock-outline": HclSdkIconClockOutline;
         "hcl-sdk-icon-default-avatar": HclSdkIconDefaultAvatar;
         "hcl-sdk-icon-direction": HclSdkIconDirection;
         "hcl-sdk-icon-dislike": HclSdkIconDislike;
@@ -1191,7 +1191,7 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-back": LocalJSX.HclSdkIconBack & JSXBase.HTMLAttributes<HTMLHclSdkIconBackElement>;
             "hcl-sdk-icon-calendar-clock-outline": LocalJSX.HclSdkIconCalendarClockOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconCalendarClockOutlineElement>;
             "hcl-sdk-icon-circular": LocalJSX.HclSdkIconCircular & JSXBase.HTMLAttributes<HTMLHclSdkIconCircularElement>;
-            "hcl-sdk-icon-clock": LocalJSX.HclSdkIconClock & JSXBase.HTMLAttributes<HTMLHclSdkIconClockElement>;
+            "hcl-sdk-icon-clock-outline": LocalJSX.HclSdkIconClockOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconClockOutlineElement>;
             "hcl-sdk-icon-default-avatar": LocalJSX.HclSdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLHclSdkIconDefaultAvatarElement>;
             "hcl-sdk-icon-direction": LocalJSX.HclSdkIconDirection & JSXBase.HTMLAttributes<HTMLHclSdkIconDirectionElement>;
             "hcl-sdk-icon-dislike": LocalJSX.HclSdkIconDislike & JSXBase.HTMLAttributes<HTMLHclSdkIconDislikeElement>;
