@@ -1,10 +1,10 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'hcl-sdk-icon-calendar-clock-outline',
+  tag: 'hcl-sdk-icon-clock-outline',
   shadow: false,
 })
-export class HclSdkIconCalendarClockOutline {
+export class HclSdkIconClockOutline {
   @Prop() color: string;
   @Prop() width: number = 20;
   @Prop() height: number = 20;
@@ -15,7 +15,7 @@ export class HclSdkIconCalendarClockOutline {
         <svg version="1.2" preserveAspectRatio="none" viewBox="0 0 24 24" style={{ opacity: '1', mixBlendMode: 'normal', width: `${this.width}px`, height: `${this.height}px` }}>
           <path
             style={{ fill: this.color }}
-            d="M6 1v2H5c-1.11 0-2 .89-2 2v14a2 2 0 002 2h6.1c1.26 1.24 2.99 2 4.9 2 3.87 0 7-3.13 7-7 0-1.91-.76-3.64-2-4.9V5a2 2 0 00-2-2h-1V1h-2v2H8V1M5 5h14v2H5m0 2h14v.67c-.91-.43-1.93-.67-3-.67-3.87 0-7 3.13-7 7 0 1.07.24 2.09.67 3H5m11-7.85c2.68 0 4.85 2.17 4.85 4.85 0 2.68-2.17 4.85-4.85 4.85-2.68 0-4.85-2.17-4.85-4.85 0-2.68 2.17-4.85 4.85-4.85M15 13v3.69l3.19 1.84.75-1.3-2.44-1.41V13z"
+            d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"
           />
         </svg>
       </Host>

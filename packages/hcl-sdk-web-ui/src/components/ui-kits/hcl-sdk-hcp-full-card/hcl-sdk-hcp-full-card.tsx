@@ -366,7 +366,7 @@ export class HclSdkHCPFullCard {
                       {openingHours && (
                         <div class="opening-hours-disclosure">
                           <button class="opening-hours-disclosure__btn" onClick={this.toggleOpeningHoursDisclosure}>
-                            <hcl-sdk-icon name="clock" width={15} height={15} color={getCssColor('--hcl-color-grey')} />
+                            <hcl-sdk-icon-clock-outline width={15} height={15} color={getCssColor('--hcl-color-grey')} />
                             <div>
                               <span class="opening-hour--closing">Opens soon</span> &#183; 9am
                             </div>
