@@ -159,7 +159,8 @@ export class HclSDK {
       }
     } else {
       return {
-        provider: MapProvider.OPEN_STREETMAP
+        provider: MapProvider.OPEN_STREETMAP,
+        enableLeafletAttribution: configInput.enableLeafletAttribution
       }
     }
   }

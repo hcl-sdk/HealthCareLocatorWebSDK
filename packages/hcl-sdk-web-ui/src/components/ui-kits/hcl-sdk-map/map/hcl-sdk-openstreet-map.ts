@@ -10,7 +10,7 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
 
   remove() {
     if (this.map) {
-      this.map.remove()
+      this.map.remove();
     }
   }
 
@@ -18,7 +18,11 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
     const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
-    this.map = L.map(mapElm, { ...options, center: options.center ? [options.center.lat, options.center.lng] : null });
+    this.map = L.map(mapElm, {
+      ...options,
+      center: options.center ? [options.center.lat, options.center.lng] : null,
+      attributionControl: options.enableLeafletAttribution,
+    });
 
     this.iconMarker = options.iconMarker;
     this.iconMarkerSelected = options.iconMarkerSelected;
@@ -27,6 +31,7 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
       .zoom({
         position: 'topright',
       })
+
       .addTo(this.map);
 
     L.tileLayer(mapTileLayer, {
@@ -78,13 +83,15 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
 
   onZoomend(cb: (event: any, currentZoomlevel: number) => void) {
     this.map.on('zoomend', evt => {
-      cb(evt, this.map.getZoom())
-    })
+      cb(evt, this.map.getZoom());
+    });
   }
 
   createIconURL = (markerColor, isSelected: boolean = false) => {
     const icon = isSelected ? this.iconMarkerSelected : this.iconMarker;
-    const makerIconString = icon || `
+    const makerIconString =
+      icon ||
+      `
     <svg id="hcl-sdk-marker" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
       viewBox="0 0 512 512" fill="${markerColor}" xml:space="preserve">
       <g><g><path d="M256,0C153.755,0,70.573,83.182,70.573,185.426c0,126.888,165.939,313.167,173.004,321.035

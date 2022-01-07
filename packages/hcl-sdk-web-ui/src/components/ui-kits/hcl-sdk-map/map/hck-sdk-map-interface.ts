@@ -22,6 +22,7 @@ export interface OptionsMap {
   iconMarker?: string;
   iconMarkerSelected?: string;
   enableMapDarkMode?: boolean;
+  enableLeafletAttribution?: boolean;
 }
 
 export interface IHclSdkMap {
