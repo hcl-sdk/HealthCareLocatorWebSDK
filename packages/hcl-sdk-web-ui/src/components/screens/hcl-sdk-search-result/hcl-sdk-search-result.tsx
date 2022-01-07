@@ -247,36 +247,61 @@ export class HclSdkSearchResult {
       'header-block': isSmall,
       'search-toolbar--with-recommend': isShowRecommend
     });
+    const isListView = configStore.state.modeView === ModeViewType.LIST;
 
     return (
       <div class={className}>
-        <div class="search-back-large hidden-mobile">
-          <hcl-sdk-button noBorder noBackground icon="back" iconColor={getCssColor('--hcl-color-dark')} onClick={() => this.goBackToHome()}>
-            <span class="text-small">{t('back_to_home')}</span>
-          </hcl-sdk-button>
-        </div>
-        <div class="search-result__wrapper">
-          <strong class="search-result__total">{t('results_label')}: </strong>
-          <strong class="search-result__total-value text-bold">{specialties.length}</strong>
-        </div>
-        {/* TODO: Mapatho feature */}
-        {
-          isShowRecommend && !isSmall && (
-            <div class="search-recommend__wrapper">
-              <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
-              <strong class="search-result__total">Recommendation: </strong>
-              <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
+        <div class={'search-toolbar__actions'}>
+          <div class="search-back-large hidden-mobile">
+            <hcl-sdk-button noBorder noBackground icon="back" iconColor={getCssColor('--hcl-color-dark')} onClick={() => this.goBackToHome()}>
+              <span class="text-small">{t('back_to_home')}</span>
+            </hcl-sdk-button>
+          </div>
+          {isListView && !isSmall && 
+            <div class={cls("search-result-summary", isListView && 'search-result-summary--list-view')}>
+              <div class="search-result__wrapper">
+                <strong class="search-result__total">{t('results_label')}: </strong>
+                <strong class="search-result__total-value text-bold">{specialties.length}</strong>
+              </div>
+              {/* TODO: Mapatho feature */}
+              {
+                isShowRecommend && !isSmall && (
+                  <div class="search-recommend__wrapper">
+                    <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
+                    <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
+                    <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
+                  </div>
+                )
+              }
             </div>
-          )
-        }
-        <div class="hidden-desktop hidden-tablet switch-mode">
-          <hcl-sdk-switch-view-mode typeOfLabel="disabled" />
-        </div>
-        <div class="search-filter-wrapper">
-          <div class="search-filter">
-            <hcl-sdk-icon name="sort" width={15} height={9} onClick={this.onOpenSort} />
+          }
+          <div class="hidden-desktop hidden-tablet switch-mode">
+            <hcl-sdk-switch-view-mode typeOfLabel="disabled" />
+          </div>
+          <div class="search-filter-wrapper">
+            <div class="search-filter">
+              <hcl-sdk-icon name="sort" width={15} height={9} onClick={this.onOpenSort} />
+            </div>
           </div>
         </div>
+        {!isListView && 
+          <div class="search-result-summary">
+            <div class="search-result__wrapper">
+              <strong class="search-result__total">{t('results_label')}: </strong>
+              <strong class="search-result__total-value text-bold">{specialties.length}</strong>
+            </div>
+            {/* TODO: Mapatho feature */}
+            {
+              isShowRecommend && !isSmall && (
+                <div class="search-recommend__wrapper">
+                  <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
+                  <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
+                  <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
+                </div>
+              )
+            }
+          </div>
+        }
       </div>
     );
   };

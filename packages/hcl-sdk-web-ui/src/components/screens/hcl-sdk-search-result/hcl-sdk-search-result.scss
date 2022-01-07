@@ -92,14 +92,32 @@
     }
   }
 
+  .search-result-summary {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    margin: 0 10px;
+    z-index: 10;
+    line-height: 1.5;
+    border-top: 1px solid var(--hcl-color-card_border);
+
+    &--list-view {
+      border-top: 0px;
+      flex-direction: row;
+      gap: 16px;
+    }
+  }
+
   .search-recommend {
     &__wrapper {
-      margin-right: 10px;
+      display: flex;
+      align-items: center;
     }
     &__img {
       width: 1em;
+      height: 1em;
       display: inline-block;
-      vertical-align: middle;
+      margin-left: auto;
       margin-right: 0.5em;
     }
     &__total-value {
@@ -129,9 +147,14 @@
 
   .search-toolbar {
     display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    z-index: 10;
+    flex-direction: column;
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      z-index: 10;
+    }
   }
 
   .search-map {
@@ -336,41 +359,10 @@
         margin-right: 10px;
         width: auto;
       }
-
-      .search-toolbar--with-recommend {
-        padding-bottom: 35px;
-
-        .search-result__wrapper {
-          position: absolute;
-          left: 12px;
-          bottom: 10px;
-        }
-        .search-recommend__wrapper {
-          position: absolute;
-          right: 12px;
-          bottom: 10px;
-          margin-right: 0;
-          margin-left: 0;
-        }
-
-        &::before {
-          content: '';
-          height: 1px;
-          position: absolute;
-          left: 14px;
-          right: 14px;
-          bottom: 35px;
-          background-color: var(--hcl-color-card_border);
-        }
-      }
     }
 
     .search-result__wrapper {
       margin-right: 10px;
-
-      & + .search-recommend__wrapper {
-        margin-left: 80px;
-      }
     }
 
     .search-toolbar, .search-data {
