@@ -21,6 +21,7 @@ export class HclSdkHCPFullCard {
   @State() currentSeachTerm: string = ''
   @State() isViewMoreTerms: boolean = false;
   @State() isViewMoreSpecialties: boolean = false;
+  @State() showOpeningHours: boolean = false;
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -182,6 +183,10 @@ export class HclSdkHCPFullCard {
     ]
   }
 
+  toggleOpeningHoursDisclosure = () => {
+    this.showOpeningHours = !this.showOpeningHours
+  }
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -226,6 +231,8 @@ export class HclSdkHCPFullCard {
     // Handle to show Recommendation section
     const reviewResult = individualDetail?.reviewsByIndividual
     const isShowRecommendation = reviewResult && (reviewResult.diseases.length > 0 || reviewResult.reviews.length > 0)
+
+    const openingHours = individualDetail?.openingHours
 
     return (
       <Host>
@@ -293,6 +300,11 @@ export class HclSdkHCPFullCard {
                           <hcl-sdk-button round icon="direction" noBackground />
                         </a>
                         {
+                          individualDetail?.makeAppointmentLink && (
+                            <hcl-sdk-button round icon="calendar-clock-outline" noBackground />
+                          )
+                        }
+                        {
                           individualDetail.phone && (
                             <a href={`tel:${individualDetail.phone}`}>
                               <hcl-sdk-button round icon="phone" noBackground />
@@ -350,6 +362,30 @@ export class HclSdkHCPFullCard {
                           </div>
                         )
                       }
+
+                      {openingHours && (
+                        <div class="opening-hours-disclosure">
+                          <button class="opening-hours-disclosure__btn" onClick={this.toggleOpeningHoursDisclosure}>
+                            <hcl-sdk-icon name="clock" width={15} height={15} color={getCssColor('--hcl-color-grey')} />
+                            <div>
+                              <span class="opening-hour--closing">Opens soon</span> &#183; 9am
+                            </div>
+                            <hcl-sdk-icon-arrow_down width={15} height={15} class="arrow-icon" color={getCssColor('--hcl-color-grey')} />
+                          </button>
+                          <div
+                            class={cls('opening-hours-disclosure__panel', {
+                              open: this.showOpeningHours,
+                            })}
+                          >
+                            {openingHours.map(hour => (
+                              <div class="opening-hour-item">
+                                <div>{hour.day}</div>
+                                <div>{hour.time}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
                       {individualDetail.webAddress && (
                         <div class="info-contact info-section-body__website">

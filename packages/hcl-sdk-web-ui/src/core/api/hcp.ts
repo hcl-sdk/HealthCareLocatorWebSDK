@@ -349,7 +349,35 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     uciAdeli: activity.individual.uci?.adeli,
     reviewsAvailable: activity.individual.reviewsAvailable,
     diseasesAvailable: activity.individual.diseasesAvailable,
-    reviewsByIndividual: undefined
+    reviewsByIndividual: undefined,
+    makeAppointmentLink: '#',
+    // mock openingHours
+    openingHours: [
+      {
+        day: 'Monday',
+        time: '9am - 7pm',
+      },
+      {
+        day: 'Tuesday',
+        time: '9am - 7pm',
+      },
+      {
+        day: 'Wednesday',
+        time: '9am - 7pm',
+      },
+      {
+        day: 'Thursday',
+        time: '9am - 7pm',
+      },
+      {
+        day: 'Friday',
+        time: '9am - 7pm',
+      },
+      {
+        day: 'Saturday',
+        time: '9am - 12pm',
+      }
+    ],
   }
 
   // Fetch to get reviews

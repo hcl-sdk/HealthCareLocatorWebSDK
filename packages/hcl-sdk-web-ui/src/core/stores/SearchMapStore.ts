@@ -104,6 +104,11 @@ export type IndividualDetail = {
     reviews: Review[]
     idnat: string
   }
+  makeAppointmentLink?: string
+  openingHours?: {
+    day: string
+    time: string
+  }[]
 }
 
 export interface SearchMapState {

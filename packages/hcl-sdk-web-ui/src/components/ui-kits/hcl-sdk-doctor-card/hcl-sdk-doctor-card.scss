@@ -47,6 +47,15 @@
       }
     }
 
+    .header {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        fill: var(--hcl-color-secondary);
+      }
+    }
+
     .address {
       color: var(--hcl-color-grey_dark);
       @include applyFontStyle("default");
