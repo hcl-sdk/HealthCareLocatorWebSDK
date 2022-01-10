@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property               | Attribute                | Description | Type                                                                                                                                                                                                               | Default     |
-| ---------------------- | ------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| `currentSelectedInput` | `current-selected-input` |             | `"address" \| "country" \| "medicalTerm" \| "name" \| "specialtyName"`                                                                                                                                             | `undefined` |
-| `data`                 | --                       |             | `{ code: "BE" \| "CA" \| "CO" \| "DE" \| "ES" \| "FR" \| "GB" \| "UK" \| "IT" \| "NL" \| "PL" \| "PT" \| "SA" \| "US" \| "AU" \| "AT" \| "HR" \| "GR" \| "IL" \| "MA" \| "SE" \| "CH" \| "TH"; label: string; }[]` | `undefined` |
-| `selectedCountry`      | `selected-country`       |             | `"BE" \| "CA" \| "CO" \| "DE" \| "ES" \| "FR" \| "GB" \| "UK" \| "IT" \| "NL" \| "PL" \| "PT" \| "SA" \| "US" \| "AU" \| "AT" \| "HR" \| "GR" \| "IL" \| "MA" \| "SE" \| "CH" \| "TH"`                             | `undefined` |
+| Property               | Attribute                | Description | Type                                                                                                                                                                                                                       | Default     |
+| ---------------------- | ------------------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `currentSelectedInput` | `current-selected-input` |             | `"address" \| "country" \| "medicalTerm" \| "name" \| "specialtyName"`                                                                                                                                                     | `undefined` |
+| `data`                 | --                       |             | `{ code: "BE" \| "CA" \| "CO" \| "DE" \| "ES" \| "FR" \| "GB" \| "UK" \| "IT" \| "NL" \| "PL" \| "PT" \| "SA" \| "US" \| "AU" \| "AT" \| "HR" \| "BK" \| "GR" \| "IL" \| "MA" \| "SE" \| "CH" \| "TH"; label: string; }[]` | `undefined` |
+| `selectedCountry`      | `selected-country`       |             | `"BE" \| "CA" \| "CO" \| "DE" \| "ES" \| "FR" \| "GB" \| "UK" \| "IT" \| "NL" \| "PL" \| "PT" \| "SA" \| "US" \| "AU" \| "AT" \| "HR" \| "BK" \| "GR" \| "IL" \| "MA" \| "SE" \| "CH" \| "TH"`                             | `undefined` |
 
 
 ## Events

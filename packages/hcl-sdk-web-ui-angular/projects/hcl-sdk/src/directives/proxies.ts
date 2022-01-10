@@ -248,6 +248,25 @@ export class HclSdkIconBack {
 }
 
 
+export declare interface HclSdkIconCalendarClockOutline extends Components.HclSdkIconCalendarClockOutline {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-calendar-clock-outline',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconCalendarClockOutline {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
 export declare interface HclSdkIconCircular extends Components.HclSdkIconCircular {}
 @ProxyCmp({
   inputs: ['color', 'height', 'width']
@@ -259,6 +278,25 @@ export declare interface HclSdkIconCircular extends Components.HclSdkIconCircula
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconCircular {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconClockOutline extends Components.HclSdkIconClockOutline {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-clock-outline',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconClockOutline {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
