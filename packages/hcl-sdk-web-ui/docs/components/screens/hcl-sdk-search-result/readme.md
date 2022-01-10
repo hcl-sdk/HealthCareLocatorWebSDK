@@ -53,8 +53,11 @@ graph TD;
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-hcp-full-card --> hcl-sdk-select
+  hcl-sdk-hcp-full-card --> hcl-sdk-icon-clock-outline
+  hcl-sdk-hcp-full-card --> hcl-sdk-icon-arrow_down
   hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
+  hcl-sdk-doctor-card --> hcl-sdk-button
   hcl-sdk-doctor-card --> hcl-sdk-icon
   style hcl-sdk-search-result fill:#f9f,stroke:#333,stroke-width:4px
 ```

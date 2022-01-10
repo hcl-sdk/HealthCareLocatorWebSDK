@@ -28,12 +28,15 @@
 
 ### Depends on
 
+- [hcl-sdk-button](../hcl-sdk-button)
 - [hcl-sdk-icon](../hcl-sdk-icon)
 
 ### Graph
 ```mermaid
 graph TD;
+  hcl-sdk-doctor-card --> hcl-sdk-button
   hcl-sdk-doctor-card --> hcl-sdk-icon
+  hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-doctor-card
   style hcl-sdk-doctor-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
