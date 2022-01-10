@@ -238,26 +238,32 @@ export class HclSdkHCPFullCard {
       <Host>
         <div class="main-contain">
           <div class={toolbarClass}>
-            <div class="search-back-large">
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div class="search-back-large">
+                <hcl-sdk-button
+                  noBorder
+                  noBackground
+                  icon="back"
+                  iconColor={getCssColor('--hcl-color-dark')}
+                  onClick={this.backFromHcpFullCard.emit}>
+                  <span class="hidden-mobile">{
+                    searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
+                  }
+                  </span>
+                </hcl-sdk-button>
+              </div>
               <hcl-sdk-button
                 noBorder
                 noBackground
-                icon="back"
-                iconColor={getCssColor('--hcl-color-dark')}
-                onClick={this.backFromHcpFullCard.emit}>
-                <span class="hidden-mobile">{
-                  searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
-                }
-                </span>
-              </hcl-sdk-button>
+                icon="share"
+                iconColor={getCssColor('--hcl-color-grey_dark')}
+                onClick={this.handleShareHCPDetail}
+              />
             </div>
-            <hcl-sdk-button
-              noBorder
-              noBackground
-              icon="share"
-              iconColor={getCssColor('--hcl-color-grey_dark')}
-              onClick={this.handleShareHCPDetail}
-            />
           </div>
 
           <div class="main-block hcp-details-card" data-activity-id={individualDetail?.id} data-individual-id={individualDetail?.individualId}>
@@ -495,7 +501,7 @@ export class HclSdkHCPFullCard {
                     isShowRecommendation && (
                       <div class="info-section">
                         <div class="info-section-header">
-                          <span class="info-section-header__title">Recommendation &nbsp; <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
+                          <span class="info-section-header__title">Patient's Recommendation&nbsp;&nbsp;<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
                         </div>
                         <div class="info-section-body no-gap">
                           {
