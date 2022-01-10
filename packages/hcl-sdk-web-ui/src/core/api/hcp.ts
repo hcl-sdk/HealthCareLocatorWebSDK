@@ -295,7 +295,7 @@ export async function handleSearchMedicalTerms({ criteria, ...variables }: Parti
   const { codesByLabel: { codes } } = await graphql.codesByLabel({
     first: 30,
     offset: 0,
-    codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT", "ADA.PM_KW" ],
+    codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT" ],
     locale: i18nStore.state.lang,
     criteria: criteria,
     ...variables
