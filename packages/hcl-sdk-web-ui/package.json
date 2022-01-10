@@ -10,7 +10,8 @@
   "collection:main": "./dist/collection/index.js",
   "collection": "./dist/collection/collection-manifest.json",
   "scripts": {
-    "build": "stencil build",
+    "build": "yarn build:hcl-sdk-core && stencil build",
+    "build:hcl-sdk-core": "tsc -p ./types.tsconfig.json",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec",
     "test.watch": "stencil test --spec --watch",
