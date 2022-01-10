@@ -438,6 +438,11 @@ export class HclSdkSearchResult {
                           showDistance={elm.distanceNumber > 0}
                         />
                       ))}
+                      {/* TODO: Appointment link feature */}
+                      <div class={"search-result__footnote"}>
+                        <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder  />
+                        Appointment available for HCP profile
+                      </div>
                       {loadingActivities && (
                         <div class="search-result__loading">
                           <hcl-sdk-icon name="circular" />
