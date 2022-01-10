@@ -305,9 +305,12 @@ export class HclSdkHCPFullCard {
                         <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
                           <hcl-sdk-button round icon="direction" noBackground />
                         </a>
+                        {/* TODO: Appointment link feature */}
                         {
                           individualDetail?.makeAppointmentLink && (
-                            <hcl-sdk-button round icon="calendar-clock-outline" noBackground />
+                            <a href={"https://google.com"} target='_blank'>
+                              <hcl-sdk-button round icon="calendar-clock-outline" noBackground />
+                            </a>
                           )
                         }
                         {
