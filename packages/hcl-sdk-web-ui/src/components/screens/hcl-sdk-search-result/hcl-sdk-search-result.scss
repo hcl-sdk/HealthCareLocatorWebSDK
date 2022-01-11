@@ -90,6 +90,17 @@
       left: 0;
       right: 0;
     }
+
+    &__footnote {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+      margin-bottom: 16px;
+
+      svg {
+        fill: var(--hcl-color-secondary);
+      }
+    }
   }
 
   .search-result-summary {
