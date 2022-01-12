@@ -955,13 +955,13 @@ export class HclSdkRouter {
 
 export declare interface HclSdkRouterLink extends Components.HclSdkRouterLink {}
 @ProxyCmp({
-  inputs: ['activeClass', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaLabel', 'ariaPosinset', 'ariaSetsize', 'custom', 'url']
+  inputs: ['activeClass', 'anchorAriaLabel', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaPosinset', 'ariaSetsize', 'custom', 'url']
 })
 @Component({
   selector: 'hcl-sdk-router-link',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['activeClass', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaLabel', 'ariaPosinset', 'ariaSetsize', 'custom', 'url']
+  inputs: ['activeClass', 'anchorAriaLabel', 'anchorClass', 'anchorId', 'anchorRole', 'anchorTabIndex', 'anchorTitle', 'ariaHaspopup', 'ariaPosinset', 'ariaSetsize', 'custom', 'url']
 })
 export class HclSdkRouterLink {
   protected el: HTMLElement;

@@ -7,20 +7,20 @@
 
 ## Properties
 
-| Property         | Attribute          | Description | Type     | Default         |
-| ---------------- | ------------------ | ----------- | -------- | --------------- |
-| `activeClass`    | `active-class`     |             | `string` | `'link-active'` |
-| `anchorClass`    | `anchor-class`     |             | `string` | `undefined`     |
-| `anchorId`       | `anchor-id`        |             | `string` | `undefined`     |
-| `anchorRole`     | `anchor-role`      |             | `string` | `undefined`     |
-| `anchorTabIndex` | `anchor-tab-index` |             | `string` | `undefined`     |
-| `anchorTitle`    | `anchor-title`     |             | `string` | `undefined`     |
-| `ariaHaspopup`   | `aria-haspopup`    |             | `string` | `undefined`     |
-| `ariaLabel`      | `aria-label`       |             | `string` | `undefined`     |
-| `ariaPosinset`   | `aria-posinset`    |             | `string` | `undefined`     |
-| `ariaSetsize`    | `aria-setsize`     |             | `number` | `undefined`     |
-| `custom`         | `custom`           |             | `string` | `'a'`           |
-| `url`            | `url`              |             | `string` | `undefined`     |
+| Property          | Attribute           | Description | Type     | Default         |
+| ----------------- | ------------------- | ----------- | -------- | --------------- |
+| `activeClass`     | `active-class`      |             | `string` | `'link-active'` |
+| `anchorAriaLabel` | `anchor-aria-label` |             | `string` | `undefined`     |
+| `anchorClass`     | `anchor-class`      |             | `string` | `undefined`     |
+| `anchorId`        | `anchor-id`         |             | `string` | `undefined`     |
+| `anchorRole`      | `anchor-role`       |             | `string` | `undefined`     |
+| `anchorTabIndex`  | `anchor-tab-index`  |             | `string` | `undefined`     |
+| `anchorTitle`     | `anchor-title`      |             | `string` | `undefined`     |
+| `ariaHaspopup`    | `aria-haspopup`     |             | `string` | `undefined`     |
+| `ariaPosinset`    | `aria-posinset`     |             | `string` | `undefined`     |
+| `ariaSetsize`     | `aria-setsize`      |             | `number` | `undefined`     |
+| `custom`          | `custom`            |             | `string` | `'a'`           |
+| `url`             | `url`               |             | `string` | `undefined`     |
 
 
 ## Dependencies
