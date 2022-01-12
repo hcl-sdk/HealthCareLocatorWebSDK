@@ -128,7 +128,12 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
 
     const icon = L.icon({
       iconUrl: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor, isSelected),
-      iconSize: isCurrent ? [20, 20] : [25, 40],
+      // (25, 28) -> fit the icon image without space around so anchor is at x-center, y-bottom:
+      iconSize: isCurrent ? [20, 20] : [25, 28],
+      iconAnchor: isCurrent ? [10, 10] : [12.5, 28],
+      // anchor depends on the shape of marker
+      // icon me is a circle so we want to anchor it at the center
+      // other icon is a pin we want to anchor it horizontally center, vertically bottom
     });
     return icon;
   }
