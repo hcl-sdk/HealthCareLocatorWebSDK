@@ -289,13 +289,13 @@ export namespace Components {
     }
     interface HclSdkRouterLink {
         "activeClass": string;
+        "anchorAriaLabel"?: string;
         "anchorClass"?: string;
         "anchorId"?: string;
         "anchorRole"?: string;
         "anchorTabIndex"?: string;
         "anchorTitle"?: string;
         "ariaHaspopup"?: string;
-        "ariaLabel"?: string;
         "ariaPosinset"?: string;
         "ariaSetsize"?: number;
         "custom": string;
@@ -1056,13 +1056,13 @@ declare namespace LocalJSX {
     }
     interface HclSdkRouterLink {
         "activeClass"?: string;
+        "anchorAriaLabel"?: string;
         "anchorClass"?: string;
         "anchorId"?: string;
         "anchorRole"?: string;
         "anchorTabIndex"?: string;
         "anchorTitle"?: string;
         "ariaHaspopup"?: string;
-        "ariaLabel"?: string;
         "ariaPosinset"?: string;
         "ariaSetsize"?: number;
         "custom"?: string;
