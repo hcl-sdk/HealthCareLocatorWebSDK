@@ -16,8 +16,7 @@
     "@angular/platform-browser": "~13.1.1",
     "@angular/platform-browser-dynamic": "~13.1.1",
     "@angular/router": "~13.1.1",
-    "@healthcarelocator/sdk-angular": "*",
-    "@healthcarelocator/sdk-web": "*",
+    "@healthcarelocator/sdk-angular": "0.0.22",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },
