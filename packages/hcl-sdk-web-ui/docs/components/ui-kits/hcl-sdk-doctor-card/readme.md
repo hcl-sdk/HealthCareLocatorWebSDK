@@ -17,6 +17,7 @@
 | `selected`          | `selected`           |             | `boolean` | `undefined` |
 | `showDistance`      | `show-distance`      |             | `boolean` | `true`      |
 | `specialtyPrimary`  | `specialty-primary`  |             | `string`  | `undefined` |
+| `url`               | `url`                |             | `string`  | `undefined` |
 | `viewMode`          | `view-mode`          |             | `string`  | `undefined` |
 
 
