@@ -9,8 +9,7 @@ import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 import { SearchSpecialty } from '../../../core/stores/SearchMapStore';
 import { localizeDay, WeekDayToNumber } from '../../../utils/dateUtils';
 import startOfTomorrow from 'date-fns/startOfTomorrow'
-import { format, parseISO } from 'date-fns';
-import { formatISO } from 'date-fns/esm';
+import { format } from 'date-fns';
 
 const MAX_DISPLAY_TERMS = 5
 
