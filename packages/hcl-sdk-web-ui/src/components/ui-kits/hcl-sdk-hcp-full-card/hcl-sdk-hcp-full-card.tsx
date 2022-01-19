@@ -7,6 +7,10 @@ import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 import { SearchSpecialty } from '../../../core/stores/SearchMapStore';
+import { localizeDay, WeekDayToNumber } from '../../../utils/dateUtils';
+import startOfTomorrow from 'date-fns/startOfTomorrow'
+import { format, parseISO } from 'date-fns';
+import { formatISO } from 'date-fns/esm';
 
 const MAX_DISPLAY_TERMS = 5
 
@@ -187,6 +191,101 @@ export class HclSdkHCPFullCard {
     this.showOpeningHours = !this.showOpeningHours
   }
 
+  getNextOpenEvents = (openHours) => {
+   const now = new Date();
+
+    const days = openHours.map(h => h.day)
+
+    // get today or closest day in the future from openHours
+    const nextDay = this.getNextDay(days);
+
+    const dayToOpenPeriods = openHours.reduce((acc, cur) => {
+      acc[WeekDayToNumber[cur.day]] = cur.openPeriods;
+      return acc;
+    }, {});
+
+    const openTime = this.getTime(dayToOpenPeriods[nextDay].open);
+    const closeTime = this.getTime(dayToOpenPeriods[nextDay].close);
+
+    // not today or today but not open yet
+    if (now.getDay() !== nextDay || this.getDayMinutes(now) < this.getDayMinutes(openTime)) {
+      return {
+        status: 'close',
+        next: {
+          status: 'open',
+          time: this.formatTime(nextDay, openTime),
+        },
+      };
+      // today, currently open
+    } else if (this.getDayMinutes(now) <= this.getDayMinutes(closeTime)) {
+      return {
+        status: 'open',
+        next: {
+          status: 'close',
+          time: this.formatTime(nextDay, closeTime),
+        },
+      };
+      // today, but closed
+    } else {
+      const nextDay = this.getNextDay(days, startOfTomorrow())
+      const openTime = this.getTime(dayToOpenPeriods[nextDay].open);
+
+      return {
+        status: 'close',
+        next: {
+          status: 'open',
+          time: this.formatTime(nextDay, openTime)
+        }
+      }
+    }
+  };
+
+  getNextDay = (days, from?: Date) => {
+    const today = from?.getDay() || new Date().getDay();
+    const availableDays = days.map(day => WeekDayToNumber[day]);
+
+    let nextDay = null;
+
+    for (const day of availableDays) {
+      if (today <= day) {
+        nextDay = day;
+        break;
+      }
+    }
+
+    if (!nextDay) {
+      nextDay = availableDays[0];
+    }
+
+    return nextDay;
+  };
+
+  formatTime = (day: number, time: Date) => {
+    const formatOption = {
+      timeStyle: 'short',
+      hour12: true,
+    };
+
+    return (
+      localizeDay(day, i18nStore.state.lang) +
+      ' ' +
+      new Intl.DateTimeFormat(i18nStore.state.lang, formatOption).format(time)
+    );
+  };
+
+  // format of time e.g '19:00:00'
+  getTime = (openTime: string) => {
+    const time = new Date();
+    const timeParts = openTime.split(':');
+    time.setHours(+timeParts[0]);
+    time.setMinutes(+timeParts[1]);
+    return time;
+  };
+
+  getDayMinutes = (openTime: Date) => {
+    return openTime.getHours() * 60 + openTime.getMinutes();
+  };
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -232,7 +331,14 @@ export class HclSdkHCPFullCard {
     const reviewResult = individualDetail?.reviewsByIndividual
     const isShowRecommendation = reviewResult && (reviewResult.diseases.length > 0 || reviewResult.reviews.length > 0)
 
-    const openingHours = individualDetail?.openingHours
+    const openHours = individualDetail?.openHours?.filter(hour => !!hour.day)
+    const openingStatus = !!openHours?.length ? this.getNextOpenEvents(openHours) : null
+
+    const formattedOpenPeriods = (openHours ?? []).map(hour => ({
+      day: localizeDay(WeekDayToNumber[hour.day], i18nStore.state.lang),
+      open: format(this.getTime(hour.openPeriods.open), 'h:mm a'),
+      close: format(this.getTime(hour.openPeriods.close), 'h:mm a')
+    }))
 
     return (
       <Host>
@@ -307,8 +413,8 @@ export class HclSdkHCPFullCard {
                         </a>
                         {/* TODO: Appointment link feature */}
                         {
-                          individualDetail?.makeAppointmentLink && (
-                            <a href={"https://google.com"} target='_blank'>
+                          individualDetail?.url && (
+                            <a href={individualDetail?.url} target='_blank'>
                               <hcl-sdk-button round icon="calendar-clock-outline" noBackground />
                             </a>
                           )
@@ -372,12 +478,18 @@ export class HclSdkHCPFullCard {
                         )
                       }
 
-                      {openingHours && (
+                      {!!openHours?.length && (
                         <div class="opening-hours-disclosure">
                           <button class="opening-hours-disclosure__btn" onClick={this.toggleOpeningHoursDisclosure}>
                             <hcl-sdk-icon-clock-outline width={15} height={15} color={getCssColor('--hcl-color-grey')} />
                             <div>
-                              <span class="opening-hour--closing">Opens soon</span> &#183; 9am
+                            {openingStatus && 
+                              <span class={cls('opening-hour')}>
+                                <span class={cls('opening-hour__status', { 'opening-hour__status--close': openingStatus.status === 'close' })}>
+                                  {openingStatus.status}
+                                </span>
+                                &nbsp;&#183;&nbsp;{openingStatus.next.status} {openingStatus.next.time}
+                              </span>}
                             </div>
                             <hcl-sdk-icon-arrow_down width={15} height={15} class="arrow-icon" color={getCssColor('--hcl-color-grey')} />
                           </button>
@@ -386,10 +498,10 @@ export class HclSdkHCPFullCard {
                               open: this.showOpeningHours,
                             })}
                           >
-                            {openingHours.map(hour => (
+                            {formattedOpenPeriods.map(hour => (
                               <div class="opening-hour-item">
                                 <div>{hour.day}</div>
-                                <div>{hour.time}</div>
+                                <div>{hour.open} - {hour.close}</div>
                               </div>
                             ))}
                           </div>

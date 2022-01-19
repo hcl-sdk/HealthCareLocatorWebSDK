@@ -14,19 +14,30 @@ const QUERY_ACTIVITY_BY_ID = gql`
     ) {
       id
       phone
-      role{
+      url {
+        doctolib
+        arzttermine
+      }
+      role {
         code
         label
       }
       fax
       webAddress
-      workplace{
+      workplace {
         id
         name
         intlPhone
         intlFax
         localPhone
-        address{
+        openHours {
+          day
+          openPeriods {
+            open
+            close
+          }
+        }
+        address {
           longLabel
           country
           postalCode

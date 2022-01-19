@@ -25,6 +25,10 @@ const QUERY_ACTIVITIES = gql`
       relevance
       activity {
         id
+        url {
+          doctolib
+          arzttermine
+        }
         individual {
           id
           firstName
@@ -46,6 +50,13 @@ const QUERY_ACTIVITIES = gql`
         }
         workplace {
           id
+          openHours {
+            day
+            openPeriods {
+              open
+              close
+            }
+          }
           address {
             longLabel
             buildingLabel

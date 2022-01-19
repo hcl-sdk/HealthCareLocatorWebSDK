@@ -18,6 +18,7 @@ export class HclSdkDoctorCard {
   @Prop() showDistance: boolean = true;
   @Prop() reviewsAvailable: boolean;
   @Prop() diseasesAvailable: boolean;
+  @Prop() url: string
 
   render() {
     const doctorClass = cn("doctor-card", {
@@ -33,7 +34,7 @@ export class HclSdkDoctorCard {
             <div class="header">
               <span class="text name">{this.name}&nbsp;&nbsp; { isShowLogo && <img src="https://www.mapatho.com/favicon.ico" alt="" /> }</span>
               {/* TODO: Appointment link feature */}
-              <a href={"https://google.com"} target='_blank' onClick={e => e.stopPropagation()}>
+              <a href={this.url} target='_blank' onClick={e => e.stopPropagation()}>
                 <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder  />
               </a>
             </div>
