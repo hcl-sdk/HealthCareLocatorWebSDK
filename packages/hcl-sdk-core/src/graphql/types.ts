@@ -15,10 +15,16 @@ export type Scalars = {
   Time: any;
 };
 
+type Url = {
+  doctolib: Maybe<Scalars['String']>;
+  arzttermine: Maybe<Scalars['String']>;
+};
+
 export type Activity = OneKeyEntity & {
   __typename?: 'Activity';
   id: Scalars['ID'];
   main_flag?: Maybe<Scalars['String']>;
+  url: Url;
   role: KeyedString;
   title: KeyedString;
   phone?: Maybe<Scalars['String']>;
@@ -49,6 +55,7 @@ export type ActivityFragment = OneKeyEntity & {
   webAddress?: Maybe<Scalars['String']>;
   individual: IndividualFragment;
   workplace: Workplace;
+  url?: Url
 };
 
 export type ActivityList = OneKeyEntity & {
@@ -565,10 +572,6 @@ export type Uci = {
   zsr?: Maybe<Scalars['String']>;
 };
 
-export type WeeklyOpenHours = {
-  __typename?: 'WeeklyOpenHours';
-  openDays: DailyOpenHours;
-};
 
 export type Workplace = OneKeyEntity & {
   __typename?: 'Workplace';
@@ -582,7 +585,7 @@ export type Workplace = OneKeyEntity & {
   webAddress?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
   address: Address;
-  openHours?: Maybe<Array<Maybe<WeeklyOpenHours>>>;
+  openHours?: Maybe<Array<Maybe<DailyOpenHours>>>;
   parentId?: Maybe<Scalars['String']>;
 };
 

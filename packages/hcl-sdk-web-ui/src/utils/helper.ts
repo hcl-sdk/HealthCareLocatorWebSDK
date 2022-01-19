@@ -267,4 +267,16 @@ export const handleMapActivities = (item: ActivityResult) => ({
   id: item.activity.id,
   reviewsAvailable: item.activity.individual.reviewsAvailable,
   diseasesAvailable: item.activity.individual.diseasesAvailable,
+  url: getUrl(item.activity.workplace.address.country, item.activity.url)
 })
+
+export function getUrl(country, url) {
+  switch (country) {
+    case 'FR':
+      return url['doctolib'];
+    case 'DE':
+      return url['arzttermine'];
+    default:
+      return null;
+  }
+}

@@ -104,10 +104,13 @@ export type IndividualDetail = {
     reviews: Review[]
     idnat: string
   }
-  makeAppointmentLink?: string
-  openingHours?: {
-    day: string
-    time: string
+  url?: string
+  openHours?: {
+    day?: string
+    openPeriods?: {
+      open?: string
+      close?: string
+    }
   }[]
 }
 

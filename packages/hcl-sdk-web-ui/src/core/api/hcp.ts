@@ -9,7 +9,8 @@ import {
   getCombineListTerms, 
   convertToMeter, 
   getSpecialties, 
-  handleMapActivities 
+  handleMapActivities,
+  getUrl
 } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
@@ -350,35 +351,9 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     reviewsAvailable: activity.individual.reviewsAvailable,
     diseasesAvailable: activity.individual.diseasesAvailable,
     reviewsByIndividual: undefined,
-    makeAppointmentLink: '#',
-    // mock openingHours
-    openingHours: [
-      {
-        day: 'Monday',
-        time: '9am - 7pm',
-      },
-      {
-        day: 'Tuesday',
-        time: '9am - 7pm',
-      },
-      {
-        day: 'Wednesday',
-        time: '9am - 7pm',
-      },
-      {
-        day: 'Thursday',
-        time: '9am - 7pm',
-      },
-      {
-        day: 'Friday',
-        time: '9am - 7pm',
-      },
-      {
-        day: 'Saturday',
-        time: '9am - 12pm',
-      }
-    ],
-  }
+    url: getUrl(activity.workplace.address.country, activity.url),
+    openHours: activity.workplace.openHours
+  };
 
   // Fetch to get reviews
   let idnat: string
