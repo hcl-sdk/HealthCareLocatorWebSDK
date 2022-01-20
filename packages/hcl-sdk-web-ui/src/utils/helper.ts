@@ -1,7 +1,7 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, ActivityResult, Individual, IndividualFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
+import { ActivityList, ActivityResult, Individual, IndividualFragment, IndividualSuggestFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
 import { SearchSpecialty } from '../core/stores/SearchMapStore'
@@ -163,7 +163,7 @@ export function fallbackShareHCPDetail(individualDetail, config) {
   link.click();
 }
 
-export function getHcpFullname(individual: Individual | IndividualFragment) {
+export function getHcpFullname(individual: Individual | IndividualFragment | IndividualSuggestFragment) {
   const { firstName, lastName, middleName } = individual;
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');

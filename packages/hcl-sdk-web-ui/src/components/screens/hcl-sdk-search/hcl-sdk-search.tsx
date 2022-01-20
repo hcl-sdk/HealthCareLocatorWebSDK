@@ -330,7 +330,7 @@ export class HclSdkSearch {
         locationFilter: item,
       });
     }
-    if (this.currentSelectedInput === 'name' && item.professionalType) {
+    if (this.currentSelectedInput === 'name') {
       searchMapStore.resetDataSearch({
         isResetHCPDetail: true,
         isResetSearchFields: true,

@@ -16,7 +16,15 @@ import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
 import { getGooglePlaceDetails } from './searchGeo';
-import { ActivityCriteria, ActivityCriteriaScope, ActivityResult, QueryActivitiesArgs, QueryCodesByLabelArgs, QueryIndividualsByNameArgs } from '../../../../hcl-sdk-core/src/graphql/types';
+import {
+  ActivityCriteria,
+  ActivityCriteriaScope,
+  ActivityResult,
+  QueryActivitiesArgs,
+  QueryCodesByLabelArgs,
+  QueryIndividualsByNameArgs,
+  SuggestScope,
+} from '../../../../hcl-sdk-core/src/graphql/types';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -231,81 +239,101 @@ export async function searchLocation(variables, {
   }
 }
 
-export async function searchDoctor({ criteria, ...variables }: Partial<QueryIndividualsByNameArgs>) {
+export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameArgs>) {
   searchMapStore.setState({ loading: true });
 
-  const { individualsByName: { individuals } } = await graphql.individualsByName({
-    locale: i18nStore.state.lang,
-    first: 30,
-    offset: 0,
-    country: configStore.countryGraphqlQuery,
+  const variables: Parameters<typeof graphql.suggest>[0] = {
     criteria: criteria,
-    ...variables,
-  }, configStore.configGraphql).catch(_ => ({ individualsByName: { individuals: null } }))
+    locale: i18nStore.state.lang,
+    scope: SuggestScope.Individual,
+    country: configStore.countryGraphqlQuery,
+    specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
+    medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
+  }
 
-  const individualsData: SelectedIndividual[] = individuals ? individuals.map((item) => {
-    const longLabel = item.mainActivity.workplace.address.longLabel
-    const city = item.mainActivity.workplace.address.city.label
-    const postalCode = item.mainActivity.workplace.address.postalCode
+  const {
+    suggest: { results },
+  } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
 
-    return {
-      name: getHcpFullname(item),
-      professionalType: item.professionalType.label,
-      specialties: getSpecialtiesText(item.specialties),
-      address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
-      id: item.mainActivity.id,
-      activity: item.mainActivity
-    }
-  }) : []
+  const individualsData: SelectedIndividual[] = results
+    ? results.map(item => {
+        const mainActivity = item.individual?.mainActivity;
+
+        const longLabel = mainActivity?.workplace?.address?.longLabel;
+        const city = mainActivity?.workplace?.address?.city?.label;
+        const postalCode = mainActivity?.workplace?.address?.postalCode;
+
+        return {
+          name: getHcpFullname(item.individual),
+          specialties: getSpecialtiesText(item.individual.specialties),
+          address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
+          id: mainActivity.id,
+          activity: mainActivity,
+        };
+      })
+    : [];
 
   searchMapStore.setState({ loading: false, searchDoctor: individualsData });
 }
 
-export async function handleSearchSpecialty({ criteria, ...variables }: Partial<QueryCodesByLabelArgs>) {
+export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLabelArgs>) {
   if (!criteria || criteria.length < 3) {
     return null;
   }
 
   searchMapStore.setState({ loading: true });
 
-  const { codesByLabel: { codes } } = await graphql.codesByLabel({
-    first: 30,
-    offset: 0,
-    codeTypes: ["SP"],
-    locale: i18nStore.state.lang,
-    country: configStore.countryGraphqlQuery,
+  const variables: Parameters<typeof graphql.suggest>[0] = {
     criteria: criteria,
-    ...variables,
-  }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
+    locale: i18nStore.state.lang,
+    scope: SuggestScope.Specialty,
+    country: configStore.countryGraphqlQuery,
+    specialties: [],
+    medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
+    first: 60
+  }
 
-  const codesData: SearchSpecialty[] = codes ? codes.map((item) => ({
-    name: `${item.longLbl}`,
-    id: item.id
-  })) : []
+  const {
+    suggest: { results },
+  } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
+
+  const codesData: SearchSpecialty[] = results
+    ? results
+        .map(item => ({
+          name: `${item.specialty.label}`,
+          id: item.specialty.code,
+        }))
+        .filter(item => item.id.startsWith('SP'))
+    : [];
 
   searchMapStore.setState({ loading: false, searchSpecialty: codesData });  
 }
 
-export async function handleSearchMedicalTerms({ criteria, ...variables }: Partial<QueryCodesByLabelArgs>) {
+export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesByLabelArgs>) {
   if (!criteria || criteria.length < 3) {
     return null;
   }
 
   searchMapStore.setState({ loading: true });
 
-  const { codesByLabel: { codes } } = await graphql.codesByLabel({
-    first: 30,
-    offset: 0,
-    codeTypes: [ "ADA.INT_AR_PUB", "ADA.PM_CT" ],
-    locale: i18nStore.state.lang,
+  const variables: Parameters<typeof graphql.suggest>[0] = {
     criteria: criteria,
-    ...variables
-  }, configStore.configGraphql).catch(_ => ({ codesByLabel: { codes: null } }))
+    locale: i18nStore.state.lang,
+    scope: SuggestScope.MedTerm,
+    country: configStore.countryGraphqlQuery,
+    specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
+    medTerms: [],
+    first: 30
+  }
 
-  const codesData: SearchTermItem[] = codes ? codes.map((item) => ({
-    name: item.longLbl,
-    id: item.id,
-    lisCode: item.lisCode
+  const {
+    suggest: { results },
+  } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
+
+  const codesData: SearchTermItem[] = results ? results.map((item) => ({
+    name: item.medTerm.label,
+    id: item.medTerm.code,
+    lisCode: ''
   })) : []
 
   searchMapStore.setState({ loading: false, searchMedicalTerms: codesData });
