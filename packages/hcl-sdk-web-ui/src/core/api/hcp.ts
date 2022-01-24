@@ -74,6 +74,24 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   return {  }
 }
 
+function getLocationForSuggest() {
+  if (!searchMapStore.state.locationFilter) {
+    return;
+  }
+
+  if (searchMapStore.state.locationFilter.id === NEAR_ME) {
+    return {
+      lat: Number(searchMapStore.state.geoLocation.latitude),
+      lon: Number(searchMapStore.state.geoLocation.longitude),
+    };
+  }
+
+  return {
+    lat: Number(searchMapStore.state.locationFilter.lat),
+    lon: Number(searchMapStore.state.locationFilter.lng),
+  };
+}
+
 export async function genSearchLocationParams({
   forceNearMe = false,
   locationFilter,
@@ -243,13 +261,15 @@ export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameA
   searchMapStore.setState({ loading: true });
 
   const variables: Parameters<typeof graphql.suggest>[0] = {
+    first: 30,
     criteria: criteria,
     locale: i18nStore.state.lang,
     scope: SuggestScope.Individual,
     country: configStore.countryGraphqlQuery,
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
-  }
+    location: getLocationForSuggest(),
+  };
 
   const {
     suggest: { results },
@@ -284,14 +304,15 @@ export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLa
   searchMapStore.setState({ loading: true });
 
   const variables: Parameters<typeof graphql.suggest>[0] = {
+    first: 60,
     criteria: criteria,
     locale: i18nStore.state.lang,
     scope: SuggestScope.Specialty,
     country: configStore.countryGraphqlQuery,
     specialties: [],
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
-    first: 60
-  }
+    location: getLocationForSuggest(),
+  };
 
   const {
     suggest: { results },
@@ -317,14 +338,15 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
   searchMapStore.setState({ loading: true });
 
   const variables: Parameters<typeof graphql.suggest>[0] = {
+    first: 30,
     criteria: criteria,
     locale: i18nStore.state.lang,
     scope: SuggestScope.MedTerm,
     country: configStore.countryGraphqlQuery,
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: [],
-    first: 30
-  }
+    location: getLocationForSuggest(),
+  };
 
   const {
     suggest: { results },
