@@ -21,7 +21,6 @@ const MAX_DISPLAY_TERMS = 5
 export class HclSdkHCPFullCard {
   @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
-  @State() currentSeachTerm: string = ''
   @State() isViewMoreTerms: boolean = false;
   @State() isViewMoreSpecialties: boolean = false;
   @State() showOpeningHours: boolean = false;
@@ -51,14 +50,9 @@ export class HclSdkHCPFullCard {
   componentWillUpdate() {
     const { medicalTermsFilter } = searchMapStore.state
 
-    if (this.currentSeachTerm || !medicalTermsFilter || !medicalTermsFilter.name) {
+    if (!medicalTermsFilter || !medicalTermsFilter.name) {
       return
     }
-
-    // Copy and keep the current search
-    //  to avoid users change the search terms in the second time
-    //  but not click on the button search yet.
-    this.currentSeachTerm = medicalTermsFilter.name.toLowerCase()
   }
 
   disconnectedCallback() {
@@ -186,6 +180,19 @@ export class HclSdkHCPFullCard {
     ]
   }
 
+  moveHighlightedMedTermOnTop(originalListMedTerms: string[], medTerm: string) {
+    const highlightSpecialties = originalListMedTerms.filter(orignalSpec => 
+      medTerm.toLowerCase() === orignalSpec.toLowerCase()
+    )
+    const exceptHighlightedSpecialties = originalListMedTerms.filter(orignalSpec => 
+      medTerm.toLowerCase() !== orignalSpec.toLowerCase()
+    )
+    return [
+      ...highlightSpecialties,
+      ...exceptHighlightedSpecialties
+    ]
+  }
+
   toggleOpeningHoursDisclosure = () => {
     this.showOpeningHours = !this.showOpeningHours
   }
@@ -302,7 +309,8 @@ export class HclSdkHCPFullCard {
       individualDetailName,
       loadingSwitchAddress,
       loadingIndividualDetail,
-      specialtyFilter
+      specialtyFilter,
+      medicalTermsFilter
     } = searchMapStore.state;
     const { showSuggestModification } = configStore.state;
 
@@ -314,10 +322,7 @@ export class HclSdkHCPFullCard {
 
     // Handle to render and highlight medical terms
     const originalListTerms = (individualDetail && individualDetail.listTerms) || []
-    const listTerms = this.currentSeachTerm ? [
-      this.currentSeachTerm,
-      ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
-    ]: originalListTerms;
+    const listTerms = medicalTermsFilter ? this.moveHighlightedMedTermOnTop(originalListTerms, medicalTermsFilter.name) : originalListTerms;
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
     
     // Handle to render and highlight specialties. Move the selected specialties to the first order
@@ -580,16 +585,20 @@ export class HclSdkHCPFullCard {
                         <div class="info-section-body">
                           <ul class="medical-subjects">
                           {
-                            listTerms.map((label: string, idx: number) => {
+                            listTerms.map((label, idx: number) => {
                               if (!this.isViewMoreTerms && idx >= MAX_DISPLAY_TERMS) {
                                 return null
                               }
 
                               return (
-                                <li class={cls('medical-subjects__item', {
-                                  'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
-                                })}>{label}</li>
-                              )
+                                <li
+                                  class={cls('medical-subjects__item', {
+                                    'medical-subjects__item--highlight': medicalTermsFilter && label.toLowerCase() === medicalTermsFilter.name.toLowerCase(),
+                                  })}
+                                >
+                                  {label}
+                                </li>
+                              );
                             })
                           }
                           {

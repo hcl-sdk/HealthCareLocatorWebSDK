@@ -333,7 +333,7 @@ export class HclSdkSearch {
     if (this.currentSelectedInput === 'name') {
       searchMapStore.resetDataSearch({
         isResetHCPDetail: true,
-        isResetSearchFields: true,
+        isResetSearchFields: false,
       })
       searchMapStore.setState({
         searchFields: {
