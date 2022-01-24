@@ -15,119 +15,94 @@ export type Scalars = {
   Time: any;
 };
 
-type Url = {
-  doctolib: Maybe<Scalars['String']>;
-  arzttermine: Maybe<Scalars['String']>;
-};
-
 export type Activity = OneKeyEntity & {
   __typename?: 'Activity';
+  fax?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  individual: Individual;
   main_flag?: Maybe<Scalars['String']>;
-  url: Url;
+  phone?: Maybe<Scalars['String']>;
   role: KeyedString;
   title: KeyedString;
-  phone?: Maybe<Scalars['String']>;
-  fax?: Maybe<Scalars['String']>;
+  url?: Maybe<Url>;
   webAddress?: Maybe<Scalars['String']>;
-  individual: Individual;
   workplace: Workplace;
 };
 
 export type ActivityCriteria = {
-  text?: InputMaybe<Scalars['String']>;
-  scope?: InputMaybe<ActivityCriteriaScope>;
+  scope: ActivityCriteriaScope;
+  text: Scalars['String'];
 };
 
+/** CriteriaScope enums : Scope of the criteria parameter for a given entity. A scope is a way of using the criteria in a query." */
 export enum ActivityCriteriaScope {
+  IndividualMedTerms = 'IndividualMedTerms',
   IndividualName = 'IndividualName',
   IndividualNameAutocomplete = 'IndividualNameAutocomplete',
-  IndividualMedTerms = 'IndividualMedTerms'
+  IndividualSpecialties = 'IndividualSpecialties'
 }
 
 export type ActivityFragment = OneKeyEntity & {
   __typename?: 'ActivityFragment';
+  fax?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  individual: IndividualFragment;
+  phone?: Maybe<Scalars['String']>;
   role: KeyedString;
   title: KeyedString;
-  phone?: Maybe<Scalars['String']>;
-  fax?: Maybe<Scalars['String']>;
+  url?: Maybe<Url>;
   webAddress?: Maybe<Scalars['String']>;
-  individual: IndividualFragment;
   workplace: Workplace;
-  url?: Url
 };
 
 export type ActivityList = OneKeyEntity & {
   __typename?: 'ActivityList';
+  fax?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   main_flag?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
   role: KeyedString;
   title: KeyedString;
-  phone?: Maybe<Scalars['String']>;
-  fax?: Maybe<Scalars['String']>;
   webAddress?: Maybe<Scalars['String']>;
   workplace: Workplace;
 };
 
 export type ActivityQueryEntry = {
   __typename?: 'ActivityQueryEntry';
-  when?: Maybe<Scalars['Date']>;
   activity?: Maybe<ActivityFragment>;
+  when?: Maybe<Scalars['Date']>;
 };
 
 export type ActivityResult = {
   __typename?: 'ActivityResult';
+  activity: ActivityFragment;
   distance?: Maybe<Scalars['Float']>;
   relevance?: Maybe<Scalars['Int']>;
-  activity: ActivityFragment;
 };
 
+/** SortScope enums : Scope of the sort for a given entity. A scope is a way of sorting the query results." */
 export enum ActivitySortScope {
-  WorkplaceDistance = 'WorkplaceDistance',
   IndividualName = 'IndividualName',
-  Relevancy = 'Relevancy'
+  Relevancy = 'Relevancy',
+  WorkplaceDistance = 'WorkplaceDistance'
 }
 
-export type Address = {
+/** An international address definition */
+export type Address = OneKeyEntity & {
   __typename?: 'Address';
-  id: Scalars['ID'];
-  longLabel: Scalars['String'];
   buildingLabel?: Maybe<Scalars['String']>;
+  city: KeyedString;
   country: Scalars['String'];
   county?: Maybe<KeyedString>;
-  city: KeyedString;
-  postalCode: Scalars['String'];
+  id: Scalars['ID'];
   location?: Maybe<Geopoint>;
+  longLabel: Scalars['String'];
+  postalCode: Scalars['String'];
 };
 
 export type Audience = {
   __typename?: 'Audience';
   label?: Maybe<Scalars['String']>;
-};
-
-export enum AutocompleteCriteriaScope {
-  Name = 'Name',
-  Specialty = 'Specialty',
-  Address = 'Address',
-  MedTerm = 'MedTerm'
-}
-
-export type AutocompleteFragment = OneKeyEntity & {
-  __typename?: 'AutocompleteFragment';
-  id: Scalars['ID'];
-  individual: IndividualAutocompleteFragment;
-  address: Address;
-  specialty?: Maybe<KeyedString>;
-  medTerm?: Maybe<KeyedString>;
-};
-
-export type AutocompleteResult = {
-  __typename?: 'AutocompleteResult';
-  from?: Maybe<Scalars['Int']>;
-  size?: Maybe<Scalars['Int']>;
-  total?: Maybe<Scalars['Int']>;
-  results?: Maybe<Array<Maybe<AutocompleteFragment>>>;
 };
 
 export type CityQuery = {
@@ -137,25 +112,27 @@ export type CityQuery = {
 
 export type Code = {
   __typename?: 'Code';
-  id?: Maybe<Scalars['String']>;
-  lisLbl: Scalars['String'];
-  lisCode: Scalars['String'];
-  updateDate?: Maybe<Scalars['String']>;
   dbCode?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  lisCode: Scalars['String'];
+  lisLbl: Scalars['String'];
   locale?: Maybe<Scalars['String']>;
   longLbl: Scalars['String'];
+  /**  This corresponds to the long label */
   shortLbl?: Maybe<Scalars['String']>;
+  /** This corresponds to the lis code */
+  updateDate?: Maybe<Scalars['String']>;
 };
 
 export type CodeCriteria = {
-  text?: InputMaybe<Scalars['String']>;
   scope?: InputMaybe<CodeCriteriaScope>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 export enum CodeCriteriaScope {
+  Id = 'Id',
   LongLbl = 'LongLbl',
-  LongLblAutocomplete = 'LongLblAutocomplete',
-  Id = 'Id'
+  LongLblAutocomplete = 'LongLblAutocomplete'
 }
 
 export type CodeResult = {
@@ -163,6 +140,12 @@ export type CodeResult = {
   codes?: Maybe<Array<Maybe<Code>>>;
 };
 
+export type ContextKey = {
+  __typename?: 'contextKey';
+  name?: Maybe<Scalars['String']>;
+};
+
+/** List of countries */
 export type Country = {
   __typename?: 'Country';
   code?: Maybe<Scalars['String']>;
@@ -174,16 +157,17 @@ export type CountyQuery = {
   label?: InputMaybe<Scalars['String']>;
 };
 
+/** Filter criteria put by User to save History */
 export type Criteria = {
   __typename?: 'Criteria';
-  id?: Maybe<Scalars['String']>;
-  professionalType?: Maybe<Scalars['String']>;
-  lat?: Maybe<Scalars['String']>;
-  log?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['String']>;
   county?: Maybe<Scalars['String']>;
-  locale?: Maybe<Scalars['String']>;
   criteria?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  lat?: Maybe<Scalars['String']>;
+  locale?: Maybe<Scalars['String']>;
+  log?: Maybe<Scalars['String']>;
+  professionalType?: Maybe<Scalars['String']>;
+  radius?: Maybe<Scalars['String']>;
 };
 
 export type DailyOpenHours = {
@@ -193,18 +177,18 @@ export type DailyOpenHours = {
 };
 
 export type DataQualityAssessment = {
-  grade: Scalars['String'];
   comment?: InputMaybe<Scalars['String']>;
+  grade: Scalars['String'];
 };
 
 export enum Day {
-  Monday = 'MONDAY',
-  Tuesday = 'TUESDAY',
-  Wednesday = 'WEDNESDAY',
-  Thursday = 'THURSDAY',
   Friday = 'FRIDAY',
+  Monday = 'MONDAY',
   Saturday = 'SATURDAY',
-  Sunday = 'SUNDAY'
+  Sunday = 'SUNDAY',
+  Thursday = 'THURSDAY',
+  Tuesday = 'TUESDAY',
+  Wednesday = 'WEDNESDAY'
 }
 
 export type Disease = {
@@ -224,83 +208,75 @@ export type Geopoint = {
 };
 
 export type GeopointQuery = {
+  distanceMeter?: InputMaybe<Scalars['Float']>;
   lat: Scalars['Float'];
   lon: Scalars['Float'];
-  distanceMeter?: InputMaybe<Scalars['Float']>;
 };
 
 export type HistoryActivityResult = {
   __typename?: 'HistoryActivityResult';
-  userId?: Maybe<Scalars['String']>;
-  subscriptionId?: Maybe<Scalars['String']>;
-  when?: Maybe<Scalars['String']>;
   activityId?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+  when?: Maybe<Scalars['String']>;
 };
 
+/** History Query model is to save 5 search criteria for User */
 export type HistoryQueryResult = {
   __typename?: 'HistoryQueryResult';
-  queryId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-  subscriptionId?: Maybe<Scalars['String']>;
-  when?: Maybe<Scalars['String']>;
   filterCriteria?: Maybe<Criteria>;
+  queryId?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+  when?: Maybe<Scalars['String']>;
 };
 
 export type Individual = OneKeyEntity & {
   __typename?: 'Individual';
-  id: Scalars['ID'];
-  title: KeyedString;
+  chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
+  diseasesAvailable?: Maybe<Scalars['Boolean']>;
   firstName?: Maybe<Scalars['String']>;
+  firstNameInitials?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
   lastName: Scalars['String'];
-  middleName?: Maybe<Scalars['String']>;
   maidenName?: Maybe<Scalars['String']>;
   mailingName?: Maybe<Scalars['String']>;
-  firstNameInitials?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  suffixName?: Maybe<Scalars['String']>;
-  professionalType: KeyedString;
-  specialties: Array<KeyedString>;
-  webAddress?: Maybe<Scalars['String']>;
   mainActivity: ActivityList;
-  otherActivities: Array<ActivityList>;
   meshTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  uci?: Maybe<Uci>;
-  reviewsAvailable?: Maybe<Scalars['Boolean']>;
-  diseasesAvailable?: Maybe<Scalars['Boolean']>;
-};
-
-export type IndividualAutocompleteFragment = OneKeyEntity & {
-  __typename?: 'IndividualAutocompleteFragment';
-  id: Scalars['ID'];
-  title: KeyedString;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
   middleName?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  otherActivities: Array<ActivityList>;
+  professionalType: KeyedString;
+  reviewsAvailable?: Maybe<Scalars['Boolean']>;
+  specialties: Array<KeyedString>;
+  suffixName?: Maybe<Scalars['String']>;
+  title: KeyedString;
+  uci?: Maybe<Uci>;
+  webAddress?: Maybe<Scalars['String']>;
 };
 
 export type IndividualFragment = OneKeyEntity & {
   __typename?: 'IndividualFragment';
-  id: Scalars['ID'];
-  title: KeyedString;
+  chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
+  diseasesAvailable?: Maybe<Scalars['Boolean']>;
   firstName?: Maybe<Scalars['String']>;
+  firstNameInitials?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
   lastName: Scalars['String'];
-  middleName?: Maybe<Scalars['String']>;
   maidenName?: Maybe<Scalars['String']>;
   mailingName?: Maybe<Scalars['String']>;
-  firstNameInitials?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  suffixName?: Maybe<Scalars['String']>;
-  professionalType: KeyedString;
-  specialties: Array<KeyedString>;
-  webAddress?: Maybe<Scalars['String']>;
   meshTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  kvTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  chTerms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  uci?: Maybe<Uci>;
+  middleName?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  professionalType: KeyedString;
   reviewsAvailable?: Maybe<Scalars['Boolean']>;
-  diseasesAvailable?: Maybe<Scalars['Boolean']>;
+  specialties: Array<KeyedString>;
+  suffixName?: Maybe<Scalars['String']>;
+  title: KeyedString;
+  uci?: Maybe<Uci>;
+  webAddress?: Maybe<Scalars['String']>;
 };
 
 export type IndividualResult = {
@@ -308,30 +284,47 @@ export type IndividualResult = {
   individuals?: Maybe<Array<Maybe<IndividualWorkPlaceDetails>>>;
 };
 
-export type IndividualWorkPlaceDetails = OneKeyEntity & {
-  __typename?: 'IndividualWorkPlaceDetails';
-  id: Scalars['ID'];
-  title: KeyedString;
+export type IndividualSuggestFragment = OneKeyEntity & {
+  __typename?: 'IndividualSuggestFragment';
   firstName?: Maybe<Scalars['String']>;
-  lastName: Scalars['String'];
+  id: Scalars['ID'];
+  intlSpecialties?: Maybe<Array<Maybe<KeyedString>>>;
+  lastName?: Maybe<Scalars['String']>;
+  mainActivity?: Maybe<ActivityList>;
+  medTerms?: Maybe<Array<Maybe<KeyedString>>>;
   middleName?: Maybe<Scalars['String']>;
-  maidenName?: Maybe<Scalars['String']>;
-  mailingName?: Maybe<Scalars['String']>;
-  firstNameInitials?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  suffixName?: Maybe<Scalars['String']>;
-  professionalType: KeyedString;
-  specialties: Array<KeyedString>;
-  webAddress?: Maybe<Scalars['String']>;
-  mainActivity: Activity;
+  specialties?: Maybe<Array<Maybe<KeyedString>>>;
+  title?: Maybe<KeyedString>;
 };
 
+export type IndividualWorkPlaceDetails = OneKeyEntity & {
+  __typename?: 'IndividualWorkPlaceDetails';
+  firstName?: Maybe<Scalars['String']>;
+  firstNameInitials?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  lastName: Scalars['String'];
+  maidenName?: Maybe<Scalars['String']>;
+  mailingName?: Maybe<Scalars['String']>;
+  mainActivity: Activity;
+  middleName?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  professionalType: KeyedString;
+  specialties: Array<KeyedString>;
+  suffixName?: Maybe<Scalars['String']>;
+  title: KeyedString;
+  webAddress?: Maybe<Scalars['String']>;
+};
+
+/** A type for String that can be expressed as a Key. */
 export type KeyedString = {
   __typename?: 'KeyedString';
+  /** A unique key that can be used to identify this string */
   code: Scalars['String'];
+  /** Contains the label corresponding to this key expressed in the requested locale ( refer to query ) */
   label: Scalars['String'];
 };
 
+/** GraphQL operations */
 export type Mutation = {
   __typename?: 'Mutation';
   ForgetHistoryActivityEntries?: Maybe<Scalars['String']>;
@@ -341,35 +334,41 @@ export type Mutation = {
 };
 
 
+/** GraphQL operations */
 export type MutationForgetHistoryActivityEntriesArgs = {
   activityId: Scalars['ID'];
 };
 
 
+/** GraphQL operations */
 export type MutationForgetHistoryQueryEntryArgs = {
   query: Scalars['ID'];
 };
 
 
+/** GraphQL operations */
 export type MutationPostDataQualityAssesmentForActivityArgs = {
-  userId?: InputMaybe<Scalars['String']>;
   activityId: Scalars['ID'];
   grade: DataQualityAssessment;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 
+/** GraphQL operations */
 export type MutationPostRevisionRequestArgs = {
   request: RevisionRequest;
 };
 
+/** A basic shape for all OneKey main entities */
 export type OneKeyEntity = {
+  /** A globally unique Id for the entity */
   id: Scalars['ID'];
 };
 
 export type OpenPeriod = {
   __typename?: 'OpenPeriod';
-  open?: Maybe<Scalars['Time']>;
-  close?: Maybe<Scalars['Time']>;
+  close?: Maybe<Scalars['String']>;
+  open?: Maybe<Scalars['String']>;
 };
 
 export type PageInfo = {
@@ -379,17 +378,17 @@ export type PageInfo = {
 };
 
 export enum QualityGrade {
-  Ok = 'OK',
-  Nok = 'NOK'
+  Nok = 'NOK',
+  Ok = 'OK'
 }
 
 export type QualityReport = {
   __typename?: 'QualityReport';
-  userId?: Maybe<Scalars['String']>;
-  apiKey?: Maybe<Scalars['String']>;
   activityId?: Maybe<Scalars['String']>;
-  grade?: Maybe<Scalars['String']>;
+  apiKey?: Maybe<Scalars['String']>;
   comments?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -397,35 +396,35 @@ export type Query = {
   activities?: Maybe<Array<Maybe<ActivityResult>>>;
   activityByID?: Maybe<Activity>;
   codesByLabel?: Maybe<CodeResult>;
-  historyBYQuery?: Maybe<Array<Maybe<HistoryQueryResult>>>;
   historyBYActivityId?: Maybe<Array<Maybe<HistoryActivityResult>>>;
+  historyBYQuery?: Maybe<Array<Maybe<HistoryQueryResult>>>;
   individualByID?: Maybe<Individual>;
   individualsByName?: Maybe<IndividualResult>;
   labelsByCode?: Maybe<CodeResult>;
   listAudiences?: Maybe<Array<Maybe<Audience>>>;
   listCountry?: Maybe<Array<Maybe<Country>>>;
-  workplaceById?: Maybe<Workplace>;
-  autocomplete?: Maybe<AutocompleteResult>;
-  reviewsByIndividual?: Maybe<ReviewResult>;
   mySubscriptionKey?: Maybe<SubscriptionKey>;
+  reviewsByIndividual?: Maybe<ReviewResult>;
+  suggest?: Maybe<SuggestResult>;
+  workplaceById?: Maybe<Workplace>;
 };
 
 
 export type QueryActivitiesArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  criteria?: InputMaybe<Scalars['String']>;
-  criteriaScope?: InputMaybe<ActivityCriteriaScope>;
-  criterias?: InputMaybe<Array<InputMaybe<ActivityCriteria>>>;
-  sortScope?: InputMaybe<ActivitySortScope>;
-  sorts?: InputMaybe<Array<InputMaybe<ActivitySortScope>>>;
-  locale?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<GeopointQuery>;
   country?: InputMaybe<Scalars['String']>;
   county?: InputMaybe<Scalars['String']>;
-  professionalType?: InputMaybe<Scalars['String']>;
-  specialties?: InputMaybe<Array<Scalars['String']>>;
+  criteria?: InputMaybe<Scalars['String']>;
+  criterias?: InputMaybe<Array<InputMaybe<ActivityCriteria>>>;
+  criteriaScope?: InputMaybe<ActivityCriteriaScope>;
+  first?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
   medTerms?: InputMaybe<Array<Scalars['String']>>;
+  offset?: InputMaybe<Scalars['Int']>;
+  professionalType?: InputMaybe<Scalars['String']>;
+  sorts?: InputMaybe<Array<InputMaybe<ActivitySortScope>>>;
+  sortScope?: InputMaybe<ActivitySortScope>;
+  specialties?: InputMaybe<Array<Scalars['String']>>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -438,24 +437,24 @@ export type QueryActivityByIdArgs = {
 
 
 export type QueryCodesByLabelArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  criteria?: InputMaybe<Scalars['String']>;
-  criteriaScope?: InputMaybe<CodeCriteriaScope>;
-  criterias?: InputMaybe<Array<InputMaybe<CodeCriteria>>>;
-  locale?: InputMaybe<Scalars['String']>;
-  country?: InputMaybe<Scalars['String']>;
   codeTypes: Array<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  criteria?: InputMaybe<Scalars['String']>;
+  criterias?: InputMaybe<Array<InputMaybe<CodeCriteria>>>;
+  criteriaScope?: InputMaybe<CodeCriteriaScope>;
+  first?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  offset?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
 
-export type QueryHistoryByQueryArgs = {
+export type QueryHistoryByActivityIdArgs = {
   userId: Scalars['String'];
 };
 
 
-export type QueryHistoryByActivityIdArgs = {
+export type QueryHistoryByQueryArgs = {
   userId: Scalars['String'];
 };
 
@@ -468,22 +467,22 @@ export type QueryIndividualByIdArgs = {
 
 
 export type QueryIndividualsByNameArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  criteria: Scalars['String'];
-  locale?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<Scalars['String']>;
+  criteria: Scalars['String'];
+  first?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  offset?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
 
 export type QueryLabelsByCodeArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  criteria?: InputMaybe<Scalars['String']>;
-  locale?: InputMaybe<Scalars['String']>;
-  country?: InputMaybe<Scalars['String']>;
   codeTypes: Array<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  criteria?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  offset?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -498,64 +497,90 @@ export type QueryListCountryArgs = {
 };
 
 
+export type QueryReviewsByIndividualArgs = {
+  idnat: Scalars['String'];
+};
+
+
+export type QuerySuggestArgs = {
+  addresses?: InputMaybe<Array<Scalars['String']>>;
+  city?: InputMaybe<CityQuery>;
+  country?: InputMaybe<Scalars['String']>;
+  county?: InputMaybe<CountyQuery>;
+  criteria?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  individuals?: InputMaybe<Array<Scalars['String']>>;
+  locale?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
+  medTerms?: InputMaybe<Array<Scalars['String']>>;
+  offset?: InputMaybe<Scalars['Int']>;
+  scope?: InputMaybe<SuggestScope>;
+  specialties?: InputMaybe<Array<Scalars['String']>>;
+};
+
+
 export type QueryWorkplaceByIdArgs = {
   id: Scalars['ID'];
   locale?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
-
-export type QueryAutocompleteArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  criteria: Scalars['String'];
-  criteriaScope?: InputMaybe<AutocompleteCriteriaScope>;
-  locale?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<GeopointQuery>;
-  country?: InputMaybe<Scalars['String']>;
-  county?: InputMaybe<CountyQuery>;
-  city?: InputMaybe<CityQuery>;
-  specialties?: InputMaybe<Array<Scalars['String']>>;
-  medTerms?: InputMaybe<Array<Scalars['String']>>;
-  addresses?: InputMaybe<Array<Scalars['String']>>;
-};
-
-
-export type QueryReviewsByIndividualArgs = {
-  idnat: Scalars['String'];
-};
-
 export type Review = {
   __typename?: 'Review';
   createdAt?: Maybe<Scalars['String']>;
+  diseases?: Maybe<Array<Maybe<Disease>>>;
   reviewer?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
   validatedAt?: Maybe<Scalars['String']>;
-  diseases?: Maybe<Array<Maybe<Disease>>>;
 };
 
 export type ReviewResult = {
   __typename?: 'ReviewResult';
-  rpps?: Maybe<Scalars['String']>;
-  idnat?: Maybe<Scalars['String']>;
   adeli?: Maybe<Scalars['String']>;
   diseases?: Maybe<Array<Maybe<Disease>>>;
+  idnat?: Maybe<Scalars['String']>;
   reviews?: Maybe<Array<Maybe<Review>>>;
+  rpps?: Maybe<Scalars['String']>;
 };
 
 export type RevisionRequest = {
   id: Scalars['ID'];
 };
 
+/** Subscription types : Informations related to an user subscription." */
 export type SubscriptionKey = {
   __typename?: 'SubscriptionKey';
-  name?: Maybe<Scalars['String']>;
   company?: Maybe<Scalars['String']>;
   countries?: Maybe<Array<Scalars['String']>>;
+  name?: Maybe<Scalars['String']>;
   professionalTypes?: Maybe<Array<Scalars['String']>>;
   specialties?: Maybe<Array<Scalars['String']>>;
 };
 
+export type SuggestFragment = {
+  __typename?: 'SuggestFragment';
+  address?: Maybe<Address>;
+  individual?: Maybe<IndividualSuggestFragment>;
+  medTerm?: Maybe<KeyedString>;
+  specialty?: Maybe<KeyedString>;
+};
+
+export type SuggestResult = {
+  __typename?: 'SuggestResult';
+  from?: Maybe<Scalars['Int']>;
+  results?: Maybe<Array<Maybe<SuggestFragment>>>;
+  size?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export enum SuggestScope {
+  Address = 'Address',
+  Individual = 'Individual',
+  MedTerm = 'MedTerm',
+  Specialty = 'Specialty'
+}
+
+/** This object represents an Individual's activity at a specific Workplace. */
 export type Translations = {
   __typename?: 'Translations';
   Code?: Maybe<Scalars['String']>;
@@ -564,32 +589,136 @@ export type Translations = {
 
 export type Uci = {
   __typename?: 'Uci';
+  /** FR UCI 'ADDELI' */
   adeli?: Maybe<Scalars['String']>;
-  rpps?: Maybe<Scalars['String']>;
-  npi?: Maybe<Scalars['String']>;
-  lanr?: Maybe<Scalars['String']>;
+  /** CH UCI 'GLN' */
   gln?: Maybe<Scalars['String']>;
+  /** DE UCI 'LANR' */
+  lanr?: Maybe<Scalars['String']>;
+  /** US UCI 'NPI' */
+  npi?: Maybe<Scalars['String']>;
+  /** FR UCI 'RPPS' */
+  rpps?: Maybe<Scalars['String']>;
+  /** CH UCI 'ZSR' */
   zsr?: Maybe<Scalars['String']>;
 };
 
+export type Url = {
+  __typename?: 'Url';
+  /** DE URL 'ARZTTERMINE' */
+  arzttermine?: Maybe<Scalars['String']>;
+  /** FR URL 'DOCTOLIB' */
+  doctolib?: Maybe<Scalars['String']>;
+};
 
+/** A physical location where an activity takes place */
 export type Workplace = OneKeyEntity & {
   __typename?: 'Workplace';
+  address: Address;
+  emailAddress?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  intlFax?: Maybe<Scalars['String']>;
+  intlPhone?: Maybe<Scalars['String']>;
+  localPhone?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   officialName?: Maybe<Scalars['String']>;
-  type: KeyedString;
-  localPhone?: Maybe<Scalars['String']>;
-  intlPhone?: Maybe<Scalars['String']>;
-  intlFax?: Maybe<Scalars['String']>;
-  webAddress?: Maybe<Scalars['String']>;
-  emailAddress?: Maybe<Scalars['String']>;
-  address: Address;
   openHours?: Maybe<Array<Maybe<DailyOpenHours>>>;
   parentId?: Maybe<Scalars['String']>;
+  type: KeyedString;
+  webAddress?: Maybe<Scalars['String']>;
 };
 
-export type ContextKey = {
-  __typename?: 'contextKey';
-  name?: Maybe<Scalars['String']>;
-};
+export type ActivitiesQueryVariables = Exact<{
+  first: Scalars['Int'];
+  offset: Scalars['Int'];
+  specialties?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  county?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
+  criteria?: InputMaybe<Scalars['String']>;
+  criterias?: InputMaybe<Array<InputMaybe<ActivityCriteria>> | InputMaybe<ActivityCriteria>>;
+  medTerms?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  criteriaScope?: InputMaybe<ActivityCriteriaScope>;
+  locale?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type ActivitiesQuery = { __typename?: 'Query', activities?: Array<{ __typename?: 'ActivityResult', distance?: number | null | undefined, relevance?: number | null | undefined, activity: { __typename?: 'ActivityFragment', id: string, url?: { __typename?: 'Url', doctolib?: string | null | undefined, arzttermine?: string | null | undefined } | null | undefined, individual: { __typename?: 'IndividualFragment', id: string, firstName?: string | null | undefined, lastName: string, middleName?: string | null | undefined, meshTerms?: Array<string | null | undefined> | null | undefined, kvTerms?: Array<string | null | undefined> | null | undefined, chTerms?: Array<string | null | undefined> | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, professionalType: { __typename?: 'KeyedString', label: string }, specialties: Array<{ __typename?: 'KeyedString', label: string }>, uci?: { __typename?: 'Uci', rpps?: string | null | undefined, adeli?: string | null | undefined } | null | undefined }, workplace: { __typename?: 'Workplace', id: string, openHours?: Array<{ __typename?: 'DailyOpenHours', day?: Day | null | undefined, openPeriods: { __typename?: 'OpenPeriod', open?: string | null | undefined, close?: string | null | undefined } } | null | undefined> | null | undefined, address: { __typename?: 'Address', longLabel: string, buildingLabel?: string | null | undefined, postalCode: string, country: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } } | null | undefined> | null | undefined };
+
+export type ActivityByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+  locale?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type ActivityByIdQuery = { __typename?: 'Query', activityByID?: { __typename?: 'Activity', id: string, phone?: string | null | undefined, fax?: string | null | undefined, webAddress?: string | null | undefined, url?: { __typename?: 'Url', doctolib?: string | null | undefined, arzttermine?: string | null | undefined } | null | undefined, role: { __typename?: 'KeyedString', code: string, label: string }, workplace: { __typename?: 'Workplace', id: string, name: string, intlPhone?: string | null | undefined, intlFax?: string | null | undefined, localPhone?: string | null | undefined, openHours?: Array<{ __typename?: 'DailyOpenHours', day?: Day | null | undefined, openPeriods: { __typename?: 'OpenPeriod', open?: string | null | undefined, close?: string | null | undefined } } | null | undefined> | null | undefined, address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, buildingLabel?: string | null | undefined, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } }, individual: { __typename?: 'Individual', id: string, firstName?: string | null | undefined, lastName: string, middleName?: string | null | undefined, mailingName?: string | null | undefined, nickname?: string | null | undefined, suffixName?: string | null | undefined, meshTerms?: Array<string | null | undefined> | null | undefined, kvTerms?: Array<string | null | undefined> | null | undefined, chTerms?: Array<string | null | undefined> | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, professionalType: { __typename?: 'KeyedString', label: string }, specialties: Array<{ __typename?: 'KeyedString', code: string, label: string }>, mainActivity: { __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, buildingLabel?: string | null | undefined, city: { __typename?: 'KeyedString', code: string, label: string } } } }, otherActivities: Array<{ __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, buildingLabel?: string | null | undefined, city: { __typename?: 'KeyedString', code: string, label: string } } } }>, uci?: { __typename?: 'Uci', rpps?: string | null | undefined, adeli?: string | null | undefined } | null | undefined } } | null | undefined };
+
+export type CodesByLabelQueryVariables = Exact<{
+  first: Scalars['Int'];
+  offset: Scalars['Int'];
+  criteria?: InputMaybe<Scalars['String']>;
+  codeTypes: Array<Scalars['String']> | Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  criteriaScope?: InputMaybe<CodeCriteriaScope>;
+}>;
+
+
+export type CodesByLabelQuery = { __typename?: 'Query', codesByLabel?: { __typename?: 'CodeResult', codes?: Array<{ __typename?: 'Code', id?: string | null | undefined, lisCode: string, longLbl: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type IndividualByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+  locale?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type IndividualByIdQuery = { __typename?: 'Query', individualByID?: { __typename?: 'Individual', id: string, firstName?: string | null | undefined, lastName: string, middleName?: string | null | undefined, mailingName?: string | null | undefined, webAddress?: string | null | undefined, specialties: Array<{ __typename?: 'KeyedString', label: string }>, title: { __typename?: 'KeyedString', code: string, label: string }, professionalType: { __typename?: 'KeyedString', label: string }, mainActivity: { __typename?: 'ActivityList', phone?: string | null | undefined, fax?: string | null | undefined, title: { __typename?: 'KeyedString', code: string, label: string }, workplace: { __typename?: 'Workplace', name: string, localPhone?: string | null | undefined, intlFax?: string | null | undefined, webAddress?: string | null | undefined, address: { __typename?: 'Address', postalCode: string, longLabel: string, buildingLabel?: string | null | undefined, country: string, county?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined, city: { __typename?: 'KeyedString', code: string, label: string } } } }, otherActivities: Array<{ __typename?: 'ActivityList', phone?: string | null | undefined, fax?: string | null | undefined, title: { __typename?: 'KeyedString', code: string, label: string }, workplace: { __typename?: 'Workplace', name: string, localPhone?: string | null | undefined, intlFax?: string | null | undefined, webAddress?: string | null | undefined, address: { __typename?: 'Address', postalCode: string, longLabel: string, buildingLabel?: string | null | undefined, country: string, county?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined, city: { __typename?: 'KeyedString', code: string, label: string } } } }> } | null | undefined };
+
+export type IndividualsByNameQueryVariables = Exact<{
+  first: Scalars['Int'];
+  offset: Scalars['Int'];
+  criteria: Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type IndividualsByNameQuery = { __typename?: 'Query', individualsByName?: { __typename?: 'IndividualResult', individuals?: Array<{ __typename?: 'IndividualWorkPlaceDetails', id: string, firstName?: string | null | undefined, middleName?: string | null | undefined, lastName: string, professionalType: { __typename?: 'KeyedString', label: string }, specialties: Array<{ __typename?: 'KeyedString', label: string }>, mainActivity: { __typename?: 'Activity', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } } | null | undefined> | null | undefined } | null | undefined };
+
+export type LabelsByCodeQueryVariables = Exact<{
+  first: Scalars['Int'];
+  offset?: InputMaybe<Scalars['Int']>;
+  criteria?: InputMaybe<Scalars['String']>;
+  codeTypes: Array<Scalars['String']> | Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type LabelsByCodeQuery = { __typename?: 'Query', labelsByCode?: { __typename?: 'CodeResult', codes?: Array<{ __typename?: 'Code', id?: string | null | undefined, lisCode: string, lisLbl: string, longLbl: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type MySubscriptionKeyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MySubscriptionKeyQuery = { __typename?: 'Query', mySubscriptionKey?: { __typename?: 'SubscriptionKey', countries?: Array<string> | null | undefined } | null | undefined };
+
+export type ReviewsByIndividualQueryVariables = Exact<{
+  idnat: Scalars['String'];
+}>;
+
+
+export type ReviewsByIndividualQuery = { __typename?: 'Query', reviewsByIndividual?: { __typename?: 'ReviewResult', rpps?: string | null | undefined, adeli?: string | null | undefined, idnat?: string | null | undefined, diseases?: Array<{ __typename?: 'Disease', id?: number | null | undefined, name?: string | null | undefined } | null | undefined> | null | undefined, reviews?: Array<{ __typename?: 'Review', text?: string | null | undefined, reviewer?: string | null | undefined, createdAt?: string | null | undefined, diseases?: Array<{ __typename?: 'Disease', id?: number | null | undefined, name?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
+export type SuggestQueryVariables = Exact<{
+  criteria?: InputMaybe<Scalars['String']>;
+  scope?: InputMaybe<SuggestScope>;
+  country?: InputMaybe<Scalars['String']>;
+  specialties?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  medTerms?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
+  locale?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type SuggestQuery = { __typename?: 'Query', suggest?: { __typename?: 'SuggestResult', from?: number | null | undefined, size?: number | null | undefined, total?: number | null | undefined, results?: Array<{ __typename?: 'SuggestFragment', individual?: { __typename?: 'IndividualSuggestFragment', firstName?: string | null | undefined, lastName?: string | null | undefined, mainActivity?: { __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined, medTerms?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined, address?: { __typename?: 'Address', longLabel: string, country: string } | null | undefined, specialty?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined, medTerm?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
