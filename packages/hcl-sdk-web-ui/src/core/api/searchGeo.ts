@@ -34,9 +34,24 @@ export async function getAddressFromGeo(lat: number, lng: number) {
   }
 }
 
+const cachePlaceDetails = new Map();
+const CACHE_SIZE = 5;
+
 export async function getGooglePlaceDetails(placeId: string) {
   const googleGeo = getProvider(MapProvider.GOOGLE_MAP) as GeoProviderGoogle;
-  return await googleGeo.getPlaceDetail(placeId);
+
+  if (!cachePlaceDetails.has(placeId)) {
+    const placeDetail = await googleGeo.getPlaceDetail(placeId);
+    cachePlaceDetails.set(placeId, placeDetail);
+  }
+
+  const result = cachePlaceDetails.get(placeId);
+
+  if (cachePlaceDetails.size > CACHE_SIZE) {
+    cachePlaceDetails.clear();
+  }
+
+  return result;
 }
 
 function getProvider(providerName: MapProvider) {
