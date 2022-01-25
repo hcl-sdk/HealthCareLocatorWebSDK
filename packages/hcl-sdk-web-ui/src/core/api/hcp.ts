@@ -74,21 +74,38 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   return {  }
 }
 
-function getLocationForSuggest() {
+
+async function getLocationForSuggest() {
   if (!searchMapStore.state.locationFilter) {
     return;
   }
+
+  const locationFilter = searchMapStore.state.locationFilter;
+  const distanceMeter = convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit) || 20000;
 
   if (searchMapStore.state.locationFilter.id === NEAR_ME) {
     return {
       lat: Number(searchMapStore.state.geoLocation.latitude),
       lon: Number(searchMapStore.state.geoLocation.longitude),
+      distanceMeter
+    };
+  }
+
+  // locatioFilter has place_id mean it using Google Map
+  if (locationFilter.place_id) {
+    const placeDetail = await getGooglePlaceDetails(locationFilter.place_id);
+
+    return {
+      lat: Number(placeDetail.lat),
+      lon: Number(placeDetail.lng),
+      distanceMeter
     };
   }
 
   return {
     lat: Number(searchMapStore.state.locationFilter.lat),
     lon: Number(searchMapStore.state.locationFilter.lng),
+    distanceMeter
   };
 }
 
@@ -268,7 +285,7 @@ export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameA
     country: configStore.countryGraphqlQuery,
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
-    location: getLocationForSuggest(),
+    location: await getLocationForSuggest(),
   };
 
   const {
@@ -311,7 +328,7 @@ export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLa
     country: configStore.countryGraphqlQuery,
     specialties: [],
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
-    location: getLocationForSuggest(),
+    location: await getLocationForSuggest(),
   };
 
   const {
@@ -345,7 +362,7 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
     country: configStore.countryGraphqlQuery,
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: [],
-    location: getLocationForSuggest(),
+    location: await getLocationForSuggest(),
   };
 
   const {
