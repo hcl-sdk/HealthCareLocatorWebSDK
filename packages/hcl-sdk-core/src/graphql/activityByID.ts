@@ -8,15 +8,18 @@ interface ActivityByIdResult {
 
 const QUERY_ACTIVITY_BY_ID = gql`
   query activityById($id: ID!, $locale: String) {
-    activityByID(
-      id: $id
-      locale: $locale
-    ) {
+    activityByID(id: $id, locale: $locale) {
       id
       phone
       url {
-        doctolib
-        arzttermine
+        doctolib {
+          webcrawled
+          generated
+        }
+        arzttermine {
+          webcrawled
+          generated
+        }
       }
       role {
         code
@@ -42,19 +45,19 @@ const QUERY_ACTIVITY_BY_ID = gql`
           country
           postalCode
           buildingLabel
-          county{
-              label
+          county {
+            label
           }
-          city{
-              label
+          city {
+            label
           }
-          location{
+          location {
             lat
             lon
           }
         }
       }
-      individual{
+      individual {
         id
         firstName
         lastName
@@ -63,7 +66,9 @@ const QUERY_ACTIVITY_BY_ID = gql`
         middleName
         nickname
         suffixName
-        professionalType { label }
+        professionalType {
+          label
+        }
         specialties {
           code
           label
@@ -108,7 +113,7 @@ const QUERY_ACTIVITY_BY_ID = gql`
       }
     }
   }
-`
+`;
 
 export default function activityByID(variables: QueryActivityByIdArgs, config?): Promise<ActivityByIdResult> {
   return graphqlClient(QUERY_ACTIVITY_BY_ID, variables, config)
