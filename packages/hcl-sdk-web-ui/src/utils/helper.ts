@@ -1,7 +1,7 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, ActivityResult, Individual, IndividualFragment, IndividualSuggestFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
+import { ActivityList, ActivityResult, Individual, IndividualFragment, IndividualSuggestFragment, KeyedString, Url } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
 import { SearchSpecialty } from '../core/stores/SearchMapStore'
@@ -270,12 +270,12 @@ export const handleMapActivities = (item: ActivityResult) => ({
   url: getUrl(item.activity.workplace.address.country, item.activity.url)
 })
 
-export function getUrl(country, url) {
+export function getUrl(country, url: Url) {
   switch (country) {
     case 'FR':
-      return url['doctolib'];
+      return url['doctolib']?.webcrawled || url['doctolib']?.generated
     case 'DE':
-      return url['arzttermine'];
+      return url['arzttermine']?.webcrawled || url['arzttermine']?.generated
     default:
       return null;
   }

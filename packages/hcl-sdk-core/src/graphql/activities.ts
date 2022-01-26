@@ -7,7 +7,19 @@ interface ActivitiesResult {
 }
 
 const QUERY_ACTIVITIES = gql`
-  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $country: String, $location: GeopointQuery, $criteria: String, $criterias: [ActivityCriteria], $medTerms: [String!], $criteriaScope: ActivityCriteriaScope, $locale: String) {
+  query activities(
+    $first: Int!
+    $offset: Int!
+    $specialties: [String!]
+    $county: String
+    $country: String
+    $location: GeopointQuery
+    $criteria: String
+    $criterias: [ActivityCriteria]
+    $medTerms: [String!]
+    $criteriaScope: ActivityCriteriaScope
+    $locale: String
+  ) {
     activities(
       first: $first
       offset: $offset
@@ -26,15 +38,23 @@ const QUERY_ACTIVITIES = gql`
       activity {
         id
         url {
-          doctolib
-          arzttermine
+          doctolib {
+            webcrawled
+            generated
+          }
+          arzttermine {
+            webcrawled
+            generated
+          }
         }
         individual {
           id
           firstName
           lastName
           middleName
-          professionalType { label }
+          professionalType {
+            label
+          }
           specialties {
             label
           }
@@ -77,7 +97,7 @@ const QUERY_ACTIVITIES = gql`
       }
     }
   }
-`
+`;
 
 export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
   return graphqlClient(QUERY_ACTIVITIES, variables, config)
