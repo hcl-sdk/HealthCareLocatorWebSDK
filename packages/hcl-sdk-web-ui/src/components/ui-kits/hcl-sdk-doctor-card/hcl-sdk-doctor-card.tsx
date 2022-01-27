@@ -34,9 +34,20 @@ export class HclSdkDoctorCard {
             <div class="header">
               <span class="text name">{this.name}&nbsp;&nbsp; { isShowLogo && <img src="https://www.mapatho.com/favicon.ico" alt="" /> }</span>
               {/* TODO: Appointment link feature */}
-              <a href={this.url} target='_blank' onClick={e => e.stopPropagation()}>
-                <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder  />
-              </a>
+              {this.url && (
+                <a
+                  href={this.url}
+                  target="_blank"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <hcl-sdk-button
+                    round
+                    icon="calendar-clock-outline"
+                    noBackground
+                    noBorder
+                  />
+                </a>
+              )}
             </div>
 
             <span class="text gp">{this.specialtyPrimary}</span>
