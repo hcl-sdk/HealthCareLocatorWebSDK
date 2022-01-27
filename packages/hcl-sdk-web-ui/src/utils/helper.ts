@@ -295,6 +295,10 @@ export function getUrl(country, url: Url) {
     }
   }
 
+  if (!appointmentUrl) {
+    return null
+  }
+
   if (appointmentUrl.startsWith('http') || appointmentUrl.startsWith('//')) {
     return appointmentUrl;
   }
