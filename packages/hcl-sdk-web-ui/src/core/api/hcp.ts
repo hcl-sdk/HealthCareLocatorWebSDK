@@ -10,7 +10,9 @@ import {
   convertToMeter, 
   getSpecialties, 
   handleMapActivities,
-  getUrl
+  getUrl,
+  getClientSideSortFields,
+  getServerSideSortFields
 } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
@@ -227,18 +229,28 @@ export async function searchLocation(variables, {
   });
 
   try {
+    const sortValues = searchMapStore.state.sortValues
+    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm])
+
+    const sorts = getServerSideSortFields(sortByField)
+
     let activities: ActivityResult[] = []
-    const storeKey = configStore.state.apiKey + '/' + JSON.stringify(variables)
+    const storeKey =
+      configStore.state.apiKey + '/' + JSON.stringify({ sorts, ...variables })
 
     if (searchMapStore.getCached(storeKey)) {
       activities = searchMapStore.getCached(storeKey)
     } else {
-      const resActivities = await graphql.activities({
-        first: 50,
-        offset: 0,
-        locale: i18nStore.state.lang,
-        ...variables,
-      }, configStore.configGraphql)
+      const resActivities = await graphql.activities(
+        {
+          first: 50,
+          offset: 0,
+          locale: i18nStore.state.lang,
+          sorts,
+          ...variables
+        },
+        configStore.configGraphql
+      )
       activities = resActivities.activities
       searchMapStore.saveCached(storeKey, resActivities.activities)
     }
@@ -247,10 +259,8 @@ export async function searchLocation(variables, {
 
     isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0
 
-    // Handle Sort the data
-    const sortValues = searchMapStore.state.sortValues;
-    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm]);
-    const specialties = sortBy(data, sortByField)
+    const localSortFields = getClientSideSortFields(sortByField)
+    const specialties = sortBy(data, localSortFields)
 
     searchMapStore.setState({
       specialties,

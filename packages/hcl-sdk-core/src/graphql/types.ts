@@ -647,6 +647,7 @@ export type ActivitiesQueryVariables = Exact<{
   criterias?: InputMaybe<Array<InputMaybe<ActivityCriteria>> | InputMaybe<ActivityCriteria>>;
   medTerms?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
   criteriaScope?: InputMaybe<ActivityCriteriaScope>;
+  sorts?: InputMaybe<Array<InputMaybe<ActivitySortScope>> | InputMaybe<ActivitySortScope>>;
   locale?: InputMaybe<Scalars['String']>;
 }>;
 

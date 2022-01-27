@@ -20,8 +20,8 @@ configStore.onChange('modeView', (newModeView: ModeViewType) => {
   // Constraint default sort based on map view changes
   searchMapStore.setState({
     sortValues: {
-      ...searchMapStore.state.sortValues,
-      lastName: ModeViewType.LIST === newModeView,
+      lastName: false,
+      relevance: ModeViewType.LIST === newModeView,
       distanceNumber: ModeViewType.MAP === newModeView
     }
   })

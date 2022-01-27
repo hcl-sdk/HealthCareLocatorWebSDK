@@ -157,6 +157,10 @@ export class HclSdkSearch {
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
     } else {
+      // use relevance sort when search new value from SEARCU_RESULT route
+      searchMapStore.setState({
+        sortValues: { relevance: true },
+      });
       searchLocationWithParams()
     }
 

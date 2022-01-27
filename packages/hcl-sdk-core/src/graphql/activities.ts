@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { graphqlClient } from './helpers'
+import { graphqlClient } from './helpers';
 import { ActivityResult, QueryActivitiesArgs } from './types';
 
 interface ActivitiesResult {
@@ -18,6 +18,7 @@ const QUERY_ACTIVITIES = gql`
     $criterias: [ActivityCriteria]
     $medTerms: [String!]
     $criteriaScope: ActivityCriteriaScope
+    $sorts: [ActivitySortScope]
     $locale: String
   ) {
     activities(
@@ -31,6 +32,7 @@ const QUERY_ACTIVITIES = gql`
       criterias: $criterias
       criteriaScope: $criteriaScope
       medTerms: $medTerms
+      sorts: $sorts
       locale: $locale
     ) {
       distance
@@ -100,5 +102,5 @@ const QUERY_ACTIVITIES = gql`
 `;
 
 export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
-  return graphqlClient(QUERY_ACTIVITIES, variables, config)
+  return graphqlClient(QUERY_ACTIVITIES, variables, config);
 }

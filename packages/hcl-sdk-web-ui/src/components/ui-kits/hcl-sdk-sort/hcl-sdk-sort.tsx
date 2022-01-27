@@ -36,6 +36,7 @@ export class HclSdkSort {
     this.sortValues = {
       distanceNumber: false,
       lastName: false,
+      relevance: false,
       [name]: checked,
     }
   };
@@ -46,12 +47,17 @@ export class HclSdkSort {
 
   render() {
     const hclSDKSortClass = cn('hcl-sdk-sort', {});
-    const { lastName, distanceNumber } = this.sortValues;
+    const { lastName, distanceNumber, relevance } = this.sortValues;
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class={hclSDKSortClass}>
           <form class="sort-body" onSubmit={this.onSubmit}>
             <div class="sort-option">
+              <div class="sort-option-item">
+                <label htmlFor="relevance">{t('relevance_item')}</label>
+                <hcl-sdk-input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
+              </div>
+
               <div class="sort-option-item">
                 <label htmlFor="distance">{t('distance_item')}</label>
                 <hcl-sdk-input type="checkbox" id="distanceNumber" name="distanceNumber" checked={distanceNumber} onInput={this.onChange} />
