@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
 import { Activity, QueryActivityByIdArgs } from './types';
+import { FRAGMENT_URL } from './fragmentUrl'
 
 interface ActivityByIdResult {
   activityByID: Activity
@@ -12,14 +13,7 @@ const QUERY_ACTIVITY_BY_ID = gql`
       id
       phone
       url {
-        doctolib {
-          webcrawled
-          generated
-        }
-        arzttermine {
-          webcrawled
-          generated
-        }
+        ...Url
       }
       role {
         code
@@ -113,7 +107,8 @@ const QUERY_ACTIVITY_BY_ID = gql`
       }
     }
   }
-`;
+  ${FRAGMENT_URL}
+`
 
 export default function activityByID(variables: QueryActivityByIdArgs, config?): Promise<ActivityByIdResult> {
   return graphqlClient(QUERY_ACTIVITY_BY_ID, variables, config)
