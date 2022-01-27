@@ -1,9 +1,10 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers';
 import { ActivityResult, QueryActivitiesArgs } from './types';
+import { FRAGMENT_URL } from './fragmentUrl'
 
 interface ActivitiesResult {
-  activities: ActivityResult[];
+  activities: ActivityResult[]
 }
 
 const QUERY_ACTIVITIES = gql`
@@ -40,14 +41,7 @@ const QUERY_ACTIVITIES = gql`
       activity {
         id
         url {
-          doctolib {
-            webcrawled
-            generated
-          }
-          arzttermine {
-            webcrawled
-            generated
-          }
+          ...Url
         }
         individual {
           id
@@ -99,7 +93,8 @@ const QUERY_ACTIVITIES = gql`
       }
     }
   }
-`;
+  ${FRAGMENT_URL}
+`
 
 export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
   return graphqlClient(QUERY_ACTIVITIES, variables, config);

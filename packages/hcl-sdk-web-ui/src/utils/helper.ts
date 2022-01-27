@@ -271,14 +271,35 @@ export const handleMapActivities = (item: ActivityResult) => ({
 })
 
 export function getUrl(country, url: Url) {
-  switch (country) {
-    case 'FR':
-      return url['doctolib']?.webcrawled || url['doctolib']?.generated
-    case 'DE':
-      return url['arzttermine']?.webcrawled || url['arzttermine']?.generated
-    default:
-      return null;
+  const doctolib = url.doctolib || {}
+  const arzttermine = url.arzttermine || {}
+  const maiia = url.maiia || {}
+
+  const webcrawled = doctolib.webcrawled || maiia.webcrawled || arzttermine.webcrawled
+
+  let appointmentUrl = ''
+
+  if (webcrawled) {
+    appointmentUrl = webcrawled
+  } else {
+    switch (country) {
+      case 'FR':
+        appointmentUrl = doctolib.generated || maiia.generated || arzttermine.generated
+        break;
+      case 'DE':
+        appointmentUrl = arzttermine.generated || doctolib.generated || maiia.generated
+        break;
+      default:
+        appointmentUrl = '';
+        break;
+    }
   }
+
+  if (appointmentUrl.startsWith('http') || appointmentUrl.startsWith('//')) {
+    return appointmentUrl;
+  }
+
+  return 'https://' + appointmentUrl
 }
 
 function getSortScope(sortValue: keyof SortValue | string) {
