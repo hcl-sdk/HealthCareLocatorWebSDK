@@ -6,12 +6,10 @@ import { configStore, searchMapStore, uiStore, routerStore } from '../../../core
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import sortBy from 'lodash.sortby';
 import { genSearchLocationParams, groupPointFromBoundingBox, searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
 import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
 import { getDistance } from 'geolib';
-import { SortValue } from '../../../core/stores/SearchMapStore';
 
 @Component({
   tag: 'hcl-sdk-search-result',
@@ -55,21 +53,13 @@ export class HclSdkSearchResult {
     }
 
     this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
-    this.handleObserveSortValuesChange(searchMapStore.state.sortValues)
     searchMapStore.storeInstance.onChange('sortValues', this.handleObserveSortValuesChange)
   }
   searchDataCardList;
   searchDataMapElm;
 
-  handleObserveSortValuesChange(sortValues: SortValue) {
-    const { specialtiesRaw: specialties } = searchMapStore.state;
-
-    const sortByField = Object.keys(sortValues).filter(elm => sortValues[elm]);
-
-    // Reorder results based on new sort value
-    searchMapStore.setState({
-      specialties: sortBy(specialties, sortByField),
-    });
+  handleObserveSortValuesChange() {
+    searchLocationWithParams();
 
     configStore.setState({
       modal: undefined,

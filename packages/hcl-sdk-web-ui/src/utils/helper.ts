@@ -1,10 +1,10 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, ActivityResult, Individual, IndividualFragment, IndividualSuggestFragment, KeyedString, Url } from '../../../hcl-sdk-core/src/graphql/types';
+import { ActivityList, ActivityResult, ActivitySortScope, Individual, IndividualFragment, IndividualSuggestFragment, KeyedString, Url } from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
-import { SearchSpecialty } from '../core/stores/SearchMapStore'
+import { SearchSpecialty, SortValue } from '../core/stores/SearchMapStore'
 import { configStore } from '../core/stores';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
@@ -279,4 +279,25 @@ export function getUrl(country, url: Url) {
     default:
       return null;
   }
+}
+
+function getSortScope(sortValue: keyof SortValue | string) {
+  switch (sortValue) {
+    case 'relevance':
+      return ActivitySortScope.Relevancy
+    case 'distanceNumber':
+      return ActivitySortScope.WorkplaceDistance
+    case 'lastName':
+        return ActivitySortScope.Relevancy
+    default:
+      return undefined
+  }
+}
+
+export function getServerSideSortFields(sortValue: (keyof SortValue | string)[]) {
+    return sortValue.map(sortValue => getSortScope(sortValue)).filter(Boolean)
+}
+
+export function getClientSideSortFields(sortValue: (keyof SortValue | string)[]) {
+  return sortValue.filter(field => field === 'lastName')
 }
