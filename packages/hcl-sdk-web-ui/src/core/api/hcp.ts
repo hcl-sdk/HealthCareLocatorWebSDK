@@ -44,6 +44,7 @@ export function groupPointFromBoundingBox(boundingbox: string[]) {
   }
   return { bbox, hashBBox, point }
 }
+
 function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
   if (!addressDetails) {
     return {
@@ -76,6 +77,16 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   return {  }
 }
 
+function countryCodeForSuggest(countryCode: typeof configStore.countryGraphqlQuery) {
+  switch (countryCode) {
+    case 'UK':
+      return 'GB'
+    case 'BK':
+      return 'HR'
+    default:
+      return countryCode
+  }
+}
 
 async function getLocationForSuggest() {
   if (!searchMapStore.state.locationFilter) {
@@ -298,7 +309,7 @@ export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameA
     criteria: criteria,
     locale: i18nStore.state.lang,
     scope: SuggestScope.Individual,
-    country: configStore.countryGraphqlQuery,
+    country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
     location: await getLocationForSuggest(),
@@ -341,7 +352,7 @@ export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLa
     criteria: criteria,
     locale: i18nStore.state.lang,
     scope: SuggestScope.Specialty,
-    country: configStore.countryGraphqlQuery,
+    country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: [],
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
     location: await getLocationForSuggest(),
@@ -375,7 +386,7 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
     criteria: criteria,
     locale: i18nStore.state.lang,
     scope: SuggestScope.MedTerm,
-    country: configStore.countryGraphqlQuery,
+    country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: [],
     location: await getLocationForSuggest(),
