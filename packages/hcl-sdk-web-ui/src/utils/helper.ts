@@ -270,29 +270,16 @@ export const handleMapActivities = (item: ActivityResult) => ({
   url: getUrl(item.activity.workplace.address.country, item.activity.url)
 })
 
-export function getUrl(country, url: Url) {
+export function getUrl(_country, url: Url) {
   const doctolib = url.doctolib || {}
-  const arzttermine = url.arzttermine || {}
   const maiia = url.maiia || {}
 
-  const webcrawled = doctolib.webcrawled || maiia.webcrawled || arzttermine.webcrawled
+  const webcrawled = doctolib.webcrawled || maiia.webcrawled
 
   let appointmentUrl = ''
 
   if (webcrawled) {
     appointmentUrl = webcrawled
-  } else {
-    switch (country) {
-      case 'FR':
-        appointmentUrl = doctolib.generated || maiia.generated || arzttermine.generated
-        break;
-      case 'DE':
-        appointmentUrl = arzttermine.generated || doctolib.generated || maiia.generated
-        break;
-      default:
-        appointmentUrl = '';
-        break;
-    }
   }
 
   if (!appointmentUrl) {
