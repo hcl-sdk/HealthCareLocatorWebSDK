@@ -126,7 +126,8 @@ export async function genSearchLocationParams({
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
 
-  const shouldDefaultSearchNearMe = searchMapStore.isGrantedGeoloc && !locationFilter
+  const sortValues = searchMapStore.state.sortValues;
+  const shouldDefaultSearchNearMe = searchMapStore.isGrantedGeoloc && !locationFilter && sortValues?.distanceNumber;
 
   if (
     forceNearMe ||
