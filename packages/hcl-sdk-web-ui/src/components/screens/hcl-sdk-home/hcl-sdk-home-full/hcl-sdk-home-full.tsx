@@ -3,10 +3,11 @@ import { historyStore, routerStore, searchMapStore, i18nStore, configStore } fro
 import { t } from '../../../../utils/i18n';
 import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME_ITEM } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
-import { searchLocationWithParams } from '../../../../core/api/hcp';
+import { genSearchLocationParams, searchLocation, searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
 import { SearchFields } from '../../../../core/stores/SearchMapStore';
+import { ActivitySortScope } from '../../../../../../hcl-sdk-core/src/graphql/types';
 
 @Component({
   tag: 'hcl-sdk-home-full',
@@ -16,11 +17,21 @@ export class HclSdkHomeFull {
   @State() showMoreSearchItems: boolean = false;
   @State() showMoreHcpItems: boolean = false;
 
-  componentDidLoad() {
-    configStore.storeInstance.onChange('countryGeo', this.onChangeGeoCountry)
+  async componentDidLoad() {
+    configStore.storeInstance.onChange('countryGeo', this.onChangeGeoCountry);
 
     if (searchMapStore.isGrantedGeoloc && configStore.state.countryGeo) {
-      searchLocationWithParams(true);
+      const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields } = searchMapStore.state;
+
+      const params = await genSearchLocationParams({
+        forceNearMe: true,
+        locationFilter,
+        specialtyFilter,
+        medicalTermsFilter,
+        searchFields,
+      });
+
+      searchLocation({ ...params, sorts: [ActivitySortScope.WorkplaceDistance] });
     }
   }
 
