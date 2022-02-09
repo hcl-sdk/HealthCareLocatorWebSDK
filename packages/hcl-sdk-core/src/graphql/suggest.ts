@@ -37,7 +37,7 @@ const QUERY_SUGGEST = gql`
           firstName
           lastName
 
-          mainActivity {
+          activity {
             id
             workplace {
               address {
@@ -88,7 +88,7 @@ const QUERY_SUGGEST = gql`
       }
     }
   }
-`;
+`
 
 export default function suggest(variables: SuggestQueryVariables, config?): Promise<SuggestQueryResult> {
   return graphqlClient(QUERY_SUGGEST, variables, config);

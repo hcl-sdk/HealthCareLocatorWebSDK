@@ -322,18 +322,18 @@ export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameA
 
   const individualsData: SelectedIndividual[] = results
     ? results.map(item => {
-        const mainActivity = item.individual?.mainActivity;
+        const activity = item.individual?.activity;
 
-        const longLabel = mainActivity?.workplace?.address?.longLabel;
-        const city = mainActivity?.workplace?.address?.city?.label;
-        const postalCode = mainActivity?.workplace?.address?.postalCode;
+        const longLabel = activity?.workplace?.address?.longLabel;
+        const city = activity?.workplace?.address?.city?.label;
+        const postalCode = activity?.workplace?.address?.postalCode;
 
         return {
           name: getHcpFullname(item.individual),
           specialties: getSpecialtiesText(item.individual.specialties),
           address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
-          id: mainActivity.id,
-          activity: mainActivity,
+          id: activity.id,
+          activity: activity,
         };
       })
     : [];

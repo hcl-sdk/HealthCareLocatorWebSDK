@@ -286,11 +286,11 @@ export type IndividualResult = {
 
 export type IndividualSuggestFragment = OneKeyEntity & {
   __typename?: 'IndividualSuggestFragment';
+  activity?: Maybe<ActivityList>;
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   intlSpecialties?: Maybe<Array<Maybe<KeyedString>>>;
   lastName?: Maybe<Scalars['String']>;
-  mainActivity?: Maybe<ActivityList>;
   medTerms?: Maybe<Array<Maybe<KeyedString>>>;
   middleName?: Maybe<Scalars['String']>;
   specialties?: Maybe<Array<Maybe<KeyedString>>>;
@@ -407,6 +407,7 @@ export type Query = {
   reviewsByIndividual?: Maybe<ReviewResult>;
   suggest?: Maybe<SuggestResult>;
   workplaceById?: Maybe<Workplace>;
+  workplaces?: Maybe<WorkplaceResults>;
 };
 
 
@@ -525,6 +526,21 @@ export type QueryWorkplaceByIdArgs = {
   userId?: InputMaybe<Scalars['String']>;
 };
 
+
+export type QueryWorkplacesArgs = {
+  country?: InputMaybe<Scalars['String']>;
+  county?: InputMaybe<Scalars['String']>;
+  criteria?: InputMaybe<Scalars['String']>;
+  criterias?: InputMaybe<Array<InputMaybe<WorkplaceCriteria>>>;
+  criteriaScope?: InputMaybe<WorkplaceCriteriaScope>;
+  first?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sorts?: InputMaybe<Array<InputMaybe<WorkplaceSortScope>>>;
+  sortScope?: InputMaybe<WorkplaceSortScope>;
+};
+
 export type Review = {
   __typename?: 'Review';
   createdAt?: Maybe<Scalars['String']>;
@@ -563,6 +579,7 @@ export type SuggestFragment = {
   individual?: Maybe<IndividualSuggestFragment>;
   medTerm?: Maybe<KeyedString>;
   specialty?: Maybe<KeyedString>;
+  workplace?: Maybe<WorkplaceSuggestFragment>;
 };
 
 export type SuggestResult = {
@@ -577,7 +594,8 @@ export enum SuggestScope {
   Address = 'Address',
   Individual = 'Individual',
   MedTerm = 'MedTerm',
-  Specialty = 'Specialty'
+  Specialty = 'Specialty',
+  Workplace = 'Workplace'
 }
 
 /** This object represents an Individual's activity at a specific Workplace. */
@@ -636,6 +654,51 @@ export type Workplace = OneKeyEntity & {
   webAddress?: Maybe<Scalars['String']>;
 };
 
+export type WorkplaceCriteria = {
+  scope: WorkplaceCriteriaScope;
+  text: Scalars['String'];
+};
+
+export enum WorkplaceCriteriaScope {
+  Address = 'Address',
+  Name = 'Name'
+}
+
+export type WorkplaceResult = {
+  __typename?: 'WorkplaceResult';
+  distance?: Maybe<Scalars['Float']>;
+  relevance?: Maybe<Scalars['Int']>;
+  workplace: Workplace;
+};
+
+export type WorkplaceResults = {
+  __typename?: 'WorkplaceResults';
+  from?: Maybe<Scalars['Int']>;
+  results?: Maybe<Array<Maybe<WorkplaceResult>>>;
+  size?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export enum WorkplaceSortScope {
+  Distance = 'Distance',
+  Name = 'Name',
+  Relevancy = 'Relevancy'
+}
+
+export type WorkplaceSuggestFragment = OneKeyEntity & {
+  __typename?: 'WorkplaceSuggestFragment';
+  emailAddress?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  intlFax?: Maybe<Scalars['String']>;
+  intlPhone?: Maybe<Scalars['String']>;
+  localPhone?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  officialName?: Maybe<Scalars['String']>;
+  openHours?: Maybe<Array<Maybe<DailyOpenHours>>>;
+  type?: Maybe<KeyedString>;
+  webAddress?: Maybe<Scalars['String']>;
+};
+
 export type ActivitiesQueryVariables = Exact<{
   first: Scalars['Int'];
   offset: Scalars['Int'];
@@ -652,333 +715,30 @@ export type ActivitiesQueryVariables = Exact<{
 }>;
 
 
-export type ActivitiesQuery = {
-  __typename?: 'Query'
-  activities?:
-    | Array<
-        | {
-            __typename?: 'ActivityResult'
-            distance?: number | null | undefined
-            relevance?: number | null | undefined
-            activity: {
-              __typename?: 'ActivityFragment'
-              id: string
-              url?:
-                | {
-                    __typename?: 'Url'
-                    doctolib?:
-                      | {
-                          __typename?: 'UrlDetail'
-                          webcrawled?: string | null | undefined
-                          generated?: string | null | undefined
-                        }
-                      | null
-                      | undefined
-                    arzttermine?:
-                      | {
-                          __typename?: 'UrlDetail'
-                          webcrawled?: string | null | undefined
-                          generated?: string | null | undefined
-                        }
-                      | null
-                      | undefined
-                    maiia?:
-                      | {
-                          __typename?: 'UrlDetail'
-                          webcrawled?: string | null | undefined
-                          generated?: string | null | undefined
-                        }
-                      | null
-                      | undefined
-                  }
-                | null
-                | undefined
-              individual: {
-                __typename?: 'IndividualFragment'
-                id: string
-                firstName?: string | null | undefined
-                lastName: string
-                middleName?: string | null | undefined
-                meshTerms?: Array<string | null | undefined> | null | undefined
-                kvTerms?: Array<string | null | undefined> | null | undefined
-                chTerms?: Array<string | null | undefined> | null | undefined
-                reviewsAvailable?: boolean | null | undefined
-                diseasesAvailable?: boolean | null | undefined
-                professionalType: { __typename?: 'KeyedString'; label: string }
-                specialties: Array<{
-                  __typename?: 'KeyedString'
-                  label: string
-                }>
-                uci?:
-                  | {
-                      __typename?: 'Uci'
-                      rpps?: string | null | undefined
-                      adeli?: string | null | undefined
-                    }
-                  | null
-                  | undefined
-              }
-              workplace: {
-                __typename?: 'Workplace'
-                id: string
-                openHours?:
-                  | Array<
-                      | {
-                          __typename?: 'DailyOpenHours'
-                          day?: Day | null | undefined
-                          openPeriods: {
-                            __typename?: 'OpenPeriod'
-                            open?: string | null | undefined
-                            close?: string | null | undefined
-                          }
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined
-                address: {
-                  __typename?: 'Address'
-                  longLabel: string
-                  buildingLabel?: string | null | undefined
-                  postalCode: string
-                  country: string
-                  county?:
-                    | { __typename?: 'KeyedString'; label: string }
-                    | null
-                    | undefined
-                  city: { __typename?: 'KeyedString'; label: string }
-                  location?:
-                    | { __typename?: 'Geopoint'; lat: number; lon: number }
-                    | null
-                    | undefined
-                }
-              }
-            }
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined
-}
+export type ActivitiesQuery = { __typename?: 'Query', activities?: Array<{ __typename?: 'ActivityResult', distance?: number | null | undefined, relevance?: number | null | undefined, activity: { __typename?: 'ActivityFragment', id: string, url?: { __typename?: 'Url', doctolib?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined, arzttermine?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined, maiia?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined } | null | undefined, individual: { __typename?: 'IndividualFragment', id: string, firstName?: string | null | undefined, lastName: string, middleName?: string | null | undefined, meshTerms?: Array<string | null | undefined> | null | undefined, kvTerms?: Array<string | null | undefined> | null | undefined, chTerms?: Array<string | null | undefined> | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, professionalType: { __typename?: 'KeyedString', label: string }, specialties: Array<{ __typename?: 'KeyedString', label: string }>, uci?: { __typename?: 'Uci', rpps?: string | null | undefined, adeli?: string | null | undefined } | null | undefined }, workplace: { __typename?: 'Workplace', id: string, openHours?: Array<{ __typename?: 'DailyOpenHours', day?: Day | null | undefined, openPeriods: { __typename?: 'OpenPeriod', open?: string | null | undefined, close?: string | null | undefined } } | null | undefined> | null | undefined, address: { __typename?: 'Address', longLabel: string, buildingLabel?: string | null | undefined, postalCode: string, country: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } } | null | undefined> | null | undefined };
 
 export type ActivityByIdQueryVariables = Exact<{
-  id: Scalars['ID']
-  locale?: InputMaybe<Scalars['String']>
-}>
+  id: Scalars['ID'];
+  locale?: InputMaybe<Scalars['String']>;
+}>;
 
-export type ActivityByIdQuery = {
-  __typename?: 'Query'
-  activityByID?:
-    | {
-        __typename?: 'Activity'
-        id: string
-        phone?: string | null | undefined
-        fax?: string | null | undefined
-        webAddress?: string | null | undefined
-        url?:
-          | {
-              __typename?: 'Url'
-              doctolib?:
-                | {
-                    __typename?: 'UrlDetail'
-                    webcrawled?: string | null | undefined
-                    generated?: string | null | undefined
-                  }
-                | null
-                | undefined
-              arzttermine?:
-                | {
-                    __typename?: 'UrlDetail'
-                    webcrawled?: string | null | undefined
-                    generated?: string | null | undefined
-                  }
-                | null
-                | undefined
-              maiia?:
-                | {
-                    __typename?: 'UrlDetail'
-                    webcrawled?: string | null | undefined
-                    generated?: string | null | undefined
-                  }
-                | null
-                | undefined
-            }
-          | null
-          | undefined
-        role: { __typename?: 'KeyedString'; code: string; label: string }
-        workplace: {
-          __typename?: 'Workplace'
-          id: string
-          name: string
-          intlPhone?: string | null | undefined
-          intlFax?: string | null | undefined
-          localPhone?: string | null | undefined
-          openHours?:
-            | Array<
-                | {
-                    __typename?: 'DailyOpenHours'
-                    day?: Day | null | undefined
-                    openPeriods: {
-                      __typename?: 'OpenPeriod'
-                      open?: string | null | undefined
-                      close?: string | null | undefined
-                    }
-                  }
-                | null
-                | undefined
-              >
-            | null
-            | undefined
-          address: {
-            __typename?: 'Address'
-            longLabel: string
-            country: string
-            postalCode: string
-            buildingLabel?: string | null | undefined
-            county?:
-              | { __typename?: 'KeyedString'; label: string }
-              | null
-              | undefined
-            city: { __typename?: 'KeyedString'; label: string }
-            location?:
-              | { __typename?: 'Geopoint'; lat: number; lon: number }
-              | null
-              | undefined
-          }
-        }
-        individual: {
-          __typename?: 'Individual'
-          id: string
-          firstName?: string | null | undefined
-          lastName: string
-          middleName?: string | null | undefined
-          mailingName?: string | null | undefined
-          nickname?: string | null | undefined
-          suffixName?: string | null | undefined
-          meshTerms?: Array<string | null | undefined> | null | undefined
-          kvTerms?: Array<string | null | undefined> | null | undefined
-          chTerms?: Array<string | null | undefined> | null | undefined
-          reviewsAvailable?: boolean | null | undefined
-          diseasesAvailable?: boolean | null | undefined
-          professionalType: { __typename?: 'KeyedString'; label: string }
-          specialties: Array<{
-            __typename?: 'KeyedString'
-            code: string
-            label: string
-          }>
-          mainActivity: {
-            __typename?: 'ActivityList'
-            id: string
-            workplace: {
-              __typename?: 'Workplace'
-              address: {
-                __typename?: 'Address'
-                longLabel: string
-                postalCode: string
-                buildingLabel?: string | null | undefined
-                city: {
-                  __typename?: 'KeyedString'
-                  code: string
-                  label: string
-                }
-              }
-            }
-          }
-          otherActivities: Array<{
-            __typename?: 'ActivityList'
-            id: string
-            workplace: {
-              __typename?: 'Workplace'
-              address: {
-                __typename?: 'Address'
-                longLabel: string
-                postalCode: string
-                buildingLabel?: string | null | undefined
-                city: {
-                  __typename?: 'KeyedString'
-                  code: string
-                  label: string
-                }
-              }
-            }
-          }>
-          uci?:
-            | {
-                __typename?: 'Uci'
-                rpps?: string | null | undefined
-                adeli?: string | null | undefined
-              }
-            | null
-            | undefined
-        }
-      }
-    | null
-    | undefined
-}
+
+export type ActivityByIdQuery = { __typename?: 'Query', activityByID?: { __typename?: 'Activity', id: string, phone?: string | null | undefined, fax?: string | null | undefined, webAddress?: string | null | undefined, url?: { __typename?: 'Url', doctolib?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined, arzttermine?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined, maiia?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined } | null | undefined, role: { __typename?: 'KeyedString', code: string, label: string }, workplace: { __typename?: 'Workplace', id: string, name: string, intlPhone?: string | null | undefined, intlFax?: string | null | undefined, localPhone?: string | null | undefined, openHours?: Array<{ __typename?: 'DailyOpenHours', day?: Day | null | undefined, openPeriods: { __typename?: 'OpenPeriod', open?: string | null | undefined, close?: string | null | undefined } } | null | undefined> | null | undefined, address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, buildingLabel?: string | null | undefined, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } }, individual: { __typename?: 'Individual', id: string, firstName?: string | null | undefined, lastName: string, middleName?: string | null | undefined, mailingName?: string | null | undefined, nickname?: string | null | undefined, suffixName?: string | null | undefined, meshTerms?: Array<string | null | undefined> | null | undefined, kvTerms?: Array<string | null | undefined> | null | undefined, chTerms?: Array<string | null | undefined> | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, professionalType: { __typename?: 'KeyedString', label: string }, specialties: Array<{ __typename?: 'KeyedString', code: string, label: string }>, mainActivity: { __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, buildingLabel?: string | null | undefined, city: { __typename?: 'KeyedString', code: string, label: string } } } }, otherActivities: Array<{ __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, buildingLabel?: string | null | undefined, city: { __typename?: 'KeyedString', code: string, label: string } } } }>, uci?: { __typename?: 'Uci', rpps?: string | null | undefined, adeli?: string | null | undefined } | null | undefined } } | null | undefined };
 
 export type CodesByLabelQueryVariables = Exact<{
-  first: Scalars['Int']
-  offset: Scalars['Int']
-  criteria?: InputMaybe<Scalars['String']>
-  codeTypes: Array<Scalars['String']> | Scalars['String']
-  locale?: InputMaybe<Scalars['String']>
-  country?: InputMaybe<Scalars['String']>
-  criteriaScope?: InputMaybe<CodeCriteriaScope>
-}>
+  first: Scalars['Int'];
+  offset: Scalars['Int'];
+  criteria?: InputMaybe<Scalars['String']>;
+  codeTypes: Array<Scalars['String']> | Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  criteriaScope?: InputMaybe<CodeCriteriaScope>;
+}>;
 
-export type CodesByLabelQuery = {
-  __typename?: 'Query'
-  codesByLabel?:
-    | {
-        __typename?: 'CodeResult'
-        codes?:
-          | Array<
-              | {
-                  __typename?: 'Code'
-                  id?: string | null | undefined
-                  lisCode: string
-                  lisLbl: string
-                  longLbl: string
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined
-      }
-    | null
-    | undefined
-}
 
-export type UrlFragment = {
-  __typename?: 'Url'
-  doctolib?:
-    | {
-        __typename?: 'UrlDetail'
-        webcrawled?: string | null | undefined
-        generated?: string | null | undefined
-      }
-    | null
-    | undefined
-  arzttermine?:
-    | {
-        __typename?: 'UrlDetail'
-        webcrawled?: string | null | undefined
-        generated?: string | null | undefined
-      }
-    | null
-    | undefined
-  maiia?:
-    | {
-        __typename?: 'UrlDetail'
-        webcrawled?: string | null | undefined
-        generated?: string | null | undefined
-      }
-    | null
-    | undefined
-}
+export type CodesByLabelQuery = { __typename?: 'Query', codesByLabel?: { __typename?: 'CodeResult', codes?: Array<{ __typename?: 'Code', id?: string | null | undefined, lisCode: string, lisLbl: string, longLbl: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type UrlFragment = { __typename?: 'Url', doctolib?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined, arzttermine?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined, maiia?: { __typename?: 'UrlDetail', webcrawled?: string | null | undefined, generated?: string | null | undefined } | null | undefined };
 
 export type IndividualByIdQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1035,4 +795,4 @@ export type SuggestQueryVariables = Exact<{
 }>;
 
 
-export type SuggestQuery = { __typename?: 'Query', suggest?: { __typename?: 'SuggestResult', from?: number | null | undefined, size?: number | null | undefined, total?: number | null | undefined, results?: Array<{ __typename?: 'SuggestFragment', individual?: { __typename?: 'IndividualSuggestFragment', firstName?: string | null | undefined, lastName?: string | null | undefined, mainActivity?: { __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined, medTerms?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined, address?: { __typename?: 'Address', longLabel: string, country: string } | null | undefined, specialty?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined, medTerm?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type SuggestQuery = { __typename?: 'Query', suggest?: { __typename?: 'SuggestResult', from?: number | null | undefined, size?: number | null | undefined, total?: number | null | undefined, results?: Array<{ __typename?: 'SuggestFragment', individual?: { __typename?: 'IndividualSuggestFragment', firstName?: string | null | undefined, lastName?: string | null | undefined, activity?: { __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined, medTerms?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined, address?: { __typename?: 'Address', longLabel: string, country: string } | null | undefined, specialty?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined, medTerm?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
