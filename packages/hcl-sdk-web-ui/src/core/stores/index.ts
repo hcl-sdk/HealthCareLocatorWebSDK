@@ -17,12 +17,14 @@ export const i18nStore = new I18nStore();
 // Observe Change
 
 configStore.onChange('modeView', (newModeView: ModeViewType) => {
+  const isFreeTextName = searchMapStore.state.searchFields.name;
+
   // Constraint default sort based on map view changes
   searchMapStore.setState({
     sortValues: {
-      lastName: false,
-      relevance: ModeViewType.LIST === newModeView,
-      distanceNumber: ModeViewType.MAP === newModeView
-    }
-  })
+      lastName: ModeViewType.LIST === newModeView && !isFreeTextName,
+      relevance: ModeViewType.LIST === newModeView && !!isFreeTextName,
+      distanceNumber: ModeViewType.MAP === newModeView,
+    },
+  });
 })
