@@ -154,13 +154,18 @@ export class HclSdkSearch {
       loadingActivitiesStatus: 'loading'
     })
 
+    // set sortValues based on wether have free text name
+    const isFreeTextName = searchMapStore.state.searchFields.name;
+    searchMapStore.setState({
+      sortValues: {
+        lastName: !isFreeTextName,
+        relevance: !!isFreeTextName,
+      },
+    });
+
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
     } else {
-      // use relevance sort when search new value from SEARCU_RESULT route
-      searchMapStore.setState({
-        sortValues: { relevance: true },
-      });
       searchLocationWithParams()
     }
 
