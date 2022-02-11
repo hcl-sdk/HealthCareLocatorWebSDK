@@ -18,7 +18,10 @@ export class HclSdkIcon {
 
   componentWillLoad() {
     this.iconComponent = `hcl-sdk-icon-${this.name}`;
-    
+  }
+
+  componentWillUpdate() {
+    this.iconComponent = `hcl-sdk-icon-${this.name}`;
   }
 
   render() {
