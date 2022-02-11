@@ -1443,18 +1443,18 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@healthcarelocator/sdk-angular@*":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@healthcarelocator/sdk-angular/-/sdk-angular-0.0.19.tgz#9d7ec2982b13f34d18ddfed666cae630fc3154b3"
-  integrity sha512-o0z8wSyf7CYD50DEjM/dvhlLJ6r0PivO0aU9GwmvzJqBW/fnu/4nYa9GINDdQfDT9eZTgGDA3ARABDHX/t35pQ==
+"@healthcarelocator/sdk-angular@latest":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@healthcarelocator/sdk-angular/-/sdk-angular-0.0.23.tgz#c642557393e519ef28cb95b985b849b3601300f1"
+  integrity sha512-sxC8FnPMw0Ymfac+KDEhC5ea0IkgBdJv36QEIk4l65mqcy8D+jetoZCb+PNbFL6Rp3YV0jbx5AvNfSq4LBcT9Q==
   dependencies:
-    "@healthcarelocator/sdk-web" "^0.1.20"
+    "@healthcarelocator/sdk-web" "0.1.24"
     tslib "^2.1.0"
 
-"@healthcarelocator/sdk-web@^0.1.20":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@healthcarelocator/sdk-web/-/sdk-web-0.1.20.tgz#54eba1a10c8ec22b945d78a80e06cecc01fc7b9e"
-  integrity sha512-S4jxg6f3LISPI/0j1HG1S2saek6OP7kkzQKs5JvIBBNNLtVVrmakXBQnrNGnM5EGpoUpSX3iGbrV3fTVxaxkDA==
+"@healthcarelocator/sdk-web@0.1.24":
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/@healthcarelocator/sdk-web/-/sdk-web-0.1.24.tgz#d895e1549bdb65af613fe007a86223ec4edffcdf"
+  integrity sha512-jf8Tnfq47ZvXwqigBQgKN5U/c9Dmd+GW7Rq8sqtore/PSuQsk3NMXMG99L72SYExf5jfptP1cGE38Fjm39u95Q==
   dependencies:
     "@stencil/store" "^1.3.0"
     axios "^0.21.0"
