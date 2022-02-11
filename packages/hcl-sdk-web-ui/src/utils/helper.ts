@@ -1,7 +1,16 @@
 import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
 import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, ActivityResult, ActivitySortScope, Individual, IndividualFragment, IndividualSuggestFragment, KeyedString, Url } from '../../../hcl-sdk-core/src/graphql/types';
+import {
+  ActivityList,
+  ActivityResult,
+  ActivitySortScope,
+  Individual,
+  IndividualFragment,
+  IndividualSuggestFragment,
+  KeyedString,
+  Url,
+} from '../../../hcl-sdk-core/src/graphql/types';
 import { t } from '../utils/i18n';
 import { DistanceUnit } from '../core/stores/ConfigStore';
 import { SearchSpecialty, SortValue } from '../core/stores/SearchMapStore'
@@ -267,20 +276,11 @@ export const handleMapActivities = (item: ActivityResult) => ({
   id: item.activity.id,
   reviewsAvailable: item.activity.individual.reviewsAvailable,
   diseasesAvailable: item.activity.individual.diseasesAvailable,
-  url: getUrl(item.activity.workplace.address.country, item.activity.url)
+  url: getUrl(item.activity.workplace.address.country, item.activity.urls)
 })
 
-export function getUrl(_country, url: Url) {
-  const doctolib = url.doctolib || {}
-  const maiia = url.maiia || {}
-
-  const webcrawled = doctolib.webcrawled || maiia.webcrawled
-
-  let appointmentUrl = ''
-
-  if (webcrawled) {
-    appointmentUrl = webcrawled
-  }
+export function getUrl(_country, urls: Url[]) {
+  const appointmentUrl = urls && urls[0]?.url?.webcrawled;
 
   if (!appointmentUrl) {
     return null

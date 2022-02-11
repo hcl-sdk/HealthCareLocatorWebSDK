@@ -446,7 +446,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     reviewsAvailable: activity.individual.reviewsAvailable,
     diseasesAvailable: activity.individual.diseasesAvailable,
     reviewsByIndividual: undefined,
-    url: getUrl(activity.workplace.address.country, activity.url),
+    url: getUrl(activity.workplace.address.country, activity.urls),
     openHours: activity.workplace.openHours
   };
 
