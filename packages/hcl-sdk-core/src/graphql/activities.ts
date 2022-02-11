@@ -40,8 +40,10 @@ const QUERY_ACTIVITIES = gql`
       relevance
       activity {
         id
-        url {
-          ...Url
+        urls {
+          url {
+            ...Url
+          }
         }
         individual {
           id
@@ -94,7 +96,7 @@ const QUERY_ACTIVITIES = gql`
     }
   }
   ${FRAGMENT_URL}
-`
+`;
 
 export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
   return graphqlClient(QUERY_ACTIVITIES, variables, config);

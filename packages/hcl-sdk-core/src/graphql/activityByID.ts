@@ -12,8 +12,10 @@ const QUERY_ACTIVITY_BY_ID = gql`
     activityByID(id: $id, locale: $locale) {
       id
       phone
-      url {
-        ...Url
+      urls {
+        url {
+          ...Url
+        }
       }
       role {
         code
@@ -108,7 +110,7 @@ const QUERY_ACTIVITY_BY_ID = gql`
     }
   }
   ${FRAGMENT_URL}
-`
+`;
 
 export default function activityByID(variables: QueryActivityByIdArgs, config?): Promise<ActivityByIdResult> {
   return graphqlClient(QUERY_ACTIVITY_BY_ID, variables, config)
