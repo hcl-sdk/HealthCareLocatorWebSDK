@@ -1,9 +1,14 @@
 import axios from 'axios';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { i18nStore } from '../stores';
 import { GeoProvider } from './geo-provider-interface';
 
 export class GeoProviderOpenstreet implements GeoProvider {
-  provider = new OpenStreetMapProvider();
+  provider = new OpenStreetMapProvider({
+    params: {
+      'accept-language': i18nStore.state.lang,
+    },
+  });
 
   async searchGeoMap({ address, countrycodes }) {
     const results = await this.provider.search({
