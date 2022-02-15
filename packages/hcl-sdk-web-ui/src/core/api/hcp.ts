@@ -385,7 +385,10 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
   const variables: Parameters<typeof graphql.suggest>[0] = {
     first: 30,
     criteria: criteria,
-    locale: i18nStore.state.lang,
+    // MedTerms are only availble in English, and Suggest query is locate awared,
+    // so Suggest query is not working for MedTerm search with locale other than English.
+    // Change: temporarily use locale "en" for scope "MedTerm in Suggest query regardless of locale setting.
+    locale: 'en', // i18nStore.state.lang,
     scope: SuggestScope.MedTerm,
     country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
