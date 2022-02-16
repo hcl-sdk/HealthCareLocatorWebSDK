@@ -258,26 +258,34 @@ export function getCurrentPosition(
   })
 }
 
-export const handleMapActivities = (item: ActivityResult) => ({
-  distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
-  distanceNumber: item.distance,
-  relevance: item.relevance,
-  name: getHcpFullname(item.activity.individual),
-  lastName: item.activity.individual.lastName,
-  professionalType: item.activity.individual.professionalType.label,
-  specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
-  specialtyPrimary: getSpecialtiesText(item.activity.individual.specialties)[0],
-  address: [
-    item.activity.workplace.address.longLabel, 
-    item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label
-  ].filter(s => s).join(', '),
-  lat: item.activity.workplace.address.location.lat,
-  lng: item.activity.workplace.address.location.lon,
-  id: item.activity.id,
-  reviewsAvailable: item.activity.individual.reviewsAvailable,
-  diseasesAvailable: item.activity.individual.diseasesAvailable,
-  url: getUrl(item.activity.workplace.address.country, item.activity.urls)
-})
+export const handleMapActivities = (item: ActivityResult, searchedSpecialtyCode?: string) => {
+  return {
+    distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
+    distanceNumber: item.distance,
+    relevance: item.relevance,
+    name: getHcpFullname(item.activity.individual),
+    lastName: item.activity.individual.lastName,
+    professionalType: item.activity.individual.professionalType.label,
+    specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
+    specialtyPrimary: getSpecialtiesText(
+      item.activity.individual.specialties.filter(
+        specialty => !searchedSpecialtyCode || specialty.code === searchedSpecialtyCode,
+      ),
+    )[0],
+    address: [
+      item.activity.workplace.address.longLabel,
+      item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label,
+    ]
+      .filter(s => s)
+      .join(', '),
+    lat: item.activity.workplace.address.location.lat,
+    lng: item.activity.workplace.address.location.lon,
+    id: item.activity.id,
+    reviewsAvailable: item.activity.individual.reviewsAvailable,
+    diseasesAvailable: item.activity.individual.diseasesAvailable,
+    url: getUrl(item.activity.workplace.address.country, item.activity.urls),
+  };
+};
 
 export function getUrl(_country, urls: Url[]) {
   const appointmentUrl = urls && urls[0]?.url?.webcrawled;

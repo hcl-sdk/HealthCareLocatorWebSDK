@@ -110,7 +110,7 @@ export class HclSdkWidgetMap {
       this.cachedQuery[paramsStr] = true
       const { activities } = await graphql.activities(params, configStore.configGraphql)
 
-      this.locations = (activities || []).map(handleMapActivities)
+      this.locations = (activities || []).map(activity => handleMapActivities(activity));
       this.cachedQuery[paramsStr] = this.locations
     } catch(err) {}
   }
