@@ -44,8 +44,10 @@ export interface SelectedValues {
   address?: any;
 }
 
+type SORT_DISABLED = 'SORT_DISABLED';
+
 export interface SortValue {
-  distanceNumber?: boolean;
+  distanceNumber?: boolean | SORT_DISABLED;
   lastName?: boolean;
   relevance?: boolean;
 }
@@ -193,6 +195,23 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
   constructor(state: SearchMapState) {
     super(state);
     this.state = state;
+  }
+
+  setSortValues(sortValue: SortValue) {
+    this.setState({
+      sortValues: {
+        ...this.state.sortValues,
+        ...sortValue,
+        distanceNumber: this.isGrantedGeoloc ? sortValue.distanceNumber : 'SORT_DISABLED',
+      },
+    });
+  }
+
+  get sortValues() {
+    return {
+      ...this.state.sortValues,
+      distanceNumber: this.isGrantedGeoloc ? this.state.sortValues.distanceNumber : 'SORT_DISABLED',
+    };
   }
 
   setSearchFieldValue(key: SearchInputName, value: string) {

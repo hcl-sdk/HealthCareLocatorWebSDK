@@ -154,17 +154,6 @@ export class HclSdkSearch {
       loadingActivitiesStatus: 'loading'
     })
 
-    // set sortValues based on wether have free text name
-    const isFreeTextName = searchMapStore.state.searchFields.name;
-    const locationFilterNearMe = searchMapStore.state.locationFilter && searchMapStore.state.locationFilter.id === NEAR_ME;
-    searchMapStore.setState({
-      sortValues: {
-        lastName: !locationFilterNearMe && !isFreeTextName,
-        relevance: !locationFilterNearMe && !!isFreeTextName,
-        distanceNumber: locationFilterNearMe,
-      },
-    });
-
     if(routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
     } else {
