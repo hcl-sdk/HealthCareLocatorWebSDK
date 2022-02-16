@@ -18,13 +18,28 @@ export const i18nStore = new I18nStore();
 
 configStore.onChange('modeView', (newModeView: ModeViewType) => {
   const isFreeTextName = searchMapStore.state.searchFields.name;
+  const isGrantedGeoloc = searchMapStore.isGrantedGeoloc;
 
   // Constraint default sort based on map view changes
-  searchMapStore.setState({
-    sortValues: {
+  let sortValues = {
+    lastName: false,
+    distanceNumber: false,
+    relevance: true,
+  };
+
+  if (!isGrantedGeoloc && ModeViewType.MAP === newModeView) {
+    sortValues = {
+      lastName: !isFreeTextName,
+      relevance: !!isFreeTextName,
+      distanceNumber: false,
+    };
+  } else {
+    sortValues = {
       lastName: ModeViewType.LIST === newModeView && !isFreeTextName,
       relevance: ModeViewType.LIST === newModeView && !!isFreeTextName,
       distanceNumber: ModeViewType.MAP === newModeView,
-    },
-  });
+    };
+  }
+
+  searchMapStore.setSortValues(sortValues);
 })

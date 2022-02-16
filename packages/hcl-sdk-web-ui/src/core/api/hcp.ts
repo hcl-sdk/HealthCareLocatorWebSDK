@@ -140,23 +140,19 @@ export async function genSearchLocationParams({
   const sortValues = searchMapStore.state.sortValues;
   const shouldDefaultSearchNearMe = searchMapStore.isGrantedGeoloc && !locationFilter && sortValues?.distanceNumber;
 
-  if (
-    forceNearMe ||
-    (locationFilter && locationFilter.id === NEAR_ME) ||
-    shouldDefaultSearchNearMe
-  ) {
+  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME) || shouldDefaultSearchNearMe) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
-      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit)
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
     };
     if (!params.location.distanceMeter) {
-      delete params.location.distanceMeter // Don't send this param if developers are not config
+      delete params.location.distanceMeter; // Don't send this param if developers are not config
     }
     if (forceNearMe) {
       // Basic search near me don't have `specialties` in params
       // In case we keep the data specialtyFilter exist in across the pages
-      params.country = configStore.state.countryGeo || configStore.countryGraphqlQuery
+      params.country = configStore.state.countryGeo || configStore.countryGraphqlQuery;
       return params;
     }
   } else if (locationFilter) {
@@ -180,13 +176,18 @@ export async function genSearchLocationParams({
         lon: Number(lon),
         // distanceMeter: distanceMeter
       },
-      ...extraParams // country (removed), ...
-    }
+      ...extraParams, // country (removed), ...
+    };
     if (distanceMeter) {
-      params.location.distanceMeter = distanceMeter
+      params.location.distanceMeter = distanceMeter;
     }
   }
-  
+
+  if (searchMapStore.isGrantedGeoloc && sortValues.distanceNumber && !(locationFilter && locationFilter.id === NEAR_ME)) {
+    params.location.distanceMeter = convertToMeter(20000, 'km');
+    // use a big number, independent of value in settings and default value of API
+  } 
+ 
   if (specialtyFilter?.length > 0) {
     params.specialties = specialtyFilter.map(arr => arr.id);
   }
@@ -248,7 +249,7 @@ export async function searchLocation(variables, {
 
   try {
     const sortValues = searchMapStore.state.sortValues
-    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm])
+    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm] && sortValues[elm] !== 'SORT_DISABLED');
 
     const sorts = getServerSideSortFields(sortByField)
 

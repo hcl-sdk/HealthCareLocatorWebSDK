@@ -13,32 +13,32 @@ export class HclSdkSort {
   @State() sortValues: SortValue
 
   componentWillLoad() {
-    this.sortValues = searchMapStore.state.sortValues
+    this.sortValues = searchMapStore.sortValues
 
     searchMapStore.storeInstance
       .onChange('sortValues', (newSortValues: SortValue) => {
         if (newSortValues !== this.sortValues) {
-          this.sortValues = newSortValues
+          this.sortValues = searchMapStore.sortValues
         }
       })
   }
 
   onSubmit = e => {
     e.preventDefault();
-    searchMapStore.setState({
-      sortValues: this.sortValues
-    })
+    searchMapStore.setSortValues(this.sortValues)
   };
 
   onChange = e => {
     const { name, checked } = e.target;
 
-    this.sortValues = {
-      distanceNumber: false,
-      lastName: false,
-      relevance: false,
-      [name]: checked,
+    const changes = {}
+    for (const option of Object.keys(this.sortValues)) {
+      const currentValue = this.sortValues[option] 
+      changes[option] = currentValue === true ? false : currentValue
     }
+
+    changes[name] = checked
+    this.sortValues = changes
   };
 
   onReset = () => {
@@ -58,10 +58,12 @@ export class HclSdkSort {
                 <hcl-sdk-input type="checkbox" id="relevance" name="relevance" checked={relevance} onInput={this.onChange} />
               </div>
 
-              <div class="sort-option-item">
-                <label htmlFor="distance">{t('distance_item')}</label>
-                <hcl-sdk-input type="checkbox" id="distanceNumber" name="distanceNumber" checked={distanceNumber} onInput={this.onChange} />
-              </div>
+              {distanceNumber !== 'SORT_DISABLED' && (
+                <div class="sort-option-item">
+                  <label htmlFor="distance">{t('distance_item')}</label>
+                  <hcl-sdk-input type="checkbox" id="distanceNumber" name="distanceNumber" checked={distanceNumber} onInput={this.onChange} />
+                </div>
+              )}
 
               <div class="sort-option-item">
                 <label htmlFor="name">{t('name_item')}</label>
