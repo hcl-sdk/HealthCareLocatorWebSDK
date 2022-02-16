@@ -274,7 +274,9 @@ export async function searchLocation(variables, {
       searchMapStore.saveCached(storeKey, resActivities.activities)
     }
 
-    const data = (activities || []).map(handleMapActivities)
+    const data = (activities || []).map(activity =>
+      handleMapActivities(activity, variables.specialties && variables.specialties[0]),
+    );
 
     isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0
 

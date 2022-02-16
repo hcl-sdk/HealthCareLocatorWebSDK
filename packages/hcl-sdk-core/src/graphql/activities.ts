@@ -54,6 +54,7 @@ const QUERY_ACTIVITIES = gql`
             label
           }
           specialties {
+            code
             label
           }
           meshTerms
