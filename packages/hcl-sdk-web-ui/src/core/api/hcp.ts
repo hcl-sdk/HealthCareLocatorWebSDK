@@ -459,22 +459,27 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
   // Fetch to get reviews
   let idnat: string
 
-  if (data.uciRpps) {
-    idnat = '8' + data.uciRpps
-  } else if (data.uciAdeli) {
-    idnat = '0' + data.uciAdeli
-  }
+  if (data.diseasesAvailable || data.reviewsAvailable) {
+    if (data.uciRpps) {
+      idnat = '8' + data.uciRpps;
+    } else if (data.uciAdeli) {
+      idnat = '0' + data.uciAdeli;
+    }
 
-  if (idnat) {
-    const { reviewsByIndividual } = await graphql.reviewsByIndividual({
-      idnat
-    }, configStore.configGraphql)
+    if (idnat) {
+      const { reviewsByIndividual } = await graphql.reviewsByIndividual(
+        {
+          idnat,
+        },
+        configStore.configGraphql,
+      );
 
-    if (reviewsByIndividual) {
-      data.reviewsByIndividual = {
-        idnat: reviewsByIndividual.idnat,
-        reviews: reviewsByIndividual.reviews || [],
-        diseases: reviewsByIndividual.diseases || []
+      if (reviewsByIndividual) {
+        data.reviewsByIndividual = {
+          idnat: reviewsByIndividual.idnat,
+          reviews: reviewsByIndividual.reviews || [],
+          diseases: reviewsByIndividual.diseases || [],
+        };
       }
     }
   }
