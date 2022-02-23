@@ -143,6 +143,18 @@ export class HclSdkSearch {
       this.checkValidElm(addressRef);
     }
 
+    if (searchMapStore.state.locationFilter && searchMapStore.state.locationFilter.id === NEAR_ME) {
+      searchMapStore.setSortValues({
+        relevance: false,
+        distanceNumber: true,
+      });
+    } else {
+      searchMapStore.setSortValues({
+        relevance: true,
+        distanceNumber: false,
+      });
+    }
+
     if (!this.isTouched) {
       return;
     }

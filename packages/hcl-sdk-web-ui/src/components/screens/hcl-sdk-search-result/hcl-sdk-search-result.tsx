@@ -59,7 +59,6 @@ export class HclSdkSearchResult {
   searchDataMapElm;
 
   handleObserveSortValuesChange() {
-    searchLocationWithParams();
 
     configStore.setState({
       modal: undefined,
@@ -313,10 +312,8 @@ export class HclSdkSearchResult {
     }
 
     const {
-      specialties,
       selectedActivity,
       searchFields,
-      loadingActivitiesStatus,
       individualDetail,
       isAllowDisplayMapEmpty
     } = searchMapStore.state;
@@ -355,15 +352,17 @@ export class HclSdkSearchResult {
     }
 
     const isShowHCPDetail = individualDetail || selectedActivity;
-    const loadingActivities = loadingActivitiesStatus === 'loading';
-    const isNoDataAvailable = loadingActivitiesStatus ===  'unauthorized';
-    const isShowNoResults = !isAllowDisplayMapEmpty && !loadingActivities && specialties && !specialties.length && !isShowHCPDetail && !isNoDataAvailable;
+
+    const  { isLoading: loadingActivities, status: activitiesStatus, data: activities } = searchMapStore.activities
+    const isNoDataAvailable = activitiesStatus ===  'unauthorized';
+
+    const isShowNoResults = !isAllowDisplayMapEmpty && !loadingActivities && activities && !activities.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,
       desktop: !loadingActivities && !isSmall,
     }
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
-    const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && specialties && specialties.length !== 0);
+    const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && activities && activities.length !== 0);
 
     const locationsMapSingle = this.getLocationsMapSingle();
     const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
@@ -419,7 +418,7 @@ export class HclSdkSearchResult {
                   {isShowHCPDetail ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
                   {!isShowHCPDetail && (
                     <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                      {!loadingActivities && specialties.map(elm => (
+                      {!loadingActivities && activities.map(elm => (
                         <hcl-sdk-doctor-card
                           selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng}
                           {...elm}
@@ -470,7 +469,7 @@ export class HclSdkSearchResult {
                     <hcl-sdk-map
                       key="map-cluster"
                       breakpoint={breakpoint}
-                      locations={specialties}
+                      locations={activities}
                       isShowMeMarker={true}
                       {...injectedMapProps}
                     />

@@ -1,23 +1,6 @@
-import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
-import { HistoryHcpItem } from '../stores/HistoryStore';
-import { graphql } from '../../../../hcl-sdk-core';
-import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
-import {
-  getMergeMainAndOtherActivities,
-  getSpecialtiesText,
-  getHcpFullname,
-  getCombineListTerms,
-  convertToMeter,
-  getSpecialties,
-  handleMapActivities,
-  getUrl,
-  getClientSideSortFields,
-  getServerSideSortFields,
-} from '../../utils/helper';
-import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
-import { getGooglePlaceDetails } from './searchGeo';
+import { graphql } from '../../../../hcl-sdk-core';
 import {
   ActivityCriteria,
   ActivityCriteriaScope,
@@ -27,6 +10,22 @@ import {
   QueryIndividualsByNameArgs,
   SuggestScope,
 } from '../../../../hcl-sdk-core/src/graphql/types';
+import {
+  convertToMeter,
+  getActivitySortScopesFromSortValues,
+  getCombineListTerms,
+  getHcpFullname,
+  getMergeMainAndOtherActivities,
+  getSpecialties,
+  getSpecialtiesText,
+  getUrl,
+  handleMapActivities,
+} from '../../utils/helper';
+import { NEAR_ME } from '../constants';
+import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
+import { HistoryHcpItem } from '../stores/HistoryStore';
+import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
+import { getGooglePlaceDetails } from './searchGeo';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -55,7 +54,7 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
   if (addressDetails.road) {
     // Precise Address
     return {
-      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
+      distanceMeter: convertToMeter(20, 'km'),
     };
   }
 
@@ -69,11 +68,6 @@ function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, b
     };
   }
 
-  // if (!addressDetails.city && addressDetails.country && addressDetails.country_code) {
-  //   return {
-  //     country: addressDetails.country_code
-  //   }
-  // }
   return {};
 }
 
@@ -137,10 +131,7 @@ export async function genSearchLocationParams({
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
 
-  const sortValues = searchMapStore.state.sortValues;
-  const shouldDefaultSearchNearMe = searchMapStore.isGrantedGeoloc && !locationFilter && sortValues?.distanceNumber;
-
-  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME) || shouldDefaultSearchNearMe) {
+  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
@@ -181,11 +172,6 @@ export async function genSearchLocationParams({
     if (distanceMeter) {
       params.location.distanceMeter = distanceMeter;
     }
-  }
-
-  if (searchMapStore.isGrantedGeoloc && sortValues.distanceNumber && !(locationFilter && locationFilter.id === NEAR_ME)) {
-    params.location.distanceMeter = convertToMeter(20000, 'km');
-    // use a big number, independent of value in settings and default value of API
   }
 
   if (specialtyFilter?.length > 0) {
@@ -238,6 +224,81 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
   return searchLocation(params);
 }
 
+function shouldSortFromServer(sortValues: SortValue) {
+  return Object.entries(sortValues)
+    .filter(([_, value]) => !!value && value !== 'SORT_DISABLED')
+    .some(([key]) => ['distanceNumber', 'relevance'].includes(key));
+}
+
+export async function changeSortValue(sortValue: SortValue) {
+  searchMapStore.setSortValues(sortValue);
+  searchMapStore.setActivitiesLoadingStatus('loading');
+
+  try {
+    const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields, sortValues } = searchMapStore.state;
+
+    let sorts = undefined;
+
+    const sortFromServer = shouldSortFromServer(sortValues);
+    if (sortFromServer) {
+      sorts = getActivitySortScopesFromSortValues(sortValues);
+    }
+
+    const params = await genSearchLocationParams({
+      forceNearMe: false,
+      locationFilter,
+      specialtyFilter,
+      medicalTermsFilter,
+      searchFields,
+    });
+
+    if (Object.keys(params).length === 1 && params.country) {
+      return;
+    }
+
+    const data = await fetchActivities({ ...params, sorts });
+
+    let specialties = data;
+    if (!sortFromServer) {
+      specialties = sortBy(data, 'lastName');
+    }
+
+    searchMapStore.setState({
+      specialties,
+      specialtiesRaw: data,
+    });
+
+    searchMapStore.setActivitiesLoadingStatus('success');
+  } catch (err) {
+    searchMapStore.setActivitiesLoadingStatus(err.response?.status === 401 ? 'unauthorized' : 'error');
+  }
+}
+
+async function fetchActivities(variables) {
+  let activities: ActivityResult[] = [];
+  const storeKey = configStore.state.apiKey + '/' + JSON.stringify(variables);
+
+  if (searchMapStore.getCached(storeKey)) {
+    activities = searchMapStore.getCached(storeKey);
+  } else {
+    const resActivities = await graphql.activities(
+      {
+        first: 50,
+        offset: 0,
+        locale: i18nStore.state.lang,
+        ...variables,
+      },
+      configStore.configGraphql,
+    );
+    activities = resActivities.activities;
+    searchMapStore.saveCached(storeKey, resActivities.activities);
+  }
+
+  const data = (activities || []).map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
+
+  return data;
+}
+
 export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
   searchMapStore.setState({
     individualDetail: null,
@@ -245,37 +306,22 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
   });
 
   try {
-    const sortValues = searchMapStore.state.sortValues;
-    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm] && sortValues[elm] !== 'SORT_DISABLED');
+    const { sortValues } = searchMapStore.state;
 
-    const sorts = getServerSideSortFields(sortByField);
-
-    let activities: ActivityResult[] = [];
-    const storeKey = configStore.state.apiKey + '/' + JSON.stringify({ sorts, ...variables });
-
-    if (searchMapStore.getCached(storeKey)) {
-      activities = searchMapStore.getCached(storeKey);
-    } else {
-      const resActivities = await graphql.activities(
-        {
-          first: 50,
-          offset: 0,
-          locale: i18nStore.state.lang,
-          sorts,
-          ...variables,
-        },
-        configStore.configGraphql,
-      );
-      activities = resActivities.activities;
-      searchMapStore.saveCached(storeKey, resActivities.activities);
+    let sorts = undefined;
+    const sortFromServer = shouldSortFromServer(sortValues);
+    if (sortFromServer) {
+      sorts = getActivitySortScopesFromSortValues(sortValues);
     }
 
-    const data = (activities || []).map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
+    const data = await fetchActivities({ sorts, ...variables });
 
     isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0;
 
-    const localSortFields = getClientSideSortFields(sortByField);
-    const specialties = sortBy(data, localSortFields);
+    let specialties = data;
+    if (!sortFromServer) {
+      specialties = sortBy(data, 'lastName');
+    }
 
     searchMapStore.setState({
       specialties,

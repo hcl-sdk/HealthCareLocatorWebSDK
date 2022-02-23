@@ -314,10 +314,9 @@ function getSortScope(sortValue: keyof SortValue | string) {
   }
 }
 
-export function getServerSideSortFields(sortValue: (keyof SortValue | string)[]) {
-    return sortValue.map(sortValue => getSortScope(sortValue)).filter(Boolean)
-}
-
-export function getClientSideSortFields(sortValue: (keyof SortValue | string)[]) {
-  return sortValue.filter(field => field === 'lastName')
+export function getActivitySortScopesFromSortValues(sortValues: SortValue) {
+  return Object.entries(sortValues)
+    .filter(([_, value]) => !!value && value !== 'SORT_DISABLED')
+    .map(([key]) => getSortScope(key))
+    .filter(Boolean);
 }
