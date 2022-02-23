@@ -1,23 +1,6 @@
-import { searchMapStore, historyStore, configStore, i18nStore } from '../stores';
-import { HistoryHcpItem } from '../stores/HistoryStore';
-import { graphql } from '../../../../hcl-sdk-core';
-import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SpecialtyItem } from '../stores/SearchMapStore';
-import { 
-  getMergeMainAndOtherActivities, 
-  getSpecialtiesText, 
-  getHcpFullname, 
-  getCombineListTerms, 
-  convertToMeter, 
-  getSpecialties, 
-  handleMapActivities,
-  getUrl,
-  getClientSideSortFields,
-  getServerSideSortFields
-} from '../../utils/helper';
-import { NEAR_ME } from '../constants';
 import { getDistance } from 'geolib';
 import sortBy from 'lodash.sortby';
-import { getGooglePlaceDetails } from './searchGeo';
+import { graphql } from '../../../../hcl-sdk-core';
 import {
   ActivityCriteria,
   ActivityCriteriaScope,
@@ -27,6 +10,22 @@ import {
   QueryIndividualsByNameArgs,
   SuggestScope,
 } from '../../../../hcl-sdk-core/src/graphql/types';
+import {
+  convertToMeter,
+  getActivitySortScopesFromSortValues,
+  getCombineListTerms,
+  getHcpFullname,
+  getMergeMainAndOtherActivities,
+  getSpecialties,
+  getSpecialtiesText,
+  getUrl,
+  handleMapActivities,
+} from '../../utils/helper';
+import { NEAR_ME } from '../constants';
+import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
+import { HistoryHcpItem } from '../stores/HistoryStore';
+import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
+import { getGooglePlaceDetails } from './searchGeo';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
   const bbox = boundingbox.map(strNum => Number(strNum));
@@ -34,57 +33,52 @@ export function groupPointFromBoundingBox(boundingbox: string[]) {
     south: bbox[0],
     north: bbox[1],
     west: bbox[2],
-    east: bbox[3]
-  }
+    east: bbox[3],
+  };
   const point = {
     bottomRight: { latitude: hashBBox.south, longitude: hashBBox.east },
     topLeft: { latitude: hashBBox.north, longitude: hashBBox.west },
     // bottomLeft: { latitude: hashBBox.south, longitude: hashBBox.west },
     // topRight: { latitude: hashBBox.north, longitude: hashBBox.east }
-  }
-  return { bbox, hashBBox, point }
+  };
+  return { bbox, hashBBox, point };
 }
 
 function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
   if (!addressDetails) {
     return {
-      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit)
-    }
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
+    };
   }
 
   if (addressDetails.road) {
     // Precise Address
     return {
-      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit)
-    }
+      distanceMeter: convertToMeter(20, 'km'),
+    };
   }
 
   if (addressDetails.country && (addressDetails.city || addressDetails.state)) {
     // City
-    const { point } = groupPointFromBoundingBox(boundingbox)
+    const { point } = groupPointFromBoundingBox(boundingbox);
 
     const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
     return {
-      distanceMeter: maxDistanceMeter
-    }
+      distanceMeter: maxDistanceMeter,
+    };
   }
 
-  // if (!addressDetails.city && addressDetails.country && addressDetails.country_code) {
-  //   return {
-  //     country: addressDetails.country_code
-  //   }
-  // }
-  return {  }
+  return {};
 }
 
 function countryCodeForSuggest(countryCode: typeof configStore.countryGraphqlQuery) {
   switch (countryCode) {
     case 'UK':
-      return 'GB'
+      return 'GB';
     case 'BK':
-      return 'HR'
+      return 'HR';
     default:
-      return countryCode
+      return countryCode;
   }
 }
 
@@ -100,7 +94,7 @@ async function getLocationForSuggest() {
     return {
       lat: Number(searchMapStore.state.geoLocation.latitude),
       lon: Number(searchMapStore.state.geoLocation.longitude),
-      distanceMeter
+      distanceMeter,
     };
   }
 
@@ -111,14 +105,14 @@ async function getLocationForSuggest() {
     return {
       lat: Number(placeDetail.lat),
       lon: Number(placeDetail.lng),
-      distanceMeter
+      distanceMeter,
     };
   }
 
   return {
     lat: Number(searchMapStore.state.locationFilter.lat),
     lon: Number(searchMapStore.state.locationFilter.lng),
-    distanceMeter
+    distanceMeter,
   };
 }
 
@@ -127,20 +121,17 @@ export async function genSearchLocationParams({
   locationFilter,
   specialtyFilter,
   medicalTermsFilter,
-  searchFields
+  searchFields,
 }: {
   forceNearMe?: boolean;
   locationFilter: any;
-  specialtyFilter: SpecialtyItem[]
-  medicalTermsFilter: SearchTermItem
-  searchFields: SearchFields
+  specialtyFilter: SpecialtyItem[];
+  medicalTermsFilter: SearchTermItem;
+  searchFields: SearchFields;
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
 
-  const sortValues = searchMapStore.state.sortValues;
-  const shouldDefaultSearchNearMe = searchMapStore.isGrantedGeoloc && !locationFilter && sortValues?.distanceNumber;
-
-  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME) || shouldDefaultSearchNearMe) {
+  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
@@ -183,11 +174,6 @@ export async function genSearchLocationParams({
     }
   }
 
-  if (searchMapStore.isGrantedGeoloc && sortValues.distanceNumber && !(locationFilter && locationFilter.id === NEAR_ME)) {
-    params.location.distanceMeter = convertToMeter(20000, 'km');
-    // use a big number, independent of value in settings and default value of API
-  } 
- 
   if (specialtyFilter?.length > 0) {
     params.specialties = specialtyFilter.map(arr => arr.id);
   }
@@ -195,26 +181,26 @@ export async function genSearchLocationParams({
     params.medTerms = [medicalTermsFilter.name]; // name ~ longLbl
   }
 
-  const criterias: ActivityCriteria[] = []
-  const isFreeTextName = searchFields.name
-  const isFreeTextSpecialty = searchFields.specialtyName && !specialtyFilter?.length
-  const isFreeTextTerm = configStore.state.enableMedicalTerm && !medicalTermsFilter && searchFields.medicalTerm
+  const criterias: ActivityCriteria[] = [];
+  const isFreeTextName = searchFields.name;
+  const isFreeTextSpecialty = searchFields.specialtyName && !specialtyFilter?.length;
+  const isFreeTextTerm = configStore.state.enableMedicalTerm && !medicalTermsFilter && searchFields.medicalTerm;
 
   if (isFreeTextName) {
-    criterias.push({ text: searchFields.name, scope: ActivityCriteriaScope.IndividualNameAutocomplete })
+    criterias.push({ text: searchFields.name, scope: ActivityCriteriaScope.IndividualNameAutocomplete });
   }
   if (isFreeTextTerm) {
-    criterias.push({ text: searchFields.medicalTerm, scope: ActivityCriteriaScope.IndividualMedTerms })
+    criterias.push({ text: searchFields.medicalTerm, scope: ActivityCriteriaScope.IndividualMedTerms });
   }
   if (isFreeTextSpecialty) {
-    params.criteria = searchFields.specialtyName
+    params.criteria = searchFields.specialtyName;
   }
   if (criterias.length) {
-    params.criterias = criterias
+    params.criterias = criterias;
   }
-  
+
   if (!params.country) {
-    params.country = configStore.countryGraphqlQuery
+    params.country = configStore.countryGraphqlQuery;
   }
 
   return params;
@@ -228,60 +214,114 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
     locationFilter,
     specialtyFilter,
     medicalTermsFilter,
-    searchFields
+    searchFields,
   });
 
   if (Object.keys(params).length === 1 && params.country) {
-    return
+    return;
   }
 
   return searchLocation(params);
 }
 
-export async function searchLocation(variables, {
-  hasLoading = 'loading',
-  isAllowDisplayMapEmpty = false
-} = {}) {
+function shouldSortFromServer(sortValues: SortValue) {
+  return Object.entries(sortValues)
+    .filter(([_, value]) => !!value && value !== 'SORT_DISABLED')
+    .some(([key]) => ['distanceNumber', 'relevance'].includes(key));
+}
+
+export async function changeSortValue(sortValue: SortValue) {
+  searchMapStore.setSortValues(sortValue);
+  searchMapStore.setActivitiesLoadingStatus('loading');
+
+  try {
+    const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields, sortValues } = searchMapStore.state;
+
+    let sorts = undefined;
+
+    const sortFromServer = shouldSortFromServer(sortValues);
+    if (sortFromServer) {
+      sorts = getActivitySortScopesFromSortValues(sortValues);
+    }
+
+    const params = await genSearchLocationParams({
+      forceNearMe: false,
+      locationFilter,
+      specialtyFilter,
+      medicalTermsFilter,
+      searchFields,
+    });
+
+    if (Object.keys(params).length === 1 && params.country) {
+      return;
+    }
+
+    const data = await fetchActivities({ ...params, sorts });
+
+    let specialties = data;
+    if (!sortFromServer) {
+      specialties = sortBy(data, 'lastName');
+    }
+
+    searchMapStore.setState({
+      specialties,
+      specialtiesRaw: data,
+    });
+
+    searchMapStore.setActivitiesLoadingStatus('success');
+  } catch (err) {
+    searchMapStore.setActivitiesLoadingStatus(err.response?.status === 401 ? 'unauthorized' : 'error');
+  }
+}
+
+async function fetchActivities(variables) {
+  let activities: ActivityResult[] = [];
+  const storeKey = configStore.state.apiKey + '/' + JSON.stringify(variables);
+
+  if (searchMapStore.getCached(storeKey)) {
+    activities = searchMapStore.getCached(storeKey);
+  } else {
+    const resActivities = await graphql.activities(
+      {
+        first: 50,
+        offset: 0,
+        locale: i18nStore.state.lang,
+        ...variables,
+      },
+      configStore.configGraphql,
+    );
+    activities = resActivities.activities;
+    searchMapStore.saveCached(storeKey, resActivities.activities);
+  }
+
+  const data = (activities || []).map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
+
+  return data;
+}
+
+export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
   searchMapStore.setState({
     individualDetail: null,
-    loadingActivitiesStatus: hasLoading as any
+    loadingActivitiesStatus: hasLoading as any,
   });
 
   try {
-    const sortValues = searchMapStore.state.sortValues
-    const sortByField = Object.keys(searchMapStore.state.sortValues).filter(elm => sortValues[elm] && sortValues[elm] !== 'SORT_DISABLED');
+    const { sortValues } = searchMapStore.state;
 
-    const sorts = getServerSideSortFields(sortByField)
-
-    let activities: ActivityResult[] = []
-    const storeKey =
-      configStore.state.apiKey + '/' + JSON.stringify({ sorts, ...variables })
-
-    if (searchMapStore.getCached(storeKey)) {
-      activities = searchMapStore.getCached(storeKey)
-    } else {
-      const resActivities = await graphql.activities(
-        {
-          first: 50,
-          offset: 0,
-          locale: i18nStore.state.lang,
-          sorts,
-          ...variables
-        },
-        configStore.configGraphql
-      )
-      activities = resActivities.activities
-      searchMapStore.saveCached(storeKey, resActivities.activities)
+    let sorts = undefined;
+    const sortFromServer = shouldSortFromServer(sortValues);
+    if (sortFromServer) {
+      sorts = getActivitySortScopesFromSortValues(sortValues);
     }
 
-    const data = (activities || []).map(activity =>
-      handleMapActivities(activity, variables.specialties && variables.specialties[0]),
-    );
+    const data = await fetchActivities({ sorts, ...variables });
 
-    isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0
+    isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0;
 
-    const localSortFields = getClientSideSortFields(sortByField)
-    const specialties = sortBy(data, localSortFields)
+    let specialties = data;
+    if (!sortFromServer) {
+      specialties = sortBy(data, 'lastName');
+    }
 
     searchMapStore.setState({
       specialties,
@@ -290,9 +330,9 @@ export async function searchLocation(variables, {
       isAllowDisplayMapEmpty,
       selectedActivity: null,
       individualDetail: null,
-      loadingActivitiesStatus: 'success'
+      loadingActivitiesStatus: 'success',
     });
-  } catch(e) {
+  } catch (e) {
     searchMapStore.setState({
       specialties: [],
       specialtiesRaw: [],
@@ -300,7 +340,7 @@ export async function searchLocation(variables, {
       selectedActivity: null,
       individualDetail: null,
       isAllowDisplayMapEmpty: false,
-      loadingActivitiesStatus: e.response?.status === 401 ? 'unauthorized' : 'error'
+      loadingActivitiesStatus: e.response?.status === 401 ? 'unauthorized' : 'error',
     });
   }
 }
@@ -375,7 +415,7 @@ export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLa
         .filter(item => item.id.startsWith('SP'))
     : [];
 
-  searchMapStore.setState({ loading: false, searchSpecialty: codesData });  
+  searchMapStore.setState({ loading: false, searchSpecialty: codesData });
 }
 
 export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesByLabelArgs>) {
@@ -403,26 +443,30 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
     suggest: { results },
   } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
 
-  const codesData: SearchTermItem[] = results ? results.map((item) => ({
-    name: item.medTerm.label,
-    id: item.medTerm.code,
-    lisCode: ''
-  })) : []
+  const codesData: SearchTermItem[] = results
+    ? results.map(item => ({
+        name: item.medTerm.label,
+        id: item.medTerm.code,
+        lisCode: '',
+      }))
+    : [];
 
   searchMapStore.setState({ loading: false, searchMedicalTerms: codesData });
 }
 
-
 export async function getFullCardDetail({ activityId, activityName }, keyLoading = 'loadingIndividualDetail') {
   searchMapStore.setState({
     individualDetailName: activityName,
-    [keyLoading]: true
+    [keyLoading]: true,
   });
 
-  const { activityByID: activity } = await graphql.activityByID({
-    id: activityId,
-    locale: i18nStore.state.lang
-  }, configStore.configGraphql)
+  const { activityByID: activity } = await graphql.activityByID(
+    {
+      id: activityId,
+      locale: i18nStore.state.lang,
+    },
+    configStore.configGraphql,
+  );
 
   const data: IndividualDetail = {
     id: activityId,
@@ -453,11 +497,11 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     diseasesAvailable: activity.individual.diseasesAvailable,
     reviewsByIndividual: undefined,
     url: getUrl(activity.workplace.address.country, activity.urls),
-    openHours: activity.workplace.openHours
+    openHours: activity.workplace.openHours,
   };
 
   // Fetch to get reviews
-  let idnat: string
+  let idnat: string;
 
   if (data.diseasesAvailable || data.reviewsAvailable) {
     if (data.uciRpps) {
@@ -494,10 +538,9 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
   };
   historyStore.addItem('hcp', historyItem);
 
-
   searchMapStore.setState({
     individualDetail: data,
     individualDetailName: '',
-    [keyLoading]: false
+    [keyLoading]: false,
   });
 }

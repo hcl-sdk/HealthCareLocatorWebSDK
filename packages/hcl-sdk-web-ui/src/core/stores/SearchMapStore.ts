@@ -346,6 +346,20 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
       this.state.cachedActivities[storeKey] = activities
     }
   }
+
+  get activities() {
+    return {
+      isLoading: this.state.loadingActivitiesStatus === 'loading',
+      status: this.state.loadingActivitiesStatus,
+      data: this.state.specialties
+    }
+  }
+
+  setActivitiesLoadingStatus(status: 'loading' | 'idle' | 'success' | 'error' | 'unauthorized') {
+    this.setState({
+      loadingActivitiesStatus: status,
+    });
+  }
 }
 
 

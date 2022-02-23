@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { searchMapStore, uiStore } from '../../../core/stores';
 import { t } from '../../../utils/i18n';
 import { SortValue } from '../../../core/stores/SearchMapStore';
+import { changeSortValue } from '../../../core/api/hcp';
 
 @Component({
   tag: 'hcl-sdk-sort',
@@ -25,7 +26,7 @@ export class HclSdkSort {
 
   onSubmit = e => {
     e.preventDefault();
-    searchMapStore.setSortValues(this.sortValues)
+    changeSortValue(this.sortValues)
   };
 
   onChange = e => {
