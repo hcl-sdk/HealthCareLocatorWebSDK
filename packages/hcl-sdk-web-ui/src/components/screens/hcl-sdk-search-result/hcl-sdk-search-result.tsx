@@ -29,13 +29,13 @@ export class HclSdkSearchResult {
     searchMapStore.resetDataSearch({
       isResetHCPDetail: true,
       isResetSearchFields: false,
-    })
+    });
     configStore.setState({
-      modeView: ModeViewType.LIST
-    })
+      modeView: ModeViewType.LIST,
+    });
   }
   componentWillLoad() {
-    const { navigatedFromHome, selectedActivity } = searchMapStore.state
+    const { navigatedFromHome, selectedActivity } = searchMapStore.state;
 
     if (!navigatedFromHome && !selectedActivity) {
       /**
@@ -43,23 +43,22 @@ export class HclSdkSearchResult {
        *   - Go to search near me from Home Full (Data had already by Map)
        *   - Go to HCP Full Card
        */
-      searchLocationWithParams()
+      searchLocationWithParams();
     }
 
     if (searchMapStore.isSearchNearMe) {
       configStore.setState({
-        modeView: ModeViewType.MAP
-      })
+        modeView: ModeViewType.MAP,
+      });
     }
 
     this.handleVisibleRelaunchBtn = this.handleVisibleRelaunchBtn.bind(this);
-    searchMapStore.storeInstance.onChange('sortValues', this.handleObserveSortValuesChange)
+    searchMapStore.storeInstance.onChange('sortValues', this.handleObserveSortValuesChange);
   }
   searchDataCardList;
   searchDataMapElm;
 
   handleObserveSortValuesChange() {
-
     configStore.setState({
       modal: undefined,
     });
@@ -74,7 +73,7 @@ export class HclSdkSearchResult {
     searchMapStore.setState({
       selectedActivity: item,
       individualDetail: null,
-      navigatedFromHome: false
+      navigatedFromHome: false,
     });
   };
 
@@ -83,7 +82,7 @@ export class HclSdkSearchResult {
     const { navigatedFromHome } = searchMapStore.state;
     if (navigatedFromHome) {
       searchMapStore.setState({
-        navigatedFromHome: false
+        navigatedFromHome: false,
       });
       this.goBackToHome();
       return;
@@ -96,20 +95,20 @@ export class HclSdkSearchResult {
     const breakpoint = uiStore.state.breakpoint;
     const selectedFirstMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
     const isSmall = breakpoint.screenSize === 'mobile';
-    const elm = isSmall ? this.searchDataCardList : this.searchDataMapElm
+    const elm = isSmall ? this.searchDataCardList : this.searchDataMapElm;
     const doctorCardOffset = getDoctorCardOffset(elm, selectedFirstMarkerIdx, !isSmall, false, this.el);
 
     animateScrollTo({
       element: elm,
-      scrollDirection: isSmall ? 'scrollLeft': 'scrollTop',
+      scrollDirection: isSmall ? 'scrollLeft' : 'scrollTop',
       to: doctorCardOffset,
-      duration: 1000
+      duration: 1000,
     });
 
     this.selectedMarkerLocation = {
       lat: e.detail.latlng.lat,
-      lng: e.detail.latlng.lng
-    }
+      lng: e.detail.latlng.lng,
+    };
   }
 
   @Listen('onMapDrag')
@@ -118,7 +117,7 @@ export class HclSdkSearchResult {
     const isShowHCPDetail = individualDetail || selectedActivity;
 
     if (isShowHCPDetail) {
-      return
+      return;
     }
 
     if (!this.isShowRelaunchBtn) {
@@ -130,13 +129,8 @@ export class HclSdkSearchResult {
       this.newDragLocation = target.getCenter();
     }
     if (target.getBounds) {
-      const bounds = target.getBounds()
-      this.newDragBoundingBox = [
-        bounds.getSouth(),
-        bounds.getNorth(),
-        bounds.getWest(),
-        bounds.getEast()
-      ]
+      const bounds = target.getBounds();
+      this.newDragBoundingBox = [bounds.getSouth(), bounds.getNorth(), bounds.getWest(), bounds.getEast()];
     }
   }
 
@@ -151,9 +145,9 @@ export class HclSdkSearchResult {
   handleMoveToCurrentLocation(evt) {
     this.newDragLocation = {
       lat: evt.detail.lat,
-      lng: evt.detail.lng
-    } as any
-    this.handleRelaunchSearch()
+      lng: evt.detail.lng,
+    } as any;
+    this.handleRelaunchSearch();
   }
 
   handleRelaunchSearch = async () => {
@@ -172,37 +166,37 @@ export class HclSdkSearchResult {
             lat: this.newDragLocation.lat,
             lng: this.newDragLocation.lng,
             boundingbox: result.boundingbox,
-            addressDetails: result.addressDetails
+            addressDetails: result.addressDetails,
           },
           specialtyFilter: searchMapStore.state.specialtyFilter,
           medicalTermsFilter: searchMapStore.state.medicalTermsFilter,
-          searchFields: searchMapStore.state.searchFields
-        })
+          searchFields: searchMapStore.state.searchFields,
+        });
 
         if (params.location && this.newDragBoundingBox.length === 4) {
-          const { point } = groupPointFromBoundingBox(this.newDragBoundingBox)
+          const { point } = groupPointFromBoundingBox(this.newDragBoundingBox);
           const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
-          params.location.distanceMeter = maxDistanceMeter
+          params.location.distanceMeter = maxDistanceMeter;
         }
 
         await searchLocation(params, {
           hasLoading: 'idle',
-          isAllowDisplayMapEmpty: true // No redirect to no results screen when relaunch is empty
+          isAllowDisplayMapEmpty: true, // No redirect to no results screen when relaunch is empty
         });
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
 
     this.isLoadingRelaunch = false;
     this.isShowRelaunchBtn = false;
     this.newDragLocation = null;
-  }
+  };
 
   goBackToList = () => {
     searchMapStore.setState({
       selectedActivity: null,
-      individualDetail: null
+      individualDetail: null,
     });
   };
 
@@ -229,12 +223,12 @@ export class HclSdkSearchResult {
 
   renderToolbar = (isSmall = false) => {
     const { specialties } = searchMapStore.state;
-    const specialtiesRecommended = specialties.filter(s => s.reviewsAvailable || s.diseasesAvailable)
-    const isShowRecommend = specialtiesRecommended.length > 0
-    const countRecommendStr = specialtiesRecommended.length < 10 ? `0${specialtiesRecommended.length}` : specialtiesRecommended.length
+    const specialtiesRecommended = specialties.filter(s => s.reviewsAvailable || s.diseasesAvailable);
+    const isShowRecommend = specialtiesRecommended.length > 0;
+    const countRecommendStr = specialtiesRecommended.length < 10 ? `0${specialtiesRecommended.length}` : specialtiesRecommended.length;
     const className = cls('search-toolbar', {
       'header-block': isSmall,
-      'search-toolbar--with-recommend': isShowRecommend
+      'search-toolbar--with-recommend': isShowRecommend,
     });
     const isListView = configStore.state.modeView === ModeViewType.LIST;
 
@@ -246,24 +240,22 @@ export class HclSdkSearchResult {
               <span class="text-small">{t('back_to_home')}</span>
             </hcl-sdk-button>
           </div>
-          {isListView && !isSmall && 
-            <div class={cls("search-result-summary", isListView && 'search-result-summary--list-view')}>
+          {isListView && !isSmall && (
+            <div class={cls('search-result-summary', isListView && 'search-result-summary--list-view')}>
               <div class="search-result__wrapper">
                 <strong class="search-result__total">{t('results_label')}: </strong>
                 <strong class="search-result__total-value text-bold">{specialties.length}</strong>
               </div>
               {/* TODO: Mapatho feature */}
-              {
-                isShowRecommend && !isSmall && (
-                  <div class="search-recommend__wrapper">
-                    <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
-                    <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
-                    <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
-                  </div>
-                )
-              }
+              {isShowRecommend && !isSmall && (
+                <div class="search-recommend__wrapper">
+                  <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
+                  <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
+                  <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
+                </div>
+              )}
             </div>
-          }
+          )}
           <div class="hidden-desktop hidden-tablet switch-mode">
             <hcl-sdk-switch-view-mode typeOfLabel="disabled" />
           </div>
@@ -273,24 +265,22 @@ export class HclSdkSearchResult {
             </div>
           </div>
         </div>
-        {!isListView && 
+        {!isListView && (
           <div class="search-result-summary">
             <div class="search-result__wrapper">
               <strong class="search-result__total">{t('results_label')}: </strong>
               <strong class="search-result__total-value text-bold">{specialties.length}</strong>
             </div>
             {/* TODO: Mapatho feature */}
-            {
-              isShowRecommend && !isSmall && (
-                <div class="search-recommend__wrapper">
-                  <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
-                  <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
-                  <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
-                </div>
-              )
-            }
+            {isShowRecommend && !isSmall && (
+              <div class="search-recommend__wrapper">
+                <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
+                <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
+                <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
+              </div>
+            )}
           </div>
-        }
+        )}
       </div>
     );
   };
@@ -298,10 +288,10 @@ export class HclSdkSearchResult {
   getLocationsMapSingle() {
     const { selectedActivity, individualDetail } = searchMapStore.state;
     if (individualDetail) {
-      return [{ lat: individualDetail.lat, lng: individualDetail.lng }]
+      return [{ lat: individualDetail.lat, lng: individualDetail.lng }];
     }
     if (selectedActivity) {
-      return [{ lat: selectedActivity.lat, lng: selectedActivity.lng }]
+      return [{ lat: selectedActivity.lat, lng: selectedActivity.lng }];
     }
     return null;
   }
@@ -311,15 +301,10 @@ export class HclSdkSearchResult {
       return null;
     }
 
-    const {
-      selectedActivity,
-      searchFields,
-      individualDetail,
-      isAllowDisplayMapEmpty
-    } = searchMapStore.state;
+    const { selectedActivity, searchFields, individualDetail, isAllowDisplayMapEmpty } = searchMapStore.state;
 
     const selectedAddressName = searchMapStore.isSearchNearMe ? t('near_me') : searchFields.address;
-    const isShowHeaderNearmeMobile = searchMapStore.isSearchNearMe
+    const isShowHeaderNearmeMobile = searchMapStore.isSearchNearMe;
 
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
@@ -330,7 +315,7 @@ export class HclSdkSearchResult {
     });
 
     const mapClass = cls('search-map__content', {
-      'search-map__empty': isAllowDisplayMapEmpty
+      'search-map__empty': isAllowDisplayMapEmpty,
     });
 
     const mapWrapperClass = cls('search-map-wrapper', {
@@ -348,19 +333,19 @@ export class HclSdkSearchResult {
       modeView: modeView,
       selectedLocationIdx: 0,
       defaultZoom: 15,
-      zoomControl: true
-    }
+      zoomControl: true,
+    };
 
     const isShowHCPDetail = individualDetail || selectedActivity;
 
-    const  { isLoading: loadingActivities, status: activitiesStatus, data: activities } = searchMapStore.activities
-    const isNoDataAvailable = activitiesStatus ===  'unauthorized';
+    const { isLoading: loadingActivities, status: activitiesStatus, data: activities } = searchMapStore.activities;
+    const isNoDataAvailable = activitiesStatus === 'unauthorized';
 
     const isShowNoResults = !isAllowDisplayMapEmpty && !loadingActivities && activities && !activities.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,
       desktop: !loadingActivities && !isSmall,
-    }
+    };
     const isShowMapSingle = !isListView && isShowHCPDetail && !isSmall;
     const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && activities && activities.length !== 0);
 
@@ -404,21 +389,22 @@ export class HclSdkSearchResult {
             <hcl-sdk-search isSearchResult />
           ))}
 
-        {
-          (isShowNoResults || isNoDataAvailable) ? (
-            (isShowNoResults && <hcl-sdk-search-no-results />) ||
-            (isNoDataAvailable && <hcl-sdk-search-no-data-available />)
-          ) : (
-            <Fragment>
-              {isShowToolbar.mobile && this.renderToolbar(true)}
-              <div class={cls('body-block', {
-                'body-block--disabled': this.isLoadingRelaunch
-              })}>
-                <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
-                  {isShowHCPDetail ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
-                  {!isShowHCPDetail && (
-                    <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
-                      {!loadingActivities && activities.map(elm => (
+        {isShowNoResults || isNoDataAvailable ? (
+          (isShowNoResults && <hcl-sdk-search-no-results />) || (isNoDataAvailable && <hcl-sdk-search-no-data-available />)
+        ) : (
+          <Fragment>
+            {isShowToolbar.mobile && this.renderToolbar(true)}
+            <div
+              class={cls('body-block', {
+                'body-block--disabled': this.isLoadingRelaunch,
+              })}
+            >
+              <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
+                {isShowHCPDetail ? <hcl-sdk-hcp-full-card /> : isShowToolbar.desktop && this.renderToolbar()}
+                {!isShowHCPDetail && (
+                  <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
+                    {!loadingActivities &&
+                      activities.map(elm => (
                         <hcl-sdk-doctor-card
                           selected={this.selectedMarkerLocation.lat === elm.lat && this.selectedMarkerLocation.lng === elm.lng}
                           {...elm}
@@ -427,69 +413,41 @@ export class HclSdkSearchResult {
                           showDistance={elm.distanceNumber > 0}
                         />
                       ))}
-                      {/* TODO: Appointment link feature */}
-                      <div class={"search-result__footnote"}>
-                        <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder  />
-                        Appointment available for HCP profile
+                    {/* TODO: Appointment link feature */}
+                    <div class={'search-result__footnote'}>
+                      <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder />
+                      Appointment available for HCP profile
+                    </div>
+                    {loadingActivities && (
+                      <div class="search-result__loading">
+                        <hcl-sdk-icon name="circular" />
                       </div>
-                      {loadingActivities && (
-                        <div class="search-result__loading">
-                          <hcl-sdk-icon name="circular" />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-                <div class="toggle-panel">
-                  <hcl-sdk-button icon="arrow_right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor={getCssColor('--hcl-color-dark')} onClick={this.togglePanel} />
-                </div>
-
-                {
-                  isShowRelaunchBtn && (
-                    <div class={cls('hclsdk-btn-relaunch', {
-                      'hclsdk-btn-relaunch--loading': this.isLoadingRelaunch
-                    })}>
-                      <hcl-sdk-button
-                        icon="refresh"
-                        noBorder
-                        secondary
-                        iconWidth={12}
-                        iconHeight={12}
-                        iconColor="white"
-                        onClick={this.handleRelaunchSearch}
-                      >
-                        {t('relaunch')}
-                      </hcl-sdk-button>
-                    </div>
-                  )
-                }
-
-                {
-                  isShowMapCluster && (
-                    <hcl-sdk-map
-                      key="map-cluster"
-                      breakpoint={breakpoint}
-                      locations={activities}
-                      isShowMeMarker={true}
-                      {...injectedMapProps}
-                    />
-                  )
-                }
-
-                {
-                  isShowMapSingle && (
-                    <hcl-sdk-map
-                      key="map-single"
-                      locations={locationsMapSingle}
-                      noCurrentLocation
-                      {...injectedMapProps}
-                    />
-                  )
-                }
+                    )}
+                  </div>
+                )}
               </div>
-            </Fragment>
-          )
-        }
+              <div class="toggle-panel">
+                <hcl-sdk-button icon="arrow_right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor={getCssColor('--hcl-color-dark')} onClick={this.togglePanel} />
+              </div>
+
+              {isShowRelaunchBtn && (
+                <div
+                  class={cls('hclsdk-btn-relaunch', {
+                    'hclsdk-btn-relaunch--loading': this.isLoadingRelaunch,
+                  })}
+                >
+                  <hcl-sdk-button icon="refresh" noBorder secondary iconWidth={12} iconHeight={12} iconColor="white" onClick={this.handleRelaunchSearch}>
+                    {t('relaunch')}
+                  </hcl-sdk-button>
+                </div>
+              )}
+
+              {isShowMapCluster && <hcl-sdk-map key="map-cluster" breakpoint={breakpoint} locations={activities} isShowMeMarker={true} {...injectedMapProps} />}
+
+              {isShowMapSingle && <hcl-sdk-map key="map-single" locations={locationsMapSingle} noCurrentLocation {...injectedMapProps} />}
+            </div>
+          </Fragment>
+        )}
       </Host>
     );
   }
