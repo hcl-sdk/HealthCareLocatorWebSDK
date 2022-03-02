@@ -41,6 +41,7 @@
 
 ### Used by
 
+ - [hcl-sdk-hco-full-card](../hcl-sdk-hco-full-card)
  - [hcl-sdk-hcp-full-card](../hcl-sdk-hcp-full-card)
  - [hcl-sdk-home-full](../../screens/hcl-sdk-home/hcl-sdk-home-full)
  - [hcl-sdk-profile-map](../hcl-sdk-profile-map)
@@ -55,6 +56,7 @@
 ```mermaid
 graph TD;
   hcl-sdk-map --> hcl-sdk-icon
+  hcl-sdk-hco-full-card --> hcl-sdk-map
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-home-full --> hcl-sdk-map
   hcl-sdk-profile-map --> hcl-sdk-map

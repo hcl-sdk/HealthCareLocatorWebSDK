@@ -1,4 +1,4 @@
-# hcl-sdk-hcp-full-card
+# hcl-sdk-hco-full-card
 
 
 
@@ -22,25 +22,23 @@
 
 - [hcl-sdk-button](../hcl-sdk-button)
 - [hcl-sdk-icon](../hcl-sdk-icon)
+- [hcl-sdk-card-info-section](../hcl-sdk-card-info-section)
 - [hcl-sdk-map](../hcl-sdk-map)
 - [hcl-sdk-select](../hcl-sdk-select)
-- [hcl-sdk-icon-clock-outline](../hcl-sdk-icon/icons)
-- [hcl-sdk-icon-arrow_down](../hcl-sdk-icon/icons)
 
 ### Graph
 ```mermaid
 graph TD;
-  hcl-sdk-hcp-full-card --> hcl-sdk-button
-  hcl-sdk-hcp-full-card --> hcl-sdk-icon
-  hcl-sdk-hcp-full-card --> hcl-sdk-map
-  hcl-sdk-hcp-full-card --> hcl-sdk-select
-  hcl-sdk-hcp-full-card --> hcl-sdk-icon-clock-outline
-  hcl-sdk-hcp-full-card --> hcl-sdk-icon-arrow_down
+  hcl-sdk-hco-full-card --> hcl-sdk-button
+  hcl-sdk-hco-full-card --> hcl-sdk-icon
+  hcl-sdk-hco-full-card --> hcl-sdk-card-info-section
+  hcl-sdk-hco-full-card --> hcl-sdk-map
+  hcl-sdk-hco-full-card --> hcl-sdk-select
   hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
-  hcl-sdk-search-result --> hcl-sdk-hcp-full-card
-  style hcl-sdk-hcp-full-card fill:#f9f,stroke:#333,stroke-width:4px
+  hcl-sdk-search-result --> hcl-sdk-hco-full-card
+  style hcl-sdk-hco-full-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
