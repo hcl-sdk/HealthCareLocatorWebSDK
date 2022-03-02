@@ -19,7 +19,7 @@ const MAX_DISPLAY_TERMS = 5
   shadow: false,
 })
 export class HclSdkHCPFullCard {
-  @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
+  @Event() backFromFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
   @State() isViewMoreTerms: boolean = false;
   @State() isViewMoreSpecialties: boolean = false;
@@ -359,7 +359,7 @@ export class HclSdkHCPFullCard {
                   noBackground
                   icon="back"
                   iconColor={getCssColor('--hcl-color-dark')}
-                  onClick={this.backFromHcpFullCard.emit}>
+                  onClick={this.backFromFullCard.emit}>
                   <span class="hidden-mobile">{
                     searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
                   }

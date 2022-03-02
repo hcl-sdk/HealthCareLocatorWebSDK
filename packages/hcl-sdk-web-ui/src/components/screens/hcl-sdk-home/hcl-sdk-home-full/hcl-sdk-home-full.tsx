@@ -3,11 +3,12 @@ import { historyStore, routerStore, searchMapStore, i18nStore, configStore } fro
 import { t } from '../../../../utils/i18n';
 import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME_ITEM } from '../../../../core/constants';
 import { HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
-import { genSearchLocationParams, searchLocation, searchLocationWithParams } from '../../../../core/api/hcp';
+import { searchLocation, searchLocationWithParams } from '../../../../core/api/hcp';
 import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
 import { SearchFields } from '../../../../core/stores/SearchMapStore';
 import { ActivitySortScope } from '../../../../../../hcl-sdk-core/src/graphql/types';
+import { genSearchLocationParams } from '../../../../core/api/shared';
 
 @Component({
   tag: 'hcl-sdk-home-full',

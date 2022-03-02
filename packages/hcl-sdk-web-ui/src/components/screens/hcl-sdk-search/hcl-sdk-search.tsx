@@ -1,6 +1,7 @@
 import { Component, Host, h, State, Listen, Prop, Element, Watch } from '@stencil/core';
 import { getFullCardDetail, searchDoctor, searchLocationWithParams, handleSearchMedicalTerms, handleSearchSpecialty } from '../../../core/api/hcp';
-import { searchMapStore, routerStore, uiStore, historyStore, configStore } from '../../../core/stores';
+import * as HCOApis from '../../../core/api/hco';
+import { searchMapStore, routerStore, uiStore, historyStore, configStore, featureStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { COUNTRIES_LABELS, NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
@@ -10,7 +11,7 @@ import { HTMLStencilElement } from '@stencil/core/internal';
 import { t } from '../../../utils/i18n';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import cls from 'classnames';
-import { SearchInputName } from '../../../core/stores/SearchMapStore';
+import { SearchInputName, SEARCH_TARGET } from '../../../core/stores/SearchMapStore';
 import { CodeCriteriaScope } from '../../../../../hcl-sdk-core/src/graphql/types';
 
 @Component({
@@ -55,6 +56,8 @@ export class HclSdkSearch {
     if (this.wrapperEl) {
       this.wrapperEl.addEventListener('click', this.clickOutsideHandler);
     }
+
+    this.searchTarget = searchMapStore.searchTarget;
   }
 
   disconnectedCallback() {
@@ -124,6 +127,8 @@ export class HclSdkSearch {
   };
 
   private search = async (_: HTMLHclSdkInputElement, __: HTMLHclSdkInputElement, addressRef: HTMLHclSdkInputElement, ___: HTMLHclSdkInputElement) => {
+    searchMapStore.setSearchTarget(this.searchTarget);
+
     if (searchMapStore.isSearchNearMe) {
       this.resetErrorElmUI('all');
       configStore.setState({
@@ -160,12 +165,21 @@ export class HclSdkSearch {
       specialtiesRaw: [],
       navigatedFromHome: false,
       loadingActivitiesStatus: 'loading',
+
+      // hco
+      hcos: [],
+      loadingHcosStatus: 'loading',
+      searchTarget: this.searchTarget
     });
 
     if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
       routerStore.push(ROUTER_PATH.SEARCH_RESULT);
     } else {
-      searchLocationWithParams();
+      if (this.searchTarget === SEARCH_TARGET.HCO) {
+        HCOApis.searchLocationWithParams();
+      } else {
+        searchLocationWithParams();
+      }
     }
 
     // store search to history
@@ -264,6 +278,13 @@ export class HclSdkSearch {
   }
 
   onChange = debounce(async (name: SearchInputName, value: string) => {
+    const searchTarget = featureStore.isHcoSearchEnabled ? this.searchTarget : undefined;
+
+    // TODO: suggest for HCO
+    if (name !== 'address' && searchTarget === SEARCH_TARGET.HCO) {
+      return;
+    }
+
     const inputName = name;
     const inputValue = value;
     if (!inputValue) {
@@ -535,6 +556,45 @@ export class HclSdkSearch {
     this.isShowModifying = !this.isShowModifying;
   };
 
+  @State()
+  searchTarget: SEARCH_TARGET = SEARCH_TARGET.HCP;
+
+  setSearchTarget(target: SEARCH_TARGET) {
+    this.searchTarget = target;
+    this.currentSelectedInput = null;
+
+    // reset all fields
+    searchMapStore.resetDataSearch({ isResetSearchFields: true });
+    this.currentSelectedInput = null;
+  }
+
+  renderSearchTargetTabs() {
+    const isShowFakeInput = this.isSearchResult && !this.isShowModifying;
+
+    return !featureStore.isHcoSearchEnabled ? null : (
+      <div class={cls('hclsdk-tabs mb-3', isShowFakeInput && 'hidden')}>
+        <hcl-sdk-button
+          noBackground
+          class={cls('hclsdk-tabs__tab', {
+            'hclsdk-tabs__tab--active': this.searchTarget === SEARCH_TARGET.HCP,
+          })}
+          onClick={() => this.setSearchTarget(SEARCH_TARGET.HCP)}
+        >
+          <hcl-sdk-icon width={24} height={24} name="account-outline" />
+        </hcl-sdk-button>
+        <hcl-sdk-button
+          noBackground
+          class={cls('hclsdk-tabs__tab', {
+            'hclsdk-tabs__tab--active': this.searchTarget === SEARCH_TARGET.HCO,
+          })}
+          onClick={() => this.setSearchTarget(SEARCH_TARGET.HCO)}
+        >
+          <hcl-sdk-icon width={24} height={24} name="domain" />
+        </hcl-sdk-button>
+      </div>
+    );
+  }
+
   render() {
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
     const searchSpecialty = searchMapStore.state.searchSpecialty;
@@ -558,141 +618,145 @@ export class HclSdkSearch {
     return (
       <Host>
         <div class={classesSdkSearch}>
-          <div class="hclsdk-search">
-            <div class="hclsdk-search__container">
-              <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
-                <hcl-sdk-icon name="back" width={25} height={25} />
-              </hcl-sdk-router-link>
-              <form ref={ref => (this.formRef = ref)} class={classesForm} onSubmit={this.onSearch} autocomplete="off">
-                <div class="hclsdk-search__form--content">
-                  <div class="hclsdk-search__form--content-item">
-                    <hcl-sdk-input
-                      ref={el => (this.fields.name = el)}
-                      postfixIcon={searchMapStore.state.searchFields.name ? 'remove' : ''}
-                      name="name"
-                      value={searchMapStore.state.searchFields.name}
-                      placeholder={t('search_first_field_label')}
-                      onInput={this.handleFieldInput}
-                      autoComplete="off"
-                      loading={nameInputLoading}
-                      onPostfixClick={() => this.resetValue('name', !searchMapStore.state.selectedActivity)}
-                      autoFocus={routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT}
-                      onFocus={this.onFocusInputSearch}
-                      onEnterKeyDown={this.onInputSearchEnter}
-                      onArrowKeyDown={this.onInputSearchArrowDown}
-                    >
-                      {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
-                    </hcl-sdk-input>
-                  </div>
-                  <div class="hclsdk-search__form--content-item">
-                    <hcl-sdk-input
-                      ref={el => (this.fields.specialtyName = el)}
-                      postfixIcon={searchMapStore.state.searchFields.specialtyName ? 'remove' : ''}
-                      name="specialtyName"
-                      value={searchMapStore.state.searchFields.specialtyName}
-                      placeholder={t('search_specialty_field_label')}
-                      onInput={this.handleFieldInput}
-                      autoComplete="off"
-                      loading={specialtyNameInputLoading}
-                      onPostfixClick={() => this.resetValue('specialtyName', !searchMapStore.state.specialtyFilter?.length)}
-                      onFocus={this.onFocusInputSearch}
-                      onEnterKeyDown={this.onInputSearchEnter}
-                      onArrowKeyDown={this.onInputSearchArrowDown}
-                      readOnly={!!searchMapStore.state.specialtyFilter?.length}
-                      class={cls({
-                        'hclsdk-error': !this.fieldsValid.specialtyName,
-                      })}
-                    >
-                      {!isSmallView && this.renderAutocompleteField('specialtyName', searchSpecialty)}
-                    </hcl-sdk-input>
-                  </div>
-                  {configStore.state.enableMedicalTerm && (
+          <div class={cls('hclsdk-search px-1 py-5', !isShowFakeInput && 'justify-center')}>
+            <div class={cls('hclsdk-search__container', isShowFakeInput && 'w-full', !isShowFakeInput && 'hclsdk-search__container--not-modifying')}>
+              {this.renderSearchTargetTabs()}
+              <div class={'flex items-center'}>
+                <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
+                  <hcl-sdk-icon name="back" width={25} height={25} />
+                </hcl-sdk-router-link>
+                <form ref={ref => (this.formRef = ref)} class={classesForm} onSubmit={this.onSearch} autocomplete="off">
+                  <div class="hclsdk-search__form--content">
                     <div class="hclsdk-search__form--content-item">
                       <hcl-sdk-input
-                        ref={el => (this.fields.medicalTerm = el)}
-                        postfixIcon={searchMapStore.state.searchFields.medicalTerm ? 'remove' : ''}
-                        name="medicalTerm"
-                        value={searchMapStore.state.searchFields.medicalTerm}
-                        placeholder={t('search_medical_term_label')}
+                        ref={el => (this.fields.name = el)}
+                        postfixIcon={searchMapStore.state.searchFields.name ? 'remove' : ''}
+                        name="name"
+                        value={searchMapStore.state.searchFields.name}
+                        placeholder={t('search_first_field_label')}
                         onInput={this.handleFieldInput}
                         autoComplete="off"
-                        loading={medicalTermInputLoading}
-                        onPostfixClick={() => this.resetValue('medicalTerm', !searchMapStore.state.medicalTermsFilter)}
+                        loading={nameInputLoading}
+                        onPostfixClick={() => this.resetValue('name', !searchMapStore.state.selectedActivity)}
+                        autoFocus={routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT}
+                        onFocus={this.onFocusInputSearch}
+                        onEnterKeyDown={this.onInputSearchEnter}
+                        onArrowKeyDown={this.onInputSearchArrowDown}
+                      >
+                        {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
+                      </hcl-sdk-input>
+                    </div>
+                    {this.searchTarget !== SEARCH_TARGET.HCO && (
+                      <div class="hclsdk-search__form--content-item">
+                        <hcl-sdk-input
+                          ref={el => (this.fields.specialtyName = el)}
+                          postfixIcon={searchMapStore.state.searchFields.specialtyName ? 'remove' : ''}
+                          name="specialtyName"
+                          value={searchMapStore.state.searchFields.specialtyName}
+                          placeholder={t('search_specialty_field_label')}
+                          onInput={this.handleFieldInput}
+                          autoComplete="off"
+                          loading={specialtyNameInputLoading}
+                          onPostfixClick={() => this.resetValue('specialtyName', !searchMapStore.state.specialtyFilter?.length)}
+                          onFocus={this.onFocusInputSearch}
+                          onEnterKeyDown={this.onInputSearchEnter}
+                          onArrowKeyDown={this.onInputSearchArrowDown}
+                          readOnly={!!searchMapStore.state.specialtyFilter?.length}
+                          class={cls({
+                            'hclsdk-error': !this.fieldsValid.specialtyName,
+                          })}
+                        >
+                          {!isSmallView && this.renderAutocompleteField('specialtyName', searchSpecialty)}
+                        </hcl-sdk-input>
+                      </div>
+                    )}
+                    {configStore.state.enableMedicalTerm && (
+                      <div class="hclsdk-search__form--content-item">
+                        <hcl-sdk-input
+                          ref={el => (this.fields.medicalTerm = el)}
+                          postfixIcon={searchMapStore.state.searchFields.medicalTerm ? 'remove' : ''}
+                          name="medicalTerm"
+                          value={searchMapStore.state.searchFields.medicalTerm}
+                          placeholder={t('search_medical_term_label')}
+                          onInput={this.handleFieldInput}
+                          autoComplete="off"
+                          loading={medicalTermInputLoading}
+                          onPostfixClick={() => this.resetValue('medicalTerm', !searchMapStore.state.medicalTermsFilter)}
+                          onFocus={this.onFocusInputSearch}
+                          onEnterKeyDown={this.onInputSearchEnter}
+                          onArrowKeyDown={this.onInputSearchArrowDown}
+                          class={cls({
+                            'hclsdk-error': !this.fieldsValid.medicalTerm,
+                          })}
+                        >
+                          {!isSmallView && this.renderAutocompleteField('medicalTerm', searchMedicalTermData)}
+                        </hcl-sdk-input>
+                      </div>
+                    )}
+                    <div class="hclsdk-search__form--content-item">
+                      <hcl-sdk-input
+                        ref={el => (this.fields.address = el)}
+                        postfixIcon={searchMapStore.state.searchFields.address ? 'remove' : ''}
+                        name="address"
+                        value={searchMapStore.state.searchFields.address}
+                        placeholder={t('search_second_field_label')}
+                        onInput={this.handleFieldInput}
+                        autoComplete="off"
+                        loading={addressInputLoading}
+                        onPostfixClick={() => this.resetValue('address', false)}
                         onFocus={this.onFocusInputSearch}
                         onEnterKeyDown={this.onInputSearchEnter}
                         onArrowKeyDown={this.onInputSearchArrowDown}
                         class={cls({
-                          'hclsdk-error': !this.fieldsValid.medicalTerm,
+                          'hclsdk-error': !this.fieldsValid.address,
+                          'hclsdk-open-address': this.currentSelectedInput === 'address',
                         })}
                       >
-                        {!isSmallView && this.renderAutocompleteField('medicalTerm', searchMedicalTermData)}
+                        {!isSmallView && this.renderAutocompleteField('address', addressAutocompletionData)}
                       </hcl-sdk-input>
                     </div>
-                  )}
-                  <div class="hclsdk-search__form--content-item">
-                    <hcl-sdk-input
-                      ref={el => (this.fields.address = el)}
-                      postfixIcon={searchMapStore.state.searchFields.address ? 'remove' : ''}
-                      name="address"
-                      value={searchMapStore.state.searchFields.address}
-                      placeholder={t('search_second_field_label')}
-                      onInput={this.handleFieldInput}
-                      autoComplete="off"
-                      loading={addressInputLoading}
-                      onPostfixClick={() => this.resetValue('address', false)}
-                      onFocus={this.onFocusInputSearch}
-                      onEnterKeyDown={this.onInputSearchEnter}
-                      onArrowKeyDown={this.onInputSearchArrowDown}
-                      class={cls({
-                        'hclsdk-error': !this.fieldsValid.address,
-                        'hclsdk-open-address': this.currentSelectedInput === 'address',
-                      })}
-                    >
-                      {!isSmallView && this.renderAutocompleteField('address', addressAutocompletionData)}
-                    </hcl-sdk-input>
+                    <div class="hclsdk-search__form--content-item hclsdk-search__form--content-item--country">
+                      <hcl-sdk-input
+                        ref={el => (this.fields.country = el)}
+                        name="country"
+                        postfixIcon="arrow_down"
+                        autoComplete="off"
+                        value={COUNTRIES_LABELS[configStore.countryGraphqlQuery]}
+                        readOnly={true}
+                        onFocus={this.onFocusInputSearch}
+                        prefixIcon={<hcl-sdk-icon-flag countryCode={configStore.countryGraphqlQuery} />}
+                      >
+                        {this.renderAutocompleteCountries()}
+                      </hcl-sdk-input>
+                    </div>
                   </div>
-                  <div class="hclsdk-search__form--content-item hclsdk-search__form--content-item--country">
-                    <hcl-sdk-input
-                      ref={el => (this.fields.country = el)}
-                      name="country"
-                      postfixIcon="arrow_down"
-                      autoComplete="off"
-                      value={COUNTRIES_LABELS[configStore.countryGraphqlQuery]}
-                      readOnly={true}
-                      onFocus={this.onFocusInputSearch}
-                      prefixIcon={<hcl-sdk-icon-flag countryCode={configStore.countryGraphqlQuery} />}
-                    >
-                      {this.renderAutocompleteCountries()}
-                    </hcl-sdk-input>
+                  <hcl-sdk-button primary type="submit" class="hclsdk-btn-search-address">
+                    {t('search')}
+                  </hcl-sdk-button>
+                </form>
+
+                {isShowFakeInput && (
+                  <div class="hclsdk-search__modify">
+                    <div class="hclsdk-search__modify__input" innerHTML={searchMapStore.getSearchLabel()} />
+                    <div class="hclsdk-search__modify__action" onClick={this.toggleShowModify}>
+                      <hcl-sdk-icon tabIndex={-1} name="edit" width={20} height={20} />
+                      <span>Modify</span>
+                    </div>
                   </div>
-                </div>
-                <hcl-sdk-button primary type="submit" class="hclsdk-btn-search-address">
-                  {t('search')}
-                </hcl-sdk-button>
-              </form>
+                )}
 
-              {isShowFakeInput && (
-                <div class="hclsdk-search__modify">
-                  <div class="hclsdk-search__modify__input" innerHTML={searchMapStore.getSearchLabel()} />
-                  <div class="hclsdk-search__modify__action" onClick={this.toggleShowModify}>
-                    <hcl-sdk-icon tabIndex={-1} name="edit" width={20} height={20} />
-                    <span>Modify</span>
+                {isShowFakeInput && (
+                  <div class="switch-mode">
+                    <hcl-sdk-switch-view-mode typeOfLabel="short" />
                   </div>
-                </div>
-              )}
-
-              {isShowFakeInput && (
-                <div class="switch-mode">
-                  <hcl-sdk-switch-view-mode typeOfLabel="short" />
-                </div>
-              )}
-
-              {this.isSearchResult && this.isShowModifying && (
-                <div class="hclsdk-search__modify__close" onClick={this.toggleShowModify}>
-                  <hcl-sdk-icon tabIndex={-1} name="remove" width={20} height={20} />
-                </div>
-              )}
+                )}
+              </div>
             </div>
+            {this.isSearchResult && this.isShowModifying && (
+              <div class="hclsdk-search__modify__close" onClick={this.toggleShowModify}>
+                <hcl-sdk-icon tabIndex={-1} name="remove" width={20} height={20} />
+              </div>
+            )}
           </div>
           {isSmallView && this.renderAutocompleteMobile(searchDoctorData, searchSpecialty, addressAutocompletionData, searchMedicalTermData)}
         </div>

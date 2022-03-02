@@ -1,0 +1,16 @@
+$colors: (
+  'primary': var(--hcl-color-primary),
+  'text': var(--hcl-color-dark),
+  'blue': var(--hcl-color-secondary),
+  'gray': var(--hcl-color-card_border),
+);
+
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
+  }
+
+  .border-#{$colorKey} {
+    border-color: $color;
+  }
+}

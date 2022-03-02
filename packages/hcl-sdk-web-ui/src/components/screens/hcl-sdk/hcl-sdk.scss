@@ -125,6 +125,10 @@
     font-size: 14px;
   }
 
+  .text-xs {
+    font-size: 12px;
+  }
+
   $sizes: mobile, tablet, desktop;
 
   @each $size in $sizes {
