@@ -19,4 +19,5 @@ export interface Fields {
   distanceDefault?: number;
   enableLeafletAttribution?: boolean;
   enableHcoSearch?: boolean;
+  enableUci?: boolean;
 }

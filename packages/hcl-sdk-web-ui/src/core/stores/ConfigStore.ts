@@ -49,6 +49,7 @@ export interface HclSDKConfigData {
   },
   countryFilterSelected: CountryCode | '';
   enableHcoSearch?: boolean
+  enableUci?: boolean
 }
 
 export const initStateConfigStore: HclSDKConfigData = {
@@ -76,7 +77,9 @@ export const initStateConfigStore: HclSDKConfigData = {
   countryFilterSelected: '',
 
   // hco search config
-  enableHcoSearch: false
+  enableHcoSearch: false,
+  // uci
+  enableUci: true
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {
