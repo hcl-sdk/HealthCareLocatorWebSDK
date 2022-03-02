@@ -639,13 +639,6 @@ export class SettingsPanel {
               <div class="hcl-switch-btn__slider"></div>
             </div>
           </div>
-          <div class="row ">
-            <label>Enable HCO Search</label>
-            <div class="hcl-switch-btn">
-                <input name="enableHcoSearch" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableHcoSearch')} checked={this.fields.enableHcoSearch} />
-                <div class="hcl-switch-btn__slider"></div>
-            </div>
-          </div>
           {this.fields.useGoogleMap ? (
             <div class="row">
               <label>Google Map API Key</label>
@@ -657,6 +650,13 @@ export class SettingsPanel {
             <div class="hcl-switch-btn">
               <input name="disableCollectGeo" type="checkbox" class="checkbox-switch" onChange={this.handleChange('disableCollectGeo')} checked={this.fields.disableCollectGeo} />
               <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row ">
+            <label>Enable HCO Search</label>
+            <div class="hcl-switch-btn">
+                <input name="enableHcoSearch" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableHcoSearch')} checked={this.fields.enableHcoSearch} />
+                <div class="hcl-switch-btn__slider"></div>
             </div>
           </div>
         </div>
