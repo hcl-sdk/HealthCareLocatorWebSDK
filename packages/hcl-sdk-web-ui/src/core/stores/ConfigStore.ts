@@ -48,6 +48,7 @@ export interface HclSDKConfigData {
     enableLeafletAttribution?: boolean;
   },
   countryFilterSelected: CountryCode | '';
+  enableHcoSearch?: boolean
 }
 
 export const initStateConfigStore: HclSDKConfigData = {
@@ -73,6 +74,9 @@ export const initStateConfigStore: HclSDKConfigData = {
   disableCollectGeo: false,
   showSuggestModification: true,
   countryFilterSelected: '',
+
+  // hco search config
+  enableHcoSearch: false
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {

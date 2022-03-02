@@ -220,7 +220,8 @@ export class SettingsPanel {
         fieldName === 'enableLeafletAttribution' || 
         fieldName === 'enableMedicalTerm' || 
         fieldName === 'enableMapDarkMode' ||
-        fieldName === 'disableCollectGeo'
+        fieldName === 'disableCollectGeo' ||
+        fieldName === 'enableHcoSearch'
       ) {
         value = (evt.target as any).checked as boolean;
       } 
@@ -636,6 +637,13 @@ export class SettingsPanel {
             <div class="hcl-switch-btn">
               <input name="useGoogleMap" type="checkbox" class="checkbox-switch" onChange={this.handleChange('useGoogleMap')} checked={this.fields.useGoogleMap} />
               <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row ">
+            <label>Enable HCO Search</label>
+            <div class="hcl-switch-btn">
+                <input name="enableHcoSearch" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableHcoSearch')} checked={this.fields.enableHcoSearch} />
+                <div class="hcl-switch-btn__slider"></div>
             </div>
           </div>
           {this.fields.useGoogleMap ? (

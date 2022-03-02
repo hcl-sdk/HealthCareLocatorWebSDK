@@ -571,7 +571,7 @@ export class HclSdkSearch {
   renderSearchTargetTabs() {
     const isShowFakeInput = this.isSearchResult && !this.isShowModifying;
 
-    return !featureStore.isHcoSearchEnabled ? null : (
+    return (!featureStore.isHcoSearchEnabled || !configStore.state.enableHcoSearch) ? null : (
       <div class={cls('hclsdk-tabs mb-3', isShowFakeInput && 'hidden')}>
         <hcl-sdk-button
           noBackground
