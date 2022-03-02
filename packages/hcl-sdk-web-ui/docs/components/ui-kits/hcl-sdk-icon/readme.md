@@ -22,6 +22,8 @@
 
  - [hcl-sdk-button](../hcl-sdk-button)
  - [hcl-sdk-doctor-card](../hcl-sdk-doctor-card)
+ - [hcl-sdk-hco-card](../hcl-sdk-hco-card)
+ - [hcl-sdk-hco-full-card](../hcl-sdk-hco-full-card)
  - [hcl-sdk-hcp-full-card](../hcl-sdk-hcp-full-card)
  - [hcl-sdk-home-min](../../screens/hcl-sdk-home/hcl-sdk-home-min)
  - [hcl-sdk-input](../hcl-sdk-input)
@@ -42,6 +44,8 @@
 graph TD;
   hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-doctor-card --> hcl-sdk-icon
+  hcl-sdk-hco-card --> hcl-sdk-icon
+  hcl-sdk-hco-full-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-home-min --> hcl-sdk-icon
   hcl-sdk-input --> hcl-sdk-icon

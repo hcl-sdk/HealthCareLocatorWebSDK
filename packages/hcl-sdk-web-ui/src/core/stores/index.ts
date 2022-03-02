@@ -5,14 +5,16 @@ import I18nStore from './I18nStore'
 import HistoryStore from './HistoryStore'
 import SearchMapStore, { initStateSearchMapStore } from './SearchMapStore'
 import StoreProvider, { initStateAppStore } from './StoreProvider';
+import FeatureStore from './FeatureStore';
 
-export const appStore = new StoreProvider(initStateAppStore)
-export const routerStore = new RouterStore(initStateRouterStore)
-export const searchMapStore = new SearchMapStore(initStateSearchMapStore)
-export const configStore = new ConfigStore(initStateConfigStore)
+export const appStore = new StoreProvider(initStateAppStore);
+export const routerStore = new RouterStore(initStateRouterStore);
+export const searchMapStore = new SearchMapStore(initStateSearchMapStore);
+export const configStore = new ConfigStore(initStateConfigStore);
 export const historyStore = new HistoryStore();
 export const uiStore = new UIStore();
 export const i18nStore = new I18nStore();
+export const featureStore = new FeatureStore();
 
 // Observe Change
 

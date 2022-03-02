@@ -1,0 +1,54 @@
+$basicStep: 4px;
+$stepsAmount: 5;
+
+$gaps: (
+  'm': 'margin',
+  'p': 'padding',
+);
+$directions: (
+  'l': 'left',
+  'r': 'right',
+  't': 'top',
+  'b': 'bottom',
+  'a': 'all',
+  'y': 'vertical',
+  'x': 'horizontal',
+);
+
+// create 5 gap classes
+@for $i from 1 through 5 {
+  .gap-#{$i} {
+    gap: $i * $basicStep;
+  }
+}
+
+@each $gapKey, $gapValue in $gaps {
+  @each $dirKey, $dirValue in $directions {
+    // create 8 classes
+    @for $i from 1 through 8 {
+      @if $dirKey == 'a' {
+        .#{$gapKey}-#{$i} {
+          #{$gapValue}: $i * $basicStep;
+        }
+      } @else if $dirKey == 'x' {
+        .#{$gapKey}#{$dirKey}-#{$i} {
+          #{$gapValue}-right: $i * $basicStep;
+          #{$gapValue}-left: $i * $basicStep;
+        }
+      } @else if $dirKey == 'y' {
+        .#{$gapKey}#{$dirKey}-#{$i} {
+          #{$gapValue}-top: $i * $basicStep;
+          #{$gapValue}-bottom: $i * $basicStep;
+        }
+      } @else {
+        .#{$gapKey}#{$dirKey}-auto {
+          #{$gapValue}-#{$dirValue}: auto;
+        }
+
+        .#{$gapKey}#{$dirKey}-#{$i} {
+          #{$gapValue}-#{$dirValue}: $i * $basicStep;
+        }
+      }
+    }
+  }
+}

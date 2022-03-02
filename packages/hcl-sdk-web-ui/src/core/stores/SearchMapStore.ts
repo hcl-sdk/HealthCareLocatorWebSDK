@@ -3,7 +3,7 @@ import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtil
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
 
-export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName' | 'country'
+export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName' | 'country' | 'search-target'
 
 export interface SpecialtyItem {
   name: string;
@@ -117,6 +117,31 @@ export type IndividualDetail = {
   }[]
 }
 
+type HCO = {
+  id: string
+  name: string
+  department: string
+  address: string
+  phone: string
+  website: string
+  fax: string
+  lat: number
+  lng: number
+  specialties: any[]
+  individuals: {
+    service: string
+    subService: string
+    name: string
+    specialty: string
+  }[]
+  uci: string
+}
+
+export enum SEARCH_TARGET {
+  HCO = 'HCO',
+  HCP = 'HCP'
+}
+
 export interface SearchMapState {
   loading?: boolean;
   loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
@@ -143,6 +168,29 @@ export interface SearchMapState {
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
   cachedActivities?: Record<string, any[]>
+  // hco
+  searchTarget: SEARCH_TARGET,
+  hcos?: {
+    id: string
+    name: string
+    address: string
+    distance: string
+    distanceNumber: number
+    lat: number
+    lng: number
+  }[];
+  selectedHco?: {
+    id: string
+    name: string
+    address: string
+    distance: string
+    distanceNumber: number
+    lat: number
+    lng: number
+  },
+  hcoDetail: HCO
+  loadingHcoDetail?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized'; 
+  loadingHcosStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -188,13 +236,30 @@ export const initStateSearchMapStore: SearchMapState = {
     longitude: 0
   },
   navigatedFromHome: false,
-  cachedActivities: {}
+  cachedActivities: {},
+
+  // hco
+  searchTarget: SEARCH_TARGET.HCP,
+  selectedHco: null,
+  hcoDetail: null,
+  hcos: null,
+  loadingHcosStatus: 'idle'
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
   constructor(state: SearchMapState) {
     super(state);
     this.state = state;
+  }
+
+  setSearchTarget(searchTarget: SEARCH_TARGET) {
+    this.setState({
+      searchTarget
+    })
+  }
+
+  get searchTarget() {
+    return this.state.searchTarget
   }
 
   setSortValues(sortValue: SortValue) {
