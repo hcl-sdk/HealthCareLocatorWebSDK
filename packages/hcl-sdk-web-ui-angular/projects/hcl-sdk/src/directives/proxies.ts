@@ -65,6 +65,25 @@ export class HclSdkButton {
 }
 
 
+export declare interface HclSdkCardInfoSection extends Components.HclSdkCardInfoSection {}
+@ProxyCmp({
+  inputs: ['header', 'map', 'title']
+})
+@Component({
+  selector: 'hcl-sdk-card-info-section',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['header', 'map', 'title']
+})
+export class HclSdkCardInfoSection {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
 export declare interface HclSdkDevSettings extends Components.HclSdkDevSettings {}
 
 @Component({
@@ -99,6 +118,45 @@ export class HclSdkDoctorCard {
   }
 }
 
+
+export declare interface HclSdkHcoCard extends Components.HclSdkHcoCard {}
+@ProxyCmp({
+  inputs: ['address', 'department', 'distance', 'name', 'selected', 'showDistance', 'viewMode']
+})
+@Component({
+  selector: 'hcl-sdk-hco-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['address', 'department', 'distance', 'name', 'selected', 'showDistance', 'viewMode']
+})
+export class HclSdkHcoCard {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+import { HclSdkHCOFullCard as IHclSdkHCOFullCard } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-hco-full-card/hcl-sdk-hco-full-card';
+export declare interface HclSdkHcoFullCard extends Components.HclSdkHcoFullCard {}
+
+@Component({
+  selector: 'hcl-sdk-hco-full-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  outputs: ['backFromFullCard']
+})
+export class HclSdkHcoFullCard {
+  /**  */
+  backFromFullCard!: IHclSdkHCOFullCard['backFromFullCard'];
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['backFromFullCard']);
+  }
+}
+
 import { HclSdkHCPFullCard as IHclSdkHCPFullCard } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-hcp-full-card/hcl-sdk-hcp-full-card';
 export declare interface HclSdkHcpFullCard extends Components.HclSdkHcpFullCard {}
 
@@ -106,16 +164,16 @@ export declare interface HclSdkHcpFullCard extends Components.HclSdkHcpFullCard 
   selector: 'hcl-sdk-hcp-full-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  outputs: ['backFromHcpFullCard']
+  outputs: ['backFromFullCard']
 })
 export class HclSdkHcpFullCard {
   /**  */
-  backFromHcpFullCard!: IHclSdkHCPFullCard['backFromHcpFullCard'];
+  backFromFullCard!: IHclSdkHCPFullCard['backFromFullCard'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['backFromHcpFullCard']);
+    proxyOutputs(this, this.el, ['backFromFullCard']);
   }
 }
 
@@ -183,6 +241,25 @@ export declare interface HclSdkIcon extends Components.HclSdkIcon {}
   inputs: ['color', 'height', 'name', 'primary', 'width']
 })
 export class HclSdkIcon {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconAccountOutline extends Components.HclSdkIconAccountOutline {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-account-outline',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconAccountOutline {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -354,6 +431,25 @@ export declare interface HclSdkIconDislike extends Components.HclSdkIconDislike 
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconDislike {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface HclSdkIconDomain extends Components.HclSdkIconDomain {}
+@ProxyCmp({
+  inputs: ['color', 'height', 'width']
+})
+@Component({
+  selector: 'hcl-sdk-icon-domain',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['color', 'height', 'width']
+})
+export class HclSdkIconDomain {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
