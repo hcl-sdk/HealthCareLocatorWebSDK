@@ -18,4 +18,5 @@ export interface Fields {
   distanceUnit?: 'km' | 'mi';
   distanceDefault?: number;
   enableLeafletAttribution?: boolean;
+  enableHcoSearch?: boolean;
 }
