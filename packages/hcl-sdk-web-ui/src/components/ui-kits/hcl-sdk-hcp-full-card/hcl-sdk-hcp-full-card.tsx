@@ -526,7 +526,7 @@ export class HclSdkHCPFullCard {
                   </div>
                   {/* Block */}
                   {
-                    (individualDetail.uciRpps || individualDetail.uciAdeli) && (
+                    (configStore.state.enableUci && (individualDetail.uciRpps || individualDetail.uciAdeli)) && (
                       <div class="info-section">
                         <div class="info-section-header">
                           <span class="info-section-header__title">{t('unique_country_identifier')}</span>

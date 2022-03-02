@@ -15,7 +15,8 @@ const defaultSettings: Fields = {
   useGoogleMap: false,
   googleMapApiKey: '',
   googleMapId: '',
-  enableHcoSearch: false
+  enableHcoSearch: false,
+  enableUci: true
 }
 
 export function format(first: string, middle: string, last: string): string {

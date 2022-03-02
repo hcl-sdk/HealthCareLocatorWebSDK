@@ -221,7 +221,8 @@ export class SettingsPanel {
         fieldName === 'enableMedicalTerm' || 
         fieldName === 'enableMapDarkMode' ||
         fieldName === 'disableCollectGeo' ||
-        fieldName === 'enableHcoSearch'
+        fieldName === 'enableHcoSearch' ||
+        fieldName === 'enableUci'
       ) {
         value = (evt.target as any).checked as boolean;
       } 
@@ -656,6 +657,13 @@ export class SettingsPanel {
             <label>Enable HCO Search</label>
             <div class="hcl-switch-btn">
                 <input name="enableHcoSearch" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableHcoSearch')} checked={this.fields.enableHcoSearch} />
+                <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row ">
+            <label>Enable UCI</label>
+            <div class="hcl-switch-btn">
+                <input name="enableUci" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableUci')} checked={this.fields.enableUci} />
                 <div class="hcl-switch-btn__slider"></div>
             </div>
           </div>
