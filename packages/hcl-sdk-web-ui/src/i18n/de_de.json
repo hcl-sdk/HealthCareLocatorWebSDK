@@ -37,7 +37,7 @@
   "reset_button": "Zurücksetzen",
   "main_information_label": "Wichtigste Informationen",
   "rate_refunds_label": "Preis und Rückerstattungen",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Einzigartige Länderkennung",
   "specialities_label": "Fachgebiete",
   "medical_publication_subject_heading": "Medizinische Veröffentlichungen nach Schlagwort",
   "information_label": "Informationen",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Einen Arzt empfehlen",
   "share_hcp_description": "Diesen Arzt kann ich empfehlen:",
   "share_hcp_specialties": "Fachgebiete:",
-  "share_hcp_found_text": "Ich habe ihn bei {name} gefunden"
+  "share_hcp_found_text": "Ich habe ihn bei {name} gefunden",
+  "modify": "Abändern",
+  "patients_recommendations": "Empfehlungen für Patienten",
+  "total_results": "Ergebnisse Gesamt",
+  "appointment_available": "Termin für Gesundheitsexperten-Profil",
+  "patient_reviews": "{count} Patientenbewertungen",
+  "appointment_opens_soon": "Öffnet in Kürze",
+  "appointment_monday": "Montag",
+  "appointment_tuesday": "Dienstag",
+  "appointment_wednesday": "Mittwoch",
+  "appointment_thursday": "Donnerstag",
+  "appointment_friday": "Freitag",
+  "appointment_saturday": "Samstag",
+  "appointment_sunday": "Sonntag"
 }

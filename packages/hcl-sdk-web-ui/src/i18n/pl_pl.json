@@ -37,7 +37,7 @@
   "reset_button": "Resetuj",
   "main_information_label": "Podstawowe dane",
   "rate_refunds_label": "Ceny i refundacja",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Unikalny identyfikator kraju",
   "specialities_label": "Specjalizacje",
   "medical_publication_subject_heading": "Nagłówek publikacji medycznej",
   "information_label": "Dane",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Udostępnij informacje o tym pracowniku służby zdrowia",
   "share_hcp_description": "Oto pracownik służby zdrowia, którego polecam:",
   "share_hcp_specialties": "Specjalizacje:",
-  "share_hcp_found_text": "Miejsce znalezienia informacji: {name}"
+  "share_hcp_found_text": "Miejsce znalezienia informacji: {name}",
+  "modify": "Modyfikuj",
+  "patients_recommendations": "Rekomendacje pacjenta",
+  "total_results": "Łączne wyniki",
+  "appointment_available": "Wizyta dostępna dla profilu HCP",
+  "patient_reviews": "Liczba opinii pacjentów: {count}",
+  "appointment_opens_soon": "Otwiera się wkrótce",
+  "appointment_monday": "Poniedziałek",
+  "appointment_tuesday": "Wtorek",
+  "appointment_wednesday": "Środa",
+  "appointment_thursday": "Czwartek",
+  "appointment_friday": "Piątek",
+  "appointment_saturday": "Sobota",
+  "appointment_sunday": "Niedziela"
 }

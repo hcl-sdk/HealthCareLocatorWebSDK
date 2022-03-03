@@ -740,7 +740,7 @@ export class HclSdkSearch {
                     <div class="hclsdk-search__modify__input" innerHTML={searchMapStore.getSearchLabel()} />
                     <div class="hclsdk-search__modify__action" onClick={this.toggleShowModify}>
                       <hcl-sdk-icon tabIndex={-1} name="edit" width={20} height={20} />
-                      <span>Modify</span>
+                      <span>{t('modify')}</span>
                     </div>
                   </div>
                 )}

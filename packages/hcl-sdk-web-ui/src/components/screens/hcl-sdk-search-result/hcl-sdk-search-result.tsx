@@ -267,7 +267,7 @@ export class HclSdkSearchResult {
           {isListView && !isSmall && (
             <div class={cls('search-result-summary', isListView && 'search-result-summary--list-view')}>
               <div class="search-result__wrapper">
-                <strong class="search-result__total">{t('results_label')}: </strong>
+                <strong class="search-result__total">{t('total_results')}: </strong>
                 <strong class="search-result__total-value text-bold">{specialties.length}</strong>
               </div>
               {/* TODO: Mapatho feature */}
@@ -292,7 +292,7 @@ export class HclSdkSearchResult {
         {!isListView && (
           <div class="search-result-summary">
             <div class="search-result__wrapper">
-              <strong class="search-result__total">{t('results_label')}: </strong>
+              <strong class="search-result__total">{t('total_results')}: </strong>
               <strong class="search-result__total-value text-bold">{specialties.length}</strong>
             </div>
             {/* TODO: Mapatho feature */}
@@ -407,7 +407,7 @@ export class HclSdkSearchResult {
                 {/* TODO: Appointment link feature */}
                 <div class={'search-result__footnote'}>
                   <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder />
-                  Appointment available for HCP profile
+                  {t('appointment_available')}
                 </div>
                 {isLoadingHcos && (
                   <div class="search-result__loading">
@@ -512,7 +512,7 @@ export class HclSdkSearchResult {
                 {/* TODO: Appointment link feature */}
                 <div class={'search-result__footnote'}>
                   <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder />
-                  Appointment available for HCP profile
+                  {t('appointment_available')}
                 </div>
                 {loadingActivities && (
                   <div class="search-result__loading">

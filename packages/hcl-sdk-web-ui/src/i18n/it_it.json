@@ -37,7 +37,7 @@
   "reset_button": "Reimposta",
   "main_information_label": "Informazioni principali",
   "rate_refunds_label": "Tariffa e rimborsi",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Identificativo univoco del Paese",
   "specialities_label": "Specializzazioni",
   "medical_publication_subject_heading": "Intestazione dell’oggetto della pubblicazione medica",
   "information_label": "Informazioni",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Consiglia questo professionista sanitario",
   "share_hcp_description": "Desidero consigliare il seguente professionista sanitario:",
   "share_hcp_specialties": "Specializzazioni:",
-  "share_hcp_found_text": "L’ho trovato in: {name}"
+  "share_hcp_found_text": "L’ho trovato in: {name}",
+  "modify": "Modifica",
+  "patients_recommendations": "Raccomandazioni dei pazienti",
+  "total_results": "Risultati totali",
+  "appointment_available": "Appuntamento disponibile per il profilo dell’operatore sanitario",
+  "patient_reviews": "{count} recensioni dei pazienti",
+  "appointment_opens_soon": "Aprirà presto",
+  "appointment_monday": "Lunedì",
+  "appointment_tuesday": "Martedì",
+  "appointment_wednesday": "Mercoledì",
+  "appointment_thursday": "Giovedì",
+  "appointment_friday": "Venerdì",
+  "appointment_saturday": "Sabato",
+  "appointment_sunday": "Domenica"
 }

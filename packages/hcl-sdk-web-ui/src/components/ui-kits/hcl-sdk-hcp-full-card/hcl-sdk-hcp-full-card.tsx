@@ -338,11 +338,16 @@ export class HclSdkHCPFullCard {
     const openHours = individualDetail?.openHours?.filter(hour => !!hour.day)
     const openingStatus = !!openHours?.length ? this.getNextOpenEvents(openHours) : null
 
-    const formattedOpenPeriods = (openHours ?? []).map(hour => ({
-      day: localizeDay(WeekDayToNumber[hour.day], i18nStore.state.lang),
-      open: format(this.getTime(hour.openPeriods.open), 'h:mm a'),
-      close: format(this.getTime(hour.openPeriods.close), 'h:mm a')
-    }))
+    const formattedOpenPeriods = (openHours ?? []).map(hour => {
+      const translationKey = `appointment_${hour.day?.toLowerCase()}`;
+      const translation = t(translationKey);
+
+      return {
+        day: translation !== translationKey ? translation : localizeDay(WeekDayToNumber[hour.day], i18nStore.state.lang),
+        open: format(this.getTime(hour.openPeriods.open), 'h:mm a'),
+        close: format(this.getTime(hour.openPeriods.close), 'h:mm a'),
+      };
+    });
 
     return (
       <Host>
@@ -624,7 +629,7 @@ export class HclSdkHCPFullCard {
                     isShowRecommendation && (
                       <div class="info-section">
                         <div class="info-section-header">
-                          <span class="info-section-header__title">Patient's Recommendation&nbsp;&nbsp;<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
+                          <span class="info-section-header__title">{t('patients_recommendations')}&nbsp;&nbsp;<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
                         </div>
                         <div class="info-section-body no-gap">
                           {
@@ -637,7 +642,7 @@ export class HclSdkHCPFullCard {
                           {
                             <ul class="medical-subjects">
                               <li class="patient-reviews__wrap">
-                                <div class="patient-reviews__title">{reviewResult.reviews.length} Patient reviews</div>
+                                <div class="patient-reviews__title">{t('patient_reviews', { count: reviewResult.reviews.length })}</div>
                                 {/* Reviews Item */}
                                 {
                                   reviewResult.reviews.map(item => (
