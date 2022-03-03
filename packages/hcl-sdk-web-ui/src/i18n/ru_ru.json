@@ -37,7 +37,7 @@
   "reset_button": "Сбросить",
   "main_information_label": "Основная информация",
   "rate_refunds_label": "Тарифная ставка и условия возврата средств",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Уникальный идентификатор страны",
   "specialities_label": "Специализации",
   "medical_publication_subject_heading": "Тематический заголовок медицинской публикации",
   "information_label": "Информация",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Поделиться профилем этого МР",
   "share_hcp_description": "Рекомендую этого медицинского работника:",
   "share_hcp_specialties": "Специализации:",
-  "share_hcp_found_text": "Я нашел/нашла это на {name}"
+  "share_hcp_found_text": "Я нашел/нашла это на {name}",
+  "modify": "Редактировать",
+  "patients_recommendations": "Рекомендации для пациента",
+  "total_results": "Всего результатов",
+  "appointment_available": "Для профиля МР доступен визит",
+  "patient_reviews": "Отзывы пациентов: {count}",
+  "appointment_opens_soon": "Скоро откроется",
+  "appointment_monday": "Понедельник",
+  "appointment_tuesday": "Вторник",
+  "appointment_wednesday": "Среда",
+  "appointment_thursday": "Четверг",
+  "appointment_friday": "Пятница",
+  "appointment_saturday": "Суббота",
+  "appointment_sunday": "Воскресенье"
 }

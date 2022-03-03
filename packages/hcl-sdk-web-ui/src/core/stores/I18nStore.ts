@@ -17,10 +17,13 @@ export default class UIStore extends StoreProvider<I18nStoreState> {
     super(initialState);
   }
 
-  translate(key: string) {
+  translate(key: string, params) {
     if (!this.state.labels[key]) {
       console.log(`[i18n] missing transation for "${key}"`);
       return key;
+    }
+    if (params) {
+      return this.state.labels[key].replace(/\{(.*?)\}/g, (_, token) => params[token])
     }
     return this.state.labels[key];
   }

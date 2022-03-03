@@ -52,5 +52,18 @@
   "share_hcp_title": "Share this HCP",
   "share_hcp_description": "Here is a healthcare professional that I recommend:",
   "share_hcp_specialties": "Specialties:",
-  "share_hcp_found_text": "I found it on {name}"
+  "share_hcp_found_text": "I found it on {name}",
+  "modify": "Modify",
+  "patients_recommendations": "Patient's recommendations",
+  "total_results": "Total Results",
+  "appointment_available": "Appointment available for HCP profile",
+  "patient_reviews": "{count} Patient reviews",
+  "appointment_opens_soon": "Opens soon",
+  "appointment_monday": "Monday",
+  "appointment_tuesday": "Tuesday",
+  "appointment_wednesday": "Wednesday",
+  "appointment_thursday": "Thursday",
+  "appointment_friday": "Friday",
+  "appointment_saturday": "Saturday",
+  "appointment_sunday": "Sunday"
 }

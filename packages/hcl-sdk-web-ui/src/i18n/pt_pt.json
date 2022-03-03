@@ -37,7 +37,7 @@
   "reset_button": "Repor",
   "main_information_label": "Informação principal",
   "rate_refunds_label": "Taxa e reembolsos",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Identificador único do país",
   "specialities_label": "Especialidades",
   "medical_publication_subject_heading": "Cabeçalho do assunto da publicação médica",
   "information_label": "Informação",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Partilhar este profissional de saúde",
   "share_hcp_description": "Um profissional de saúde que recomendo:",
   "share_hcp_specialties": "Especialidades:",
-  "share_hcp_found_text": "Encontrei em {name}"
+  "share_hcp_found_text": "Encontrei em {name}",
+  "modify": "Modificar",
+  "patients_recommendations": "Recomendações para os doentes",
+  "total_results": "Resultados totais",
+  "appointment_available": "Consulta disponível para perfil de profissional de saúde",
+  "patient_reviews": "{count} revisões de doentes",
+  "appointment_opens_soon": "Abre brevemente",
+  "appointment_monday": "Segunda-feira",
+  "appointment_tuesday": "Terça-feira",
+  "appointment_wednesday": "Quarta-feira",
+  "appointment_thursday": "Quinta-feira",
+  "appointment_friday": "Sexta-feira",
+  "appointment_saturday": "Sábado",
+  "appointment_sunday": "Domingo"
 }

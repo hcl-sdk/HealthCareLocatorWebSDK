@@ -37,7 +37,7 @@
   "reset_button": "Restablecer",
   "main_information_label": "Información principal",
   "rate_refunds_label": "Tarifa y reembolsos",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Identificación del participante",
   "specialities_label": "Especialidades",
   "medical_publication_subject_heading": "Encabezado del asunto de la Publicación médica",
   "information_label": "Información",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Compartir este profesional de la salud",
   "share_hcp_description": "El siguiente es un profesional de la salud que recomiendo:",
   "share_hcp_specialties": "Especialidades:",
-  "share_hcp_found_text": "Lo encontré en {name}"
+  "share_hcp_found_text": "Lo encontré en {name}",
+  "modify": "Modificar",
+  "patients_recommendations": "Recomendaciones del paciente",
+  "total_results": "Resultados totales",
+  "appointment_available": "Cita disponible para el perfil del profesional de la salud",
+  "patient_reviews": "{count} revisiones de pacientes",
+  "appointment_opens_soon": "Abre pronto",
+  "appointment_monday": "Lunes",
+  "appointment_tuesday": "Martes",
+  "appointment_wednesday": "Miércoles",
+  "appointment_thursday": "Jueves",
+  "appointment_friday": "Viernes",
+  "appointment_saturday": "Sábado",
+  "appointment_sunday": "Domingo"
 }
