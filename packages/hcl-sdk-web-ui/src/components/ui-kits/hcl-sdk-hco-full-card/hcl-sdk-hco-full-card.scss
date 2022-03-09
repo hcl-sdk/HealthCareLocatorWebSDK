@@ -1,5 +1,4 @@
 @import '../../../global/scss/variables.scss';
-@import '../../../global/scss/width.scss';
 
 :host {
   .hclsdk-btn-suggest-edit {
@@ -317,4 +316,17 @@
   .medical-subjects__item--highlight {
     background-color: var(--hcl-color-medial_subject_highlight);
   }
+}
+
+.hco-individual-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--hcl-color-card_border);
+  border-radius: 4px;
+  padding: 8px;
+  line-height: 1;
+}
+
+span.hco-individual-item__title {
+  color: var(--hcl-color-secondary);
 }

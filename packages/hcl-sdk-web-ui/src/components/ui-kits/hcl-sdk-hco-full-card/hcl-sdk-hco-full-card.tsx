@@ -329,6 +329,18 @@ export class HclSdkHCOFullCard {
                     {
                       name: 'Dr Boksenbaum Michel',
                       specialty: 'General practitioner',
+                      url: 'https://google.com',
+                    },
+                    {
+                      name: 'Dr William Dahan',
+                      specialty: 'General practitioner',
+                      url: 'https://google.com',
+                      isShowRecommendation: true,
+                    },
+                    {
+                      name: 'Dr Elie Attias',
+                      specialty: 'General practitioner',
+                      url: 'https://google.com',
                     },
                     {
                       name: 'Dr William Dahan',
@@ -338,22 +350,22 @@ export class HclSdkHCOFullCard {
                       name: 'Dr Elie Attias',
                       specialty: 'General practitioner',
                     },
-                    {
-                      name: 'Dr William Dahan',
-                      specialty: 'General practitioner',
-                    },
-                    {
-                      name: 'Dr Elie Attias',
-                      specialty: 'General practitioner',
-                    },
-                  ].map(({ name, specialty }, idx: number) => {
+                  ].map(({ name, specialty, url, isShowRecommendation }, idx: number) => {
                     if (!this.isViewMoreIndividuals && idx >= MAX_DISPLAY_TERMS) {
                       return null;
                     }
 
                     return (
-                      <li class="flex flex-col border border-card rounded p-2">
-                        <div class="text-color-secondary">{name}</div>
+                      <li class="hco-individual-item">
+                        <div class="flex items-center gap-2 mb-1">
+                          <span class="hco-individual-item__title mr-2">{name}</span>
+                          {isShowRecommendation && (<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />)}
+                          {url && (
+                            <a href={url} target="_blank">
+                              <hcl-sdk-icon width={20} height={20} name="calendar-clock-outline" color={getCssColor('--hcl-color-secondary')} />
+                            </a>
+                          )}
+                        </div>
                         <div>{specialty}</div>
                       </li>
                     );
