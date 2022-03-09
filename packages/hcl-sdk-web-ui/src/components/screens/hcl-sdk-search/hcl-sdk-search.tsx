@@ -670,7 +670,7 @@ export class HclSdkSearch {
                         </hcl-sdk-input>
                       </div>
                     )}
-                    {configStore.state.enableMedicalTerm && (
+                    {configStore.state.enableMedicalTerm && this.searchTarget !== SEARCH_TARGET.HCO && (
                       <div class="hclsdk-search__form--content-item">
                         <hcl-sdk-input
                           ref={el => (this.fields.medicalTerm = el)}
