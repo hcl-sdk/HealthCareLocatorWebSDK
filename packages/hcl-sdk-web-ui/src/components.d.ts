@@ -14,6 +14,10 @@ export namespace Components {
         "backToHome": () => Promise<void>;
         "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
         "initScreen"?: InitScreen;
+        "position": {
+    lat: number;
+    lng: number;
+  };
         "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
         "widget"?: WidgetType;
@@ -841,6 +845,10 @@ declare global {
 declare namespace LocalJSX {
     interface HclSdk {
         "initScreen"?: InitScreen;
+        "position"?: {
+    lat: number;
+    lng: number;
+  };
         "widget"?: WidgetType;
         "widgetProps"?: WidgetProps;
     }

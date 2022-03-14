@@ -46,9 +46,10 @@ export type ConfigType = {
 @Component({
   selector: 'hcl-sdk-component',
   template: `
-    <hcl-sdk #hclSdk [widget]="widget" [widgetProps]="widgetProps" [initScreen]="initScreen"></hcl-sdk>
+    <hcl-sdk #hclSdk [widget]="widget" [widgetProps]="widgetProps" [initScreen]="initScreen" [position]="position"></hcl-sdk>
   `,
   styles: [
+    
   ]
 })
 export class HclSdkComponent implements OnChanges, AfterViewInit {
@@ -57,6 +58,7 @@ export class HclSdkComponent implements OnChanges, AfterViewInit {
   @Input() widget?: WidgetType
   @Input() widgetProps?: WidgetProps
   @Input() initScreen?: InitScreen
+  @Input() position?: { lat: number, lng: number }
 
   constructor() { }
 
