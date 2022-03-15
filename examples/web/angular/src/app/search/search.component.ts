@@ -6,6 +6,12 @@ const config = {
   ...getSettingsCustomIconFromLocal(),
 };
 
+// config change user location demo:
+const demoUpdateUserGeolocation = true;
+const SPECIALTY_CODE = 'SP.WUS.PHR'
+const SPECIALTY_LABEL = 'PHARMACIST'
+// end config change user location demo
+
 const mapSpecialtyByKey: any = {
   dentistry: {
     fr_FR: {
@@ -32,8 +38,16 @@ const mapSpecialtyByKey: any = {
 @Component({
   selector: 'app-search',
   template: `
+    <div class="change-user-location-bar">
+      <select *ngIf="demoUpdateUserGeolocation" class="select" (change)="onPositionChange($event)">
+        <option *ngFor="let item of locations" [value]="item | json">{{ item.label }} - Lat: {{ item.lat }} - Lng: {{ item.lng }}</option>
+      </select>
+      <div class="specialty">
+        <span> {{ specialtyLabel }}, NEAR ME </span>
+      </div>
+    </div>
     <div class="wrapper">
-      <hcl-sdk-component id="main-instance" [config]="config"></hcl-sdk-component>
+      <hcl-sdk-component id="main-instance" [config]="config" [position]="userPosition"></hcl-sdk-component>
     </div>
     <!-- <div>
       <hcl-sdk-component [widget]="'map'"></hcl-sdk-component>
@@ -44,11 +58,36 @@ const mapSpecialtyByKey: any = {
 })
 export class SearchComponent implements OnInit {
   public config: any;
+  // changing user location feature
+  public locations = [
+    { lat: 40.6976701, lng: -74.259864, label: 'New York' },
+    { lat: 37.774929, lng: -122.419416, label: 'San Francisco' },
+    { lat: 50.9519359, lng: 1.8339621, label: 'Paris' },
+    { lat: 48.864716, lng: 2.349014, label: 'Calais, France' },
+  ];
+  public userPosition: { lat: number; lng: number } = this.locations[0];
+  public demoUpdateUserGeolocation = demoUpdateUserGeolocation;
+  public specialtyCode = SPECIALTY_CODE
+  public specialtyLabel = SPECIALTY_LABEL
+  // end changing user location feature
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.config = config;
+
+    if (demoUpdateUserGeolocation) {
+      this.config.entry = {
+        screenName: 'searchNearMe',
+        specialtyCode: [SPECIALTY_CODE],
+        specialtyLabel: SPECIALTY_LABEL,
+      }
+      const hclSdkEl = document.querySelector('hcl-sdk') as any;
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = 'hcl-sdk-search { display: none; }';
+      hclSdkEl.shadowRoot.appendChild(styleSheet);
+    }
+
     console.log('config', config);
 
     this.route.queryParams.subscribe(params => {
@@ -65,6 +104,10 @@ export class SearchComponent implements OnInit {
         }
       }
     });
+  }
+
+  onPositionChange(event: any) {
+    this.userPosition = JSON.parse(event.target.value);
   }
 }
 
