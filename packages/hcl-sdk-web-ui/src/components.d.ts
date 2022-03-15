@@ -12,12 +12,12 @@ import { CountryCode } from "./core/constants";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
-        "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
-        "initScreen"?: InitScreen;
-        "position": {
+        "currentPosition": {
     lat: number;
     lng: number;
   };
+        "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
+        "initScreen"?: InitScreen;
         "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
         "updateConfig": (patch: any) => Promise<HclSDKConfigData>;
         "widget"?: WidgetType;
@@ -844,11 +844,11 @@ declare global {
 }
 declare namespace LocalJSX {
     interface HclSdk {
-        "initScreen"?: InitScreen;
-        "position"?: {
+        "currentPosition"?: {
     lat: number;
     lng: number;
   };
+        "initScreen"?: InitScreen;
         "widget"?: WidgetType;
         "widgetProps"?: WidgetProps;
     }

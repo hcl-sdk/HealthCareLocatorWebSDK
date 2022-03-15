@@ -36,35 +36,34 @@ export class HclSDK {
   @Prop() widget?: WidgetType
   @Prop() widgetProps?: WidgetProps
   @Prop() initScreen?: InitScreen
-  @Prop() position: {
+  @Prop() currentPosition: {
     lat: number;
     lng: number;
   }
 
-  @Watch('position')
+  @Watch('currentPosition')
   userPositionChangeHandler(newProps) {
     if (this.widget) return;
     const { lat, lng } = newProps
 
-    if (configStore.state && configStore.state.entry && configStore.state.entry.screenName === 'searchNearMe') {
-      const { specialtyCode, specialtyLabel } = configStore.state.entry;
-      if (!specialtyCode) {
-        console.error('missing specialtyCode for "near me" search');
-        return;
-      }
+    getAddressFromGeo(lat, lng).then(res => {
+      if (res?.address?.country_code) {
+        configStore.setState({
+          countryGeo: res.address.country_code,
+        });
 
-      getAddressFromGeo(lat, lng).then(res => {
-        if (res?.address?.country_code) {
-          configStore.setState({
-            countryGeo: res.address.country_code,
-          });
-
+        if (configStore && configStore.state.entry && configStore.state.entry.screenName === 'searchNearMe') {
+          const { specialtyCode, specialtyLabel } = configStore.state.entry;
+          if (!specialtyCode) {
+            console.error('missing specialtyCode for "near me" search');
+            return;
+          }
           this.searchNearMe({ specialtyCode, specialtyLabel });
         }
-      });
+      }
+    });
 
-      searchMapStore.setGeoLocation({ latitude: lat, longitude: lng });
-    }
+    searchMapStore.setGeoLocation({ latitude: lat, longitude: lng });
   }
 
   parentEl;
@@ -127,14 +126,14 @@ export class HclSDK {
 
     const premadeGetCurrentPosition = success => {
       success({
-        latitude: this.position.lat,
-        longitude: this.position.lng
+        latitude: this.currentPosition.lat,
+        longitude: this.currentPosition.lng
       });
     };
 
     this.loadCurrentPosition({
       isShowcase,
-      getCurrentPosition: this.position ? premadeGetCurrentPosition : getCurrentPosition,
+      getCurrentPosition: this.currentPosition ? premadeGetCurrentPosition : getCurrentPosition,
       disableCollectGeo: config.disableCollectGeo,
     });
 
