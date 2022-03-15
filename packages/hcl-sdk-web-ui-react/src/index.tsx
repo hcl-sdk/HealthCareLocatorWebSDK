@@ -50,6 +50,7 @@ type HclSdkProps = {
   widget?: WidgetType
   widgetProps?: WidgetProps
   initScreen?: InitScreen
+  currentPosition?: { lat: number; lng: number }
 } | {
   config?: ConfigType
   className?: string;
@@ -57,11 +58,12 @@ type HclSdkProps = {
   widget: WidgetType
   widgetProps?: WidgetProps
   initScreen?: InitScreen
+  currentPosition?: { lat: number; lng: number }
 }
 
 const HclSdkComponent = (props: HclSdkProps) => {
   const ref = useRef<HTMLHclSdkElement>(null);
-  const { config, className, style, widget, widgetProps, initScreen } = props;
+  const { config, className, style, widget, widgetProps, initScreen, currentPosition } = props;
 
   useEffect(() => {
     customElements.whenDefined('hcl-sdk').then(function() {
@@ -70,7 +72,7 @@ const HclSdkComponent = (props: HclSdkProps) => {
         ref.current.init(config);
       }
     })
-  })
+  }, [])
 
   useEffect(() => {
     if (!ref.current) throw Error("ref is not assigned");
@@ -85,12 +87,18 @@ const HclSdkComponent = (props: HclSdkProps) => {
   }, [JSON.stringify(widgetProps)])
 
   useEffect(() => {
+    if (ref.current && currentPosition) {
+      ref.current.currentPosition = currentPosition
+    }
+  }, [JSON.stringify(currentPosition)])
+
+  useEffect(() => {
     if (ref.current) {
       ref.current.widget = widget
     }
   }, [widget])
 
-  return useMemo(() => <HclSdk ref={ref} className={className} style={style} widget={widget} widgetProps={widgetProps} initScreen={initScreen} />, []);
+  return useMemo(() => <HclSdk ref={ref} className={className} style={style} widget={widget} widgetProps={widgetProps} initScreen={initScreen} currentPosition={currentPosition} />, []);
 };
 
 export default HclSdkComponent;

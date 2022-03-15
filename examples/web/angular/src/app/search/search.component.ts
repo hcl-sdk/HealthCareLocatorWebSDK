@@ -7,7 +7,7 @@ const config = {
 };
 
 // config change user location demo:
-const demoUpdateUserGeolocation = true;
+const demoUpdateUserGeolocation = false;
 const SPECIALTY_CODE = 'SP.WUS.PHR'
 const SPECIALTY_LABEL = 'PHARMACIST'
 // end config change user location demo
@@ -38,8 +38,8 @@ const mapSpecialtyByKey: any = {
 @Component({
   selector: 'app-search',
   template: `
-    <div class="change-user-location-bar">
-      <select *ngIf="demoUpdateUserGeolocation" class="select" (change)="onPositionChange($event)">
+    <div class="change-user-location-bar" *ngIf="demoUpdateUserGeolocation">
+      <select class="select" (change)="onPositionChange($event)">
         <option *ngFor="let item of locations" [value]="item | json">{{ item.label }} - Lat: {{ item.lat }} - Lng: {{ item.lng }}</option>
       </select>
       <div class="specialty">
@@ -47,7 +47,7 @@ const mapSpecialtyByKey: any = {
       </div>
     </div>
     <div class="wrapper">
-      <hcl-sdk-component id="main-instance" [config]="config" [position]="userPosition"></hcl-sdk-component>
+      <hcl-sdk-component id="main-instance" [config]="config" [currentPosition]="userPosition"></hcl-sdk-component>
     </div>
     <!-- <div>
       <hcl-sdk-component [widget]="'map'"></hcl-sdk-component>

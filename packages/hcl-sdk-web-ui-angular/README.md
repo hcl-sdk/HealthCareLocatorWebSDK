@@ -20,6 +20,8 @@ Run `npm run build` to build the hcl-sdk component
 | `widget`        | `"map"` |
 | `widgetProps`   | `WidgetProps` |
 | `initScreen`   | `"home"` \| `"search"` |
+| `currentPosition` | `{ lat: number; lng: number; }` | `undefined` |
+
 
 <br />
 
@@ -68,6 +70,18 @@ const config = {
     })
   } 
 }
+```
+
+- You can set user geolocation via `currentPosition` prop.
+You don't need to use `getCurrentPosition` if already provide `currentPosition`. `currentPosition` prop will override the one pass into `success` callback.
+```js
+// component:
+public userPosition: { lat: number; lng: number } = { lat: 40.6976701, lng: -74.259864 };
+
+// template:
+<hcl-sdk-component
+  [config]="config" [currentPosition]="userPosition">
+</hcl-sdk-component>
 ```
 
 <br />
