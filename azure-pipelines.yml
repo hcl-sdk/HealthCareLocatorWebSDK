@@ -68,21 +68,21 @@ stages:
 
       - task: Yarn@3
         displayName: 'Install dependencies example angular'
-        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), 'false')
+        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), False)
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
           arguments: 'install'
 
       - task: Yarn@3
         displayName: 'Build Example Angular'
-        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), 'false')
+        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), False)
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
           arguments: 'build'
           
       - task: Bash@3
         displayName: 'Build Example Angular Dev'
-        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), 'true')
+        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), True)
         inputs:
           targetType: 'filePath'
           filePath: '$(pipeline.workspace)/s/onekey-sdk-web-lib/scripts/e2e-build-example.sh'
