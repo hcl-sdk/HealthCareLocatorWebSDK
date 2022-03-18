@@ -1,16 +1,82 @@
-import { formatDistanceDisplay } from '../../utils/helper';
+import { graphql } from '../../../../hcl-sdk-core';
+import { WorkplaceCriteria, WorkplaceCriteriaScope, WorkplacesV2QueryVariables } from '../../../../hcl-sdk-core/src/graphql/types';
+import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
+import { NEAR_ME } from '../constants';
 import { configStore, searchMapStore } from '../stores';
-import { SortValue } from '../stores/SearchMapStore';
-import { genSearchLocationParams } from './shared';
+import { SearchFields, SortValue } from '../stores/SearchMapStore';
+import { getGooglePlaceDetails } from './searchGeo';
+import { getDistanceMeterByAddrDetails } from './shared';
+
+export async function genSearchLocationParams({ forceNearMe = false, locationFilter, searchFields }: { forceNearMe?: boolean; locationFilter: any; searchFields: SearchFields }) {
+  let params: Partial<WorkplacesV2QueryVariables> = {};
+
+  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
+    params.location = {
+      lat: searchMapStore.state.geoLocation.latitude,
+      lon: searchMapStore.state.geoLocation.longitude,
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
+    };
+    if (!params.location.distanceMeter) {
+      delete params.location.distanceMeter; // Don't send this param if developers are not config
+    }
+    if (forceNearMe) {
+      // Basic search near me don't have `specialties` in params
+      // In case we keep the data specialtyFilter exist in across the pages
+      params.country = configStore.state.countryGeo || configStore.countryGraphqlQuery;
+      return params;
+    }
+  } else if (locationFilter) {
+    let addressDetails = locationFilter.addressDetails;
+    let boundingbox = locationFilter.boundingbox;
+    let lat = locationFilter.lat;
+    let lon = locationFilter.lng;
+
+    if (locationFilter.place_id) {
+      const placeDetail = await getGooglePlaceDetails(locationFilter.place_id);
+      addressDetails = placeDetail.addressDetails;
+      boundingbox = placeDetail.boundingbox;
+      lat = placeDetail.lat;
+      lon = placeDetail.lng;
+    }
+
+    const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox);
+    params = {
+      location: {
+        lat: Number(lat),
+        lon: Number(lon),
+        // distanceMeter: distanceMeter
+      },
+      ...extraParams, // country (removed), ...
+    };
+    if (distanceMeter) {
+      params.location.distanceMeter = distanceMeter;
+    }
+  }
+
+  const criterias: WorkplaceCriteria[] = [];
+  const isFreeTextName = searchFields.name;
+
+  if (isFreeTextName) {
+    criterias.push({ text: searchFields.name, scope: WorkplaceCriteriaScope.Name });
+  }
+
+  if (criterias.length) {
+    params.criterias = criterias;
+  }
+
+  if (!params.country) {
+    params.country = configStore.countryGraphqlQuery;
+  }
+
+  return params;
+}
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
-  const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields } = searchMapStore.state;
+  const { locationFilter, searchFields } = searchMapStore.state;
 
   const params = await genSearchLocationParams({
     forceNearMe,
     locationFilter,
-    specialtyFilter,
-    medicalTermsFilter,
     searchFields,
   });
 
@@ -25,27 +91,32 @@ export async function changeSortValue(_sortValue: SortValue) {
   // Not implemented
 }
 
-export async function searchLocation(_variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
+export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
   searchMapStore.setState({
     hcoDetail: null,
     loadingHcosStatus: hasLoading as any,
   });
 
   try {
-    await delay(1000);
-
-    const hcos = [
-      {
-        id: 'hco1',
-        name: 'Lariboisière Hospital AP-HP',
-        department: 'Hospitla',
-        address: '2 Rue Ambroise Paré, 75010 Paris',
-        distanceNumber: 82,
-        distance: formatDistanceDisplay(82, configStore.state.distanceUnit),
-        lat: 50.9519359,
-        lng: 1.8339621,
-      },
-    ];
+    const hcos = await (
+      await graphql.workplacesV2(
+        {
+          ...variables,
+          first: 50,
+          offset: 0,
+        },
+        configStore.configGraphql,
+      )
+    ).workplacesV2.edges.map(edge => ({
+      id: edge.node?.id,
+      name: edge.node?.name,
+      type: edge.node?.type.label,
+      distanceNumber: edge.distance,
+      distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
+      lat: edge.node?.address.location?.lat,
+      lng: edge.node?.address.location?.lon,
+      address: [edge.node?.address.longLabel, edge.node?.address.postalCode + ' ' + edge.node?.address.city.label].filter(s => s).join(', '),
+    }));
 
     searchMapStore.setState({
       hcoDetail: null,
@@ -67,34 +138,33 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
     [keyLoading]: true,
   });
 
-  await delay(400);
+  const hco = await graphql.workplaceByIDV2(
+    {
+      id: hcoId,
+    },
+    configStore.configGraphql,
+  );
 
   const data = {
-    id: hcoId,
-    name: 'Institut Curie Hospital',
-    department: 'Hospital',
-    address: `Institut Curie Hospital 26 Rue d'Ulm, 75005 Paris`,
-    phone: '01 44 58 56 58',
-    website: 'http://hopital-lariboisiere.aphp.fr/',
-    fax: '01 44 58 56 58',
-    lat: 50.9519359,
-    lng: 1.8339621,
-    specialties: [],
+    id: hco.workplaceByIDV2?.id,
+    name: hco.workplaceByIDV2?.name,
+    type: hco.workplaceByIDV2?.type.label,
+    address: [hco.workplaceByIDV2?.address.longLabel, hco.workplaceByIDV2?.address.postalCode + ' ' + hco.workplaceByIDV2?.address.city.label].filter(s => s).join(', '),
+    phone: hco.workplaceByIDV2?.intlPhone,
+    fax: hco.workplaceByIDV2?.intlFax,
+    website: hco.workplaceByIDV2?.webAddress,
+    lat: hco.workplaceByIDV2?.address?.location?.lat,
+    lng: hco.workplaceByIDV2?.address?.location?.lon,
     individuals: [
-      {
-        service: 'Cardiology',
-        subService: 'Echocardiology',
-        name: 'Dr Boksenbaum Michel',
-        specialty: 'General practitioner',
-      },
-      {
-        service: 'Cardiology',
-        subService: 'Echocardiology',
-        name: 'Dr William Dahan',
-        specialty: 'General practitioner',
-      },
+      ...hco.workplaceByIDV2?.individuals?.map(individual => ({
+        id: individual.id,
+        name: [individual.firstName, individual.middleName, individual.lastName].filter(s => !!s).join(' '),
+        specialty: getSpecialtiesText(individual.specialties)[0],
+        isShowRecommendation: individual.reviewsAvailable || individual.diseasesAvailable,
+        url: getUrl(hco.workplaceByIDV2?.address.country, individual.mainActivity.urls),
+        mainActivity: individual.mainActivity
+      })),
     ],
-    uci: '1053364778',
   };
 
   // TODO: history item
@@ -104,7 +174,3 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
   });
 }
 
-const delay = timeMs =>
-  new Promise(res => {
-    setTimeout(res, timeMs);
-  });

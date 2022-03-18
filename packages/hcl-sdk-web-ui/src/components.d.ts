@@ -69,11 +69,11 @@ export namespace Components {
     }
     interface HclSdkHcoCard {
         "address": string;
-        "department": string;
         "distance": string;
         "name": string;
         "selected": boolean;
         "showDistance": boolean;
+        "type": string;
         "viewMode": string;
     }
     interface HclSdkHcoFullCard {
@@ -897,11 +897,11 @@ declare namespace LocalJSX {
     }
     interface HclSdkHcoCard {
         "address"?: string;
-        "department"?: string;
         "distance"?: string;
         "name"?: string;
         "selected"?: boolean;
         "showDistance"?: boolean;
+        "type"?: string;
         "viewMode"?: string;
     }
     interface HclSdkHcoFullCard {

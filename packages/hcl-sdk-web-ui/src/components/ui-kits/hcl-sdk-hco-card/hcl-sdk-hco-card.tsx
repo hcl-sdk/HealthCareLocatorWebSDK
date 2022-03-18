@@ -9,10 +9,10 @@ import { getCssColor } from '../../../utils/helper';
 })
 export class HclSdkHcoCard {
   @Prop() name: string;
-  @Prop() department: string = 'Hospital';
-  @Prop() address: string = '2 Rue Ambroise Paré, 75010 Paris';
-  @Prop() distance: string = '82m';
-  @Prop() showDistance: boolean = true;
+  @Prop() type: string;
+  @Prop() address: string;
+  @Prop() distance: string;
+  @Prop() showDistance: boolean;
   @Prop() selected: boolean;
   @Prop() viewMode: string;
 
@@ -28,7 +28,7 @@ export class HclSdkHcoCard {
             <div class="header">
               <span class="text name">{this.name}</span>
             </div>
-            <span class="text gp">{this.department}</span>
+            <span class="text gp">{this.type}</span>
             <span class="text address">{this.address}</span>
             {this.showDistance && <span class="text distance">{this.distance}</span>}
           </div>

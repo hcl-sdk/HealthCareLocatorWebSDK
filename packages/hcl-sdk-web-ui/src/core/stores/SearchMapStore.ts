@@ -120,21 +120,25 @@ export type IndividualDetail = {
 type HCO = {
   id: string
   name: string
-  department: string
+  type: string
   address: string
   phone: string
   website: string
   fax: string
   lat: number
   lng: number
-  specialties: any[]
   individuals: {
-    service: string
-    subService: string
+    service?: string
+    subService?: string
     name: string
     specialty: string
+    isShowRecommendation: boolean
+    url: string
+    mainActivity: {
+      id: string
+    }
   }[]
-  uci: string
+  uci?: string
 }
 
 export enum SEARCH_TARGET {
@@ -191,6 +195,7 @@ export interface SearchMapState {
   hcoDetail: HCO
   loadingHcoDetail?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized'; 
   loadingHcosStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
+  navigateFromHcoFullCard?: boolean
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -243,7 +248,8 @@ export const initStateSearchMapStore: SearchMapState = {
   selectedHco: null,
   hcoDetail: null,
   hcos: null,
-  loadingHcosStatus: 'idle'
+  loadingHcosStatus: 'idle',
+  navigateFromHcoFullCard: false
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {

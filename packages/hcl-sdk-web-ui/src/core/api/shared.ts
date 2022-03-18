@@ -28,7 +28,8 @@ export function groupPointFromBoundingBox(boundingbox: string[]) {
   return { bbox, hashBBox, point };
 }
 
-function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
+// export for HCO's genSearchLocationParams to use
+export function getDistanceMeterByAddrDetails(addressDetails: Record<string, string>, boundingbox: string[]) {
   if (!addressDetails) {
     return {
       distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
