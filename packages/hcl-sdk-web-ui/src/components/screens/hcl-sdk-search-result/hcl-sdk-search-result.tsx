@@ -332,7 +332,9 @@ export class HclSdkSearchResult {
   }
 
   renderHcoResults() {
-    const { hcoDetail, selectedHco, isAllowDisplayMapEmpty } = searchMapStore.state;
+    const { hcoDetail, selectedHco, isAllowDisplayMapEmpty, selectedActivity, individualDetail } = searchMapStore.state;
+    // show HCP when click on individual from hco full card
+    const isShowHCPDetail = individualDetail || selectedActivity;
 
     const breakpoint = uiStore.state.breakpoint;
     const isSmall = breakpoint.screenSize === 'mobile';
@@ -391,7 +393,12 @@ export class HclSdkSearchResult {
           })}
         >
           <div class={mapWrapperClass} ref={el => (this.searchDataMapElm = el as HTMLInputElement)}>
-            {isShowHCODetail ? <hcl-sdk-hco-full-card onBackFromFullCard={e => this.backFromHcpFullCardHandler(e)} /> : isShowToolbar.desktop && this.renderToolbar()}
+            {/* Show toolbar when not at full card */}
+            {!isShowHCPDetail && !isShowHCODetail && isShowToolbar.desktop && this.renderToolbar()}
+            {/* Show hco full card when have hco detail and no hcp detail */}
+            {!isShowHCPDetail && isShowHCODetail ? <hcl-sdk-hco-full-card onBackFromFullCard={e => this.backFromHcpFullCardHandler(e)} /> : null}
+            {/* Show hcp detail when have have hcp detail */}
+            {isShowHCPDetail ? <hcl-sdk-hcp-full-card onBackFromFullCard={e => this.backFromHcpFullCardHandler(e)} /> : null}
             {!isShowHCODetail && (
               <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                 {!isLoadingHcos &&

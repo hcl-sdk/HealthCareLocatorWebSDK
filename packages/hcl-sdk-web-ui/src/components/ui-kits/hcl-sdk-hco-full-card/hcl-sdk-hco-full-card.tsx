@@ -167,6 +167,16 @@ export class HclSdkHCOFullCard {
     this.isViewMoreSpecialties = !this.isViewMoreSpecialties;
   };
 
+  onIndividualClick = item => {
+    searchMapStore.setState({
+      selectedActivity: item.mainActivity,
+      individualDetail: null,
+      //
+      navigatedFromHome: false,
+      navigateFromHcoFullCard: true
+    });
+  };
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -213,7 +223,7 @@ export class HclSdkHCOFullCard {
                 </div>
                 <div class="main-info__profile">
                   <span class="main-info__profile-name">{(hcoDetail && hcoDetail.name) || (searchMapStore.state.selectedHco && searchMapStore.state.selectedHco.name)}</span>
-                  <span class="main-info__profile-dep">{hcoDetail && hcoDetail.department}</span>
+                  <span class="main-info__profile-dep">{hcoDetail && hcoDetail.type}</span>
                 </div>
               </div>
 
@@ -304,6 +314,7 @@ export class HclSdkHCOFullCard {
                   </div>
                 }
               >
+                {/* TODO: implement service, subService
                 <div class="flex flex-col gap-2">
                   <hcl-sdk-select
                     value={'Surgery'}
@@ -324,49 +335,28 @@ export class HclSdkHCOFullCard {
                     onChange={this.handleChangeService}
                   />
                 </div>
+                */}
                 <div class="flex flex-col gap-2">
-                  {[
-                    {
-                      name: 'Dr Boksenbaum Michel',
-                      specialty: 'General practitioner',
-                      url: 'https://google.com',
-                    },
-                    {
-                      name: 'Dr William Dahan',
-                      specialty: 'General practitioner',
-                      url: 'https://google.com',
-                      isShowRecommendation: true,
-                    },
-                    {
-                      name: 'Dr Elie Attias',
-                      specialty: 'General practitioner',
-                      url: 'https://google.com',
-                    },
-                    {
-                      name: 'Dr William Dahan',
-                      specialty: 'General practitioner',
-                    },
-                    {
-                      name: 'Dr Elie Attias',
-                      specialty: 'General practitioner',
-                    },
-                  ].map(({ name, specialty, url, isShowRecommendation }, idx: number) => {
+                  {hcoDetail?.individuals.map((individual, idx: number) => {
                     if (!this.isViewMoreIndividuals && idx >= MAX_DISPLAY_TERMS) {
                       return null;
                     }
 
                     return (
-                      <li class="hco-individual-item">
-                        <div class="flex items-center gap-2 mb-1">
-                          <span class="hco-individual-item__title mr-2">{name}</span>
-                          {isShowRecommendation && (<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />)}
-                          {url && (
-                            <a href={url} target="_blank">
-                              <hcl-sdk-icon width={20} height={20} name="calendar-clock-outline" color={getCssColor('--hcl-color-secondary')} />
-                            </a>
-                          )}
+                      <li class="hco-individual-item" onClick={() => this.onIndividualClick(individual)}>
+                        <div class="hco-individual-item__content">
+                          <div class="flex items-center gap-2 mb-1">
+                            <span class="hco-individual-item__title mr-2">{individual.name}</span>
+                            {individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
+                            {individual.url && (
+                              <a href={individual.url} target="_blank">
+                                <hcl-sdk-icon width={20} height={20} name="calendar-clock-outline" color={getCssColor('--hcl-color-secondary')} />
+                              </a>
+                            )}
+                          </div>
+                          <div>{individual.specialty}</div>
                         </div>
-                        <div>{specialty}</div>
+                        <hcl-sdk-icon name="arrow_right" color={getCssColor('--hcl-color-secondary')} />
                       </li>
                     );
                   })}
@@ -390,7 +380,7 @@ export class HclSdkHCOFullCard {
                 </div>
               </hcl-sdk-card-info-section>
 
-              {hcoDetail && <hcl-sdk-card-info-section title={t('unique_country_identifier')}>{hcoDetail.uci}</hcl-sdk-card-info-section>}
+              {hcoDetail && hcoDetail.uci && <hcl-sdk-card-info-section title={t('unique_country_identifier')}>{hcoDetail.uci}</hcl-sdk-card-info-section>}
 
               <hcl-sdk-card-info-section title={t('information_label')}>
                 <span>{t('information_description')}</span>

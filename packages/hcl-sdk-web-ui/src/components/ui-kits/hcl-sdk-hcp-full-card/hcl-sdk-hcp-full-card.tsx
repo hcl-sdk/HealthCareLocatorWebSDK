@@ -365,9 +365,14 @@ export class HclSdkHCPFullCard {
                   icon="back"
                   iconColor={getCssColor('--hcl-color-dark')}
                   onClick={this.backFromFullCard.emit}>
-                  <span class="hidden-mobile">{
-                    searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
-                  }
+                  <span class="hidden-mobile">
+                  {/* navigate from home -> back to home */}
+                  {/* navigate from hco -> back to hco */}
+                  {searchMapStore.state.navigatedFromHome
+                      ? t('back_to_home')
+                      : searchMapStore.state.navigateFromHcoFullCard
+                      ? 'Back to HCO'
+                      : t('back_to_search_results')}
                   </span>
                 </hcl-sdk-button>
               </div>

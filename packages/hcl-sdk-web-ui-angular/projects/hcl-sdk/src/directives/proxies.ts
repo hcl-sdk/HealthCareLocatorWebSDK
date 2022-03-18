@@ -121,13 +121,13 @@ export class HclSdkDoctorCard {
 
 export declare interface HclSdkHcoCard extends Components.HclSdkHcoCard {}
 @ProxyCmp({
-  inputs: ['address', 'department', 'distance', 'name', 'selected', 'showDistance', 'viewMode']
+  inputs: ['address', 'distance', 'name', 'selected', 'showDistance', 'type', 'viewMode']
 })
 @Component({
   selector: 'hcl-sdk-hco-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['address', 'department', 'distance', 'name', 'selected', 'showDistance', 'viewMode']
+  inputs: ['address', 'distance', 'name', 'selected', 'showDistance', 'type', 'viewMode']
 })
 export class HclSdkHcoCard {
   protected el: HTMLElement;

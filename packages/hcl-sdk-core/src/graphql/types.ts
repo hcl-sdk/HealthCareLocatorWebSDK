@@ -809,3 +809,29 @@ export type SuggestQueryVariables = Exact<{
 
 
 export type SuggestQuery = { __typename?: 'Query', suggest?: { __typename?: 'SuggestResult', from?: number | null | undefined, size?: number | null | undefined, total?: number | null | undefined, results?: Array<{ __typename?: 'SuggestFragment', individual?: { __typename?: 'IndividualSuggestFragment', firstName?: string | null | undefined, lastName?: string | null | undefined, activity?: { __typename?: 'ActivityList', id: string, workplace: { __typename?: 'Workplace', address: { __typename?: 'Address', longLabel: string, postalCode: string, county?: { __typename?: 'KeyedString', label: string } | null | undefined, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } } | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined, medTerms?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined, address?: { __typename?: 'Address', longLabel: string, country: string } | null | undefined, specialty?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined, medTerm?: { __typename?: 'KeyedString', code: string, label: string } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
+export type WorkplacesV2QueryVariables = Exact<{
+  first: Scalars['Int'];
+  offset: Scalars['Int'];
+  criteria?: InputMaybe<Scalars['String']>;
+  criterias?: InputMaybe<Array<InputMaybe<WorkplaceCriteria>> | InputMaybe<WorkplaceCriteria>>;
+  criteriaScope?: InputMaybe<WorkplaceCriteriaScope>;
+  country?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
+  locale?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type QueryWorkplaceByIdv2Args = {
+  id: Scalars['ID'];
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+export type WorkplaceByIdv2QueryVariables = Exact<{
+  id: Scalars['ID'];
+  locale?: InputMaybe<Scalars['String']>;
+}>;
+
+export type WorkplaceByIdv2Query = { __typename?: 'Query', workplaceByIDV2?: { __typename?: 'Workplace', id: string, name: string, officialName?: string | null | undefined, intlPhone?: string | null | undefined, intlFax?: string | null | undefined, webAddress?: string | null | undefined, individuals?: Array<{ __typename?: 'Individual', id: string, firstName?: string | null | undefined, lastName?: string | null | undefined, middleName?: string | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, mainActivity?: { __typename?: 'Activity', id: string, urls?: Array<{ __typename?: 'Url', url?: { __typename?: 'UrlDetail', generated?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined> | null | undefined, type: { __typename?: 'KeyedString', code: string, label: string }, address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } | null | undefined };
+
+export type WorkplacesV2Query = { __typename?: 'Query', workplacesV2?: { __typename?: 'WorkplacesResult', edges?: Array<{ __typename?: 'WorkplacesResultEdge', distance: number, node: { __typename?: 'Workplace', id: string, name: string, officialName?: string | null | undefined, intlPhone?: string | null | undefined, intlFax?: string | null | undefined, webAddress?: string | null | undefined, type: { __typename?: 'KeyedString', code: string, label: string }, address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined }, individuals?: Array<{ __typename?: 'Individual', firstName?: string | null | undefined, lastName?: string | null | undefined, middleName?: string | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined> | null | undefined } } | null | undefined> | null | undefined } | null | undefined };

@@ -10,11 +10,11 @@
 | Property       | Attribute       | Description | Type      | Default                              |
 | -------------- | --------------- | ----------- | --------- | ------------------------------------ |
 | `address`      | `address`       |             | `string`  | `'2 Rue Ambroise Paré, 75010 Paris'` |
-| `department`   | `department`    |             | `string`  | `'Hospital'`                         |
 | `distance`     | `distance`      |             | `string`  | `'82m'`                              |
 | `name`         | `name`          |             | `string`  | `undefined`                          |
 | `selected`     | `selected`      |             | `boolean` | `undefined`                          |
 | `showDistance` | `show-distance` |             | `boolean` | `true`                               |
+| `type`         | `type`          |             | `string`  | `'Hospital'`                         |
 | `viewMode`     | `view-mode`     |             | `string`  | `undefined`                          |
 
 

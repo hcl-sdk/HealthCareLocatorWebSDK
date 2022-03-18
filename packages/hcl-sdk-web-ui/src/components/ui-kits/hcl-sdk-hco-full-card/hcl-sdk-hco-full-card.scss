@@ -320,11 +320,18 @@
 
 .hco-individual-item {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   border: 1px solid var(--hcl-color-card_border);
   border-radius: 4px;
   padding: 8px;
   line-height: 1;
+  cursor: pointer;
+}
+
+.hco-individual-item__content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 span.hco-individual-item__title {
