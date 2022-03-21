@@ -195,7 +195,12 @@ export interface SearchMapState {
   hcoDetail: HCO
   loadingHcoDetail?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized'; 
   loadingHcosStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
-  navigateFromHcoFullCard?: boolean
+  navigateFromHcoFullCard?: boolean,
+  searchHcos: {
+    name?: string;
+    specialty?: string;
+    address?: string;
+  }[]
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -249,7 +254,8 @@ export const initStateSearchMapStore: SearchMapState = {
   hcoDetail: null,
   hcos: null,
   loadingHcosStatus: 'idle',
-  navigateFromHcoFullCard: false
+  navigateFromHcoFullCard: false,
+  searchHcos: []
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
@@ -333,10 +339,12 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
 
   resetDataSearch({ 
     isResetHCPDetail = false,
-    isResetSearchFields = false
+    isResetSearchFields = false,
+    isResetHCODetail = false
   } = {}) {
     let resetHCPDetail = {}
     let resetSearchFields = {}
+    let resetHCODetail = {}
 
     if (isResetHCPDetail) {
       resetHCPDetail = {
@@ -361,13 +369,24 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
       }
     }
 
+    if (isResetHCODetail) {
+      resetHCODetail = {
+        selectedActivity: null,
+        individualDetail: null,
+        specialties: [],
+        specialtiesRaw: []
+      }
+    }
+
     this.setState({
       searchDoctor: [],
       searchGeo: [],
       searchSpecialty: [],
       searchMedicalTerms: [],
+      searchHcos: [],
       ...resetSearchFields,
-      ...resetHCPDetail
+      ...resetHCPDetail,
+      ...resetHCODetail
     })
   }
 

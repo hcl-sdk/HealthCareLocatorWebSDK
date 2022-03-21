@@ -835,3 +835,22 @@ export type WorkplaceByIdv2QueryVariables = Exact<{
 export type WorkplaceByIdv2Query = { __typename?: 'Query', workplaceByIDV2?: { __typename?: 'Workplace', id: string, name: string, officialName?: string | null | undefined, intlPhone?: string | null | undefined, intlFax?: string | null | undefined, webAddress?: string | null | undefined, individuals?: Array<{ __typename?: 'Individual', id: string, firstName?: string | null | undefined, lastName?: string | null | undefined, middleName?: string | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, mainActivity?: { __typename?: 'Activity', id: string, urls?: Array<{ __typename?: 'Url', url?: { __typename?: 'UrlDetail', generated?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined> | null | undefined, type: { __typename?: 'KeyedString', code: string, label: string }, address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined } } | null | undefined };
 
 export type WorkplacesV2Query = { __typename?: 'Query', workplacesV2?: { __typename?: 'WorkplacesResult', edges?: Array<{ __typename?: 'WorkplacesResultEdge', distance: number, node: { __typename?: 'Workplace', id: string, name: string, officialName?: string | null | undefined, intlPhone?: string | null | undefined, intlFax?: string | null | undefined, webAddress?: string | null | undefined, type: { __typename?: 'KeyedString', code: string, label: string }, address: { __typename?: 'Address', longLabel: string, country: string, postalCode: string, city: { __typename?: 'KeyedString', label: string }, location?: { __typename?: 'Geopoint', lat: number, lon: number } | null | undefined }, individuals?: Array<{ __typename?: 'Individual', firstName?: string | null | undefined, lastName?: string | null | undefined, middleName?: string | null | undefined, reviewsAvailable?: boolean | null | undefined, diseasesAvailable?: boolean | null | undefined, specialties?: Array<{ __typename?: 'KeyedString', code: string, label: string } | null | undefined> | null | undefined } | null | undefined> | null | undefined } } | null | undefined> | null | undefined } | null | undefined };
+
+export type SuggestionsV2QueryVariables = Exact<{
+  criteria?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<GeopointQuery>;
+  locale?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  scope?: InputMaybe<SuggestionScope>;
+}>;
+
+export type SuggestionsV2Query = { __typename?: 'Query', suggestionsV2?: { __typename?: 'SuggestionsResult', edges?: Array<{ __typename?: 'SuggestionsResultEdge', node: { __typename?: 'Suggestion', workplace?: { __typename?: 'WorkplaceSuggestionFragment', id: string, name?: string | null | undefined, type?: { __typename?: 'KeyedString', label: string } | null | undefined } | null | undefined, address?: { __typename?: 'Address', longLabel: string, postalCode: string, city: { __typename?: 'KeyedString', label: string } } | null | undefined } } | null | undefined> | null | undefined } | null | undefined };
+
+export enum SuggestionScope {
+  Address = 'Address',
+  Individual = 'Individual',
+  MedTerm = 'MedTerm',
+  Specialty = 'Specialty',
+  Workplace = 'Workplace'
+}

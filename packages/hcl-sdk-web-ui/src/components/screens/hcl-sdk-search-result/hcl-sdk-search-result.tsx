@@ -38,14 +38,15 @@ export class HclSdkSearchResult {
     });
   }
   componentWillLoad() {
-    const { navigatedFromHome, selectedActivity } = searchMapStore.state;
+    const { navigatedFromHome, selectedActivity, selectedHco } = searchMapStore.state;
 
-    if (!navigatedFromHome && !selectedActivity) {
+    if (!navigatedFromHome && !selectedActivity && !selectedHco) {
       /**
        * No need to fetch activities for two cases:
        *   - Go to search near me from Home Full (Data had already by Map)
        *   - Go to HCP Full Card
        */
+      
       if (searchMapStore.searchTarget === SEARCH_TARGET.HCO) {
         HCOApis.searchLocationWithParams();
       } else {
@@ -92,7 +93,6 @@ export class HclSdkSearchResult {
     }
   };
 
-  @Listen('backFromFullCard')
   backFromHcpFullCardHandler(_e: CustomEvent<MouseEvent>) {
     const { navigatedFromHome } = searchMapStore.state;
     if (navigatedFromHome) {
@@ -101,14 +101,32 @@ export class HclSdkSearchResult {
       });
       this.goBackToHome();
     } else {
-      this.goBackToList();
+      if (searchMapStore.state.navigateFromHcoFullCard) {
+        this.goBackToHcoFullCard();
+      } else {
+        this.goBackToList();
+      }
     }
   }
 
-  @Listen('onMarkerClick')
-  handleOnMarkerClick(e) {
+  goBackToHcoFullCard() {
+    searchMapStore.setState({
+      selectedActivity: null,
+      individualDetail: null,
+      navigateFromHcoFullCard: false
+    })
+  }
+
+  handleOnMarkerClick(e, type: SEARCH_TARGET) {
     const breakpoint = uiStore.state.breakpoint;
-    const selectedFirstMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
+    
+    let selectedFirstMarkerIdx = 0
+    if (type === SEARCH_TARGET.HCO) {
+      selectedFirstMarkerIdx = searchMapStore.state.hcos.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
+    } else {
+      selectedFirstMarkerIdx = searchMapStore.state.specialties.findIndex(item => item.lat === e.detail.latlng.lat && item.lng === e.detail.latlng.lng);
+    }
+
     const isSmall = breakpoint.screenSize === 'mobile';
     const elm = isSmall ? this.searchDataCardList : this.searchDataMapElm;
     const doctorCardOffset = getDoctorCardOffset(elm, selectedFirstMarkerIdx, !isSmall, false, this.el);
@@ -350,13 +368,15 @@ export class HclSdkSearchResult {
 
     const activitiesStatus = searchMapStore.state.loadingHcosStatus;
 
-    const isLoadingHcos = activitiesStatus === 'loading' || activitiesStatus === 'idle';
+    const isLoadingHcos = activitiesStatus === 'loading'
     const hcos = searchMapStore.state.hcos;
 
     const isShowHCODetail = hcoDetail || selectedHco;
     const isNoDataAvailable = activitiesStatus === 'unauthorized';
 
-    const isShowNoResults = !isAllowDisplayMapEmpty && !isLoadingHcos && hcos && !hcos.length && !isShowHCODetail && !isNoDataAvailable;
+    // show no result if hco null or hco length empty
+    const isShowNoResults = !isAllowDisplayMapEmpty && !isLoadingHcos && (!hcos || !hcos.length) && !isShowHCODetail && !isNoDataAvailable;
+
     const isShowToolbar = {
       mobile: !isLoadingHcos && isSmall && !isNoDataAvailable, // && !selectedActivity,
       desktop: !isLoadingHcos && !isSmall,
@@ -439,7 +459,16 @@ export class HclSdkSearchResult {
             </div>
           )}
 
-          {isShowMapCluster && <hcl-sdk-map key="map-cluster" breakpoint={breakpoint} locations={hcos} isShowMeMarker={true} {...injectedMapProps} />}
+          {isShowMapCluster && (
+            <hcl-sdk-map
+              key="map-cluster"
+              breakpoint={breakpoint}
+              locations={hcos}
+              onOnMarkerClick={m => this.handleOnMarkerClick(m, SEARCH_TARGET.HCO)}
+              isShowMeMarker={true}
+              {...injectedMapProps}
+            />
+          )}
           {isShowMapSingle && <hcl-sdk-map key="map-single" locations={locationsMapSingle} noCurrentLocation {...injectedMapProps} />}
         </div>
       </Fragment>
@@ -545,7 +574,16 @@ export class HclSdkSearchResult {
             </div>
           )}
 
-          {isShowMapCluster && <hcl-sdk-map key="map-cluster" breakpoint={breakpoint} locations={activities} isShowMeMarker={true} {...injectedMapProps} />}
+          {isShowMapCluster && (
+            <hcl-sdk-map
+              key="map-cluster"
+              breakpoint={breakpoint}
+              onOnMarkerClick={m => this.handleOnMarkerClick(m, SEARCH_TARGET.HCP)}
+              locations={activities}
+              isShowMeMarker={true}
+              {...injectedMapProps}
+            />
+          )}
 
           {isShowMapSingle && <hcl-sdk-map key="map-single" locations={locationsMapSingle} noCurrentLocation {...injectedMapProps} />}
         </div>

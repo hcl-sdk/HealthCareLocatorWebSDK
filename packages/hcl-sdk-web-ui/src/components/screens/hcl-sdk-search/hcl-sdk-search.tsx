@@ -282,7 +282,7 @@ export class HclSdkSearch {
 
     // TODO: suggest for HCO
     if (name !== 'address' && searchTarget === SEARCH_TARGET.HCO) {
-      return;
+      return await HCOApis.searchHcos({ criteria: name })
     }
 
     const inputName = name;
@@ -363,26 +363,46 @@ export class HclSdkSearch {
       searchMapStore.resetDataSearch({
         isResetHCPDetail: true,
         isResetSearchFields: false,
+        isResetHCODetail: true
       });
-      searchMapStore.setState({
-        searchFields: {
-          ...searchMapStore.state.searchFields,
-          name: item.name,
-        },
-        selectedActivity: {
-          ...item.activity,
-          name: item.name,
-          lat: item.activity.workplace.address.location.lat,
-          lng: item.activity.workplace.address.location.lon,
-        },
-      });
+      if (item.__type === SEARCH_TARGET.HCO) {
+        searchMapStore.setState({
+          searchTarget: SEARCH_TARGET.HCO,
+          searchFields: {
+            ...searchMapStore.state.searchFields,
+            name: item.name,
+          },
+          selectedHco: {
+            ...item,
+          },
+        });
+      } else {
+        searchMapStore.setState({
+          searchTarget: SEARCH_TARGET.HCP,
+          searchFields: {
+            ...searchMapStore.state.searchFields,
+            name: item.name,
+          },
+          selectedActivity: {
+            ...item.activity,
+            name: item.name,
+            lat: item.activity.workplace.address.location.lat,
+            lng: item.activity.workplace.address.location.lon,
+          },
+        });
+      }
+
       if (routerStore.state.currentRoutePath !== ROUTER_PATH.SEARCH_RESULT) {
         routerStore.push('/search-result');
       } else {
-        getFullCardDetail({
-          activityId: item.activity.id,
-          activityName: item.name,
-        });
+        if (item.__type === SEARCH_TARGET.HCO) {
+          HCOApis.getFullCardDetail(item.id)
+        } else {
+          getFullCardDetail({
+            activityId: item.activity.id,
+            activityName: item.name,
+          });
+        }
       }
     }
     if (this.currentSelectedInput === 'specialtyName') {
@@ -596,6 +616,7 @@ export class HclSdkSearch {
   }
 
   render() {
+    const searchHcosData = searchMapStore.state?.searchHcos.length > 0 && searchMapStore.state?.searchHcos;
     const searchDoctorData = searchMapStore.state?.searchDoctor.length > 0 && searchMapStore.state?.searchDoctor;
     const searchSpecialty = searchMapStore.state.searchSpecialty;
     const searchMedicalTermData = searchMapStore.state.searchMedicalTerms;
@@ -643,7 +664,7 @@ export class HclSdkSearch {
                         onEnterKeyDown={this.onInputSearchEnter}
                         onArrowKeyDown={this.onInputSearchArrowDown}
                       >
-                        {!isSmallView && this.renderAutocompleteField('name', searchDoctorData)}
+                        {!isSmallView && this.renderAutocompleteField('name', this.searchTarget === SEARCH_TARGET.HCO ? searchHcosData : searchDoctorData)}
                       </hcl-sdk-input>
                     </div>
                     {this.searchTarget !== SEARCH_TARGET.HCO && (
