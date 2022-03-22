@@ -2,7 +2,7 @@ import { Component, Host, h, State, Listen, Fragment, Element } from '@stencil/c
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { getCssColor, getDoctorCardOffset } from '../../../utils/helper';
 import { getAddressFromGeo } from '../../../core/api/searchGeo';
-import { configStore, searchMapStore, uiStore, routerStore } from '../../../core/stores';
+import { configStore, searchMapStore, uiStore, routerStore, featureStore } from '../../../core/stores';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
@@ -269,10 +269,13 @@ export class HclSdkSearchResult {
     const isShowRecommend = specialtiesRecommended.length > 0;
     const countRecommendStr = specialtiesRecommended.length < 10 ? `0${specialtiesRecommended.length}` : specialtiesRecommended.length;
     const className = cls('search-toolbar', {
+      'hco-search': featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch,
       'header-block': isSmall,
       'search-toolbar--with-recommend': isShowRecommend,
     });
     const isListView = configStore.state.modeView === ModeViewType.LIST;
+
+    const totalResults = searchMapStore.searchTarget === SEARCH_TARGET.HCO ? searchMapStore.state.hcos?.length : searchMapStore.state.specialties?.length;
 
     return (
       <div class={className}>
@@ -282,11 +285,15 @@ export class HclSdkSearchResult {
               <span class="text-small">{t('back_to_home')}</span>
             </hcl-sdk-button>
           </div>
-          {isListView && !isSmall && (
-            <div class={cls('search-result-summary', isListView && 'search-result-summary--list-view')}>
+          {(isListView && !isSmall || searchMapStore.searchTarget === SEARCH_TARGET.HCO) && (
+            <div class={cls('search-result-summary', {
+              'hco-search': featureStore.isHcoSearchEnabled,
+              'search-result-summary--list-view': isListView,
+              'search-result-summary--no-border-top': searchMapStore.searchTarget === SEARCH_TARGET.HCO
+            })}>
               <div class="search-result__wrapper">
                 <strong class="search-result__total">{t('total_results')}: </strong>
-                <strong class="search-result__total-value text-bold">{specialties.length}</strong>
+                <strong class="search-result__total-value text-bold">{totalResults}</strong>
               </div>
               {/* TODO: Mapatho feature */}
               {isShowRecommend && !isSmall && (
@@ -298,20 +305,24 @@ export class HclSdkSearchResult {
               )}
             </div>
           )}
-          <div class="hidden-desktop hidden-tablet switch-mode">
+          <div class={cls("hidden-desktop hidden-tablet switch-mode", {
+            'switch-mode--expand-right': searchMapStore.searchTarget === SEARCH_TARGET.HCO
+          })}>
             <hcl-sdk-switch-view-mode typeOfLabel="disabled" />
           </div>
-          <div class="search-filter-wrapper">
+          <div class={cls("search-filter-wrapper", {
+            'search-filter-wrapper--expand-right': searchMapStore.searchTarget !== SEARCH_TARGET.HCO && isSmall
+          })}>
             <div class="search-filter">
               <hcl-sdk-icon name="sort" width={15} height={9} onClick={this.onOpenSort} />
             </div>
           </div>
         </div>
-        {!isListView && (
+        {!isListView && searchMapStore.searchTarget !== SEARCH_TARGET.HCO && (
           <div class="search-result-summary">
             <div class="search-result__wrapper">
               <strong class="search-result__total">{t('total_results')}: </strong>
-              <strong class="search-result__total-value text-bold">{specialties.length}</strong>
+              <strong class="search-result__total-value text-bold">{totalResults}</strong>
             </div>
             {/* TODO: Mapatho feature */}
             {isShowRecommend && !isSmall && (
@@ -378,7 +389,7 @@ export class HclSdkSearchResult {
     const isShowNoResults = !isAllowDisplayMapEmpty && !isLoadingHcos && (!hcos || !hcos.length) && !isShowHCODetail && !isNoDataAvailable;
 
     const isShowToolbar = {
-      mobile: !isLoadingHcos && isSmall && !isNoDataAvailable, // && !selectedActivity,
+      mobile: !isLoadingHcos && isSmall && !isNoDataAvailable && !selectedHco,
       desktop: !isLoadingHcos && !isSmall,
     };
 
@@ -606,7 +617,7 @@ export class HclSdkSearchResult {
       return null;
     }
 
-    const { selectedActivity, searchFields } = searchMapStore.state;
+    const { selectedActivity, selectedHco, searchFields } = searchMapStore.state;
 
     const selectedAddressName = searchMapStore.isSearchNearMe ? t('near_me') : searchFields.address;
 
@@ -623,7 +634,7 @@ export class HclSdkSearchResult {
 
     return (
       <Host class={wrapperClass}>
-        {(!selectedActivity || !isSmall) &&
+        {(!(selectedActivity || selectedHco) || !isSmall) &&
           (isSmall ? (
             isShowHeaderBlockMobile && (
               <div class="header-block search-header search-section">
