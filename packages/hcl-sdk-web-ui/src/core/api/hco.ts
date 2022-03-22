@@ -1,11 +1,11 @@
 import { graphql } from '../../../../hcl-sdk-core';
-import { WorkplaceCriteria, WorkplaceCriteriaScope, WorkplacesV2QueryVariables } from '../../../../hcl-sdk-core/src/graphql/types';
+import { SuggestionScope, SuggestionsV2Query, WorkplaceCriteria, WorkplaceCriteriaScope, WorkplacesV2QueryVariables } from '../../../../hcl-sdk-core/src/graphql/types';
 import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
-import { configStore, searchMapStore } from '../stores';
-import { SearchFields, SortValue } from '../stores/SearchMapStore';
+import { configStore, i18nStore, searchMapStore } from '../stores';
+import { SearchFields, SEARCH_TARGET, SortValue } from '../stores/SearchMapStore';
 import { getGooglePlaceDetails } from './searchGeo';
-import { getDistanceMeterByAddrDetails } from './shared';
+import { countryCodeForSuggest, getDistanceMeterByAddrDetails, getLocationForSuggest } from './shared';
 
 export async function genSearchLocationParams({ forceNearMe = false, locationFilter, searchFields }: { forceNearMe?: boolean; locationFilter: any; searchFields: SearchFields }) {
   let params: Partial<WorkplacesV2QueryVariables> = {};
@@ -107,7 +107,7 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
         },
         configStore.configGraphql,
       )
-    ).workplacesV2.edges.map(edge => ({
+    ).workplacesV2.edges.map(edge => (toHCO({
       id: edge.node?.id,
       name: edge.node?.name,
       type: edge.node?.type.label,
@@ -116,7 +116,7 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
       lat: edge.node?.address.location?.lat,
       lng: edge.node?.address.location?.lon,
       address: [edge.node?.address.longLabel, edge.node?.address.postalCode + ' ' + edge.node?.address.city.label].filter(s => s).join(', '),
-    }));
+    })));
 
     searchMapStore.setState({
       hcoDetail: null,
@@ -145,7 +145,7 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
     configStore.configGraphql,
   );
 
-  const data = {
+  const data = toHCO({
     id: hco.workplaceByIDV2?.id,
     name: hco.workplaceByIDV2?.name,
     type: hco.workplaceByIDV2?.type.label,
@@ -165,12 +165,49 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
         mainActivity: individual.mainActivity
       })),
     ],
-  };
+  });
 
   // TODO: history item
   searchMapStore.setState({
     hcoDetail: data,
     [keyLoading]: false,
   });
+}
+
+export async function searchHcos({ criteria }: { criteria: string }) {
+  searchMapStore.setState({ loading: true });
+
+  const variables: Parameters<typeof graphql.suggestionV2>[0] = {
+    first: 30,
+    criteria: criteria,
+    locale: i18nStore.state.lang,
+    country: countryCodeForSuggest(configStore.countryGraphqlQuery),
+    location: await getLocationForSuggest(),
+    scope: SuggestionScope.Workplace,
+  };
+
+  const {
+    suggestionsV2: { edges },
+  }: SuggestionsV2Query = await graphql.suggestionV2(variables, configStore.configGraphql).catch(_ => ({ suggestionsV2: { edges: [] } }));
+
+  const hcos = edges
+    ? edges.map(({ node }) => {
+        return toHCO({
+          name: node.workplace?.name,
+          type: node.workplace?.type,
+          address: node.address?.longLabel && [node.address?.longLabel, node.address?.postalCode && node.address?.city ? `${node.address?.postalCode} ${node.address?.city}` : ''].join(', '),
+          id: node.workplace.id,
+        });
+      })
+    : [];
+
+  searchMapStore.setState({ loading: false, searchHcos: hcos });
+}
+
+function toHCO(data) {
+  return {
+    __type: SEARCH_TARGET.HCO,
+    ...data
+  }
 }
 
