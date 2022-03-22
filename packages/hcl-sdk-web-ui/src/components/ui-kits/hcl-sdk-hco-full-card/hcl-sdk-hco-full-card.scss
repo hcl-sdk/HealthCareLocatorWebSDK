@@ -242,6 +242,28 @@
       font-size: 12px;
       padding: 6px 8px;
     }
+
+    hcl-sdk-hco-full-card {
+      .search-toolbar {
+        border: 1px solid var(--hcl-color-card_border);
+        border-bottom: 0;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin: 10px 10px 0 10px;
+        grid-gap: 0;
+        padding-bottom: 0;
+        .search-back-large {
+          height: auto;
+          margin-right: auto;
+        }
+        .hclsdk-btn {
+          padding: 0;
+        }
+      }
+      .hcp-details-card.main-block {
+        margin-bottom: 10px;
+      }
+    }
   }
 
   .size-tablet,

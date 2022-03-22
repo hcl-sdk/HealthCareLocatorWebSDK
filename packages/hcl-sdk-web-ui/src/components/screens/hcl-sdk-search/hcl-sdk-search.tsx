@@ -592,7 +592,10 @@ export class HclSdkSearch {
     const isShowFakeInput = this.isSearchResult && !this.isShowModifying;
 
     return (!featureStore.isHcoSearchEnabled || !configStore.state.enableHcoSearch) ? null : (
-      <div class={cls('hclsdk-tabs mb-3', isShowFakeInput && 'hidden')}>
+      <div class={cls('hclsdk-tabs', isShowFakeInput && 'hidden')}>
+        <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
+          <hcl-sdk-icon name="back" width={25} height={25} />
+        </hcl-sdk-router-link>
         <hcl-sdk-button
           noBackground
           class={cls('hclsdk-tabs__tab', {
@@ -639,13 +642,19 @@ export class HclSdkSearch {
     return (
       <Host>
         <div class={classesSdkSearch}>
-          <div class={cls('hclsdk-search px-1 py-5', !isShowFakeInput && 'justify-center')}>
+          <div
+            class={cls('hclsdk-search px-1 py-5', !isShowFakeInput && 'justify-center', {
+              'hco-search': featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch,
+            })}
+          >
             <div class={cls('hclsdk-search__container', isShowFakeInput && 'w-full', !isShowFakeInput && 'hclsdk-search__container--not-modifying')}>
               {this.renderSearchTargetTabs()}
-              <div class={'flex items-center'}>
-                <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
-                  <hcl-sdk-icon name="back" width={25} height={25} />
-                </hcl-sdk-router-link>
+              <div class={'flex items-center w-full'}>
+                {featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch ? null : (
+                  <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
+                    <hcl-sdk-icon name="back" width={25} height={25} />
+                  </hcl-sdk-router-link>
+                )}
                 <form ref={ref => (this.formRef = ref)} class={classesForm} onSubmit={this.onSearch} autocomplete="off">
                   <div class="hclsdk-search__form--content">
                     <div class="hclsdk-search__form--content-item">
