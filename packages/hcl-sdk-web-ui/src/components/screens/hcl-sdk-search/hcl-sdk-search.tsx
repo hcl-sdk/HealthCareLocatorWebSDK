@@ -282,7 +282,7 @@ export class HclSdkSearch {
 
     // TODO: suggest for HCO
     if (name !== 'address' && searchTarget === SEARCH_TARGET.HCO) {
-      return await HCOApis.searchHcos({ criteria: name })
+      return await HCOApis.searchHcos({ criteria: value })
     }
 
     const inputName = name;
