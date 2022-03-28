@@ -163,7 +163,7 @@ export async function genSearchLocationParams({
     params.specialties = specialtyFilter.map(arr => arr.id);
   }
   if (medicalTermsFilter) {
-    params.medTerms = [medicalTermsFilter.name]; // name ~ longLbl
+    params.medTerms = [medicalTermsFilter.id]; // name ~ longLbl, id ~ code
   }
 
   const criterias: ActivityCriteria[] = [];
