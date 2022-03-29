@@ -98,7 +98,7 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
   });
 
   try {
-    const hcos = await (
+    const hcos = (
       await graphql.workplacesV2(
         {
           ...variables,
@@ -107,16 +107,18 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
         },
         configStore.configGraphql,
       )
-    ).workplacesV2.edges.map(edge => (toHCO({
-      id: edge.node?.id,
-      name: edge.node?.name,
-      type: edge.node?.type.label,
-      distanceNumber: edge.distance,
-      distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
-      lat: edge.node?.address.location?.lat,
-      lng: edge.node?.address.location?.lon,
-      address: [edge.node?.address.longLabel, edge.node?.address.postalCode + ' ' + edge.node?.address.city.label].filter(s => s).join(', '),
-    })));
+    ).workplacesV2.edges.map(edge =>
+      toHCO({
+        id: edge.node?.id,
+        name: edge.node?.name,
+        type: edge.node?.type.label,
+        distanceNumber: edge.distance,
+        distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
+        lat: edge.node?.address.location?.lat,
+        lng: edge.node?.address.location?.lon,
+        address: formatHCOAddress(edge.node),
+      }),
+    );
 
     searchMapStore.setState({
       hcoDetail: null,
@@ -145,33 +147,20 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
     configStore.configGraphql,
   );
 
-  const data = toHCO({
-    id: hco.workplaceByIDV2?.id,
-    name: hco.workplaceByIDV2?.name,
-    type: hco.workplaceByIDV2?.type.label,
-    address: [hco.workplaceByIDV2?.address.longLabel, hco.workplaceByIDV2?.address.postalCode + ' ' + hco.workplaceByIDV2?.address.city.label].filter(s => s).join(', '),
-    phone: hco.workplaceByIDV2?.intlPhone,
-    fax: hco.workplaceByIDV2?.intlFax,
-    website: hco.workplaceByIDV2?.webAddress,
-    lat: hco.workplaceByIDV2?.address?.location?.lat,
-    lng: hco.workplaceByIDV2?.address?.location?.lon,
-    individuals: [
-      ...hco.workplaceByIDV2?.individuals?.map(individual => ({
-        id: individual.id,
-        name: [individual.firstName, individual.middleName, individual.lastName].filter(s => !!s).join(' '),
-        specialty: getSpecialtiesText(individual.specialties)[0],
-        isShowRecommendation: individual.reviewsAvailable || individual.diseasesAvailable,
-        url: getUrl(hco.workplaceByIDV2?.address.country, individual.mainActivity.urls),
-        mainActivity: individual.mainActivity
-      })),
-    ],
+  const hcoDetail = toHCO({
+    ...getHCOCoreFields(hco.workplaceByIDV2),
+    children: hco.workplaceByIDV2?.children.map(childHCO => {
+      return getHCOCoreFields(childHCO);
+    }),
   });
 
   // TODO: history item
   searchMapStore.setState({
-    hcoDetail: data,
+    hcoDetail: hcoDetail,
     [keyLoading]: false,
   });
+
+  return hcoDetail;
 }
 
 export async function searchHcos({ criteria }: { criteria: string }) {
@@ -195,7 +184,7 @@ export async function searchHcos({ criteria }: { criteria: string }) {
         return toHCO({
           name: node.workplace?.name,
           type: node.workplace?.type,
-          address: node.address?.longLabel && [node.address?.longLabel, node.address?.postalCode && node.address?.city ? `${node.address?.postalCode} ${node.address?.city}` : ''].join(', '),
+          address: formatHCOAddress(node),
           id: node.workplace.id,
         });
       })
@@ -211,3 +200,34 @@ function toHCO(data) {
   }
 }
 
+function getHCOCoreFields(data) {
+  return {
+    id: data?.id,
+    name: data?.name,
+    type: data?.type.label,
+    address: [data?.address.longLabel, data?.address.postalCode + ' ' + data?.address.city.label].filter(s => s).join(', '),
+    phone: data?.intlPhone,
+    fax: data?.intlFax,
+    website: data?.webAddress,
+    lat: data?.address?.location?.lat,
+    lng: data?.address?.location?.lon,
+    individuals: data.individuals.map(individual => toIndividualCore(individual, data))
+  };
+}
+
+function toIndividualCore(individual, workplace) {
+  return {
+    id: individual.id,
+    name: [individual.firstName, individual.middleName, individual.lastName].filter(s => !!s).join(' '),
+    specialty: getSpecialtiesText(individual.specialties)[0],
+    isShowRecommendation: individual.reviewsAvailable || individual.diseasesAvailable,
+    url: getUrl(workplace?.address.country, individual.mainActivity.urls),
+    mainActivity: individual.mainActivity,
+  };
+}
+
+function formatHCOAddress(node) {
+  return (
+    node.address?.longLabel && [node.address?.longLabel, node.address?.postalCode && node.address?.city ? `${node.address?.postalCode} ${node.address?.city.label}` : ''].join(', ')
+  );
+}

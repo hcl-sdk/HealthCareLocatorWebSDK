@@ -117,7 +117,7 @@ export type IndividualDetail = {
   }[]
 }
 
-type HCO = {
+type HCOCore = {
   id: string
   name: string
   type: string
@@ -139,6 +139,14 @@ type HCO = {
     }
   }[]
   uci?: string
+}
+
+type HCO = HCOCore & {
+  children?: (HCOCore & {
+    children?: (HCOCore & {
+      children?: HCOCore[]
+    })[]
+  })[]
 }
 
 export enum SEARCH_TARGET {
