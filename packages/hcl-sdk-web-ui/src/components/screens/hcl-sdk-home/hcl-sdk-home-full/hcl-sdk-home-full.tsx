@@ -8,7 +8,7 @@ import { formatDistance } from '../../../../utils/dateUtils';
 import { getHcpFullname } from '../../../../utils/helper';
 import { SearchFields } from '../../../../core/stores/SearchMapStore';
 import { ActivitySortScope } from '../../../../../../hcl-sdk-core/src/graphql/types';
-import { genSearchLocationParams } from '../../../../core/api/shared';
+import { genSearchLocationParams } from '../../../../core/api/hcp';
 
 @Component({
   tag: 'hcl-sdk-home-full',

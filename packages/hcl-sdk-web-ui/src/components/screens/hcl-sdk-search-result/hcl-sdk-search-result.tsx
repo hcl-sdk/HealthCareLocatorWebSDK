@@ -6,12 +6,13 @@ import { configStore, searchMapStore, uiStore, routerStore, featureStore } from 
 import { ModeViewType } from '../../../core/stores/ConfigStore';
 import animateScrollTo from '../../../utils/animatedScrollTo';
 import cls from 'classnames';
-import { searchLocation, searchLocationWithParams } from '../../../core/api/hcp';
+import { searchLocationWithParams } from '../../../core/api/hcp';
 import { LatLng } from 'leaflet';
 import { t } from '../../../utils/i18n';
 import { getDistance } from 'geolib';
-import { genSearchLocationParams, groupPointFromBoundingBox } from '../../../core/api/shared';
+import { groupPointFromBoundingBox } from '../../../core/api/shared';
 import * as HCOApis from '../../../core/api/hco';
+import * as HCPApis from '../../../core/api/hcp';
 import { SEARCH_TARGET } from '../../../core/stores/SearchMapStore';
 
 @Component({
@@ -194,7 +195,8 @@ export class HclSdkSearchResult {
 
       if (result) {
         searchMapStore.setSearchFieldValue('address', result.shortDisplayName);
-        const params = await genSearchLocationParams({
+        const apis = searchMapStore.searchTarget === SEARCH_TARGET.HCO ? HCOApis : HCPApis
+        const params = await apis.genSearchLocationParams({
           locationFilter: {
             lat: this.newDragLocation.lat,
             lng: this.newDragLocation.lng,
@@ -212,17 +214,10 @@ export class HclSdkSearchResult {
           params.location.distanceMeter = maxDistanceMeter;
         }
 
-        if (searchMapStore.searchTarget === SEARCH_TARGET.HCO) {
-          await HCOApis.searchLocation(params, {
-            hasLoading: 'idle',
-            isAllowDisplayMapEmpty: true,
-          });
-        } else {
-          await searchLocation(params, {
-            hasLoading: 'idle',
-            isAllowDisplayMapEmpty: true, // No redirect to no results screen when relaunch is empty
-          });
-        }
+        await apis.searchLocation(params, {
+          hasLoading: 'idle',
+          isAllowDisplayMapEmpty: true, // No redirect to no results screen when relaunch is empty
+        });
       }
     } catch (err) {
       console.error(err);
