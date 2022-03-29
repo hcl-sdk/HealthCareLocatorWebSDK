@@ -166,9 +166,12 @@ export class HclSdkSearch {
       navigatedFromHome: false,
       loadingActivitiesStatus: 'loading',
 
-      // hco
+      // reset hco state when start new search
       hcos: [],
       loadingHcosStatus: 'loading',
+      hcoDetail: null,
+      selectedHco: null,
+      navigateFromHcoFullCard: false,
       searchTarget: this.searchTarget
     });
 
@@ -396,7 +399,7 @@ export class HclSdkSearch {
         routerStore.push('/search-result');
       } else {
         if (item.__type === SEARCH_TARGET.HCO) {
-          HCOApis.getFullCardDetail(item.id)
+          HCOApis.getFullCardDetail({ hcoId: item.id}) // getFullCardDetail receive option object with hcoId prop
         } else {
           getFullCardDetail({
             activityId: item.activity.id,

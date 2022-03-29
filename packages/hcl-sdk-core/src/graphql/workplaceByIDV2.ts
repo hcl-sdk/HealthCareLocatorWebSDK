@@ -7,6 +7,24 @@ const QUERY_WORKPLACE_BY_ID_V2 = gql`
   query workplaceByIDV2($id: ID!, $locale: String) {
     workplaceByIDV2(id: $id, locale: $locale) {
       ...WorkplaceCore
+      children {
+        ...WorkplaceCore
+        individuals {
+          ...IndividualCore
+        }
+        children {
+          ...WorkplaceCore
+          individuals {
+            ...IndividualCore
+          }
+          children {
+            ...WorkplaceCore
+            individuals {
+              ...IndividualCore
+            }
+          }
+        }
+      }
       individuals {
         id
         firstName
@@ -30,6 +48,27 @@ const QUERY_WORKPLACE_BY_ID_V2 = gql`
     }
   }
   ${FRAGMENT_WORKPLACE_CORE}
+
+  fragment IndividualCore on Individual {
+    id
+    firstName
+    lastName
+    middleName
+    reviewsAvailable
+    diseasesAvailable
+    mainActivity {
+      id
+      urls {
+        url {
+          generated
+        }
+      }
+    }
+    specialties {
+      code
+      label
+    }
+  }
 `;
 
 export default function workplacesByIDV2(variables: WorkplaceByIdv2QueryVariables, config?): Promise<WorkplaceByIdv2Query> {
