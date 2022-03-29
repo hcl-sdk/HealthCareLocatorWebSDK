@@ -1,14 +1,10 @@
 import { getDistance } from 'geolib';
 import {
-    ActivityCriteria,
-    ActivityCriteriaScope, QueryActivitiesArgs
-} from '../../../../hcl-sdk-core/src/graphql/types';
-import {
-    convertToMeter
+  convertToMeter
 } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { configStore, searchMapStore } from '../stores';
-import { SearchFields, SearchTermItem, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
+import { SortValue } from '../stores/SearchMapStore';
 import { getGooglePlaceDetails } from './searchGeo';
 
 export function groupPointFromBoundingBox(boundingbox: string[]) {
@@ -100,97 +96,6 @@ export async function getLocationForSuggest() {
     distanceMeter,
   };
 }
-
-export async function genSearchLocationParams({
-  forceNearMe = false,
-  locationFilter,
-  specialtyFilter,
-  medicalTermsFilter,
-  searchFields,
-}: {
-  forceNearMe?: boolean;
-  locationFilter: any;
-  specialtyFilter: SpecialtyItem[];
-  medicalTermsFilter: SearchTermItem;
-  searchFields: SearchFields;
-}) {
-  let params: Partial<QueryActivitiesArgs> = {};
-
-  if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
-    params.location = {
-      lat: searchMapStore.state.geoLocation.latitude,
-      lon: searchMapStore.state.geoLocation.longitude,
-      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
-    };
-    if (!params.location.distanceMeter) {
-      delete params.location.distanceMeter; // Don't send this param if developers are not config
-    }
-    if (forceNearMe) {
-      // Basic search near me don't have `specialties` in params
-      // In case we keep the data specialtyFilter exist in across the pages
-      params.country = configStore.state.countryGeo || configStore.countryGraphqlQuery;
-      return params;
-    }
-  } else if (locationFilter) {
-    let addressDetails = locationFilter.addressDetails;
-    let boundingbox = locationFilter.boundingbox;
-    let lat = locationFilter.lat;
-    let lon = locationFilter.lng;
-
-    if (locationFilter.place_id) {
-      const placeDetail = await getGooglePlaceDetails(locationFilter.place_id);
-      addressDetails = placeDetail.addressDetails;
-      boundingbox = placeDetail.boundingbox;
-      lat = placeDetail.lat;
-      lon = placeDetail.lng;
-    }
-
-    const { distanceMeter, ...extraParams } = getDistanceMeterByAddrDetails(addressDetails, boundingbox);
-    params = {
-      location: {
-        lat: Number(lat),
-        lon: Number(lon),
-        // distanceMeter: distanceMeter
-      },
-      ...extraParams, // country (removed), ...
-    };
-    if (distanceMeter) {
-      params.location.distanceMeter = distanceMeter;
-    }
-  }
-
-  if (specialtyFilter?.length > 0) {
-    params.specialties = specialtyFilter.map(arr => arr.id);
-  }
-  if (medicalTermsFilter) {
-    params.medTerms = [medicalTermsFilter.id]; // name ~ longLbl, id ~ code
-  }
-
-  const criterias: ActivityCriteria[] = [];
-  const isFreeTextName = searchFields.name;
-  const isFreeTextSpecialty = searchFields.specialtyName && !specialtyFilter?.length;
-  const isFreeTextTerm = configStore.state.enableMedicalTerm && !medicalTermsFilter && searchFields.medicalTerm;
-
-  if (isFreeTextName) {
-    criterias.push({ text: searchFields.name, scope: ActivityCriteriaScope.IndividualNameAutocomplete });
-  }
-  if (isFreeTextTerm) {
-    criterias.push({ text: searchFields.medicalTerm, scope: ActivityCriteriaScope.IndividualMedTerms });
-  }
-  if (isFreeTextSpecialty) {
-    params.criteria = searchFields.specialtyName;
-  }
-  if (criterias.length) {
-    params.criterias = criterias;
-  }
-
-  if (!params.country) {
-    params.country = configStore.countryGraphqlQuery;
-  }
-
-  return params;
-}
-
 
 export function shouldSortFromServer(sortValues: SortValue) {
   return Object.entries(sortValues)
