@@ -122,6 +122,7 @@ type HCOCore = {
   name: string
   type: string
   address: string
+  buildingLabel?: string
   phone: string
   website: string
   fax: string

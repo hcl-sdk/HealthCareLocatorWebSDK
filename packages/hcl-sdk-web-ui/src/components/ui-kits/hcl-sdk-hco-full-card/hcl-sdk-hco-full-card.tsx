@@ -19,6 +19,7 @@ export class HclSdkHCOFullCard {
   @Event() backFromFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
   @State() isViewMoreIndividuals: boolean = false;
+  @State() isViewMoreChildHCOIndividuals: boolean = false;
   @State() isViewMoreSpecialties: boolean = false;
   @State() showOpeningHours: boolean = false;
   @State() arraySelectedChildHcoIds: string[] = []
@@ -173,6 +174,10 @@ export class HclSdkHCOFullCard {
     this.isViewMoreSpecialties = !this.isViewMoreSpecialties;
   };
 
+  handleToggleViewMoreHCOChildIndividuals = () => {
+    this.isViewMoreChildHCOIndividuals = !this.isViewMoreChildHCOIndividuals;
+  };
+
   onIndividualClick = item => {
     searchMapStore.setState({
       selectedActivity: item.mainActivity,
@@ -280,7 +285,10 @@ export class HclSdkHCOFullCard {
                     <div class="info-contact">
                       <div class="flex gap-3 w-70">
                         <hcl-sdk-icon name="geoloc" width={13} height={20} color={getCssColor('--hcl-color-marker')} />
-                        {hcoDetail.address}
+                        <div>
+                          <div>{hcoDetail.buildingLabel}</div>
+                          <div>{hcoDetail.address}</div>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -327,7 +335,7 @@ export class HclSdkHCOFullCard {
                       <li class="hco-individual-item" onClick={() => this.onIndividualClick(individual)}>
                         <div class="hco-individual-item__content">
                           <div class="flex items-center gap-2 mb-1">
-                            <span class="hco-individual-item__title mr-2">{individual.name}</span>
+                            <span class="hco-individual-item__title">{individual.name?.toLowerCase()}</span>
                             {individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
                             {individual.url && (
                               <a href={individual.url} target="_blank">
@@ -342,23 +350,25 @@ export class HclSdkHCOFullCard {
                     );
                   })}
                 </div>
-                {hcoDetail?.individuals && hcoDetail?.individuals.length > MAX_DISPLAY_TERMS ? <div class="ml-auto">
-                  <span class="text-color-primary underline">
-                    <hcl-sdk-button
-                      onClick={this.handleToggleViewMoreIndividuals}
-                      class={cls({ 'view-less': this.isViewMoreIndividuals })}
-                      noBackground
-                      noBorder
-                      noPadding
-                      isLink
-                      iconWidth={15}
-                      iconHeight={15}
-                    >
-                      {!this.isViewMoreIndividuals ? t('view_more') : t('view_less')}
-                      {!this.isViewMoreIndividuals ? <hcl-sdk-icon name="arrow_down" /> : <hcl-sdk-icon name="arrow_up" />}
-                    </hcl-sdk-button>
-                  </span>
-                </div> : null}
+                {hcoDetail?.individuals && hcoDetail?.individuals.length > MAX_DISPLAY_TERMS ? (
+                  <div class="ml-auto">
+                    <span class="text-color-primary underline">
+                      <hcl-sdk-button
+                        onClick={this.handleToggleViewMoreIndividuals}
+                        class={cls({ 'view-less': this.isViewMoreIndividuals })}
+                        noBackground
+                        noBorder
+                        noPadding
+                        isLink
+                        iconWidth={15}
+                        iconHeight={15}
+                      >
+                        {!this.isViewMoreIndividuals ? t('view_more') : t('view_less')}
+                        {!this.isViewMoreIndividuals ? <hcl-sdk-icon name="arrow_down" /> : <hcl-sdk-icon name="arrow_up" />}
+                      </hcl-sdk-button>
+                    </span>
+                  </div>
+                ) : null}
               </hcl-sdk-card-info-section>
 
               {hcoDetail?.children && hcoDetail?.children.length > 0 ? (
@@ -384,12 +394,16 @@ export class HclSdkHCOFullCard {
                     ))}
                   </div>
                   <div class="flex flex-col gap-2">
-                    {(individualsByChildHco ?? []).map(individual => {
+                    {(individualsByChildHco ?? []).map((individual, idx) => {
+                      if (!this.isViewMoreChildHCOIndividuals && idx >= MAX_DISPLAY_TERMS) {
+                        return null;
+                      }
+
                       return (
                         <li class="hco-individual-item" onClick={() => this.onIndividualClick(individual)}>
                           <div class="hco-individual-item__content">
                             <div class="flex items-center gap-2 mb-1">
-                              <span class="hco-individual-item__title mr-2">{individual.name}</span>
+                              <span class="hco-individual-item__title">{individual.name}</span>
                               {individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
                               {individual.url && (
                                 <a href={individual.url} target="_blank">
@@ -404,6 +418,25 @@ export class HclSdkHCOFullCard {
                       );
                     })}
                   </div>
+                  {individualsByChildHco && individualsByChildHco.length > MAX_DISPLAY_TERMS ? (
+                    <div class="ml-auto">
+                      <span class="text-color-primary underline">
+                        <hcl-sdk-button
+                          onClick={this.handleToggleViewMoreHCOChildIndividuals}
+                          class={cls({ 'view-less': this.isViewMoreChildHCOIndividuals })}
+                          noBackground
+                          noBorder
+                          noPadding
+                          isLink
+                          iconWidth={15}
+                          iconHeight={15}
+                        >
+                          {!this.isViewMoreChildHCOIndividuals ? t('view_more') : t('view_less')}
+                          {!this.isViewMoreChildHCOIndividuals ? <hcl-sdk-icon name="arrow_down" /> : <hcl-sdk-icon name="arrow_up" />}
+                        </hcl-sdk-button>
+                      </span>
+                    </div>
+                  ) : null}
                 </hcl-sdk-card-info-section>
               ) : null}
 

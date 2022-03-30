@@ -104,6 +104,7 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
           ...variables,
           first: 50,
           offset: 0,
+          locale: i18nStore.state.lang,
         },
         configStore.configGraphql,
       )
@@ -143,6 +144,7 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
   const hco = await graphql.workplaceByIDV2(
     {
       id: hcoId,
+      locale: i18nStore.state.lang,
     },
     configStore.configGraphql,
   );
@@ -205,7 +207,8 @@ function getHCOCoreFields(data) {
     id: data?.id,
     name: data?.name,
     type: data?.type.label,
-    address: [data?.address.longLabel, data?.address.postalCode + ' ' + data?.address.city.label].filter(s => s).join(', '),
+    buildingLabel: data.address.buildingLabel,
+    address: formatHCOAddress(data),
     phone: data?.intlPhone,
     fax: data?.intlFax,
     website: data?.webAddress,

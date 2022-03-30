@@ -13,6 +13,7 @@ export const FRAGMENT_WORKPLACE_CORE = gql`
     intlFax
     webAddress
     address {
+      buildingLabel
       longLabel
       city {
         label
