@@ -319,6 +319,11 @@
       }
     }
   }
+
+  .hco-individual-item__title {
+    color: var(--hcl-color-secondary);
+    text-transform: capitalize;
+  }
 }
 
 .sdk-dark-mode {
@@ -356,6 +361,3 @@
   flex-direction: column;
 }
 
-span.hco-individual-item__title {
-  color: var(--hcl-color-secondary);
-}
