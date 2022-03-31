@@ -148,11 +148,15 @@ export class HclSdkSearch {
       searchMapStore.setSortValues({
         relevance: false,
         distanceNumber: true,
+        name: false,
+        lastName: false
       });
     } else {
       searchMapStore.setSortValues({
         relevance: true,
         distanceNumber: false,
+        name: false,
+        lastName: false
       });
     }
 

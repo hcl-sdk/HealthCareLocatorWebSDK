@@ -2,8 +2,9 @@ import { Component, Host, h, State } from '@stencil/core';
 import cn from 'classnames';
 import { searchMapStore, uiStore } from '../../../core/stores';
 import { t } from '../../../utils/i18n';
-import { SortValue } from '../../../core/stores/SearchMapStore';
-import { changeSortValue } from '../../../core/api/hcp';
+import { SEARCH_TARGET, SortValue } from '../../../core/stores/SearchMapStore';
+import * as HCPApis from '../../../core/api/hcp'
+import * as HCOApis from '../../../core/api/hco'
 
 @Component({
   tag: 'hcl-sdk-sort',
@@ -26,7 +27,8 @@ export class HclSdkSort {
 
   onSubmit = e => {
     e.preventDefault();
-    changeSortValue(this.sortValues)
+    const apis = searchMapStore.searchTarget === SEARCH_TARGET.HCO ? HCOApis : HCPApis
+    apis.changeSortValue(this.sortValues)
   };
 
   onChange = e => {
@@ -48,7 +50,11 @@ export class HclSdkSort {
 
   render() {
     const hclSDKSortClass = cn('hcl-sdk-sort', {});
-    const { lastName, distanceNumber, relevance } = this.sortValues;
+    const { name, lastName, distanceNumber, relevance } = this.sortValues;
+    
+    // HCO has sort by name, HCP has sort by lastName
+    const useNameSort = searchMapStore.searchTarget === SEARCH_TARGET.HCO
+
     return (
       <Host class={`size-${uiStore.state.breakpoint.screenSize}`}>
         <div class={hclSDKSortClass}>
@@ -67,8 +73,15 @@ export class HclSdkSort {
               )}
 
               <div class="sort-option-item">
-                <label htmlFor="name">{t('name_item')}</label>
-                <hcl-sdk-input type="checkbox" id="lastName" name="lastName" checked={lastName} onInput={this.onChange} />
+                {/* TODO: translation for Name */}
+                <label htmlFor="name">{useNameSort ? "Name" : t('name_item')}</label>
+                <hcl-sdk-input
+                  type="checkbox"
+                  id={useNameSort ? 'name' : 'lastName'}
+                  name={useNameSort ? 'name' : 'lastName'}
+                  checked={useNameSort ? name : lastName}
+                  onInput={this.onChange}
+                />
               </div>
             </div>
             <div class="sort-action">
