@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 import { FRAGMENT_WORKPLACE_CORE } from './fragmentWorkplace';
 import { graphqlClient } from './helpers';
-import { WorkplacesV2Query, WorkplacesV2QueryVariables } from './types';
+import { WorkplacesV2QueryVariables, WorkplacesV2Query } from './types';
 
 const QUERY_WORKPLACES_V2 = gql`
   query workplacesV2(
@@ -13,6 +13,8 @@ const QUERY_WORKPLACES_V2 = gql`
     $country: String
     $location: GeopointQuery
     $locale: String
+    $sorts: [WorkplaceSortScope]
+    $sortScope: WorkplaceSortScope
   ) {
     workplacesV2(
       first: $first
@@ -23,6 +25,8 @@ const QUERY_WORKPLACES_V2 = gql`
       country: $country
       location: $location
       locale: $locale
+      sorts: $sorts
+      sortScope: $sortScope
     ) {
       edges {
         distance

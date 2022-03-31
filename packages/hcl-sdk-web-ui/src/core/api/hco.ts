@@ -1,5 +1,12 @@
 import { graphql } from '../../../../hcl-sdk-core';
-import { SuggestionScope, SuggestionsV2Query, WorkplaceCriteria, WorkplaceCriteriaScope, WorkplacesV2QueryVariables } from '../../../../hcl-sdk-core/src/graphql/types';
+import {
+  SuggestionScope,
+  SuggestionsV2Query,
+  WorkplaceCriteria,
+  WorkplaceCriteriaScope,
+  WorkplaceSortScope,
+  WorkplacesV2QueryVariables,
+} from '../../../../hcl-sdk-core/src/graphql/types';
 import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { configStore, i18nStore, searchMapStore } from '../stores';
@@ -87,39 +94,69 @@ export async function searchLocationWithParams(forceNearMe: boolean = false) {
   return searchLocation(params);
 }
 
-export async function changeSortValue(_sortValue: SortValue) {
-  // Not implemented
+export async function changeSortValue(sortValue: SortValue) {
+  searchMapStore.setSortValues(sortValue);
+  searchMapStore.setHcosLoadingStatus('loading');
+
+  try {
+    const { locationFilter, searchFields, sortValues } = searchMapStore.state;
+    const sorts = getSortScopesFromSortValues(sortValues);
+
+    const params = await genSearchLocationParams({
+      locationFilter,
+      searchFields,
+    });
+
+    if (Object.keys(params).length === 1 && params.country) {
+      return;
+    }
+
+    const hcos = await fetchWorkplaces({ ...params, sortScope: sorts[0] });
+
+    searchMapStore.setState({ hcos });
+
+    searchMapStore.setHcosLoadingStatus('success');
+  } catch (err) {
+    searchMapStore.setHcosLoadingStatus(err.response?.status === 401 ? 'unauthorized' : 'error');
+  }
+}
+
+async function fetchWorkplaces(variables) {
+  const hcos = (
+    await graphql.workplacesV2(
+      {
+        ...variables,
+        first: 50,
+        offset: 0,
+        locale: i18nStore.state.lang,
+      },
+      configStore.configGraphql,
+    )
+  ).workplacesV2.edges.map(edge =>
+    toHCO({
+      id: edge.node?.id,
+      name: edge.node?.name,
+      type: edge.node?.type.label,
+      distanceNumber: edge.distance,
+      distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
+      lat: edge.node?.address.location?.lat,
+      lng: edge.node?.address.location?.lon,
+      address: formatHCOAddress(edge.node),
+    }),
+  );
+
+  return hcos;
 }
 
 export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
-  searchMapStore.setState({
-    hcoDetail: null,
-    loadingHcosStatus: hasLoading as any,
-  });
+  searchMapStore.setHcosLoadingStatus(hasLoading as any);
+  searchMapStore.setState({ hcoDetail: null });
 
   try {
-    const hcos = (
-      await graphql.workplacesV2(
-        {
-          ...variables,
-          first: 50,
-          offset: 0,
-          locale: i18nStore.state.lang,
-        },
-        configStore.configGraphql,
-      )
-    ).workplacesV2.edges.map(edge =>
-      toHCO({
-        id: edge.node?.id,
-        name: edge.node?.name,
-        type: edge.node?.type.label,
-        distanceNumber: edge.distance,
-        distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
-        lat: edge.node?.address.location?.lat,
-        lng: edge.node?.address.location?.lon,
-        address: formatHCOAddress(edge.node),
-      }),
-    );
+    const { sortValues } = searchMapStore.state;
+
+    const sorts = getSortScopesFromSortValues(sortValues);
+    const hcos = await fetchWorkplaces({ ...variables, sortScope: sorts[0] });
 
     searchMapStore.setState({
       hcoDetail: null,
@@ -130,9 +167,7 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
       loadingHcosStatus: 'success',
     });
   } catch (e) {
-    searchMapStore.setState({
-      loadingActivitiesStatus: e.response?.status === 401 ? 'unauthorized' : 'error',
-    });
+    searchMapStore.setHcosLoadingStatus(e.response?.status === 401 ? 'unauthorized' : 'error');
   }
 }
 
@@ -233,4 +268,24 @@ function formatHCOAddress(node) {
   return (
     node.address?.longLabel && [node.address?.longLabel, node.address?.postalCode && node.address?.city ? `${node.address?.postalCode} ${node.address?.city.label}` : ''].join(', ')
   );
+}
+
+function getSortScopesFromSortValues(sortValues: SortValue) {
+  return Object.entries(sortValues)
+    .filter(([_, value]) => !!value && value !== 'SORT_DISABLED')
+    .map(([key]) => getSortScope(key))
+    .filter(Boolean);
+}
+
+function getSortScope(sortValue: keyof SortValue | string) {
+  switch (sortValue) {
+    case 'relevance':
+      return WorkplaceSortScope.Relevancy;
+    case 'distanceNumber':
+      return WorkplaceSortScope.Distance;
+    case 'name':
+      return WorkplaceSortScope.Name;
+    default:
+      return undefined;
+  }
 }

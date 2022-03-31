@@ -50,6 +50,7 @@ export interface SortValue {
   distanceNumber?: boolean | SORT_DISABLED;
   lastName?: boolean;
   relevance?: boolean;
+  name?: boolean
 }
 
 export interface SelectedIndividual {
@@ -238,6 +239,7 @@ export const initStateSearchMapStore: SearchMapState = {
   sortValues: {
     distanceNumber: false,
     lastName: false,
+    name: false,
     relevance: true
   },
   searchFields: {
@@ -457,6 +459,12 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
   setActivitiesLoadingStatus(status: 'loading' | 'idle' | 'success' | 'error' | 'unauthorized') {
     this.setState({
       loadingActivitiesStatus: status,
+    });
+  }
+
+  setHcosLoadingStatus(status: 'loading' | 'idle' | 'success' | 'error' | 'unauthorized') {
+    this.setState({
+      loadingHcosStatus: status,
     });
   }
 }
