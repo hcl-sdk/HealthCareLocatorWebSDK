@@ -92,7 +92,11 @@ export class HclSdkHomeFull {
   };
 
   handleHistorySearchItemClick = (searchItem: HistorySearchItem) => {
-    const { locationFilter, specialtyFilter, searchFields, medicalTermsFilter } = searchItem;
+    const { locationFilter, specialtyFilter, searchFields, medicalTermsFilter, countryFilter } = searchItem;
+
+    configStore.setState({
+      countryFilterSelected: countryFilter,
+    });
 
     searchMapStore.setState({
       locationFilter,

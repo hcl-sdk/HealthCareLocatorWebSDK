@@ -197,6 +197,7 @@ export class HclSdkSearch {
       specialtyFilter: searchMapStore.state.specialtyFilter,
       medicalTermsFilter: searchMapStore.state.medicalTermsFilter,
       searchFields: searchMapStore.state.searchFields,
+      countryFilter: configStore.countryGraphqlQuery,
       timestamp: Date.now(),
     };
     this.isShowModifying = false;
