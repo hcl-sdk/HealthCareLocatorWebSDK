@@ -1,6 +1,6 @@
 import { Activity } from '../../../../hcl-sdk-core/src/graphql/types';
 import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
-import { HISTORY_MAX_TOTAL_ITEMS } from '../constants';
+import { CountryCode, HISTORY_MAX_TOTAL_ITEMS } from '../constants';
 import { SearchFields, SearchTermItem, SpecialtyItem } from './SearchMapStore';
 import StoreProvider from './StoreProvider';
 
@@ -14,6 +14,7 @@ export interface HistorySearchItem {
   medicalTermsFilter: SearchTermItem;
   searchFields: SearchFields;
   timestamp: number;
+  countryFilter: CountryCode
 }
 
 export interface HistoryHcpItem {
