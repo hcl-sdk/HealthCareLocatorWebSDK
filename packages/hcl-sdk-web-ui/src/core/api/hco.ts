@@ -9,7 +9,8 @@ import {
 } from '../../../../hcl-sdk-core/src/graphql/types';
 import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
-import { configStore, i18nStore, searchMapStore } from '../stores';
+import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
+import { createHCOHistoryItem } from '../stores/HistoryStore';
 import { SearchFields, SEARCH_TARGET, SortValue } from '../stores/SearchMapStore';
 import { getGooglePlaceDetails } from './searchGeo';
 import { countryCodeForSuggest, getDistanceMeterByAddrDetails, getLocationForSuggest } from './shared';
@@ -191,7 +192,8 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
     }),
   });
 
-  // TODO: history item
+  historyStore.addItem(createHCOHistoryItem(hcoDetail));
+
   searchMapStore.setState({
     hcoDetail: hcoDetail,
     [keyLoading]: false,
@@ -230,7 +232,7 @@ export async function searchHcos({ criteria }: { criteria: string }) {
   searchMapStore.setState({ loading: false, searchHcos: hcos });
 }
 
-function toHCO(data) {
+function toHCO<T>(data: T) {
   return {
     __type: SEARCH_TARGET.HCO,
     ...data

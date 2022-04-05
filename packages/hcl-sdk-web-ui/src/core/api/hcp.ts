@@ -20,7 +20,7 @@ import {
 } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
-import { HistoryHcpItem } from '../stores/HistoryStore';
+import { createHCPHistoryItem } from '../stores/HistoryStore';
 import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
 import { getGooglePlaceDetails } from './searchGeo';
 import { countryCodeForSuggest, getDistanceMeterByAddrDetails, getLocationForSuggest, shouldSortFromServer } from './shared';
@@ -433,13 +433,13 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
 
   // add to history
   // TODO: disable if userId is defined
-  const historyItem: HistoryHcpItem = {
-    type: 'hcp',
-    activityId,
-    activity: activity,
-    timestamp: Date.now(),
-  };
-  historyStore.addItem('hcp', historyItem);
+  historyStore.addItem(
+    createHCPHistoryItem({
+      id: activity.id,
+      individual: activity.individual,
+      workplace: activity.workplace,
+    }),
+  );
 
   searchMapStore.setState({
     individualDetail: data,
