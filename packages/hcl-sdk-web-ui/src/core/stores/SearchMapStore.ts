@@ -1,4 +1,4 @@
-import { Disease, Review } from "../../../../hcl-sdk-core/src/graphql/types";
+import { Activity, Disease, Review } from "../../../../hcl-sdk-core/src/graphql/types";
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
 import { NEAR_ME } from "../constants";
 import StoreProvider from "./StoreProvider";
@@ -172,7 +172,12 @@ export interface SearchMapState {
   searchMedicalTerms: SearchTermItem[];
   selectedValues?: SelectedValues;
   sortValues?: SortValue
-  selectedActivity?: SelectedIndividual
+  selectedActivity?: {
+    id: Activity['id']
+    name: string
+    lat: number
+    lng: number
+  }
   individualDetail?: IndividualDetail;
   individualDetailName?: string;
   searchFields: SearchFields;
@@ -192,15 +197,15 @@ export interface SearchMapState {
     distanceNumber: number
     lat: number
     lng: number
+    type: string
   }[];
   selectedHco?: {
     id: string
     name: string
     address: string
-    distance: string
-    distanceNumber: number
     lat: number
     lng: number
+    type: string
   },
   hcoDetail: HCO
   loadingHcoDetail?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized'; 

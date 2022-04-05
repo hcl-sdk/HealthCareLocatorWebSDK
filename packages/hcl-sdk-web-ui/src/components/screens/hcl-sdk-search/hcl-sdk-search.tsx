@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { COUNTRIES_LABELS, NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { HistorySearchItem } from '../../../core/stores/HistoryStore';
+import { createSearchHistoryItem } from '../../../core/stores/HistoryStore';
 import { HTMLStencilElement } from '@stencil/core/internal';
 import { t } from '../../../utils/i18n';
 import { ModeViewType } from '../../../core/stores/ConfigStore';
@@ -190,18 +190,17 @@ export class HclSdkSearch {
     }
 
     // store search to history
-    const historySearchItem: HistorySearchItem = {
-      id: String(Date.now()),
-      type: 'search',
-      locationFilter: searchMapStore.state.locationFilter,
-      specialtyFilter: searchMapStore.state.specialtyFilter,
-      medicalTermsFilter: searchMapStore.state.medicalTermsFilter,
-      searchFields: searchMapStore.state.searchFields,
-      countryFilter: configStore.countryGraphqlQuery,
-      timestamp: Date.now(),
-    };
     this.isShowModifying = false;
-    historyStore.addItem('search', historySearchItem);
+    historyStore.addItem(
+      createSearchHistoryItem({
+        searchTarget: searchMapStore.searchTarget,
+        locationFilter: searchMapStore.state.locationFilter,
+        specialtyFilter: searchMapStore.state.specialtyFilter,
+        medicalTermsFilter: searchMapStore.state.medicalTermsFilter,
+        searchFields: searchMapStore.state.searchFields,
+        countryFilter: configStore.countryGraphqlQuery,
+      }),
+    );
   };
 
   checkValidElm = elm => {
