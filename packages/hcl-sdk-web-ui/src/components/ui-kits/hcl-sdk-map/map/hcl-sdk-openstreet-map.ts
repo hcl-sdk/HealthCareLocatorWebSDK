@@ -15,7 +15,7 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
   }
 
   async initMap(mapElm, options) {
-    const mapTileLayer = 'https://mapsorigin.ns1.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
+    const mapTileLayer = 'https://mapsorigin.ff.avast.com/styles/osm-bright/{z}/{x}/{y}.png';
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
     this.map = L.map(mapElm, {
