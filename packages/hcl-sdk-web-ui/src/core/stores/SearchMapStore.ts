@@ -1,7 +1,7 @@
-import { Activity, Disease, Review } from "../../../../hcl-sdk-core/src/graphql/types";
-import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
-import { NEAR_ME } from "../constants";
-import StoreProvider from "./StoreProvider";
+import { ActivitiesQuery } from '../../../../hcl-sdk-core/src/graphql/types'
+import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../utils/storageUtils'
+import { NEAR_ME } from '../constants'
+import StoreProvider from './StoreProvider'
 
 export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName' | 'country' | 'search-target'
 
@@ -77,6 +77,11 @@ export interface SearchSpecialty {
 
 type SearchDoctor = SelectedIndividual
 
+type Disease = {
+  id?: number
+  name?: string
+}
+
 export type IndividualDetail = {
   id: string
   individualId: string
@@ -103,9 +108,15 @@ export type IndividualDetail = {
   uciRpps?: string
   reviewsAvailable?: boolean
   diseasesAvailable?: boolean
-  reviewsByIndividual?: {
+  reviews?: {
     diseases: Disease[]
-    reviews: Review[]
+    reviews: {
+      createdAt?: string
+      diseases?: Disease[]
+      reviewer?: string
+      text?: string
+      validatedAt?: string
+    }[]
     idnat: string
   }
   url?: string
@@ -153,7 +164,7 @@ type HCO = HCOCore & {
 
 export enum SEARCH_TARGET {
   HCO = 'HCO',
-  HCP = 'HCP'
+  HCP = 'HCP',
 }
 
 export interface SearchMapState {
@@ -173,7 +184,7 @@ export interface SearchMapState {
   selectedValues?: SelectedValues;
   sortValues?: SortValue
   selectedActivity?: {
-    id: Activity['id']
+    id: string
     name: string
     lat: number
     lng: number
@@ -186,7 +197,7 @@ export interface SearchMapState {
   medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
-  cachedActivities?: Record<string, any[]>
+  cachedActivities?: Record<string, ActivitiesQuery>;
   // hco
   searchTarget: SEARCH_TARGET,
   hcos?: {
@@ -316,11 +327,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     })
   }
 
-  setGeoLocation({ 
-    latitude = 0,
-    longitude = 0,
-  } = {}) {
-
+  setGeoLocation({ latitude = 0, longitude = 0 } = {}) {
     this.setState({
       geoLocation: {
         ...this.state.geoLocation,
@@ -329,7 +336,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
         longitude
       }
     })
-    
+
     storageUtils.setObject(OKSDK_GEOLOCATION_HISTORY, {
       latitude,
       longitude,
@@ -353,11 +360,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     }
   }
 
-  resetDataSearch({ 
-    isResetHCPDetail = false,
-    isResetSearchFields = false,
-    isResetHCODetail = false
-  } = {}) {
+  resetDataSearch({ isResetHCPDetail = false, isResetSearchFields = false, isResetHCODetail = false } = {}) {
     let resetHCPDetail = {}
     let resetSearchFields = {}
     let resetHCODetail = {}
@@ -447,7 +450,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     return null
   }
 
-  saveCached(storeKey: string, activities: any[]) {
+  saveCached(storeKey: string, activities: ActivitiesQuery) {
     if (storeKey && activities) {
       this.state.cachedActivities[storeKey] = activities
     }

@@ -332,7 +332,7 @@ export class HclSdkHCPFullCard {
       : originalListSpecialties
 
     // Handle to show Recommendation section
-    const reviewResult = individualDetail?.reviewsByIndividual
+    const reviewResult = individualDetail?.reviews
     const isShowRecommendation = reviewResult && (reviewResult.diseases.length > 0 || reviewResult.reviews.length > 0)
 
     const openHours = individualDetail?.openHours?.filter(hour => !!hour.day)

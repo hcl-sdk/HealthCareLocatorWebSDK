@@ -1,14 +1,10 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
-import { ReviewResult, QueryReviewsByIndividualArgs } from './types';
-
-interface ReviewsByIndividualResult {
-  reviewsByIndividual: ReviewResult
-}
+import { ReviewsByIndividualQueryVariables, ReviewsByIndividualQuery } from './types';
 
 const QUERY_REVIEWS_BY_INDIVIDUAL = gql`
   query reviewsByIndividual($idnat: String!) {
-    reviewsByIndividual(
+    reviews(
       idnat: $idnat
     ) {
       rpps
@@ -20,6 +16,6 @@ const QUERY_REVIEWS_BY_INDIVIDUAL = gql`
   }
 `
 
-export default function reviewsByIndividual(variables: QueryReviewsByIndividualArgs, config?): Promise<ReviewsByIndividualResult> {
-  return graphqlClient(QUERY_REVIEWS_BY_INDIVIDUAL, variables, config)
+export default function reviewsByIndividual(variables: ReviewsByIndividualQueryVariables, config?): Promise<ReviewsByIndividualQuery> {
+  return graphqlClient(QUERY_REVIEWS_BY_INDIVIDUAL, variables, config);
 }

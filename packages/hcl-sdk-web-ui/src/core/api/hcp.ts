@@ -1,11 +1,10 @@
 import sortBy from 'lodash.sortby';
 import { graphql } from '../../../../hcl-sdk-core';
 import {
+  ActivitiesQuery,
   ActivityCriteria,
   ActivityCriteriaScope,
-  ActivityResult, QueryActivitiesArgs, QueryCodesByLabelArgs,
-  QueryIndividualsByNameArgs,
-  SuggestScope
+  QueryActivitiesArgs, QueryCodesByLabelArgs, QuerySuggestionsArgs, SuggestionScope, SuggestionsQuery
 } from '../../../../hcl-sdk-core/src/graphql/types';
 import {
   convertToMeter,
@@ -14,14 +13,13 @@ import {
   getHcpFullname,
   getMergeMainAndOtherActivities,
   getSpecialties,
-  getSpecialtiesText,
   getUrl,
   handleMapActivities
 } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
 import { createHCPHistoryItem } from '../stores/HistoryStore';
-import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SelectedIndividual, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
+import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
 import { getGooglePlaceDetails } from './searchGeo';
 import { countryCodeForSuggest, getDistanceMeterByAddrDetails, getLocationForSuggest, shouldSortFromServer } from './shared';
 
@@ -178,7 +176,7 @@ export async function changeSortValue(sortValue: SortValue) {
 }
 
 async function fetchActivities(variables) {
-  let activities: ActivityResult[] = [];
+  let activities: ActivitiesQuery = {};
   const storeKey = configStore.state.apiKey + '/' + JSON.stringify(variables);
 
   if (searchMapStore.getCached(storeKey)) {
@@ -193,11 +191,11 @@ async function fetchActivities(variables) {
       },
       configStore.configGraphql,
     );
-    activities = resActivities.activities;
-    searchMapStore.saveCached(storeKey, resActivities.activities);
+    activities = resActivities;
+    searchMapStore.saveCached(storeKey, resActivities);
   }
 
-  const data = (activities || []).map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
+  const data = (activities?.activities?.edges || []).map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
 
   return data;
 }
@@ -248,14 +246,14 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
   }
 }
 
-export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameArgs>) {
+export async function searchDoctor({ criteria }: Partial<QuerySuggestionsArgs>) {
   searchMapStore.setState({ loading: true });
 
   const variables: Parameters<typeof graphql.suggest>[0] = {
     first: 30,
     criteria: criteria,
     locale: i18nStore.state.lang,
-    scope: SuggestScope.Individual,
+    scope: SuggestionScope.Individual,
     country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
@@ -263,20 +261,20 @@ export async function searchDoctor({ criteria }: Partial<QueryIndividualsByNameA
   };
 
   const {
-    suggest: { results },
-  } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
+    suggestions: { edges },
+  }: SuggestionsQuery = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggestions: { edges: [] } }));
 
-  const individualsData: SelectedIndividual[] = results
-    ? results.map(item => {
-        const activity = item.individual?.activity;
+  const individualsData = edges
+    ? edges.map(item => {
+        const activity = item.node?.individual?.activity
 
         const longLabel = activity?.workplace?.address?.longLabel;
         const city = activity?.workplace?.address?.city?.label;
         const postalCode = activity?.workplace?.address?.postalCode;
 
         return {
-          name: getHcpFullname(item.individual),
-          specialties: getSpecialtiesText(item.individual.specialties),
+          name: getHcpFullname(item?.node?.individual),
+          specialties: item?.node?.specialty?.label,
           address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
           id: activity.id,
           activity: activity,
@@ -298,7 +296,7 @@ export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLa
     first: 60,
     criteria: criteria,
     locale: i18nStore.state.lang,
-    scope: SuggestScope.Specialty,
+    scope: SuggestionScope.Specialty,
     country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: [],
     medTerms: searchMapStore.state.medicalTermsFilter ? [searchMapStore.state.medicalTermsFilter?.id] : [],
@@ -306,14 +304,14 @@ export async function handleSearchSpecialty({ criteria }: Partial<QueryCodesByLa
   };
 
   const {
-    suggest: { results },
-  } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
+    suggestions: { edges },
+  }: SuggestionsQuery = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggestions: { edges: null } }));
 
-  const codesData: SearchSpecialty[] = results
-    ? results
+  const codesData: SearchSpecialty[] = edges
+    ? edges
         .map(item => ({
-          name: `${item.specialty.label}`,
-          id: item.specialty.code,
+          name: `${item?.node?.specialty.label}`,
+          id: item?.node?.specialty.code,
         }))
         .filter(item => item.id.startsWith('SP'))
     : [];
@@ -335,7 +333,7 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
     // so Suggest query is not working for MedTerm search with locale other than English.
     // Change: temporarily use locale "en" for scope "MedTerm in Suggest query regardless of locale setting.
     locale: 'en', // i18nStore.state.lang,
-    scope: SuggestScope.MedTerm,
+    scope: SuggestionScope.MedTerm,
     country: countryCodeForSuggest(configStore.countryGraphqlQuery),
     specialties: searchMapStore.state.specialtyFilter.map(specialty => specialty.id),
     medTerms: [],
@@ -343,13 +341,13 @@ export async function handleSearchMedicalTerms({ criteria }: Partial<QueryCodesB
   };
 
   const {
-    suggest: { results },
-  } = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggest: { results: null } }));
+    suggestions: { edges },
+  }: SuggestionsQuery = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggestions: { edges: null } }));
 
-  const codesData: SearchTermItem[] = results
-    ? results.map(item => ({
-        name: item.medTerm.label,
-        id: item.medTerm.code,
+  const codesData: SearchTermItem[] = edges
+    ? edges.map(item => ({
+        name: item?.node?.medTerm.label,
+        id: item?.node?.medTerm.code,
         lisCode: '',
       }))
     : [];
@@ -398,7 +396,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     uciAdeli: activity.individual.uci?.adeli,
     reviewsAvailable: activity.individual.reviewsAvailable,
     diseasesAvailable: activity.individual.diseasesAvailable,
-    reviewsByIndividual: undefined,
+    reviews: undefined,
     url: getUrl(activity.workplace.address.country, activity.urls),
     openHours: activity.workplace.openHours,
   };
@@ -414,18 +412,18 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     }
 
     if (idnat) {
-      const { reviewsByIndividual } = await graphql.reviewsByIndividual(
+      const { reviews } = await graphql.reviewsByIndividual(
         {
           idnat,
         },
         configStore.configGraphql,
       );
 
-      if (reviewsByIndividual) {
-        data.reviewsByIndividual = {
-          idnat: reviewsByIndividual.idnat,
-          reviews: reviewsByIndividual.reviews || [],
-          diseases: reviewsByIndividual.diseases || [],
+      if (reviews) {
+        data.reviews = {
+          idnat: reviews.idnat,
+          reviews: reviews.reviews || [],
+          diseases: reviews.diseases || [],
         };
       }
     }

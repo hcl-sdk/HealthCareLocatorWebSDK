@@ -1,10 +1,10 @@
 import { gql } from 'graphql-request';
 import { FRAGMENT_WORKPLACE_CORE } from './fragmentWorkplace';
 import { graphqlClient } from './helpers';
-import { WorkplacesV2QueryVariables, WorkplacesV2Query } from './types';
+import { WorkplacesQuery, WorkplacesQueryVariables } from './types';
 
-const QUERY_WORKPLACES_V2 = gql`
-  query workplacesV2(
+const QUERY_WORKPLACES = gql`
+  query workplaces(
     $first: Int!
     $offset: Int!
     $criteria: String
@@ -16,7 +16,7 @@ const QUERY_WORKPLACES_V2 = gql`
     $sorts: [WorkplaceSortScope]
     $sortScope: WorkplaceSortScope
   ) {
-    workplacesV2(
+    workplaces(
       first: $first
       offset: $offset
       criteria: $criteria
@@ -39,6 +39,6 @@ const QUERY_WORKPLACES_V2 = gql`
   ${FRAGMENT_WORKPLACE_CORE}
 `;
 
-export default function workplacesV2(variables: WorkplacesV2QueryVariables, config?): Promise<WorkplacesV2Query> {
-  return graphqlClient(QUERY_WORKPLACES_V2, variables, config);
+export default function workplaces(variables: WorkplacesQueryVariables, config?): Promise<WorkplacesQuery> {
+  return graphqlClient(QUERY_WORKPLACES, variables, config);
 }

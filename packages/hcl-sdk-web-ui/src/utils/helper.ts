@@ -1,20 +1,11 @@
-import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
-import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
+import { DARK_THEME_PROPERTIES, DEFAULT_THEME_PROPERTIES } from '../../../hcl-sdk-core';
+import { ActivitiesQuery, Activity, ActivitySortScope, KeyedString, SuggestionsQuery, Url } from '../../../hcl-sdk-core/src/graphql/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import {
-  ActivityList,
-  ActivityResult,
-  ActivitySortScope,
-  Individual,
-  IndividualFragment,
-  IndividualSuggestFragment,
-  KeyedString,
-  Url,
-} from '../../../hcl-sdk-core/src/graphql/types';
-import { t } from '../utils/i18n';
-import { DistanceUnit } from '../core/stores/ConfigStore';
-import { SearchSpecialty, SortValue } from '../core/stores/SearchMapStore'
 import { configStore } from '../core/stores';
+import { DistanceUnit } from '../core/stores/ConfigStore';
+import { SearchSpecialty, SortValue } from '../core/stores/SearchMapStore';
+import { Breakpoint, GeolocCoordinates, ScreenSize } from '../core/types';
+import { t } from '../utils/i18n';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -72,7 +63,7 @@ export function applyDefaultTheme(darkMode?: boolean) {
   document.head.prepend(styleElement);
 }
 
-export function getSpecialtiesText(specialties) {
+export function getSpecialtiesText(specialties: any[]) {
   return specialties.filter(elm => elm.label).map(elm => elm.label)
 }
 
@@ -110,8 +101,8 @@ export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoi
   };
 }
 
-export function getMergeMainAndOtherActivities(mainActivity: ActivityList, otherActivities: ActivityList[] = []) {
-  let results: ActivityList[];
+export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActivities: Activity[] = []) {
+  let results: Activity[];
   if (mainActivity) {
     results = [mainActivity].concat(otherActivities);
   } else {
@@ -172,7 +163,9 @@ export function fallbackShareHCPDetail(individualDetail, config) {
   link.click();
 }
 
-export function getHcpFullname(individual: Individual | IndividualFragment | IndividualSuggestFragment) {
+type IndividualName = SuggestionsQuery['suggestions']['edges'][number]['node']['individual'] | ActivitiesQuery['activities']['edges'][number]['node']['individual'];
+
+export function getHcpFullname(individual: IndividualName) {
   const { firstName, lastName, middleName } = individual;
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');
@@ -258,32 +251,33 @@ export function getCurrentPosition(
   })
 }
 
-export const handleMapActivities = (item: ActivityResult, searchedSpecialtyCode?: string) => {
+
+export const handleMapActivities = (item: ActivitiesQuery['activities']['edges'][number], searchedSpecialtyCode?: string) => {
   return {
     distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
     distanceNumber: item.distance,
     relevance: item.relevance,
-    name: getHcpFullname(item.activity.individual),
-    lastName: item.activity.individual.lastName,
-    professionalType: item.activity.individual.professionalType.label,
-    specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
+    name: getHcpFullname(item.node.individual),
+    lastName: item.node.individual.lastName,
+    professionalType: item.node.individual.professionalType.label,
+    specialtiesRaw: getSpecialtiesText(item.node.individual.specialties),
     specialtyPrimary: getSpecialtiesText(
-      item.activity.individual.specialties.filter(
+      item.node.individual.specialties.filter(
         specialty => !searchedSpecialtyCode || specialty.code === searchedSpecialtyCode,
       ),
     )[0],
     address: [
-      item.activity.workplace.address.longLabel,
-      item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label,
+      item.node.workplace.address.longLabel,
+      item.node.workplace.address.postalCode + ' ' + item.node.workplace.address.city.label,
     ]
       .filter(s => s)
       .join(', '),
-    lat: item.activity.workplace.address.location.lat,
-    lng: item.activity.workplace.address.location.lon,
-    id: item.activity.id,
-    reviewsAvailable: item.activity.individual.reviewsAvailable,
-    diseasesAvailable: item.activity.individual.diseasesAvailable,
-    url: getUrl(item.activity.workplace.address.country, item.activity.urls),
+    lat: item.node.workplace.address.location.lat,
+    lng: item.node.workplace.address.location.lon,
+    id: item.node.id,
+    reviewsAvailable: item.node.individual.reviewsAvailable,
+    diseasesAvailable: item.node.individual.diseasesAvailable,
+    url: getUrl(item.node.workplace.address.country, item.node.urls),
   };
 };
 
