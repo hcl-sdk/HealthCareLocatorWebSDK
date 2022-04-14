@@ -1,11 +1,12 @@
 import { graphql } from '../../../../hcl-sdk-core';
 import {
   SuggestionScope,
-  SuggestionsV2Query,
+  SuggestionsQuery,
+  WorkplaceByIdQuery,
   WorkplaceCriteria,
   WorkplaceCriteriaScope,
   WorkplaceSortScope,
-  WorkplacesV2QueryVariables,
+  WorkplacesQueryVariables,
 } from '../../../../hcl-sdk-core/src/graphql/types';
 import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
@@ -16,7 +17,7 @@ import { getGooglePlaceDetails } from './searchGeo';
 import { countryCodeForSuggest, getDistanceMeterByAddrDetails, getLocationForSuggest } from './shared';
 
 export async function genSearchLocationParams({ forceNearMe = false, locationFilter, searchFields }: { forceNearMe?: boolean; locationFilter: any; searchFields: SearchFields }) {
-  let params: Partial<WorkplacesV2QueryVariables> = {};
+  let params: Partial<WorkplacesQueryVariables> = {};
 
   if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
@@ -123,28 +124,29 @@ export async function changeSortValue(sortValue: SortValue) {
 }
 
 async function fetchWorkplaces(variables) {
-  const hcos = (
-    await graphql.workplacesV2(
-      {
-        ...variables,
-        first: 50,
-        offset: 0,
-        locale: i18nStore.state.lang,
-      },
-      configStore.configGraphql,
-    )
-  ).workplacesV2.edges.map(edge =>
-    toHCO({
-      id: edge.node?.id,
-      name: edge.node?.name,
-      type: edge.node?.type.label,
-      distanceNumber: edge.distance,
-      distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
-      lat: edge.node?.address.location?.lat,
-      lng: edge.node?.address.location?.lon,
-      address: formatHCOAddress(edge.node),
-    }),
-  );
+  const hcos =
+    (
+      await graphql.workplaces(
+        {
+          ...variables,
+          first: 50,
+          offset: 0,
+          locale: i18nStore.state.lang,
+        },
+        configStore.configGraphql,
+      )
+    ).workplaces?.edges?.map(edge =>
+      toHCO({
+        id: edge.node?.id,
+        name: edge.node?.name,
+        type: edge.node?.type.label,
+        distanceNumber: edge.distance,
+        distance: formatDistanceDisplay(edge.distance, configStore.state.distanceUnit),
+        lat: edge.node?.address.location?.lat,
+        lng: edge.node?.address.location?.lon,
+        address: formatHCOAddress(edge.node),
+      }),
+    ) || [];
 
   return hcos;
 }
@@ -177,7 +179,7 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
     [keyLoading]: true,
   });
 
-  const hco = await graphql.workplaceByIDV2(
+  const hco = await graphql.workplaceByID(
     {
       id: hcoId,
       locale: i18nStore.state.lang,
@@ -186,8 +188,8 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
   );
 
   const hcoDetail = toHCO({
-    ...getHCOCoreFields(hco.workplaceByIDV2),
-    children: hco.workplaceByIDV2?.children.map(childHCO => {
+    ...getHCOCoreFields(hco.workplaceByID),
+    children: hco.workplaceByID?.children.map(childHCO => {
       return getHCOCoreFields(childHCO);
     }),
   });
@@ -205,7 +207,7 @@ export async function getFullCardDetail({ hcoId }, keyLoading = 'loadingHcoDetai
 export async function searchHcos({ criteria }: { criteria: string }) {
   searchMapStore.setState({ loading: true });
 
-  const variables: Parameters<typeof graphql.suggestionV2>[0] = {
+  const variables: Parameters<typeof graphql.suggest>[0] = {
     first: 30,
     criteria: criteria,
     locale: i18nStore.state.lang,
@@ -215,8 +217,8 @@ export async function searchHcos({ criteria }: { criteria: string }) {
   };
 
   const {
-    suggestionsV2: { edges },
-  }: SuggestionsV2Query = await graphql.suggestionV2(variables, configStore.configGraphql).catch(_ => ({ suggestionsV2: { edges: [] } }));
+    suggestions: { edges },
+  }: SuggestionsQuery = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggestions: { edges: [] } }));
 
   const hcos = edges
     ? edges.map(({ node }) => {
@@ -235,11 +237,11 @@ export async function searchHcos({ criteria }: { criteria: string }) {
 function toHCO<T>(data: T) {
   return {
     __type: SEARCH_TARGET.HCO,
-    ...data
-  }
+    ...data,
+  };
 }
 
-function getHCOCoreFields(data) {
+function getHCOCoreFields(data: WorkplaceByIdQuery['workplaceByID']) {
   return {
     id: data?.id,
     name: data?.name,
@@ -251,15 +253,15 @@ function getHCOCoreFields(data) {
     website: data?.webAddress,
     lat: data?.address?.location?.lat,
     lng: data?.address?.location?.lon,
-    individuals: data.individuals.map(individual => toIndividualCore(individual, data))
+    individuals: data.individuals.map(individual => toIndividualCore(individual, data)),
   };
 }
 
-function toIndividualCore(individual, workplace) {
+function toIndividualCore(individual: WorkplaceByIdQuery['workplaceByID']['individuals'][number], workplace: WorkplaceByIdQuery['workplaceByID']) {
   return {
     id: individual.id,
     name: [individual.firstName, individual.middleName, individual.lastName].filter(s => !!s).join(' '),
-    specialty: getSpecialtiesText(individual.specialties)[0],
+    specialty: getSpecialtiesText(individual?.specialties || [])[0],
     isShowRecommendation: individual.reviewsAvailable || individual.diseasesAvailable,
     url: getUrl(workplace?.address.country, individual.mainActivity.urls),
     mainActivity: individual.mainActivity,

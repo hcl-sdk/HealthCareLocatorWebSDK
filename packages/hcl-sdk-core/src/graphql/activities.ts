@@ -1,11 +1,7 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers';
-import { ActivityResult, QueryActivitiesArgs } from './types';
-import { FRAGMENT_URL } from './fragmentUrl'
-
-interface ActivitiesResult {
-  activities: ActivityResult[]
-}
+import { ActivitiesQuery, QueryActivitiesArgs } from './types';
+import { FRAGMENT_URL } from './fragmentUrl';
 
 const QUERY_ACTIVITIES = gql`
   query activities(
@@ -36,60 +32,62 @@ const QUERY_ACTIVITIES = gql`
       sorts: $sorts
       locale: $locale
     ) {
-      distance
-      relevance
-      activity {
-        id
-        urls {
-          url {
-            ...Url
-          }
-        }
-        individual {
+      edges {
+        distance
+        relevance
+        node {
           id
-          firstName
-          lastName
-          middleName
-          professionalType {
-            label
-          }
-          specialties {
-            code
-            label
-          }
-          meshTerms
-          kvTerms
-          chTerms
-          uci {
-            rpps
-            adeli
-          }
-          reviewsAvailable
-          diseasesAvailable
-        }
-        workplace {
-          id
-          openHours {
-            day
-            openPeriods {
-              open
-              close
+          urls {
+            url {
+              ...Url
             }
           }
-          address {
-            longLabel
-            buildingLabel
-            county {
+          individual {
+            id
+            firstName
+            lastName
+            middleName
+            professionalType {
               label
             }
-            postalCode
-            city {
+            specialties {
+              code
               label
             }
-            country
-            location {
-              lat
-              lon
+            meshTerms
+            kvTerms
+            chTerms
+            uci {
+              rpps
+              adeli
+            }
+            reviewsAvailable
+            diseasesAvailable
+          }
+          workplace {
+            id
+            openHours {
+              day
+              openPeriods {
+                open
+                close
+              }
+            }
+            address {
+              longLabel
+              buildingLabel
+              county {
+                label
+              }
+              postalCode
+              city {
+                label
+              }
+              country
+              location {
+                lat
+                lon
+              }
             }
           }
         }
@@ -99,6 +97,6 @@ const QUERY_ACTIVITIES = gql`
   ${FRAGMENT_URL}
 `;
 
-export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
+export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesQuery> {
   return graphqlClient(QUERY_ACTIVITIES, variables, config);
 }
