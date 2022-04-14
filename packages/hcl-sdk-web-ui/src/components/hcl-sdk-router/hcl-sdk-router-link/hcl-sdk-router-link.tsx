@@ -18,11 +18,11 @@ export class HclSDKRouterLink {
   @Prop() anchorTitle?: string;
   @Prop() anchorTabIndex?: string;
   @Prop() anchorId?: string;
+  @Prop() anchorAriaLabel?: string;
 
   @Prop() ariaHaspopup?: string;
   @Prop() ariaPosinset?: string;
   @Prop() ariaSetsize?: number;
-  @Prop() ariaLabel?: string;
 
 
   @Listen('click', { capture: true })
@@ -56,7 +56,7 @@ export class HclSDKRouterLink {
         id: this.anchorId,
         'aria-posinset': this.ariaPosinset,
         'aria-setsize': this.ariaSetsize,
-        'aria-label': this.ariaLabel
+        'aria-label': this.anchorAriaLabel
        }
     }
     return (
