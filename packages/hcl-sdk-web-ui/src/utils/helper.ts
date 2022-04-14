@@ -163,12 +163,16 @@ export function fallbackShareHCPDetail(individualDetail, config) {
   link.click();
 }
 
-type IndividualName = SuggestionsQuery['suggestions']['edges'][number]['node']['individual'] | ActivitiesQuery['activities']['edges'][number]['node']['individual'];
-
-export function getHcpFullname(individual: IndividualName) {
+export function getHcpFullname(individual: ActivitiesQuery['activities']['edges'][number]['node']['individual']) {
   const { firstName, lastName, middleName } = individual;
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');
+}
+
+export function getSuggestionIndividualName(individual: SuggestionsQuery['suggestions']['edges'][number]['node']['individual']) {
+  const { firstName, lastName } = individual;
+
+  return [firstName, lastName].filter(s => !!s).join(' ');
 }
 
 export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {

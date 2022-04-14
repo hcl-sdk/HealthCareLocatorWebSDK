@@ -13,6 +13,7 @@ import {
   getHcpFullname,
   getMergeMainAndOtherActivities,
   getSpecialties,
+  getSuggestionIndividualName,
   getUrl,
   handleMapActivities
 } from '../../utils/helper';
@@ -273,8 +274,8 @@ export async function searchDoctor({ criteria }: Partial<QuerySuggestionsArgs>) 
         const postalCode = activity?.workplace?.address?.postalCode;
 
         return {
-          name: getHcpFullname(item?.node?.individual),
-          specialties: item?.node?.specialty?.label,
+          name: getSuggestionIndividualName(item?.node?.individual),
+          specialty: item?.node?.specialty?.label,
           address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
           id: activity.id,
           activity: activity,
