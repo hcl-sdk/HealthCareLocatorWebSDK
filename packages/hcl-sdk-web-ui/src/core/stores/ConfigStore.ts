@@ -100,8 +100,16 @@ class ConfigStore extends StoreProvider<HclSDKConfigData> {
       return countryFilterSelected
     }
 
+    if (countriesSubscriptionKey.includes('UK') && countryGeoFormated === 'GB') {
+      return 'UK'
+    }
+
+    if (countriesSubscriptionKey.includes('BK') && countryGeoFormated === 'HR') {
+      return 'BK'
+    }
+
     if (countriesSubscriptionKey.includes(countryGeoFormated)) {
-      return countryGeo.toUpperCase() as CountryCode
+      return countryGeoFormated
     }
 
     return countriesSubscriptionKey[0]
