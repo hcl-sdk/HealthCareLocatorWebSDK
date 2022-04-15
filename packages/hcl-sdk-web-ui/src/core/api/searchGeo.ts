@@ -10,7 +10,18 @@ export async function searchGeoMap({ id }) {
   });
   const provider = getProvider(configStore.state.map.provider);
 
-  const countrycodes = [ configStore.countryGraphqlQuery.toLowerCase() ]
+  const geoCountry = configStore.countryGraphqlQuery
+  let countryCode = geoCountry.toLowerCase()
+
+  if (geoCountry === 'UK') {
+    countryCode = 'gb'
+  }
+
+  if (geoCountry === 'BK') {
+    countryCode = 'hr'
+  }
+
+  const countrycodes = [ countryCode ]
 
   const results = await provider.searchGeoMap({
     address: id,
