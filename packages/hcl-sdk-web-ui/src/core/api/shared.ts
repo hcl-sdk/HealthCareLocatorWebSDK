@@ -68,32 +68,35 @@ export async function getLocationForSuggest() {
     return;
   }
 
-  const locationFilter = searchMapStore.state.locationFilter;
-  const distanceMeter = convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit) || 20000;
-
   if (searchMapStore.state.locationFilter.id === NEAR_ME) {
     return {
       lat: Number(searchMapStore.state.geoLocation.latitude),
       lon: Number(searchMapStore.state.geoLocation.longitude),
-      distanceMeter,
+      distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit) || 20000
     };
   }
+
+  const locationFilter = searchMapStore.state.locationFilter;
+  let addressDetails = locationFilter.addressDetails;
+  let boundingbox = locationFilter.boundingbox;
 
   // locatioFilter has place_id mean it using Google Map
   if (locationFilter.place_id) {
     const placeDetail = await getGooglePlaceDetails(locationFilter.place_id);
+    addressDetails = placeDetail.addressDetails;
+    boundingbox = placeDetail.boundingbox;
 
     return {
       lat: Number(placeDetail.lat),
       lon: Number(placeDetail.lng),
-      distanceMeter,
+      distanceMeter: getDistanceMeterByAddrDetails(addressDetails, boundingbox).distanceMeter
     };
   }
 
   return {
     lat: Number(searchMapStore.state.locationFilter.lat),
     lon: Number(searchMapStore.state.locationFilter.lng),
-    distanceMeter,
+    distanceMeter: getDistanceMeterByAddrDetails(addressDetails, boundingbox).distanceMeter
   };
 }
 
