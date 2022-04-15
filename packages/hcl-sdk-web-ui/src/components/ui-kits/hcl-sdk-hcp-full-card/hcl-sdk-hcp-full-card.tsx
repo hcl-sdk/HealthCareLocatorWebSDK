@@ -647,7 +647,7 @@ export class HclSdkHCPFullCard {
                           {
                             <ul class="medical-subjects">
                               <li class="patient-reviews__wrap">
-                                <div class="patient-reviews__title">{t('patient_reviews', { count: reviewResult.reviews.length })}</div>
+                                {reviewResult.reviews.length > 0 ? <div class="patient-reviews__title">{t('patient_reviews', { count: reviewResult.reviews.length })}</div> : null}
                                 {/* Reviews Item */}
                                 {
                                   reviewResult.reviews.map(item => (
