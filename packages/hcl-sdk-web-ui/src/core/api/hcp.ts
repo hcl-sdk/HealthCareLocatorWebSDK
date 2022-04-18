@@ -265,6 +265,7 @@ export async function searchDoctor({ criteria }: Partial<QuerySuggestionsArgs>) 
     suggestions: { edges },
   }: SuggestionsQuery = await graphql.suggest(variables, configStore.configGraphql).catch(_ => ({ suggestions: { edges: [] } }));
 
+  const currentSpecialtyFitler = variables.specialties && variables.specialties[0]
   const individualsData = edges
     ? edges.map(item => {
         const activity = item.node?.individual?.activity
@@ -273,9 +274,15 @@ export async function searchDoctor({ criteria }: Partial<QuerySuggestionsArgs>) 
         const city = activity?.workplace?.address?.city?.label;
         const postalCode = activity?.workplace?.address?.postalCode;
 
+        const specialties = item?.node?.individual.specialties;
+        const defaultDisplaySpecialty = specialties[0]?.label;
+        const prioritizedDisplaySpecialty = specialties.filter(
+          specialty => !currentSpecialtyFitler || specialty.code === currentSpecialtyFitler,
+        )[0]?.label;
+
         return {
           name: getSuggestionIndividualName(item?.node?.individual),
-          specialty: item?.node?.specialty?.label,
+          specialty: prioritizedDisplaySpecialty || defaultDisplaySpecialty,
           address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
           id: activity.id,
           activity: activity,
