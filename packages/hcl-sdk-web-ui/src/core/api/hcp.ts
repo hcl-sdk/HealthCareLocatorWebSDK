@@ -101,7 +101,7 @@ export async function genSearchLocationParams({
     criterias.push({ text: searchFields.medicalTerm, scope: ActivityCriteriaScope.IndividualMedTerms });
   }
   if (isFreeTextSpecialty) {
-    params.criteria = searchFields.specialtyName;
+    criterias.push({ text: searchFields.specialtyName, scope: ActivityCriteriaScope.IndividualSpecialties });
   }
   if (criterias.length) {
     params.criterias = criterias;
