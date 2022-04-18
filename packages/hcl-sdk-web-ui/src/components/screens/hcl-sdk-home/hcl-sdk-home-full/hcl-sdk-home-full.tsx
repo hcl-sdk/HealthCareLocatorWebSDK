@@ -1,5 +1,5 @@
 import { Component, h, Host, State, Listen } from '@stencil/core';
-import { historyStore, routerStore, searchMapStore, i18nStore, configStore, featureStore } from '../../../../core/stores';
+import { historyStore, routerStore, searchMapStore, i18nStore, configStore } from '../../../../core/stores';
 import { t } from '../../../../utils/i18n';
 import { HISTORY_ITEMS_TO_DISPLAY, HISTORY_MAX_TOTAL_ITEMS, NEAR_ME_ITEM } from '../../../../core/constants';
 import { HistoryHcoItem, HistoryHcpItem, HistorySearchItem } from '../../../../core/stores/HistoryStore';
@@ -234,7 +234,7 @@ export class HclSdkHomeFull {
         {!!lastConsultedItems?.length && (
           <div class="card">
             <div class="card__title-wrapper">
-              <h3 class="card__title">{featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch ? 'Last HCO/HCPs consulted' : t('last_hcps_consulted')}</h3>
+              <h3 class="card__title">{configStore.state.enableHcoSearch ? 'Last HCO/HCPs consulted' : t('last_hcps_consulted')}</h3>
               {this.renderViewMore(lastConsultedItems, 'showMoreHcpItems')}
             </div>
             <div class="card__content-wrapper">{this.renderHistory()}</div>

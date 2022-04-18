@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import cn from 'classnames';
+import { featureStore } from '../../../core/stores';
 import { getCssColor } from '../../../utils/helper';
 
 @Component({
@@ -30,10 +31,10 @@ export class HclSdkDoctorCard {
       <Host>
         <div class={doctorClass}>
           <div class="doctor-card-content">
-            {/* TODO: Mapatho feature */}
             <div class="header">
-              <span class="text name">{this.name}&nbsp;&nbsp; { isShowLogo && <img src="https://www.mapatho.com/favicon.ico" alt="" /> }</span>
-              {/* TODO: Appointment link feature */}
+              <span class="text name">
+                {this.name}&nbsp;&nbsp; {featureStore.isPatientRecommendationEnabled && isShowLogo && <img src="https://www.mapatho.com/favicon.ico" alt="" />}
+              </span>
               {this.url && (
                 <a
                   href={this.url}
