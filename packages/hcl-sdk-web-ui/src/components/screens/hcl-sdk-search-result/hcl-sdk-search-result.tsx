@@ -264,7 +264,7 @@ export class HclSdkSearchResult {
     const isShowRecommend = specialtiesRecommended.length > 0;
     const countRecommendStr = specialtiesRecommended.length < 10 ? `0${specialtiesRecommended.length}` : specialtiesRecommended.length;
     const className = cls('search-toolbar', {
-      'hco-search': featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch,
+      'hco-search': configStore.state.enableHcoSearch,
       'header-block': isSmall,
       'search-toolbar--with-recommend': isShowRecommend,
     });
@@ -281,8 +281,7 @@ export class HclSdkSearchResult {
             </hcl-sdk-button>
           </div>
           {(isListView && !isSmall || searchMapStore.searchTarget === SEARCH_TARGET.HCO) && (
-            <div class={cls('search-result-summary', {
-              'hco-search': featureStore.isHcoSearchEnabled,
+            <div class={cls('search-result-summary hco-search', {
               'search-result-summary--list-view': isListView,
               'search-result-summary--no-border-top': searchMapStore.searchTarget === SEARCH_TARGET.HCO
             })}>
@@ -290,8 +289,7 @@ export class HclSdkSearchResult {
                 <strong class="search-result__total">{t('total_results')}: </strong>
                 <strong class="search-result__total-value text-bold">{totalResults}</strong>
               </div>
-              {/* TODO: Mapatho feature */}
-              {isShowRecommend && !isSmall && (
+              {featureStore.isPatientRecommendationEnabled && isShowRecommend && !isSmall && (
                 <div class="search-recommend__wrapper">
                   <img class="search-recommend__img" src="https://www.mapatho.com/favicon.ico" alt="" />
                   <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
@@ -319,8 +317,7 @@ export class HclSdkSearchResult {
               <strong class="search-result__total">{t('total_results')}: </strong>
               <strong class="search-result__total-value text-bold">{totalResults}</strong>
             </div>
-            {/* TODO: Mapatho feature */}
-            {isShowRecommend && !isSmall && (
+            {featureStore.isPatientRecommendationEnabled && isShowRecommend && !isSmall && (
               <div class="search-recommend__wrapper">
                 <strong class="search-result__total">Patient's&nbsp;Recommendation:&nbsp;</strong>
                 <strong class="search-recommend__total-value text-bold">{countRecommendStr}</strong>
@@ -437,7 +434,6 @@ export class HclSdkSearchResult {
                       showDistance={elm.distanceNumber > 0}
                     />
                   ))}
-                {/* TODO: Appointment link feature */}
                 <div class={'search-result__footnote'}>
                   <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder />
                   {t('appointment_available')}
@@ -551,7 +547,6 @@ export class HclSdkSearchResult {
                       showDistance={elm.distanceNumber > 0}
                     />
                   ))}
-                {/* TODO: Appointment link feature */}
                 <div class={'search-result__footnote'}>
                   <hcl-sdk-button round icon="calendar-clock-outline" noBackground noBorder />
                   {t('appointment_available')}

@@ -1,7 +1,7 @@
 import { Component, Host, h, State, Listen, Prop, Element, Watch } from '@stencil/core';
 import { getFullCardDetail, searchDoctor, searchLocationWithParams, handleSearchMedicalTerms, handleSearchSpecialty } from '../../../core/api/hcp';
 import * as HCOApis from '../../../core/api/hco';
-import { searchMapStore, routerStore, uiStore, historyStore, configStore, featureStore } from '../../../core/stores';
+import { searchMapStore, routerStore, uiStore, historyStore, configStore } from '../../../core/stores';
 import debounce from 'lodash.debounce';
 import { searchGeoMap } from '../../../core/api/searchGeo';
 import { COUNTRIES_LABELS, NEAR_ME, NEAR_ME_ITEM } from '../../../core/constants';
@@ -285,7 +285,7 @@ export class HclSdkSearch {
   }
 
   onChange = debounce(async (name: SearchInputName, value: string) => {
-    const searchTarget = featureStore.isHcoSearchEnabled ? this.searchTarget : undefined;
+    const searchTarget = this.searchTarget;
 
     // TODO: suggest for HCO
     if (name !== 'address' && searchTarget === SEARCH_TARGET.HCO) {
@@ -598,7 +598,7 @@ export class HclSdkSearch {
   renderSearchTargetTabs() {
     const isShowFakeInput = this.isSearchResult && !this.isShowModifying;
 
-    return (!featureStore.isHcoSearchEnabled || !configStore.state.enableHcoSearch) ? null : (
+    return !configStore.state.enableHcoSearch ? null : (
       <div class={cls('hclsdk-tabs', isShowFakeInput && 'hidden')}>
         <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
           <hcl-sdk-icon name="back" width={25} height={25} />
@@ -651,13 +651,13 @@ export class HclSdkSearch {
         <div class={classesSdkSearch}>
           <div
             class={cls('hclsdk-search px-1 py-5', !isShowFakeInput && 'justify-center', {
-              'hco-search': featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch,
+              'hco-search': configStore.state.enableHcoSearch,
             })}
           >
             <div class={cls('hclsdk-search__container', isShowFakeInput && 'w-full', !isShowFakeInput && 'hclsdk-search__container--not-modifying')}>
               {this.renderSearchTargetTabs()}
               <div class={'flex items-center w-full'}>
-                {featureStore.isHcoSearchEnabled && configStore.state.enableHcoSearch ? null : (
+                {configStore.state.enableHcoSearch ? null : (
                   <hcl-sdk-router-link url="/" class="hclsdk-btn-search-back">
                     <hcl-sdk-icon name="back" width={25} height={25} />
                   </hcl-sdk-router-link>

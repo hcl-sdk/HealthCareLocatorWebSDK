@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Fragment, h, Host, Listen, State } from
 import cls from 'classnames';
 import { getFullCardDetail } from '../../../core/api/hco';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
-import { configStore, i18nStore, searchMapStore, uiStore } from '../../../core/stores';
+import { configStore, featureStore, i18nStore, searchMapStore, uiStore } from '../../../core/stores';
 import { getCssColor, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
@@ -336,7 +336,7 @@ export class HclSdkHCOFullCard {
                         <div class="hco-individual-item__content">
                           <div class="flex items-center gap-2 mb-1">
                             <span class="hco-individual-item__title">{individual.name?.toLowerCase()}</span>
-                            {individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
+                            {featureStore.isPatientRecommendationEnabled && individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
                             {individual.url && (
                               <a href={individual.url} target="_blank">
                                 <hcl-sdk-icon width={20} height={20} name="calendar-clock-outline" color={getCssColor('--hcl-color-secondary')} />
@@ -404,7 +404,7 @@ export class HclSdkHCOFullCard {
                           <div class="hco-individual-item__content">
                             <div class="flex items-center gap-2 mb-1">
                               <span class="hco-individual-item__title">{individual.name}</span>
-                              {individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
+                              {featureStore.isPatientRecommendationEnabled && individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
                               {individual.url && (
                                 <a href={individual.url} target="_blank">
                                   <hcl-sdk-icon width={20} height={20} name="calendar-clock-outline" color={getCssColor('--hcl-color-secondary')} />

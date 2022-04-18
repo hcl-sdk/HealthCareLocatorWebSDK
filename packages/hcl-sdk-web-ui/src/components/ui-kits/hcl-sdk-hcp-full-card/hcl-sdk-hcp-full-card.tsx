@@ -1,6 +1,6 @@
 import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil/core';
 import cls from 'classnames';
-import { uiStore, searchMapStore, configStore, i18nStore } from '../../../core/stores';
+import { uiStore, searchMapStore, configStore, i18nStore, featureStore } from '../../../core/stores';
 import { getFullCardDetail } from '../../../core/api/hcp';
 import { getCssColor, getPrimaryAddressIndividual, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
@@ -629,9 +629,8 @@ export class HclSdkHCPFullCard {
                     )
                   }
 
-                  {/* TODO: Mapatho feature */}
                   {
-                    isShowRecommendation && (
+                    featureStore.isPatientRecommendationEnabled && isShowRecommendation && (
                       <div class="info-section">
                         <div class="info-section-header">
                           <span class="info-section-header__title">{t('patients_recommendations')}&nbsp;&nbsp;<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
