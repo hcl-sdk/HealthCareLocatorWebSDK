@@ -24,6 +24,15 @@ import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SortVa
 import { getGooglePlaceDetails } from './searchGeo';
 import { countryCodeForSuggest, getDistanceMeterByAddrDetails, getLocationForSuggest, shouldSortFromServer } from './shared';
 
+function notHaveGeoLocationZero(item: { node?: { workplace?: { address?: { location?: { lat; lon } } } } }) {
+  const location = item?.node?.workplace?.address?.location;
+  return !(location?.lat === 0 && location?.lon === 0);
+}
+
+function notActivityNull(item: { node?: { individual?: { activity?: any } } }) {
+  return Boolean(item.node?.individual?.activity);
+}
+
 export async function genSearchLocationParams({
   forceNearMe = false,
   locationFilter,
@@ -196,7 +205,9 @@ async function fetchActivities(variables) {
     searchMapStore.saveCached(storeKey, resActivities);
   }
 
-  const data = (activities?.activities?.edges || []).map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
+  const data = (activities?.activities?.edges || [])
+    .filter(item => notHaveGeoLocationZero(item))
+    .map(activity => handleMapActivities(activity, variables.specialties && variables.specialties[0]));
 
   return data;
 }
@@ -267,27 +278,29 @@ export async function searchDoctor({ criteria }: Partial<QuerySuggestionsArgs>) 
 
   const currentSpecialtyFitler = variables.specialties && variables.specialties[0]
   const individualsData = edges
-    ? edges.map(item => {
-        const activity = item.node?.individual?.activity
+    ? edges
+        .filter(item => notActivityNull(item))
+        .map(item => {
+          const activity = item.node?.individual?.activity
 
-        const longLabel = activity?.workplace?.address?.longLabel;
-        const city = activity?.workplace?.address?.city?.label;
-        const postalCode = activity?.workplace?.address?.postalCode;
+          const longLabel = activity?.workplace?.address?.longLabel;
+          const city = activity?.workplace?.address?.city?.label;
+          const postalCode = activity?.workplace?.address?.postalCode;
 
-        const specialties = item?.node?.individual.specialties;
-        const defaultDisplaySpecialty = specialties[0]?.label;
-        const prioritizedDisplaySpecialty = specialties.filter(
-          specialty => !currentSpecialtyFitler || specialty.code === currentSpecialtyFitler,
-        )[0]?.label;
+          const specialties = item?.node?.individual.specialties;
+          const defaultDisplaySpecialty = specialties[0]?.label;
+          const prioritizedDisplaySpecialty = specialties.filter(
+            specialty => !currentSpecialtyFitler || specialty.code === currentSpecialtyFitler,
+          )[0]?.label;
 
-        return {
-          name: getSuggestionIndividualName(item?.node?.individual),
-          specialty: prioritizedDisplaySpecialty || defaultDisplaySpecialty,
-          address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
-          id: activity.id,
-          activity: activity,
-        };
-      })
+          return {
+            name: getSuggestionIndividualName(item?.node?.individual),
+            specialty: prioritizedDisplaySpecialty || defaultDisplaySpecialty,
+            address: [longLabel, postalCode && city ? `${postalCode} ${city}` : ''].join(', '),
+            id: activity.id,
+            activity: activity,
+          };
+        })
     : [];
 
   searchMapStore.setState({ loading: false, searchDoctor: individualsData });
