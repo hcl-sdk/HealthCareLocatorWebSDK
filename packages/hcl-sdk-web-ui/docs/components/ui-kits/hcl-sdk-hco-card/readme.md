@@ -7,15 +7,15 @@
 
 ## Properties
 
-| Property       | Attribute       | Description | Type      | Default                              |
-| -------------- | --------------- | ----------- | --------- | ------------------------------------ |
-| `address`      | `address`       |             | `string`  | `'2 Rue Ambroise Paré, 75010 Paris'` |
-| `distance`     | `distance`      |             | `string`  | `'82m'`                              |
-| `name`         | `name`          |             | `string`  | `undefined`                          |
-| `selected`     | `selected`      |             | `boolean` | `undefined`                          |
-| `showDistance` | `show-distance` |             | `boolean` | `true`                               |
-| `type`         | `type`          |             | `string`  | `'Hospital'`                         |
-| `viewMode`     | `view-mode`     |             | `string`  | `undefined`                          |
+| Property       | Attribute       | Description | Type      | Default     |
+| -------------- | --------------- | ----------- | --------- | ----------- |
+| `address`      | `address`       |             | `string`  | `undefined` |
+| `distance`     | `distance`      |             | `string`  | `undefined` |
+| `name`         | `name`          |             | `string`  | `undefined` |
+| `selected`     | `selected`      |             | `boolean` | `undefined` |
+| `showDistance` | `show-distance` |             | `boolean` | `undefined` |
+| `type`         | `type`          |             | `string`  | `undefined` |
+| `viewMode`     | `view-mode`     |             | `string`  | `undefined` |
 
 
 ## Dependencies

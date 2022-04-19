@@ -23,9 +23,9 @@ graph TD;
   hcl-sdk-home --> hcl-sdk-home-full
   hcl-sdk-search --> hcl-sdk-autocomplete-result
   hcl-sdk-search --> hcl-sdk-search-countries
-  hcl-sdk-search --> hcl-sdk-button
-  hcl-sdk-search --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-router-link
+  hcl-sdk-search --> hcl-sdk-icon
+  hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search --> hcl-sdk-input
   hcl-sdk-search --> hcl-sdk-icon-flag
   hcl-sdk-search --> hcl-sdk-switch-view-mode
