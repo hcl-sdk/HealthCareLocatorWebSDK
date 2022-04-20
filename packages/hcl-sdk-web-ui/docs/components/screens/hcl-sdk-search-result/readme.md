@@ -15,9 +15,9 @@
 - [hcl-sdk-search-no-results](../../ui-kits/hcl-sdk-search-no-results)
 - [hcl-sdk-search-no-data-available](../../ui-kits/hcl-sdk-search-no-data-available)
 - [hcl-sdk-hco-full-card](../../ui-kits/hcl-sdk-hco-full-card)
+- [hcl-sdk-hcp-full-card](../../ui-kits/hcl-sdk-hcp-full-card)
 - [hcl-sdk-hco-card](../../ui-kits/hcl-sdk-hco-card)
 - [hcl-sdk-map](../../ui-kits/hcl-sdk-map)
-- [hcl-sdk-hcp-full-card](../../ui-kits/hcl-sdk-hcp-full-card)
 - [hcl-sdk-doctor-card](../../ui-kits/hcl-sdk-doctor-card)
 - [hcl-sdk-search](../hcl-sdk-search)
 
@@ -30,9 +30,9 @@ graph TD;
   hcl-sdk-search-result --> hcl-sdk-search-no-results
   hcl-sdk-search-result --> hcl-sdk-search-no-data-available
   hcl-sdk-search-result --> hcl-sdk-hco-full-card
+  hcl-sdk-search-result --> hcl-sdk-hcp-full-card
   hcl-sdk-search-result --> hcl-sdk-hco-card
   hcl-sdk-search-result --> hcl-sdk-map
-  hcl-sdk-search-result --> hcl-sdk-hcp-full-card
   hcl-sdk-search-result --> hcl-sdk-doctor-card
   hcl-sdk-search-result --> hcl-sdk-search
   hcl-sdk-button --> hcl-sdk-icon
@@ -47,20 +47,20 @@ graph TD;
   hcl-sdk-hco-full-card --> hcl-sdk-select
   hcl-sdk-map --> hcl-sdk-icon
   hcl-sdk-select --> hcl-sdk-icon
-  hcl-sdk-hco-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-button
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-hcp-full-card --> hcl-sdk-select
   hcl-sdk-hcp-full-card --> hcl-sdk-icon-clock-outline
   hcl-sdk-hcp-full-card --> hcl-sdk-icon-arrow_down
+  hcl-sdk-hco-card --> hcl-sdk-icon
   hcl-sdk-doctor-card --> hcl-sdk-button
   hcl-sdk-doctor-card --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-autocomplete-result
   hcl-sdk-search --> hcl-sdk-search-countries
-  hcl-sdk-search --> hcl-sdk-button
-  hcl-sdk-search --> hcl-sdk-icon
   hcl-sdk-search --> hcl-sdk-router-link
+  hcl-sdk-search --> hcl-sdk-icon
+  hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search --> hcl-sdk-input
   hcl-sdk-search --> hcl-sdk-icon-flag
   hcl-sdk-search --> hcl-sdk-switch-view-mode
