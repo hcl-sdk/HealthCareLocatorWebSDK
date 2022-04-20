@@ -77,7 +77,7 @@ export const initStateConfigStore: HclSDKConfigData = {
   countryFilterSelected: '',
 
   // hco search config
-  enableHcoSearch: false,
+  enableHcoSearch: true,
   // uci
   enableUci: true
 };
