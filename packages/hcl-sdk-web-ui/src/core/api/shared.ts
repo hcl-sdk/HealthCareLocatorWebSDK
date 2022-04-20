@@ -43,7 +43,7 @@ export function getDistanceMeterByAddrDetails(addressDetails: Record<string, str
     // City
     const { point } = groupPointFromBoundingBox(boundingbox);
 
-    const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1);
+    const maxDistanceMeter = getDistance(point.topLeft, point.bottomRight, 1) / 2;
     return {
       distanceMeter: maxDistanceMeter,
     };
