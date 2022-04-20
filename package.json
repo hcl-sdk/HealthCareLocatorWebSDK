@@ -1,6 +1,5 @@
 {
   "name": "hcl-sdk",
-  "version": "1.2.11",
   "description": "",
   "private": true,
   "workspaces": [
