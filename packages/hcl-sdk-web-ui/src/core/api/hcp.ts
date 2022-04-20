@@ -18,7 +18,7 @@ import {
   handleMapActivities
 } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
-import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
+import { configStore, featureStore, historyStore, i18nStore, searchMapStore } from '../stores';
 import { createHCPHistoryItem } from '../stores/HistoryStore';
 import { IndividualDetail, SearchFields, SearchSpecialty, SearchTermItem, SortValue, SpecialtyItem } from '../stores/SearchMapStore';
 import { getGooglePlaceDetails } from './searchGeo';
@@ -425,7 +425,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
   // Fetch to get reviews
   let idnat: string;
 
-  if (data.diseasesAvailable || data.reviewsAvailable) {
+  if (featureStore.isPatientRecommendationEnabled && (data.diseasesAvailable || data.reviewsAvailable)) {
     if (data.uciRpps) {
       idnat = '8' + data.uciRpps;
     } else if (data.uciAdeli) {
