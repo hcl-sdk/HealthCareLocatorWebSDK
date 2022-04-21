@@ -26,7 +26,7 @@ function updateAngularDependency {
   cd "$root_path"/packages/hcl-sdk-web-ui-angular/projects/hcl-sdk
   PKG_VERSION=$(grep '"version"' package.json | cut -d '"' -f 4 | head -n 1)
   sed -i.bak -E 's@\"version\" *\: *\"[0-9]+\.[0-9]+\.[0-9]+\" *, *@\"version\": \"'"$PKG_VERSION"-next'\",@' package.json && rm -rf package.json.bak
-  sed -i.bak -E 's@\"\@healthcarelocator\/sdk-web\" *\: *\"[0-9]+\.[0-9]+\.[0-9]+\" *, *@\"\@healthcarelocator\/sdk-web\": \"'"$1"'\",@' package.json && rm -rf package.json.bak
+  sed -i.bak -E 's@\"\@healthcarelocator\/sdk-web\" *\: *\"(\^|\~)?[0-9]+\.[0-9]+\.[0-9]+\" *, *@\"\@healthcarelocator\/sdk-web\": \"'"$1"'\",@' package.json && rm -rf package.json.bak
 }
 
 function startLocalRegistry {
