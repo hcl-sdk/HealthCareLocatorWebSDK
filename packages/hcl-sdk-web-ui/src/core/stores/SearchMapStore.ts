@@ -106,6 +106,7 @@ export type IndividualDetail = {
   activitiesList: any[]
   uciAdeli?: string
   uciRpps?: string
+  uciGln?: string
   reviewsAvailable?: boolean
   diseasesAvailable?: boolean
   reviews?: {

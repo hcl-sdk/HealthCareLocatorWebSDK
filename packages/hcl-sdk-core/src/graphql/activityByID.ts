@@ -103,6 +103,7 @@ const QUERY_ACTIVITY_BY_ID = gql`
         uci {
           rpps
           adeli
+          gln
         }
         reviewsAvailable
         diseasesAvailable

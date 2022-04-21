@@ -415,6 +415,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     activitiesList: getMergeMainAndOtherActivities(activity.individual.mainActivity, activity.individual.otherActivities),
     uciRpps: activity.individual.uci?.rpps,
     uciAdeli: activity.individual.uci?.adeli,
+    uciGln: activity.individual.uci?.gln,
     reviewsAvailable: activity.individual.reviewsAvailable,
     diseasesAvailable: activity.individual.diseasesAvailable,
     reviews: undefined,

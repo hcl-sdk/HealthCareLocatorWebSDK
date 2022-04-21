@@ -536,13 +536,13 @@ export class HclSdkHCPFullCard {
                   </div>
                   {/* Block */}
                   {
-                    (configStore.state.enableUci && (individualDetail.uciRpps || individualDetail.uciAdeli)) && (
+                    (configStore.state.enableUci && (individualDetail.uciRpps || individualDetail.uciAdeli || individualDetail.uciGln)) && (
                       <div class="info-section">
                         <div class="info-section-header">
                           <span class="info-section-header__title">{t('unique_country_identifier')}</span>
                         </div>
                         <div class="info-section-body">
-                          <span>{ individualDetail.uciRpps || individualDetail.uciAdeli }</span>
+                          <span>{ individualDetail.uciRpps || individualDetail.uciAdeli || individualDetail.uciGln }</span>
                         </div>
                       </div>
                     )
