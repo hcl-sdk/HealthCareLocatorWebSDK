@@ -216,6 +216,8 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
   searchMapStore.setState({
     individualDetail: null,
     loadingActivitiesStatus: hasLoading as any,
+    hcoDetail: null,
+    selectedHco: null
   });
 
   try {

@@ -153,7 +153,7 @@ async function fetchWorkplaces(variables) {
 
 export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
   searchMapStore.setHcosLoadingStatus(hasLoading as any);
-  searchMapStore.setState({ hcoDetail: null });
+  searchMapStore.setState({ hcoDetail: null, selectedHco: null, selectedActivity: null, individualDetail: null });
 
   try {
     const { sortValues } = searchMapStore.state;
