@@ -421,7 +421,7 @@ export class HclSdkSearchResult {
             {/* Show hco full card when have hco detail and no hcp detail */}
             {!isShowHCPDetail && isShowHCODetail ? <hcl-sdk-hco-full-card onBackFromFullCard={e => this.backFromHcpFullCardHandler(e)} /> : null}
             {/* Show hcp detail when have have hcp detail */}
-            {isShowHCPDetail ? <hcl-sdk-hcp-full-card onBackFromFullCard={e => this.backFromHcpFullCardHandler(e)} /> : null}
+            {isShowHCPDetail && isShowHCODetail ? <hcl-sdk-hcp-full-card onBackFromFullCard={e => this.backFromHcpFullCardHandler(e)} /> : null}
             {!isShowHCODetail && (
               <div class={searchDataClass} ref={el => (this.searchDataCardList = el as HTMLInputElement)}>
                 {!isLoadingHcos &&
