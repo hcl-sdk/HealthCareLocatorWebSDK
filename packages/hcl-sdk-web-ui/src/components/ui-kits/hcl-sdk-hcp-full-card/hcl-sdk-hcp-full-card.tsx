@@ -535,18 +535,29 @@ export class HclSdkHCPFullCard {
                     </div>
                   </div>
                   {/* Block */}
-                  {
-                    (configStore.state.enableUci && (individualDetail.uciRpps || individualDetail.uciAdeli || individualDetail.uciGln)) && (
+                  {configStore.state.enableUci &&
+                    (individualDetail.uciRpps ||
+                      individualDetail.uciAdeli ||
+                      individualDetail.uciGln ||
+                      individualDetail.uciNpi ||
+                      individualDetail.uciLanr ||
+                      individualDetail.uciZsr) && (
                       <div class="info-section">
                         <div class="info-section-header">
                           <span class="info-section-header__title">{t('unique_country_identifier')}</span>
                         </div>
                         <div class="info-section-body">
-                          <span>{ individualDetail.uciRpps || individualDetail.uciAdeli || individualDetail.uciGln }</span>
+                          <span>
+                            {individualDetail.uciRpps ||
+                              individualDetail.uciAdeli ||
+                              individualDetail.uciGln ||
+                              individualDetail.uciNpi ||
+                              individualDetail.uciLanr ||
+                              individualDetail.uciZsr}
+                          </span>
                         </div>
                       </div>
-                    )
-                  }
+                    )}
                   {
                     individualDetail.specialties.length > 0 &&
                     <div class="info-section">

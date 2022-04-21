@@ -107,6 +107,9 @@ export type IndividualDetail = {
   uciAdeli?: string
   uciRpps?: string
   uciGln?: string
+  uciNpi?: string
+  uciLanr?: string
+  uciZsr?: string
   reviewsAvailable?: boolean
   diseasesAvailable?: boolean
   reviews?: {
