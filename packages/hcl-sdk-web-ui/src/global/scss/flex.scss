@@ -1,0 +1,32 @@
+$directions: (
+  'col': column,
+  'row': row,
+);
+$axes: (
+  'justify': justify-content,
+  'items': align-items,
+  'self': align-self
+);
+$alignments: (
+  'center': center,
+  'start': flex-start,
+  'end': flex-end,
+);
+
+.flex {
+  display: flex;
+}
+
+@each $directionKey, $direction in $directions {
+  .flex-#{$directionKey} {
+    flex-direction: $direction;
+  }
+}
+
+@each $axisKey, $axis in $axes {
+  @each $alignmentKey, $alignment in $alignments {
+    .#{$axisKey}-#{$alignmentKey} {
+      #{$axis}: $alignment;
+    }
+  }
+}

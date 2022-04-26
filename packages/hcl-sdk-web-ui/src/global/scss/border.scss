@@ -1,0 +1,52 @@
+$values: 2, 3, 4, 5;
+
+$verticals: (
+  't': 'top',
+  'b': 'bottom',
+);
+
+$horizontals: (
+  'l': 'left',
+  'r': 'right',
+);
+
+@each $value in $values {
+  // default value without modifier is 4
+  @if $value == 4 {
+    .rounded {
+      border-radius: 4px;
+    }
+  } @else {
+    .rounded {
+      border-radius: $value * 1px;
+    }
+  }
+
+  @each $verticalKey, $vertical in $verticals {
+    @if $value == 4 {
+      .rounded-#{$verticalKey} {
+        @each $horizontalKey, $horizontal in $horizontals {
+          border-#{$vertical}-#{$horizontal}-radius: $value * 1px;
+        }
+      }
+
+      @each $horizontalKey, $horizontal in $horizontals {
+        .rounded-#{$verticalKey}#{$horizontalKey} {
+          border-#{$vertical}-#{$horizontal}-radius: $value * 1px;
+        }
+      }
+    } @else {
+      .rounded-#{$verticalKey}-#{$value} {
+        @each $horizontalKey, $horizontal in $horizontals {
+          border-#{$vertical}-#{$horizontal}-radius: $value * 1px;
+        }
+      }
+
+      @each $horizontalKey, $horizontal in $horizontals {
+        .rounded-#{$verticalKey}#{$horizontalKey}-#{$value} {
+          border-#{$vertical}-#{$horizontal}-radius: $value * 1px;
+        }
+      }
+    }
+  }
+}

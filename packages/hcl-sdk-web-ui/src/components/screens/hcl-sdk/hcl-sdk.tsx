@@ -9,7 +9,7 @@ import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
 import { BREAKPOINT_MAX_WIDTH, COUNTRIES_LABELS, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
-import { HTMLStencilElement } from '@stencil/core/internal';
+import { HTMLStencilElement, Watch } from '@stencil/core/internal';
 import { GEOLOC } from '../../../core/constants';
 import { graphql } from '../../../../../hcl-sdk-core';
 import { dateUtils } from '../../../utils/dateUtils';
@@ -36,6 +36,35 @@ export class HclSDK {
   @Prop() widget?: WidgetType
   @Prop() widgetProps?: WidgetProps
   @Prop() initScreen?: InitScreen
+  @Prop() currentPosition: {
+    lat: number;
+    lng: number;
+  }
+
+  @Watch('currentPosition')
+  userPositionChangeHandler(newProps) {
+    if (this.widget) return;
+    const { lat, lng } = newProps
+
+    getAddressFromGeo(lat, lng).then(res => {
+      if (res?.address?.country_code) {
+        configStore.setState({
+          countryGeo: res.address.country_code,
+        });
+
+        if (configStore && configStore.state.entry && configStore.state.entry.screenName === 'searchNearMe') {
+          const { specialtyCode, specialtyLabel } = configStore.state.entry;
+          if (!specialtyCode) {
+            console.error('missing specialtyCode for "near me" search');
+            return;
+          }
+          this.searchNearMe({ specialtyCode, specialtyLabel });
+        }
+      }
+    });
+
+    searchMapStore.setGeoLocation({ latitude: lat, longitude: lng });
+  }
 
   parentEl;
 
@@ -87,13 +116,26 @@ export class HclSDK {
     if (config.apiKey === undefined) {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
+
     if (config && config.entry && config.entry.screenName === 'searchNearMe') {
       this.loadInitScreenSearch() // Change the route to search immediately to avoid a flash screen
     }
 
     const mapConfig = this.getMapConfig(config);
     const initConfig = merge({}, defaults, config, { map: mapConfig });
-    this.loadCurrentPosition({ isShowcase, getCurrentPosition, disableCollectGeo: config.disableCollectGeo });
+
+    const premadeGetCurrentPosition = success => {
+      success({
+        latitude: this.currentPosition.lat,
+        longitude: this.currentPosition.lng
+      });
+    };
+
+    this.loadCurrentPosition({
+      isShowcase,
+      getCurrentPosition: this.currentPosition ? premadeGetCurrentPosition : getCurrentPosition,
+      disableCollectGeo: config.disableCollectGeo,
+    });
 
     configStore.setState(initConfig);
 
@@ -142,7 +184,9 @@ export class HclSDK {
         console.error('missing specialtyCode for "near me" search');
         return;
       }
-      this.searchNearMe({ specialtyCode, specialtyLabel });
+      setTimeout(() => {
+        this.searchNearMe({ specialtyCode, specialtyLabel });
+      }, 200)
     }
 
   }
@@ -159,7 +203,8 @@ export class HclSDK {
       }
     } else {
       return {
-        provider: MapProvider.OPEN_STREETMAP
+        provider: MapProvider.OPEN_STREETMAP,
+        enableLeafletAttribution: configInput.enableLeafletAttribution
       }
     }
   }
@@ -277,7 +322,11 @@ export class HclSDK {
         }
         const countries = (res.mySubscriptionKey.countries as CountryCode[])
           .filter((code, idx, array) => COUNTRIES_LABELS[code] && array.indexOf(code) === idx) 
+          .sort((codeA: CountryCode, codeB: CountryCode) => {
+            return COUNTRIES_LABELS[codeA].localeCompare(COUNTRIES_LABELS[codeB])
+          })
           // Remove code does not exist and duplicate element
+          //   and sort by country label
 
         configStore.setState({
           countriesSubscriptionKey: countries // ["FR", "US"]

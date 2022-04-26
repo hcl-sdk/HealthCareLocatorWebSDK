@@ -217,9 +217,12 @@ export class SettingsPanel {
       } else if (
         fieldName === 'showSuggestModification' || 
         fieldName === 'useGoogleMap' || 
+        fieldName === 'enableLeafletAttribution' || 
         fieldName === 'enableMedicalTerm' || 
         fieldName === 'enableMapDarkMode' ||
-        fieldName === 'disableCollectGeo'
+        fieldName === 'disableCollectGeo' ||
+        fieldName === 'enableHcoSearch' ||
+        fieldName === 'enableUci'
       ) {
         value = (evt.target as any).checked as boolean;
       } 
@@ -624,6 +627,13 @@ export class SettingsPanel {
             </div>
           </div>
           <div class="row">
+            <label>Leaflet attribution</label>
+            <div class="hcl-switch-btn">
+              <input name="enableLeafletAttribution" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableLeafletAttribution')} checked={this.fields.enableLeafletAttribution} />
+              <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row">
             <label>Use Google Map</label>
             <div class="hcl-switch-btn">
               <input name="useGoogleMap" type="checkbox" class="checkbox-switch" onChange={this.handleChange('useGoogleMap')} checked={this.fields.useGoogleMap} />
@@ -641,6 +651,20 @@ export class SettingsPanel {
             <div class="hcl-switch-btn">
               <input name="disableCollectGeo" type="checkbox" class="checkbox-switch" onChange={this.handleChange('disableCollectGeo')} checked={this.fields.disableCollectGeo} />
               <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row ">
+            <label>Enable HCO Search</label>
+            <div class="hcl-switch-btn">
+                <input name="enableHcoSearch" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableHcoSearch')} checked={this.fields.enableHcoSearch} />
+                <div class="hcl-switch-btn__slider"></div>
+            </div>
+          </div>
+          <div class="row ">
+            <label>Enable UCI</label>
+            <div class="hcl-switch-btn">
+                <input name="enableUci" type="checkbox" class="checkbox-switch" onChange={this.handleChange('enableUci')} checked={this.fields.enableUci} />
+                <div class="hcl-switch-btn__slider"></div>
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@
   "reset_button": "Réinitialiser",
   "main_information_label": "Informations générales",
   "rate_refunds_label": "Tarif et remboursements",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Identifiant unique du pays",
   "specialities_label": "Spécialités",
   "medical_publication_subject_heading": "Vedette-matière de la publication médicale",
   "information_label": "Information",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Partager ce profil de professionnel de la santé",
   "share_hcp_description": "Voici un professionnel de la santé que je recommande: ",
   "share_hcp_specialties": "Spécialités:",
-  "share_hcp_found_text": "Je l'ai trouvé sur {name}"
+  "share_hcp_found_text": "Je l'ai trouvé sur {name}",
+  "modify": "Modifier",
+  "patients_recommendations": "Recommandations à l’intention du patient",
+  "total_results": "Résultats totaux",
+  "appointment_available": "Rendez-vous disponible pour le profil de PSS",
+  "patient_reviews": "{count} Examens de patients",
+  "appointment_opens_soon": "Ouvert prochainement",
+  "appointment_monday": "Lundi",
+  "appointment_tuesday": "Mardi",
+  "appointment_wednesday": "Mercredi",
+  "appointment_thursday": "Jeudi",
+  "appointment_friday": "Vendredi",
+  "appointment_saturday": "Samedi",
+  "appointment_sunday": "Dimanche"
 }

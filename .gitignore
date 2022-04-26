@@ -33,3 +33,5 @@ examples/web/cdn/hcl-sdk-api
 packages/*/hcl-sdk-core
 packages/*/hcl-sdk-web-ui
 packages/*/hcl-sdk-web-devtools
+
+storage/

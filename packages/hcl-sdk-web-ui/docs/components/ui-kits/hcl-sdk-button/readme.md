@@ -32,6 +32,8 @@
 
 ### Used by
 
+ - [hcl-sdk-doctor-card](../hcl-sdk-doctor-card)
+ - [hcl-sdk-hco-full-card](../hcl-sdk-hco-full-card)
  - [hcl-sdk-hcp-full-card](../hcl-sdk-hcp-full-card)
  - [hcl-sdk-home](../../screens/hcl-sdk-home)
  - [hcl-sdk-home-full](../../screens/hcl-sdk-home/hcl-sdk-home-full)
@@ -51,6 +53,8 @@
 ```mermaid
 graph TD;
   hcl-sdk-button --> hcl-sdk-icon
+  hcl-sdk-doctor-card --> hcl-sdk-button
+  hcl-sdk-hco-full-card --> hcl-sdk-button
   hcl-sdk-hcp-full-card --> hcl-sdk-button
   hcl-sdk-home --> hcl-sdk-button
   hcl-sdk-home-full --> hcl-sdk-button

@@ -29,6 +29,7 @@
 | showSuggestModification   | boolean \| undefined |
 | enableDarkMode   | boolean \| undefined |
 | enableMapDarkMode   | boolean \| undefined |
+| enableLeafletAttribution   | boolean \| undefined |
 | disableCollectGeo   | boolean \| undefined |
 | useGoogleMap              | boolean \| undefined |
 | googleMapApiKey           | string \| undefined |
@@ -61,6 +62,13 @@ const config = {
     })
   } 
 }
+```
+- You can set user geolocation via `currentPosition` prop.
+You don't need to use `getCurrentPosition` if already provide `currentPosition`. `currentPosition` prop will override the one pass into `success` callback.
+```js
+const [currentPosition, setCurrentPosition] = useState({ lat: 40.6976701, lng: -74.259864 })
+
+<HclSdk config={demoConfig} currentPosition={currentPosition} />
 ```
 
 <br />

@@ -1,10 +1,6 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
-import { IndividualWorkPlaceDetails, QueryIndividualByIdArgs } from './types';
-
-interface IndividualsByIDResult {
-  individualByID: IndividualWorkPlaceDetails
-}
+import { IndividualByIdQuery, IndividualByIdQueryVariables } from './types';
 
 const QUERY_INDIVIDUAL_BY_ID = gql`
   query individualByID($id: ID!, $locale: String) {
@@ -88,6 +84,6 @@ const QUERY_INDIVIDUAL_BY_ID = gql`
   }
 `
 
-export default function individualsByID(variables: QueryIndividualByIdArgs, config?): Promise<IndividualsByIDResult> {
+export default function individualsByID(variables: IndividualByIdQueryVariables, config?): Promise<IndividualByIdQuery> {
   return graphqlClient(QUERY_INDIVIDUAL_BY_ID, variables, config)
 }

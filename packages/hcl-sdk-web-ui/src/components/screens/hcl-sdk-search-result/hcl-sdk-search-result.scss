@@ -90,6 +90,63 @@
       left: 0;
       right: 0;
     }
+
+    &__footnote {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+      margin-bottom: 16px;
+
+      svg {
+        fill: var(--hcl-color-secondary);
+      }
+    }
+  }
+
+  .search-result-summary {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    margin: 0 10px;
+    z-index: 10;
+    line-height: 1.5;
+    border-top: 1px solid var(--hcl-color-card_border);
+
+    &.hco-search {
+      padding: 8px 0;
+      margin-left: 8px;
+    }
+
+    &--list-view {
+      border-top: 0px;
+      flex-direction: row;
+      gap: 16px;
+    }
+
+    &--right-auto {
+      margin-right: auto;
+    }
+
+    &--no-border-top {
+      border-top: 0;
+    }
+  }
+
+  .search-recommend {
+    &__wrapper {
+      display: flex;
+      align-items: center;
+    }
+    &__img {
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      margin-left: auto;
+      margin-right: 0.5em;
+    }
+    &__total-value {
+      color: var(--hcl-color-recommend);
+    }
   }
 
   .search-section {
@@ -114,9 +171,33 @@
 
   .search-toolbar {
     display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    z-index: 10;
+    flex-direction: column;
+
+    &.hco-search {
+      padding: 8px;
+
+      > div {
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-bottom: 8px;
+        
+        &:last-child {
+          padding-bottom: 0px;
+        }
+      }
+
+      .search-toolbar__actions {
+        padding-top: 0;
+        gap: 8px;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      z-index: 10;
+    }
   }
 
   .search-map {
@@ -176,10 +257,20 @@
     }
   }
 
+  .switch-mode {
+    &--expand-right {
+      margin-left: auto;
+    }
+  }
+
   .search-filter-wrapper {
     border: 1px solid var(--hcl-color-card_border);
     padding: 3px;
     border-radius: 32px;
+
+    &--expand-right {
+      margin-left: auto !important;
+    }
   }
 
   .search-filter {
@@ -229,6 +320,14 @@
       padding: 10px;
       .search-filter-wrapper {
         margin-left: auto;
+      }
+
+      &.hco-search {
+        padding: 8px;
+
+        .search-filter-wrapper {
+          margin-left: 0;
+        }
       }
     }
 
@@ -314,6 +413,7 @@
         top: 0;
         width: auto;
         margin: 0;
+        z-index: 1;
       }
 
       .search-data {

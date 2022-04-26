@@ -37,7 +37,7 @@
   "reset_button": "Sıfırla",
   "main_information_label": "Temel Bilgiler",
   "rate_refunds_label": "Fiyatlandırma ve ücret iadeleri",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Benzersiz Ülke Tanımlayıcısı",
   "specialities_label": "Uzmanlık",
   "medical_publication_subject_heading": "Tıbbi Yayın konu başlığı",
   "information_label": "Bilgi",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Bu HCP'yi paylaş",
   "share_hcp_description": "Bu önerdiğim bir sağlık çalışanıdır:",
   "share_hcp_specialties": "Uzmanlık:",
-  "share_hcp_found_text": "Onu {name} üzerinde buldum"
+  "share_hcp_found_text": "Onu {name} üzerinde buldum",
+  "modify": "Düzenle",
+  "patients_recommendations": "Hastanın önerileri",
+  "total_results": "Toplam Sonuç",
+  "appointment_available": "HCP profili için mevcut randevu",
+  "patient_reviews": "{count} Hasta incelemeleri",
+  "appointment_opens_soon": "Yakında açılıyor",
+  "appointment_monday": "Pazartesi",
+  "appointment_tuesday": "Salı",
+  "appointment_wednesday": "Çarşamba",
+  "appointment_thursday": "Perşembe",
+  "appointment_friday": "Cuma",
+  "appointment_saturday": "Cumartesi",
+  "appointment_sunday": "Pazar"
 }

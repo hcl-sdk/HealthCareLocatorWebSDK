@@ -1,13 +1,23 @@
 import { gql } from 'graphql-request';
-import { graphqlClient } from './helpers'
-import { ActivityResult, QueryActivitiesArgs } from './types';
-
-interface ActivitiesResult {
-  activities: ActivityResult[];
-}
+import { graphqlClient } from './helpers';
+import { ActivitiesQuery, QueryActivitiesArgs } from './types';
+import { FRAGMENT_URL } from './fragmentUrl';
 
 const QUERY_ACTIVITIES = gql`
-  query activities($first: Int!, $offset: Int!, $specialties: [String!], $county: String, $country: String, $location: GeopointQuery, $criteria: String, $criterias: [ActivityCriteria], $medTerms: [String!], $criteriaScope: ActivityCriteriaScope, $locale: String) {
+  query activities(
+    $first: Int!
+    $offset: Int!
+    $specialties: [String!]
+    $county: String
+    $country: String
+    $location: GeopointQuery
+    $criteria: String
+    $criterias: [ActivityCriteria]
+    $medTerms: [String!]
+    $criteriaScope: ActivityCriteriaScope
+    $sorts: [ActivitySortScope]
+    $locale: String
+  ) {
     activities(
       first: $first
       offset: $offset
@@ -19,54 +29,74 @@ const QUERY_ACTIVITIES = gql`
       criterias: $criterias
       criteriaScope: $criteriaScope
       medTerms: $medTerms
+      sorts: $sorts
       locale: $locale
     ) {
-      distance
-      relevance
-      activity {
-        id
-        individual {
+      edges {
+        distance
+        relevance
+        node {
           id
-          firstName
-          lastName
-          middleName
-          professionalType { label }
-          specialties {
-            label
+          urls {
+            url {
+              ...Url
+            }
           }
-          meshTerms
-          kvTerms
-          chTerms
-          # TODO: waiting this feature is available on prod and v1.2
-          # uci {
-          #   adeli
-          #   rpps
-          # }
-        }
-        workplace {
-          id
-          address {
-            longLabel
-            buildingLabel
-            county {
+          individual {
+            id
+            firstName
+            lastName
+            middleName
+            professionalType {
               label
             }
-            postalCode
-            city {
+            specialties {
+              code
               label
             }
-            country
-            location {
-              lat
-              lon
+            meshTerms
+            kvTerms
+            chTerms
+            uci {
+              rpps
+              adeli
+            }
+            reviewsAvailable
+            diseasesAvailable
+          }
+          workplace {
+            id
+            openHours {
+              day
+              openPeriods {
+                open
+                close
+              }
+            }
+            address {
+              longLabel
+              buildingLabel
+              county {
+                label
+              }
+              postalCode
+              city {
+                label
+              }
+              country
+              location {
+                lat
+                lon
+              }
             }
           }
         }
       }
     }
   }
-`
+  ${FRAGMENT_URL}
+`;
 
-export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesResult> {
-  return graphqlClient(QUERY_ACTIVITIES, variables, config)
+export default function activities(variables: QueryActivitiesArgs, config?): Promise<ActivitiesQuery> {
+  return graphqlClient(QUERY_ACTIVITIES, variables, config);
 }

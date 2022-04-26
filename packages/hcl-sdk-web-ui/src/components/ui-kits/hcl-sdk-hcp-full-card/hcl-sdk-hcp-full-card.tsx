@@ -1,12 +1,15 @@
 import { Component, Host, h, Event, Listen, State, EventEmitter } from '@stencil/core';
 import cls from 'classnames';
-import { uiStore, searchMapStore, configStore, i18nStore } from '../../../core/stores';
+import { uiStore, searchMapStore, configStore, i18nStore, featureStore } from '../../../core/stores';
 import { getFullCardDetail } from '../../../core/api/hcp';
 import { getCssColor, getPrimaryAddressIndividual, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { HCL_WEBSITE_HOST } from '../../../core/constants';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
 import { SearchSpecialty } from '../../../core/stores/SearchMapStore';
+import { localizeDay, WeekDayToNumber } from '../../../utils/dateUtils';
+import startOfTomorrow from 'date-fns/startOfTomorrow'
+import { format } from 'date-fns';
 
 const MAX_DISPLAY_TERMS = 5
 
@@ -16,11 +19,11 @@ const MAX_DISPLAY_TERMS = 5
   shadow: false,
 })
 export class HclSdkHCPFullCard {
-  @Event() backFromHcpFullCard: EventEmitter<MouseEvent>;
+  @Event() backFromFullCard: EventEmitter<MouseEvent>;
   @State() mapHcpVoted: Record<string, boolean> = {};
-  @State() currentSeachTerm: string = ''
   @State() isViewMoreTerms: boolean = false;
   @State() isViewMoreSpecialties: boolean = false;
+  @State() showOpeningHours: boolean = false;
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -47,14 +50,9 @@ export class HclSdkHCPFullCard {
   componentWillUpdate() {
     const { medicalTermsFilter } = searchMapStore.state
 
-    if (this.currentSeachTerm || !medicalTermsFilter || !medicalTermsFilter.name) {
+    if (!medicalTermsFilter || !medicalTermsFilter.name) {
       return
     }
-
-    // Copy and keep the current search
-    //  to avoid users change the search terms in the second time
-    //  but not click on the button search yet.
-    this.currentSeachTerm = medicalTermsFilter.name.toLowerCase()
   }
 
   disconnectedCallback() {
@@ -182,6 +180,118 @@ export class HclSdkHCPFullCard {
     ]
   }
 
+  moveHighlightedMedTermOnTop(originalListMedTerms: string[], medTerm: string) {
+    const highlightSpecialties = originalListMedTerms.filter(orignalSpec => 
+      medTerm.toLowerCase() === orignalSpec.toLowerCase()
+    )
+    const exceptHighlightedSpecialties = originalListMedTerms.filter(orignalSpec => 
+      medTerm.toLowerCase() !== orignalSpec.toLowerCase()
+    )
+    return [
+      ...highlightSpecialties,
+      ...exceptHighlightedSpecialties
+    ]
+  }
+
+  toggleOpeningHoursDisclosure = () => {
+    this.showOpeningHours = !this.showOpeningHours
+  }
+
+  getNextOpenEvents = (openHours) => {
+   const now = new Date();
+
+    const days = openHours.map(h => h.day)
+
+    // get today or closest day in the future from openHours
+    const nextDay = this.getNextDay(days);
+
+    const dayToOpenPeriods = openHours.reduce((acc, cur) => {
+      acc[WeekDayToNumber[cur.day]] = cur.openPeriods;
+      return acc;
+    }, {});
+
+    const openTime = this.getTime(dayToOpenPeriods[nextDay].open);
+    const closeTime = this.getTime(dayToOpenPeriods[nextDay].close);
+
+    // not today or today but not open yet
+    if (now.getDay() !== nextDay || this.getDayMinutes(now) < this.getDayMinutes(openTime)) {
+      return {
+        status: 'close',
+        next: {
+          status: 'open',
+          time: this.formatTime(nextDay, openTime),
+        },
+      };
+      // today, currently open
+    } else if (this.getDayMinutes(now) <= this.getDayMinutes(closeTime)) {
+      return {
+        status: 'open',
+        next: {
+          status: 'close',
+          time: this.formatTime(nextDay, closeTime),
+        },
+      };
+      // today, but closed
+    } else {
+      const nextDay = this.getNextDay(days, startOfTomorrow())
+      const openTime = this.getTime(dayToOpenPeriods[nextDay].open);
+
+      return {
+        status: 'close',
+        next: {
+          status: 'open',
+          time: this.formatTime(nextDay, openTime)
+        }
+      }
+    }
+  };
+
+  getNextDay = (days, from?: Date) => {
+    const today = from?.getDay() || new Date().getDay();
+    const availableDays = days.map(day => WeekDayToNumber[day]);
+
+    let nextDay = null;
+
+    for (const day of availableDays) {
+      if (today <= day) {
+        nextDay = day;
+        break;
+      }
+    }
+
+    if (!nextDay) {
+      nextDay = availableDays[0];
+    }
+
+    return nextDay;
+  };
+
+  formatTime = (day: number, time: Date) => {
+    const formatOption = {
+      timeStyle: 'short',
+      hour12: true,
+    };
+
+    return (
+      localizeDay(day, i18nStore.state.lang) +
+      ' ' +
+      new Intl.DateTimeFormat(i18nStore.state.lang, formatOption).format(time)
+    );
+  };
+
+  // format of time e.g '19:00:00'
+  getTime = (openTime: string) => {
+    const time = new Date();
+    const timeParts = openTime.split(':');
+    time.setHours(+timeParts[0]);
+    time.setMinutes(+timeParts[1]);
+    return time;
+  };
+
+  getDayMinutes = (openTime: Date) => {
+    return openTime.getHours() * 60 + openTime.getMinutes();
+  };
+
   render() {
     const isVotedHCP = this.isVotedHCP();
 
@@ -199,7 +309,8 @@ export class HclSdkHCPFullCard {
       individualDetailName,
       loadingSwitchAddress,
       loadingIndividualDetail,
-      specialtyFilter
+      specialtyFilter,
+      medicalTermsFilter
     } = searchMapStore.state;
     const { showSuggestModification } = configStore.state;
 
@@ -211,10 +322,7 @@ export class HclSdkHCPFullCard {
 
     // Handle to render and highlight medical terms
     const originalListTerms = (individualDetail && individualDetail.listTerms) || []
-    const listTerms = this.currentSeachTerm ? [
-      this.currentSeachTerm,
-      ...originalListTerms.filter(label => label.toLowerCase() !== this.currentSeachTerm)
-    ]: originalListTerms;
+    const listTerms = medicalTermsFilter ? this.moveHighlightedMedTermOnTop(originalListTerms, medicalTermsFilter.name) : originalListTerms;
     const isRenderMedialSubject = configStore.state.enableMedicalTerm && listTerms.length > 0
     
     // Handle to render and highlight specialties. Move the selected specialties to the first order
@@ -223,30 +331,59 @@ export class HclSdkHCPFullCard {
       ? this.moveHighlightedSpecialtiesOnTop(originalListSpecialties, specialtyFilter) 
       : originalListSpecialties
 
+    // Handle to show Recommendation section
+    const reviewResult = individualDetail?.reviews
+    const isShowRecommendation = reviewResult && (reviewResult.diseases.length > 0 || reviewResult.reviews.length > 0)
+
+    const openHours = individualDetail?.openHours?.filter(hour => !!hour.day)
+    const openingStatus = !!openHours?.length ? this.getNextOpenEvents(openHours) : null
+
+    const formattedOpenPeriods = (openHours ?? []).map(hour => {
+      const translationKey = `appointment_${hour.day?.toLowerCase()}`;
+      const translation = t(translationKey);
+
+      return {
+        day: translation !== translationKey ? translation : localizeDay(WeekDayToNumber[hour.day], i18nStore.state.lang),
+        open: format(this.getTime(hour.openPeriods.open), 'h:mm a'),
+        close: format(this.getTime(hour.openPeriods.close), 'h:mm a'),
+      };
+    });
+
     return (
       <Host>
         <div class="main-contain">
           <div class={toolbarClass}>
-            <div class="search-back-large">
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div class="search-back-large">
+                <hcl-sdk-button
+                  noBorder
+                  noBackground
+                  icon="back"
+                  iconColor={getCssColor('--hcl-color-dark')}
+                  onClick={this.backFromFullCard.emit}>
+                  <span class="hidden-mobile">
+                  {/* navigate from home -> back to home */}
+                  {/* navigate from hco -> back to hco */}
+                  {searchMapStore.state.navigatedFromHome
+                      ? t('back_to_home')
+                      : searchMapStore.state.navigateFromHcoFullCard
+                      ? 'Back to HCO'
+                      : t('back_to_search_results')}
+                  </span>
+                </hcl-sdk-button>
+              </div>
               <hcl-sdk-button
                 noBorder
                 noBackground
-                icon="back"
-                iconColor={getCssColor('--hcl-color-dark')}
-                onClick={this.backFromHcpFullCard.emit}>
-                <span class="hidden-mobile">{
-                  searchMapStore.state.navigatedFromHome ? t('back_to_home') : t('back_to_search_results')
-                }
-                </span>
-              </hcl-sdk-button>
+                icon="share"
+                iconColor={getCssColor('--hcl-color-grey_dark')}
+                onClick={this.handleShareHCPDetail}
+              />
             </div>
-            <hcl-sdk-button
-              noBorder
-              noBackground
-              icon="share"
-              iconColor={getCssColor('--hcl-color-grey_dark')}
-              onClick={this.handleShareHCPDetail}
-            />
           </div>
 
           <div class="main-block hcp-details-card" data-activity-id={individualDetail?.id} data-individual-id={individualDetail?.individualId}>
@@ -288,6 +425,14 @@ export class HclSdkHCPFullCard {
                         <a href={`https://maps.google.com/?q=${individualDetail.lat},${individualDetail.lng}`} target="_blank">
                           <hcl-sdk-button round icon="direction" noBackground />
                         </a>
+                        {/* TODO: Appointment link feature */}
+                        {
+                          individualDetail?.url && (
+                            <a href={individualDetail?.url} target='_blank'>
+                              <hcl-sdk-button round icon="calendar-clock-outline" noBackground />
+                            </a>
+                          )
+                        }
                         {
                           individualDetail.phone && (
                             <a href={`tel:${individualDetail.phone}`}>
@@ -347,6 +492,36 @@ export class HclSdkHCPFullCard {
                         )
                       }
 
+                      {!!openHours?.length && (
+                        <div class="opening-hours-disclosure">
+                          <button class="opening-hours-disclosure__btn" onClick={this.toggleOpeningHoursDisclosure}>
+                            <hcl-sdk-icon-clock-outline width={15} height={15} color={getCssColor('--hcl-color-grey')} />
+                            <div>
+                            {openingStatus && 
+                              <span class={cls('opening-hour')}>
+                                <span class={cls('opening-hour__status', { 'opening-hour__status--close': openingStatus.status === 'close' })}>
+                                  {openingStatus.status}
+                                </span>
+                                &nbsp;&#183;&nbsp;{openingStatus.next.status} {openingStatus.next.time}
+                              </span>}
+                            </div>
+                            <hcl-sdk-icon-arrow_down width={15} height={15} class="arrow-icon" color={getCssColor('--hcl-color-grey')} />
+                          </button>
+                          <div
+                            class={cls('opening-hours-disclosure__panel', {
+                              open: this.showOpeningHours,
+                            })}
+                          >
+                            {formattedOpenPeriods.map(hour => (
+                              <div class="opening-hour-item">
+                                <div>{hour.day}</div>
+                                <div>{hour.open} - {hour.close}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {individualDetail.webAddress && (
                         <div class="info-contact info-section-body__website">
                           <div class="info-contact-item">
@@ -360,18 +535,29 @@ export class HclSdkHCPFullCard {
                     </div>
                   </div>
                   {/* Block */}
-                  {
-                    (individualDetail.uciRpps || individualDetail.uciAdeli) && (
+                  {configStore.state.enableUci &&
+                    (individualDetail.uciRpps ||
+                      individualDetail.uciAdeli ||
+                      individualDetail.uciGln ||
+                      individualDetail.uciNpi ||
+                      individualDetail.uciLanr ||
+                      individualDetail.uciZsr) && (
                       <div class="info-section">
                         <div class="info-section-header">
                           <span class="info-section-header__title">{t('unique_country_identifier')}</span>
                         </div>
                         <div class="info-section-body">
-                          <span>{ individualDetail.uciRpps || individualDetail.uciAdeli }</span>
+                          <span>
+                            {individualDetail.uciRpps ||
+                              individualDetail.uciAdeli ||
+                              individualDetail.uciGln ||
+                              individualDetail.uciNpi ||
+                              individualDetail.uciLanr ||
+                              individualDetail.uciZsr}
+                          </span>
                         </div>
                       </div>
-                    )
-                  }
+                    )}
                   {
                     individualDetail.specialties.length > 0 &&
                     <div class="info-section">
@@ -420,16 +606,20 @@ export class HclSdkHCPFullCard {
                         <div class="info-section-body">
                           <ul class="medical-subjects">
                           {
-                            listTerms.map((label: string, idx: number) => {
+                            listTerms.map((label, idx: number) => {
                               if (!this.isViewMoreTerms && idx >= MAX_DISPLAY_TERMS) {
                                 return null
                               }
 
                               return (
-                                <li class={cls('medical-subjects__item', {
-                                  'medical-subjects__item--highlight': label.toLowerCase() === this.currentSeachTerm
-                                })}>{label}</li>
-                              )
+                                <li
+                                  class={cls('medical-subjects__item', {
+                                    'medical-subjects__item--highlight': medicalTermsFilter && label.toLowerCase() === medicalTermsFilter.name.toLowerCase(),
+                                  })}
+                                >
+                                  {label}
+                                </li>
+                              );
                             })
                           }
                           {
@@ -445,6 +635,59 @@ export class HclSdkHCPFullCard {
                             )
                           }
                           </ul>
+                        </div>
+                      </div>
+                    )
+                  }
+
+                  {
+                    featureStore.isPatientRecommendationEnabled && isShowRecommendation && (
+                      <div class="info-section">
+                        <div class="info-section-header">
+                          <span class="info-section-header__title">{t('patients_recommendations')}&nbsp;&nbsp;<img width="14" src="https://www.mapatho.com/favicon.ico" alt="" /></span>
+                        </div>
+                        <div class="info-section-body no-gap">
+                          {
+                            reviewResult.diseases.length > 0 && (
+                              <ul class="medical-subjects">
+                                { reviewResult.diseases.map(item => <li class="medical-subjects__item">{item.name}</li>) }
+                              </ul>
+                            )
+                          }
+                          {
+                            <ul class="medical-subjects">
+                              <li class="patient-reviews__wrap">
+                                {reviewResult.reviews.length > 0 ? <div class="patient-reviews__title">{t('patient_reviews', { count: reviewResult.reviews.length })}</div> : null}
+                                {/* Reviews Item */}
+                                {
+                                  reviewResult.reviews.map(item => (
+                                    <div class="patient-reviews__item">
+                                      <div class="patient-reviews__item-head">
+                                        <div class="patient-reviews__item-user">
+                                          <hcl-sdk-icon name="user" />
+                                          <span>{item.reviewer}</span>
+                                        </div>
+                                        {
+                                          item.diseases.map(d => <div class="patient-reviews__item-card">{d.name}</div>)
+                                        }
+                                      </div>
+                                      <p class="patient-reviews__item-date">{item.createdAt}</p>
+                                      <p class="patient-reviews__item-content">{item.text}</p>
+                                    </div>
+                                  ))
+                                }
+                              </li>
+                              {
+                                reviewResult.reviews.length > 5 && (
+                                  <li class="medical-subjects__view-more">
+                                    <hcl-sdk-button noBackground noBorder noPadding isLink icon="arrow_right" iconWidth={15} iconHeight={15}>
+                                      { t('view_more') }
+                                    </hcl-sdk-button>
+                                  </li>
+                                )
+                              }
+                            </ul>
+                          }
                         </div>
                       </div>
                     )

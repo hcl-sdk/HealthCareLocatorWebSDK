@@ -39,6 +39,22 @@
     .name {
       color: var(--hcl-color-secondary);
       font-weight: 500;
+      text-align: start;
+
+      img {
+        width: 1em;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        fill: var(--hcl-color-secondary);
+      }
     }
 
     .address {

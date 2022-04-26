@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request';
 import { graphqlClient } from './helpers'
 import { Activity, QueryActivityByIdArgs } from './types';
+import { FRAGMENT_URL } from './fragmentUrl'
 
 interface ActivityByIdResult {
   activityByID: Activity
@@ -8,42 +9,51 @@ interface ActivityByIdResult {
 
 const QUERY_ACTIVITY_BY_ID = gql`
   query activityById($id: ID!, $locale: String) {
-    activityByID(
-      id: $id
-      locale: $locale
-    ) {
+    activityByID(id: $id, locale: $locale) {
       id
       phone
-      role{
+      urls {
+        url {
+          ...Url
+        }
+      }
+      role {
         code
         label
       }
       fax
       webAddress
-      workplace{
+      workplace {
         id
         name
         intlPhone
         intlFax
         localPhone
-        address{
+        openHours {
+          day
+          openPeriods {
+            open
+            close
+          }
+        }
+        address {
           longLabel
           country
           postalCode
           buildingLabel
-          county{
-              label
+          county {
+            label
           }
-          city{
-              label
+          city {
+            label
           }
-          location{
+          location {
             lat
             lon
           }
         }
       }
-      individual{
+      individual {
         id
         firstName
         lastName
@@ -52,7 +62,9 @@ const QUERY_ACTIVITY_BY_ID = gql`
         middleName
         nickname
         suffixName
-        professionalType { label }
+        professionalType {
+          label
+        }
         specialties {
           code
           label
@@ -88,15 +100,21 @@ const QUERY_ACTIVITY_BY_ID = gql`
         meshTerms
         kvTerms
         chTerms
-        # TODO: waiting this feature is available on prod and v1.2
-        # uci {
-        #   adeli
-        #   rpps
-        # }
+        uci {
+          rpps
+          adeli
+          npi
+          lanr
+          gln
+          zsr
+        }
+        reviewsAvailable
+        diseasesAvailable
       }
     }
   }
-`
+  ${FRAGMENT_URL}
+`;
 
 export default function activityByID(variables: QueryActivityByIdArgs, config?): Promise<ActivityByIdResult> {
   return graphqlClient(QUERY_ACTIVITY_BY_ID, variables, config)

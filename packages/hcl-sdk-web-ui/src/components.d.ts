@@ -12,6 +12,10 @@ import { CountryCode } from "./core/constants";
 export namespace Components {
     interface HclSdk {
         "backToHome": () => Promise<void>;
+        "currentPosition": {
+    lat: number;
+    lng: number;
+  };
         "init": ({ isShowcase, getCurrentPosition, ...config }?: any) => Promise<void>;
         "initScreen"?: InitScreen;
         "searchNearMe": ({ specialtyCode, specialtyLabel }: { specialtyCode: string[]; specialtyLabel: string; }) => Promise<void>;
@@ -44,16 +48,35 @@ export namespace Components {
         "tabIndex": number;
         "type": string;
     }
+    interface HclSdkCardInfoSection {
+        "header": any;
+        "map"?: any;
+        "title": string;
+    }
     interface HclSdkDevSettings {
     }
     interface HclSdkDoctorCard {
+        "address": string;
+        "diseasesAvailable": boolean;
+        "distance": string;
+        "name": string;
+        "reviewsAvailable": boolean;
+        "selected": boolean;
+        "showDistance": boolean;
+        "specialtyPrimary": string;
+        "url": string;
+        "viewMode": string;
+    }
+    interface HclSdkHcoCard {
         "address": string;
         "distance": string;
         "name": string;
         "selected": boolean;
         "showDistance": boolean;
-        "specialtyPrimary": string;
+        "type": string;
         "viewMode": string;
+    }
+    interface HclSdkHcoFullCard {
     }
     interface HclSdkHcpFullCard {
     }
@@ -68,6 +91,11 @@ export namespace Components {
         "height": number;
         "name": string;
         "primary": boolean;
+        "width": number;
+    }
+    interface HclSdkIconAccountOutline {
+        "color": string;
+        "height": number;
         "width": number;
     }
     interface HclSdkIconArrow_down {
@@ -85,7 +113,17 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface HclSdkIconCalendarClockOutline {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
     interface HclSdkIconCircular {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconClockOutline {
         "color": string;
         "height": number;
         "width": number;
@@ -101,6 +139,11 @@ export namespace Components {
         "width": number;
     }
     interface HclSdkIconDislike {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconDomain {
         "color": string;
         "height": number;
         "width": number;
@@ -209,6 +252,11 @@ export namespace Components {
         "width": number;
     }
     interface HclSdkIconTwitter {
+        "color": string;
+        "height": number;
+        "width": number;
+    }
+    interface HclSdkIconUser {
         "color": string;
         "height": number;
         "width": number;
@@ -340,6 +388,12 @@ declare global {
         prototype: HTMLHclSdkButtonElement;
         new (): HTMLHclSdkButtonElement;
     };
+    interface HTMLHclSdkCardInfoSectionElement extends Components.HclSdkCardInfoSection, HTMLStencilElement {
+    }
+    var HTMLHclSdkCardInfoSectionElement: {
+        prototype: HTMLHclSdkCardInfoSectionElement;
+        new (): HTMLHclSdkCardInfoSectionElement;
+    };
     interface HTMLHclSdkDevSettingsElement extends Components.HclSdkDevSettings, HTMLStencilElement {
     }
     var HTMLHclSdkDevSettingsElement: {
@@ -351,6 +405,18 @@ declare global {
     var HTMLHclSdkDoctorCardElement: {
         prototype: HTMLHclSdkDoctorCardElement;
         new (): HTMLHclSdkDoctorCardElement;
+    };
+    interface HTMLHclSdkHcoCardElement extends Components.HclSdkHcoCard, HTMLStencilElement {
+    }
+    var HTMLHclSdkHcoCardElement: {
+        prototype: HTMLHclSdkHcoCardElement;
+        new (): HTMLHclSdkHcoCardElement;
+    };
+    interface HTMLHclSdkHcoFullCardElement extends Components.HclSdkHcoFullCard, HTMLStencilElement {
+    }
+    var HTMLHclSdkHcoFullCardElement: {
+        prototype: HTMLHclSdkHcoFullCardElement;
+        new (): HTMLHclSdkHcoFullCardElement;
     };
     interface HTMLHclSdkHcpFullCardElement extends Components.HclSdkHcpFullCard, HTMLStencilElement {
     }
@@ -382,6 +448,12 @@ declare global {
         prototype: HTMLHclSdkIconElement;
         new (): HTMLHclSdkIconElement;
     };
+    interface HTMLHclSdkIconAccountOutlineElement extends Components.HclSdkIconAccountOutline, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconAccountOutlineElement: {
+        prototype: HTMLHclSdkIconAccountOutlineElement;
+        new (): HTMLHclSdkIconAccountOutlineElement;
+    };
     interface HTMLHclSdkIconArrow_downElement extends Components.HclSdkIconArrow_down, HTMLStencilElement {
     }
     var HTMLHclSdkIconArrow_downElement: {
@@ -400,11 +472,23 @@ declare global {
         prototype: HTMLHclSdkIconBackElement;
         new (): HTMLHclSdkIconBackElement;
     };
+    interface HTMLHclSdkIconCalendarClockOutlineElement extends Components.HclSdkIconCalendarClockOutline, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconCalendarClockOutlineElement: {
+        prototype: HTMLHclSdkIconCalendarClockOutlineElement;
+        new (): HTMLHclSdkIconCalendarClockOutlineElement;
+    };
     interface HTMLHclSdkIconCircularElement extends Components.HclSdkIconCircular, HTMLStencilElement {
     }
     var HTMLHclSdkIconCircularElement: {
         prototype: HTMLHclSdkIconCircularElement;
         new (): HTMLHclSdkIconCircularElement;
+    };
+    interface HTMLHclSdkIconClockOutlineElement extends Components.HclSdkIconClockOutline, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconClockOutlineElement: {
+        prototype: HTMLHclSdkIconClockOutlineElement;
+        new (): HTMLHclSdkIconClockOutlineElement;
     };
     interface HTMLHclSdkIconDefaultAvatarElement extends Components.HclSdkIconDefaultAvatar, HTMLStencilElement {
     }
@@ -423,6 +507,12 @@ declare global {
     var HTMLHclSdkIconDislikeElement: {
         prototype: HTMLHclSdkIconDislikeElement;
         new (): HTMLHclSdkIconDislikeElement;
+    };
+    interface HTMLHclSdkIconDomainElement extends Components.HclSdkIconDomain, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconDomainElement: {
+        prototype: HTMLHclSdkIconDomainElement;
+        new (): HTMLHclSdkIconDomainElement;
     };
     interface HTMLHclSdkIconEditElement extends Components.HclSdkIconEdit, HTMLStencilElement {
     }
@@ -556,6 +646,12 @@ declare global {
         prototype: HTMLHclSdkIconTwitterElement;
         new (): HTMLHclSdkIconTwitterElement;
     };
+    interface HTMLHclSdkIconUserElement extends Components.HclSdkIconUser, HTMLStencilElement {
+    }
+    var HTMLHclSdkIconUserElement: {
+        prototype: HTMLHclSdkIconUserElement;
+        new (): HTMLHclSdkIconUserElement;
+    };
     interface HTMLHclSdkIconWebsiteElement extends Components.HclSdkIconWebsite, HTMLStencilElement {
     }
     var HTMLHclSdkIconWebsiteElement: {
@@ -680,20 +776,27 @@ declare global {
         "hcl-sdk": HTMLHclSdkElement;
         "hcl-sdk-autocomplete-result": HTMLHclSdkAutocompleteResultElement;
         "hcl-sdk-button": HTMLHclSdkButtonElement;
+        "hcl-sdk-card-info-section": HTMLHclSdkCardInfoSectionElement;
         "hcl-sdk-dev-settings": HTMLHclSdkDevSettingsElement;
         "hcl-sdk-doctor-card": HTMLHclSdkDoctorCardElement;
+        "hcl-sdk-hco-card": HTMLHclSdkHcoCardElement;
+        "hcl-sdk-hco-full-card": HTMLHclSdkHcoFullCardElement;
         "hcl-sdk-hcp-full-card": HTMLHclSdkHcpFullCardElement;
         "hcl-sdk-home": HTMLHclSdkHomeElement;
         "hcl-sdk-home-full": HTMLHclSdkHomeFullElement;
         "hcl-sdk-home-min": HTMLHclSdkHomeMinElement;
         "hcl-sdk-icon": HTMLHclSdkIconElement;
+        "hcl-sdk-icon-account-outline": HTMLHclSdkIconAccountOutlineElement;
         "hcl-sdk-icon-arrow_down": HTMLHclSdkIconArrow_downElement;
         "hcl-sdk-icon-arrow_right": HTMLHclSdkIconArrow_rightElement;
         "hcl-sdk-icon-back": HTMLHclSdkIconBackElement;
+        "hcl-sdk-icon-calendar-clock-outline": HTMLHclSdkIconCalendarClockOutlineElement;
         "hcl-sdk-icon-circular": HTMLHclSdkIconCircularElement;
+        "hcl-sdk-icon-clock-outline": HTMLHclSdkIconClockOutlineElement;
         "hcl-sdk-icon-default-avatar": HTMLHclSdkIconDefaultAvatarElement;
         "hcl-sdk-icon-direction": HTMLHclSdkIconDirectionElement;
         "hcl-sdk-icon-dislike": HTMLHclSdkIconDislikeElement;
+        "hcl-sdk-icon-domain": HTMLHclSdkIconDomainElement;
         "hcl-sdk-icon-edit": HTMLHclSdkIconEditElement;
         "hcl-sdk-icon-facebook": HTMLHclSdkIconFacebookElement;
         "hcl-sdk-icon-fax": HTMLHclSdkIconFaxElement;
@@ -716,6 +819,7 @@ declare global {
         "hcl-sdk-icon-share": HTMLHclSdkIconShareElement;
         "hcl-sdk-icon-sort": HTMLHclSdkIconSortElement;
         "hcl-sdk-icon-twitter": HTMLHclSdkIconTwitterElement;
+        "hcl-sdk-icon-user": HTMLHclSdkIconUserElement;
         "hcl-sdk-icon-website": HTMLHclSdkIconWebsiteElement;
         "hcl-sdk-input": HTMLHclSdkInputElement;
         "hcl-sdk-loading": HTMLHclSdkLoadingElement;
@@ -740,6 +844,10 @@ declare global {
 }
 declare namespace LocalJSX {
     interface HclSdk {
+        "currentPosition"?: {
+    lat: number;
+    lng: number;
+  };
         "initScreen"?: InitScreen;
         "widget"?: WidgetType;
         "widgetProps"?: WidgetProps;
@@ -768,19 +876,39 @@ declare namespace LocalJSX {
         "tabIndex"?: number;
         "type"?: string;
     }
+    interface HclSdkCardInfoSection {
+        "header"?: any;
+        "map"?: any;
+        "title"?: string;
+    }
     interface HclSdkDevSettings {
     }
     interface HclSdkDoctorCard {
+        "address"?: string;
+        "diseasesAvailable"?: boolean;
+        "distance"?: string;
+        "name"?: string;
+        "reviewsAvailable"?: boolean;
+        "selected"?: boolean;
+        "showDistance"?: boolean;
+        "specialtyPrimary"?: string;
+        "url"?: string;
+        "viewMode"?: string;
+    }
+    interface HclSdkHcoCard {
         "address"?: string;
         "distance"?: string;
         "name"?: string;
         "selected"?: boolean;
         "showDistance"?: boolean;
-        "specialtyPrimary"?: string;
+        "type"?: string;
         "viewMode"?: string;
     }
+    interface HclSdkHcoFullCard {
+        "onBackFromFullCard"?: (event: CustomEvent<MouseEvent>) => void;
+    }
     interface HclSdkHcpFullCard {
-        "onBackFromHcpFullCard"?: (event: CustomEvent<MouseEvent>) => void;
+        "onBackFromFullCard"?: (event: CustomEvent<MouseEvent>) => void;
     }
     interface HclSdkHome {
     }
@@ -794,6 +922,11 @@ declare namespace LocalJSX {
         "height"?: number;
         "name"?: string;
         "primary"?: boolean;
+        "width"?: number;
+    }
+    interface HclSdkIconAccountOutline {
+        "color"?: string;
+        "height"?: number;
         "width"?: number;
     }
     interface HclSdkIconArrow_down {
@@ -811,7 +944,17 @@ declare namespace LocalJSX {
         "height"?: number;
         "width"?: number;
     }
+    interface HclSdkIconCalendarClockOutline {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
     interface HclSdkIconCircular {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconClockOutline {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -827,6 +970,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface HclSdkIconDislike {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconDomain {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -935,6 +1083,11 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface HclSdkIconTwitter {
+        "color"?: string;
+        "height"?: number;
+        "width"?: number;
+    }
+    interface HclSdkIconUser {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -1056,20 +1209,27 @@ declare namespace LocalJSX {
         "hcl-sdk": HclSdk;
         "hcl-sdk-autocomplete-result": HclSdkAutocompleteResult;
         "hcl-sdk-button": HclSdkButton;
+        "hcl-sdk-card-info-section": HclSdkCardInfoSection;
         "hcl-sdk-dev-settings": HclSdkDevSettings;
         "hcl-sdk-doctor-card": HclSdkDoctorCard;
+        "hcl-sdk-hco-card": HclSdkHcoCard;
+        "hcl-sdk-hco-full-card": HclSdkHcoFullCard;
         "hcl-sdk-hcp-full-card": HclSdkHcpFullCard;
         "hcl-sdk-home": HclSdkHome;
         "hcl-sdk-home-full": HclSdkHomeFull;
         "hcl-sdk-home-min": HclSdkHomeMin;
         "hcl-sdk-icon": HclSdkIcon;
+        "hcl-sdk-icon-account-outline": HclSdkIconAccountOutline;
         "hcl-sdk-icon-arrow_down": HclSdkIconArrow_down;
         "hcl-sdk-icon-arrow_right": HclSdkIconArrow_right;
         "hcl-sdk-icon-back": HclSdkIconBack;
+        "hcl-sdk-icon-calendar-clock-outline": HclSdkIconCalendarClockOutline;
         "hcl-sdk-icon-circular": HclSdkIconCircular;
+        "hcl-sdk-icon-clock-outline": HclSdkIconClockOutline;
         "hcl-sdk-icon-default-avatar": HclSdkIconDefaultAvatar;
         "hcl-sdk-icon-direction": HclSdkIconDirection;
         "hcl-sdk-icon-dislike": HclSdkIconDislike;
+        "hcl-sdk-icon-domain": HclSdkIconDomain;
         "hcl-sdk-icon-edit": HclSdkIconEdit;
         "hcl-sdk-icon-facebook": HclSdkIconFacebook;
         "hcl-sdk-icon-fax": HclSdkIconFax;
@@ -1092,6 +1252,7 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-share": HclSdkIconShare;
         "hcl-sdk-icon-sort": HclSdkIconSort;
         "hcl-sdk-icon-twitter": HclSdkIconTwitter;
+        "hcl-sdk-icon-user": HclSdkIconUser;
         "hcl-sdk-icon-website": HclSdkIconWebsite;
         "hcl-sdk-input": HclSdkInput;
         "hcl-sdk-loading": HclSdkLoading;
@@ -1121,20 +1282,27 @@ declare module "@stencil/core" {
             "hcl-sdk": LocalJSX.HclSdk & JSXBase.HTMLAttributes<HTMLHclSdkElement>;
             "hcl-sdk-autocomplete-result": LocalJSX.HclSdkAutocompleteResult & JSXBase.HTMLAttributes<HTMLHclSdkAutocompleteResultElement>;
             "hcl-sdk-button": LocalJSX.HclSdkButton & JSXBase.HTMLAttributes<HTMLHclSdkButtonElement>;
+            "hcl-sdk-card-info-section": LocalJSX.HclSdkCardInfoSection & JSXBase.HTMLAttributes<HTMLHclSdkCardInfoSectionElement>;
             "hcl-sdk-dev-settings": LocalJSX.HclSdkDevSettings & JSXBase.HTMLAttributes<HTMLHclSdkDevSettingsElement>;
             "hcl-sdk-doctor-card": LocalJSX.HclSdkDoctorCard & JSXBase.HTMLAttributes<HTMLHclSdkDoctorCardElement>;
+            "hcl-sdk-hco-card": LocalJSX.HclSdkHcoCard & JSXBase.HTMLAttributes<HTMLHclSdkHcoCardElement>;
+            "hcl-sdk-hco-full-card": LocalJSX.HclSdkHcoFullCard & JSXBase.HTMLAttributes<HTMLHclSdkHcoFullCardElement>;
             "hcl-sdk-hcp-full-card": LocalJSX.HclSdkHcpFullCard & JSXBase.HTMLAttributes<HTMLHclSdkHcpFullCardElement>;
             "hcl-sdk-home": LocalJSX.HclSdkHome & JSXBase.HTMLAttributes<HTMLHclSdkHomeElement>;
             "hcl-sdk-home-full": LocalJSX.HclSdkHomeFull & JSXBase.HTMLAttributes<HTMLHclSdkHomeFullElement>;
             "hcl-sdk-home-min": LocalJSX.HclSdkHomeMin & JSXBase.HTMLAttributes<HTMLHclSdkHomeMinElement>;
             "hcl-sdk-icon": LocalJSX.HclSdkIcon & JSXBase.HTMLAttributes<HTMLHclSdkIconElement>;
+            "hcl-sdk-icon-account-outline": LocalJSX.HclSdkIconAccountOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconAccountOutlineElement>;
             "hcl-sdk-icon-arrow_down": LocalJSX.HclSdkIconArrow_down & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_downElement>;
             "hcl-sdk-icon-arrow_right": LocalJSX.HclSdkIconArrow_right & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_rightElement>;
             "hcl-sdk-icon-back": LocalJSX.HclSdkIconBack & JSXBase.HTMLAttributes<HTMLHclSdkIconBackElement>;
+            "hcl-sdk-icon-calendar-clock-outline": LocalJSX.HclSdkIconCalendarClockOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconCalendarClockOutlineElement>;
             "hcl-sdk-icon-circular": LocalJSX.HclSdkIconCircular & JSXBase.HTMLAttributes<HTMLHclSdkIconCircularElement>;
+            "hcl-sdk-icon-clock-outline": LocalJSX.HclSdkIconClockOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconClockOutlineElement>;
             "hcl-sdk-icon-default-avatar": LocalJSX.HclSdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLHclSdkIconDefaultAvatarElement>;
             "hcl-sdk-icon-direction": LocalJSX.HclSdkIconDirection & JSXBase.HTMLAttributes<HTMLHclSdkIconDirectionElement>;
             "hcl-sdk-icon-dislike": LocalJSX.HclSdkIconDislike & JSXBase.HTMLAttributes<HTMLHclSdkIconDislikeElement>;
+            "hcl-sdk-icon-domain": LocalJSX.HclSdkIconDomain & JSXBase.HTMLAttributes<HTMLHclSdkIconDomainElement>;
             "hcl-sdk-icon-edit": LocalJSX.HclSdkIconEdit & JSXBase.HTMLAttributes<HTMLHclSdkIconEditElement>;
             "hcl-sdk-icon-facebook": LocalJSX.HclSdkIconFacebook & JSXBase.HTMLAttributes<HTMLHclSdkIconFacebookElement>;
             "hcl-sdk-icon-fax": LocalJSX.HclSdkIconFax & JSXBase.HTMLAttributes<HTMLHclSdkIconFaxElement>;
@@ -1157,6 +1325,7 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-share": LocalJSX.HclSdkIconShare & JSXBase.HTMLAttributes<HTMLHclSdkIconShareElement>;
             "hcl-sdk-icon-sort": LocalJSX.HclSdkIconSort & JSXBase.HTMLAttributes<HTMLHclSdkIconSortElement>;
             "hcl-sdk-icon-twitter": LocalJSX.HclSdkIconTwitter & JSXBase.HTMLAttributes<HTMLHclSdkIconTwitterElement>;
+            "hcl-sdk-icon-user": LocalJSX.HclSdkIconUser & JSXBase.HTMLAttributes<HTMLHclSdkIconUserElement>;
             "hcl-sdk-icon-website": LocalJSX.HclSdkIconWebsite & JSXBase.HTMLAttributes<HTMLHclSdkIconWebsiteElement>;
             "hcl-sdk-input": LocalJSX.HclSdkInput & JSXBase.HTMLAttributes<HTMLHclSdkInputElement>;
             "hcl-sdk-loading": LocalJSX.HclSdkLoading & JSXBase.HTMLAttributes<HTMLHclSdkLoadingElement>;

@@ -55,8 +55,8 @@ export class HclSdkHome {
   }
 
   render() {
-    const { searchItems, hcpItems } = historyStore.state;
-    const displayHomeMin = !searchMapStore.isGrantedGeoloc && !searchItems.length && !hcpItems.length;
+    const { searchItems, lastConsultedItems } = historyStore.state;
+    const displayHomeMin = !searchMapStore.isGrantedGeoloc && !searchItems.length && !lastConsultedItems.length;
     return (
       <Host>
         <div class="main-contain">

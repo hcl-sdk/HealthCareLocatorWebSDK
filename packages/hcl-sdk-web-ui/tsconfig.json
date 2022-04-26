@@ -19,8 +19,7 @@
     "types": ["node", "google.maps"]
   },
   "include": [
-    "src",
-    "../hcl-sdk-core"
+    "src"
   ],
   "exclude": [
     "node_modules"

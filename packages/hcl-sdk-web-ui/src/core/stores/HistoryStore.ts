@@ -1,38 +1,57 @@
 import { Activity } from '../../../../hcl-sdk-core/src/graphql/types';
 import { OKSDK_SEARCH_HISTORY, storageUtils } from '../../utils/storageUtils';
-import { HISTORY_MAX_TOTAL_ITEMS } from '../constants';
-import { SearchFields, SearchTermItem, SpecialtyItem } from './SearchMapStore';
+import { CountryCode, HISTORY_MAX_TOTAL_ITEMS } from '../constants';
+import ConfigStore from './ConfigStore';
+import { SearchFields, SearchMapState, SearchTermItem, SEARCH_TARGET, SpecialtyItem } from './SearchMapStore';
 import StoreProvider from './StoreProvider';
 
-type HistoryItemType = 'search' | 'hcp';
+type HistoryItemType = 'search' | 'hcp' | 'hco';
 
 export interface HistorySearchItem {
   id: string;
   type: 'search';
   locationFilter: any;
-  specialtyFilter: SpecialtyItem[];
-  medicalTermsFilter: SearchTermItem;
+  specialtyFilter?: SpecialtyItem[];
+  medicalTermsFilter?: SearchTermItem;
   searchFields: SearchFields;
   timestamp: number;
+  countryFilter: CountryCode
+  searchTarget?: SEARCH_TARGET;
 }
 
 export interface HistoryHcpItem {
   activityId: string;
   type: 'hcp';
-  activity: Activity;
+  activity: {
+    id: Activity['id'];
+    individual: Activity['individual'];
+    workplace: Activity['workplace'];
+  };
+  timestamp: number;
+}
+
+export interface HistoryHcoItem {
+  hcoId: string;
+  type: 'hco';
+  hco: SearchMapState['selectedHco'];
   timestamp: number;
 }
 
 interface HistoryStoreState {
   searchItems: HistorySearchItem[];
-  hcpItems: HistoryHcpItem[];
+  lastConsultedItems: (HistoryHcpItem | HistoryHcoItem)[];
 }
+
+const defaultHistory = {
+  searchItems: [],
+  lastConsultedItems: [],
+};
 
 function loadHistory() {
   return storageUtils.getObject(OKSDK_SEARCH_HISTORY, {
     searchItems: [],
-    hcpItems: [],
-  })
+    lastConsultedItems: [],
+  });
 }
 
 function storeHistory(history: HistoryStoreState) {
@@ -42,35 +61,39 @@ function storeHistory(history: HistoryStoreState) {
   storageUtils.setObject(OKSDK_SEARCH_HISTORY, history);
 }
 
-const initialData: HistoryStoreState = loadHistory();
+const history = loadHistory();
+const initialData: HistoryStoreState = {
+  ...defaultHistory,
+  ...history,
+};
 
 export default class HistoryStore extends StoreProvider<HistoryStoreState> {
   constructor() {
     super(initialData);
   }
 
-  addItem(itemType: HistoryItemType, item: HistoryHcpItem | HistorySearchItem) {
-    switch (itemType) {
+  addItem(item: HistoryHcoItem | HistoryHcpItem | HistorySearchItem) {
+    switch (item.type) {
+      case 'hco':
       case 'hcp': {
-        const hcpItem = item as HistoryHcpItem;
-        const found = this.state.hcpItems.filter(i => i.activityId === hcpItem.activityId)[0];
+        const found = this.state.lastConsultedItems.filter(i => getId(i) === getId(item))[0];
         if (!found) {
-          this.state.hcpItems.unshift(item as HistoryHcpItem);
-          if (this.state.hcpItems.length > HISTORY_MAX_TOTAL_ITEMS) {
-            this.state.hcpItems.length = HISTORY_MAX_TOTAL_ITEMS;
+          this.state.lastConsultedItems.unshift(item as HistoryHcpItem);
+          if (this.state.lastConsultedItems.length > HISTORY_MAX_TOTAL_ITEMS) {
+            this.state.lastConsultedItems.length = HISTORY_MAX_TOTAL_ITEMS;
           }
         } else {
           // Item already exists, update and move to top
-          this.updateItem('hcpItems', found);
+          this.updateItem('lastConsultedItems', found);
         }
         break;
       }
       case 'search': {
-        const hcpItem = item as HistorySearchItem;
+        const searchItem = item as HistorySearchItem;
         const found = this.state.searchItems.filter(i => {
           return (
-            JSON.stringify({ s: i.specialtyFilter, a: i.locationFilter, f: i.searchFields }) ===
-            JSON.stringify({ s: hcpItem.specialtyFilter, a: hcpItem.locationFilter, f: hcpItem.searchFields })
+            JSON.stringify({ s: i.specialtyFilter, a: i.locationFilter, f: i.searchFields, t: i.searchTarget }) ===
+            JSON.stringify({ s: searchItem.specialtyFilter, a: searchItem.locationFilter, f: searchItem.searchFields, t: searchItem.searchTarget })
           );
         })[0];
         if (!found) {
@@ -90,8 +113,9 @@ export default class HistoryStore extends StoreProvider<HistoryStoreState> {
 
   removeItem(itemType: HistoryItemType, itemId: string) {
     switch (itemType) {
+      case 'hco':
       case 'hcp': {
-        this.state.hcpItems = this.state.hcpItems.filter(item => item.activityId !== itemId);
+        this.state.lastConsultedItems = this.state.lastConsultedItems.filter(item => getId(item) !== itemId);
         break;
       }
       case 'search': {
@@ -102,7 +126,7 @@ export default class HistoryStore extends StoreProvider<HistoryStoreState> {
     storeHistory(this.state);
   }
 
-  updateItem(key: 'searchItems' | 'hcpItems', item: any) {
+  updateItem(key: 'searchItems' | 'lastConsultedItems', item: any) {
     const updated = { ...item };
     updated.timestamp = Date.now();
     const nextState = [...this.state[key]];
@@ -110,4 +134,66 @@ export default class HistoryStore extends StoreProvider<HistoryStoreState> {
     nextState.unshift(updated);
     this.state[key] = nextState as any;
   }
+}
+
+function getId(historyItem: HistoryHcoItem | HistoryHcpItem) {
+  if (historyItem.type === 'hco') {
+    return (historyItem as HistoryHcoItem).hcoId;
+  } else if (historyItem.type === 'hcp') {
+    return (historyItem as HistoryHcpItem).activityId;
+  }
+  return null;
+}
+
+export function createHCOHistoryItem(hcoDetail: SearchMapState['hcoDetail']): HistoryHcoItem {
+  return {
+    hcoId: hcoDetail.id,
+    hco: {
+      id: hcoDetail.id,
+      name: hcoDetail.name,
+      address: hcoDetail.address,
+      lat: hcoDetail.lat,
+      lng: hcoDetail.lng,
+      type: hcoDetail.type,
+    },
+    type: 'hco',
+    timestamp: Date.now(),
+  };
+}
+
+export function createHCPHistoryItem(activity: HistoryHcpItem['activity']): HistoryHcpItem {
+  return {
+    activityId: activity.id,
+    activity,
+    type: 'hcp',
+    timestamp: Date.now(),
+  };
+}
+
+export function createSearchHistoryItem({
+  locationFilter,
+  specialtyFilter,
+  medicalTermsFilter,
+  searchFields,
+  countryFilter,
+  searchTarget,
+}: {
+  locationFilter: SearchMapState['locationFilter'];
+  specialtyFilter: SearchMapState['specialtyFilter'];
+  medicalTermsFilter: SearchMapState['medicalTermsFilter'];
+  searchFields: SearchMapState['searchFields'];
+  countryFilter: ConfigStore['countryGraphqlQuery'];
+  searchTarget: SearchMapState['searchTarget'];
+}): HistorySearchItem {
+  return {
+    id: String(Date.now()),
+    type: 'search',
+    timestamp: Date.now(),
+    locationFilter: locationFilter,
+    specialtyFilter: specialtyFilter,
+    medicalTermsFilter: medicalTermsFilter,
+    searchFields: searchFields,
+    searchTarget,
+    countryFilter,
+  };
 }

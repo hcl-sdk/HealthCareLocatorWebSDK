@@ -65,18 +65,27 @@ stages:
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/react'
           arguments: 'build'
-          
+
       - task: Yarn@3
         displayName: 'Install dependencies example angular'
+        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), False)
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
           arguments: 'install'
 
       - task: Yarn@3
         displayName: 'Build Example Angular'
+        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), False)
         inputs:
           projectDirectory: '$(pipeline.workspace)/s/onekey-sdk-web-lib/examples/web/angular'
           arguments: 'build'
+          
+      - task: Bash@3
+        displayName: 'Build Example Angular Dev'
+        condition: eq(startsWith(variables['build.sourceBranch'], 'refs/heads/development'), True)
+        inputs:
+          targetType: 'filePath'
+          filePath: '$(pipeline.workspace)/s/onekey-sdk-web-lib/scripts/e2e-build-example.sh'
       
       - task: RegExMatchReplace@2
         inputs:
@@ -102,7 +111,7 @@ stages:
       - task: RegExMatchReplace@2
         inputs:
           PathToFile: 'examples/web/react/build/index.html'
-          RegEx: '<script id="devtool" src="\.'
+          RegEx: '<script id="devtool" src="/sample/react'
           ValueToReplace: "<script src=\"$(cdnUrl)"
           Global: true
 

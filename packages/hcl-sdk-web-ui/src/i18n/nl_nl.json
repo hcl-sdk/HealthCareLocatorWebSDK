@@ -37,7 +37,7 @@
   "reset_button": "Resetten",
   "main_information_label": "Belangrijkste informatie",
   "rate_refunds_label": "Tarief en vergoedingen",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "Unieke landcode",
   "specialities_label": "Specialisaties",
   "medical_publication_subject_heading": "Onderwerpkop medische publicatie",
   "information_label": "Informatie",
@@ -52,5 +52,18 @@
   "share_hcp_title": "Deze zorgverlener delen",
   "share_hcp_description": "Deze zorgverlener beveel ik aan:",
   "share_hcp_specialties": "Specialisaties:",
-  "share_hcp_found_text": "Ik heb deze gevonden op {name}"
+  "share_hcp_found_text": "Ik heb deze gevonden op {name}",
+  "modify": "Wijzigen",
+  "patients_recommendations": "Aanbevelingen van patiënt",
+  "total_results": "Totale resultaten",
+  "appointment_available": "Afspraak beschikbaar voor zorgverlenersprofiel",
+  "patient_reviews": "{count} Patiëntbeoordelingen",
+  "appointment_opens_soon": "Opent binnenkort",
+  "appointment_monday": "Maandag",
+  "appointment_tuesday": "Dinsdag",
+  "appointment_wednesday": "Woensdag",
+  "appointment_thursday": "Donderdag",
+  "appointment_friday": "Vrijdag",
+  "appointment_saturday": "Zaterdag",
+  "appointment_sunday": "Zondag"
 }

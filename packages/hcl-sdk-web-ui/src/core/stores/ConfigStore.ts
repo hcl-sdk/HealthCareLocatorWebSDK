@@ -45,8 +45,11 @@ export interface HclSDKConfigData {
     provider: MapProvider;
     googleMapApiKey: string;
     googleMapId: string;
+    enableLeafletAttribution?: boolean;
   },
   countryFilterSelected: CountryCode | '';
+  enableHcoSearch?: boolean
+  enableUci?: boolean
 }
 
 export const initStateConfigStore: HclSDKConfigData = {
@@ -55,6 +58,7 @@ export const initStateConfigStore: HclSDKConfigData = {
     provider: MapProvider.OPEN_STREETMAP,
     googleMapApiKey: '',
     googleMapId: '',
+    enableLeafletAttribution: false
   },
   modeView: ModeViewType.LIST,
   modal: undefined,
@@ -70,7 +74,12 @@ export const initStateConfigStore: HclSDKConfigData = {
   enableMedicalTerm: false,
   disableCollectGeo: false,
   showSuggestModification: true,
-  countryFilterSelected: ''
+  countryFilterSelected: '',
+
+  // hco search config
+  enableHcoSearch: true,
+  // uci
+  enableUci: true
 };
 
 class ConfigStore extends StoreProvider<HclSDKConfigData> {
@@ -91,8 +100,16 @@ class ConfigStore extends StoreProvider<HclSDKConfigData> {
       return countryFilterSelected
     }
 
+    if (countriesSubscriptionKey.includes('UK') && countryGeoFormated === 'GB') {
+      return 'UK'
+    }
+
+    if (countriesSubscriptionKey.includes('BK') && countryGeoFormated === 'HR') {
+      return 'BK'
+    }
+
     if (countriesSubscriptionKey.includes(countryGeoFormated)) {
-      return countryGeo.toUpperCase() as CountryCode
+      return countryGeoFormated
     }
 
     return countriesSubscriptionKey[0]

@@ -1,11 +1,11 @@
-import { DEFAULT_THEME_PROPERTIES, DARK_THEME_PROPERTIES } from '../../../hcl-sdk-core';
-import { Breakpoint, ScreenSize, GeolocCoordinates } from '../core/types';
+import { DARK_THEME_PROPERTIES, DEFAULT_THEME_PROPERTIES } from '../../../hcl-sdk-core';
+import { ActivitiesQuery, Activity, ActivitySortScope, KeyedString, SuggestionsQuery, Url } from '../../../hcl-sdk-core/src/graphql/types';
 import { BREAKPOINT_MAX_WIDTH, GEOLOC } from '../core/constants';
-import { ActivityList, ActivityResult, Individual, IndividualFragment, KeyedString } from '../../../hcl-sdk-core/src/graphql/types';
-import { t } from '../utils/i18n';
-import { DistanceUnit } from '../core/stores/ConfigStore';
-import { SearchSpecialty } from '../core/stores/SearchMapStore'
 import { configStore } from '../core/stores';
+import { DistanceUnit } from '../core/stores/ConfigStore';
+import { SearchSpecialty, SortValue } from '../core/stores/SearchMapStore';
+import { Breakpoint, GeolocCoordinates, ScreenSize } from '../core/types';
+import { t } from '../utils/i18n';
 
 const CONTAINER_ELEMENT = 'hcl-sdk';
 
@@ -63,7 +63,7 @@ export function applyDefaultTheme(darkMode?: boolean) {
   document.head.prepend(styleElement);
 }
 
-export function getSpecialtiesText(specialties) {
+export function getSpecialtiesText(specialties: any[]) {
   return specialties.filter(elm => elm.label).map(elm => elm.label)
 }
 
@@ -101,8 +101,8 @@ export function getBreakpointFromParentClientRect(clientRect: DOMRect): Breakpoi
   };
 }
 
-export function getMergeMainAndOtherActivities(mainActivity: ActivityList, otherActivities: ActivityList[] = []) {
-  let results: ActivityList[];
+export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActivities: Activity[] = []) {
+  let results: Activity[];
   if (mainActivity) {
     results = [mainActivity].concat(otherActivities);
   } else {
@@ -163,10 +163,16 @@ export function fallbackShareHCPDetail(individualDetail, config) {
   link.click();
 }
 
-export function getHcpFullname(individual: Individual | IndividualFragment) {
+export function getHcpFullname(individual: ActivitiesQuery['activities']['edges'][number]['node']['individual']) {
   const { firstName, lastName, middleName } = individual;
 
   return [firstName, middleName, lastName].filter(s => !!s).join(' ');
+}
+
+export function getSuggestionIndividualName(individual: SuggestionsQuery['suggestions']['edges'][number]['node']['individual']) {
+  const { firstName, lastName } = individual;
+
+  return [firstName, lastName].filter(s => !!s).join(' ');
 }
 
 export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {
@@ -249,20 +255,66 @@ export function getCurrentPosition(
   })
 }
 
-export const handleMapActivities = (item: ActivityResult) => ({
-  distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
-  distanceNumber: item.distance,
-  relevance: item.relevance,
-  name: getHcpFullname(item.activity.individual),
-  lastName: item.activity.individual.lastName,
-  professionalType: item.activity.individual.professionalType.label,
-  specialtiesRaw: getSpecialtiesText(item.activity.individual.specialties),
-  specialtyPrimary: getSpecialtiesText(item.activity.individual.specialties)[0],
-  address: [
-    item.activity.workplace.address.longLabel, 
-    item.activity.workplace.address.postalCode + ' ' + item.activity.workplace.address.city.label
-  ].filter(s => s).join(', '),
-  lat: item.activity.workplace.address.location.lat,
-  lng: item.activity.workplace.address.location.lon,
-  id: item.activity.id
-})
+
+export const handleMapActivities = (item: ActivitiesQuery['activities']['edges'][number], searchedSpecialtyCode?: string) => {
+  return {
+    distance: formatDistanceDisplay(item.distance, configStore.state.distanceUnit),
+    distanceNumber: item.distance,
+    relevance: item.relevance,
+    name: getHcpFullname(item.node.individual),
+    lastName: item.node.individual.lastName,
+    professionalType: item.node.individual.professionalType.label,
+    specialtiesRaw: getSpecialtiesText(item.node.individual.specialties),
+    specialtyPrimary: getSpecialtiesText(
+      item.node.individual.specialties.filter(
+        specialty => !searchedSpecialtyCode || specialty.code === searchedSpecialtyCode,
+      ),
+    )[0],
+    address: [
+      item.node.workplace.address.longLabel,
+      item.node.workplace.address.postalCode + ' ' + item.node.workplace.address.city.label,
+    ]
+      .filter(s => s)
+      .join(', '),
+    lat: item.node.workplace.address.location.lat,
+    lng: item.node.workplace.address.location.lon,
+    id: item.node.id,
+    reviewsAvailable: item.node.individual.reviewsAvailable,
+    diseasesAvailable: item.node.individual.diseasesAvailable,
+    url: getUrl(item.node.workplace.address.country, item.node.urls),
+  };
+};
+
+export function getUrl(_country, urls: Url[]) {
+  const appointmentUrl = urls && urls[0]?.url?.webcrawled;
+
+  if (!appointmentUrl) {
+    return null
+  }
+
+  if (appointmentUrl.startsWith('http') || appointmentUrl.startsWith('//')) {
+    return appointmentUrl;
+  }
+
+  return 'https://' + appointmentUrl
+}
+
+function getSortScope(sortValue: keyof SortValue | string) {
+  switch (sortValue) {
+    case 'relevance':
+      return ActivitySortScope.Relevancy
+    case 'distanceNumber':
+      return ActivitySortScope.WorkplaceDistance
+    case 'lastName':
+        return ActivitySortScope.Relevancy
+    default:
+      return undefined
+  }
+}
+
+export function getActivitySortScopesFromSortValues(sortValues: SortValue) {
+  return Object.entries(sortValues)
+    .filter(([_, value]) => !!value && value !== 'SORT_DISABLED')
+    .map(([key]) => getSortScope(key))
+    .filter(Boolean);
+}

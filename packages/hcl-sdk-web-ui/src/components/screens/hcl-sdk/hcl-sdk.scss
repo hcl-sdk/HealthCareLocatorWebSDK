@@ -113,12 +113,20 @@
     color: var(--hcl-color-primary);
   }
 
+  .text-recommend {
+    color: var(--hcl-color-recommend);
+  }
+
   .text-bold {
     font-weight: 700;
   }
 
   .text-small {
     font-size: 14px;
+  }
+
+  .text-xs {
+    font-size: 12px;
   }
 
   $sizes: mobile, tablet, desktop;

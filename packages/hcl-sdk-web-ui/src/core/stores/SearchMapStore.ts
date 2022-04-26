@@ -1,8 +1,9 @@
-import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from "../../utils/storageUtils";
-import { NEAR_ME } from "../constants";
-import StoreProvider from "./StoreProvider";
+import { ActivitiesQuery } from '../../../../hcl-sdk-core/src/graphql/types'
+import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../utils/storageUtils'
+import { NEAR_ME } from '../constants'
+import StoreProvider from './StoreProvider'
 
-export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName' | 'country'
+export type SearchInputName = 'name' | 'address' | 'medicalTerm' | 'specialtyName' | 'country' | 'search-target'
 
 export interface SpecialtyItem {
   name: string;
@@ -12,9 +13,12 @@ export interface SpecialtyItem {
   title?: string;
   address?: string;
   createdAt?: string;
+  specialtyPrimary?: string;
   lat?: number;
   lng?: number;
   id: string;
+  reviewsAvailable?: boolean
+  diseasesAvailable?: boolean
 }
 
 export interface SearchFields {
@@ -40,9 +44,13 @@ export interface SelectedValues {
   address?: any;
 }
 
+type SORT_DISABLED = 'SORT_DISABLED';
+
 export interface SortValue {
-  distanceNumber?: boolean;
+  distanceNumber?: boolean | SORT_DISABLED;
   lastName?: boolean;
+  relevance?: boolean;
+  name?: boolean
 }
 
 export interface SelectedIndividual {
@@ -69,6 +77,11 @@ export interface SearchSpecialty {
 
 type SearchDoctor = SelectedIndividual
 
+type Disease = {
+  id?: number
+  name?: string
+}
+
 export type IndividualDetail = {
   id: string
   individualId: string
@@ -93,6 +106,69 @@ export type IndividualDetail = {
   activitiesList: any[]
   uciAdeli?: string
   uciRpps?: string
+  uciGln?: string
+  uciNpi?: string
+  uciLanr?: string
+  uciZsr?: string
+  reviewsAvailable?: boolean
+  diseasesAvailable?: boolean
+  reviews?: {
+    diseases: Disease[]
+    reviews: {
+      createdAt?: string
+      diseases?: Disease[]
+      reviewer?: string
+      text?: string
+      validatedAt?: string
+    }[]
+    idnat: string
+  }
+  url?: string
+  openHours?: {
+    day?: string
+    openPeriods?: {
+      open?: string
+      close?: string
+    }
+  }[]
+}
+
+type HCOCore = {
+  id: string
+  name: string
+  type: string
+  address: string
+  buildingLabel?: string
+  phone: string
+  website: string
+  fax: string
+  lat: number
+  lng: number
+  individuals: {
+    service?: string
+    subService?: string
+    name: string
+    specialty: string
+    isShowRecommendation: boolean
+    url: string
+    mainActivity: {
+      id: string
+    }
+  }[]
+  uci?: string
+}
+
+type HCO = HCOCore & {
+  children?: (HCOCore & {
+    children?: (HCOCore & {
+      children?: HCOCore[]
+    })[]
+  })[]
+}
+
+export enum SEARCH_TARGET {
+  HCO = 'HCO',
+  HCP = 'HCP',
 }
 
 export interface SearchMapState {
@@ -111,7 +187,12 @@ export interface SearchMapState {
   searchMedicalTerms: SearchTermItem[];
   selectedValues?: SelectedValues;
   sortValues?: SortValue
-  selectedActivity?: SelectedIndividual
+  selectedActivity?: {
+    id: string
+    name: string
+    lat: number
+    lng: number
+  }
   individualDetail?: IndividualDetail;
   individualDetailName?: string;
   searchFields: SearchFields;
@@ -120,7 +201,36 @@ export interface SearchMapState {
   medicalTermsFilter: SearchTermItem;
   geoLocation?: GeoLocation;
   navigatedFromHome?: boolean;
-  cachedActivities?: Record<string, any[]>
+  cachedActivities?: Record<string, ActivitiesQuery>;
+  // hco
+  searchTarget: SEARCH_TARGET,
+  hcos?: {
+    id: string
+    name: string
+    address: string
+    distance: string
+    distanceNumber: number
+    lat: number
+    lng: number
+    type: string
+  }[];
+  selectedHco?: {
+    id: string
+    name: string
+    address: string
+    lat: number
+    lng: number
+    type: string
+  },
+  hcoDetail: HCO
+  loadingHcoDetail?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized'; 
+  loadingHcosStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
+  navigateFromHcoFullCard?: boolean,
+  searchHcos: {
+    name?: string;
+    specialty?: string;
+    address?: string;
+  }[]
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -148,7 +258,9 @@ export const initStateSearchMapStore: SearchMapState = {
   individualDetail: null,
   sortValues: {
     distanceNumber: false,
-    lastName: true
+    lastName: false,
+    name: false,
+    relevance: true
   },
   searchFields: {
     name: '', // First name or Last name of HCPs
@@ -165,13 +277,49 @@ export const initStateSearchMapStore: SearchMapState = {
     longitude: 0
   },
   navigatedFromHome: false,
-  cachedActivities: {}
+  cachedActivities: {},
+
+  // hco
+  searchTarget: SEARCH_TARGET.HCP,
+  selectedHco: null,
+  hcoDetail: null,
+  hcos: null,
+  loadingHcosStatus: 'idle',
+  navigateFromHcoFullCard: false,
+  searchHcos: []
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {
   constructor(state: SearchMapState) {
     super(state);
     this.state = state;
+  }
+
+  setSearchTarget(searchTarget: SEARCH_TARGET) {
+    this.setState({
+      searchTarget
+    })
+  }
+
+  get searchTarget() {
+    return this.state.searchTarget
+  }
+
+  setSortValues(sortValue: SortValue) {
+    this.setState({
+      sortValues: {
+        ...this.state.sortValues,
+        ...sortValue,
+        distanceNumber: this.isGrantedGeoloc ? sortValue.distanceNumber : 'SORT_DISABLED',
+      },
+    });
+  }
+
+  get sortValues() {
+    return {
+      ...this.state.sortValues,
+      distanceNumber: this.isGrantedGeoloc ? this.state.sortValues.distanceNumber : 'SORT_DISABLED',
+    };
   }
 
   setSearchFieldValue(key: SearchInputName, value: string) {
@@ -183,11 +331,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     })
   }
 
-  setGeoLocation({ 
-    latitude = 0,
-    longitude = 0,
-  } = {}) {
-
+  setGeoLocation({ latitude = 0, longitude = 0 } = {}) {
     this.setState({
       geoLocation: {
         ...this.state.geoLocation,
@@ -196,7 +340,7 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
         longitude
       }
     })
-    
+
     storageUtils.setObject(OKSDK_GEOLOCATION_HISTORY, {
       latitude,
       longitude,
@@ -220,12 +364,10 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     }
   }
 
-  resetDataSearch({ 
-    isResetHCPDetail = false,
-    isResetSearchFields = false
-  } = {}) {
+  resetDataSearch({ isResetHCPDetail = false, isResetSearchFields = false, isResetHCODetail = false } = {}) {
     let resetHCPDetail = {}
     let resetSearchFields = {}
+    let resetHCODetail = {}
 
     if (isResetHCPDetail) {
       resetHCPDetail = {
@@ -250,13 +392,24 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
       }
     }
 
+    if (isResetHCODetail) {
+      resetHCODetail = {
+        selectedActivity: null,
+        individualDetail: null,
+        specialties: [],
+        specialtiesRaw: []
+      }
+    }
+
     this.setState({
       searchDoctor: [],
       searchGeo: [],
       searchSpecialty: [],
       searchMedicalTerms: [],
+      searchHcos: [],
       ...resetSearchFields,
-      ...resetHCPDetail
+      ...resetHCPDetail,
+      ...resetHCODetail
     })
   }
 
@@ -301,10 +454,30 @@ class SearchMapStore extends StoreProvider<SearchMapState> {
     return null
   }
 
-  saveCached(storeKey: string, activities: any[]) {
+  saveCached(storeKey: string, activities: ActivitiesQuery) {
     if (storeKey && activities) {
       this.state.cachedActivities[storeKey] = activities
     }
+  }
+
+  get activities() {
+    return {
+      isLoading: this.state.loadingActivitiesStatus === 'loading',
+      status: this.state.loadingActivitiesStatus,
+      data: this.state.specialties
+    }
+  }
+
+  setActivitiesLoadingStatus(status: 'loading' | 'idle' | 'success' | 'error' | 'unauthorized') {
+    this.setState({
+      loadingActivitiesStatus: status,
+    });
+  }
+
+  setHcosLoadingStatus(status: 'loading' | 'idle' | 'success' | 'error' | 'unauthorized') {
+    this.setState({
+      loadingHcosStatus: status,
+    });
   }
 }
 

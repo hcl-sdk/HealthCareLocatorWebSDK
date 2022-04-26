@@ -25,16 +25,16 @@ graph TD;
   hcl-sdk-search --> hcl-sdk-search-countries
   hcl-sdk-search --> hcl-sdk-router-link
   hcl-sdk-search --> hcl-sdk-icon
+  hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search --> hcl-sdk-input
   hcl-sdk-search --> hcl-sdk-icon-flag
-  hcl-sdk-search --> hcl-sdk-button
   hcl-sdk-search --> hcl-sdk-switch-view-mode
   hcl-sdk-autocomplete-result --> hcl-sdk-search-address-item
   hcl-sdk-search-address-item --> hcl-sdk-icon
   hcl-sdk-search-countries --> hcl-sdk-icon-flag
+  hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-input --> hcl-sdk-button
   hcl-sdk-input --> hcl-sdk-icon
-  hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-switch-view-mode --> hcl-sdk-icon
   hcl-sdk-home-min --> hcl-sdk-icon
   hcl-sdk-home-min --> hcl-sdk-button

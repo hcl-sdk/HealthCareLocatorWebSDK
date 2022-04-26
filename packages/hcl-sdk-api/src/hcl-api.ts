@@ -1,8 +1,9 @@
 import { graphql } from '../../hcl-sdk-core';
 import {
+  CodesByLabelQueryVariables,
+  LabelsByCodeQueryVariables,
   QueryActivitiesArgs,
   QueryActivityByIdArgs,
-  QueryCodesByLabelArgs,
   QueryIndividualByIdArgs
 } from '../../hcl-sdk-core/src/graphql/types';
 import { ENDPOINT } from '../../hcl-sdk-core/src/graphql/constants';
@@ -42,11 +43,11 @@ export class HclSDKApi {
     return graphql.individualsByID(params, this.config);
   }
 
-  codesByLabel(params: QueryCodesByLabelArgs) {
+  codesByLabel(params: CodesByLabelQueryVariables) {
     return graphql.codesByLabel(params, this.config);
   }
 
-  labelsByCode(params: QueryCodesByLabelArgs) {
+  labelsByCode(params: LabelsByCodeQueryVariables) {
     return graphql.labelsByCode(params, this.config);
   }
 

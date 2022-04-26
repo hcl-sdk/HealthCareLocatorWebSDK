@@ -1,6 +1,6 @@
 import { Component, h, Prop, State, Watch } from '@stencil/core';
 import { graphql } from '../../../../../hcl-sdk-core/src';
-import { ActivityCriteriaScope, ActivityResult, QueryActivitiesArgs } from '../../../../../hcl-sdk-core/src/graphql/types';
+import { ActivityCriteriaScope, ActivitiesResult, QueryActivitiesArgs } from '../../../../../hcl-sdk-core/src/graphql/types';
 import { configStore, i18nStore, searchMapStore } from '../../../core/stores';
 import { WidgetMap, WidgetProps } from '../../../core/types';
 import { handleMapActivities } from '../../../utils/helper';
@@ -21,7 +21,7 @@ export class HclSdkWidgetMap {
   @State() props: WidgetMap
   @Prop() widgetProps: WidgetMap = {}
 
-  cachedQuery: Record<string, ActivityResult[] | boolean> = {}
+  cachedQuery: Record<string, ActivitiesResult[] | boolean> = {}
 
   @Watch('widgetProps')
   watchWidgetPropsHandler(newValue: WidgetProps, _: WidgetProps) {
@@ -108,9 +108,9 @@ export class HclSdkWidgetMap {
       }
 
       this.cachedQuery[paramsStr] = true
-      const { activities } = await graphql.activities(params, configStore.configGraphql)
+      const activitiesResult = await graphql.activities(params, configStore.configGraphql)
 
-      this.locations = (activities || []).map(handleMapActivities)
+      this.locations = (activitiesResult?.activities?.edges || []).map(activity => handleMapActivities(activity));
       this.cachedQuery[paramsStr] = this.locations
     } catch(err) {}
   }

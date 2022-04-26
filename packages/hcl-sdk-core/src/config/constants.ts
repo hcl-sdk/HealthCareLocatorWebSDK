@@ -65,6 +65,7 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--hcl-color-black': '#000',
   '--hcl-color-primary': DEFAULT_THEME_COLOR_PRIMARY,
   '--hcl-color-secondary': DEFAULT_THEME_COLOR_SECONDARY,
+  '--hcl-color-recommend': '#ff4d98',
   '--hcl-color-button_bkg': '#fcfcfc',
   '--hcl-color-button_accept_bkg': 'var(--hcl-color-primary)',
   '--hcl-color-button_discard_bkg': '#9aa0a7',
@@ -90,6 +91,8 @@ export const DEFAULT_THEME_PROPERTIES = {
   '--hcl-color-search_input_placeholder': 'var(--hcl-color-grey_light)',
   '--hcl-color-main_infor_avatar': '#ddd',
   '--hcl-color-share_hcp': '#fafafa',
+  '--hcl-color-red': '#ff0000',
+  '--hcl-color-opening-hour-item-bg': '#ddd',
 };
 
 export const DARK_THEME_PROPERTIES = {
@@ -150,6 +153,7 @@ export const DARK_THEME_PROPERTIES = {
   '--hcl-color-black': '#fff',
   '--hcl-color-primary': DEFAULT_THEME_COLOR_PRIMARY,
   '--hcl-color-secondary': DEFAULT_THEME_COLOR_SECONDARY,
+  '--hcl-color-recommend': '#ff4d98',
   '--hcl-color-button_bkg': '#323232',
   '--hcl-color-button_accept_bkg': 'var(--hcl-color-primary)',
   '--hcl-color-button_discard_bkg': '#9aa0a7',
@@ -175,6 +179,8 @@ export const DARK_THEME_PROPERTIES = {
   '--hcl-color-search_input_placeholder': 'var(--hcl-color-grey_dark)',
   '--hcl-color-main_infor_avatar': '#323232',
   '--hcl-color-share_hcp': 'var(--hcl-color-header_block)',
+  '--hcl-color-red': '#ff0000',
+  '--hcl-color-opening-hour-item-bg': '#323232',
 };
 
 export const DEFAULT_CONFIGURATION: HclSDKConfig = {

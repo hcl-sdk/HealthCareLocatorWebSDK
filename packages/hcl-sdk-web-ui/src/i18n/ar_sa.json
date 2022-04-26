@@ -37,7 +37,7 @@
   "reset_button": "إعادة الضبط",
   "main_information_label": "المعلومات الرئيسة",
   "rate_refunds_label": "السّعر واسترداد المدفوعات",
-  "unique_country_identifier": "Unique Country Identifier",
+  "unique_country_identifier": "المعرّف الخاص بالبلد",
   "specialities_label": "التَّخصصات",
   "medical_publication_subject_heading": "عنوان موضوع النشرة الطبية",
   "information_label": "المَعلومات",
@@ -52,5 +52,18 @@
   "share_hcp_title": "مُشاركة متخصص الرعاية الصحية هذا",
   "share_hcp_description": "هذا هو متخصص الرعاية الصحية الذي أوصي به :",
   "share_hcp_specialties": "التَّخصصات:",
-  "share_hcp_found_text": "{name} وجدته على"
+  "share_hcp_found_text": "{name} وجدته على",
+  "modify": "تعديل",
+  "patients_recommendations": "توصيات المريض",
+  "total_results": "النتائج الكلية",
+  "appointment_available": "مواعيد متاحة لملف مقدم الرعاية الصحية",
+  "patient_reviews": "{count} آراء المرضى",
+  "appointment_opens_soon": "يفتح قريبًا",
+  "appointment_monday": "الاثنين",
+  "appointment_tuesday": "الثلاثاء",
+  "appointment_wednesday": "الأربعاء",
+  "appointment_thursday": "الخميس",
+  "appointment_friday": "الجمعة",
+  "appointment_saturday": "السبت",
+  "appointment_sunday": "الأحد"
 }

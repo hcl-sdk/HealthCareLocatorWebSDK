@@ -14,7 +14,9 @@ const defaultSettings: Fields = {
   distanceUnit: 'km',
   useGoogleMap: false,
   googleMapApiKey: '',
-  googleMapId: ''
+  googleMapId: '',
+  enableHcoSearch: false,
+  enableUci: true
 }
 
 export function format(first: string, middle: string, last: string): string {

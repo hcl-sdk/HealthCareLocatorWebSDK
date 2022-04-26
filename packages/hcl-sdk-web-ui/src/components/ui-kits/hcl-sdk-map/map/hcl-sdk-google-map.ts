@@ -356,9 +356,13 @@ export class HclSdkMapGoogleMap implements IHclSdkMap {
 
     const icon = {
       url: isCurrent ? this.createIconMeURL() : this.createIconURL(markerColor, isSelected),
-      scaledSize: isCurrent ? new google.maps.Size(20, 20) : new google.maps.Size(25, 40),
+      // (25, 28) -> fit the icon image without space around so anchor is at x-center, y-bottom:
+      scaledSize: isCurrent ? new google.maps.Size(20, 20) : new google.maps.Size(25, 28),
       origin: new google.maps.Point(0, 0),
-      anchor: isCurrent ? new google.maps.Point(10, 10) : new google.maps.Point(12, 20),
+      anchor: isCurrent ? new google.maps.Point(10, 10) : new google.maps.Point(12.5, 28),
+      // anchor depends on the shape of marker
+      // icon me is a circle so we want to anchor it at the center
+      // other icon is a pin we want to anchor it horizontally center, vertically bottom
     };
 
     return icon;
