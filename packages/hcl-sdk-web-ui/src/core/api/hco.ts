@@ -224,7 +224,7 @@ export async function searchHcos({ criteria }: { criteria: string }) {
     ? edges.map(({ node }) => {
         return toHCO({
           name: node.workplace?.name,
-          type: node.workplace?.type,
+          type: node.workplace?.type?.label,
           address: formatHCOAddress(node),
           id: node.workplace.id,
         });
