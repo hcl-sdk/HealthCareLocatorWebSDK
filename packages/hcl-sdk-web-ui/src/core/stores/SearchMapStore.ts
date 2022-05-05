@@ -228,7 +228,7 @@ export interface SearchMapState {
   navigateFromHcoFullCard?: boolean,
   searchHcos: {
     name?: string;
-    specialty?: string;
+    hcoType?: string;
     address?: string;
   }[]
 }
