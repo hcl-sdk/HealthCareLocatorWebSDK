@@ -8,6 +8,7 @@ import {
 } from '../../../../hcl-sdk-core/src/graphql/types';
 import {
   convertToMeter,
+  formatUrl,
   getActivitySortScopesFromSortValues,
   getCombineListTerms,
   getHcpFullname,
@@ -408,7 +409,7 @@ export async function getFullCardDetail({ activityId, activityName }, keyLoading
     postalCode: activity.workplace.address.postalCode,
     city: activity.workplace.address.city.label,
     country: activity.workplace.address.county.label,
-    webAddress: activity.webAddress,
+    webAddress: formatUrl(activity.webAddress),
     phone: activity.phone || activity.workplace.localPhone || activity.workplace.intlPhone,
     fax: activity.fax || activity.workplace.intlFax,
     lat: activity.workplace.address.location.lat,
