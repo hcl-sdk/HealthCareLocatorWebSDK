@@ -288,15 +288,19 @@ export const handleMapActivities = (item: ActivitiesQuery['activities']['edges']
 export function getUrl(_country, urls: Url[]) {
   const appointmentUrl = urls && urls[0]?.url?.webcrawled;
 
-  if (!appointmentUrl) {
+  return formatUrl(appointmentUrl)
+}
+
+export function formatUrl(url) {
+  if (!url) {
     return null
   }
 
-  if (appointmentUrl.startsWith('http') || appointmentUrl.startsWith('//')) {
-    return appointmentUrl;
+  if (url.startsWith('http') || url.startsWith('//')) {
+    return url;
   }
 
-  return 'https://' + appointmentUrl
+  return 'https://' + url
 }
 
 function getSortScope(sortValue: keyof SortValue | string) {

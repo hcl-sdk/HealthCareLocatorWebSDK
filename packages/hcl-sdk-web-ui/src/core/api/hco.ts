@@ -8,7 +8,7 @@ import {
   WorkplaceSortScope,
   WorkplacesQueryVariables,
 } from '../../../../hcl-sdk-core/src/graphql/types';
-import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
+import { convertToMeter, formatDistanceDisplay, formatUrl, getSpecialtiesText, getUrl } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
 import { createHCOHistoryItem } from '../stores/HistoryStore';
@@ -250,7 +250,7 @@ function getHCOCoreFields(data: WorkplaceByIdQuery['workplaceByID']) {
     address: formatHCOAddress(data),
     phone: data?.intlPhone,
     fax: data?.intlFax,
-    website: data?.webAddress,
+    website: formatUrl(data?.webAddress),
     lat: data?.address?.location?.lat,
     lng: data?.address?.location?.lon,
     individuals: data.individuals.map(individual => toIndividualCore(individual, data)),
