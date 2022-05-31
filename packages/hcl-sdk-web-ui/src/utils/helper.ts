@@ -264,9 +264,9 @@ export const handleMapActivities = (item: ActivitiesQuery['activities']['edges']
     name: getHcpFullname(item.node.individual),
     lastName: item.node.individual.lastName,
     professionalType: item.node.individual.professionalType.label,
-    specialtiesRaw: getSpecialtiesText(item.node.individual.specialties),
+    specialtiesRaw: getSpecialtiesText((item.node.individual.specialties || [])),
     specialtyPrimary: getSpecialtiesText(
-      item.node.individual.specialties.filter(
+      (item.node.individual.specialties || []).filter(
         specialty => !searchedSpecialtyCode || specialty.code === searchedSpecialtyCode,
       ),
     )[0],
