@@ -461,6 +461,12 @@ export class HclSdkSearchResult {
             </div>
           )}
 
+          {isLoadingHcos && (
+            <div class="search-result__loading">
+              <hcl-sdk-icon name="circular" />
+            </div>
+          )}
+
           {isShowMapCluster && (
             <hcl-sdk-map
               key="map-cluster"
@@ -572,6 +578,12 @@ export class HclSdkSearchResult {
               <hcl-sdk-button icon="refresh" noBorder secondary iconWidth={12} iconHeight={12} iconColor="white" onClick={this.handleRelaunchSearch}>
                 {t('relaunch')}
               </hcl-sdk-button>
+            </div>
+          )}
+
+          {loadingActivities && (
+            <div class="search-result__loading">
+              <hcl-sdk-icon name="circular" />
             </div>
           )}
 
