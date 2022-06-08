@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { configStore, uiStore, searchMapStore, routerStore, i18nStore } from '../../../core/stores';
 import { HclSDKConfigData, MapProvider, ModeViewType } from '../../../core/stores/ConfigStore';
 import { ROUTER_PATH } from '../../hcl-sdk-router/constants';
-import { BREAKPOINT_MAX_WIDTH, COUNTRIES_LABELS, CountryCode, NEAR_ME_ITEM } from '../../../core/constants';
+import { BREAKPOINT_MAX_WIDTH, COUNTRIES_LABELS, CountryCode, NEAR_ME_ITEM, SCREEN_NAME } from '../../../core/constants';
 import { searchLocationWithParams } from '../../../core/api/hcp';
 import { getI18nLabels, t } from '../../../utils/i18n';
 import { HTMLStencilElement, Watch } from '@stencil/core/internal';
@@ -46,13 +46,19 @@ export class HclSDK {
     if (this.widget) return;
     const { lat, lng } = newProps
 
+    const lastGeo = searchMapStore.getGeoLocation()
+    searchMapStore.setState({
+      lastGeoLocation: { latitude: lastGeo.latitude, longitude: lastGeo.longitude },
+      mayShowBackGeoButton: searchMapStore.state.isShowRelaunchBtn ? true : false
+    });
+
     getAddressFromGeo(lat, lng).then(res => {
       if (res?.address?.country_code) {
         configStore.setState({
           countryGeo: res.address.country_code,
         });
 
-        if (configStore && configStore.state.entry && configStore.state.entry.screenName === 'searchNearMe') {
+        if (configStore && configStore.state.entry && configStore.state.entry.screenName === SCREEN_NAME.SEARCH_NEAR_ME) {
           const { specialtyCode, specialtyLabel } = configStore.state.entry;
           if (!specialtyCode) {
             console.error('missing specialtyCode for "near me" search');
@@ -117,7 +123,7 @@ export class HclSDK {
       throw new Error('Please provide an apiKey to the configuration object.');
     }
 
-    if (config && config.entry && config.entry.screenName === 'searchNearMe') {
+    if (config && config.entry && config.entry.screenName === SCREEN_NAME.SEARCH_NEAR_ME) {
       this.loadInitScreenSearch() // Change the route to search immediately to avoid a flash screen
     }
 
@@ -176,19 +182,6 @@ export class HclSDK {
     const ro = new ResizeObserver(update);
 
     ro.observe(parent);
-
-    // Search near me entry
-    if (config && config.entry && config.entry.screenName === 'searchNearMe') {
-      const { specialtyCode, specialtyLabel } = config.entry;
-      if (!specialtyCode) {
-        console.error('missing specialtyCode for "near me" search');
-        return;
-      }
-      setTimeout(() => {
-        this.searchNearMe({ specialtyCode, specialtyLabel });
-      }, 200)
-    }
-
   }
 
   private getMapConfig(configInput) {
@@ -233,7 +226,7 @@ export class HclSDK {
   };
 
   tryFindGeoloc({ getCurrentPosition = undefined, disableCollectGeo = false } = {}) {
-    function handler(coords: GeolocCoordinates) {
+    const handler = (coords: GeolocCoordinates) => {
       
       getAddressFromGeo(coords.latitude, coords.longitude)
         .then(res => {
@@ -241,6 +234,13 @@ export class HclSDK {
             configStore.setState({
               countryGeo: res.address.country_code
             })
+
+            const specialtyCode = configStore.state.entry?.specialtyCode;
+            const specialtyLabel = configStore.state.entry?.specialtyLabel;
+
+            if (specialtyCode && specialtyLabel && configStore.state.entry.screenName === SCREEN_NAME.SEARCH_NEAR_ME) {
+              this.searchNearMe({ specialtyCode, specialtyLabel });
+            }
           }
         });
 
