@@ -24,7 +24,6 @@ export class HclSdkSearchResult {
   @Element() el: HTMLStencilElement;
   @State() selectedMarkerLocation = { lat: -1, lng: -1 };
   @State() isOpenPanel: boolean = true;
-  @State() isShowRelaunchBtn: boolean = false;
   @State() newDragLocation: LatLng;
   @State() newDragBoundingBox: string[]; // [south, north, west, east]
   @State() isLoadingRelaunch: boolean;
@@ -154,8 +153,8 @@ export class HclSdkSearchResult {
       return;
     }
 
-    if (!this.isShowRelaunchBtn) {
-      this.isShowRelaunchBtn = true;
+    if (!searchMapStore.state.isShowRelaunchBtn) {
+      searchMapStore.setState({ isShowRelaunchBtn: true });
     }
 
     const target = evt.detail.target; // Map Element
@@ -183,6 +182,24 @@ export class HclSdkSearchResult {
     } as any;
     this.handleRelaunchSearch();
   }
+
+  handleBackToPreviousGeo = async () => {
+    try {
+      if (searchMapStore.state.lastGeoLocation) {
+        searchMapStore.setGeoLocation(searchMapStore.state.lastGeoLocation)
+        searchMapStore.setState({ loadingActivitiesStatus: 'loading' });
+        const apis = searchMapStore.searchTarget === SEARCH_TARGET.HCO ? HCOApis : HCPApis
+        await apis.searchLocationWithParams()
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      searchMapStore.setState({
+        mayShowBackGeoButton: false,
+        isShowRelaunchBtn: false
+      })
+    }
+  };
 
   handleRelaunchSearch = async () => {
     if (!this.newDragLocation || this.isLoadingRelaunch) {
@@ -223,8 +240,11 @@ export class HclSdkSearchResult {
       console.error(err);
     }
 
+    searchMapStore.setState({
+      mayShowBackGeoButton: false,
+      isShowRelaunchBtn: false
+    })
     this.isLoadingRelaunch = false;
-    this.isShowRelaunchBtn = false;
     this.newDragLocation = null;
   };
 
@@ -389,7 +409,7 @@ export class HclSdkSearchResult {
     const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCODetail && hcos && hcos.length !== 0);
 
     const locationsMapSingle = this.getLocationMapSingleHco();
-    const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
+    const isShowRelaunchBtn = searchMapStore.state.isShowRelaunchBtn && isShowMapCluster;
 
     const modeView = configStore.state.modeView;
     const mapClass = cls('search-map__content', {
@@ -527,7 +547,9 @@ export class HclSdkSearchResult {
     const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && activities && activities.length !== 0);
 
     const locationsMapSingle = this.getLocationsMapSingle();
-    const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
+    const isShowRelaunchBtn = searchMapStore.state.isShowRelaunchBtn && isShowMapCluster;
+
+    const isShowGoBackPrevGeoLocationBtn = searchMapStore.state.mayShowBackGeoButton && isShowRelaunchBtn;
 
     return isShowNoResults || isNoDataAvailable ? (
       (isShowNoResults && <hcl-sdk-search-no-results />) || (isNoDataAvailable && <hcl-sdk-search-no-data-available />)
@@ -569,7 +591,7 @@ export class HclSdkSearchResult {
             <hcl-sdk-button icon="arrow_right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor={getCssColor('--hcl-color-dark')} onClick={this.togglePanel} />
           </div>
 
-          {isShowRelaunchBtn && (
+          {isShowRelaunchBtn && !isShowGoBackPrevGeoLocationBtn && (
             <div
               class={cls('hclsdk-btn-relaunch', {
                 'hclsdk-btn-relaunch--loading': this.isLoadingRelaunch,
@@ -581,7 +603,16 @@ export class HclSdkSearchResult {
             </div>
           )}
 
-          {loadingActivities && (
+          {isShowGoBackPrevGeoLocationBtn && (
+            <div class={cls('hclsdk-btn-relaunch')}>
+              <hcl-sdk-button noBorder secondary iconWidth={12} iconHeight={12} iconColor="white" onClick={this.handleBackToPreviousGeo}>
+                Previous location
+              </hcl-sdk-button>
+            </div>
+          )}
+
+          {/* loadingActivities && !isListView: prevent double loading circular when in listview  */}
+          {loadingActivities && !isListView && (
             <div class="search-result__loading">
               <hcl-sdk-icon name="circular" />
             </div>

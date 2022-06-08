@@ -309,3 +309,7 @@ export const COUNTRIES_LABELS = {
 };
 
 export type CountryCode = (keyof (typeof COUNTRIES_LABELS))
+
+export const SCREEN_NAME = {
+  SEARCH_NEAR_ME: 'searchNearMe',
+} as const;

@@ -231,6 +231,13 @@ export interface SearchMapState {
     hcoType?: string;
     address?: string;
   }[]
+
+  mayShowBackGeoButton: boolean
+  isShowRelaunchBtn?: boolean
+  lastGeoLocation?: {
+    latitude: number;
+    longitude: number;
+  }
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -286,7 +293,10 @@ export const initStateSearchMapStore: SearchMapState = {
   hcos: null,
   loadingHcosStatus: 'idle',
   navigateFromHcoFullCard: false,
-  searchHcos: []
+  searchHcos: [],
+
+  mayShowBackGeoButton: false,
+  isShowRelaunchBtn: false
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {

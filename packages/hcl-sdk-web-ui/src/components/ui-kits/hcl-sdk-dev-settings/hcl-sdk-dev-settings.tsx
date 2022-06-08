@@ -58,23 +58,42 @@ const optionSets = [
   {
     key: 'apiKey',
     label: 'API Key',
-    type: 'text'
+    type: 'text',
   },
   {
     key: 'enableMedicalTerm',
     label: 'Search Medical Terms',
-    type: 'checkbox'
+    type: 'checkbox',
   },
   {
     key: 'enableDarkMode',
     label: 'Dark Mode',
-    type: 'checkbox'
+    type: 'checkbox',
   },
   {
     key: 'enableMapDarkMode',
     label: 'Night Mode for Map',
-    type: 'checkbox'
-  }
+    type: 'checkbox',
+  },
+  {
+    key: 'searchNearMeScreen',
+    label: 'Enable Search Near Screen example',
+    type: 'checkbox',
+  },
+  {
+    key: 'useGetCurrentPosition',
+    label: 'Use getCurrentPosition',
+    type: 'checkbox',
+  },
+  {
+    key: 'currentPosition',
+    label: 'Current Position',
+    type: 'select',
+    options: [
+      { label: 'San Francisco', value: JSON.stringify({ lat: 37.774929, lng: -122.419416 }) },
+      { label: 'New York', value: JSON.stringify({ lat: 40.6976701, lng: -74.259864 }) },
+    ],
+  },
 ];
 
 @Component({
@@ -113,8 +132,21 @@ export class HclSDKViewport {
       ...this.settings,
       [k]: v,
     };
+    if (k === 'searchNearMeScreen' && v === true) {
+      this.settings.currentPosition = JSON.stringify({ lat: 37.774929, lng: -122.419416 })
+    }
+
     storeSettings(this.settings);
-    this.applySettings();
+
+    if (k === 'currentPosition' && this.settings.searchNearMeScreen) {
+      const hclSdkEl = document.querySelector('hcl-sdk');
+
+      if (hclSdkEl) {
+        hclSdkEl.currentPosition = JSON.parse(this.settings.currentPosition);
+      }
+    } else {
+      this.applySettings();
+    }
   }
 
   handleCollapseBtnClick = () => {
