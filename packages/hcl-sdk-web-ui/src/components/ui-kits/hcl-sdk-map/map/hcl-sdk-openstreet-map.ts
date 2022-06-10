@@ -4,6 +4,7 @@ import { IHclSdkMap } from './hck-sdk-map-interface';
 export class HclSdkOpenStreetMap implements IHclSdkMap {
   map: any;
   markers: any[] = [];
+  tileLayer: any;
 
   iconMarker?: string;
   iconMarkerSelected?: string;
@@ -34,7 +35,7 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
 
       .addTo(this.map);
 
-    L.tileLayer(mapTileLayer, {
+    this.tileLayer = L.tileLayer(mapTileLayer, {
       attribution: '&copy; ' + mapLink + ' Contributors',
       maxZoom: 20,
     }).addTo(this.map);
@@ -69,6 +70,10 @@ export class HclSdkOpenStreetMap implements IHclSdkMap {
     setTimeout(() => {
       this.map.invalidateSize(true);
     }, 500);
+  }
+
+  onTileFullyLoaded(cb: (event: any) => void): void {
+    this.tileLayer.on("load", cb)
   }
 
   onClick(cb: (event: any) => void): void {
