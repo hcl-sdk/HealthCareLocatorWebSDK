@@ -1,8 +1,7 @@
 import { Component, Event, EventEmitter, Fragment, h, Host, Listen, State } from '@stencil/core';
 import cls from 'classnames';
 import { getFullCardDetail } from '../../../core/api/hco';
-import { HCL_WEBSITE_HOST } from '../../../core/constants';
-import { configStore, featureStore, i18nStore, searchMapStore, uiStore } from '../../../core/stores';
+import { configStore, featureStore, searchMapStore, uiStore } from '../../../core/stores';
 import { getCssColor, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
@@ -147,23 +146,6 @@ export class HclSdkHCOFullCard {
         },
       });
     }
-  }
-
-  handleClickSuggestEdit() {
-    const { hcoDetail } = searchMapStore.state;
-
-    if (!hcoDetail) {
-      return;
-    }
-
-    const hcoId = hcoDetail.id;
-    const apiKey = configStore.state.apiKey;
-
-    const lang = i18nStore.state.lang.toLowerCase().replace('-', '_').split('_')[0];
-    const linkEl = document.createElement('a');
-    linkEl.href = `${HCL_WEBSITE_HOST}/${lang}/suggest-modification?apiKey=${apiKey}&id=${hcoId}`;
-    linkEl.target = '_blank';
-    linkEl.click();
   }
 
   handleToggleViewMoreIndividuals = () => {
