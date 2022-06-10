@@ -68,4 +68,6 @@ export interface IHclSdkMap {
   zoomCenter(to: any): void;
 
   panTo(option: any): void;
+
+  onTileFullyLoaded?: (cb: (event: any) => void) => void;
 }

@@ -41,6 +41,8 @@ export class HclSdkMap {
   mapElm: HTMLInputElement;
   map: IHclSdkMap;
 
+  @State() mapTileFullyLoaded = true
+
   connectedCallback() {
     configStore.onChange('map', () => {
       if (this.map && this.map['remove']) {
@@ -75,6 +77,13 @@ export class HclSdkMap {
 
     this.map.onDrag(this.onMapDragHandler)
     this.map.onZoomend(this.onMapZoomend)
+
+    if (this.map.onTileFullyLoaded) {
+      this.mapTileFullyLoaded = false
+      this.map.onTileFullyLoaded(() => {
+        this.mapTileFullyLoaded = true
+      })
+    }
 
     this.setMarkers();
   };
@@ -326,10 +335,18 @@ export class HclSdkMap {
             <hcl-sdk-icon name="map_geoloc" />
           </div>
         )}
+        <div class="map-box">
+          {!this.mapTileFullyLoaded && <hcl-sdk-icon class="map-box__loading" name="circular" />}
+        </div>
         <div
           class={this.zoomControl ? '' : 'map--no-controls'}
           onClick={this.handleMapClick}
-          style={{ height: this.mapHeight, width: this.mapWidth, minHeight: this.mapMinHeight }}
+          style={{
+            height: this.mapHeight,
+            width: this.mapWidth,
+            minHeight: this.mapMinHeight,
+            visibility: this.mapTileFullyLoaded ? 'visible' : 'hidden',
+          }}
           id={`map-${this.mapId}`}
           ref={el => (this.mapElm = el as HTMLInputElement)}
         />
