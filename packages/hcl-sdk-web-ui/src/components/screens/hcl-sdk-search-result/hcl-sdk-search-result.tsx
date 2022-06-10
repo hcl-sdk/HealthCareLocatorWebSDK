@@ -183,24 +183,6 @@ export class HclSdkSearchResult {
     this.handleRelaunchSearch();
   }
 
-  handleBackToPreviousGeo = async () => {
-    try {
-      if (searchMapStore.state.lastGeoLocation) {
-        searchMapStore.setGeoLocation(searchMapStore.state.lastGeoLocation)
-        searchMapStore.setState({ loadingActivitiesStatus: 'loading' });
-        const apis = searchMapStore.searchTarget === SEARCH_TARGET.HCO ? HCOApis : HCPApis
-        await apis.searchLocationWithParams()
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      searchMapStore.setState({
-        mayShowBackGeoButton: false,
-        isShowRelaunchBtn: false
-      })
-    }
-  };
-
   handleRelaunchSearch = async () => {
     if (!this.newDragLocation || this.isLoadingRelaunch) {
       return;
@@ -241,7 +223,6 @@ export class HclSdkSearchResult {
     }
 
     searchMapStore.setState({
-      mayShowBackGeoButton: false,
       isShowRelaunchBtn: false
     })
     this.isLoadingRelaunch = false;
@@ -549,8 +530,6 @@ export class HclSdkSearchResult {
     const locationsMapSingle = this.getLocationsMapSingle();
     const isShowRelaunchBtn = searchMapStore.state.isShowRelaunchBtn && isShowMapCluster;
 
-    const isShowGoBackPrevGeoLocationBtn = searchMapStore.state.mayShowBackGeoButton && isShowRelaunchBtn;
-
     return isShowNoResults || isNoDataAvailable ? (
       (isShowNoResults && <hcl-sdk-search-no-results />) || (isNoDataAvailable && <hcl-sdk-search-no-data-available />)
     ) : (
@@ -591,7 +570,7 @@ export class HclSdkSearchResult {
             <hcl-sdk-button icon="arrow_right" noBackground noBorder iconWidth={20} iconHeight={24} iconColor={getCssColor('--hcl-color-dark')} onClick={this.togglePanel} />
           </div>
 
-          {isShowRelaunchBtn && !isShowGoBackPrevGeoLocationBtn && (
+          {isShowRelaunchBtn && (
             <div
               class={cls('hclsdk-btn-relaunch', {
                 'hclsdk-btn-relaunch--loading': this.isLoadingRelaunch,
@@ -599,14 +578,6 @@ export class HclSdkSearchResult {
             >
               <hcl-sdk-button icon="refresh" noBorder secondary iconWidth={12} iconHeight={12} iconColor="white" onClick={this.handleRelaunchSearch}>
                 {t('relaunch')}
-              </hcl-sdk-button>
-            </div>
-          )}
-
-          {isShowGoBackPrevGeoLocationBtn && (
-            <div class={cls('hclsdk-btn-relaunch')}>
-              <hcl-sdk-button noBorder secondary iconWidth={12} iconHeight={12} iconColor="white" onClick={this.handleBackToPreviousGeo}>
-                Previous location
               </hcl-sdk-button>
             </div>
           )}
