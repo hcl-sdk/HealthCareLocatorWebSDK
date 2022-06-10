@@ -232,12 +232,8 @@ export interface SearchMapState {
     address?: string;
   }[]
 
-  mayShowBackGeoButton: boolean
   isShowRelaunchBtn?: boolean
-  lastGeoLocation?: {
-    latitude: number;
-    longitude: number;
-  }
+
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -295,7 +291,6 @@ export const initStateSearchMapStore: SearchMapState = {
   navigateFromHcoFullCard: false,
   searchHcos: [],
 
-  mayShowBackGeoButton: false,
   isShowRelaunchBtn: false
 }
 

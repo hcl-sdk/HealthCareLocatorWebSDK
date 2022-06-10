@@ -46,11 +46,7 @@ export class HclSDK {
     if (this.widget) return;
     const { lat, lng } = newProps
 
-    const lastGeo = searchMapStore.getGeoLocation()
-    searchMapStore.setState({
-      lastGeoLocation: { latitude: lastGeo.latitude, longitude: lastGeo.longitude },
-      mayShowBackGeoButton: searchMapStore.state.isShowRelaunchBtn ? true : false
-    });
+    searchMapStore.setState({ isShowRelaunchBtn: false });
 
     getAddressFromGeo(lat, lng).then(res => {
       if (res?.address?.country_code) {
