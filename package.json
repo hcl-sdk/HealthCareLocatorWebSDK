@@ -46,6 +46,7 @@
     "node": ">=14"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.23.0",
     "lerna": "^3.22.1"
   },
   "resolutions": {
