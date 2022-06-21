@@ -3,7 +3,8 @@
   "description": "",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/hcl-sdk-web-ui-angular/projects/hcl-sdk"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -65,10 +65,10 @@ export class SearchComponent implements OnInit {
     { lat: 50.9519359, lng: 1.8339621, label: 'Paris' },
     { lat: 48.864716, lng: 2.349014, label: 'Calais, France' },
   ];
-  public userPosition: { lat: number; lng: number } = this.locations[0];
+  public userPosition: { lat: number; lng: number } | undefined = demoUpdateUserGeolocation ? this.locations[0] : undefined;
   public demoUpdateUserGeolocation = demoUpdateUserGeolocation;
-  public specialtyCode = SPECIALTY_CODE
-  public specialtyLabel = SPECIALTY_LABEL
+  public specialtyCode = SPECIALTY_CODE;
+  public specialtyLabel = SPECIALTY_LABEL;
   // end changing user location feature
 
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -81,7 +81,7 @@ export class SearchComponent implements OnInit {
         screenName: 'searchNearMe',
         specialtyCode: [SPECIALTY_CODE],
         specialtyLabel: SPECIALTY_LABEL,
-      }
+      };
       const hclSdkEl = document.querySelector('hcl-sdk') as any;
       const styleSheet = document.createElement('style');
       styleSheet.textContent = 'hcl-sdk-search { display: none; }';

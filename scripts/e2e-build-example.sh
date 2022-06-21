@@ -40,7 +40,9 @@ function startLocalRegistry {
   grep -q 'http address' <(tail -f $tmp_registry_log)
 
   # Set registry to local registry
-  npm set registry "$custom_registry_url"
+  echo "Set npm registry to local"
+  npm set --no-workspaces registry "$custom_registry_url"
+  echo "Set yarn registry to local"
   yarn config set registry "$custom_registry_url"
 }
 
@@ -54,6 +56,7 @@ function stopLocalRegistry {
 function publishToLocalRegistry {
   # git clean -df
   cd $1
+  echo "Publish to local registry"
   npm --registry $custom_registry_url publish --tag next
 }
 
