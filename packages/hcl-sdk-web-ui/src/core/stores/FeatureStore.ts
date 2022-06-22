@@ -1,3 +1,3 @@
 export const featureStore = {
-  isPatientRecommendationEnabled: true
+  isPatientRecommendationEnabled: false
 }
