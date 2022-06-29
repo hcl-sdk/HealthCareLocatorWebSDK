@@ -12,6 +12,8 @@
   - loading indicator for map #1285
   - hide relaunch btn after change currentPosition #1286
   - update suggestion modification link #978
+  - fix appointment link #1368
+  - add country flags #1330
 
 ## 0.2.0
 

@@ -87,7 +87,8 @@ cd "$root_path"/examples/web/angular
 
 yarn --registry $custom_registry_url
 
-yarn --registry $custom_registry_url add @healthcarelocator/sdk-web@next
+# Comment out this, should not need to install sdk-web as it is dependency of sdk-angular
+# yarn --registry $custom_registry_url add @healthcarelocator/sdk-web@next
 
 yarn --registry $custom_registry_url add @healthcarelocator/sdk-angular@next
 
