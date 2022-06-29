@@ -26,12 +26,59 @@ import SE from './SE'
 import CH from './CH'
 import TH from './TH'
 
+import BG from './BG'
+import BR from './BR'
+import DK from './DK'
+import FI from './FI'
+import HU from './HU'
+import IE from './IE'
+
+import KR from './KR'
+import LU from './LU'
+import NO from './NO'
+import NZ from './NZ'
+import SK from './SK'
+
 // import DU from './DU'
 
-const mapFlags = { 
-  BE, CA, CO, DE, ES, FR, GB, UK: GB, IT, NL, PL, PT, SA, TR, US,
-  AU, AT, HR, BK: HR, GR, IL, MA, SE, CH, TH // Update 09/12/2021
-}
+const mapFlags = {
+  BE,
+  CA,
+  CO,
+  DE,
+  ES,
+  FR,
+  GB,
+  UK: GB,
+  IT,
+  NL,
+  PL,
+  PT,
+  SA,
+  TR,
+  US,
+  AU,
+  AT,
+  HR,
+  BK: HR,
+  GR,
+  IL,
+  MA,
+  SE,
+  CH,
+  TH,
+  BG,
+  BR,
+  DK,
+  FI,
+  HU,
+  IE,
+  KR,
+  LU,
+  NO,
+  NZ,
+  SK,
+};
 
 @Component({
   tag: 'hcl-sdk-icon-flag',
