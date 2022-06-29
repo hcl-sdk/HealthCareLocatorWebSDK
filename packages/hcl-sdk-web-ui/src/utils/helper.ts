@@ -286,9 +286,9 @@ export const handleMapActivities = (item: ActivitiesQuery['activities']['edges']
 };
 
 export function getUrl(_country, urls: Url[]) {
-  const appointmentUrl = urls && urls[0]?.url?.webcrawled;
+  const appointmentUrl = urls && urls.find(url => url.url?.webcrawled)
 
-  return formatUrl(appointmentUrl)
+  return formatUrl(appointmentUrl?.url.webcrawled)
 }
 
 export function formatUrl(url) {
