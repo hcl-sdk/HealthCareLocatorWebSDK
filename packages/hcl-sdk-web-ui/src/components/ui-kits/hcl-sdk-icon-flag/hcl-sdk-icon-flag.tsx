@@ -1,4 +1,4 @@
-import { Component, Prop } from '@stencil/core';
+import { Component, h, Host, Prop } from '@stencil/core';
 import { CountryCode } from '../../../core/constants';
 
 import BE from './BE'
@@ -83,12 +83,16 @@ const mapFlags = {
 @Component({
   tag: 'hcl-sdk-icon-flag',
   shadow: false,
+  styleUrl: 'hcl-sdk-icon-flag.scss',
 })
-
 export class HclSdkIcon {
   @Prop() countryCode: CountryCode
 
   render() {
-    return  typeof mapFlags[this.countryCode] === 'function' ? mapFlags[this.countryCode]() : null
+    return (
+      <Host class="hcl-sdk-icon-flag-container">
+        <div class="hcl-sdk-icon-flag-container__flag">{typeof mapFlags[this.countryCode] === 'function' ? mapFlags[this.countryCode]() : null}</div>
+      </Host>
+    );
   }
 }
