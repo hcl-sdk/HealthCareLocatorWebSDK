@@ -8,7 +8,7 @@ import {
   WorkplaceSortScope,
   WorkplacesQueryVariables,
 } from '../../../../hcl-sdk-core/src/graphql/types';
-import { convertToMeter, formatDistanceDisplay, getSpecialtiesText, getUrl } from '../../utils/helper';
+import { convertToMeter, formatDistanceDisplay, formatUrl, getSpecialtiesText, getUrl } from '../../utils/helper';
 import { NEAR_ME } from '../constants';
 import { configStore, historyStore, i18nStore, searchMapStore } from '../stores';
 import { createHCOHistoryItem } from '../stores/HistoryStore';
@@ -224,7 +224,7 @@ export async function searchHcos({ criteria }: { criteria: string }) {
     ? edges.map(({ node }) => {
         return toHCO({
           name: node.workplace?.name,
-          type: node.workplace?.type,
+          hcoType: node.workplace?.type?.label,
           address: formatHCOAddress(node),
           id: node.workplace.id,
         });
@@ -250,7 +250,7 @@ function getHCOCoreFields(data: WorkplaceByIdQuery['workplaceByID']) {
     address: formatHCOAddress(data),
     phone: data?.intlPhone,
     fax: data?.intlFax,
-    website: data?.webAddress,
+    website: formatUrl(data?.webAddress),
     lat: data?.address?.location?.lat,
     lng: data?.address?.location?.lon,
     individuals: data.individuals.map(individual => toIndividualCore(individual, data)),

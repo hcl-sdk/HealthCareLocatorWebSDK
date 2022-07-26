@@ -264,9 +264,9 @@ export const handleMapActivities = (item: ActivitiesQuery['activities']['edges']
     name: getHcpFullname(item.node.individual),
     lastName: item.node.individual.lastName,
     professionalType: item.node.individual.professionalType.label,
-    specialtiesRaw: getSpecialtiesText(item.node.individual.specialties),
+    specialtiesRaw: getSpecialtiesText((item.node.individual.specialties || [])),
     specialtyPrimary: getSpecialtiesText(
-      item.node.individual.specialties.filter(
+      (item.node.individual.specialties || []).filter(
         specialty => !searchedSpecialtyCode || specialty.code === searchedSpecialtyCode,
       ),
     )[0],
@@ -286,17 +286,21 @@ export const handleMapActivities = (item: ActivitiesQuery['activities']['edges']
 };
 
 export function getUrl(_country, urls: Url[]) {
-  const appointmentUrl = urls && urls[0]?.url?.webcrawled;
+  const appointmentUrl = urls && urls.find(url => url.url?.webcrawled)
 
-  if (!appointmentUrl) {
+  return formatUrl(appointmentUrl?.url.webcrawled)
+}
+
+export function formatUrl(url) {
+  if (!url) {
     return null
   }
 
-  if (appointmentUrl.startsWith('http') || appointmentUrl.startsWith('//')) {
-    return appointmentUrl;
+  if (url.startsWith('http') || url.startsWith('//')) {
+    return url;
   }
 
-  return 'https://' + appointmentUrl
+  return 'https://' + url
 }
 
 function getSortScope(sortValue: keyof SortValue | string) {

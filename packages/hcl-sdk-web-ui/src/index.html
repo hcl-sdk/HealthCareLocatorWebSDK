@@ -1,137 +1,190 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <title>HealthCare Locator SDK</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <meta name="theme-color" content="#16161d" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
-    <script type="module" src="/build/hcl-sdk.esm.js"></script>
-    <script nomodule src="/build/hcl-sdk.js"></script>
+<head>
+  <meta charset="utf-8" />
+  <title>HealthCare Locator SDK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#16161d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
 
-    <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-    <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
-    <link rel="manifest" href="/manifest.json" />
-    <style>
-      html {
-        background: rgb(82, 82, 82);
-        font-family: 'Roboto', Arial, Helvetica, sans-serif;
-      }
+  <script type="module" src="/build/hcl-sdk.esm.js"></script>
+  <script nomodule src="/build/hcl-sdk.js"></script>
 
-      body {
-        margin: 0;
-        padding: 0;
-      }
+  <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
+  <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+  <link rel="manifest" href="/manifest.json" />
+  <style>
+    html {
+      background: rgb(82, 82, 82);
+      font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    }
 
-      /* hcl-sdk {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* hcl-sdk {
         --hcl-color-primary: #001f3f;
         --hcl-color-secondary: #39cccc;
       } */
 
-      .hcl-sdk-wrapper.desktop {
-        width: 100%;
-        height: 100vh;
+    .hcl-sdk-wrapper.desktop {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .hcl-sdk-wrapper.desktop {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .hcl-sdk-wrapper.mobile,
+    .hcl-sdk-wrapper.tablet {
+      margin: 20px auto;
+    }
+
+    .hcl-sdk-wrapper.mobile {
+      width: 375px;
+      height: 667px;
+    }
+
+    .hcl-sdk-wrapper.tablet {
+      width: 1024px;
+      height: 768px;
+    }
+
+    @media screen and (max-width: 1024px) {
+      hcl-sdk-dev-settings {
+        display: none;
       }
-      .hcl-sdk-wrapper.desktop {
-        width: 100%;
-        height: 100vh;
-      }
+
       .hcl-sdk-wrapper.mobile,
       .hcl-sdk-wrapper.tablet {
-        margin: 20px auto;
+        margin: 0;
+        width: 100%;
+        height: 100vh;
       }
-      .hcl-sdk-wrapper.mobile {
-        width: 375px;
-        height: 667px;
-      }
-      .hcl-sdk-wrapper.tablet {
-        width: 1024px;
-        height: 768px;
-      }
+    }
+  </style>
+</head>
 
-      @media screen and (max-width: 1024px) {
-        hcl-sdk-dev-settings {
-          display: none;
-        }
-        .hcl-sdk-wrapper.mobile,
-        .hcl-sdk-wrapper.tablet {
-          margin: 0;
-          width: 100%;
-          height: 100vh;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- <div>
+<body>
+  <!-- <div>
       <hcl-sdk widget="map"></hcl-sdk>
     </div> -->
-    <div class="hcl-sdk-wrapper">
-      <hcl-sdk id="main-instance" />
-      <!-- <hcl-sdk id="main-instance" init-screen="search" /> -->
-    </div>
+  <div class="hcl-sdk-wrapper">
+    <hcl-sdk id="main-instance" />
+    <!-- <hcl-sdk id="main-instance" init-screen="search" /> -->
+  </div>
 
-    <hcl-sdk-dev-settings />
+  <hcl-sdk-dev-settings />
 
-    <script>
-      function getSettingsUIFields() {
-        const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings`);
-        if (settingsStr) {
-          try {
-            return JSON.parse(settingsStr);
-          } catch (err) { }
-        }
-        return {
-          apiKey: ''
-        };
+  <script>
+    function getSettingsUIFields() {
+      const settingsStr = localStorage.getItem(`__hcl-sdk-dev-settings`);
+      if (settingsStr) {
+        try {
+          return JSON.parse(settingsStr);
+        } catch (err) { }
       }
-      (async function () {
-        await customElements.whenDefined('hcl-sdk');
-        const HCLSDK = document.querySelector('#main-instance');
-        const settingsUI = getSettingsUIFields();
+      return {
+        apiKey: ''
+      };
+    }
+    (async function () {
+      await customElements.whenDefined('hcl-sdk');
+      const HCLSDK = document.querySelector('#main-instance');
+      const settingsUI = getSettingsUIFields();
 
-        if (!HCLSDK) {
-          return
+      if (!HCLSDK) {
+        return
+      }
+
+      const config = {
+        apiKey: settingsUI.apiKey,
+        enableDarkMode: settingsUI.enableDarkMode,
+        enableMapDarkMode: settingsUI.enableMapDarkMode,
+        enableMedicalTerm: settingsUI.enableMedicalTerm,
+        appName: 'Corona',
+        appURL: 'https://google.com',
+        disableCollectGeo: false
+        // case go straight into searchNearMe screen (map)
+        //      and set position async first time
+        // entry: {
+        //   screenName: 'searchNearMe',
+        //   specialtyCode: ['SP.WUS.PHR'],
+        //   specialtyLabel: 'General Dentistry'
+        // }
+        // useGoogleMap: true,
+        // googleMapApiKey: "",
+        // getCurrentPosition(success, error) {
+        //   setTimeout(() => {
+        //     success({
+        //       // Toronto
+        //       // latitude: 43.65107,
+        //       // longitude: -79.347015,
+
+        //       // Paris
+        //       latitude: 48.864716,
+        //       longitude: 2.349014
+        //     })
+        //   //   // error()
+        //   }, 5000);
+        // }
+        // distanceUnit: 'mi',
+        // distanceDefault: 20
+      }
+
+      if (settingsUI.searchNearMeScreen) {
+        config.entry = {
+          screenName: 'searchNearMe',
+          specialtyCode: ['SP.WUS.PHR'],
+          specialtyLabel: 'General Dentistry'
         }
+      }
 
-        HCLSDK.init({
-          apiKey: settingsUI.apiKey,
-          enableDarkMode: settingsUI.enableDarkMode,
-          enableMapDarkMode: settingsUI.enableMapDarkMode,
-          enableMedicalTerm: settingsUI.enableMedicalTerm,
-          appName: 'Corona',
-          appURL: 'https://google.com',
-          disableCollectGeo: false
-          // entry: {
-          //   screenName: 'searchNearMe',
-          //   specialtyCode: ['SP.WCA.75'],
-          //   specialtyLabel: 'General Dentistry'
-          // }
-          // useGoogleMap: true,
-          // googleMapApiKey: "",
-          // getCurrentPosition(success, error) {
-          //   setTimeout(() => {
-          //     success({
-          //       // Toronto
-          //       // latitude: 43.65107,
-          //       // longitude: -79.347015,
+      if (settingsUI.currentPosition) {
+        localStorage.removeItem('__hcl-sdk-currentLocation')
+        config.currentPosition = JSON.parse(settingsUI.currentPosition)
+      }
 
-          //       // Paris
-          //       latitude: 48.864716,
-          //       longitude: 2.349014
-          //     })
-          //   //   // error()
-          //   }, 5000);
-          // }
-          // distanceUnit: 'mi',
-          // distanceDefault: 20
-        });
-      })();
-    </script>
-  </body>
+      if (settingsUI.useGetCurrentPosition) {
+        localStorage.removeItem('__hcl-sdk-currentLocation')
+        const settingCurrentPosition =
+          settingsUI.currentPosition ? JSON.parse(settingsUI.currentPosition) : {
+            lat: 37.774929, lng: -122.419416
+          }
+
+        config.getCurrentPosition = (success, error) => {
+          setTimeout(() => {
+            success({
+              // Toronto
+              // latitude: 43.65107,
+              // longitude: -79.347015,
+
+              // San Francisco
+              // latitude: 37.774929, longitude: -122.419416
+
+              // New York
+              // latitude: 40.6976701, longitude: -74.259864,
+              latitude: settingCurrentPosition.lat,
+              longitude: settingCurrentPosition.lng
+            })
+          }, 200);
+        }
+      }
+
+      HCLSDK.init(config)
+    })();
+  </script>
+</body>
+
 </html>

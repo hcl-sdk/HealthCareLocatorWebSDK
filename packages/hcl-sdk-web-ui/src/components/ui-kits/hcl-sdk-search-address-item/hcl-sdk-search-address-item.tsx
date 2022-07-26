@@ -57,7 +57,7 @@ export class HclSdkSearchItem {
             {this.item.id === NEAR_ME && <span class="name">{t('near_me')}</span>}
             {!!this.item.name && !this.currentSearchText && <span class="name">{this.item.name}</span>}
             {!!this.item.name && this.currentSearchText && <span class="name" innerHTML={this.highlight(this.item.name, this.currentSearchText, !!this.item.address)} />}
-            {this.item.specialty && <span class="specialty">{this.item.specialty}</span>}
+            {this.item.specialty ? <span class="specialty">{this.item.specialty}</span> : <span class="specialty">{this.item.hcoType}</span>}
             {this.item.address && <span class="address">{this.item.address}</span>}
           </span>
         </div>

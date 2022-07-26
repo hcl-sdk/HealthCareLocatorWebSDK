@@ -1,5 +1,9 @@
 @import '~leaflet/dist/leaflet.css';
 
+hcl-sdk-map {
+  position: relative;
+}
+
 :host {
   display: block;
   position: relative;
@@ -7,6 +11,16 @@
   #map {
     width: 100%;
     height: 100%;
+  }
+
+  .map-box {
+    display: flex;
+    justify-content: center;
+
+    &__loading {
+      position: absolute;
+      top: 50%;
+    }
   }
 
   .map--no-controls {

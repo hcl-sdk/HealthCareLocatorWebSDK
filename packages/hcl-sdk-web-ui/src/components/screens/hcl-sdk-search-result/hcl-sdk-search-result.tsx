@@ -24,7 +24,6 @@ export class HclSdkSearchResult {
   @Element() el: HTMLStencilElement;
   @State() selectedMarkerLocation = { lat: -1, lng: -1 };
   @State() isOpenPanel: boolean = true;
-  @State() isShowRelaunchBtn: boolean = false;
   @State() newDragLocation: LatLng;
   @State() newDragBoundingBox: string[]; // [south, north, west, east]
   @State() isLoadingRelaunch: boolean;
@@ -154,8 +153,8 @@ export class HclSdkSearchResult {
       return;
     }
 
-    if (!this.isShowRelaunchBtn) {
-      this.isShowRelaunchBtn = true;
+    if (!searchMapStore.state.isShowRelaunchBtn) {
+      searchMapStore.setState({ isShowRelaunchBtn: true });
     }
 
     const target = evt.detail.target; // Map Element
@@ -214,6 +213,8 @@ export class HclSdkSearchResult {
           params.location.distanceMeter = maxDistanceMeter;
         }
 
+        searchMapStore.setSortValues({ distanceNumber: true, relevance: true });
+
         await apis.searchLocation(params, {
           hasLoading: 'idle',
           isAllowDisplayMapEmpty: true, // No redirect to no results screen when relaunch is empty
@@ -223,8 +224,10 @@ export class HclSdkSearchResult {
       console.error(err);
     }
 
+    searchMapStore.setState({
+      isShowRelaunchBtn: false
+    })
     this.isLoadingRelaunch = false;
-    this.isShowRelaunchBtn = false;
     this.newDragLocation = null;
   };
 
@@ -389,7 +392,7 @@ export class HclSdkSearchResult {
     const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCODetail && hcos && hcos.length !== 0);
 
     const locationsMapSingle = this.getLocationMapSingleHco();
-    const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
+    const isShowRelaunchBtn = searchMapStore.state.isShowRelaunchBtn && isShowMapCluster;
 
     const modeView = configStore.state.modeView;
     const mapClass = cls('search-map__content', {
@@ -461,6 +464,12 @@ export class HclSdkSearchResult {
             </div>
           )}
 
+          {isLoadingHcos && (
+            <div class="search-result__loading">
+              <hcl-sdk-icon name="circular" />
+            </div>
+          )}
+
           {isShowMapCluster && (
             <hcl-sdk-map
               key="map-cluster"
@@ -521,7 +530,7 @@ export class HclSdkSearchResult {
     const isShowMapCluster = isAllowDisplayMapEmpty || (!isListView && !isShowHCPDetail && activities && activities.length !== 0);
 
     const locationsMapSingle = this.getLocationsMapSingle();
-    const isShowRelaunchBtn = this.isShowRelaunchBtn && isShowMapCluster;
+    const isShowRelaunchBtn = searchMapStore.state.isShowRelaunchBtn && isShowMapCluster;
 
     return isShowNoResults || isNoDataAvailable ? (
       (isShowNoResults && <hcl-sdk-search-no-results />) || (isNoDataAvailable && <hcl-sdk-search-no-data-available />)
@@ -572,6 +581,13 @@ export class HclSdkSearchResult {
               <hcl-sdk-button icon="refresh" noBorder secondary iconWidth={12} iconHeight={12} iconColor="white" onClick={this.handleRelaunchSearch}>
                 {t('relaunch')}
               </hcl-sdk-button>
+            </div>
+          )}
+
+          {/* loadingActivities && !isListView: prevent double loading circular when in listview  */}
+          {loadingActivities && !isListView && (
+            <div class="search-result__loading">
+              <hcl-sdk-icon name="circular" />
             </div>
           )}
 

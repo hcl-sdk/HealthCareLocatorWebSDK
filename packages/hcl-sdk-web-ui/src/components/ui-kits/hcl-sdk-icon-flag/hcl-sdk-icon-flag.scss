@@ -1,0 +1,20 @@
+.hcl-sdk-icon-flag-container {
+  width: 1em;
+  display: block;
+
+  &__flag {
+    position: relative;
+    height: 0;
+    
+    padding: 0;
+    padding-bottom: 90%;
+
+    > svg {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: 0;
+    }
+  }
+}

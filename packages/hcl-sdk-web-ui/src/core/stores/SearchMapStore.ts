@@ -228,9 +228,12 @@ export interface SearchMapState {
   navigateFromHcoFullCard?: boolean,
   searchHcos: {
     name?: string;
-    specialty?: string;
+    hcoType?: string;
     address?: string;
   }[]
+
+  isShowRelaunchBtn?: boolean
+
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -286,7 +289,9 @@ export const initStateSearchMapStore: SearchMapState = {
   hcos: null,
   loadingHcosStatus: 'idle',
   navigateFromHcoFullCard: false,
-  searchHcos: []
+  searchHcos: [],
+
+  isShowRelaunchBtn: false
 }
 
 class SearchMapStore extends StoreProvider<SearchMapState> {

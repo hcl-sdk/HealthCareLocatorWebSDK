@@ -152,7 +152,7 @@ export class HclSdkHCPFullCard {
 
     const lang = i18nStore.state.lang.toLowerCase().replace('-', '_').split('_')[0]
     const linkEl = document.createElement('a');
-    linkEl.href = `${HCL_WEBSITE_HOST}/${lang}/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
+    linkEl.href = `${HCL_WEBSITE_HOST}/${lang}/locator/suggest-modification?apiKey=${apiKey}&id=${individualId}`;
     linkEl.target = "_blank";
     linkEl.click();
   }
