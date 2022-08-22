@@ -118,8 +118,9 @@ export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActi
 }
 
 export function getPrimaryAddressIndividual({ addressName, addressBuildingName, address, postalCode, city }) {
-  const cityWithCode = postalCode && city ? `, ${postalCode} ${city}` : ''
-  const addressWithCode = address + cityWithCode
+  const postalCodeString = postalCode ? `, ${postalCode}` : ''
+  const cityString = city ? `, ${city}` : ''
+  const addressWithCode = address + postalCodeString + cityString
   return [addressName, addressBuildingName, addressWithCode].filter(s => s);
 }
 
