@@ -310,7 +310,7 @@ function getSortScope(sortValue: keyof SortValue | string) {
     case 'distanceNumber':
       return ActivitySortScope.WorkplaceDistance
     case 'lastName':
-        return ActivitySortScope.Relevancy
+      return ''
     default:
       return undefined
   }
