@@ -73,6 +73,7 @@ export class HclSdkSearch {
     if (
       name ||
       (address && locationFilter) ||
+      !address || // Can search without address and make sure it didn't get error by touched
       specialtyName ||
       specialtyFilter?.length || // Can search with name in case criteria. Don't need to select any item in list
       medicalTerm ||
