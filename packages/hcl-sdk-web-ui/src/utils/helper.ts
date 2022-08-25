@@ -176,11 +176,11 @@ export function getSuggestionIndividualName(individual: SuggestionsQuery['sugges
 }
 
 export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {
-  const listTerms = [
+  const listTerms = Array.from(new Set([
     ...(meshTerms || []),
     ...(kvTerms || []),
     ...(chTerms || [])
-  ].map(str => str.trim())
+  ].map(str => str.trim())))
 
   return listTerms
 }
