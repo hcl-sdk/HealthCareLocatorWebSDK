@@ -214,10 +214,9 @@ export class HclSdkSearchResult {
           params.location.distanceMeter = maxDistanceMeter;
         }
 
-        searchMapStore.setSortValues({ distanceNumber: true, relevance: true });
-
         await apis.searchLocation(params, {
           hasLoading: 'idle',
+          isLocation: !!params.location,
           isAllowDisplayMapEmpty: true, // No redirect to no results screen when relaunch is empty
         });
       }
