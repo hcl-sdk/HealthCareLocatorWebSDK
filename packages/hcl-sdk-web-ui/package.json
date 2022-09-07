@@ -48,10 +48,12 @@
     "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.4.1",
     "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
     "lodash.sortby": "^4.7.0",
     "memo-decorator": "^2.0.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "rfdc": "^1.3.0"
   },
   "engines": {
     "node": ">=14"
