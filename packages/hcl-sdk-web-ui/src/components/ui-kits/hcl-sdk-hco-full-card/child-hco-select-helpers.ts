@@ -1,4 +1,5 @@
 import { searchMapStore } from '../../../core/stores';
+import { HCOServiceItem } from '../../../core/stores/SearchMapStore';
 
 export const getFirstSelectionPath = hcoDetail => {
   if (!hcoDetail.children || hcoDetail.children.length === 0) {
@@ -6,6 +7,13 @@ export const getFirstSelectionPath = hcoDetail => {
   }
 
   return [hcoDetail.children[0].id, ...getFirstSelectionPath(hcoDetail.children[0])];
+};
+export const getFirstServiceSelect = hcoDetail => {
+  if (!hcoDetail.children || hcoDetail.children.length === 0) {
+    return [];
+  }
+
+  return [hcoDetail[0].id, ...getFirstSelectionPath(hcoDetail.children[0])];
 };
 
 export const recreateChildHcoSelectionPath = (currentSelectedChildHcoIds, idx, hcoId, originalHCODetail) => {
@@ -17,6 +25,16 @@ export const recreateChildHcoSelectionPath = (currentSelectedChildHcoIds, idx, h
   const hco = getChildHco(originalHCODetail, newSelectionRoot);
 
   return [...newSelectionRoot, ...(hco ? getFirstSelectionPath(hco) : [])]
+};
+export const recreateServiceHcoSelectionPath = (currentSelectedChildHcoIds: string[], idx: number, newServiceID: string, serviceList: HCOServiceItem[]) => {
+  // ['lvl1', 'lvl2', 'lvl3']
+  const newSelections = [...currentSelectedChildHcoIds];
+  newSelections[idx] = newServiceID; // ['lvl1', 'lvl2-NEW', 'lvl3']
+  const newSelectionRoot = newSelections.slice(0, idx + 1) // ['lvl1', 'lvl2-NEW']
+
+  const hco = getServiceHco(serviceList, newSelectionRoot);
+
+  return [...newSelectionRoot, ...(hco ? getFirstServiceSelect(hco) : [])]
 };
 
 export const makeChildHcoSelects = (hcoDetail, selectedChildHcoId) => {
@@ -31,6 +49,17 @@ export const makeChildHcoSelects = (hcoDetail, selectedChildHcoId) => {
     ...selectPaths.map(path => mapChildrenToOptions(getChildHco(hcoDetail, path))),
   ].filter(Boolean);
 };
+export const makeServiceSelects = (servicesList, selectedServiceIDs) => {
+  let selectPaths = [];
+
+  selectedServiceIDs.forEach((_, idx) => {
+    selectPaths.push(selectedServiceIDs.slice(0, idx + 1));
+  });
+
+  return [
+    ...selectPaths.map(path => mapServicesToOptions(getServiceHco(servicesList, path) as HCOServiceItem[])),
+  ].filter(Boolean);
+};
 
 const mapChildrenToOptions = (hcoDetail: typeof searchMapStore.state.hcoDetail) => {
   if (!hcoDetail) {
@@ -38,6 +67,20 @@ const mapChildrenToOptions = (hcoDetail: typeof searchMapStore.state.hcoDetail) 
   }
   const options = hcoDetail.children
     ? hcoDetail.children.map(c => ({
+        value: c.id,
+        label: c.name,
+      }))
+    : null;
+
+  return options;
+};
+const mapServicesToOptions = (servicesList: HCOServiceItem[]) => {
+  if (!servicesList) {
+    return null;
+  }
+  const options = servicesList
+    ? servicesList.map(c => ({
+        ...c,
         value: c.id,
         label: c.name,
       }))
@@ -69,4 +112,22 @@ export const getChildHco = (hcoDetail: typeof searchMapStore.state.hcoDetail, pa
     }
   }
   return hco;
+};
+
+export function getServiceHco(serviceList: HCOServiceItem[], path: string[], isGetItem: boolean = false) {
+  if (!serviceList || serviceList.length === 0) {
+    return null;
+  }
+
+  let currentServiceList = serviceList
+  let currentServiceItem: HCOServiceItem
+  path.forEach((item) => {
+    const index = currentServiceList?.findIndex(serviceObj => item === serviceObj.id)
+    currentServiceItem = typeof index == 'number' && index > -1 ? currentServiceList[index] : null
+    currentServiceList = typeof index == 'number' && index > -1 ? currentServiceList[index].children : null
+  })
+  if (isGetItem) {
+    return currentServiceItem
+  }
+  return currentServiceList
 };

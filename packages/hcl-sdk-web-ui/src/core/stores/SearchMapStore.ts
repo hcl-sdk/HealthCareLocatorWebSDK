@@ -1,3 +1,4 @@
+import { ServiceWorkplaceByIdQuery } from '../../../../hcl-sdk-core/src/graphql/customTypes'
 import { ActivitiesQuery } from '../../../../hcl-sdk-core/src/graphql/types'
 import { OKSDK_GEOLOCATION_HISTORY, storageUtils } from '../../utils/storageUtils'
 import { NEAR_ME } from '../constants'
@@ -133,6 +134,19 @@ export type IndividualDetail = {
   }[]
 }
 
+type IndividualItem = {
+  service?: string
+  subService?: string
+  name: string
+  specialty: string
+  isShowRecommendation: boolean
+  url: string
+  mainActivity: {
+    id: string
+  }
+  offsetItem?: number
+}
+
 type HCOCore = {
   id: string
   name: string
@@ -144,17 +158,7 @@ type HCOCore = {
   fax: string
   lat: number
   lng: number
-  individuals: {
-    service?: string
-    subService?: string
-    name: string
-    specialty: string
-    isShowRecommendation: boolean
-    url: string
-    mainActivity: {
-      id: string
-    }
-  }[]
+  individuals: IndividualItem[]
   uci?: string
 }
 
@@ -166,6 +170,16 @@ type HCO = HCOCore & {
   })[]
 }
 
+export type HCOServiceItem = HCOCore & {
+  offsetItem?: number
+  workplaceID?: string
+  currentFirstIndividual?: number
+  currentOffsetIndividual?: number
+  children?: HCOServiceItem[]
+}
+
+type HCOServices = HCOServiceItem[]
+
 export enum SEARCH_TARGET {
   HCO = 'HCO',
   HCP = 'HCP',
@@ -176,6 +190,10 @@ export interface SearchMapState {
   loadingActivitiesStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
   loadingIndividualDetail?: boolean;
   loadingSwitchAddress?: boolean;
+  loadingHCOServices?: boolean;
+  loadingHCOServicesLv1?: boolean;
+  loadingHCOServicesLv2?: boolean;
+  loadingHCOServiceIndividual?: boolean;
   specialties?: SpecialtyItem[];
   isAllowDisplayMapEmpty?: boolean;
   specialtiesRaw?: SpecialtyItem[];
@@ -223,6 +241,9 @@ export interface SearchMapState {
     type: string
   },
   hcoDetail: HCO
+  hcoDetailServicesLoadMore: Record<string, HCOServices>
+  cacheHCOServicesByWorkplaceId?: Record<string, ServiceWorkplaceByIdQuery>
+  HCOServicesByWorkplaceIdNoLoadmore?: Record<string, boolean>
   loadingHcoDetail?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized'; 
   loadingHcosStatus?: 'idle' | 'success' | 'error' | 'loading' | 'unauthorized';
   navigateFromHcoFullCard?: boolean,
@@ -231,9 +252,7 @@ export interface SearchMapState {
     hcoType?: string;
     address?: string;
   }[]
-
   isShowRelaunchBtn?: boolean
-
 }
 
 export type GeoLocationStatus = 'granted' | 'denied';
@@ -286,11 +305,12 @@ export const initStateSearchMapStore: SearchMapState = {
   searchTarget: SEARCH_TARGET.HCP,
   selectedHco: null,
   hcoDetail: null,
+  hcoDetailServicesLoadMore: {},
+  HCOServicesByWorkplaceIdNoLoadmore: {},
   hcos: null,
   loadingHcosStatus: 'idle',
   navigateFromHcoFullCard: false,
   searchHcos: [],
-
   isShowRelaunchBtn: false
 }
 
