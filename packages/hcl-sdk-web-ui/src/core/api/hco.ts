@@ -494,7 +494,7 @@ export async function searchHcos({ criteria }: { criteria: string }) {
           name: node.workplace?.name,
           hcoType: node.workplace?.type?.label,
           address: formatHCOAddress(node),
-          id: node.workplace.id,
+          id: node.workplace?.id,
         });
       })
     : [];
