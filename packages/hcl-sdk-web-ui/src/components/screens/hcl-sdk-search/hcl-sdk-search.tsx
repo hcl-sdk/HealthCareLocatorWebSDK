@@ -46,6 +46,7 @@ export class HclSdkSearch {
     specialtyName: true,
     country: true,
   };
+  @State() addressCouldHaveVal: boolean = false
 
   addressResultsRef;
   formRef;
@@ -73,7 +74,6 @@ export class HclSdkSearch {
     if (
       name ||
       (address && locationFilter) ||
-      !address || // Can search without address and make sure it didn't get error by touched
       specialtyName ||
       specialtyFilter?.length || // Can search with name in case criteria. Don't need to select any item in list
       medicalTerm ||
@@ -211,7 +211,7 @@ export class HclSdkSearch {
     if (!this.isTouched && elm.name === 'address') {
       this.fieldsValid = {
         ...this.fieldsValid,
-        address: false,
+        address: !elm.value,
       };
       return;
     }
@@ -223,7 +223,7 @@ export class HclSdkSearch {
     //  - Can be searched by both SpecialtyName and Terms
     switch (elm.name) {
       case 'address':
-        isValid = !elm.value || Boolean(elm.value && searchMapStore.state.locationFilter);
+        isValid = !elm.value || Boolean(elm.value && searchMapStore.state.locationFilter)
         break;
     }
 
@@ -233,6 +233,16 @@ export class HclSdkSearch {
     };
     return isValid;
   };
+
+  checkAddressCouldHasValue() {
+    const {loading, isResultSearchGeo, searchFields: {address}} = searchMapStore.state
+    
+    if (!!loading || !!address && typeof isResultSearchGeo[address] == 'undefined') {
+      this.addressCouldHaveVal = true
+      return
+    }
+    this.addressCouldHaveVal = !!address && isResultSearchGeo[address]
+  }
 
   resetErrorElmUI = (type: SearchInputName | 'all') => {
     if (type === 'all') {
@@ -313,6 +323,7 @@ export class HclSdkSearch {
       await searchGeoMap({
         id: inputValue,
       });
+      this.checkAddressCouldHasValue()
     }
     if (inputName === 'medicalTerm') {
       await handleSearchMedicalTerms({
@@ -326,6 +337,7 @@ export class HclSdkSearch {
     const el = e.target;
     searchMapStore.setSearchFieldValue(el.name, el.value);
     this.checkValidElm(el);
+    this.checkAddressCouldHasValue()
     this.clearFilter(el.name);
     this.onChange(el.name, el.value);
   };
@@ -747,6 +759,7 @@ export class HclSdkSearch {
                         onArrowKeyDown={this.onInputSearchArrowDown}
                         class={cls({
                           'hclsdk-error': !this.fieldsValid.address,
+                          'hclsdk-possibly-result': this.addressCouldHaveVal,
                           'hclsdk-open-address': this.currentSelectedInput === 'address',
                         })}
                       >
