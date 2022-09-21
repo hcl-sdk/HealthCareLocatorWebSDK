@@ -247,6 +247,22 @@
   .hclsdk-error {
     input {
       border: 1px solid red;
+      &[type="text"] {
+        border: 1px solid red;
+        &:focus {
+          border: 1px solid red;
+        }
+      }
+    }
+
+    &.hclsdk-possibly-result {
+      input[type="text"] {
+        border: 1px solid var(--hcl-color-grey_dark);
+  
+        &:focus {
+          border: 1px solid var(--hcl-color-grey_dark);
+        }
+      }
     }
   }
 

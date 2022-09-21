@@ -198,6 +198,7 @@ export interface SearchMapState {
   isAllowDisplayMapEmpty?: boolean;
   specialtiesRaw?: SpecialtyItem[];
   doctors?: HCPName[];
+  isResultSearchGeo?: Record<string, boolean>
   search?: SearchResult;
   searchGeo?: any[];
   searchDoctor?: SearchDoctor[];
@@ -270,6 +271,7 @@ export const initStateSearchMapStore: SearchMapState = {
   specialties: [],
   specialtiesRaw: [],
   isAllowDisplayMapEmpty: false,
+  isResultSearchGeo: {},
   search: {},
   searchGeo: [],
   searchDoctor: [], // HCPs
