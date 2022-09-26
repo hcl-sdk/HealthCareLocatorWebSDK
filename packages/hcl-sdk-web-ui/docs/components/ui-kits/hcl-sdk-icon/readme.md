@@ -21,6 +21,7 @@
 ### Used by
 
  - [hcl-sdk-button](../hcl-sdk-button)
+ - [hcl-sdk-custom-select](../hcl-sdk-custom-select)
  - [hcl-sdk-doctor-card](../hcl-sdk-doctor-card)
  - [hcl-sdk-hco-card](../hcl-sdk-hco-card)
  - [hcl-sdk-hco-full-card](../hcl-sdk-hco-full-card)
@@ -43,6 +44,7 @@
 ```mermaid
 graph TD;
   hcl-sdk-button --> hcl-sdk-icon
+  hcl-sdk-custom-select --> hcl-sdk-icon
   hcl-sdk-doctor-card --> hcl-sdk-icon
   hcl-sdk-hco-card --> hcl-sdk-icon
   hcl-sdk-hco-full-card --> hcl-sdk-icon

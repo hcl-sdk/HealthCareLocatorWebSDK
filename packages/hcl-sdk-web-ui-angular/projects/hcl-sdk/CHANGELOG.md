@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.0.29
+
+### Patch Changes
+
+- - implementing loadmore for hco services and service's individual
+  - fixing navigation behavior from detail page back to previous page
+- Updated dependencies
+  - @healthcarelocator/sdk-web@0.4.0
+
 ## 0.0.28
 
 ### Patch Changes
