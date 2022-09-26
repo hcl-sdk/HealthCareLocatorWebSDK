@@ -19,7 +19,6 @@
 
 ### Used by
 
- - [hcl-sdk-hco-full-card](../hcl-sdk-hco-full-card)
  - [hcl-sdk-hcp-full-card](../hcl-sdk-hcp-full-card)
 
 ### Depends on
@@ -30,7 +29,6 @@
 ```mermaid
 graph TD;
   hcl-sdk-select --> hcl-sdk-icon
-  hcl-sdk-hco-full-card --> hcl-sdk-select
   hcl-sdk-hcp-full-card --> hcl-sdk-select
   style hcl-sdk-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
