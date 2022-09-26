@@ -44,15 +44,16 @@ graph TD;
   hcl-sdk-hco-full-card --> hcl-sdk-icon
   hcl-sdk-hco-full-card --> hcl-sdk-card-info-section
   hcl-sdk-hco-full-card --> hcl-sdk-map
-  hcl-sdk-hco-full-card --> hcl-sdk-select
+  hcl-sdk-hco-full-card --> hcl-sdk-custom-select
   hcl-sdk-map --> hcl-sdk-icon
-  hcl-sdk-select --> hcl-sdk-icon
+  hcl-sdk-custom-select --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-button
   hcl-sdk-hcp-full-card --> hcl-sdk-icon
   hcl-sdk-hcp-full-card --> hcl-sdk-map
   hcl-sdk-hcp-full-card --> hcl-sdk-select
   hcl-sdk-hcp-full-card --> hcl-sdk-icon-clock-outline
   hcl-sdk-hcp-full-card --> hcl-sdk-icon-arrow_down
+  hcl-sdk-select --> hcl-sdk-icon
   hcl-sdk-hco-card --> hcl-sdk-icon
   hcl-sdk-doctor-card --> hcl-sdk-button
   hcl-sdk-doctor-card --> hcl-sdk-icon

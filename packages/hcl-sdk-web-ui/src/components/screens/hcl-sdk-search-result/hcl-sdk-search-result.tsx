@@ -104,6 +104,7 @@ export class HclSdkSearchResult {
       if (searchMapStore.state.navigateFromHcoFullCard) {
         this.goBackToHcoFullCard();
       } else {
+        this.fetchSearchIfNeeded();
         this.goBackToList();
       }
     }
@@ -213,10 +214,9 @@ export class HclSdkSearchResult {
           params.location.distanceMeter = maxDistanceMeter;
         }
 
-        searchMapStore.setSortValues({ distanceNumber: true, relevance: true });
-
         await apis.searchLocation(params, {
           hasLoading: 'idle',
+          isLocation: !!params.location,
           isAllowDisplayMapEmpty: true, // No redirect to no results screen when relaunch is empty
         });
       }
@@ -230,6 +230,20 @@ export class HclSdkSearchResult {
     this.isLoadingRelaunch = false;
     this.newDragLocation = null;
   };
+
+  fetchSearchIfNeeded = () => {
+    if (searchMapStore.searchTarget === SEARCH_TARGET.HCP) {
+      const {activities} = searchMapStore
+      if (activities.data && !activities.data.length) {
+        searchLocationWithParams()
+      }
+    } else {
+      const hcos = searchMapStore.state.hcos
+      if (hcos && !hcos.length) {
+        HCOApis.searchLocationWithParams()
+      }
+    }
+  }
 
   goBackToList = () => {
     searchMapStore.setState({
@@ -520,7 +534,6 @@ export class HclSdkSearchResult {
 
     const { isLoading: loadingActivities, status: activitiesStatus, data: activities } = searchMapStore.activities;
     const isNoDataAvailable = activitiesStatus === 'unauthorized';
-
     const isShowNoResults = !isAllowDisplayMapEmpty && !loadingActivities && activities && !activities.length && !isShowHCPDetail && !isNoDataAvailable;
     const isShowToolbar = {
       mobile: !loadingActivities && isSmall && !selectedActivity && !isNoDataAvailable,
@@ -624,7 +637,6 @@ export class HclSdkSearchResult {
     }
 
     const { selectedActivity, selectedHco, searchFields } = searchMapStore.state;
-
     const selectedAddressName = searchMapStore.isSearchNearMe ? t('near_me') : searchFields.address;
 
     const breakpoint = uiStore.state.breakpoint;
@@ -637,7 +649,6 @@ export class HclSdkSearchResult {
     });
 
     const isShowHeaderBlockMobile = this.shouldShowHeaderBlockMobile();
-
     return (
       <Host class={wrapperClass}>
         {(!(selectedActivity || selectedHco) || !isSmall) &&

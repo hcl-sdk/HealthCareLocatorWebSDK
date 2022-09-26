@@ -1,13 +1,13 @@
 {
   "name": "@healthcarelocator/sdk-angular",
   "description": "HCL SDK Angular component",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "peerDependencies": {
     "@angular/common": "12.x - 13.x",
     "@angular/core": "12.x - 13.x"
   },
   "dependencies": {
-    "@healthcarelocator/sdk-web": "^0.3.0",
+    "@healthcarelocator/sdk-web": "^0.4.0",
     "tslib": "^2.1.0"
   }
 }
