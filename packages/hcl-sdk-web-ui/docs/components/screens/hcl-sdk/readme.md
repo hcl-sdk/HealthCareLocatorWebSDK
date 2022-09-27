@@ -15,13 +15,6 @@
 | `widgetProps`     | --            |             | `WidgetMap`                     | `undefined` |
 
 
-## Events
-
-| Event        | Description | Type               |
-| ------------ | ----------- | ------------------ |
-| `onClickSDK` |             | `CustomEvent<any>` |
-
-
 ## Methods
 
 ### `backToHome() => Promise<void>`

@@ -5,7 +5,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
 import { Components } from '@healthcarelocator/sdk-web';
 
-import { HclSDK as IHclSDK } from '@healthcarelocator/sdk-web/dist/types/components/screens/hcl-sdk/hcl-sdk';
+
 export declare interface HclSdk extends Components.HclSdk {}
 @ProxyCmp({
   inputs: ['currentPosition', 'initScreen', 'widget', 'widgetProps'],
@@ -15,17 +15,13 @@ export declare interface HclSdk extends Components.HclSdk {}
   selector: 'hcl-sdk',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['currentPosition', 'initScreen', 'widget', 'widgetProps'],
-  outputs: ['onClickSDK']
+  inputs: ['currentPosition', 'initScreen', 'widget', 'widgetProps']
 })
 export class HclSdk {
-  /**  */
-  onClickSDK!: IHclSDK['onClickSDK'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['onClickSDK']);
   }
 }
 
@@ -84,31 +80,6 @@ export class HclSdkCardInfoSection {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-  }
-}
-
-import { HclSdkCustomSelect as IHclSdkCustomSelect } from '@healthcarelocator/sdk-web/dist/types/components/ui-kits/hcl-sdk-custom-select/hcl-sdk-custom-select';
-export declare interface HclSdkCustomSelect extends Components.HclSdkCustomSelect {}
-@ProxyCmp({
-  inputs: ['allowEmpty', 'defaultValue', 'isLoadingService', 'level', 'loadMoreOptions', 'name', 'onChange', 'options', 'value']
-})
-@Component({
-  selector: 'hcl-sdk-custom-select',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['allowEmpty', 'defaultValue', 'isLoadingService', 'level', 'loadMoreOptions', 'name', 'onChange', 'options', 'value'],
-  outputs: ['loadMoreOption', 'selectService']
-})
-export class HclSdkCustomSelect {
-  /**  */
-  loadMoreOption!: IHclSdkCustomSelect['loadMoreOption'];
-  /**  */
-  selectService!: IHclSdkCustomSelect['selectService'];
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['loadMoreOption', 'selectService']);
   }
 }
 
@@ -365,25 +336,6 @@ export declare interface HclSdkIconCalendarClockOutline extends Components.HclSd
   inputs: ['color', 'height', 'width']
 })
 export class HclSdkIconCalendarClockOutline {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
-  }
-}
-
-
-export declare interface HclSdkIconChevronsDown extends Components.HclSdkIconChevronsDown {}
-@ProxyCmp({
-  inputs: ['color', 'height', 'width']
-})
-@Component({
-  selector: 'hcl-sdk-icon-chevrons-down',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  inputs: ['color', 'height', 'width']
-})
-export class HclSdkIconChevronsDown {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

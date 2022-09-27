@@ -1,12 +1,5 @@
 # Change Log
 
-## 0.3.0
-
-### Minor Changes
-
-- - implementing loadmore for hco services and service's individual
-  - fixing navigation behavior from detail page back to previous page
-
 ## 0.2.0
 
 ### Minor Changes

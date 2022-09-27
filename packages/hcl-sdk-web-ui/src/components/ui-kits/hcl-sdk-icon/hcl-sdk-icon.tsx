@@ -1,7 +1,6 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
 import cls from 'classnames';
 import { configStore } from '../../../core/stores';
-import { IconNames } from './iconNames';
 
 @Component({
   tag: 'hcl-sdk-icon',
@@ -9,7 +8,7 @@ import { IconNames } from './iconNames';
   shadow: false,
 })
 export class HclSdkIcon {
-  @Prop() name: string | IconNames;
+  @Prop() name: string;
   @Prop() width: number = 20;
   @Prop() height: number = 20;
   @Prop() color: string;

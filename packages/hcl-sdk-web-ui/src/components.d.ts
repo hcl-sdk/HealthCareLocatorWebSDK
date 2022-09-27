@@ -8,7 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Breakpoint, InitScreen, OptionType, WidgetMap, WidgetProps, WidgetType } from "./core/types";
 import { HclSDKConfigData, Modal, ModeViewType } from "./core/stores/ConfigStore";
 import { SearchInputName } from "./core/stores/SearchMapStore";
-import { IconNames } from "./components/ui-kits/hcl-sdk-icon/iconNames";
 import { CountryCode } from "./core/constants";
 export namespace Components {
     interface HclSdk {
@@ -54,17 +53,6 @@ export namespace Components {
         "map"?: any;
         "title": string;
     }
-    interface HclSdkCustomSelect {
-        "allowEmpty"?: boolean;
-        "defaultValue": string;
-        "isLoadingService"?: boolean;
-        "level": number;
-        "loadMoreOptions"?: (e: any) => void;
-        "name": string;
-        "onChange"?: (e: any) => void;
-        "options": OptionType[];
-        "value"?: string;
-    }
     interface HclSdkDevSettings {
     }
     interface HclSdkDoctorCard {
@@ -101,7 +89,7 @@ export namespace Components {
     interface HclSdkIcon {
         "color": string;
         "height": number;
-        "name": string | IconNames;
+        "name": string;
         "primary": boolean;
         "width": number;
     }
@@ -126,11 +114,6 @@ export namespace Components {
         "width": number;
     }
     interface HclSdkIconCalendarClockOutline {
-        "color": string;
-        "height": number;
-        "width": number;
-    }
-    interface HclSdkIconChevronsDown {
         "color": string;
         "height": number;
         "width": number;
@@ -411,12 +394,6 @@ declare global {
         prototype: HTMLHclSdkCardInfoSectionElement;
         new (): HTMLHclSdkCardInfoSectionElement;
     };
-    interface HTMLHclSdkCustomSelectElement extends Components.HclSdkCustomSelect, HTMLStencilElement {
-    }
-    var HTMLHclSdkCustomSelectElement: {
-        prototype: HTMLHclSdkCustomSelectElement;
-        new (): HTMLHclSdkCustomSelectElement;
-    };
     interface HTMLHclSdkDevSettingsElement extends Components.HclSdkDevSettings, HTMLStencilElement {
     }
     var HTMLHclSdkDevSettingsElement: {
@@ -500,12 +477,6 @@ declare global {
     var HTMLHclSdkIconCalendarClockOutlineElement: {
         prototype: HTMLHclSdkIconCalendarClockOutlineElement;
         new (): HTMLHclSdkIconCalendarClockOutlineElement;
-    };
-    interface HTMLHclSdkIconChevronsDownElement extends Components.HclSdkIconChevronsDown, HTMLStencilElement {
-    }
-    var HTMLHclSdkIconChevronsDownElement: {
-        prototype: HTMLHclSdkIconChevronsDownElement;
-        new (): HTMLHclSdkIconChevronsDownElement;
     };
     interface HTMLHclSdkIconCircularElement extends Components.HclSdkIconCircular, HTMLStencilElement {
     }
@@ -806,7 +777,6 @@ declare global {
         "hcl-sdk-autocomplete-result": HTMLHclSdkAutocompleteResultElement;
         "hcl-sdk-button": HTMLHclSdkButtonElement;
         "hcl-sdk-card-info-section": HTMLHclSdkCardInfoSectionElement;
-        "hcl-sdk-custom-select": HTMLHclSdkCustomSelectElement;
         "hcl-sdk-dev-settings": HTMLHclSdkDevSettingsElement;
         "hcl-sdk-doctor-card": HTMLHclSdkDoctorCardElement;
         "hcl-sdk-hco-card": HTMLHclSdkHcoCardElement;
@@ -821,7 +791,6 @@ declare global {
         "hcl-sdk-icon-arrow_right": HTMLHclSdkIconArrow_rightElement;
         "hcl-sdk-icon-back": HTMLHclSdkIconBackElement;
         "hcl-sdk-icon-calendar-clock-outline": HTMLHclSdkIconCalendarClockOutlineElement;
-        "hcl-sdk-icon-chevrons-down": HTMLHclSdkIconChevronsDownElement;
         "hcl-sdk-icon-circular": HTMLHclSdkIconCircularElement;
         "hcl-sdk-icon-clock-outline": HTMLHclSdkIconClockOutlineElement;
         "hcl-sdk-icon-default-avatar": HTMLHclSdkIconDefaultAvatarElement;
@@ -880,7 +849,6 @@ declare namespace LocalJSX {
     lng: number;
   };
         "initScreen"?: InitScreen;
-        "onOnClickSDK"?: (event: CustomEvent<any>) => void;
         "widget"?: WidgetType;
         "widgetProps"?: WidgetProps;
     }
@@ -912,19 +880,6 @@ declare namespace LocalJSX {
         "header"?: any;
         "map"?: any;
         "title"?: string;
-    }
-    interface HclSdkCustomSelect {
-        "allowEmpty"?: boolean;
-        "defaultValue"?: string;
-        "isLoadingService"?: boolean;
-        "level"?: number;
-        "loadMoreOptions"?: (e: any) => void;
-        "name"?: string;
-        "onChange"?: (e: any) => void;
-        "onLoadMoreOption"?: (event: CustomEvent<any>) => void;
-        "onSelectService"?: (event: CustomEvent<any>) => void;
-        "options"?: OptionType[];
-        "value"?: string;
     }
     interface HclSdkDevSettings {
     }
@@ -965,7 +920,7 @@ declare namespace LocalJSX {
     interface HclSdkIcon {
         "color"?: string;
         "height"?: number;
-        "name"?: string | IconNames;
+        "name"?: string;
         "primary"?: boolean;
         "width"?: number;
     }
@@ -990,11 +945,6 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface HclSdkIconCalendarClockOutline {
-        "color"?: string;
-        "height"?: number;
-        "width"?: number;
-    }
-    interface HclSdkIconChevronsDown {
         "color"?: string;
         "height"?: number;
         "width"?: number;
@@ -1260,7 +1210,6 @@ declare namespace LocalJSX {
         "hcl-sdk-autocomplete-result": HclSdkAutocompleteResult;
         "hcl-sdk-button": HclSdkButton;
         "hcl-sdk-card-info-section": HclSdkCardInfoSection;
-        "hcl-sdk-custom-select": HclSdkCustomSelect;
         "hcl-sdk-dev-settings": HclSdkDevSettings;
         "hcl-sdk-doctor-card": HclSdkDoctorCard;
         "hcl-sdk-hco-card": HclSdkHcoCard;
@@ -1275,7 +1224,6 @@ declare namespace LocalJSX {
         "hcl-sdk-icon-arrow_right": HclSdkIconArrow_right;
         "hcl-sdk-icon-back": HclSdkIconBack;
         "hcl-sdk-icon-calendar-clock-outline": HclSdkIconCalendarClockOutline;
-        "hcl-sdk-icon-chevrons-down": HclSdkIconChevronsDown;
         "hcl-sdk-icon-circular": HclSdkIconCircular;
         "hcl-sdk-icon-clock-outline": HclSdkIconClockOutline;
         "hcl-sdk-icon-default-avatar": HclSdkIconDefaultAvatar;
@@ -1335,7 +1283,6 @@ declare module "@stencil/core" {
             "hcl-sdk-autocomplete-result": LocalJSX.HclSdkAutocompleteResult & JSXBase.HTMLAttributes<HTMLHclSdkAutocompleteResultElement>;
             "hcl-sdk-button": LocalJSX.HclSdkButton & JSXBase.HTMLAttributes<HTMLHclSdkButtonElement>;
             "hcl-sdk-card-info-section": LocalJSX.HclSdkCardInfoSection & JSXBase.HTMLAttributes<HTMLHclSdkCardInfoSectionElement>;
-            "hcl-sdk-custom-select": LocalJSX.HclSdkCustomSelect & JSXBase.HTMLAttributes<HTMLHclSdkCustomSelectElement>;
             "hcl-sdk-dev-settings": LocalJSX.HclSdkDevSettings & JSXBase.HTMLAttributes<HTMLHclSdkDevSettingsElement>;
             "hcl-sdk-doctor-card": LocalJSX.HclSdkDoctorCard & JSXBase.HTMLAttributes<HTMLHclSdkDoctorCardElement>;
             "hcl-sdk-hco-card": LocalJSX.HclSdkHcoCard & JSXBase.HTMLAttributes<HTMLHclSdkHcoCardElement>;
@@ -1350,7 +1297,6 @@ declare module "@stencil/core" {
             "hcl-sdk-icon-arrow_right": LocalJSX.HclSdkIconArrow_right & JSXBase.HTMLAttributes<HTMLHclSdkIconArrow_rightElement>;
             "hcl-sdk-icon-back": LocalJSX.HclSdkIconBack & JSXBase.HTMLAttributes<HTMLHclSdkIconBackElement>;
             "hcl-sdk-icon-calendar-clock-outline": LocalJSX.HclSdkIconCalendarClockOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconCalendarClockOutlineElement>;
-            "hcl-sdk-icon-chevrons-down": LocalJSX.HclSdkIconChevronsDown & JSXBase.HTMLAttributes<HTMLHclSdkIconChevronsDownElement>;
             "hcl-sdk-icon-circular": LocalJSX.HclSdkIconCircular & JSXBase.HTMLAttributes<HTMLHclSdkIconCircularElement>;
             "hcl-sdk-icon-clock-outline": LocalJSX.HclSdkIconClockOutline & JSXBase.HTMLAttributes<HTMLHclSdkIconClockOutlineElement>;
             "hcl-sdk-icon-default-avatar": LocalJSX.HclSdkIconDefaultAvatar & JSXBase.HTMLAttributes<HTMLHclSdkIconDefaultAvatarElement>;
