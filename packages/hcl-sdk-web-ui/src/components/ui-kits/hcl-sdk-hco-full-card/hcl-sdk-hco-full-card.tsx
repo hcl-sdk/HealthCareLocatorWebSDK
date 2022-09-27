@@ -1,15 +1,11 @@
 import { Component, Event, EventEmitter, Fragment, h, Host, Listen, State } from '@stencil/core';
 import cls from 'classnames';
-import rfdc from 'rfdc';
-import { getFullCardDetail, getHCOServices, loadmoreServiceByWorkplaceID, loadmoreIndividualByServiceWorkplaceID, KEY_LOADING_SERVICE_LABEL } from '../../../core/api/hco';
+import { getFullCardDetail } from '../../../core/api/hco';
 import { configStore, featureStore, searchMapStore, uiStore } from '../../../core/stores';
-import { HCOServiceItem } from '../../../core/stores/SearchMapStore';
-import { OptionType } from '../../../core/types';
 import { getCssColor, getTextBodyToShare } from '../../../utils/helper';
 import { t } from '../../../utils/i18n';
 import { OKSDK_MAP_HCP_VOTED, storageUtils } from '../../../utils/storageUtils';
-import { IconNames } from '../hcl-sdk-icon/iconNames';
-import { recreateChildHcoSelectionPath, getFirstSelectionPath, makeServiceSelects, recreateServiceHcoSelectionPath, getServiceHco } from './child-hco-select-helpers';
+import { makeChildHcoSelects, getChildHco, recreateChildHcoSelectionPath, getFirstSelectionPath } from './child-hco-select-helpers';
 
 const MAX_DISPLAY_TERMS = 3;
 
@@ -25,8 +21,7 @@ export class HclSdkHCOFullCard {
   @State() isViewMoreChildHCOIndividuals: boolean = false;
   @State() isViewMoreSpecialties: boolean = false;
   @State() showOpeningHours: boolean = false;
-  @State() arraySelectedChildHcoIds: string[] = [];
-  @State() arraySelectedServicesIDs: string[] = [];
+  @State() arraySelectedChildHcoIds: string[] = []
 
   @Listen('mapClicked')
   onMapClicked() {
@@ -41,24 +36,13 @@ export class HclSdkHCOFullCard {
 
   componentWillLoad() {
     if (searchMapStore.state.selectedHco) {
-      const selectedHcoID = searchMapStore.state.selectedHco.id;
       getFullCardDetail({
         hcoId: searchMapStore.state.selectedHco.id,
-      }).then(hcoDetail => {
+      })
+      .then(hcoDetail => {
         // compute an array of selected child hco ids from outermost to innermost of the hco detail
-        this.arraySelectedChildHcoIds = getFirstSelectionPath(hcoDetail);
-      });
-      // getListService from HCOIds
-      if (!searchMapStore.state.hcoDetailServicesLoadMore[selectedHcoID]) {
-        getHCOServices({ hcoId: searchMapStore.state.selectedHco.id }).then(hcoDetailService => {
-          searchMapStore.setState({
-            loadingHCOServices: false,
-            hcoDetailServicesLoadMore: {
-              [searchMapStore.state.selectedHco.id]: hcoDetailService,
-            },
-          });
-        });
-      }
+        this.arraySelectedChildHcoIds = getFirstSelectionPath(hcoDetail)
+      })
     }
 
     this.mapHcpVoted = storageUtils.getObject(OKSDK_MAP_HCP_VOTED, {});
@@ -117,25 +101,9 @@ export class HclSdkHCOFullCard {
   }
 
   handleChangeChildHcoId = (evt, idx) => {
-    const newSelectId = evt.target.value;
+    const newSelectId = evt.target.value
     this.arraySelectedChildHcoIds = recreateChildHcoSelectionPath(this.arraySelectedChildHcoIds, idx, newSelectId, searchMapStore.state.hcoDetail);
-  };
-
-  handleChangeServiceSelect = (evt: OptionType, idx) => {
-    const newSelectId = evt.value;
-    const selectHCOID = searchMapStore.state.selectedHco?.id;
-    this.arraySelectedServicesIDs = recreateServiceHcoSelectionPath(this.arraySelectedServicesIDs, idx, newSelectId, searchMapStore.state.hcoDetailServicesLoadMore[selectHCOID]);
-  };
-
-  handleLoadmoreService = (evt, idx) => {
-    const listServicesSelected = rfdc({ proto: false })(this.arraySelectedServicesIDs);
-    loadmoreServiceByWorkplaceID({ hcoID: evt.detail, childServiceIds: listServicesSelected.slice(0, idx) });
-  };
-
-  handleLoadmoreServiceIndividual = () => {
-    const { selectedHco } = searchMapStore.state;
-    loadmoreIndividualByServiceWorkplaceID({ hcoID: selectedHco.id, selectedServiceIDs: this.arraySelectedServicesIDs });
-  };
+  }
 
   handleShare() {
     const { individualDetail } = searchMapStore.state;
@@ -198,7 +166,7 @@ export class HclSdkHCOFullCard {
       individualDetail: null,
       //
       navigatedFromHome: false,
-      navigateFromHcoFullCard: true,
+      navigateFromHcoFullCard: true
     });
   };
 
@@ -214,18 +182,16 @@ export class HclSdkHCOFullCard {
     });
 
     const { breakpoint } = uiStore.state;
-    const { hcoDetail, loadingHcoDetail, hcoDetailServicesLoadMore, selectedHco, loadingHCOServiceIndividual } = searchMapStore.state;
+    const { hcoDetail, loadingHcoDetail } = searchMapStore.state;
 
     const toolbarClass = cls('search-toolbar', {
       'header-block': breakpoint.screenSize === 'mobile',
     });
 
-    const servicesList = hcoDetailServicesLoadMore[selectedHco.id];
-    const serviceSelects = servicesList
-      ? [servicesList.map(item => ({ ...item, value: item.id, label: item.name })), ...makeServiceSelects(servicesList, this.arraySelectedServicesIDs)]
-      : [];
-    const selectedService = serviceSelects.length ? (getServiceHco(servicesList, this.arraySelectedServicesIDs, true) as HCOServiceItem) : null;
-    const individualsByServices = selectedService?.individuals ?? [];
+    const childHcoSelects = hcoDetail ? makeChildHcoSelects(hcoDetail, this.arraySelectedChildHcoIds) : []
+    const childHco = childHcoSelects.length ? getChildHco(hcoDetail, this.arraySelectedChildHcoIds) : hcoDetail
+    const individualsByChildHco = childHco?.individuals ?? []
+
     return (
       <Host>
         <div class="main-contain">
@@ -386,6 +352,7 @@ export class HclSdkHCOFullCard {
                   </div>
                 ) : null}
               </hcl-sdk-card-info-section>
+
               {hcoDetail?.children && hcoDetail?.children.length > 0 ? (
                 <hcl-sdk-card-info-section
                   header={
@@ -396,27 +363,20 @@ export class HclSdkHCOFullCard {
                   }
                 >
                   <div class="flex flex-col gap-2">
-                    {serviceSelects &&
-                      serviceSelects.length > 0 &&
-                      serviceSelects.map((list, indexList) => {
-                        if (!list.length) {
-                          return null;
-                        }
-                        return (
-                          <hcl-sdk-custom-select
-                            key={indexList}
-                            name={`services-select-${indexList}`}
-                            level={indexList}
-                            isLoadingService={searchMapStore.state[KEY_LOADING_SERVICE_LABEL[indexList]]}
-                            onLoadMoreOption={e => this.handleLoadmoreService(e, indexList)}
-                            onChange={e => this.handleChangeServiceSelect(e, indexList)}
-                            options={list}
-                          />
-                        );
-                      })}
+                    {childHcoSelects.map((selectData, idx) => (
+                      <hcl-sdk-select
+                        value={'Surgery'}
+                        loading={false}
+                        options={selectData.map(option => ({
+                          value: option.value,
+                          label: option.label,
+                        }))}
+                        onChange={e => this.handleChangeChildHcoId(e, idx)}
+                      />
+                    ))}
                   </div>
                   <div class="flex flex-col gap-2">
-                    {(individualsByServices ?? []).map((individual, idx) => {
+                    {(individualsByChildHco ?? []).map((individual, idx) => {
                       if (!this.isViewMoreChildHCOIndividuals && idx >= MAX_DISPLAY_TERMS) {
                         return null;
                       }
@@ -426,9 +386,7 @@ export class HclSdkHCOFullCard {
                           <div class="hco-individual-item__content">
                             <div class="flex items-center gap-2 mb-1">
                               <span class="hco-individual-item__title">{individual.name}</span>
-                              {featureStore.isPatientRecommendationEnabled && individual.isShowRecommendation && (
-                                <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />
-                              )}
+                              {featureStore.isPatientRecommendationEnabled && individual.isShowRecommendation && <img width="14" src="https://www.mapatho.com/favicon.ico" alt="" />}
                               {individual.url && (
                                 <a href={individual.url} target="_blank">
                                   <hcl-sdk-icon width={20} height={20} name="calendar-clock-outline" color={getCssColor('--hcl-color-secondary')} />
@@ -442,20 +400,8 @@ export class HclSdkHCOFullCard {
                       );
                     })}
                   </div>
-                  {individualsByServices && individualsByServices.length > MAX_DISPLAY_TERMS ? (
-                    <div class="flex flex-row items-center justify-end hco-individual__view-more-wrapper">
-                      {this.isViewMoreChildHCOIndividuals && !loadingHCOServiceIndividual && (
-                        <hcl-sdk-icon
-                          onClick={() => this.handleLoadmoreServiceIndividual()}
-                          class="text-primary hco-individual__load-more-icon hco-individual__load-more-dropdown"
-                          width={25}
-                          primary={true}
-                          name={IconNames.ChevronsDown}
-                        />
-                      )}
-                      {this.isViewMoreChildHCOIndividuals && !!loadingHCOServiceIndividual && (
-                        <hcl-sdk-icon class="text-primary hco-individual__load-more-icon" width={18} height={18} name={IconNames.Circular}></hcl-sdk-icon>
-                      )}
+                  {individualsByChildHco && individualsByChildHco.length > MAX_DISPLAY_TERMS ? (
+                    <div class="ml-auto">
                       <span class="text-color-primary underline">
                         <hcl-sdk-button
                           onClick={this.handleToggleViewMoreHCOChildIndividuals}
@@ -468,11 +414,7 @@ export class HclSdkHCOFullCard {
                           iconHeight={15}
                         >
                           {!this.isViewMoreChildHCOIndividuals ? t('view_more') : t('view_less')}
-                          {!this.isViewMoreChildHCOIndividuals ? (
-                            <hcl-sdk-icon name="arrow_down" />
-                          ) : (
-                            <hcl-sdk-icon style={{ transform: 'rotate(180deg)' }} name={IconNames.ArrowDown} />
-                          )}
+                          {!this.isViewMoreChildHCOIndividuals ? <hcl-sdk-icon name="arrow_down" /> : <hcl-sdk-icon name="arrow_up" />}
                         </hcl-sdk-button>
                       </span>
                     </div>

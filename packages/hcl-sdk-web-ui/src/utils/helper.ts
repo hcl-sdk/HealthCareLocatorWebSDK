@@ -118,9 +118,8 @@ export function getMergeMainAndOtherActivities(mainActivity: Activity, otherActi
 }
 
 export function getPrimaryAddressIndividual({ addressName, addressBuildingName, address, postalCode, city }) {
-  const postalCodeString = postalCode ? `, ${postalCode}` : ''
-  const cityString = city ? `, ${city}` : ''
-  const addressWithCode = address + postalCodeString + cityString
+  const cityWithCode = postalCode && city ? `, ${postalCode} ${city}` : ''
+  const addressWithCode = address + cityWithCode
   return [addressName, addressBuildingName, addressWithCode].filter(s => s);
 }
 
@@ -177,11 +176,11 @@ export function getSuggestionIndividualName(individual: SuggestionsQuery['sugges
 }
 
 export function getCombineListTerms(meshTerms?: string[], kvTerms?: string[], chTerms?: string[]) {
-  const listTerms = Array.from(new Set([
+  const listTerms = [
     ...(meshTerms || []),
     ...(kvTerms || []),
     ...(chTerms || [])
-  ].map(str => str.trim())))
+  ].map(str => str.trim())
 
   return listTerms
 }
@@ -311,7 +310,7 @@ function getSortScope(sortValue: keyof SortValue | string) {
     case 'distanceNumber':
       return ActivitySortScope.WorkplaceDistance
     case 'lastName':
-      return ''
+        return ActivitySortScope.Relevancy
     default:
       return undefined
   }

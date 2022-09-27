@@ -24,7 +24,7 @@
 - [hcl-sdk-icon](../hcl-sdk-icon)
 - [hcl-sdk-card-info-section](../hcl-sdk-card-info-section)
 - [hcl-sdk-map](../hcl-sdk-map)
-- [hcl-sdk-custom-select](../hcl-sdk-custom-select)
+- [hcl-sdk-select](../hcl-sdk-select)
 
 ### Graph
 ```mermaid
@@ -33,10 +33,10 @@ graph TD;
   hcl-sdk-hco-full-card --> hcl-sdk-icon
   hcl-sdk-hco-full-card --> hcl-sdk-card-info-section
   hcl-sdk-hco-full-card --> hcl-sdk-map
-  hcl-sdk-hco-full-card --> hcl-sdk-custom-select
+  hcl-sdk-hco-full-card --> hcl-sdk-select
   hcl-sdk-button --> hcl-sdk-icon
   hcl-sdk-map --> hcl-sdk-icon
-  hcl-sdk-custom-select --> hcl-sdk-icon
+  hcl-sdk-select --> hcl-sdk-icon
   hcl-sdk-search-result --> hcl-sdk-hco-full-card
   style hcl-sdk-hco-full-card fill:#f9f,stroke:#333,stroke-width:4px
 ```

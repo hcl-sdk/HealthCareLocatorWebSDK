@@ -1,4 +1,4 @@
-import { Component, Host, h, Method, Element, State, Prop, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Method, Element, State, Prop } from '@stencil/core';
 import merge from 'lodash.merge';
 import debounce from 'lodash.debounce';
 import { applyDefaultTheme, getCurrentPosition as defaultGetCurrentPosition } from '../../../utils/helper';
@@ -31,7 +31,6 @@ const defaults = {
 })
 export class HclSDK {
   @Element() el: HTMLStencilElement;
-  @Event() onClickSDK: EventEmitter<any>;
   @State() retriesCounter: number = 0;
   @State() loading = false;
   @Prop() widget?: WidgetType
@@ -307,10 +306,6 @@ export class HclSDK {
     })
   }
 
-  handleClickSDK(ev: any) {
-    this.onClickSDK.emit(ev);
-  }
-
   async loadCountriesFromMyKey({ apiKey }) {
     return graphql.mySubscriptionKey({
       headers: {
@@ -362,7 +357,6 @@ export class HclSDK {
 
     return (
       <Host>
-        <div onClick={(ev) =>  this.handleClickSDK(ev)}>
         {configStore.state.stylesheet ? (
           <link rel="stylesheet" href={configStore.state.stylesheet} />
         ) : null}
@@ -379,8 +373,6 @@ export class HclSDK {
               <hcl-sdk-modal modal={configStore.state.modal} />
             </div>
           )   }
-
-        </div>
       </Host>
     );
   }

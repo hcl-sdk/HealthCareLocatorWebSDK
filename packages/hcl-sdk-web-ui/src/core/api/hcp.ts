@@ -48,14 +48,13 @@ export async function genSearchLocationParams({
   searchFields: SearchFields;
 }) {
   let params: Partial<QueryActivitiesArgs> = {};
-  let isLocation = false
+
   if (forceNearMe || (locationFilter && locationFilter.id === NEAR_ME)) {
     params.location = {
       lat: searchMapStore.state.geoLocation.latitude,
       lon: searchMapStore.state.geoLocation.longitude,
       distanceMeter: convertToMeter(configStore.state.distanceDefault, configStore.state.distanceUnit),
     };
-    isLocation = true
     if (!params.location.distanceMeter) {
       delete params.location.distanceMeter; // Don't send this param if developers are not config
     }
@@ -84,17 +83,13 @@ export async function genSearchLocationParams({
       location: {
         lat: Number(lat),
         lon: Number(lon),
-        
+        // distanceMeter: distanceMeter
       },
       ...extraParams, // country (removed), ...
     };
-    isLocation = true
-    /**
-     * The code below could useful for later use, to calculate distance from current BBox
-     */
-    // if (distanceMeter) {
-    //   params.location.distanceMeter = distanceMeter;
-    // }
+    if (distanceMeter) {
+      params.location.distanceMeter = distanceMeter;
+    }
   }
 
   if (specialtyFilter?.length > 0) {
@@ -125,28 +120,8 @@ export async function genSearchLocationParams({
   if (!params.country) {
     params.country = configStore.countryGraphqlQuery;
   }
-  const sorts = getSortParams({isLocation})
-  return {...params, sorts};
-}
 
-export function getSortParams({isLocation}: {isLocation: boolean}) {
-  const { sortValues } = searchMapStore.state;
-    
-  let sorts = undefined;
-  /**
-   * SDK-1344
-   * In relaunch case, we would always query with sorts [WorkplaceDistance, [...currentSorts]] --> sortFromServer = true 
-   */
-  const sortFromServer = isLocation ? true : shouldSortFromServer(sortValues);
-  if (sortFromServer) {
-    sorts = getActivitySortScopesFromSortValues({
-      ...sortValues, 
-      ...(isLocation && {
-        distanceNumber: true
-      })
-    });
-  }
-  return sorts
+  return params;
 }
 
 export async function searchLocationWithParams(forceNearMe: boolean = false) {
@@ -172,7 +147,14 @@ export async function changeSortValue(sortValue: SortValue) {
   searchMapStore.setActivitiesLoadingStatus('loading');
 
   try {
-    const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields } = searchMapStore.state;
+    const { locationFilter, specialtyFilter, medicalTermsFilter, searchFields, sortValues } = searchMapStore.state;
+
+    let sorts = undefined;
+
+    const sortFromServer = shouldSortFromServer(sortValues);
+    if (sortFromServer) {
+      sorts = getActivitySortScopesFromSortValues(sortValues);
+    }
 
     const params = await genSearchLocationParams({
       forceNearMe: false,
@@ -186,10 +168,10 @@ export async function changeSortValue(sortValue: SortValue) {
       return;
     }
 
-    const data = await fetchActivities({ ...params });
+    const data = await fetchActivities({ ...params, sorts });
 
     let specialties = data;
-    if (!!sortValue.lastName) {
+    if (!sortFromServer) {
       specialties = sortBy(data, 'lastName');
     }
 
@@ -231,7 +213,7 @@ async function fetchActivities(variables) {
   return data;
 }
 
-export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false, isLocation = false } = {}) {
+export async function searchLocation(variables, { hasLoading = 'loading', isAllowDisplayMapEmpty = false } = {}) {
   searchMapStore.setState({
     individualDetail: null,
     loadingActivitiesStatus: hasLoading as any,
@@ -242,14 +224,18 @@ export async function searchLocation(variables, { hasLoading = 'loading', isAllo
   try {
     const { sortValues } = searchMapStore.state;
 
-    const sorts = getSortParams({ isLocation })
+    let sorts = undefined;
+    const sortFromServer = shouldSortFromServer(sortValues);
+    if (sortFromServer) {
+      sorts = getActivitySortScopesFromSortValues(sortValues);
+    }
 
     const data = await fetchActivities({ sorts, ...variables });
 
     isAllowDisplayMapEmpty = isAllowDisplayMapEmpty && data.length === 0;
 
     let specialties = data;
-    if (sortValues.lastName) {
+    if (!sortFromServer) {
       specialties = sortBy(data, 'lastName');
     }
 

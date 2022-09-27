@@ -6,11 +6,7 @@ import { GeoProviderOpenstreet } from './geo-provider-openstreet';
 export async function searchGeoMap({ id }) {
   searchMapStore.setState({ 
     loading: true, 
-    searchGeo: [],
-    isResultSearchGeo: {
-      ...searchMapStore.state.isResultSearchGeo,
-      [id]: true
-    }
+    searchGeo: []
   });
   const provider = getProvider(configStore.state.map.provider);
 
@@ -35,10 +31,6 @@ export async function searchGeoMap({ id }) {
   searchMapStore.setState({
     searchGeo: results,
     loading: false,
-    isResultSearchGeo: {
-      ...searchMapStore.state.isResultSearchGeo,
-      [id]: results?.length > 0
-    }
   });
 }
 
